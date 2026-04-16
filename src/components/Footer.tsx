@@ -2,13 +2,15 @@ import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 
 const serviceLinks = [
-  { href: "/#hero", label: "VIN Decoder" },
+  { href: "/vin-check", label: "VIN Check" },
+  { href: "/guides/free-vin-check", label: "Free VIN Decoder" },
   { href: "/#features", label: "Vehicle Reports" },
   { href: "/#pricing", label: "Pricing" },
 ];
 
 const companyLinks = [
   { href: "/about", label: "About Us" },
+  { href: "/guides", label: "VIN Guides" },
   { href: "/#faq", label: "FAQ" },
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms of Service" },
