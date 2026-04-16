@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Menu, X, ChevronRight, User, LogOut } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const navLinks = [
   { href: "/#how-it-works", label: "How It Works" },
@@ -13,14 +16,35 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      subscription.unsubscribe();
+    };
   }, []);
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setUserMenuOpen(false);
+    router.push("/");
+    router.refresh();
+  };
 
   return (
     <header
@@ -58,14 +82,35 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center">
-            <Link
-              href="/#hero"
-              className="group flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-all shadow-md shadow-primary-600/20 hover:shadow-lg hover:shadow-primary-600/30"
-            >
-              Check a VIN
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </Link>
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <div className="relative">
+                <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
+                  <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center text-sm font-bold">
+                    {user.email?.[0]?.toUpperCase() || <User className="w-4 h-4" />}
+                  </div>
+                  <span className="text-sm font-medium text-slate-700 max-w-[120px] truncate">{user.email?.split("@")[0]}</span>
+                </button>
+                {userMenuOpen && (
+                  <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl border border-slate-200 shadow-lg py-1 z-50">
+                    <p className="px-4 py-2 text-xs text-slate-400 truncate">{user.email}</p>
+                    <div className="border-t border-slate-100" />
+                    <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer">
+                      <LogOut className="w-4 h-4" /> Log out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link href="/login" className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary-600 transition-colors">
+                  Log in
+                </Link>
+                <Link href="/signup" className="group flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-xl hover:bg-primary-700 transition-all shadow-md shadow-primary-600/20">
+                  Sign Up <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </>
+            )}
           </div>
 
           <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 text-slate-600" aria-label="Toggle menu">
@@ -82,10 +127,23 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
-          <Link href="/#hero" onClick={() => setMobileOpen(false)}
-            className="block w-full text-center px-5 py-3 mt-2 text-sm font-semibold text-white bg-primary-600 rounded-xl">
-            Check a VIN
-          </Link>
+          {user ? (
+            <button onClick={() => { handleLogout(); setMobileOpen(false); }}
+              className="block w-full text-center px-5 py-3 mt-2 text-sm font-semibold text-red-600 bg-red-50 rounded-xl cursor-pointer">
+              Log out
+            </button>
+          ) : (
+            <>
+              <Link href="/login" onClick={() => setMobileOpen(false)}
+                className="block w-full text-center px-5 py-3 mt-2 text-sm font-semibold text-slate-700 bg-slate-50 rounded-xl">
+                Log in
+              </Link>
+              <Link href="/signup" onClick={() => setMobileOpen(false)}
+                className="block w-full text-center px-5 py-3 mt-1 text-sm font-semibold text-white bg-primary-600 rounded-xl">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
