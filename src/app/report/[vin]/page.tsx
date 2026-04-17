@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { decodeVin } from "@/lib/api";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
+import { trackVinLookup } from "@/lib/tracking";
 
 interface Props {
   params: Promise<{ vin: string }>;
@@ -68,6 +69,14 @@ export default async function ReportPage({ params }: Props) {
 
   const makeName = data.make?.name || "Unknown Make";
   const modelName = data.model?.name || "Unknown Model";
+
+  // Fire-and-forget tracking (admin panel analytics)
+  void trackVinLookup({
+    vin: cleaned,
+    make: data.make?.name ?? null,
+    model: data.model?.name ?? null,
+    year: data.years?.[0]?.year ?? null,
+  });
 
   const jsonLd = {
     "@context": "https://schema.org",
