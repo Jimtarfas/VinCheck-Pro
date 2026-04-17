@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: "api.auto.dev",
         pathname: "/photos/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
   },
 };

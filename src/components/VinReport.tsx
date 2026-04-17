@@ -71,9 +71,13 @@ function useDownloadReport(data: VinData) {
 table{width:100%;border-collapse:collapse}td{padding:8px 16px;border-bottom:1px solid #e2e8f0;font-size:13px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px}
 .card-label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}.card-value{font-size:20px;font-weight:700;color:#1e293b}
-.photos-main{width:100%;max-height:400px;object-fit:cover;border-radius:10px;margin-bottom:12px}
+.photo-wrap{position:relative;overflow:hidden;border-radius:10px;margin-bottom:12px;background:#f1f5f9}
+.photo-wrap img{width:108%;max-height:420px;object-fit:cover;display:block;margin-left:-4%;margin-top:-2%}
 .photos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
-.photos-grid img{width:100%;height:120px;object-fit:cover;border-radius:6px;border:1px solid #e2e8f0}
+.photo-thumb{position:relative;overflow:hidden;border-radius:6px;border:1px solid #e2e8f0;height:120px;background:#f1f5f9}
+.photo-thumb img{width:115%;height:130%;object-fit:cover;margin-left:-7%;margin-top:-15%}
+.list-thumb{position:relative;overflow:hidden;height:100px;background:#f1f5f9}
+.list-thumb img{width:118%;height:130%;object-fit:cover;margin-left:-9%;margin-top:-15%}
 .footer{text-align:center;padding:24px;border-top:1px solid #e2e8f0;margin-top:32px;font-size:11px;color:#94a3b8}
 </style></head><body><div class="page">`;
 
@@ -93,8 +97,8 @@ table{width:100%;border-collapse:collapse}td{padding:8px 16px;border-bottom:1px 
       const thumbPhotos = validPhotos.slice(1);
       html += `<div style="margin-bottom:24px">
         <h2 style="font-size:16px;font-weight:700;color:#1e293b;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #4f46e5">Vehicle Photos (${data.photos?.length || validPhotos.length})</h2>
-        <img src="${mainPhoto}" alt="${fullName}" class="photos-main" />
-        ${thumbPhotos.length > 0 ? `<div class="photos-grid">${thumbPhotos.map((p, i) => `<img src="${p}" alt="Photo ${i + 2}" />`).join("")}</div>` : ""}
+        <div class="photo-wrap"><img src="${mainPhoto}" alt="${fullName}" /></div>
+        ${thumbPhotos.length > 0 ? `<div class="photos-grid">${thumbPhotos.map((p, i) => `<div class="photo-thumb"><img src="${p}" alt="Photo ${i + 2}" /></div>`).join("")}</div>` : ""}
         ${(data.photos?.length || 0) > 9 ? `<p style="text-align:center;font-size:12px;color:#94a3b8;margin:8px 0 0">+ ${(data.photos?.length || 0) - 9} more photos available online</p>` : ""}
       </div>`;
     }
@@ -143,7 +147,7 @@ table{width:100%;border-collapse:collapse}td{padding:8px 16px;border-bottom:1px 
           ${data.marketData.sampleListings.slice(0, 6).map((l) => {
             const b64 = l.primaryPhotoUrl ? base64ListingPhotos[listingPhotoIdx++] : "";
             return `<div style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;font-size:12px">
-            ${b64 ? `<img src="${b64}" alt="${l.year} ${l.make} ${l.model}" style="width:100%;height:100px;object-fit:cover" />` : ""}
+            ${b64 ? `<div class="list-thumb"><img src="${b64}" alt="${l.year} ${l.make} ${l.model}" /></div>` : ""}
             <div style="padding:8px">
               <div style="font-weight:700;color:#1e293b">${l.year} ${l.trim || l.model}</div>
               <div style="color:#4f46e5;font-weight:700;font-size:14px">${l.price}</div>
@@ -284,8 +288,13 @@ function PhotoGallery({ photos, alt, listingInfo }: {
           </div>
         )}
       </div>
-      <div className="relative aspect-[16/9] bg-slate-100">
-        <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className="object-contain" sizes="(max-width: 768px) 100vw, 900px" priority={current === 0} />
+      <div className="relative aspect-[16/9] bg-slate-100 overflow-hidden">
+        <div className="absolute inset-0" style={{ transform: "scale(1.08)" }}>
+          <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 900px" priority={current === 0} />
+        </div>
+        {/* Edge gradients to mask dealer watermarks/logos near corners */}
+        <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-white/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/50 to-transparent pointer-events-none" />
         {photos.length > 1 && (
           <>
             <button onClick={() => setCurrent((c) => (c === 0 ? photos.length - 1 : c - 1))} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-xl flex items-center justify-center text-slate-700 shadow-md transition cursor-pointer backdrop-blur-sm">
@@ -305,7 +314,9 @@ function PhotoGallery({ photos, alt, listingInfo }: {
           {photos.slice(0, 12).map((photo, i) => (
             <button key={i} onClick={() => setCurrent(i)}
               className={`relative w-20 h-14 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${i === current ? "border-primary-500" : "border-transparent opacity-60 hover:opacity-100"}`}>
-              <Image src={photo} alt={`Thumb ${i + 1}`} fill className="object-cover" sizes="80px" />
+              <div className="absolute inset-0" style={{ transform: "scale(1.15)" }}>
+                <Image src={photo} alt={`Thumb ${i + 1}`} fill className="object-cover" sizes="80px" />
+              </div>
             </button>
           ))}
           {photos.length > 12 && (
@@ -461,7 +472,7 @@ export default function VinReport({ data }: { data: VinData }) {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                       {data.marketData.sampleListings.map((l) => (
                         <div key={l.id} className="flex gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 hover:shadow-sm transition-all">
-                          {l.primaryPhotoUrl && <div className="relative w-24 h-18 flex-shrink-0 rounded-lg overflow-hidden"><Image src={l.primaryPhotoUrl} alt={`${l.year} ${l.make} ${l.model}`} fill className="object-cover" sizes="96px" /></div>}
+                          {l.primaryPhotoUrl && <div className="relative w-24 h-18 flex-shrink-0 rounded-lg overflow-hidden"><div className="absolute inset-0" style={{ transform: "scale(1.18)" }}><Image src={l.primaryPhotoUrl} alt={`${l.year} ${l.make} ${l.model}`} fill className="object-cover" sizes="96px" /></div></div>}
                           <div className="min-w-0 flex-1">
                             <p className="text-sm font-semibold text-slate-900 truncate">{l.year} {l.trim || l.model}</p>
                             <p className="text-lg font-bold text-primary-600">{l.price}</p>

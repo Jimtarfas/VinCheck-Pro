@@ -10,9 +10,9 @@ const stats = [
 ];
 
 const carImages = [
-  { src: "https://api.auto.dev/photos/retail/1C4RJKAG1S8728359-1.jpg", alt: "Jeep Grand Cherokee" },
-  { src: "https://api.auto.dev/photos/retail/3GN7DNRP3TS104891-1.jpg", alt: "GMC Terrain" },
-  { src: "https://api.auto.dev/photos/retail/1C6SRFFT6TN244320-1.jpg", alt: "Ram 1500" },
+  { src: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=900&q=80", alt: "Modern luxury SUV" },
+  { src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=80", alt: "Premium sedan" },
+  { src: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=400&q=80", alt: "Sports coupe" },
 ];
 
 export default function HeroSection() {
@@ -77,10 +77,10 @@ export default function HeroSection() {
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4">
                   <div className="flex items-center gap-2">
                     <div className="px-2.5 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-semibold text-slate-800">
-                      2025 Jeep Grand Cherokee L
+                      Vehicle Verified
                     </div>
                     <div className="px-2.5 py-1 bg-emerald-500 rounded-lg text-xs font-semibold text-white">
-                      50 Photos
+                      40+ Data Points
                     </div>
                   </div>
                 </div>
@@ -109,7 +109,7 @@ export default function HeroSection() {
               {/* VIN badge */}
               <div className="absolute top-4 left-4 px-3 py-2 bg-white/95 backdrop-blur rounded-xl shadow-lg border border-slate-100">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">VIN Decoded</p>
-                <p className="text-xs font-mono font-bold text-slate-800">1C4RJKAG1S8728359</p>
+                <p className="text-xs font-mono font-bold text-slate-800">17-Char Verified</p>
               </div>
             </div>
           </div>
