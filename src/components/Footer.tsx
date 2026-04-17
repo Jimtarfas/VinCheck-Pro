@@ -11,11 +11,14 @@ const checkLinks = [
 ];
 
 const guideLinks = [
+  { href: "/blog", label: "Blog" },
   { href: "/guides", label: "All VIN Guides" },
+  { href: "/glossary", label: "VIN Glossary" },
   { href: "/guides/free-vin-check", label: "Free VIN Decoder" },
   { href: "/guides/how-to-read-a-vin", label: "How to Read a VIN" },
   { href: "/guides/what-is-a-vin-number", label: "What Is a VIN Number" },
   { href: "/vin-check-vs-carfax", label: "vs. Carfax" },
+  { href: "/vin-check/state", label: "VIN Check by State" },
 ];
 
 const companyLinks = [

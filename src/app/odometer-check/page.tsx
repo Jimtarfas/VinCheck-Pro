@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
+import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
   title: "Odometer & Mileage Check by VIN — Detect Rollback Fraud | CarCheckerVIN",
@@ -278,6 +279,10 @@ export default function OdometerCheckPage() {
           </p>
         </div>
       </article>
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
+        <RelatedChecks exclude="/odometer-check" />
+      </div>
 
       <section className="py-14 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">

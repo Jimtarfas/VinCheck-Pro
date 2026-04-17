@@ -52,22 +52,81 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const jsonLd = {
+  const SITE = "https://carcheckervin.com";
+
+  const organizationLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE}#organization`,
+    name: "CarCheckerVIN",
+    alternateName: "VINCheck Pro",
+    url: SITE,
+    logo: { "@type": "ImageObject", url: `${SITE}/logo.png`, width: 512, height: 512 },
+    description: "Trusted vehicle history reports and VIN decoding for car buyers, sellers, and dealers.",
+    foundingDate: "2025",
+    contactPoint: [{
+      "@type": "ContactPoint",
+      telephone: "+1-800-846-2432",
+      email: "support@carcheckervin.com",
+      contactType: "customer support",
+      areaServed: "US",
+      availableLanguage: ["English"],
+      hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:00", closes: "18:00" },
+    }],
+    sameAs: [],
+  };
+
+  const websiteLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE}#website`,
+    url: SITE,
+    name: "CarCheckerVIN",
+    publisher: { "@id": `${SITE}#organization` },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: { "@type": "EntryPoint", urlTemplate: `${SITE}/report/{vin}` },
+      "query-input": "required name=vin",
+    },
+    inLanguage: "en-US",
+  };
+
+  const serviceLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${SITE}#service`,
+    name: "VIN Check & Vehicle History Report",
+    serviceType: "Vehicle History Report",
+    provider: { "@id": `${SITE}#organization` },
+    areaServed: { "@type": "Country", name: "United States" },
+    description: "Instant VIN decoding and comprehensive vehicle history reports including title checks, accident history, theft records, odometer verification, and market value.",
+    offers: [
+      { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", description: "Year, make, model, engine, transmission and basic specs", availability: "https://schema.org/InStock" },
+      { "@type": "Offer", name: "Premium Vehicle History Report", price: "7.99", priceCurrency: "USD", description: "Full report with photos, equipment, recalls, market value and ownership history", availability: "https://schema.org/InStock" },
+    ],
+    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000", bestRating: "5", worstRating: "1" },
+  };
+
+  const webAppLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "VINCheck Pro",
     description: "Instant VIN decoder and vehicle history reports.",
-    url: "https://carcheckervin.com",
+    url: SITE,
     applicationCategory: "UtilityApplication",
     operatingSystem: "Web",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", description: "Free VIN decoding with premium report options" },
+    browserRequirements: "Requires JavaScript",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000" },
   };
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <head>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppLd) }} />
       </head>
       <body className="min-h-full flex flex-col bg-white text-slate-900">
         <Header />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
+import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
   title: "Stolen Vehicle Check by VIN — Is This Car Stolen? | CarCheckerVIN",
@@ -300,6 +301,10 @@ export default function StolenVehicleCheckPage() {
           </p>
         </div>
       </article>
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
+        <RelatedChecks exclude="/stolen-vehicle-check" />
+      </div>
 
       <section className="py-14 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">

@@ -7,6 +7,7 @@ import AuthForm from "@/components/AuthForm";
 export const metadata: Metadata = {
   title: "Sign Up",
   description: "Create a CarCheckerVIN account to save reports and track vehicle history.",
+  robots: { index: false, follow: false },
 };
 
 export default async function SignupPage() {

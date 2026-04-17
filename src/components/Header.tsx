@@ -8,10 +8,10 @@ import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const navLinks = [
-  { href: "/#how-it-works", label: "How It Works" },
-  { href: "/#features", label: "Features" },
+  { href: "/vin-check", label: "VIN Check" },
+  { href: "/blog", label: "Blog" },
+  { href: "/guides", label: "Guides" },
   { href: "/#pricing", label: "Pricing" },
-  { href: "/#faq", label: "FAQ" },
   { href: "/about", label: "About" },
 ];
 

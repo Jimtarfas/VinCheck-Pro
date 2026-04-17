@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: `/report/${vin}`,
       },
+      robots: { index: false, follow: false },
     };
   } catch {
     return {

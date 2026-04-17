@@ -7,6 +7,7 @@ import AuthForm from "@/components/AuthForm";
 export const metadata: Metadata = {
   title: "Log In",
   description: "Log in to your CarCheckerVIN account to access saved reports and history.",
+  robots: { index: false, follow: false },
 };
 
 export default async function LoginPage() {

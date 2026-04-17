@@ -14,8 +14,8 @@ export default function CTASection() {
       {/* Background car image with overlay */}
       <div className="absolute inset-0 opacity-10">
         <Image
-          src="https://api.auto.dev/photos/retail/1C4RJKAG8S8725250-1.jpg"
-          alt=""
+          src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1600&q=80"
+          alt="Used car background — buy with confidence"
           fill
           className="object-cover"
           sizes="100vw"
