@@ -627,10 +627,8 @@ export default function VinReport({ data }: { data: VinData }) {
             </div>
           </div>
 
-          {/* ── RIGHT SIDEBAR (1/3) — sticky on desktop, scrollbar hidden ── */}
-          <div
-            className="space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:[scrollbar-width:none] lg:[-ms-overflow-style:none] lg:[&::-webkit-scrollbar]:hidden"
-          >
+          {/* ── RIGHT SIDEBAR (1/3) — sticky on desktop, scrolls with the page ── */}
+          <div className="space-y-6 lg:sticky lg:top-24 lg:self-start">
 
             {/* Pricing sidebar card */}
             {data.price && (
