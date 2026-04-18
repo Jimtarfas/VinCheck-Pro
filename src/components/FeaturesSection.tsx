@@ -1,83 +1,202 @@
-import {
-  Gauge, ShieldCheck, Wrench, FileText, AlertTriangle,
-  Settings, DollarSign, BarChart3, Car, Camera, Cpu, MapPin,
-} from "lucide-react";
-import Image from "next/image";
+import { Camera, DollarSign, Gauge, Settings, BarChart3, Wrench, Cpu, Car, MapPin, AlertTriangle, FileText, ShieldCheck } from "lucide-react";
 
-const features = [
-  { icon: Camera, title: "Real Vehicle Photos", description: "Actual photos of the exact vehicle from dealer listings", color: "bg-pink-50 text-pink-600" },
-  { icon: DollarSign, title: "Market Valuation", description: "MSRP, trade-in, retail, and private party values", color: "bg-emerald-50 text-emerald-600" },
-  { icon: Gauge, title: "Full Specifications", description: "Engine, transmission, drivetrain, and performance data", color: "bg-amber-50 text-amber-600" },
-  { icon: Settings, title: "Equipment & Options", description: "Every factory option and equipment itemized", color: "bg-violet-50 text-violet-600" },
-  { icon: BarChart3, title: "Price Comparison", description: "Compare against active dealer listings", color: "bg-blue-50 text-blue-600" },
-  { icon: Wrench, title: "Recall Alerts", description: "Open recalls and safety campaigns", color: "bg-red-50 text-red-600" },
-  { icon: Cpu, title: "Engine & Powertrain", description: "HP, torque, displacement, and more", color: "bg-cyan-50 text-cyan-600" },
-  { icon: Car, title: "Classification", description: "Body type, EPA class, and market segment", color: "bg-indigo-50 text-indigo-600" },
-  { icon: MapPin, title: "Dealer Listings", description: "Where it's listed, with price and location", color: "bg-teal-50 text-teal-600" },
-  { icon: AlertTriangle, title: "Accident History", description: "Damage records from federal databases", color: "bg-orange-50 text-orange-600" },
-  { icon: FileText, title: "Title & Ownership", description: "Title history, lien, and registration data", color: "bg-purple-50 text-purple-600" },
-  { icon: ShieldCheck, title: "Theft Records", description: "NMVTIS stolen vehicle verification", color: "bg-green-50 text-green-600" },
+/* ─── 40+ Point Coverage columns ─── */
+const coverageColumns = [
+  {
+    icon: Gauge,
+    accent: "bg-primary/8 text-primary",
+    title: "Condition & Value Data",
+    items: [
+      "Market Valuation (Trade-In & Retail)",
+      "Odometer Verification & Rollbacks",
+      "Structural Damage & Total Loss",
+      "Accident History & Severity",
+      "Junk, Lemon & Flood Brands",
+    ],
+    more: "+ 7 More Checks",
+    moreColor: "text-primary",
+  },
+  {
+    icon: FileText,
+    accent: "bg-secondary-container/15 text-secondary",
+    title: "Ownership & Legal Records",
+    items: [
+      "Detailed Ownership History",
+      "Title Brand Records",
+      "State Title Registrations",
+      "Active Liens & Auto Loans",
+      "Theft & Recovery Records",
+    ],
+    more: "+ 7 More Checks",
+    moreColor: "text-secondary",
+  },
+  {
+    icon: Settings,
+    accent: "bg-tertiary-container/10 text-tertiary-container",
+    title: "Technical & Lifecycle Data",
+    items: [
+      "Original MSRP & Specs",
+      "Full Equipment & Options List",
+      "Active Safety Recalls",
+      "Engine & Powertrain Details",
+      "Dealer & Market Listings",
+    ],
+    more: "+ 8 More Checks",
+    moreColor: "text-tertiary-container",
+  },
+];
+
+/* ─── Core Documentation bento cards ─── */
+const bentoItems = [
+  {
+    wide: true,
+    icon: AlertTriangle,
+    iconColor: "text-secondary",
+    title: "Accident History",
+    desc: "Detailed records of collisions, frame damage, and structural repairs documented by law enforcement and insurers.",
+    bg: "bg-surface-container-lowest",
+  },
+  {
+    wide: false,
+    icon: FileText,
+    iconColor: "text-on-primary",
+    title: "Title Records",
+    desc: "Salvage, flood, lemon, and rebuild brandings that stay with the vehicle's permanent digital ID.",
+    bg: "bg-primary text-white",
+    dark: true,
+  },
+  {
+    wide: false,
+    icon: Settings,
+    iconColor: "text-primary",
+    title: "Full Specs",
+    desc: "Original manufacturer data, equipment packages, and factory build sheets.",
+    bg: "bg-surface-container-high",
+  },
+  {
+    wide: true,
+    icon: Wrench,
+    iconColor: "text-error",
+    title: "Safety Recalls",
+    desc: "Stay informed about open recalls and safety notices directly from the NHTSA and manufacturers.",
+    bg: "bg-surface-container-lowest",
+  },
+];
+
+/* ─── All feature icons (12-point grid) ─── */
+const featureGrid = [
+  { icon: Camera,        title: "Real Vehicle Photos",    color: "bg-pink-50 text-pink-600" },
+  { icon: DollarSign,    title: "Market Valuation",       color: "bg-emerald-50 text-emerald-600" },
+  { icon: Gauge,         title: "Full Specifications",    color: "bg-amber-50 text-amber-600" },
+  { icon: Settings,      title: "Equipment & Options",    color: "bg-violet-50 text-violet-600" },
+  { icon: BarChart3,     title: "Price Comparison",       color: "bg-blue-50 text-blue-600" },
+  { icon: Wrench,        title: "Recall Alerts",          color: "bg-red-50 text-red-600" },
+  { icon: Cpu,           title: "Engine & Powertrain",    color: "bg-cyan-50 text-cyan-600" },
+  { icon: Car,           title: "Classification",         color: "bg-indigo-50 text-indigo-600" },
+  { icon: MapPin,        title: "Dealer Listings",        color: "bg-teal-50 text-teal-600" },
+  { icon: AlertTriangle, title: "Accident History",       color: "bg-orange-50 text-orange-600" },
+  { icon: FileText,      title: "Title & Ownership",      color: "bg-purple-50 text-purple-600" },
+  { icon: ShieldCheck,   title: "Theft Records",          color: "bg-green-50 text-green-600" },
 ];
 
 export default function FeaturesSection() {
   return (
-    <section id="features" className="py-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top: Feature showcase with car image */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div>
-            <p className="text-sm font-semibold text-primary-600 uppercase tracking-widest mb-2">Comprehensive Data</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Everything You Need to Know</h2>
-            <p className="mt-4 text-lg text-slate-500 leading-relaxed">
-              Our reports pull from 40+ data points across federal and industry sources.
-              Get real photos, detailed specs, market pricing, and more — all from one VIN.
+    <>
+      {/* ══════════════════════════════════════════════
+          SECTION A — Comprehensive 40+ Point Coverage
+      ══════════════════════════════════════════════ */}
+      <section id="features" className="py-24 px-6 bg-surface-container-low">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-14">
+            <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">
+              Comprehensive 40+ Point Coverage
+            </h2>
+            <p className="text-on-surface-variant max-w-3xl text-lg">
+              We leverage NMVTIS federal data, dealership networks, and insurance databases to give you the most exhaustive vehicle record possible. Here is what&apos;s included in every report.
             </p>
-            <div className="mt-6 flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {["bg-primary-100", "bg-emerald-100", "bg-amber-100", "bg-pink-100"].map((bg, i) => (
-                  <div key={i} className={`w-8 h-8 rounded-full ${bg} border-2 border-white flex items-center justify-center text-xs font-bold`}>
-                    {["V", "I", "N", "+"[0]][i]}
-                  </div>
-                ))}
-              </div>
-              <p className="text-sm text-slate-500">Trusted by <strong className="text-slate-700">50,000+</strong> car buyers</p>
-            </div>
           </div>
-          <div className="relative hidden lg:block">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-slate-200/60">
-              <Image
-                src="https://api.auto.dev/photos/retail/3GCPKCEK6TG148125-1.jpg"
-                alt="Vehicle with full VIN report"
-                fill
-                className="object-cover"
-                sizes="600px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                <div className="px-3 py-1.5 bg-white/90 backdrop-blur rounded-lg text-xs font-semibold text-slate-700">
-                  72 Photos Available
-                </div>
-                <div className="px-3 py-1.5 bg-primary-600 rounded-lg text-xs font-semibold text-white">
-                  Full Report Ready
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Feature Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {features.map(({ icon: Icon, title, description, color }) => (
-            <div key={title} className="group p-5 bg-white rounded-2xl border border-slate-100 hover:shadow-lg hover:shadow-slate-100 hover:border-slate-200 transition-all duration-300">
-              <div className={`w-10 h-10 rounded-xl ${color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                <Icon className="w-5 h-5" />
+          <div className="grid md:grid-cols-3 gap-8">
+            {coverageColumns.map(({ icon: Icon, accent, title, items, more, moreColor }) => (
+              <div key={title} className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm">
+                <div className={`w-12 h-12 rounded-xl ${accent} flex items-center justify-center mb-6`}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <h4 className="text-xl font-headline font-bold text-on-surface mb-6">{title}</h4>
+                <ul className="space-y-3">
+                  {items.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm text-on-surface-variant">
+                      <span className="w-4 h-4 rounded-full bg-green-500/15 flex items-center justify-center flex-shrink-0">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                  <li className={`text-sm font-bold ${moreColor}`}>{more}</li>
+                </ul>
               </div>
-              <h3 className="text-sm font-bold text-slate-900 mb-1">{title}</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">{description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          SECTION B — Core Documentation (Bento)
+      ══════════════════════════════════════════ */}
+      <section className="py-24 px-6 bg-surface-container-low">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-14">
+            <p className="text-sm font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--color-secondary-container)" }}>The Archive</p>
+            <h3 className="text-4xl font-headline font-extrabold text-primary">Core Documentation.</h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {bentoItems.map(({ wide, icon: Icon, iconColor, title, desc, bg, dark }) => (
+              <div
+                key={title}
+                className={`${wide ? "md:col-span-2" : ""} ${bg} p-8 rounded-[2rem] flex flex-col justify-between group shadow-sm`}
+              >
+                <div className="max-w-md">
+                  <Icon className={`w-10 h-10 ${iconColor} mb-6`} />
+                  <h4 className={`text-2xl font-headline font-bold mb-3 ${dark ? "text-white" : "text-on-surface"}`}>
+                    {title}
+                  </h4>
+                  <p className={`text-sm leading-relaxed ${dark ? "text-primary-fixed/80" : "text-on-surface-variant"}`}>
+                    {desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════
+          SECTION C — 12-Feature Icon Grid
+      ══════════════════════════════════════════ */}
+      <section className="py-20 px-6 bg-surface">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 block">Everything You Need</span>
+            <h2 className="text-4xl font-headline font-extrabold text-primary">
+              40+ Data Points, One Report
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {featureGrid.map(({ icon: Icon, title, color }) => (
+              <div
+                key={title}
+                className="group p-5 bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-lg hover:shadow-outline/5 transition-all duration-300"
+              >
+                <div className={`w-10 h-10 rounded-xl ${color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-bold text-on-surface">{title}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

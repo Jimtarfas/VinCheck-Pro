@@ -1,55 +1,79 @@
-import { TrendingUp, Users, Shield } from "lucide-react";
 import Image from "next/image";
+import { TrendingUp, Users, Shield } from "lucide-react";
 
 const benefits = [
-  { icon: TrendingUp, title: "Get Top Dollar", description: "Vehicles with clean reports command 10-15% higher prices.", color: "bg-emerald-50 text-emerald-600" },
-  { icon: Users, title: "Attract More Buyers", description: "Listings with vehicle reports get 3x more inquiries.", color: "bg-blue-50 text-blue-600" },
-  { icon: Shield, title: "Reduce Liability", description: "Document your vehicle's condition upfront.", color: "bg-violet-50 text-violet-600" },
+  {
+    icon: TrendingUp,
+    title: "Get Top Dollar",
+    description: "Vehicles with clean reports command 10–15% higher prices.",
+    accent: "bg-emerald-50 text-emerald-600",
+  },
+  {
+    icon: Users,
+    title: "Attract More Buyers",
+    description: "Listings with vehicle reports get 3× more serious inquiries.",
+    accent: "bg-primary/8 text-primary",
+  },
+  {
+    icon: Shield,
+    title: "Reduce Liability",
+    description: "Document your vehicle's condition upfront and build buyer trust.",
+    accent: "bg-violet-50 text-violet-600",
+  },
 ];
 
 export default function SellerSection() {
   return (
-    <section className="py-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Image side */}
-          <div className="relative hidden lg:block">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-slate-200/60">
-              <Image
-                src="https://api.auto.dev/photos/retail/1N6ED1EK1SN645592-1.jpg"
-                alt="Vehicle listed for sale"
-                fill
-                className="object-cover"
-                sizes="600px"
-              />
-              <div className="absolute bottom-4 left-4 px-3 py-2 bg-white/95 backdrop-blur rounded-xl shadow-lg">
-                <p className="text-xs text-slate-500">Sold in</p>
-                <p className="text-lg font-bold text-emerald-600">3 Days</p>
-              </div>
-            </div>
-          </div>
+    <section className="py-24 px-6 bg-surface">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
 
-          {/* Content side */}
-          <div>
-            <p className="text-sm font-semibold text-primary-600 uppercase tracking-widest mb-2">For Sellers</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Selling Your Vehicle?</h2>
-            <p className="text-lg text-slate-500 mb-8">A VINCheck Pro report helps you sell faster and at a better price.</p>
-
-            <div className="space-y-5">
-              {benefits.map(({ icon: Icon, title, description, color }) => (
-                <div key={title} className="flex gap-4 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-md transition-all">
-                  <div className={`w-12 h-12 rounded-xl ${color} flex items-center justify-center flex-shrink-0`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900">{title}</h3>
-                    <p className="text-sm text-slate-500 mt-0.5">{description}</p>
-                  </div>
-                </div>
-              ))}
+        {/* Image side */}
+        <div className="relative hidden lg:block">
+          <div className="absolute inset-0 bg-primary/5 rounded-[2.5rem] rotate-2 -z-10" />
+          <div className="relative aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-primary/10 -rotate-1 hover:rotate-0 transition-transform duration-500">
+            <Image
+              src="https://api.auto.dev/photos/retail/1N6ED1EK1SN645592-1.jpg"
+              alt="Vehicle listed for sale"
+              fill
+              className="object-cover"
+              sizes="600px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
+            <div className="absolute bottom-5 left-5 px-4 py-2.5 bg-surface-container-lowest/95 backdrop-blur rounded-2xl shadow-lg">
+              <p className="text-xs text-outline font-medium">Sold in</p>
+              <p className="text-2xl font-headline font-black text-green-600">3 Days</p>
             </div>
           </div>
         </div>
+
+        {/* Content side */}
+        <div>
+          <span className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 block">For Sellers</span>
+          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-5">
+            Selling Your Vehicle?
+          </h2>
+          <p className="text-lg text-on-surface-variant mb-10">
+            A VINCheck Pro report helps you sell faster and at a better price. Give buyers the transparency they need to say yes with confidence.
+          </p>
+
+          <div className="space-y-4">
+            {benefits.map(({ icon: Icon, title, description, accent }) => (
+              <div
+                key={title}
+                className="flex gap-5 p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 hover:shadow-lg hover:shadow-outline/5 transition-all duration-300"
+              >
+                <div className={`w-12 h-12 rounded-xl ${accent} flex items-center justify-center flex-shrink-0`}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-headline font-bold text-on-surface mb-1">{title}</h3>
+                  <p className="text-sm text-on-surface-variant">{description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

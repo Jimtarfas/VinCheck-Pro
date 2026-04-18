@@ -1,119 +1,112 @@
-import { Shield, Clock, Users, Zap } from "lucide-react";
 import Image from "next/image";
 import VinSearchForm from "./VinSearchForm";
 
 const stats = [
-  { icon: Users, label: "Trusted Buyers", value: "50,000+" },
-  { icon: Shield, label: "Data Source", value: "NMVTIS" },
-  { icon: Clock, label: "Report Speed", value: "<60s" },
-  { icon: Zap, label: "Data Points", value: "40+" },
-];
-
-const carImages = [
-  { src: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=900&q=80", alt: "Modern luxury SUV" },
-  { src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=80", alt: "Premium sedan" },
-  { src: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=400&q=80", alt: "Sports coupe" },
+  { value: "50K+",   label: "Trusted Buyers" },
+  { value: "4.9",    label: "Avg Rating" },
+  { value: "<60s",   label: "Report Speed" },
+  { value: "40+",    label: "Data Points" },
 ];
 
 export default function HeroSection() {
   return (
-    <section id="hero" className="relative pt-24 pb-16 lg:pt-28 lg:pb-20 overflow-hidden bg-gradient-to-b from-primary-50/60 via-white to-white">
-      {/* Decorative blobs */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-100/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+    <section
+      id="hero"
+      className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden"
+      style={{ background: "linear-gradient(135deg, #f7f9fc 0%, #eceef1 100%)" }}
+    >
+      {/* Soft background blobs */}
+      <div className="absolute top-0 right-0 w-[32rem] h-[32rem] rounded-full opacity-30 -translate-y-1/2 translate-x-1/3 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #003178 0%, transparent 70%)", filter: "blur(80px)" }} />
+      <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full opacity-20 translate-y-1/2 -translate-x-1/3 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #ff9800 0%, transparent 70%)", filter: "blur(60px)" }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left - Content */}
-          <div className="text-center lg:text-left">
-            <div className="animate-fade-in-up">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-50 border border-primary-100 text-sm font-medium text-primary-700 mb-6">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Free Vehicle Reports
-              </span>
-            </div>
+      <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.1] tracking-tight text-slate-900 animate-fade-in-up-delay">
-              Know Your Car&apos;s
-              <span className="text-primary-600"> Full Story</span>
-            </h1>
+        {/* ── Left: Content ── */}
+        <div className="lg:col-span-7 z-10">
 
-            <p className="mt-5 text-lg text-slate-500 max-w-lg mx-auto lg:mx-0 leading-relaxed animate-fade-in-up-delay-2">
-              Decode any VIN to get comprehensive vehicle specs, real photos,
-              market values, and ownership history in seconds.
-            </p>
-
-            <div className="mt-8 animate-fade-in-up-delay-3">
-              <VinSearchForm size="lg" />
-            </div>
-
-            {/* Stats */}
-            <div className="mt-10 grid grid-cols-4 gap-4 animate-fade-in-up-delay-3">
-              {stats.map(({ icon: Icon, label, value }) => (
-                <div key={label} className="text-center lg:text-left">
-                  <div className="flex items-center justify-center lg:justify-start gap-1.5 mb-1">
-                    <Icon className="w-4 h-4 text-primary-500" />
-                    <span className="text-lg font-bold text-slate-900">{value}</span>
-                  </div>
-                  <span className="text-xs text-slate-400">{label}</span>
-                </div>
-              ))}
-            </div>
+          {/* Eyebrow */}
+          <div className="animate-fade-in-up">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/10 text-sm font-semibold text-primary mb-6">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              Free Vehicle Reports — Instant Results
+            </span>
           </div>
 
-          {/* Right - Car Images Grid */}
-          <div className="relative hidden lg:block animate-fade-in-up-delay-2">
-            <div className="relative">
-              {/* Main large image */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl shadow-slate-900/10 border border-slate-200/60">
-                <Image
-                  src={carImages[0].src}
-                  alt={carImages[0].alt}
-                  fill
-                  className="object-cover"
-                  sizes="600px"
-                  priority
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4">
-                  <div className="flex items-center gap-2">
-                    <div className="px-2.5 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-semibold text-slate-800">
-                      Vehicle Verified
-                    </div>
-                    <div className="px-2.5 py-1 bg-emerald-500 rounded-lg text-xs font-semibold text-white">
-                      40+ Data Points
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {/* Headline */}
+          <h1 className="font-headline font-extrabold text-5xl lg:text-7xl leading-tight tracking-tighter text-primary mb-6 animate-fade-in-up-delay">
+            Know Your Car&apos;s<br />
+            <span style={{ color: "var(--color-secondary-container)" }}>Full Story.</span>
+          </h1>
 
-              {/* Two smaller images */}
-              <div className="absolute -bottom-6 -left-6 w-36 h-28 rounded-xl overflow-hidden shadow-xl border-4 border-white animate-float">
-                <Image
-                  src={carImages[1].src}
-                  alt={carImages[1].alt}
-                  fill
-                  className="object-cover"
-                  sizes="144px"
-                />
-              </div>
-              <div className="absolute -top-4 -right-4 w-32 h-24 rounded-xl overflow-hidden shadow-xl border-4 border-white animate-float" style={{ animationDelay: "2s" }}>
-                <Image
-                  src={carImages[2].src}
-                  alt={carImages[2].alt}
-                  fill
-                  className="object-cover"
-                  sizes="128px"
-                />
-              </div>
+          <p className="text-xl text-on-surface-variant font-medium max-w-xl mb-10 leading-relaxed animate-fade-in-up-delay-2">
+            Decode any VIN to get comprehensive vehicle specs, real photos,
+            market values, and ownership history in seconds.
+          </p>
 
-              {/* VIN badge */}
-              <div className="absolute top-4 left-4 px-3 py-2 bg-white/95 backdrop-blur rounded-xl shadow-lg border border-slate-100">
-                <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">VIN Decoded</p>
-                <p className="text-xs font-mono font-bold text-slate-800">17-Char Verified</p>
+          {/* VIN Search */}
+          <div className="animate-fade-in-up-delay-3">
+            <VinSearchForm size="lg" />
+          </div>
+
+          {/* Stats row */}
+          <div className="mt-10 grid grid-cols-4 gap-6 animate-fade-in-up-delay-3">
+            {stats.map(({ value, label }) => (
+              <div key={label} className="text-center lg:text-left">
+                <p className="text-2xl font-headline font-black text-primary leading-none mb-1">{value}</p>
+                <p className="text-xs text-on-surface-variant/60 font-medium uppercase tracking-wider">{label}</p>
               </div>
-            </div>
+            ))}
           </div>
         </div>
+
+        {/* ── Right: Car image ── */}
+        <div className="lg:col-span-5 relative hidden lg:block animate-fade-in-up-delay-2">
+          {/* Rotated bg accent */}
+          <div className="absolute inset-0 bg-primary/5 rounded-[40px] rotate-3 -z-10 translate-x-4" />
+
+          {/* Main car image */}
+          <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl shadow-primary/15 -rotate-3 hover:rotate-0 transition-transform duration-700">
+            <Image
+              src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=900&q=80"
+              alt="Modern luxury SUV — VIN check before you buy"
+              fill
+              className="object-cover"
+              sizes="500px"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-transparent to-transparent" />
+
+            {/* Bottom badges */}
+            <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+              <div className="px-3 py-1.5 bg-white/90 backdrop-blur rounded-xl text-xs font-bold text-on-surface shadow-sm">
+                Vehicle Verified ✓
+              </div>
+              <div className="px-3 py-1.5 rounded-xl text-xs font-bold text-on-secondary-container shadow-sm" style={{ background: "var(--color-secondary-container)" }}>
+                40+ Data Points
+              </div>
+            </div>
+          </div>
+
+          {/* VIN badge */}
+          <div className="absolute top-6 left-6 px-3 py-2 bg-surface-container-lowest/95 backdrop-blur rounded-xl shadow-lg border border-outline-variant/10">
+            <p className="text-[10px] text-outline font-semibold uppercase tracking-wider">VIN Decoded</p>
+            <p className="text-xs font-mono font-bold text-primary">17-Char Verified</p>
+          </div>
+
+          {/* Floating small image */}
+          <div className="absolute -bottom-6 -left-6 w-36 h-28 rounded-2xl overflow-hidden shadow-xl border-4 border-surface-container-lowest animate-float">
+            <Image
+              src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=80"
+              alt="Premium sedan"
+              fill
+              className="object-cover"
+              sizes="144px"
+            />
+          </div>
+        </div>
+
       </div>
     </section>
   );

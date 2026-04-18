@@ -2,11 +2,12 @@ import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
 import HowItWorks from "@/components/HowItWorks";
 import FeaturesSection from "@/components/FeaturesSection";
+import ComparisonSection from "@/components/ComparisonSection";
 import PricingSection from "@/components/PricingSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import Reviews from "@/components/Reviews";
-import FAQSection from "@/components/FAQSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import SellerSection from "@/components/SellerSection";
+import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 
 const faqStructuredData = {
@@ -38,7 +39,7 @@ const productLd = {
   offers: [
     { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://carcheckervin.com/" },
     { "@type": "Offer", name: "Single Premium Report", price: "7.99", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://carcheckervin.com/#pricing" },
-    { "@type": "Offer", name: "5-Pack Bundle", price: "29.99", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://carcheckervin.com/#pricing" },
+    { "@type": "Offer", name: "5-Pack Bundle", price: "19.99", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://carcheckervin.com/#pricing" },
   ],
   aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000", bestRating: "5", worstRating: "1" },
   review: [
@@ -54,7 +55,7 @@ const howToStructuredData = {
   name: "How to Check a VIN Number Online",
   description: "Learn how to decode any Vehicle Identification Number (VIN) to get a full vehicle history report in under 60 seconds.",
   step: [
-    { "@type": "HowToStep", name: "Find Your VIN", text: "Locate the 17-character VIN on your vehicle's dashboard (visible through the windshield), driver-side door jamb sticker, vehicle registration, or insurance documents." },
+    { "@type": "HowToStep", name: "Find Your VIN", text: "Locate the 17-character VIN on your vehicle's dashboard, driver-side door jamb sticker, vehicle registration, or insurance documents." },
     { "@type": "HowToStep", name: "Enter the VIN", text: "Enter the 17-character VIN into the VIN checker search box on our website." },
     { "@type": "HowToStep", name: "Get Your Report", text: "View your complete vehicle report instantly, including specs, photos, market values, equipment lists, and vehicle history." },
   ],
@@ -66,10 +67,12 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToStructuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
+
       <HeroSection />
       <TrustBar />
       <HowItWorks />
       <FeaturesSection />
+      <ComparisonSection />
       <PricingSection />
       <Reviews />
       <TestimonialsSection />

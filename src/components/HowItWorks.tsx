@@ -3,53 +3,58 @@ import { Search, Database, FileCheck } from "lucide-react";
 const steps = [
   {
     icon: Search,
-    step: "1",
-    title: "Enter Your VIN",
-    description: "Locate the 17-character VIN on your dashboard, door frame, or registration docs.",
-    color: "bg-blue-50 text-blue-600",
+    step: "01",
+    title: "Find Your VIN",
+    description: "Locate the 17-character VIN on your dashboard (visible through the windshield), driver-side door jamb sticker, or vehicle registration.",
+    accent: "bg-primary/8 text-primary",
   },
   {
     icon: Database,
-    step: "2",
+    step: "02",
     title: "Instant Decoding",
-    description: "We query NMVTIS, manufacturer databases, and dealer listings in real time.",
-    color: "bg-primary-50 text-primary-600",
+    description: "We query NMVTIS, manufacturer databases, and dealer listings in real time — cross-referencing 40+ data points in under 60 seconds.",
+    accent: "bg-secondary-container/15 text-secondary",
   },
   {
     icon: FileCheck,
-    step: "3",
+    step: "03",
     title: "Get Your Report",
-    description: "View a complete breakdown of specs, photos, market values, and history.",
-    color: "bg-emerald-50 text-emerald-600",
+    description: "View a complete breakdown: full specs, real photos, market values, equipment list, recall alerts, and ownership history — all on one screen.",
+    accent: "bg-green-500/10 text-green-600",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <p className="text-sm font-semibold text-primary-600 uppercase tracking-widest mb-2">Simple Process</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">How It Works</h2>
-          <p className="mt-3 text-lg text-slate-500 max-w-2xl mx-auto">Get your full vehicle report in three simple steps</p>
+    <section id="how-it-works" className="py-24 px-6 bg-surface-container-lowest">
+      <div className="max-w-7xl mx-auto">
+
+        <div className="text-center mb-16">
+          <span className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 block">Simple Process</span>
+          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">How It Works</h2>
+          <p className="text-on-surface-variant max-w-2xl mx-auto">
+            Get your full vehicle history report in three simple steps
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          {/* Connecting line */}
-          <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-blue-200 via-primary-200 to-emerald-200" />
+        <div className="grid md:grid-cols-3 gap-8 relative">
+          {/* Connecting gradient line (desktop only) */}
+          <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px"
+            style={{ background: "linear-gradient(to right, #003178, #ff9800, #16a34a)" }} />
 
-          {steps.map(({ icon: Icon, step, title, description, color }) => (
+          {steps.map(({ icon: Icon, step, title, description, accent }) => (
             <div key={step} className="relative text-center group">
               <div className="relative z-10 inline-flex flex-col items-center">
-                <div className={`w-16 h-16 rounded-2xl ${color} flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-16 h-16 rounded-2xl ${accent} flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                   <Icon className="w-7 h-7" />
                 </div>
-                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-primary-600 text-white text-xs font-bold flex items-center justify-center shadow-md">
-                  {step}
+                {/* Step number badge */}
+                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-primary text-on-primary text-xs font-black font-headline flex items-center justify-center shadow-md">
+                  {step.replace("0", "")}
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
-              <p className="text-slate-500 leading-relaxed max-w-xs mx-auto">{description}</p>
+              <h3 className="text-xl font-headline font-bold text-primary mb-3">{title}</h3>
+              <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs mx-auto">{description}</p>
             </div>
           ))}
         </div>

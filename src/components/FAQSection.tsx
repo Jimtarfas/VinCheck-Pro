@@ -1,43 +1,89 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Minus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const faqs = [
-  { question: "What is a VIN and where can I find it?", answer: "A Vehicle Identification Number (VIN) is a unique 17-character code assigned to every motor vehicle. You can find it on the driver-side dashboard (visible through the windshield), the driver-side door jamb sticker, your vehicle registration, or insurance documents." },
-  { question: "What information is included in a VINCheck Pro report?", answer: "Our reports include complete vehicle specifications (engine, transmission, drivetrain), all factory-installed options and equipment, market value estimates, recall information, and detailed technical data. We pull data from NMVTIS and manufacturer databases." },
-  { question: "How quickly will I receive my report?", answer: "Reports are generated instantly — typically in under 60 seconds. Once your VIN is decoded, you'll see the full report immediately on screen." },
-  { question: "Which vehicles are covered?", answer: "We cover vehicles manufactured from 1981 onwards (when the 17-character VIN standard was adopted). This includes cars, trucks, SUVs, and vans from all major manufacturers worldwide." },
-  { question: "Is VINCheck Pro useful for sellers too?", answer: "Absolutely! Sellers use our reports to document vehicle condition, build buyer confidence, and justify asking prices. A clean vehicle report can help you sell faster and at a higher price." },
-  { question: "How is your data different from free VIN decoders?", answer: "Free decoders typically only show basic make/model/year info. VINCheck Pro provides comprehensive data including full equipment lists, factory options, engine specifications, transmission details, and market valuations sourced from trusted industry databases." },
+  {
+    question: "What is a VIN and where can I find it?",
+    answer: "A Vehicle Identification Number (VIN) is a unique 17-character code assigned to every motor vehicle. You can find it on the driver-side dashboard (visible through the windshield), the driver-side door jamb sticker, your vehicle registration, or insurance documents.",
+  },
+  {
+    question: "What information is included in a VINCheck Pro report?",
+    answer: "Our reports include complete vehicle specifications (engine, transmission, drivetrain), all factory-installed options and equipment, market value estimates, recall information, real vehicle photos, and detailed technical data sourced from NMVTIS and manufacturer databases.",
+  },
+  {
+    question: "How quickly will I receive my VIN report?",
+    answer: "VIN reports are generated instantly — typically in under 60 seconds. Once your VIN is decoded, you'll see the full vehicle history report immediately on screen.",
+  },
+  {
+    question: "Which vehicles are covered by your VIN decoder?",
+    answer: "We cover vehicles manufactured from 1981 onwards (when the 17-character VIN standard was adopted). This includes cars, trucks, SUVs, and vans from all major manufacturers worldwide including Toyota, Ford, Honda, Chevrolet, BMW, Mercedes-Benz, and more.",
+  },
+  {
+    question: "Is a VIN check useful for sellers too?",
+    answer: "Absolutely! Sellers use VIN check reports to document vehicle condition, build buyer confidence, and justify asking prices. A clean vehicle report can help you sell faster and at a higher price.",
+  },
+  {
+    question: "How is your VIN check different from free VIN decoders?",
+    answer: "Free VIN decoders typically only show basic make/model/year info. Our VIN checker provides comprehensive data including full equipment lists, factory options, engine specifications, transmission details, real vehicle photos, and market valuations sourced from trusted industry databases.",
+  },
+  {
+    question: "Can a VIN check tell me if a car was stolen?",
+    answer: "Yes. Our reports cross-reference the VIN against the National Insurance Crime Bureau (NICB) database. If a vehicle is reported stolen and not yet recovered — or has been recovered as a salvage total loss — the report will flag it.",
+  },
+  {
+    question: "Will a VIN check show me odometer rollback?",
+    answer: "Premium reports show all reported mileage readings from inspections, title transfers, and service records. Inconsistencies in the timeline are a strong indicator of odometer fraud, which costs U.S. consumers over $1 billion per year.",
+  },
+  {
+    question: "Is this VIN check service really free?",
+    answer: "Yes, basic VIN decoding is completely free. You can decode any VIN to see vehicle specs, engine details, and basic information at no cost. Premium reports with full history, market values, and detailed analysis start at just $7.99.",
+  },
 ];
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-20 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <p className="text-sm font-semibold text-primary-600 uppercase tracking-widest mb-2">FAQ</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Frequently Asked Questions</h2>
+    <section id="faq" className="py-24 px-6 bg-surface-container-lowest">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-on-surface-variant">
+            Everything you need to know about VINCheck Pro reports.
+          </p>
         </div>
 
         <div className="space-y-3">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <div key={index} className={`rounded-2xl border transition-all duration-300 ${isOpen ? "border-primary-200 bg-primary-50/30 shadow-sm" : "border-slate-200 bg-white hover:border-slate-300"}`}>
-                <button onClick={() => setOpenIndex(isOpen ? null : index)} className="w-full flex items-center justify-between p-5 text-left cursor-pointer">
-                  <span className={`font-semibold pr-4 ${isOpen ? "text-primary-700" : "text-slate-800"}`}>{faq.question}</span>
-                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all ${isOpen ? "bg-primary-100 text-primary-600" : "bg-slate-100 text-slate-400"}`}>
-                    {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                  </div>
+              <div
+                key={index}
+                className={`rounded-2xl transition-all duration-300 ${
+                  isOpen
+                    ? "bg-surface shadow-sm border border-outline-variant/10"
+                    : "bg-surface hover:bg-surface-container-low border border-transparent"
+                }`}
+              >
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className="w-full flex items-center justify-between p-6 text-left cursor-pointer"
+                >
+                  <span className={`font-headline font-bold text-lg pr-4 ${isOpen ? "text-primary" : "text-on-surface"}`}>
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 flex-shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : "text-outline"}`}
+                  />
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-                  <div className="px-5 pb-5">
-                    <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
-                  </div>
+                  <p className="px-6 pb-6 text-on-surface-variant leading-relaxed">
+                    {faq.answer}
+                  </p>
                 </div>
               </div>
             );

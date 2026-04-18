@@ -1,64 +1,113 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ═══════════════════════════════════════════════════
+     STITCH DESIGN SYSTEM — "The Authoritative Archive"
+     Primary: Deep Navy Blue  |  CTA Accent: Vivid Orange
+  ═══════════════════════════════════════════════════ */
+
+  /* Primary deep-navy (trust & authority) */
+  --color-primary:                   #003178;
+  --color-primary-container:         #0d47a1;
+  --color-on-primary:                #ffffff;
+  --color-on-primary-container:      #a1bbff;
+  --color-primary-fixed:             #d9e2ff;
+  --color-primary-fixed-dim:         #b0c6ff;
+
+  /* Numeric scale kept for any existing usages */
+  --color-primary-50:  #e6edf8;
+  --color-primary-100: #c2d3ed;
+  --color-primary-200: #9ab7e1;
+  --color-primary-300: #6f9ad3;
+  --color-primary-400: #4880c8;
+  --color-primary-500: #2166bc;
+  --color-primary-600: #003178;
+  --color-primary-700: #002a66;
+  --color-primary-800: #002154;
+  --color-primary-900: #001540;
+
+  /* Orange CTA accent — used ONCE per screen */
+  --color-secondary-container:       #ff9800;
+  --color-on-secondary-container:    #653900;
+  --color-secondary:                 #8b5000;
+  --color-secondary-fixed:           #ffdcbe;
+  --color-secondary-fixed-dim:       #ffb870;
+
+  /* Tertiary deep-ocean (structural depth) */
+  --color-tertiary:                  #003760;
+  --color-tertiary-container:        #004e85;
+  --color-on-tertiary-container:     #8ac0ff;
+
+  /* Surface hierarchy — NO 1px borders, use tonal shifts */
+  --color-surface:                   #f7f9fc;
+  --color-surface-bright:            #f7f9fc;
+  --color-surface-dim:               #d8dadd;
+  --color-surface-container:         #eceef1;
+  --color-surface-container-low:     #f2f4f7;
+  --color-surface-container-lowest:  #ffffff;
+  --color-surface-container-high:    #e6e8eb;
+  --color-surface-container-highest: #e0e3e6;
+
+  /* Text tokens */
+  --color-on-surface:                #191c1e;
+  --color-on-surface-variant:        #434652;
+
+  /* Ghost-borders (use at ≤15% opacity) */
+  --color-outline:                   #737783;
+  --color-outline-variant:           #c3c6d4;
+
+  /* Inverse & error */
+  --color-inverse-surface:           #2d3133;
+  --color-inverse-on-surface:        #eff1f4;
+  --color-inverse-primary:           #b0c6ff;
+  --color-error:                     #ba1a1a;
+  --color-error-container:           #ffdad6;
+
+  /* Typography (Manrope headlines + Inter body) */
+  --font-sans:     var(--font-inter);
+  --font-headline: var(--font-manrope);
+  --font-mono:     var(--font-geist-mono);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
+  background-color: #f7f9fc;
+  color: #191c1e;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: rgba(79, 70, 229, 0.15);
-  color: #1e1b4b;
+  background: rgba(255, 152, 0, 0.2);
+  color: #191c1e;
 }
 
-/* ─── Animations ─── */
+/* ── Glassmorphism nav ── */
+.glass-nav {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ── Ghost border (accessibility fallback, 15% opacity) ── */
+.ghost-border {
+  border: 1px solid rgba(195, 198, 212, 0.15);
+}
+
+/* ── Animations ── */
 @keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in-left {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50%       { transform: translateY(-8px); }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-.animate-fade-in-up-delay {
-  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-  opacity: 0;
-}
-.animate-fade-in-up-delay-2 {
-  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-  opacity: 0;
-}
-.animate-fade-in-up-delay-3 {
-  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
-  opacity: 0;
-}
-.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-fade-in-up         { animation: fade-in-up 0.65s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-fade-in-up-delay   { animation: fade-in-up 0.65s cubic-bezier(0.16,1,0.3,1) 0.15s forwards; opacity: 0; }
+.animate-fade-in-up-delay-2 { animation: fade-in-up 0.65s cubic-bezier(0.16,1,0.3,1) 0.3s  forwards; opacity: 0; }
+.animate-fade-in-up-delay-3 { animation: fade-in-up 0.65s cubic-bezier(0.16,1,0.3,1) 0.45s forwards; opacity: 0; }
+.animate-float              { animation: float 6s ease-in-out infinite; }
