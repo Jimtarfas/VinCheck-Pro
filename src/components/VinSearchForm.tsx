@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Loader2 } from "lucide-react";
 
-export default function VinSearchForm({ size = "lg" }: { size?: "lg" | "sm" }) {
+export default function VinSearchForm({ size = "lg", onDark = false }: { size?: "lg" | "sm"; onDark?: boolean }) {
   const [vin, setVin] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function VinSearchForm({ size = "lg" }: { size?: "lg" | "sm" }) {
       )}
 
       {isLg && (
-        <div className="mt-4 flex items-center gap-6 text-xs font-semibold text-on-surface-variant/60 uppercase tracking-widest">
+        <div className={`mt-4 flex items-center gap-6 text-xs font-semibold uppercase tracking-widest ${onDark ? "text-primary-fixed/60" : "text-on-surface-variant/60"}`}>
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
             100% Secure

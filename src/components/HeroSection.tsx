@@ -94,17 +94,6 @@ export default function HeroSection() {
             <p className="text-[10px] text-outline font-semibold uppercase tracking-wider">VIN Decoded</p>
             <p className="text-xs font-mono font-bold text-primary">17-Char Verified</p>
           </div>
-
-          {/* Floating small image */}
-          <div className="absolute -bottom-6 -left-6 w-36 h-28 rounded-2xl overflow-hidden shadow-xl border-4 border-surface-container-lowest animate-float">
-            <Image
-              src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=400&q=80"
-              alt="Premium sedan"
-              fill
-              className="object-cover"
-              sizes="144px"
-            />
-          </div>
         </div>
 
       </div>

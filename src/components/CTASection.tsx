@@ -22,7 +22,7 @@ export default function CTASection() {
 
           <div className="flex flex-col items-center gap-5">
             <div className="w-full max-w-2xl">
-              <VinSearchForm size="lg" />
+              <VinSearchForm size="lg" onDark />
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm font-semibold text-primary-fixed/60 uppercase tracking-widest mt-4">

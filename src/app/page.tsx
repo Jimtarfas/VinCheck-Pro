@@ -5,7 +5,6 @@ import FeaturesSection from "@/components/FeaturesSection";
 import ComparisonSection from "@/components/ComparisonSection";
 import PricingSection from "@/components/PricingSection";
 import Reviews from "@/components/Reviews";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import SellerSection from "@/components/SellerSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
@@ -75,7 +74,6 @@ export default function Home() {
       <ComparisonSection />
       <PricingSection />
       <Reviews />
-      <TestimonialsSection />
       <SellerSection />
       <FAQSection />
       <CTASection />

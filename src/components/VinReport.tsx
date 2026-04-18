@@ -316,17 +316,17 @@ function Card({ icon: Icon, title, subtitle, accent = "bg-primary/8 text-primary
   icon: React.ComponentType<{ className?: string }>; title: string; subtitle?: string; accent?: string; children: React.ReactNode;
 }) {
   return (
-    <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
-      <div className="px-6 py-5 border-b border-surface-container">
-        <h2 className="font-headline font-bold text-lg text-on-surface flex items-center gap-3">
+    <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden">
+      <div className="px-4 sm:px-6 py-5 border-b border-surface-container">
+        <h2 className="font-headline font-bold text-base sm:text-lg text-on-surface flex items-center gap-3">
           <div className={`w-9 h-9 rounded-xl ${accent} flex items-center justify-center flex-shrink-0`}>
             <Icon className="w-5 h-5" />
           </div>
           {title}
         </h2>
-        {subtitle && <p className="text-sm text-on-surface-variant mt-1 ml-12">{subtitle}</p>}
+        {subtitle && <p className="text-xs sm:text-sm text-on-surface-variant mt-1 ml-12">{subtitle}</p>}
       </div>
-      <div className="p-6">{children}</div>
+      <div className="p-4 sm:p-6">{children}</div>
     </div>
   );
 }
@@ -360,14 +360,14 @@ export default function VinReport({ data }: { data: VinData }) {
         <div className="absolute top-0 right-0 w-[500px] h-[500px] opacity-10 pointer-events-none"
           style={{ background: "radial-gradient(circle, #0d47a1 0%, transparent 70%)", filter: "blur(40px)" }} />
 
-        <div className="relative max-w-6xl mx-auto px-6 py-10">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           {/* Back link */}
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-primary-fixed/60 hover:text-primary-fixed mb-6 transition-colors">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-primary-fixed/60 hover:text-primary-fixed mb-5 sm:mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               {/* Status chips */}
               <div className="flex items-center gap-2 mb-4 flex-wrap">
                 <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-1.5 text-on-secondary-container"
@@ -387,27 +387,27 @@ export default function VinReport({ data }: { data: VinData }) {
               </div>
 
               {/* Vehicle name */}
-              <h1 className="font-headline font-extrabold text-4xl sm:text-5xl text-white tracking-tighter leading-tight mb-2">
+              <h1 className="font-headline font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight mb-2 break-words">
                 {year && <span className="text-secondary-fixed-dim">{year} </span>}
                 {makeName} {modelName}
               </h1>
-              {styleName && <p className="text-primary-fixed/70 mb-2">{styleName}</p>}
-              <p className="font-mono text-sm tracking-widest text-primary-fixed/50">VIN: {data.vin}</p>
+              {styleName && <p className="text-sm sm:text-base text-primary-fixed/70 mb-2 break-words">{styleName}</p>}
+              <p className="font-mono text-[11px] sm:text-sm tracking-wider sm:tracking-widest text-primary-fixed/50 break-all">VIN: {data.vin}</p>
 
               {/* Action buttons */}
-              <div className="flex flex-wrap gap-2 mt-6">
+              <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
                 <button onClick={downloadReport} disabled={downloadLoading}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-on-secondary-container hover:brightness-110 transition cursor-pointer disabled:opacity-60"
+                  className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-on-secondary-container hover:brightness-110 transition cursor-pointer disabled:opacity-60"
                   style={{ background: "var(--color-secondary-container)" }}>
                   <Download className={`w-4 h-4 ${downloadLoading ? "animate-pulse" : ""}`} />
                   {downloadLoading ? "Preparing…" : "Download Report"}
                 </button>
                 <button onClick={() => window.print()}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-sm font-medium text-white transition cursor-pointer">
+                  className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
                   <Printer className="w-4 h-4" /> Print
                 </button>
                 <button onClick={() => navigator.clipboard.writeText(window.location.href)}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-sm font-medium text-white transition cursor-pointer">
+                  className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
                   <Share2 className="w-4 h-4" /> Share
                 </button>
               </div>
@@ -419,8 +419,8 @@ export default function VinReport({ data }: { data: VinData }) {
       {/* ══════════════════════════════════════════════════════
           BODY — Two-column layout
       ══════════════════════════════════════════════════════ */}
-      <div className="max-w-6xl mx-auto px-6 py-10">
-        <div className="grid lg:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
 
           {/* ── LEFT / MAIN COLUMN (2/3) ── */}
           <div className="lg:col-span-2 space-y-6">
@@ -430,13 +430,13 @@ export default function VinReport({ data }: { data: VinData }) {
 
             {/* Currently listed banner */}
             {data.listing && (
-              <div className="bg-primary p-6 rounded-[2rem] shadow-sm relative overflow-hidden">
+              <div className="bg-primary p-5 sm:p-6 rounded-3xl sm:rounded-[2rem] shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
                 <div className="flex items-center gap-2 mb-4">
                   <Shield className="w-5 h-5 text-secondary-container" />
                   <h2 className="font-headline font-bold text-white">Currently Listed for Sale</h2>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                   <div>
                     <p className="text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Asking Price</p>
                     <p className="text-2xl font-headline font-black text-secondary-container">{data.listing.price}</p>
@@ -485,7 +485,7 @@ export default function VinReport({ data }: { data: VinData }) {
             {/* Engine & Performance */}
             {data.engine && (
               <Card icon={Zap} title="Engine & Performance" subtitle="Complete powertrain specifications" accent="bg-amber-50 text-amber-600">
-                <div className="grid grid-cols-2 gap-x-8">
+                <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
                   {data.engine.cylinder     && <Stat label="Configuration" value={`${data.engine.cylinder}-Cyl ${data.engine.configuration}`} />}
                   {data.engine.displacement && <Stat label="Displacement"  value={`${data.engine.displacement} cc (${data.engine.size}L)`} />}
                   {data.engine.horsepower   && <Stat label="Horsepower"    value={`${data.engine.horsepower} HP${data.engine.rpm?.horsepower ? ` @ ${data.engine.rpm.horsepower} RPM` : ""}`} />}
@@ -503,7 +503,7 @@ export default function VinReport({ data }: { data: VinData }) {
             {/* Transmission */}
             {data.transmission && (
               <Card icon={Cog} title="Transmission & Drivetrain" accent="bg-cyan-50 text-cyan-600">
-                <div className="grid grid-cols-2 gap-x-8">
+                <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
                   <Stat label="Type"          value={data.transmission.transmissionType} />
                   <Stat label="Speeds"        value={`${data.transmission.numberOfSpeeds}-Speed`} />
                   {data.drivenWheels && <Stat label="Driven Wheels" value={data.drivenWheels} />}
@@ -516,16 +516,16 @@ export default function VinReport({ data }: { data: VinData }) {
             {/* Fuel Economy */}
             {data.mpg && (
               <Card icon={Fuel} title="Fuel Economy" subtitle="EPA estimated fuel efficiency" accent="bg-green-50 text-green-600">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4">
                   {[
                     { label: "City",     val: data.mpg.city,    accent: "bg-primary/8 text-primary" },
                     { label: "Highway",  val: data.mpg.highway, accent: "bg-tertiary/10 text-tertiary" },
                     { label: "Combined", val: Math.round(data.mpg.city * 0.55 + data.mpg.highway * 0.45), accent: "bg-green-50 text-green-700" },
                   ].map(({ label, val, accent }) => (
-                    <div key={label} className={`text-center p-6 rounded-2xl ${accent.split(" ")[0]}`}>
-                      <p className={`text-sm font-semibold mb-2 ${accent.split(" ")[1]}`}>{label}</p>
-                      <p className={`text-5xl font-headline font-black ${accent.split(" ")[1]}`}>{val}</p>
-                      <p className="text-xs text-on-surface-variant mt-1">MPG{label==="Combined"?" (est.)":""}</p>
+                    <div key={label} className={`text-center p-3 sm:p-6 rounded-2xl ${accent.split(" ")[0]}`}>
+                      <p className={`text-xs sm:text-sm font-semibold mb-1 sm:mb-2 ${accent.split(" ")[1]}`}>{label}</p>
+                      <p className={`text-3xl sm:text-5xl font-headline font-black ${accent.split(" ")[1]}`}>{val}</p>
+                      <p className="text-[10px] sm:text-xs text-on-surface-variant mt-1">MPG{label==="Combined"?" (est.)":""}</p>
                     </div>
                   ))}
                 </div>
@@ -535,7 +535,7 @@ export default function VinReport({ data }: { data: VinData }) {
             {/* Vehicle Classification */}
             {data.categories && (
               <Card icon={Info} title="Vehicle Classification" accent="bg-indigo-50 text-indigo-600">
-                <div className="grid grid-cols-2 gap-x-8">
+                <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
                   {data.categories.primaryBodyType && <Stat label="Body Type"    value={data.categories.primaryBodyType} />}
                   {data.categories.vehicleType     && <Stat label="Vehicle Type" value={data.categories.vehicleType} />}
                   {data.categories.vehicleStyle    && <Stat label="Style"        value={data.categories.vehicleStyle} />}
@@ -586,7 +586,7 @@ export default function VinReport({ data }: { data: VinData }) {
                   {data.options.map((cat) => (
                     <div key={cat.category} className="border-b border-surface-container last:border-0">
                       <button onClick={() => toggleCategory(cat.category)}
-                        className="w-full flex items-center justify-between px-6 py-4 hover:bg-surface-container-low transition cursor-pointer">
+                        className="w-full flex items-center justify-between px-4 sm:px-6 py-4 hover:bg-surface-container-low transition cursor-pointer">
                         <div className="flex items-center gap-3">
                           <span className="font-semibold text-on-surface">{cat.category}</span>
                           <span className="text-xs bg-primary/8 text-primary px-2.5 py-0.5 rounded-full font-bold">
@@ -596,7 +596,7 @@ export default function VinReport({ data }: { data: VinData }) {
                         <ChevronDown className={`w-5 h-5 text-outline transition-transform duration-300 ${expandedCategories.has(cat.category) ? "rotate-180" : ""}`} />
                       </button>
                       {expandedCategories.has(cat.category) && (
-                        <div className="px-6 pb-4">
+                        <div className="px-4 sm:px-6 pb-4">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                             {cat.options.map((o) => (
                               <div key={o.name} className="flex items-start gap-2.5 p-3 bg-surface-container-low rounded-xl">
@@ -617,10 +617,10 @@ export default function VinReport({ data }: { data: VinData }) {
             )}
 
             {/* Check another VIN */}
-            <div className="bg-primary-container rounded-[2rem] p-8 text-center relative overflow-hidden shadow-sm">
+            <div className="bg-primary-container rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
               <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
-              <h2 className="font-headline font-extrabold text-xl text-white mb-2">Check Another Vehicle</h2>
-              <p className="text-primary-fixed/60 mb-6">Enter a different VIN to generate a new report</p>
+              <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
+              <p className="text-sm sm:text-base text-primary-fixed/60 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
               <div className="max-w-lg mx-auto">
                 <VinSearchForm size="sm" />
               </div>
