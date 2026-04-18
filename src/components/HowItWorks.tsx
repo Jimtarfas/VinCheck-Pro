@@ -38,10 +38,6 @@ export default function HowItWorks() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 relative">
-          {/* Connecting gradient line (desktop only) */}
-          <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px"
-            style={{ background: "linear-gradient(to right, #003178, #ff9800, #16a34a)" }} />
-
           {steps.map(({ icon: Icon, step, title, description, accent }) => (
             <div key={step} className="relative text-center group">
               <div className="relative z-10 inline-flex flex-col items-center">
