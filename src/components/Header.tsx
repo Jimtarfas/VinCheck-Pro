@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Menu, X, ChevronRight, User, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -17,10 +17,55 @@ const navLinks = [
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
+  const isReportPage = pathname?.startsWith("/report/") ?? false;
+
   const [mobileOpen, setMobileOpen]     = useState(false);
   const [scrolled, setScrolled]         = useState(false);
+  const [hidden, setHidden]             = useState(false);
   const [user, setUser]                 = useState<SupabaseUser | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  // Auto-hide header on report pages: hide when scrolling down, show when
+  // scrolling up, near the top of the page, or when cursor reaches top edge.
+  useEffect(() => {
+    if (!isReportPage) {
+      setHidden(false);
+      return;
+    }
+
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const onAutoHideScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < 80) {
+          setHidden(false);
+        } else if (y > lastY + 6) {
+          setHidden(true);
+          setUserMenuOpen(false);
+        } else if (y < lastY - 6) {
+          setHidden(false);
+        }
+        lastY = y;
+        ticking = false;
+      });
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (e.clientY < 80) setHidden(false);
+    };
+
+    window.addEventListener("scroll", onAutoHideScroll, { passive: true });
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onAutoHideScroll);
+      window.removeEventListener("mousemove", onMouseMove);
+    };
+  }, [isReportPage]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -57,6 +102,8 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-nav ${
+        hidden ? "-translate-y-full" : "translate-y-0"
+      } ${
         scrolled
           ? "bg-surface/85 shadow-sm border-b border-outline-variant/10"
           : "bg-surface/90"
