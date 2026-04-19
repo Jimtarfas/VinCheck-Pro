@@ -232,9 +232,10 @@ function PhotoGallery({ photos, alt }: { photos: string[]; alt: string }) {
 
   return (
     <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
-      {/* Main photo — shorter aspect on mobile so it doesn't dominate the viewport */}
-      <div className="relative aspect-[2/1] sm:aspect-[16/9] max-h-[46vh] sm:max-h-none bg-surface-container overflow-hidden">
-        <div className="absolute inset-0" style={{ transform: "scale(1.02)" }}>
+      {/* Main photo — 3:2 on mobile matches real car-photo dimensions so the whole
+          vehicle stays visible (2:1 was cropping off the roof and wheels), 16:9 on desktop */}
+      <div className="relative aspect-[3/2] sm:aspect-[16/9] bg-surface-container overflow-hidden">
+        <div className="absolute inset-0">
           <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className="object-cover" sizes="(max-width:768px) 100vw, 900px" priority={current === 0} />
         </div>
         <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
@@ -291,13 +292,13 @@ function DataCard({ icon: Icon, label, value, accent = "bg-primary/8 text-primar
   icon: React.ComponentType<{ className?: string }>; label: string; value: string; accent?: string;
 }) {
   return (
-    <div className="flex items-start gap-3 p-4 bg-surface-container-lowest rounded-2xl shadow-sm">
-      <div className={`w-10 h-10 rounded-xl ${accent} flex items-center justify-center flex-shrink-0`}>
-        <Icon className="w-5 h-5" />
+    <div className="flex items-start gap-2.5 sm:gap-3 p-3 sm:p-4 bg-surface-container-lowest rounded-2xl shadow-sm">
+      <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${accent} flex items-center justify-center flex-shrink-0`}>
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
       </div>
-      <div className="min-w-0">
-        <p className="text-xs text-outline uppercase tracking-wider font-semibold">{label}</p>
-        <p className="font-semibold text-on-surface truncate mt-0.5">{value}</p>
+      <div className="min-w-0 flex-1">
+        <p className="text-[10px] sm:text-xs text-outline uppercase tracking-wider font-semibold">{label}</p>
+        <p className="text-sm sm:text-base font-semibold text-on-surface break-words mt-0.5">{value}</p>
       </div>
     </div>
   );
@@ -419,11 +420,11 @@ export default function VinReport({ data }: { data: VinData }) {
       {/* ══════════════════════════════════════════════════════
           BODY — Two-column layout
       ══════════════════════════════════════════════════════ */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full overflow-hidden">
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
 
           {/* ── LEFT / MAIN COLUMN (2/3) ── */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 min-w-0">
 
             {/* Photo gallery */}
             <PhotoGallery photos={data.photos || []} alt={fullName} />
@@ -437,27 +438,27 @@ export default function VinReport({ data }: { data: VinData }) {
                   <h2 className="font-headline font-bold text-white">Currently Listed for Sale</h2>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-                  <div>
-                    <p className="text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Asking Price</p>
-                    <p className="text-2xl font-headline font-black text-secondary-container">{data.listing.price}</p>
+                  <div className="min-w-0">
+                    <p className="text-[10px] sm:text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Asking Price</p>
+                    <p className="text-xl sm:text-2xl font-headline font-black text-secondary-container break-words">{data.listing.price}</p>
                   </div>
-                  <div>
-                    <p className="text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Mileage</p>
-                    <p className="text-xl font-headline font-bold text-white">{data.listing.mileage}</p>
+                  <div className="min-w-0">
+                    <p className="text-[10px] sm:text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Mileage</p>
+                    <p className="text-lg sm:text-xl font-headline font-bold text-white break-words">{data.listing.mileage}</p>
                   </div>
                   {data.listing.displayColor && (
-                    <div>
-                      <p className="text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Color</p>
-                      <p className="text-lg font-bold text-white">{data.listing.displayColor}</p>
+                    <div className="min-w-0">
+                      <p className="text-[10px] sm:text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Color</p>
+                      <p className="text-base sm:text-lg font-bold text-white break-words">{data.listing.displayColor}</p>
                     </div>
                   )}
                   {data.listing.dealerName && (
-                    <div>
-                      <p className="text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Dealer</p>
-                      <p className="text-sm font-semibold text-white">{data.listing.dealerName}</p>
+                    <div className="min-w-0">
+                      <p className="text-[10px] sm:text-xs text-primary-fixed/60 font-semibold uppercase tracking-wider">Dealer</p>
+                      <p className="text-sm font-semibold text-white break-words">{data.listing.dealerName}</p>
                       {data.listing.city && data.listing.state && (
-                        <p className="text-xs text-primary-fixed/50 flex items-center gap-1 mt-0.5">
-                          <MapPin className="w-3 h-3" />{data.listing.city}, {data.listing.state}
+                        <p className="text-xs text-primary-fixed/50 flex items-center gap-1 mt-0.5 break-words">
+                          <MapPin className="w-3 h-3 flex-shrink-0" />{data.listing.city}, {data.listing.state}
                         </p>
                       )}
                     </div>
