@@ -233,7 +233,7 @@ function PhotoGallery({ photos, alt }: { photos: string[]; alt: string }) {
   return (
     <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
       {/* Main photo — shorter aspect on mobile so it doesn't dominate the viewport */}
-      <div className="relative aspect-[16/11] sm:aspect-[16/9] bg-surface-container overflow-hidden">
+      <div className="relative aspect-[2/1] sm:aspect-[16/9] max-h-[46vh] sm:max-h-none bg-surface-container overflow-hidden">
         <div className="absolute inset-0" style={{ transform: "scale(1.02)" }}>
           <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className="object-cover" sizes="(max-width:768px) 100vw, 900px" priority={current === 0} />
         </div>
