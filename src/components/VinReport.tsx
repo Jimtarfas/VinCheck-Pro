@@ -231,50 +231,50 @@ function PhotoGallery({ photos, alt }: { photos: string[]; alt: string }) {
   }
 
   return (
-    <div className="bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm">
-      {/* Main photo */}
-      <div className="relative aspect-[16/9] bg-surface-container overflow-hidden">
-        <div className="absolute inset-0" style={{ transform: "scale(1.08)" }}>
+    <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
+      {/* Main photo — shorter aspect on mobile so it doesn't dominate the viewport */}
+      <div className="relative aspect-[16/11] sm:aspect-[16/9] bg-surface-container overflow-hidden">
+        <div className="absolute inset-0" style={{ transform: "scale(1.02)" }}>
           <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className="object-cover" sizes="(max-width:768px) 100vw, 900px" priority={current === 0} />
         </div>
         <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
 
         {/* Photo count badge */}
-        <div className="absolute top-4 left-4 px-3 py-1.5 bg-on-surface/70 backdrop-blur rounded-full text-xs text-white font-bold">
+        <div className="absolute top-3 sm:top-4 left-3 sm:left-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/70 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-bold">
           {photos.length} Photos
         </div>
 
         {photos.length > 1 && (
           <>
             <button onClick={() => setCurrent((c) => (c === 0 ? photos.length - 1 : c - 1))}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
-              <ChevronLeft className="w-5 h-5" />
+              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <button onClick={() => setCurrent((c) => (c === photos.length - 1 ? 0 : c + 1))}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
-              <ChevronRight className="w-5 h-5" />
+              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
-            <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-on-surface/60 backdrop-blur rounded-full text-xs text-white font-semibold">
+            <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/60 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-semibold">
               {current + 1} / {photos.length}
             </div>
           </>
         )}
       </div>
 
-      {/* Thumbnails */}
+      {/* Thumbnails — smaller on mobile */}
       {photos.length > 1 && (
-        <div className="flex gap-2 p-3 overflow-x-auto bg-surface-container-low">
+        <div className="flex gap-1.5 sm:gap-2 p-2 sm:p-3 overflow-x-auto bg-surface-container-low [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {photos.slice(0, 14).map((photo, i) => (
             <button key={i} onClick={() => setCurrent(i)}
-              className={`relative w-20 h-14 flex-shrink-0 rounded-xl overflow-hidden cursor-pointer transition-all ${i === current ? "ring-2 ring-primary" : "opacity-50 hover:opacity-100"}`}>
-              <div className="absolute inset-0" style={{ transform: "scale(1.15)" }}>
+              className={`relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden cursor-pointer transition-all ${i === current ? "ring-2 ring-primary" : "opacity-50 hover:opacity-100"}`}>
+              <div className="absolute inset-0" style={{ transform: "scale(1.08)" }}>
                 <Image src={photo} alt={`Thumb ${i + 1}`} fill className="object-cover" sizes="80px" />
               </div>
             </button>
           ))}
           {photos.length > 14 && (
-            <div className="w-20 h-14 flex-shrink-0 rounded-xl bg-surface-container flex items-center justify-center text-xs text-on-surface-variant font-medium">
+            <div className="w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl bg-surface-container flex items-center justify-center text-[10px] sm:text-xs text-on-surface-variant font-medium">
               +{photos.length - 14}
             </div>
           )}
