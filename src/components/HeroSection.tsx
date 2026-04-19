@@ -12,7 +12,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden"
+      className="relative pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-32 lg:pb-24 overflow-hidden"
       style={{ background: "linear-gradient(135deg, #f7f9fc 0%, #eceef1 100%)" }}
     >
       {/* Soft background blobs */}
@@ -21,26 +21,26 @@ export default function HeroSection() {
       <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full opacity-20 translate-y-1/2 -translate-x-1/3 pointer-events-none"
         style={{ background: "radial-gradient(circle, #ff9800 0%, transparent 70%)", filter: "blur(60px)" }} />
 
-      <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-12 gap-10 sm:gap-12 items-center">
 
         {/* ── Left: Content ── */}
         <div className="lg:col-span-7 z-10">
 
           {/* Eyebrow */}
           <div className="animate-fade-in-up">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/8 border border-primary/10 text-sm font-semibold text-primary mb-6">
+            <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/8 border border-primary/10 text-xs sm:text-sm font-semibold text-primary mb-5 sm:mb-6">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               Free Vehicle Reports — Instant Results
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="font-headline font-extrabold text-5xl lg:text-7xl leading-tight tracking-tighter text-primary mb-6 animate-fade-in-up-delay">
+          <h1 className="font-headline font-extrabold text-4xl sm:text-5xl lg:text-7xl leading-tight tracking-tighter text-primary mb-4 sm:mb-6 animate-fade-in-up-delay">
             Know Your Car&apos;s<br />
             <span style={{ color: "var(--color-secondary-container)" }}>Full Story.</span>
           </h1>
 
-          <p className="text-xl text-on-surface-variant font-medium max-w-xl mb-10 leading-relaxed animate-fade-in-up-delay-2">
+          <p className="text-base sm:text-xl text-on-surface-variant font-medium max-w-xl mb-8 sm:mb-10 leading-relaxed animate-fade-in-up-delay-2">
             Decode any VIN to get comprehensive vehicle specs, real photos,
             market values, and ownership history in seconds.
           </p>
@@ -51,11 +51,11 @@ export default function HeroSection() {
           </div>
 
           {/* Stats row */}
-          <div className="mt-10 grid grid-cols-4 gap-6 animate-fade-in-up-delay-3">
+          <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 animate-fade-in-up-delay-3">
             {stats.map(({ value, label }) => (
               <div key={label} className="text-center lg:text-left">
-                <p className="text-2xl font-headline font-black text-primary leading-none mb-1">{value}</p>
-                <p className="text-xs text-on-surface-variant/60 font-medium uppercase tracking-wider">{label}</p>
+                <p className="text-xl sm:text-2xl font-headline font-black text-primary leading-none mb-1">{value}</p>
+                <p className="text-[10px] sm:text-xs text-on-surface-variant/60 font-medium uppercase tracking-wider">{label}</p>
               </div>
             ))}
           </div>

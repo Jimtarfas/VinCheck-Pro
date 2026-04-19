@@ -26,18 +26,18 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 px-6 bg-surface-container-lowest">
+    <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-container-lowest">
       <div className="max-w-7xl mx-auto">
 
-        <div className="text-center mb-16">
-          <span className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 block">Simple Process</span>
-          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">How It Works</h2>
-          <p className="text-on-surface-variant max-w-2xl mx-auto">
+        <div className="text-center mb-12 sm:mb-16">
+          <span className="text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4 block">Simple Process</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">How It Works</h2>
+          <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto px-2">
             Get your full vehicle history report in three simple steps
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 relative">
+        <div className="grid md:grid-cols-3 gap-10 sm:gap-8 relative">
           {steps.map(({ icon: Icon, step, title, description, accent }) => (
             <div key={step} className="relative text-center group">
               <div className="relative z-10 inline-flex flex-col items-center">

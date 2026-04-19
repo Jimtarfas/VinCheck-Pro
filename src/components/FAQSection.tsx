@@ -46,13 +46,13 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 px-6 bg-surface-container-lowest">
+    <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-container-lowest">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-on-surface-variant">
+          <p className="text-sm sm:text-base text-on-surface-variant">
             Everything you need to know about VINCheck Pro reports.
           </p>
         </div>
@@ -71,9 +71,9 @@ export default function FAQSection() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full flex items-center justify-between p-6 text-left cursor-pointer"
+                  className="w-full flex items-center justify-between p-4 sm:p-6 text-left cursor-pointer"
                 >
-                  <span className={`font-headline font-bold text-lg pr-4 ${isOpen ? "text-primary" : "text-on-surface"}`}>
+                  <span className={`font-headline font-bold text-base sm:text-lg pr-3 sm:pr-4 ${isOpen ? "text-primary" : "text-on-surface"}`}>
                     {faq.question}
                   </span>
                   <ChevronDown
@@ -81,7 +81,7 @@ export default function FAQSection() {
                   />
                 </button>
                 <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-                  <p className="px-6 pb-6 text-on-surface-variant leading-relaxed">
+                  <p className="px-4 sm:px-6 pb-4 sm:pb-6 text-sm sm:text-base text-on-surface-variant leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>

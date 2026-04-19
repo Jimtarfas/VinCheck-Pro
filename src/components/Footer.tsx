@@ -34,11 +34,11 @@ const companyLinks = [
 export default function Footer() {
   return (
     <footer className="bg-inverse-surface text-inverse-on-surface/60">
-      <div className="max-w-7xl mx-auto px-6 pt-20 pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 sm:gap-10 mb-12 sm:mb-16">
 
           {/* Brand column */}
-          <div className="col-span-2">
+          <div className="col-span-2 md:col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-5">
               <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

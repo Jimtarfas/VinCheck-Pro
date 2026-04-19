@@ -24,36 +24,36 @@ function Cell({ val }: { val: ColVal }) {
 
 export default function ComparisonSection() {
   return (
-    <section className="py-24 px-6 bg-surface">
+    <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 block">
+        <div className="text-center mb-10 sm:mb-16">
+          <span className="text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4 block">
             Market Comparison
           </span>
-          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
             How We Stand Against the Giants
           </h2>
-          <p className="text-on-surface-variant max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto">
             Don&apos;t settle for less data at a higher price. We provide more insights for a fraction of the cost.
           </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <table className="w-full border-collapse min-w-[600px]">
             <thead>
               <tr>
-                <th className="p-6 text-left font-headline text-lg text-primary font-extrabold bg-surface-container-low rounded-tl-3xl">
+                <th className="p-3 sm:p-6 text-left font-headline text-sm sm:text-lg text-primary font-extrabold bg-surface-container-low rounded-tl-2xl sm:rounded-tl-3xl">
                   Feature Comparison
                 </th>
                 {/* Our column — highlighted */}
-                <th className="p-6 text-center bg-primary text-white font-headline text-xl font-black rounded-t-3xl relative overflow-hidden">
+                <th className="p-3 sm:p-6 text-center bg-primary text-white font-headline text-base sm:text-xl font-black rounded-t-2xl sm:rounded-t-3xl relative overflow-hidden">
                   <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
                   VINCheck Pro
                 </th>
-                <th className="p-6 text-center font-headline text-lg text-on-surface-variant font-bold">
+                <th className="p-3 sm:p-6 text-center font-headline text-sm sm:text-lg text-on-surface-variant font-bold">
                   Carfax
                 </th>
-                <th className="p-6 text-center font-headline text-lg text-on-surface-variant font-bold rounded-tr-3xl">
+                <th className="p-3 sm:p-6 text-center font-headline text-sm sm:text-lg text-on-surface-variant font-bold rounded-tr-2xl sm:rounded-tr-3xl">
                   AutoCheck
                 </th>
               </tr>
@@ -61,16 +61,16 @@ export default function ComparisonSection() {
             <tbody>
               {rows.map((row) => (
                 <tr key={row.feature} className="hover:bg-primary/3 transition-colors">
-                  <td className="p-5 font-semibold text-on-surface text-sm bg-surface-container-low">
+                  <td className="p-3 sm:p-5 font-semibold text-on-surface text-xs sm:text-sm bg-surface-container-low">
                     {row.feature}
                   </td>
-                  <td className="p-5 text-center bg-primary/5 border-x border-primary/10">
+                  <td className="p-3 sm:p-5 text-center bg-primary/5 border-x border-primary/10">
                     <Cell val={row.us} />
                   </td>
-                  <td className="p-5 text-center">
+                  <td className="p-3 sm:p-5 text-center">
                     <Cell val={row.carfax} />
                   </td>
-                  <td className="p-5 text-center">
+                  <td className="p-3 sm:p-5 text-center">
                     <Cell val={row.autocheck} />
                   </td>
                 </tr>
@@ -78,18 +78,18 @@ export default function ComparisonSection() {
             </tbody>
             <tfoot>
               <tr>
-                <td className="p-5 bg-surface-container-low rounded-bl-3xl" />
-                <td className="p-5 bg-primary border-x border-b border-primary rounded-b-3xl">
+                <td className="p-3 sm:p-5 bg-surface-container-low rounded-bl-2xl sm:rounded-bl-3xl" />
+                <td className="p-3 sm:p-5 bg-primary border-x border-b border-primary rounded-b-2xl sm:rounded-b-3xl">
                   <Link
                     href="/#hero"
-                    className="block w-full py-3 rounded-full font-bold text-center text-on-secondary-container hover:brightness-110 transition-all"
+                    className="block w-full py-2.5 sm:py-3 rounded-full font-bold text-center text-xs sm:text-base text-on-secondary-container hover:brightness-110 transition-all"
                     style={{ background: "var(--color-secondary-container)" }}
                   >
                     Get Started
                   </Link>
                 </td>
-                <td className="p-5" />
-                <td className="p-5 rounded-br-3xl" />
+                <td className="p-3 sm:p-5" />
+                <td className="p-3 sm:p-5 rounded-br-2xl sm:rounded-br-3xl" />
               </tr>
             </tfoot>
           </table>

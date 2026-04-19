@@ -7,12 +7,15 @@ const stats = [
 
 export default function TrustBar() {
   return (
-    <section className="bg-primary-container py-12 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+    <section className="bg-primary-container py-10 sm:py-12 px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
         {stats.map(({ value, label }, i) => (
-          <div key={label} className={`text-center text-white ${i > 0 ? "border-l border-white/10" : ""}`}>
-            <p className="text-4xl font-headline font-black mb-1">{value}</p>
-            <p className="text-sm opacity-75 uppercase tracking-widest font-semibold">{label}</p>
+          <div
+            key={label}
+            className={`text-center text-white ${i > 0 ? "md:border-l md:border-white/10" : ""} ${i === 2 ? "md:border-l" : ""} ${i % 2 === 1 ? "border-l border-white/10 md:border-l" : ""}`}
+          >
+            <p className="text-3xl sm:text-4xl font-headline font-black mb-1">{value}</p>
+            <p className="text-[11px] sm:text-sm opacity-75 uppercase tracking-widest font-semibold">{label}</p>
           </div>
         ))}
       </div>

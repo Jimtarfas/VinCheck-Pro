@@ -8,26 +8,26 @@ const reviews = [
 
 export default function Reviews() {
   return (
-    <section className="py-24 px-6 bg-surface">
+    <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
             What Customers Are Saying
           </h2>
-          <div className="flex items-center justify-center gap-2 mt-4">
+          <div className="flex items-center justify-center flex-wrap gap-x-1.5 gap-y-1 mt-4">
             {[1,2,3,4,5].map((i) => (
-              <Star key={i} className="w-5 h-5 fill-secondary-container text-secondary-container" />
+              <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-secondary-container text-secondary-container" />
             ))}
-            <span className="ml-2 text-base font-bold text-on-surface">4.9</span>
-            <span className="text-sm text-on-surface-variant">/ 5 from 50,000+ reviews</span>
+            <span className="ml-1 sm:ml-2 text-sm sm:text-base font-bold text-on-surface">4.9</span>
+            <span className="text-xs sm:text-sm text-on-surface-variant">/ 5 from 50,000+ reviews</span>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-5 sm:gap-8">
           {reviews.map((r) => (
             <div
               key={r.name}
-              className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm border border-outline-variant/10"
+              className="bg-surface-container-lowest p-6 sm:p-8 rounded-3xl sm:rounded-[2rem] shadow-sm border border-outline-variant/10"
             >
               {/* Stars */}
               <div className="flex gap-1 mb-5">

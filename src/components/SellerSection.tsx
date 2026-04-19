@@ -24,8 +24,8 @@ const benefits = [
 
 export default function SellerSection() {
   return (
-    <section className="py-24 px-6 bg-surface">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+    <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 sm:gap-16 items-center">
 
         {/* Image side */}
         <div className="relative hidden lg:block">
@@ -48,22 +48,22 @@ export default function SellerSection() {
 
         {/* Content side */}
         <div>
-          <span className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 block">For Sellers</span>
-          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-5">
+          <span className="text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4 block">For Sellers</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4 sm:mb-5">
             Selling Your Vehicle?
           </h2>
-          <p className="text-lg text-on-surface-variant mb-10">
+          <p className="text-base sm:text-lg text-on-surface-variant mb-8 sm:mb-10">
             A VINCheck Pro report helps you sell faster and at a better price. Give buyers the transparency they need to say yes with confidence.
           </p>
 
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {benefits.map(({ icon: Icon, title, description, accent }) => (
               <div
                 key={title}
-                className="flex gap-5 p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 hover:shadow-lg hover:shadow-outline/5 transition-all duration-300"
+                className="flex gap-4 sm:gap-5 p-4 sm:p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 hover:shadow-lg hover:shadow-outline/5 transition-all duration-300"
               >
-                <div className={`w-12 h-12 rounded-xl ${accent} flex items-center justify-center flex-shrink-0`}>
-                  <Icon className="w-6 h-6" />
+                <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl ${accent} flex items-center justify-center flex-shrink-0`}>
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
                   <h3 className="font-headline font-bold text-on-surface mb-1">{title}</h3>

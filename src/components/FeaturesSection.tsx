@@ -105,20 +105,20 @@ export default function FeaturesSection() {
       {/* ══════════════════════════════════════════════
           SECTION A — Comprehensive 40+ Point Coverage
       ══════════════════════════════════════════════ */}
-      <section id="features" className="py-24 px-6 bg-surface-container-low">
+      <section id="features" className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-container-low">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-14">
-            <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4">
+          <div className="mb-10 sm:mb-14">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
               Comprehensive 40+ Point Coverage
             </h2>
-            <p className="text-on-surface-variant max-w-3xl text-lg">
+            <p className="text-base sm:text-lg text-on-surface-variant max-w-3xl">
               We leverage NMVTIS federal data, dealership networks, and insurance databases to give you the most exhaustive vehicle record possible. Here is what&apos;s included in every report.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
             {coverageColumns.map(({ icon: Icon, accent, title, items, more, moreColor }) => (
-              <div key={title} className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm">
+              <div key={title} className="bg-surface-container-lowest p-6 sm:p-8 rounded-3xl sm:rounded-[2rem] shadow-sm">
                 <div className={`w-12 h-12 rounded-xl ${accent} flex items-center justify-center mb-6`}>
                   <Icon className="w-6 h-6" />
                 </div>
@@ -143,22 +143,22 @@ export default function FeaturesSection() {
       {/* ══════════════════════════════════════════
           SECTION B — Core Documentation (Bento)
       ══════════════════════════════════════════ */}
-      <section className="py-24 px-6 bg-surface-container-low">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface-container-low">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-14">
-            <p className="text-sm font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--color-secondary-container)" }}>The Archive</p>
-            <h3 className="text-4xl font-headline font-extrabold text-primary">Core Documentation.</h3>
+          <div className="mb-10 sm:mb-14">
+            <p className="text-xs sm:text-sm font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--color-secondary-container)" }}>The Archive</p>
+            <h3 className="text-3xl sm:text-4xl font-headline font-extrabold text-primary">Core Documentation.</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
             {bentoItems.map(({ wide, icon: Icon, iconColor, title, desc, bg, dark }) => (
               <div
                 key={title}
-                className={`${wide ? "md:col-span-2" : ""} ${bg} p-8 rounded-[2rem] flex flex-col justify-between group shadow-sm`}
+                className={`${wide ? "md:col-span-2" : ""} ${bg} p-6 sm:p-8 rounded-3xl sm:rounded-[2rem] flex flex-col justify-between group shadow-sm`}
               >
                 <div className="max-w-md">
-                  <Icon className={`w-10 h-10 ${iconColor} mb-6`} />
-                  <h4 className={`text-2xl font-headline font-bold mb-3 ${dark ? "text-white" : "text-on-surface"}`}>
+                  <Icon className={`w-9 h-9 sm:w-10 sm:h-10 ${iconColor} mb-4 sm:mb-6`} />
+                  <h4 className={`text-xl sm:text-2xl font-headline font-bold mb-2 sm:mb-3 ${dark ? "text-white" : "text-on-surface"}`}>
                     {title}
                   </h4>
                   <p className={`text-sm leading-relaxed ${dark ? "text-primary-fixed/80" : "text-on-surface-variant"}`}>
@@ -174,24 +174,24 @@ export default function FeaturesSection() {
       {/* ══════════════════════════════════════════
           SECTION C — 12-Feature Icon Grid
       ══════════════════════════════════════════ */}
-      <section className="py-20 px-6 bg-surface">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 bg-surface">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="text-sm font-black text-primary uppercase tracking-[0.2em] mb-4 block">Everything You Need</span>
-            <h2 className="text-4xl font-headline font-extrabold text-primary">
+          <div className="text-center mb-10 sm:mb-12">
+            <span className="text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4 block">Everything You Need</span>
+            <h2 className="text-3xl sm:text-4xl font-headline font-extrabold text-primary">
               40+ Data Points, One Report
             </h2>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {featureGrid.map(({ icon: Icon, title, color }) => (
               <div
                 key={title}
-                className="group p-5 bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-lg hover:shadow-outline/5 transition-all duration-300"
+                className="group p-4 sm:p-5 bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-lg hover:shadow-outline/5 transition-all duration-300"
               >
-                <div className={`w-10 h-10 rounded-xl ${color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${color} flex items-center justify-center mb-2.5 sm:mb-3 group-hover:scale-110 transition-transform`}>
                   <Icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-sm font-bold text-on-surface">{title}</h3>
+                <h3 className="text-xs sm:text-sm font-bold text-on-surface">{title}</h3>
               </div>
             ))}
           </div>
