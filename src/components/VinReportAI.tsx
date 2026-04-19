@@ -196,8 +196,8 @@ function AIConcierge({ data, fullName }: { data: VinData; fullName: string }) {
   };
 
   return (
-    <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden border-t-4 border-primary">
-      <div className="px-5 sm:px-6 py-4 sm:py-5 border-b border-surface-container flex items-center gap-3">
+    <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] shadow-sm overflow-hidden border-t-4 border-primary">
+      <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-surface-container flex items-center gap-3">
         <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
           <Bot className="w-5 h-5" />
         </div>
@@ -211,7 +211,7 @@ function AIConcierge({ data, fullName }: { data: VinData; fullName: string }) {
         </div>
       </div>
 
-      <div className="p-5 sm:p-6 space-y-4">
+      <div className="p-4 sm:p-5 space-y-4">
         <p className="text-xs sm:text-sm text-on-surface-variant">
           Ask questions about this VIN — answers are generated live from the decoded report.
         </p>
@@ -398,8 +398,8 @@ function AIRiskInsights({ data }: { data: VinData }) {
   const risks = useMemo(() => buildRisks(data), [data]);
 
   return (
-    <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden border-t-4 border-secondary">
-      <div className="px-5 sm:px-6 py-4 sm:py-5 border-b border-surface-container flex items-center gap-3">
+    <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] shadow-sm overflow-hidden border-t-4 border-secondary">
+      <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-surface-container flex items-center gap-3">
         <div className="w-10 h-10 rounded-2xl bg-secondary-container/20 text-secondary flex items-center justify-center flex-shrink-0">
           <Radar className="w-5 h-5" />
         </div>
@@ -413,7 +413,7 @@ function AIRiskInsights({ data }: { data: VinData }) {
         </div>
       </div>
 
-      <div className="p-5 sm:p-6 space-y-3">
+      <div className="p-4 sm:p-5 space-y-3">
         {risks.length === 0 ? (
           <div className="flex items-center gap-2 text-sm text-on-surface-variant">
             <ShieldCheck className="w-4 h-4 text-green-600" />
@@ -489,8 +489,8 @@ function AIStoryteller({ data, fullName }: { data: VinData; fullName: string }) 
   const paragraphs = useMemo(() => buildStory(data, fullName), [data, fullName]);
 
   return (
-    <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden border-t-4 border-green-500">
-      <div className="px-5 sm:px-6 py-4 sm:py-5 border-b border-surface-container flex items-center gap-3">
+    <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] shadow-sm overflow-hidden border-t-4 border-green-500">
+      <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-surface-container flex items-center gap-3">
         <div className="w-10 h-10 rounded-2xl bg-green-500/10 text-green-600 flex items-center justify-center flex-shrink-0">
           <BookOpen className="w-5 h-5" />
         </div>
@@ -504,7 +504,7 @@ function AIStoryteller({ data, fullName }: { data: VinData; fullName: string }) 
         </div>
       </div>
 
-      <div className="p-5 sm:p-6 space-y-3 text-sm sm:text-base text-on-surface-variant leading-relaxed">
+      <div className="p-4 sm:p-5 space-y-3 text-sm text-on-surface-variant leading-relaxed">
         {paragraphs.map((p, i) => (
           <p key={i} className="break-words">
             {p}
@@ -527,15 +527,15 @@ export default function VinReportAI({
   fullName: string;
 }) {
   return (
-    <section className="space-y-6">
-      <div className="text-center px-2">
-        <span className="text-[10px] sm:text-xs font-black text-primary uppercase tracking-[0.2em] mb-2 block">
+    <section className="space-y-5">
+      <div className="px-1">
+        <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-1.5 block">
           Powered by Advanced AI
         </span>
-        <h2 className="font-headline font-extrabold text-xl sm:text-2xl lg:text-3xl text-on-surface leading-tight">
+        <h2 className="font-headline font-extrabold text-lg sm:text-xl text-on-surface leading-tight">
           Don&apos;t just read the data.
           <span className="block text-primary">
-            Let AI understand this VIN for you.
+            Let AI understand this VIN.
           </span>
         </h2>
       </div>
