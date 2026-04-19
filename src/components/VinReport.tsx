@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useState, useCallback } from "react";
 import type { VinData } from "@/lib/api";
 import VinSearchForm from "./VinSearchForm";
+import VinReportAI from "./VinReportAI";
 
 /* ─────────────────────────────────────────────────────────────
    Download helper — unchanged from original
@@ -616,6 +617,9 @@ export default function VinReport({ data }: { data: VinData }) {
                 </div>
               </div>
             )}
+
+            {/* AI-powered report sections (Concierge, Risk Insights, Storyteller) */}
+            <VinReportAI data={data} fullName={fullName} />
 
             {/* Check another VIN */}
             <div className="bg-primary-container rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">

@@ -2,6 +2,7 @@ import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
 import HowItWorks from "@/components/HowItWorks";
 import FeaturesSection from "@/components/FeaturesSection";
+import AIFeaturesSection from "@/components/AIFeaturesSection";
 import ComparisonSection from "@/components/ComparisonSection";
 import PricingSection from "@/components/PricingSection";
 import Reviews from "@/components/Reviews";
@@ -71,6 +72,7 @@ export default function Home() {
       <TrustBar />
       <HowItWorks />
       <FeaturesSection />
+      <AIFeaturesSection />
       <ComparisonSection />
       <PricingSection />
       <Reviews />
