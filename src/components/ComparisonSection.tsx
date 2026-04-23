@@ -12,7 +12,7 @@ const rows: { feature: string; us: ColVal; carfax: ColVal; autocheck: ColVal }[]
   { feature: "Odometer Verification",      us: "check",   carfax: "check",   autocheck: "check" },
   { feature: "Theft & Recovery Records",   us: "check",   carfax: "check",   autocheck: "check" },
   { feature: "Full Equipment & Options",   us: "check",   carfax: "cross",   autocheck: "cross" },
-  { feature: "Pricing (Single Report)",    us: "$7.99",   carfax: "$44.99",  autocheck: "$24.99" },
+  { feature: "Pricing (Single Report)",    us: "FREE",    carfax: "$44.99",  autocheck: "$24.99" },
 ];
 
 function Cell({ val }: { val: ColVal }) {

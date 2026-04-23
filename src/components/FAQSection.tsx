@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     question: "Is this VIN check service really free?",
-    answer: "Yes, basic VIN decoding is completely free. You can decode any VIN to see vehicle specs, engine details, and basic information at no cost. Premium reports with full history, market values, and detailed analysis start at just $7.99.",
+    answer: "Yes — and for a limited time every single plan is completely free, including full premium reports with history, market values, photos, and detailed analysis. No credit card required. Regular pricing (starting at $7.99) resumes when the promotion ends.",
   },
 ];
 
