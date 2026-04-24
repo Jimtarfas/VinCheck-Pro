@@ -206,6 +206,25 @@ table{width:100%;border-collapse:collapse}td{padding:8px 16px;border-bottom:1px 
     const url  = URL.createObjectURL(blob);
     const win  = window.open(url, "_blank");
     if (win) { win.onload = () => { setTimeout(() => win.print(), 300); URL.revokeObjectURL(url); }; }
+
+    // Fire-and-forget: record this download against the signed-in user so it
+    // appears in their /dashboard. Guests are silently ignored by the API.
+    try {
+      void fetch("/api/user/track-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vin: data.vin,
+          make: makeName,
+          model: modelName,
+          year: year ?? null,
+        }),
+        keepalive: true,
+      });
+    } catch {
+      /* ignore */
+    }
+
     setLoading(false);
   }, [data]);
 

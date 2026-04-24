@@ -34,6 +34,29 @@ create policy "allow insert lookups"
 -- Service role bypasses RLS automatically.
 
 -- ============================================================
+-- Track every PDF / report download
+-- ============================================================
+create table if not exists public.vin_downloads (
+  id         bigserial primary key,
+  vin        text not null,
+  make       text,
+  model      text,
+  year       integer,
+  user_id    uuid references auth.users(id) on delete set null,
+  user_email text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists vin_downloads_created_at_idx on public.vin_downloads (created_at desc);
+create index if not exists vin_downloads_user_idx       on public.vin_downloads (user_id);
+create index if not exists vin_downloads_vin_idx        on public.vin_downloads (vin);
+
+alter table public.vin_downloads enable row level security;
+
+-- Inserts go through the service-role admin client (server-side API route),
+-- so no anon policy is needed here.
+
+-- ============================================================
 -- Admin setup
 -- After running this, go to Authentication → Users in Supabase
 -- and create a user with email: contact@carcheckervin.com

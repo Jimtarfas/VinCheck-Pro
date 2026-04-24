@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, X, ChevronRight, User, LogOut } from "lucide-react";
+import { Menu, X, ChevronRight, User, LogOut, FileText } from "lucide-react";
 import Logo from "./Logo";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -145,8 +145,16 @@ export default function Header() {
                 </span>
               </button>
               {userMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/10 py-1 z-50">
+                <div className="absolute right-0 top-full mt-2 w-56 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/10 py-1 z-50">
                   <p className="px-4 py-2 text-xs text-outline truncate">{user.email}</p>
+                  <div className="h-px bg-surface-container mx-2" />
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors cursor-pointer"
+                  >
+                    <FileText className="w-4 h-4" /> My reports
+                  </Link>
                   <div className="h-px bg-surface-container mx-2" />
                   <button
                     onClick={handleLogout}
@@ -200,12 +208,21 @@ export default function Header() {
           ))}
           <div className="pt-2 space-y-2">
             {user ? (
-              <button
-                onClick={() => { handleLogout(); setMobileOpen(false); }}
-                className="block w-full text-center px-5 py-3 text-sm font-semibold text-error bg-error-container/20 rounded-xl cursor-pointer"
-              >
-                Log out
-              </button>
+              <>
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full text-center px-5 py-3 text-sm font-semibold text-on-surface bg-surface-container rounded-xl"
+                >
+                  <FileText className="w-4 h-4" /> My reports
+                </Link>
+                <button
+                  onClick={() => { handleLogout(); setMobileOpen(false); }}
+                  className="block w-full text-center px-5 py-3 text-sm font-semibold text-error bg-error-container/20 rounded-xl cursor-pointer"
+                >
+                  Log out
+                </button>
+              </>
             ) : (
               <>
                 <Link href="/login" onClick={() => setMobileOpen(false)}
