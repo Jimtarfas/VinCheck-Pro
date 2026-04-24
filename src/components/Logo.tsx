@@ -28,32 +28,22 @@ export function LogoMark({
       {/* Navy rounded tile */}
       <rect width="40" height="40" rx="10" fill="var(--color-primary)" />
 
-      {/* Subtle inner highlight */}
-      <rect
-        x="1"
-        y="1"
-        width="38"
-        height="38"
-        rx="9"
-        fill="none"
-        stroke="rgba(255,255,255,0.08)"
-        strokeWidth="1"
-      />
-
-      {/* Big "C" arc for CarChecker — opens to the right */}
+      {/* "C" arc — precise 260° sweep, centered, opens to the right.
+          Center (20,20), radius 10.5, endpoints at ±50° from horizontal. */}
       <path
-        d="M 29 11.5 A 10.5 10.5 0 1 0 29 28.5"
+        d="M 26.75 11.96 A 10.5 10.5 0 1 0 26.75 28.04"
         stroke="#ffffff"
-        strokeWidth="3.2"
+        strokeWidth="3.4"
         strokeLinecap="round"
         fill="none"
       />
 
-      {/* Orange verification checkmark inside the C */}
+      {/* Orange verification checkmark — fully nested inside the C's interior.
+          All three points sit within radius ~7 of center (20,20). */}
       <path
-        d="M 14.5 20.2 L 18.3 24 L 25.5 15.8"
+        d="M 14.5 20.6 L 17.8 24 L 25 16"
         stroke="var(--color-secondary-container)"
-        strokeWidth="2.8"
+        strokeWidth="2.6"
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
