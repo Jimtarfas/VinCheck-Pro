@@ -383,7 +383,26 @@ export default function VinReport({ data }: { data: VinData }) {
       photo: data.photos?.[0],
       price: data.listing?.price,
     });
-  }, [data.vin, fullName, data.photos, data.listing?.price]);
+
+    // Client-side backstop for server-side tracking. If the user is signed
+    // in, this ensures the view lands in vin_lookups with their user_id so
+    // it shows in /dashboard. The API silently no-ops for guests.
+    try {
+      void fetch("/api/user/track-view", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vin: data.vin,
+          make: makeName,
+          model: modelName,
+          year: year ?? null,
+        }),
+        keepalive: true,
+      });
+    } catch {
+      /* ignore */
+    }
+  }, [data.vin, fullName, data.photos, data.listing?.price, makeName, modelName, year]);
 
   const handleShare = useCallback(async () => {
     if (typeof window === "undefined") return;

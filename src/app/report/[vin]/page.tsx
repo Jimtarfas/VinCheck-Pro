@@ -71,8 +71,11 @@ export default async function ReportPage({ params }: Props) {
   const makeName = data.make?.name || "Unknown Make";
   const modelName = data.model?.name || "Unknown Model";
 
-  // Fire-and-forget tracking (admin panel analytics)
-  void trackVinLookup({
+  // Track every view synchronously so the insert completes before the
+  // serverless function returns — otherwise Vercel can freeze the function
+  // before the fire-and-forget promise resolves, and rows never land.
+  // This also guarantees the row shows up in the user's /dashboard.
+  await trackVinLookup({
     vin: cleaned,
     make: data.make?.name ?? null,
     model: data.model?.name ?? null,

@@ -167,30 +167,44 @@ function EmptyState({ tab, hasQuery }: { tab: Tab; hasQuery: boolean }) {
   }
   if (tab === "downloads") {
     return (
-      <div className="px-6 py-16 text-center">
+      <div className="px-6 py-12 sm:py-16 text-center">
         <div className="w-14 h-14 mx-auto rounded-2xl bg-secondary-container/40 text-on-secondary-container flex items-center justify-center mb-4">
           <Download className="w-6 h-6" />
         </div>
         <p className="font-headline font-bold text-on-surface mb-1">
           No downloads yet
         </p>
-        <p className="text-sm text-on-surface-variant max-w-sm mx-auto">
-          Open a VIN report and tap <strong>Download Report</strong> — it&apos;ll
-          show up here.
+        <p className="text-sm text-on-surface-variant max-w-md mx-auto mb-4">
+          Open a VIN report while signed in and tap{" "}
+          <strong>Download Report</strong> — it&apos;ll appear here within a
+          second or two.
+        </p>
+        <p className="text-xs text-outline max-w-md mx-auto">
+          If you downloaded a report but don&apos;t see it here, make sure the{" "}
+          <code className="font-mono text-on-surface bg-surface-container px-1.5 py-0.5 rounded">
+            vin_downloads
+          </code>{" "}
+          table has been created in Supabase (run the block near the bottom of
+          <code className="font-mono text-on-surface bg-surface-container px-1.5 py-0.5 rounded ml-1">
+            supabase-setup.sql
+          </code>
+          ).
         </p>
       </div>
     );
   }
   return (
-    <div className="px-6 py-16 text-center">
+    <div className="px-6 py-12 sm:py-16 text-center">
       <div className="w-14 h-14 mx-auto rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
         <Eye className="w-6 h-6" />
       </div>
       <p className="font-headline font-bold text-on-surface mb-1">
         No reports yet
       </p>
-      <p className="text-sm text-on-surface-variant max-w-sm mx-auto mb-5">
-        Every VIN report you open while signed in will be listed here.
+      <p className="text-sm text-on-surface-variant max-w-md mx-auto mb-4">
+        Every VIN report you open <strong>while signed in</strong> will be
+        listed here. Reports viewed while logged out won&apos;t show up (they
+        live in your per-browser history on the home page).
       </p>
       <Link
         href="/"
