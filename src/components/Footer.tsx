@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
+import Logo from "./Logo";
 
 const checkLinks = [
   { href: "/vin-check",              label: "VIN Check" },
@@ -39,19 +40,9 @@ export default function Footer() {
 
           {/* Brand column */}
           <div className="col-span-2 md:col-span-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 17H3v-4l2-5h9l4 5h1a2 2 0 0 1 2 2v2h-2" />
-                  <circle cx="7" cy="17" r="2" />
-                  <circle cx="17" cy="17" r="2" />
-                  <path d="M9 17h6" />
-                </svg>
-              </div>
-              <span className="text-xl font-headline font-black text-white tracking-tighter">
-                VINCheck<span style={{ color: "var(--color-secondary-container)" }}> Pro</span>
-              </span>
-            </Link>
+            <div className="mb-5">
+              <Logo variant="onDark" size="md" />
+            </div>
             <p className="text-sm text-inverse-on-surface/50 leading-relaxed max-w-sm mb-6">
               Comprehensive vehicle history reports powered by trusted data sources. Decode any VIN, check title status, accidents, recalls, and market value in seconds.
             </p>
@@ -122,7 +113,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-inverse-on-surface/30">
-            &copy; {new Date().getFullYear()} VINCheck Pro. All rights reserved.
+            &copy; {new Date().getFullYear()} CarChecker VIN. All rights reserved.
           </p>
           <p className="text-xs text-inverse-on-surface/20">Powered by Auto.dev API</p>
         </div>

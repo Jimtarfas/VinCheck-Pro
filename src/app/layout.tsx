@@ -71,7 +71,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     name: "CarCheckerVIN",
     alternateName: "VINCheck Pro",
     url: SITE,
-    logo: { "@type": "ImageObject", url: `${SITE}/logo.png`, width: 512, height: 512 },
+    logo: { "@type": "ImageObject", url: `${SITE}/logo.svg`, width: 280, height: 56 },
     description: "Trusted vehicle history reports and VIN decoding for car buyers, sellers, and dealers.",
     foundingDate: "2025",
     contactPoint: [{
@@ -112,7 +112,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     description: "Instant VIN decoding and comprehensive vehicle history reports including title checks, accident history, theft records, odometer verification, and market value.",
     offers: [
       { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", description: "Year, make, model, engine, transmission and basic specs", availability: "https://schema.org/InStock" },
-      { "@type": "Offer", name: "Premium Vehicle History Report", price: "7.99", priceCurrency: "USD", description: "Full report with photos, equipment, recalls, market value and ownership history", availability: "https://schema.org/InStock" },
+      { "@type": "Offer", name: "Premium Vehicle History Report (Limited-Time Free)", price: "0", priceCurrency: "USD", description: "Full report with photos, equipment, recalls, market value and ownership history — currently free for a limited time.", availability: "https://schema.org/InStock" },
     ],
     aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000", bestRating: "5", worstRating: "1" },
   };

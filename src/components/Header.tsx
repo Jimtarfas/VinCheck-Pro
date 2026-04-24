@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, X, ChevronRight, User, LogOut } from "lucide-react";
+import Logo from "./Logo";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
@@ -112,19 +113,8 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         {/* ── Brand ── */}
-        <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-sm">
-            <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 17H3v-4l2-5h9l4 5h1a2 2 0 0 1 2 2v2h-2" />
-              <circle cx="7" cy="17" r="2" />
-              <circle cx="17" cy="17" r="2" />
-              <path d="M9 17h6" />
-            </svg>
-          </div>
-          <span className="text-xl font-headline font-black text-primary tracking-tighter">
-            VINCheck<span style={{ color: "var(--color-secondary-container)" }}> Pro</span>
-          </span>
-        </Link>
+        <Logo variant="onLight" size="md" />
+
 
         {/* ── Desktop nav ── */}
         <nav className="hidden md:flex items-center gap-1">
