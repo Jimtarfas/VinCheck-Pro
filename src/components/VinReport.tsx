@@ -351,6 +351,50 @@ export default function VinReport({ data }: { data: VinData }) {
   const modelName = data.model?.name || "Unknown Model";
   const fullName  = [year, makeName, modelName, trim].filter(Boolean).join(" ");
 
+  const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
+
+  const handleShare = useCallback(async () => {
+    if (typeof window === "undefined") return;
+    const url = window.location.href;
+    const title = `${fullName} — VIN Report`;
+    const text = `Vehicle history report for ${fullName} (VIN: ${data.vin})`;
+
+    // Try the native share sheet first (mobile + modern desktop).
+    const nav = navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
+    if (typeof nav.share === "function") {
+      try {
+        await nav.share({ title, text, url });
+        return;
+      } catch (err) {
+        // User cancelled — don't treat as an error, and don't fall through.
+        if (err instanceof Error && err.name === "AbortError") return;
+        // Any other share failure falls through to clipboard.
+      }
+    }
+
+    // Clipboard fallback.
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        // Legacy fallback for older browsers / insecure contexts.
+        const ta = document.createElement("textarea");
+        ta.value = url;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
+      setShareState("copied");
+      setTimeout(() => setShareState("idle"), 2000);
+    } catch {
+      setShareState("error");
+      setTimeout(() => setShareState("idle"), 2500);
+    }
+  }, [data.vin, fullName]);
+
   return (
     <div className="bg-surface min-h-screen pt-16">
 
@@ -408,9 +452,30 @@ export default function VinReport({ data }: { data: VinData }) {
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
                   <Printer className="w-4 h-4" /> Print
                 </button>
-                <button onClick={() => navigator.clipboard.writeText(window.location.href)}
-                  className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
-                  <Share2 className="w-4 h-4" /> Share
+                <button
+                  onClick={handleShare}
+                  aria-live="polite"
+                  className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer ${
+                    shareState === "copied"
+                      ? "bg-green-500/30 hover:bg-green-500/40"
+                      : shareState === "error"
+                      ? "bg-red-500/30 hover:bg-red-500/40"
+                      : "bg-white/10 hover:bg-white/20"
+                  }`}
+                >
+                  {shareState === "copied" ? (
+                    <>
+                      <Check className="w-4 h-4" /> Link copied!
+                    </>
+                  ) : shareState === "error" ? (
+                    <>
+                      <Share2 className="w-4 h-4" /> Copy failed
+                    </>
+                  ) : (
+                    <>
+                      <Share2 className="w-4 h-4" /> Share
+                    </>
+                  )}
                 </button>
               </div>
             </div>
