@@ -8,8 +8,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
+import { addToHistory } from "@/lib/vinHistory";
 import VinSearchForm from "./VinSearchForm";
 import VinReportAI from "./VinReportAI";
 
@@ -352,6 +353,18 @@ export default function VinReport({ data }: { data: VinData }) {
   const fullName  = [year, makeName, modelName, trim].filter(Boolean).join(" ");
 
   const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
+
+  // Persist this visit into the per-browser history so the home page
+  // can show it back to the user (guest or logged-in).
+  useEffect(() => {
+    if (!data.vin) return;
+    addToHistory({
+      vin: data.vin,
+      label: fullName || data.vin,
+      photo: data.photos?.[0],
+      price: data.listing?.price,
+    });
+  }, [data.vin, fullName, data.photos, data.listing?.price]);
 
   const handleShare = useCallback(async () => {
     if (typeof window === "undefined") return;

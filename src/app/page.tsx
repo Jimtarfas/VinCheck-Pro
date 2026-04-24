@@ -1,5 +1,6 @@
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
+import VinHistorySection from "@/components/VinHistorySection";
 import HowItWorks from "@/components/HowItWorks";
 import FeaturesSection from "@/components/FeaturesSection";
 import AIFeaturesSection from "@/components/AIFeaturesSection";
@@ -70,6 +71,7 @@ export default function Home() {
 
       <HeroSection />
       <TrustBar />
+      <VinHistorySection />
       <HowItWorks />
       <FeaturesSection />
       <AIFeaturesSection />
