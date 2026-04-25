@@ -62,3 +62,29 @@ alter table public.vin_downloads enable row level security;
 -- and create a user with email: contact@carcheckervin.com
 -- Then add that email to the ADMIN_EMAILS env var in Vercel.
 -- ============================================================
+
+-- ============================================================
+-- Contact form submissions
+-- ============================================================
+create table if not exists public.contact_submissions (
+  id         bigserial primary key,
+  name       text not null,
+  email      text not null,
+  subject    text not null,
+  message    text not null,
+  ip_hash    text,
+  user_agent text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists contact_submissions_created_at_idx
+  on public.contact_submissions (created_at desc);
+
+alter table public.contact_submissions enable row level security;
+
+drop policy if exists "allow insert contact" on public.contact_submissions;
+create policy "allow insert contact"
+  on public.contact_submissions for insert
+  to anon, authenticated
+  with check (true);
+-- Reads only via service-role admin client.

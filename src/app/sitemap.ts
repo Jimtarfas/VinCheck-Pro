@@ -56,6 +56,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
+  const buyingGuideStatePages: MetadataRoute.Sitemap = states.map((s) => ({
+    url: `${baseUrl}/guides/buying-used-car-in/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.75,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -127,6 +134,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/vin-check-vs-vinaudit`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/vin-check-vs-clearvin`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/vin-check-vs-bumper`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/dealers`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.5 },
     { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${baseUrl}/blog/category`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
     ...categoryPages,
@@ -138,6 +147,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/guides/how-to-read-a-vin`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/guides/what-is-a-vin-number`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/guides/free-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    ...buyingGuideStatePages,
     { url: `${baseUrl}/glossary`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/trust`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/help`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
