@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | CarCheckerVIN",
   },
   description:
-    "Free VIN check and decoder. Look up any VIN number to get instant vehicle history reports with full specs, real photos, equipment, recalls, market values & ownership data. Trusted by 50,000+ buyers.",
+    "Free VIN check & decoder — instant vehicle history reports with full specs, real photos, recalls, market values & ownership data. Trusted by 50,000+ buyers.",
   keywords: [
     "VIN check", "VIN checker", "VIN decoder", "free VIN check", "VIN lookup",
     "VIN number check", "check VIN", "vehicle history report", "car history check",
