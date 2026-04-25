@@ -1,9 +1,24 @@
 import type { MetadataRoute } from "next";
 import { makes } from "@/lib/makes";
 import { states } from "@/lib/states";
-import { blogPosts } from "@/lib/blog";
+import { sanityClient } from "@/sanity/client";
+import { groq } from "next-sanity";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+interface SanityPostStub {
+  slug: string;
+  publishedAt: string;
+  _updatedAt: string;
+}
+
+const sanityPostsForSitemap = groq`
+  *[_type == "post" && (!defined(noIndex) || noIndex == false) && defined(slug.current)] {
+    "slug": slug.current,
+    publishedAt,
+    _updatedAt
+  }
+`;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://carcheckervin.com";
   const now = new Date();
 
@@ -21,12 +36,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  const blogPages: MetadataRoute.Sitemap = blogPosts.map((p) => ({
-    url: `${baseUrl}/blog/${p.slug}`,
-    lastModified: new Date(p.date),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  let blogPages: MetadataRoute.Sitemap = [];
+  try {
+    const sanityPosts = await sanityClient.fetch<SanityPostStub[]>(sanityPostsForSitemap);
+    blogPages = sanityPosts.map((p) => ({
+      url: `${baseUrl}/blog/${p.slug}`,
+      lastModified: new Date(p._updatedAt || p.publishedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }));
+  } catch {
+    // If Sanity is unreachable during build, just skip blog URLs
+    blogPages = [];
+  }
 
   return [
     { url: baseUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
