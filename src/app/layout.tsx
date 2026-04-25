@@ -60,6 +60,9 @@ export const metadata: Metadata = {
     index: true, follow: true,
     googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
+  verification: {
+    yandex: "7131d6ab57cf4219",
+  },
   alternates: { canonical: "/" },
   verification: {
     google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
