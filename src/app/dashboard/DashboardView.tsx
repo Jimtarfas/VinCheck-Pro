@@ -2,7 +2,16 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Eye, Download, Search, ChevronRight, FileText } from "lucide-react";
+import {
+  Eye,
+  Download,
+  Search,
+  ChevronRight,
+  FileText,
+  AlertTriangle,
+  CheckCircle2,
+  Wrench,
+} from "lucide-react";
 
 export interface ActivityRow {
   id: string;
@@ -11,6 +20,23 @@ export interface ActivityRow {
   model: string | null;
   year: number | null;
   createdAt: string;
+}
+
+interface TableDiag {
+  ok: boolean;
+  byUserId: number;
+  byEmail: number;
+  error?: string;
+}
+
+export interface Diagnostics {
+  userId: string;
+  userEmail: string | null;
+  serviceRoleKeyConfigured: boolean;
+  supabaseUrlConfigured: boolean;
+  lookupsTable: TableDiag;
+  downloadsTable: TableDiag;
+  fatalError: string | null;
 }
 
 type Tab = "views" | "downloads";
@@ -41,12 +67,17 @@ function vehicleLabel(r: ActivityRow): string {
 export default function DashboardView({
   views,
   downloads,
+  diagnostics,
 }: {
   views: ActivityRow[];
   downloads: ActivityRow[];
+  diagnostics: Diagnostics;
 }) {
   const [tab, setTab] = useState<Tab>("views");
   const [query, setQuery] = useState("");
+  const [showDiag, setShowDiag] = useState(false);
+
+  const issues = collectIssues(diagnostics, views.length, downloads.length);
 
   const active = tab === "views" ? views : downloads;
   const filtered = query.trim()
@@ -61,6 +92,16 @@ export default function DashboardView({
 
   return (
     <>
+      {/* Diagnostics — only when there's a real problem worth surfacing */}
+      {issues.length > 0 && (
+        <DiagnosticsPanel
+          diagnostics={diagnostics}
+          issues={issues}
+          showDetails={showDiag}
+          onToggle={() => setShowDiag((v) => !v)}
+        />
+      )}
+
       {/* Stat cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
         <div className="bg-surface-container-lowest rounded-2xl p-5 shadow-sm">
@@ -212,6 +253,144 @@ function EmptyState({ tab, hasQuery }: { tab: Tab; hasQuery: boolean }) {
       >
         Check a VIN
       </Link>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Diagnostics
+───────────────────────────────────────────────────────────── */
+
+interface Issue {
+  level: "error" | "warning" | "info";
+  title: string;
+  body: string;
+}
+
+function collectIssues(d: Diagnostics, viewCount: number, downloadCount: number): Issue[] {
+  const issues: Issue[] = [];
+
+  if (d.fatalError) {
+    issues.push({
+      level: "error",
+      title: "Activity could not be loaded",
+      body: d.fatalError,
+    });
+    return issues;
+  }
+
+  if (!d.serviceRoleKeyConfigured) {
+    issues.push({
+      level: "error",
+      title: "SUPABASE_SERVICE_ROLE_KEY is not configured",
+      body: "Without the service-role key, the dashboard can't read activity. Add it as an env var in Vercel and redeploy.",
+    });
+  }
+  if (!d.supabaseUrlConfigured) {
+    issues.push({
+      level: "error",
+      title: "NEXT_PUBLIC_SUPABASE_URL is not configured",
+      body: "Add it as an env var in Vercel and redeploy.",
+    });
+  }
+
+  if (!d.lookupsTable.ok) {
+    issues.push({
+      level: "error",
+      title: "vin_lookups table is missing or unreadable",
+      body:
+        d.lookupsTable.error ||
+        "Run supabase-setup.sql in your Supabase SQL Editor. The vin_lookups block is at the very top of the file.",
+    });
+  } else if (viewCount === 0) {
+    issues.push({
+      level: "info",
+      title: "No reports recorded yet for your account",
+      body:
+        "Reports show up here only when viewed while signed in (this exact account). If you just opened a VIN, give the latest deploy 30–60 seconds to roll out, refresh this page, then try again.",
+    });
+  }
+
+  if (!d.downloadsTable.ok) {
+    issues.push({
+      level: "warning",
+      title: "vin_downloads table is missing — run the SQL migration",
+      body:
+        d.downloadsTable.error ||
+        "Open Supabase → SQL Editor → paste the new vin_downloads block from supabase-setup.sql (it's right above the Admin setup comment) → Run.",
+    });
+  } else if (downloadCount === 0 && viewCount > 0) {
+    issues.push({
+      level: "info",
+      title: "No downloads recorded yet",
+      body:
+        "Open one of your reports above and tap Download Report. The PDF window will open and the row should appear here within a second.",
+    });
+  }
+
+  return issues;
+}
+
+function DiagnosticsPanel({
+  diagnostics: d,
+  issues,
+  showDetails,
+  onToggle,
+}: {
+  diagnostics: Diagnostics;
+  issues: Issue[];
+  showDetails: boolean;
+  onToggle: () => void;
+}) {
+  const hasError = issues.some((i) => i.level === "error");
+  const hasWarning = issues.some((i) => i.level === "warning");
+  const tone = hasError
+    ? "bg-error-container/30 border-error/30 text-on-error-container"
+    : hasWarning
+    ? "bg-secondary-container/40 border-secondary/40 text-on-secondary-container"
+    : "bg-primary/8 border-primary/20 text-on-surface";
+  const Icon = hasError ? AlertTriangle : hasWarning ? Wrench : CheckCircle2;
+
+  return (
+    <div className={`rounded-2xl border ${tone} p-4 sm:p-5 mb-6`}>
+      <div className="flex items-start gap-3">
+        <div className="flex-shrink-0 mt-0.5">
+          <Icon className="w-5 h-5" />
+        </div>
+        <div className="flex-1 min-w-0 space-y-3">
+          {issues.map((issue, i) => (
+            <div key={i}>
+              <p className="font-headline font-bold text-sm">{issue.title}</p>
+              <p className="text-sm opacity-90 mt-0.5">{issue.body}</p>
+            </div>
+          ))}
+          <button
+            onClick={onToggle}
+            className="text-xs underline underline-offset-2 opacity-80 hover:opacity-100 cursor-pointer"
+          >
+            {showDetails ? "Hide diagnostics" : "Show diagnostics"}
+          </button>
+          {showDetails && (
+            <pre className="mt-2 text-[11px] font-mono bg-surface/60 text-on-surface rounded-xl p-3 overflow-x-auto whitespace-pre-wrap break-all">
+              {JSON.stringify(
+                {
+                  user_id: d.userId,
+                  user_email: d.userEmail,
+                  env: {
+                    NEXT_PUBLIC_SUPABASE_URL: d.supabaseUrlConfigured ? "set" : "MISSING",
+                    SUPABASE_SERVICE_ROLE_KEY: d.serviceRoleKeyConfigured ? "set" : "MISSING",
+                  },
+                  vin_lookups: d.lookupsTable,
+                  vin_downloads: d.downloadsTable,
+                  fatalError: d.fatalError,
+                },
+                null,
+                2,
+              )}
+            </pre>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
