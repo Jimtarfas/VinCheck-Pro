@@ -63,3 +63,51 @@ export const allCategoriesQuery = groq`
     "postCount": count(*[_type == "post" && references(^._id)])
   }
 `;
+
+export const postsByCategoryQuery = groq`
+  *[_type == "post" && category->slug.current == $slug && (!defined(noIndex) || noIndex == false)]
+  | order(publishedAt desc) {
+    ${POST_FIELDS}
+  }
+`;
+
+export const categoryBySlugQuery = groq`
+  *[_type == "category" && slug.current == $slug][0] {
+    _id, title, "slug": slug.current, description, color
+  }
+`;
+
+export const allCategorySlugsQuery = groq`
+  *[_type == "category" && defined(slug.current)][].slug.current
+`;
+
+export const postsByTagQuery = groq`
+  *[_type == "post" && $tag in tags && (!defined(noIndex) || noIndex == false)]
+  | order(publishedAt desc) {
+    ${POST_FIELDS}
+  }
+`;
+
+export const allTagsQuery = groq`
+  array::unique(*[_type == "post" && defined(tags)].tags[])
+`;
+
+export const allAuthorsQuery = groq`
+  *[_type == "author"] {
+    _id, name, "slug": slug.current, role, bio, avatar, social,
+    "postCount": count(*[_type == "post" && references(^._id)])
+  }
+`;
+
+export const authorBySlugQuery = groq`
+  *[_type == "author" && slug.current == $slug][0] {
+    _id, name, "slug": slug.current, role, bio, avatar, social
+  }
+`;
+
+export const postsByAuthorQuery = groq`
+  *[_type == "post" && author->slug.current == $slug && (!defined(noIndex) || noIndex == false)]
+  | order(publishedAt desc) {
+    ${POST_FIELDS}
+  }
+`;
