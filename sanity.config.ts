@@ -7,7 +7,7 @@ import { schemaTypes } from "./src/sanity/schemas";
 
 export default defineConfig({
   basePath: "/studio",
-  projectId: "oWhsIkKd6",
+  projectId: "s41e632p",
   dataset: "production",
   title: "CarCheckerVIN Blog",
   plugins: [structureTool(), visionTool()],
