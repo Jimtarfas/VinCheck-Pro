@@ -23,13 +23,16 @@ const guideLinks = [
 ];
 
 const companyLinks = [
-  { href: "/about",   label: "About Us" },
-  { href: "/#pricing", label: "Pricing" },
-  { href: "/#faq",    label: "FAQ" },
-  { href: "/login",   label: "Log In" },
-  { href: "/signup",  label: "Sign Up" },
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/terms",   label: "Terms of Service" },
+  { href: "/about",     label: "About Us" },
+  { href: "/contact",   label: "Contact" },
+  { href: "/dealers",   label: "For Dealers" },
+  { href: "/help",      label: "Help Center" },
+  { href: "/trust",     label: "Trust & Security" },
+  { href: "/#pricing",  label: "Pricing" },
+  { href: "/login",     label: "Log In" },
+  { href: "/signup",    label: "Sign Up" },
+  { href: "/privacy",   label: "Privacy Policy" },
+  { href: "/terms",     label: "Terms of Service" },
 ];
 
 export default function Footer() {
