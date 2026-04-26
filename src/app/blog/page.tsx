@@ -20,7 +20,10 @@ export const metadata: Metadata = {
     "car buying guide",
     "vin decoder blog",
   ],
-  alternates: { canonical: "/blog" },
+  alternates: {
+    canonical: "/blog",
+    types: { "application/rss+xml": "/blog/feed.xml" },
+  },
   openGraph: {
     title: "VIN Check Blog — Car Buying & Vehicle History Insights",
     description: "Expert guides on used car buying, VIN decoding, vehicle history, and avoiding fraud.",

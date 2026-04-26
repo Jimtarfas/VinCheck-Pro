@@ -111,3 +111,22 @@ export const postsByAuthorQuery = groq`
     ${POST_FIELDS}
   }
 `;
+
+// Auto-related posts: same category OR shared tags, excluding current slug.
+// Returns up to 3 most relevant.
+export const relatedPostsQuery = groq`
+  *[_type == "post"
+    && slug.current != $slug
+    && (!defined(noIndex) || noIndex == false)
+    && (
+      category->slug.current == $categorySlug
+      || count(tags[@ in $tags]) > 0
+    )]
+  | order(
+      // Prefer same-category posts, then by recency
+      (category->slug.current == $categorySlug) desc,
+      publishedAt desc
+    )[0...3] {
+    ${POST_FIELDS}
+  }
+`;

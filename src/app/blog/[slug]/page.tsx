@@ -7,7 +7,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { sanityClient, urlFor } from "@/sanity/client";
-import { postBySlugQuery, postSlugsQuery } from "@/sanity/queries";
+import { postBySlugQuery, postSlugsQuery, relatedPostsQuery } from "@/sanity/queries";
 import type { SanityPost } from "@/sanity/types";
 
 export const revalidate = 60;
@@ -72,6 +72,22 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await sanityClient.fetch<SanityPost>(postBySlugQuery, { slug });
 
   if (!post) notFound();
+
+  // Auto-related posts: same category OR shared tags. Falls back to manual
+  // relatedPosts field on the post if the auto query returns nothing.
+  let related: SanityPost[] = [];
+  try {
+    related = await sanityClient.fetch<SanityPost[]>(relatedPostsQuery, {
+      slug: post.slug,
+      categorySlug: post.category?.slug || "",
+      tags: post.tags || [],
+    } as Record<string, unknown>);
+  } catch {
+    related = [];
+  }
+  if (related.length === 0 && post.relatedPosts) {
+    related = post.relatedPosts;
+  }
 
   const heroUrl = post.heroImage ? urlFor(post.heroImage).width(1600).quality(85).url() : null;
   const ogImageUrl = (post.ogImage || post.heroImage)
@@ -227,11 +243,11 @@ export default async function BlogPostPage({ params }: Props) {
             <VinSearchForm size="sm" />
           </div>
 
-          {post.relatedPosts && post.relatedPosts.length > 0 && (
+          {related && related.length > 0 && (
             <section className="mt-16">
               <h2 className="text-xl font-bold text-slate-900 mb-5">Related Posts</h2>
               <div className="grid sm:grid-cols-3 gap-4">
-                {post.relatedPosts.map((p) => {
+                {related.map((p) => {
                   const url = p.heroImage ? urlFor(p.heroImage).width(400).height(250).url() : null;
                   return (
                     <Link

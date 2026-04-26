@@ -12,7 +12,16 @@ import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
 import { addToHistory } from "@/lib/vinHistory";
 import VinSearchForm from "./VinSearchForm";
-import VinReportAI from "./VinReportAI";
+import dynamic from "next/dynamic";
+
+// Lazy-load AI section — it's below the fold and only needed after initial render.
+const VinReportAI = dynamic(() => import("./VinReportAI"), {
+  loading: () => (
+    <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center text-sm text-slate-400">
+      Loading insights…
+    </div>
+  ),
+});
 
 /* ─────────────────────────────────────────────────────────────
    Download helper — unchanged from original
