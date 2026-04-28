@@ -15,7 +15,7 @@ import {
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Press Kit & Media Resources | CarCheckerVIN",
+  title: "Press Kit & Media Resources",
   description:
     "CarCheckerVIN press kit: company facts, brand assets, spokespeople, recent announcements, and direct contact for media inquiries.",
   keywords: [

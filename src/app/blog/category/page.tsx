@@ -9,12 +9,12 @@ import type { SanityCategory } from "@/sanity/types";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Blog Categories — All Topics | CarCheckerVIN",
+  title: "Blog Categories — All Topics",
   description:
     "Browse all CarCheckerVIN blog categories — from buying guides and vehicle safety to VIN education, market insights, and ownership tips.",
   alternates: { canonical: "/blog/category" },
   openGraph: {
-    title: "Blog Categories — All Topics | CarCheckerVIN",
+    title: "Blog Categories — All Topics",
     description:
       "Browse all CarCheckerVIN blog categories — buying guides, VIN education, vehicle safety, and more.",
     url: "https://carcheckervin.com/blog/category",

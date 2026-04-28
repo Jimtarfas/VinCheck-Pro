@@ -16,7 +16,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "Free VIN Tools — Decoder, Mileage Checker & More | CarCheckerVIN",
+  title: "Free VIN Tools — Decoder, Mileage Checker & More",
   description:
     "A free hub of vehicle research tools: VIN decoder, salvage title check, stolen vehicle lookup, odometer verification, state VIN check, and an embeddable widget.",
   keywords: [

@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "VIN & Vehicle History Glossary — 60+ Terms Defined | CarCheckerVIN",
+  title: "VIN & Vehicle History Glossary — 60+ Terms Defined",
   description:
     "The complete VIN and vehicle history glossary. 60+ car-buying, title brand, and automotive terms defined in plain English to help you shop smarter.",
   keywords: [

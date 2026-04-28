@@ -16,8 +16,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title:
-    "Vehicle Fraud Prevention: The Definitive 2026 Guide | CarCheckerVIN",
+  title: "Vehicle Fraud Prevention: The Definitive 2026 Guide",
   description:
     "How to spot title fraud, odometer rollback, salvage washing, VIN cloning, dealer scams, and online fraud &mdash; with real data from NICB, NMVTIS, FTC, and NHTSA.",
   keywords: [

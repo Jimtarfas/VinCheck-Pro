@@ -15,8 +15,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title:
-    "VIN Decoding: The Master Guide to All 17 Characters (2026) | CarCheckerVIN",
+  title: "VIN Decoding: All 17 Characters Explained (2026)",
   description:
     "Decode every position of a 17-character VIN: WMI, VDS, check digit, model year codes, plant codes, and serial numbers. The most thorough VIN decoder guide on the web.",
   keywords: [

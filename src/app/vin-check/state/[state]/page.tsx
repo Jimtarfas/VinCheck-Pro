@@ -19,7 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const state = getStateBySlug(slug);
   if (!state) return { title: "VIN Check by State" };
 
-  const title = `${state.name} VIN Check — Vehicle History Reports in ${state.name} | CarCheckerVIN`;
+  // Title-only — layout's title template auto-appends "| CarCheckerVIN".
+  // Keep this <55 chars so total stays under Bing's 70-char limit.
+  const title = `${state.name} VIN Check — Vehicle History Reports`;
   const description = `Run a free ${state.name} VIN check. Decode any VIN registered in ${state.name}, get a full vehicle history report, ${state.dmvName} title brand info, and lemon law facts.`;
 
   return {

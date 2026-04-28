@@ -4,8 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title:
-    "How to Read a VIN Number — Complete VIN Breakdown Guide | CarCheckerVIN",
+  title: "How to Read a VIN Number — Complete VIN Breakdown Guide",
   description:
     "Learn how to read a VIN number with our step-by-step guide. Understand all 17 VIN digits, including the WMI, VDS, and VIS sections, and what each position means.",
   keywords: [

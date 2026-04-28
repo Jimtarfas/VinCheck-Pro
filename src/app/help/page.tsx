@@ -4,7 +4,7 @@ import { HelpCircle, FileText, CreditCard, Wrench, Mail, Phone, Clock } from "lu
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Help & Support — VIN Check FAQ | CarCheckerVIN",
+  title: "Help & Support — VIN Check FAQ",
   description:
     "Answers to the most common VIN lookup, vehicle history report, account, billing, and technical questions. Get help fast from the CarCheckerVIN support team.",
   keywords: [

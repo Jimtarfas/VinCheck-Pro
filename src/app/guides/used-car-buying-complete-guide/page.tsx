@@ -16,8 +16,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title:
-    "The Complete Used Car Buying Guide (2026 Edition) | CarCheckerVIN",
+  title: "The Complete Used Car Buying Guide (2026 Edition)",
   description:
     "Everything you need to buy a used car in 2026: budgeting, financing, where to look, inspections, negotiation, paperwork, and post-purchase steps from industry experts.",
   keywords: [

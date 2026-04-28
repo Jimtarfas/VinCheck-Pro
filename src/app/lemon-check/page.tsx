@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "Lemon Check by VIN — Lemon Law Buyback Lookup | CarCheckerVIN",
+  title: "Lemon Check by VIN — Lemon Law Buyback Lookup",
   description:
     "Check if a vehicle is a lemon law buyback by VIN. See manufacturer repurchase records, defect history, and state lemon law variations before you buy.",
   keywords: [

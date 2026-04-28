@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "CarCheckerVIN vs AutoCheck: 2026 Comparison | CarCheckerVIN",
+  title: "CarCheckerVIN vs AutoCheck: 2026 Comparison",
   description:
     "CarCheckerVIN vs AutoCheck (by Experian) compared on price, data sources, and report depth. See why drivers pick a cheaper Carfax alternative without the AutoCheck Score paywall.",
   keywords: [

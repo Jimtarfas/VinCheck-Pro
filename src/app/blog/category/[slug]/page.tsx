@@ -36,11 +36,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     `Read the latest CarCheckerVIN articles in the ${category.title} category — guides, tips, and insights.`;
 
   return {
-    title: `${category.title} — VIN Check Blog | CarCheckerVIN`,
+    title: `${category.title} — VIN Check Blog`,
     description,
     alternates: { canonical: `/blog/category/${category.slug}` },
     openGraph: {
-      title: `${category.title} — VIN Check Blog | CarCheckerVIN`,
+      title: `${category.title} — VIN Check Blog`,
       description,
       url: `https://carcheckervin.com/blog/category/${category.slug}`,
       type: "website",

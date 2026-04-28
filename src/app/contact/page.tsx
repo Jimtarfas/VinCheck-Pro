@@ -14,7 +14,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact Us — Get in Touch | CarCheckerVIN",
+  title: "Contact Us — Get in Touch",
   description:
     "Contact CarCheckerVIN for support, partnerships, press inquiries, or legal questions. Email, phone, and message form — our team replies within 24 hours.",
   keywords: [

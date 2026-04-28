@@ -27,9 +27,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state: slug } = await params;
   const state = getStateBySlug(slug);
-  if (!state) return { title: "Buying a Used Car — State Guides | CarCheckerVIN" };
+  if (!state) return { title: "Buying a Used Car — State Guides" };
 
-  const title = `Buying a Used Car in ${state.name} — Complete 2026 Guide | CarCheckerVIN`;
+  const title = `Buying a Used Car in ${state.name} — Complete 2026 Guide`;
   const description = `Step-by-step guide to buying a used car in ${state.name}. ${state.dmvName} title transfer, sales tax, ${state.name} lemon law, and inspection requirements explained.`;
 
   return {

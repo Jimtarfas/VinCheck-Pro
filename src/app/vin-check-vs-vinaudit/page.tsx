@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "CarCheckerVIN vs VinAudit: Which VIN Decoder Wins? | CarCheckerVIN",
+  title: "CarCheckerVIN vs VinAudit: Which VIN Decoder Wins?",
   description:
     "CarCheckerVIN vs VinAudit compared on price, NMVTIS data depth, report speed, and presentation. A fair side-by-side breakdown for buyers shopping a VIN decoder.",
   keywords: [

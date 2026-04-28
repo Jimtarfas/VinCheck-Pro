@@ -15,8 +15,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title:
-    "Vehicle History Reports: Everything You Need to Know (2026) | CarCheckerVIN",
+  title: "Vehicle History Reports: Everything You Need to Know (2026)",
   description:
     "What&rsquo;s in a vehicle history report, where the data comes from (NMVTIS, NICB, NHTSA), how to read one, and how providers like Carfax, AutoCheck, and CarCheckerVIN compare.",
   keywords: [

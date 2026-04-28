@@ -19,7 +19,7 @@ import {
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "VIN Check for Dealers — Wholesale Pricing & API | CarCheckerVIN",
+  title: "VIN Check for Dealers — Wholesale Pricing & API",
   description:
     "Wholesale VIN check pricing from $1/report, REST API access, bulk lookups, and white-label vehicle history reports for dealers, auto auctions, and BHPH lots.",
   keywords: [

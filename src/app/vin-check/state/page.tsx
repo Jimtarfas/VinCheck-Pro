@@ -6,7 +6,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { states } from "@/lib/states";
 
 export const metadata: Metadata = {
-  title: "VIN Check by State — All 50 US States | CarCheckerVIN",
+  title: "VIN Check by State — All 50 US States",
   description: "Free VIN check for every US state. Decode any VIN, view title brand info by state, lemon law facts, and full vehicle history reports across all 50 states.",
   keywords: [
     "vin check by state",

@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "CarCheckerVIN vs Bumper: Pricing & Features Compared | CarCheckerVIN",
+  title: "CarCheckerVIN vs Bumper: Pricing & Features Compared",
   description:
     "CarCheckerVIN vs Bumper compared on price, subscription model, monitoring, and report depth. See why pay-as-you-go beats Bumper&rsquo;s $19.99/month subscription.",
   keywords: [

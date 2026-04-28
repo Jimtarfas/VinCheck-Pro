@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "Vehicle Accident History Check by VIN — Crash Report Lookup | CarCheckerVIN",
+  title: "Vehicle Accident History Check by VIN — Crash Report Lookup",
   description:
     "Run an accident history check by VIN to see reported crashes, insurance claims, and damage records. Spot hidden collision damage before you buy.",
   keywords: [

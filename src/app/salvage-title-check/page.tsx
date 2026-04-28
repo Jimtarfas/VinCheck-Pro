@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "Salvage Title Check by VIN — Rebuilt & Branded Title Lookup | CarCheckerVIN",
+  title: "Salvage Title Check by VIN — Rebuilt & Branded Title Lookup",
   description:
     "Check for salvage, rebuilt, flood, junk, and lemon title brands by VIN. See how to spot a branded title before you buy and avoid costly hidden damage.",
   keywords: [

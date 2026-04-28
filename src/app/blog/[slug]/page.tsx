@@ -32,8 +32,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogImageSource = post.ogImage || post.heroImage;
   const ogImageUrl = ogImageSource ? urlFor(ogImageSource).width(1200).height(630).url() : undefined;
 
+  // Truncate raw title to ~52 chars so layout's "| CarCheckerVIN" suffix
+  // keeps the total <70 chars (Bing's title-too-long threshold).
+  const seoT = post.seoTitle || post.title;
+  const safeTitle = seoT.length > 52 ? `${seoT.slice(0, 49).trimEnd()}…` : seoT;
+
   return {
-    title: post.seoTitle || post.title,
+    title: safeTitle,
     description: post.seoDescription || post.excerpt,
     keywords: post.keywords,
     alternates: { canonical: post.canonicalUrl || `/blog/${post.slug}` },

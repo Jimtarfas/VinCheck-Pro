@@ -16,8 +16,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title:
-    "Used Car Financing: The Complete 2026 Guide | CarCheckerVIN",
+  title: "Used Car Financing: The Complete 2026 Guide",
   description:
     "How to finance a used car in 2026: credit scores, dealer vs bank vs credit union, pre-approval, APR vs total cost, leasing vs buying, refinancing, and pitfalls.",
   keywords: [

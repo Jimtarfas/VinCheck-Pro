@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "CarCheckerVIN vs ClearVin: Side-by-Side (2026) | CarCheckerVIN",
+  title: "CarCheckerVIN vs ClearVin: Side-by-Side (2026)",
   description:
     "CarCheckerVIN vs ClearVin compared on price, title brand depth, photos, and report quality. A fair 2026 side-by-side breakdown for used-car buyers.",
   keywords: [

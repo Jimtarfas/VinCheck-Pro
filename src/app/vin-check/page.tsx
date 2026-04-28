@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Free VIN Check by Make — Decode Any Vehicle | CarCheckerVIN",
+  title: "Free VIN Check by Make — Decode Any Vehicle",
   description:
     "Free VIN check and decoder for every car brand. Look up Toyota, Ford, Honda, BMW, Tesla, and 30+ makes. Get full vehicle history, specs, photos, and market values instantly.",
   keywords: [

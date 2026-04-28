@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "Free VIN Check — Decode Any VIN Number for Free | CarCheckerVIN",
+  title: "Free VIN Check — Decode Any VIN Number for Free",
   description:
     "Run a free VIN check to decode any vehicle identification number. See what free VIN checks include, how they compare to premium reports, and why every buyer should use one.",
   keywords: [

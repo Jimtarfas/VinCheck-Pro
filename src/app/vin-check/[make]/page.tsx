@@ -19,7 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const make = getMakeBySlug(slug);
   if (!make) return { title: "VIN Check" };
 
-  const title = `${make.name} VIN Check & Decoder — Free ${make.name} VIN Lookup | CarCheckerVIN`;
+  // Title-only — layout's title template auto-appends "| CarCheckerVIN".
+  const title = `${make.name} VIN Check — Free Decoder & Vehicle History`;
   const description = `Free ${make.name} VIN check and decoder. Look up any ${make.name} VIN to get full vehicle specs, history, photos, market value, equipment lists, and recall info. Trusted by 50,000+ buyers.`;
 
   return {

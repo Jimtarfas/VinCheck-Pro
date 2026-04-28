@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "Stolen Vehicle Check by VIN — Is This Car Stolen? | CarCheckerVIN",
+  title: "Stolen Vehicle Check by VIN — Is This Car Stolen?",
   description:
     "Run a stolen vehicle check by VIN against the NICB and law-enforcement theft databases. Find out if a car is reported stolen before you buy in seconds.",
   keywords: [

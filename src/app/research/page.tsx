@@ -14,7 +14,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "Vehicle History Research & Data Studies | CarCheckerVIN",
+  title: "Vehicle History Research & Data Studies",
   description:
     "Original research from CarCheckerVIN: theft rankings, salvage migration patterns, EV battery degradation studies, hurricane vehicle tracking, and used-car price analysis.",
   keywords: [

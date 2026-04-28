@@ -4,8 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title:
-    "What is a VIN Number? Complete Guide to Vehicle Identification Numbers | CarCheckerVIN",
+  title: "What is a VIN Number? Complete Guide to Vehicle Identification Numbers",
   description:
     "Learn what a VIN number is, why it matters, and where to find it on any vehicle. Comprehensive guide to Vehicle Identification Numbers with history, structure, and practical uses.",
   keywords: [

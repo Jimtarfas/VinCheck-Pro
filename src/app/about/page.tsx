@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "About CarCheckerVIN — Trusted Vehicle History Reports Since 2025",
+  title: "About — Trusted Vehicle History Reports",
   description:
     "Meet the team behind CarCheckerVIN. We source NMVTIS, NICB, and manufacturer data to deliver accurate, affordable vehicle history reports buyers trust.",
   keywords: [

@@ -13,7 +13,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "Trust & Security — How We Protect Your Data | CarCheckerVIN",
+  title: "Trust & Security — How We Protect Your Data",
   description:
     "Learn how CarCheckerVIN sources vehicle data from NMVTIS, NICB, and OEM APIs, encrypts every transaction, and protects your privacy under GDPR and CCPA.",
   keywords: [

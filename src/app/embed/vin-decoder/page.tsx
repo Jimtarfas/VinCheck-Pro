@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "Free VIN Decoder Widget | CarCheckerVIN",
+  title: "Free VIN Decoder Widget",
   description:
     "Embeddable VIN decoder widget by CarCheckerVIN. Free, no signup, NMVTIS-backed.",
   alternates: { canonical: "/embed/vin-decoder" },

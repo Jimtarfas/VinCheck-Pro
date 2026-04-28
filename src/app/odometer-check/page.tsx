@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "Odometer & Mileage Check by VIN — Detect Rollback Fraud | CarCheckerVIN",
+  title: "Odometer & Mileage Check by VIN — Detect Rollback Fraud",
   description:
     "Check a vehicle&rsquo;s mileage history by VIN to detect odometer rollback and odometer fraud. NMVTIS-backed mileage records that protect your wallet.",
   keywords: [

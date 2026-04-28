@@ -6,7 +6,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 
 export const metadata: Metadata = {
-  title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative | CarCheckerVIN",
+  title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative",
   description:
     "CarCheckerVIN vs Carfax compared side-by-side. See pricing ($7.99 vs $44.99), data sources, included reports, and why drivers are switching to a smarter Carfax alternative.",
   keywords: [

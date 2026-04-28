@@ -14,12 +14,12 @@ interface AuthorWithCount extends SanityAuthor {
 }
 
 export const metadata: Metadata = {
-  title: "Our Editorial Team | CarCheckerVIN",
+  title: "Our Editorial Team",
   description:
     "Meet the CarCheckerVIN editorial team — automotive researchers, journalists, and industry experts producing trusted VIN, buying, and ownership guidance.",
   alternates: { canonical: "/author" },
   openGraph: {
-    title: "Our Editorial Team | CarCheckerVIN",
+    title: "Our Editorial Team",
     description:
       "Meet the CarCheckerVIN editorial team — automotive researchers and industry experts.",
     url: "https://carcheckervin.com/author",
