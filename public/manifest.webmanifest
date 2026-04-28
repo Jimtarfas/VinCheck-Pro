@@ -1,0 +1,22 @@
+{
+  "name": "CarCheckerVIN — Free VIN Check & Vehicle History Reports",
+  "short_name": "CarCheckerVIN",
+  "description": "Decode any VIN to get instant vehicle history reports with full specs, real photos, recalls, market values & ownership data.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "lang": "en-US",
+  "categories": ["productivity", "utilities", "automotive"],
+  "icons": [
+    { "src": "/logo-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Run a VIN check", "short_name": "VIN Check", "url": "/" },
+    { "name": "Read the blog", "short_name": "Blog", "url": "/blog" },
+    { "name": "VIN Glossary", "short_name": "Glossary", "url": "/glossary" }
+  ]
+}

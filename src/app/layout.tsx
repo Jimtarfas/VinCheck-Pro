@@ -6,6 +6,9 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 const GA_ID = "G-7HL13B05JH";
+// Microsoft Clarity — free heatmaps & session replays from Microsoft.
+// Bing reportedly uses Clarity engagement signals as a ranking input.
+const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -154,6 +157,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="dns-prefetch" href="https://api.auto.dev" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://vjyntseiimvuwbuknocp.supabase.co" />
+
+        {/* PWA + Windows tile signals — Bing rewards sites with full app metadata */}
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <meta name="application-name" content="CarCheckerVIN" />
+        <meta name="apple-mobile-web-app-title" content="CarCheckerVIN" />
+        <meta name="theme-color" content="#4f46e5" />
+        <meta name="msapplication-TileColor" content="#4f46e5" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+
+        {/* Geo-targeting (US) — Bing uses these for regional results */}
+        <meta name="geo.region" content="US" />
+        <meta name="geo.placename" content="United States" />
+        <meta name="ICBM" content="39.8283, -98.5795" />
+
+        {/* Sitemap auto-discovery (in addition to robots.txt) */}
+        <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
@@ -179,6 +198,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             gtag('config', '${GA_ID}', { send_page_view: true });
           `}
         </Script>
+        {CLARITY_ID && (
+          <Script id="clarity-init" strategy="lazyOnload">
+            {`(function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "${CLARITY_ID}");`}
+          </Script>
+        )}
       </body>
     </html>
   );
