@@ -51,13 +51,13 @@ export default function VinSearchForm({ size = "lg", onDark = false }: { size?: 
       )}
 
       {isLg && (
-        <div className={`mt-4 flex items-center gap-6 text-xs font-semibold uppercase tracking-widest ${onDark ? "text-primary-fixed/90" : "text-on-surface-variant"}`}>
+        <div className={`mt-4 flex items-center gap-6 text-xs font-semibold uppercase tracking-widest ${onDark ? "text-white" : "text-slate-700"}`}>
           <span className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             100% Secure
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-secondary-container" />
+            <span className="w-2 h-2 rounded-full bg-secondary-container" />
             Instant Results
           </span>
         </div>
