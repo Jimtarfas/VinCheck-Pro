@@ -468,7 +468,7 @@ export default function VinReport({ data }: { data: VinData }) {
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           {/* Back link */}
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-primary-fixed/90 hover:text-primary-fixed mb-5 sm:mb-6 transition-colors">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-white/85 hover:text-white mb-5 sm:mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
@@ -481,12 +481,12 @@ export default function VinReport({ data }: { data: VinData }) {
                   <Shield className="w-3 h-3" /> Report Generated
                 </span>
                 {data.categories?.primaryBodyType && (
-                  <span className="px-3 py-1 bg-white/10 text-primary-fixed/80 text-xs font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-white/10 text-white/85 text-xs font-semibold rounded-full">
                     {data.categories.primaryBodyType}
                   </span>
                 )}
                 {data.categories?.vehicleSize && (
-                  <span className="px-3 py-1 bg-white/10 text-primary-fixed/80 text-xs font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-white/10 text-white/85 text-xs font-semibold rounded-full">
                     {data.categories.vehicleSize}
                   </span>
                 )}
@@ -497,8 +497,8 @@ export default function VinReport({ data }: { data: VinData }) {
                 {year && <span className="text-secondary-fixed-dim">{year} </span>}
                 {makeName} {modelName}
               </h1>
-              {styleName && <p className="text-sm sm:text-base text-primary-fixed/95 mb-2 break-words">{styleName}</p>}
-              <p className="font-mono text-[11px] sm:text-sm tracking-wider sm:tracking-widest text-primary-fixed/85 break-all">VIN: {data.vin}</p>
+              {styleName && <p className="text-sm sm:text-base text-white/85 mb-2 break-words">{styleName}</p>}
+              <p className="font-mono text-[11px] sm:text-sm tracking-wider sm:tracking-widest text-white/85 break-all">VIN: {data.vin}</p>
 
               {/* Action buttons */}
               <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
@@ -565,25 +565,25 @@ export default function VinReport({ data }: { data: VinData }) {
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs text-primary-fixed/90 font-semibold uppercase tracking-wider">Asking Price</p>
+                    <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Asking Price</p>
                     <p className="text-xl sm:text-2xl font-headline font-black text-secondary-container break-words">{data.listing.price}</p>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs text-primary-fixed/90 font-semibold uppercase tracking-wider">Mileage</p>
+                    <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Mileage</p>
                     <p className="text-lg sm:text-xl font-headline font-bold text-white break-words">{data.listing.mileage}</p>
                   </div>
                   {data.listing.displayColor && (
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs text-primary-fixed/90 font-semibold uppercase tracking-wider">Color</p>
+                      <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Color</p>
                       <p className="text-base sm:text-lg font-bold text-white break-words">{data.listing.displayColor}</p>
                     </div>
                   )}
                   {data.listing.dealerName && (
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs text-primary-fixed/90 font-semibold uppercase tracking-wider">Dealer</p>
+                      <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Dealer</p>
                       <p className="text-sm font-semibold text-white break-words">{data.listing.dealerName}</p>
                       {data.listing.city && data.listing.state && (
-                        <p className="text-xs text-primary-fixed/85 flex items-center gap-1 mt-0.5 break-words">
+                        <p className="text-xs text-white/85 flex items-center gap-1 mt-0.5 break-words">
                           <MapPin className="w-3 h-3 flex-shrink-0" />{data.listing.city}, {data.listing.state}
                         </p>
                       )}
@@ -747,7 +747,7 @@ export default function VinReport({ data }: { data: VinData }) {
             <div className="bg-primary-container rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
               <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
               <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
-              <p className="text-sm sm:text-base text-primary-fixed/90 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
+              <p className="text-sm sm:text-base text-white/85 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
               <div className="max-w-lg mx-auto">
                 <VinSearchForm size="sm" />
               </div>

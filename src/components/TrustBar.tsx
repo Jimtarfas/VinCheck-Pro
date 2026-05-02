@@ -15,7 +15,7 @@ export default function TrustBar() {
             className={`text-center text-white ${i > 0 ? "md:border-l md:border-white/10" : ""} ${i === 2 ? "md:border-l" : ""} ${i % 2 === 1 ? "border-l border-white/10 md:border-l" : ""}`}
           >
             <p className="text-3xl sm:text-4xl font-headline font-black mb-1">{value}</p>
-            <p className="text-[11px] sm:text-sm opacity-75 uppercase tracking-widest font-semibold">{label}</p>
+            <p className="text-[11px] sm:text-sm text-white/85 uppercase tracking-widest font-semibold">{label}</p>
           </div>
         ))}
       </div>

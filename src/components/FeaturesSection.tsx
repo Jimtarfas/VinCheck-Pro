@@ -161,7 +161,7 @@ export default function FeaturesSection() {
                   <h4 className={`text-xl sm:text-2xl font-headline font-bold mb-2 sm:mb-3 ${dark ? "text-white" : "text-on-surface"}`}>
                     {title}
                   </h4>
-                  <p className={`text-sm leading-relaxed ${dark ? "text-primary-fixed/80" : "text-on-surface-variant"}`}>
+                  <p className={`text-sm leading-relaxed ${dark ? "text-white/85" : "text-on-surface-variant"}`}>
                     {desc}
                   </p>
                 </div>

@@ -147,7 +147,7 @@ export default function VinCheckVsCarfaxPage() {
                       ) : carchecker ? (
                         <Check className="w-5 h-5 text-emerald-500 mx-auto" />
                       ) : (
-                        <X className="w-5 h-5 text-slate-300 mx-auto" />
+                        <X className="w-5 h-5 text-slate-500 mx-auto" />
                       )}
                     </td>
                     <td className="px-4 py-3 text-center">
@@ -158,7 +158,7 @@ export default function VinCheckVsCarfaxPage() {
                       ) : carfax ? (
                         <Check className="w-5 h-5 text-emerald-500 mx-auto" />
                       ) : (
-                        <X className="w-5 h-5 text-slate-300 mx-auto" />
+                        <X className="w-5 h-5 text-slate-500 mx-auto" />
                       )}
                     </td>
                   </tr>

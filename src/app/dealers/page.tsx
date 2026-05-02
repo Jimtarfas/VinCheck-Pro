@@ -488,7 +488,7 @@ export default function DealersPage() {
                       ) : row.carfax ? (
                         <Check className="w-5 h-5 text-emerald-500 mx-auto" />
                       ) : (
-                        <X className="w-5 h-5 text-slate-300 mx-auto" />
+                        <X className="w-5 h-5 text-slate-500 mx-auto" />
                       )}
                     </td>
                     <td className="px-5 py-3.5 text-center">
@@ -497,7 +497,7 @@ export default function DealersPage() {
                       ) : row.ours ? (
                         <Check className="w-5 h-5 text-emerald-500 mx-auto" />
                       ) : (
-                        <X className="w-5 h-5 text-slate-300 mx-auto" />
+                        <X className="w-5 h-5 text-slate-500 mx-auto" />
                       )}
                     </td>
                   </tr>

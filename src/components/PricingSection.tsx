@@ -94,20 +94,20 @@ export default function PricingSection() {
                 <h3 className={`text-4xl sm:text-5xl font-headline font-black ${plan.popular ? "text-white" : "text-primary"}`}>
                   FREE
                 </h3>
-                <span className={`text-lg sm:text-xl line-through ${plan.popular ? "text-primary-fixed/85" : "text-outline/70"}`}>
+                <span className={`text-lg sm:text-xl line-through ${plan.popular ? "text-white/70" : "text-outline/70"}`}>
                   {plan.originalPrice}
                 </span>
               </div>
-              <p className={`text-sm font-bold mb-1 ${plan.popular ? "text-primary-fixed/95" : "text-on-surface-variant"}`}>
+              <p className={`text-sm font-bold mb-1 ${plan.popular ? "text-white" : "text-on-surface-variant"}`}>
                 {plan.reports}
               </p>
-              <p className={`text-xs mb-8 ${plan.popular ? "text-primary-fixed/90" : "text-outline"}`}>
+              <p className={`text-xs mb-8 ${plan.popular ? "text-white/85" : "text-outline"}`}>
                 {plan.desc}
               </p>
 
               <ul className="space-y-3 mb-8 sm:mb-10 flex-1">
                 {features.map((f) => (
-                  <li key={f} className={`flex items-start gap-2.5 text-sm ${plan.popular ? "text-primary-fixed" : "text-on-surface-variant"}`}>
+                  <li key={f} className={`flex items-start gap-2.5 text-sm ${plan.popular ? "text-white" : "text-on-surface-variant"}`}>
                     <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.popular ? "text-secondary-fixed-dim" : "text-green-500"}`} />
                     {f}
                   </li>
