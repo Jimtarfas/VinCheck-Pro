@@ -43,7 +43,7 @@ export default function VinCheckPage() {
             Decode any Vehicle Identification Number to get a comprehensive vehicle report. Select your vehicle brand below or enter a VIN directly.
           </p>
           <div className="max-w-xl">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg" onDark />
           </div>
         </div>
       </section>

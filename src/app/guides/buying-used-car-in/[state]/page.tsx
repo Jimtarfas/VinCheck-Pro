@@ -593,7 +593,7 @@ export default async function GuidePage({ params }: Props) {
                 Pull a full vehicle history report before you sign anything.
               </p>
               <div className="max-w-xl mx-auto">
-                <VinSearchForm size="lg" />
+                <VinSearchForm size="lg" onDark />
               </div>
               <div className="mt-4 inline-flex items-center gap-2 text-sm text-primary-100">
                 <CheckCircle className="w-4 h-4" />

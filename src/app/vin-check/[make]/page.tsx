@@ -83,7 +83,7 @@ export default async function MakePage({ params }: Props) {
             Look up any {make.name} VIN number to get a complete vehicle history report, full specifications, real photos, market values, and equipment details — instantly.
           </p>
           <div className="max-w-xl">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg" onDark />
           </div>
         </div>
       </section>

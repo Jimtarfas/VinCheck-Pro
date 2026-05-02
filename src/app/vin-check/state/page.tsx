@@ -76,7 +76,7 @@ export default function StateIndexPage() {
             Run a free VIN check for vehicles registered in any of the 50 US states. Each state page includes local DMV info, title brand details, lemon law overviews, and the same instant vehicle history report.
           </p>
           <div className="max-w-xl">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg" onDark />
           </div>
         </div>
       </section>

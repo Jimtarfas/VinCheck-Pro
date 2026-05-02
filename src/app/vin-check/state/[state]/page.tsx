@@ -114,7 +114,7 @@ export default async function StatePage({ params }: Props) {
             Free VIN check for vehicles registered in {state.name}. Get a complete vehicle history report — including title brands recorded by the {state.dmvName}, accident history, salvage records, and recall data — instantly.
           </p>
           <div className="max-w-xl">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg" onDark />
           </div>
         </div>
       </section>
