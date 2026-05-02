@@ -58,7 +58,7 @@ export default async function ReportPage({ params }: Props) {
           <h1 className="text-2xl font-bold text-slate-900 mb-4">
             VIN Not Found
           </h1>
-          <p className="text-slate-500 mb-8">
+          <p className="text-slate-700 mb-8">
             We couldn&apos;t find data for VIN <code className="font-mono bg-slate-100 text-primary-600 px-2 py-1 rounded">{cleaned}</code>.
             Please double-check and try again.
           </p>

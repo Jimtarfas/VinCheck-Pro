@@ -73,7 +73,7 @@ export default function SalvageTitleCheckPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Salvage Title Check by VIN
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             A salvage title means an insurance company has already declared the
             vehicle a total loss. That status follows the VIN forever, even
             after repairs. Running a salvage title check by VIN is the only
@@ -314,7 +314,7 @@ export default function SalvageTitleCheckPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Check for Salvage or Branded Titles
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN to instantly check NMVTIS and all 50
             state DMV title brand records.
           </p>

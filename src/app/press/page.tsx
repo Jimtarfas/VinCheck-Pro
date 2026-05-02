@@ -172,7 +172,7 @@ export default function PressPage() {
                 key={f.label}
                 className="p-5 bg-slate-50 border border-slate-200 rounded-2xl"
               >
-                <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <div className="text-xs font-semibold uppercase tracking-wider text-slate-700">
                   {f.label}
                 </div>
                 <div className="mt-1.5 text-xl font-bold text-slate-900">{f.value}</div>
@@ -206,14 +206,14 @@ export default function PressPage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-slate-900">Media Coverage</h2>
             <p className="mt-3 text-lg text-slate-600 leading-relaxed">
-              Featured in: <em className="text-slate-500">[logos coming soon]</em>
+              Featured in: <em className="text-slate-700">[logos coming soon]</em>
             </p>
           </div>
           <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="h-20 rounded-2xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-sm text-slate-400"
+                className="h-20 rounded-2xl border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-sm text-slate-600"
               >
                 Coming soon
               </div>
@@ -241,7 +241,7 @@ export default function PressPage() {
               <ImageIcon className="w-6 h-6 text-primary-600" />
               <div>
                 <div className="font-bold text-slate-900">Download Logo (SVG)</div>
-                <div className="text-sm text-slate-500">Vector, recommended for digital use.</div>
+                <div className="text-sm text-slate-700">Vector, recommended for digital use.</div>
               </div>
               <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary-600">
                 <Download className="w-4 h-4" /> Download
@@ -256,7 +256,7 @@ export default function PressPage() {
               <ImageIcon className="w-6 h-6 text-primary-600" />
               <div>
                 <div className="font-bold text-slate-900">Download Logo (PNG)</div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   Transparent background, 2x retina-ready.
                 </div>
               </div>
@@ -273,7 +273,7 @@ export default function PressPage() {
               <FileText className="w-6 h-6 text-primary-600" />
               <div>
                 <div className="font-bold text-slate-900">Brand Guidelines PDF</div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   Colors, typography, clear-space, do/don&rsquo;t.
                 </div>
               </div>
@@ -386,7 +386,7 @@ export default function PressPage() {
           <h2 className="text-3xl font-bold text-slate-900 mb-3">
             Need More Than the Press Kit?
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             For partnership inquiries, sponsorships, or general questions, reach our team through
             our standard contact channel.
           </p>

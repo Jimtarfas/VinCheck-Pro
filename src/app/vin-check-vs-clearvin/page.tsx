@@ -98,7 +98,7 @@ export default function VinCheckVsClearVinPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             CarCheckerVIN vs ClearVin: Side-by-Side (2026)
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             ClearVin has carved out a strong reputation as a budget-friendly
             vehicle history report with particularly thorough title brand
             coverage. CarCheckerVIN competes in the same value tier but
@@ -168,7 +168,7 @@ export default function VinCheckVsClearVinPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-sm text-slate-700">
             Pricing reflects the publicly listed retail price for individual
             consumer reports as of April 2026.
           </p>
@@ -398,7 +398,7 @@ export default function VinCheckVsClearVinPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Try a Smarter, Cheaper Alternative
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN and see what a $7.99 report looks
             like.
           </p>

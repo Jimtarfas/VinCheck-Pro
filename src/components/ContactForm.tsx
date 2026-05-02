@@ -204,7 +204,7 @@ export default function ContactForm() {
           className="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30 resize-y"
           placeholder="How can we help?"
         />
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-xs text-slate-700">
           {message.length} / 5000 characters (minimum 10)
         </p>
       </div>
@@ -236,7 +236,7 @@ export default function ContactForm() {
         )}
       </button>
 
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-700">
         By submitting this form you agree we may use the information you provide to respond to
         your message. We never share your details with third parties.
       </p>

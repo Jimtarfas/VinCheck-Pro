@@ -51,7 +51,7 @@ export default function VinCheckPage() {
       <section className="py-16 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">VIN Check by Vehicle Brand</h2>
-          <p className="text-slate-500 mb-10">Select a manufacturer to learn more about their VIN format and decode any VIN</p>
+          <p className="text-slate-700 mb-10">Select a manufacturer to learn more about their VIN format and decode any VIN</p>
 
           {regions.map(({ label, makes: regionMakes }) => (
             <div key={label} className="mb-10">
@@ -61,7 +61,7 @@ export default function VinCheckPage() {
                   <Link key={m.slug} href={`/vin-check/${m.slug}`}
                     className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary-300 hover:bg-primary-50/30 transition-all group">
                     <span className="font-semibold text-slate-800 group-hover:text-primary-700 transition-colors">{m.name}</span>
-                    <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-primary-600 transition-colors" />
+                    <ArrowRight className="w-4 h-4 text-slate-600 group-hover:text-primary-600 transition-colors" />
                   </Link>
                 ))}
               </div>

@@ -297,7 +297,7 @@ export default function AboutPage() {
       <section className="py-16 bg-white">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-slate-900 mb-3">Ready to Check a Vehicle?</h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-slate-700 mb-8">
             Run a free VIN decode in seconds, or unlock a full history report for $7.99.
           </p>
           <VinSearchForm size="sm" />

@@ -73,7 +73,7 @@ export default function LemonCheckPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Lemon Check by VIN
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             A &ldquo;lemon&rdquo; is a vehicle the manufacturer was forced to
             buy back from the original owner because of chronic defects that
             could not be repaired in a reasonable number of attempts. Many
@@ -323,7 +323,7 @@ export default function LemonCheckPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Check for Lemon Buyback History
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN to see manufacturer buyback brands and
             defect repair history.
           </p>

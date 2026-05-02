@@ -306,7 +306,7 @@ export default function TrustPage() {
       <section className="py-16 bg-white">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-slate-900 mb-3">Run a Report You Can Trust</h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-slate-700 mb-8">
             Authoritative data, encrypted delivery, and a 30-day money-back guarantee. Start with a
             free decode.
           </p>

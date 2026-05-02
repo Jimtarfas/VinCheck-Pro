@@ -150,7 +150,7 @@ export default function UsedCarBuyingCompleteGuidePage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             The Complete Used Car Buying Guide (2026 Edition)
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             Buying a used car in 2026 is a different game than it was even
             three years ago. Inventory has rebalanced, average transaction
             prices have dipped from their pandemic-era peaks, but
@@ -178,7 +178,7 @@ export default function UsedCarBuyingCompleteGuidePage() {
             aria-label="Table of contents"
             className="mt-10 p-6 rounded-2xl border border-slate-200 bg-white"
           >
-            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500 mb-3">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700 mb-3">
               What&rsquo;s in this guide
             </h2>
             <ol className="space-y-2 text-slate-700 text-sm list-decimal list-inside">
@@ -1088,7 +1088,7 @@ export default function UsedCarBuyingCompleteGuidePage() {
                 <div className="font-semibold text-slate-900">
                   {c.title}
                 </div>
-                <p className="mt-1 text-sm text-slate-500">{c.desc}</p>
+                <p className="mt-1 text-sm text-slate-700">{c.desc}</p>
               </Link>
             ))}
           </div>
@@ -1130,7 +1130,7 @@ export default function UsedCarBuyingCompleteGuidePage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Vetting a used car right now?
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Decode the VIN in seconds and pull the full vehicle
             history before you sign anything.
           </p>

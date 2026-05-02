@@ -42,7 +42,7 @@ export default async function AdminLayout({
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Admin Panel</h1>
-            <p className="text-sm text-slate-500 mt-0.5">
+            <p className="text-sm text-slate-700 mt-0.5">
               Signed in as <span className="font-mono text-slate-700">{user.email}</span>
             </p>
           </div>

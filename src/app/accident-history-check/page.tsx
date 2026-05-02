@@ -73,7 +73,7 @@ export default function AccidentHistoryCheckPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Vehicle Accident History Check
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             Roughly one in three used cars on the market has been in at least
             one reported accident. A VIN-based accident history check pulls
             insurance claims, police reports, body-shop records, and
@@ -322,7 +322,7 @@ export default function AccidentHistoryCheckPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Check for Reported Accidents
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN to see crash records, insurance claims,
             and damage history.
           </p>

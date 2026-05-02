@@ -207,7 +207,7 @@ export default function HelpPage() {
                 >
                   support@carcheckervin.com
                 </a>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   Replies within one business hour during support hours.
                 </div>
               </div>

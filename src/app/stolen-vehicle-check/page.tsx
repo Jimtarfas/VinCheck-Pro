@@ -73,7 +73,7 @@ export default function StolenVehicleCheckPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Stolen Vehicle Check by VIN
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             Buying a used car you don&rsquo;t know is stolen can cost you the
             vehicle, your money, and even land you in a police interview. A
             stolen vehicle check by VIN cross-references the 17-character
@@ -311,7 +311,7 @@ export default function StolenVehicleCheckPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Check If a Car Is Stolen
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN to instantly check national theft
             databases.
           </p>

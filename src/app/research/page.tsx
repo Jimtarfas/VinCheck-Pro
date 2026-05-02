@@ -231,7 +231,7 @@ export default function ResearchPage() {
 
           <div className="mt-6 space-y-4">
             <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
-              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
                 APA
               </div>
               <code className="block text-sm text-slate-800 font-mono leading-relaxed">
@@ -241,7 +241,7 @@ export default function ResearchPage() {
             </div>
 
             <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
-              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
                 MLA
               </div>
               <code className="block text-sm text-slate-800 font-mono leading-relaxed">
@@ -251,7 +251,7 @@ export default function ResearchPage() {
             </div>
 
             <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
-              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
                 Chicago / News
               </div>
               <code className="block text-sm text-slate-800 font-mono leading-relaxed">
@@ -295,7 +295,7 @@ export default function ResearchPage() {
           <h2 className="text-3xl font-bold text-slate-900 mb-3">
             Run a Free VIN Check on Any Vehicle
           </h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-slate-700 mb-8">
             Curious how the studies above apply to a specific car? Decode any VIN in seconds.
           </p>
           <div className="flex justify-center">

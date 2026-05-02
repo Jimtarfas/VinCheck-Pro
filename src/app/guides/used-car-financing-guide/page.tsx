@@ -135,7 +135,7 @@ export default function UsedCarFinancingGuidePage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Used Car Financing: The Complete 2026 Guide
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             Financing a used car in 2026 is a fundamentally
             different exercise than it was three years ago. Average
             used-vehicle APRs from the Federal Reserve&rsquo;s
@@ -165,7 +165,7 @@ export default function UsedCarFinancingGuidePage() {
             aria-label="Table of contents"
             className="mt-10 p-6 rounded-2xl border border-slate-200 bg-white"
           >
-            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500 mb-3">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700 mb-3">
               In this guide
             </h2>
             <ol className="space-y-2 text-slate-700 text-sm list-decimal list-inside">
@@ -930,7 +930,7 @@ export default function UsedCarFinancingGuidePage() {
                 <div className="font-semibold text-slate-900">
                   {c.title}
                 </div>
-                <p className="mt-1 text-sm text-slate-500">{c.desc}</p>
+                <p className="mt-1 text-sm text-slate-700">{c.desc}</p>
               </Link>
             ))}
           </div>
@@ -964,7 +964,7 @@ export default function UsedCarFinancingGuidePage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Vet the vehicle before financing
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Title brands and accident history can crater resale
             value &mdash; and your loan-to-value with it. Run
             the VIN first.

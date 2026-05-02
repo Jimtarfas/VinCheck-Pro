@@ -94,14 +94,14 @@ export default function PricingSection() {
                 <h3 className={`text-4xl sm:text-5xl font-headline font-black ${plan.popular ? "text-white" : "text-primary"}`}>
                   FREE
                 </h3>
-                <span className={`text-lg sm:text-xl line-through ${plan.popular ? "text-primary-fixed/50" : "text-outline/70"}`}>
+                <span className={`text-lg sm:text-xl line-through ${plan.popular ? "text-primary-fixed/85" : "text-outline/70"}`}>
                   {plan.originalPrice}
                 </span>
               </div>
-              <p className={`text-sm font-bold mb-1 ${plan.popular ? "text-primary-fixed/70" : "text-on-surface-variant"}`}>
+              <p className={`text-sm font-bold mb-1 ${plan.popular ? "text-primary-fixed/95" : "text-on-surface-variant"}`}>
                 {plan.reports}
               </p>
-              <p className={`text-xs mb-8 ${plan.popular ? "text-primary-fixed/60" : "text-outline"}`}>
+              <p className={`text-xs mb-8 ${plan.popular ? "text-primary-fixed/90" : "text-outline"}`}>
                 {plan.desc}
               </p>
 

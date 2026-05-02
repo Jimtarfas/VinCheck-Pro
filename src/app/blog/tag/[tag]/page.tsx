@@ -133,7 +133,7 @@ export default async function BlogTagPage({ params }: Props) {
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
               Articles tagged: {resolved}
             </h1>
-            <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+            <p className="mt-4 text-lg text-slate-700 leading-relaxed">
               {posts.length} {posts.length === 1 ? "article" : "articles"} tagged with{" "}
               <span className="font-semibold text-slate-700">#{resolved}</span> from the
               CarCheckerVIN editorial team.
@@ -177,11 +177,11 @@ export default async function BlogTagPage({ params }: Props) {
                       {post.title}
                     </h2>
                     {post.excerpt && (
-                      <p className="mt-2 text-sm text-slate-500 leading-relaxed line-clamp-3">
+                      <p className="mt-2 text-sm text-slate-700 leading-relaxed line-clamp-3">
                         {post.excerpt}
                       </p>
                     )}
-                    <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-700">
                       <span className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {new Date(post.publishedAt).toLocaleDateString("en-US", {

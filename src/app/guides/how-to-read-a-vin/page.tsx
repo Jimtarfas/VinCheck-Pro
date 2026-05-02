@@ -136,7 +136,7 @@ export default function HowToReadAVinPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             How to Read a VIN Number
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             A Vehicle Identification Number (VIN) is a 17-character code that
             serves as a fingerprint for every car, truck, and SUV on the road.
             Each character carries specific meaning. This guide breaks down every
@@ -158,7 +158,7 @@ export default function HowToReadAVinPage() {
                   if (i >= 11) bg = "bg-violet-100 text-violet-700";
                   return (
                     <div key={i} className="flex flex-col items-center gap-1">
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-[10px] text-slate-600">
                         {i + 1}
                       </span>
                       <span
@@ -171,7 +171,7 @@ export default function HowToReadAVinPage() {
                 }
               )}
             </div>
-            <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500 justify-center">
+            <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-700 justify-center">
               <span className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded bg-primary-100 inline-block" />
                 WMI (1-3)
@@ -295,7 +295,7 @@ export default function HowToReadAVinPage() {
                     <td className="px-4 py-3 font-medium text-slate-900">
                       {row.label}
                     </td>
-                    <td className="px-4 py-3 text-slate-500">{row.example}</td>
+                    <td className="px-4 py-3 text-slate-700">{row.example}</td>
                   </tr>
                 ))}
               </tbody>
@@ -354,7 +354,7 @@ export default function HowToReadAVinPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Decode Any VIN Instantly
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Paste a 17-character VIN below to see the full breakdown, vehicle
             specs, and history report.
           </p>

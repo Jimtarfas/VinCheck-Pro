@@ -107,7 +107,7 @@ export default function WhatIsAVinNumberPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             What Is a VIN Number?
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             A Vehicle Identification Number (VIN) is a unique 17-character code
             assigned to every motor vehicle manufactured since 1981. Think of it
             as a fingerprint for your car: no two vehicles in the world share
@@ -221,7 +221,7 @@ export default function WhatIsAVinNumberPage() {
                 className="p-5 bg-slate-50 rounded-xl border border-slate-200"
               >
                 <h3 className="font-semibold text-slate-900">{title}</h3>
-                <p className="mt-1.5 text-sm text-slate-500 leading-relaxed">
+                <p className="mt-1.5 text-sm text-slate-700 leading-relaxed">
                   {description}
                 </p>
               </div>
@@ -358,7 +358,7 @@ export default function WhatIsAVinNumberPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Look Up Any VIN for Free
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a VIN below to decode it instantly and see the full vehicle
             profile.
           </p>

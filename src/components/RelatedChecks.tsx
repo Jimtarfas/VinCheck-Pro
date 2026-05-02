@@ -27,7 +27,7 @@ export default function RelatedChecks({
     <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8">
       <div className="mb-5">
         <h2 className="text-xl font-bold text-slate-900">{title}</h2>
-        <p className="text-sm text-slate-500 mt-1">{subtitle}</p>
+        <p className="text-sm text-slate-700 mt-1">{subtitle}</p>
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         {items.map(({ href, icon: Icon, title, desc }) => (
@@ -41,7 +41,7 @@ export default function RelatedChecks({
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm font-bold text-slate-900 group-hover:text-primary-700">{title}</p>
-              <p className="text-xs text-slate-500 mt-0.5">{desc}</p>
+              <p className="text-xs text-slate-700 mt-0.5">{desc}</p>
             </div>
             <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-primary-500 group-hover:translate-x-0.5 transition flex-shrink-0 mt-1" />
           </Link>

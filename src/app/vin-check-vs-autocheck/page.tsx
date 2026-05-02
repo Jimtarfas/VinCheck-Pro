@@ -99,7 +99,7 @@ export default function VinCheckVsAutoCheckPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             CarCheckerVIN vs AutoCheck: 2026 Comparison
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             AutoCheck, owned by Experian, is the second-most recognized
             vehicle history brand in the United States after Carfax. It is
             best known for the AutoCheck Score &mdash; a 0&ndash;100 risk
@@ -171,7 +171,7 @@ export default function VinCheckVsAutoCheckPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-sm text-slate-700">
             Pricing reflects the publicly listed retail price for individual
             consumer reports as of April 2026. Dealer pricing differs.
           </p>
@@ -412,7 +412,7 @@ export default function VinCheckVsAutoCheckPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Try a Smarter, Cheaper Alternative
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN and see what a $7.99 report looks
             like.
           </p>

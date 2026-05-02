@@ -141,7 +141,7 @@ export default function CarHistoryReportGuidePage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Vehicle History Reports: Everything You Need to Know
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             A vehicle history report is the single most important
             document in a used-car transaction &mdash; more
             important than the listing, the test drive, and even
@@ -169,7 +169,7 @@ export default function CarHistoryReportGuidePage() {
             aria-label="Table of contents"
             className="mt-10 p-6 rounded-2xl border border-slate-200 bg-white"
           >
-            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500 mb-3">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700 mb-3">
               In this guide
             </h2>
             <ol className="space-y-2 text-slate-700 text-sm list-decimal list-inside">
@@ -1096,7 +1096,7 @@ export default function CarHistoryReportGuidePage() {
                 <div className="font-semibold text-slate-900">
                   {c.title}
                 </div>
-                <p className="mt-1 text-sm text-slate-500">{c.desc}</p>
+                <p className="mt-1 text-sm text-slate-700">{c.desc}</p>
               </Link>
             ))}
           </div>
@@ -1131,7 +1131,7 @@ export default function CarHistoryReportGuidePage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Pull a vehicle history report
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Title brands, accident records, odometer chain, and
             recalls &mdash; all in one report sourced from
             NMVTIS, NICB, and NHTSA.

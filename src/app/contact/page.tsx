@@ -138,7 +138,7 @@ export default function ContactPage() {
                     >
                       support@carcheckervin.com
                     </a>
-                    <div className="text-sm text-slate-500">
+                    <div className="text-sm text-slate-700">
                       Replies within one business hour during support hours.
                     </div>
                   </div>
@@ -151,7 +151,7 @@ export default function ContactPage() {
                     <a href="tel:1-800-846-2432" className="text-primary-600 hover:underline">
                       1-800-VIN-CHECK (1-800-846-2432)
                     </a>
-                    <div className="text-sm text-slate-500">Toll-free, US callers.</div>
+                    <div className="text-sm text-slate-700">Toll-free, US callers.</div>
                   </div>
                 </div>
 

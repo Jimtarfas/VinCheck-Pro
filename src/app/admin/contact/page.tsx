@@ -81,10 +81,10 @@ export default async function AdminContactPage() {
       <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100">
           <h2 className="text-sm font-bold text-slate-900">Contact Form Submissions</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Most recent 500</p>
+          <p className="text-xs text-slate-700 mt-0.5">Most recent 500</p>
         </div>
         {submissions.length === 0 ? (
-          <p className="p-8 text-center text-sm text-slate-500">
+          <p className="p-8 text-center text-sm text-slate-700">
             No contact form submissions yet. Try sending one from{" "}
             <Link href="/contact" className="text-primary-600 hover:underline">
               /contact
@@ -109,7 +109,7 @@ export default async function AdminContactPage() {
                       {s.subject}
                     </span>
                   </div>
-                  <span className="text-xs text-slate-400 whitespace-nowrap">
+                  <span className="text-xs text-slate-600 whitespace-nowrap">
                     {new Date(s.created_at).toLocaleString()}
                   </span>
                 </div>
@@ -117,7 +117,7 @@ export default async function AdminContactPage() {
                   {s.message}
                 </p>
                 {s.ip_hash && (
-                  <p className="mt-2 text-[10px] text-slate-400 font-mono">
+                  <p className="mt-2 text-[10px] text-slate-600 font-mono">
                     IP hash: {s.ip_hash}
                   </p>
                 )}

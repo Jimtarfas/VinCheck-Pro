@@ -37,7 +37,7 @@ const companyLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-inverse-surface text-inverse-on-surface/60">
+    <footer className="bg-inverse-surface text-inverse-on-surface/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-12">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 sm:gap-10 mb-12 sm:mb-16">
 
@@ -46,16 +46,16 @@ export default function Footer() {
             <div className="mb-5">
               <Logo variant="onDark" size="md" />
             </div>
-            <p className="text-sm text-inverse-on-surface/50 leading-relaxed max-w-sm mb-6">
+            <p className="text-sm text-inverse-on-surface/85 leading-relaxed max-w-sm mb-6">
               Comprehensive vehicle history reports powered by trusted data sources. Decode any VIN, check title status, accidents, recalls, and market value in seconds.
             </p>
             <ul className="space-y-2.5">
               <li className="flex items-center gap-2 text-sm">
-                <Mail className="w-4 h-4 text-inverse-on-surface/40 flex-shrink-0" />
+                <Mail className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0" />
                 support@carcheckervin.com
               </li>
               <li className="flex items-center gap-2 text-sm">
-                <Phone className="w-4 h-4 text-inverse-on-surface/40 flex-shrink-0" />
+                <Phone className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0" />
                 1-800-VIN-CHECK
               </li>
             </ul>
@@ -100,8 +100,8 @@ export default function Footer() {
 
         {/* Popular brands */}
         <div className="border-t border-white/5 pt-8 mb-8">
-          <h3 className="text-xs font-black text-inverse-on-surface/40 uppercase tracking-widest mb-4">Popular Brands</h3>
-          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-inverse-on-surface/30">
+          <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-4">Popular Brands</h3>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-inverse-on-surface/75">
             {["ford","chevrolet","toyota","honda","nissan","bmw","mercedes-benz","audi","volkswagen","jeep","dodge","ram","gmc","hyundai","kia","subaru","mazda","lexus","acura","tesla"].map((make) => (
               <Link key={make} href={`/vin-check/${make}`} className="hover:text-white transition-colors capitalize">
                 {make.charAt(0).toUpperCase() + make.slice(1)} VIN Check
@@ -115,7 +115,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-inverse-on-surface/30">
+          <p className="text-xs text-inverse-on-surface/75">
             &copy; {new Date().getFullYear()} CarChecker VIN. All rights reserved.
           </p>
           <p className="text-xs text-inverse-on-surface/20">Powered by Auto.dev API</p>

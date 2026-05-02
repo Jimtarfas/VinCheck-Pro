@@ -238,7 +238,7 @@ export default function ToolsPage() {
               <pre className="bg-slate-900 text-slate-100 rounded-xl p-4 font-mono text-sm overflow-x-auto leading-relaxed">
                 <code>{embedSnippet}</code>
               </pre>
-              <p className="mt-3 text-sm text-slate-500">
+              <p className="mt-3 text-sm text-slate-700">
                 Paste anywhere HTML is allowed. Resize <code>width</code> and <code>height</code>{" "}
                 to fit your layout.
               </p>
@@ -301,13 +301,13 @@ export default function ToolsPage() {
           <h2 className="text-3xl font-bold text-slate-900 mb-3">
             Try the Decoder Right Now
           </h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-slate-700 mb-8">
             Paste any 17-character VIN below. Free decode, no signup, instant results.
           </p>
           <div className="flex justify-center">
             <VinSearchForm size="sm" />
           </div>
-          <p className="mt-6 text-sm text-slate-500">
+          <p className="mt-6 text-sm text-slate-700">
             Need wholesale access for a dealership? See our{" "}
             <Link href="/dealers" className="text-primary-600 hover:underline">
               dealer pricing

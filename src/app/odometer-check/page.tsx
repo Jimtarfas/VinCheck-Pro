@@ -73,7 +73,7 @@ export default function OdometerCheckPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Odometer &amp; Mileage Check by VIN
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             Odometer fraud costs U.S. consumers more than one billion dollars
             every year, according to estimates from the National Highway
             Traffic Safety Administration. A VIN-based mileage check pulls
@@ -289,7 +289,7 @@ export default function OdometerCheckPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Verify Mileage Before You Buy
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN to see every reported odometer reading
             on file.
           </p>

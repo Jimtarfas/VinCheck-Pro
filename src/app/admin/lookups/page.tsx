@@ -65,10 +65,10 @@ export default async function AdminLookupsPage() {
         <div className="md:col-span-2 bg-white rounded-xl border border-slate-200 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100">
             <h2 className="text-sm font-bold text-slate-900">VIN Lookups</h2>
-            <p className="text-xs text-slate-500 mt-0.5">Most recent 500 lookups</p>
+            <p className="text-xs text-slate-700 mt-0.5">Most recent 500 lookups</p>
           </div>
           {lookups.length === 0 ? (
-            <p className="p-8 text-center text-sm text-slate-500">
+            <p className="p-8 text-center text-sm text-slate-700">
               No lookups tracked yet. Visit a VIN report page to generate one.
             </p>
           ) : (
@@ -97,9 +97,9 @@ export default async function AdminLookupsPage() {
                         {[l.year, l.make, l.model].filter(Boolean).join(" ") || "—"}
                       </td>
                       <td className="px-5 py-2.5 text-slate-600 text-xs">
-                        {l.user_email || <span className="text-slate-400">anon</span>}
+                        {l.user_email || <span className="text-slate-600">anon</span>}
                       </td>
-                      <td className="px-5 py-2.5 text-slate-500 text-xs whitespace-nowrap">
+                      <td className="px-5 py-2.5 text-slate-700 text-xs whitespace-nowrap">
                         {new Date(l.created_at).toLocaleString()}
                       </td>
                     </tr>
@@ -113,10 +113,10 @@ export default async function AdminLookupsPage() {
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden h-fit">
           <div className="px-5 py-4 border-b border-slate-100">
             <h2 className="text-sm font-bold text-slate-900">Top Makes</h2>
-            <p className="text-xs text-slate-500 mt-0.5">Most checked brands</p>
+            <p className="text-xs text-slate-700 mt-0.5">Most checked brands</p>
           </div>
           {topMakes.length === 0 ? (
-            <p className="p-6 text-center text-sm text-slate-500">No data yet.</p>
+            <p className="p-6 text-center text-sm text-slate-700">No data yet.</p>
           ) : (
             <ul className="divide-y divide-slate-100">
               {topMakes.map(([make, count]) => (

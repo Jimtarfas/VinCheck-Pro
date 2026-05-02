@@ -156,10 +156,10 @@ export default async function BlogPostPage({ params }: Props) {
           </h1>
 
           {post.excerpt && (
-            <p className="mt-4 text-lg text-slate-500 leading-relaxed">{post.excerpt}</p>
+            <p className="mt-4 text-lg text-slate-700 leading-relaxed">{post.excerpt}</p>
           )}
 
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-500 pb-6 border-b border-slate-200">
+          <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-700 pb-6 border-b border-slate-200">
             {post.author && (
               <div className="flex items-center gap-2">
                 {post.author.avatar && (
@@ -172,7 +172,7 @@ export default async function BlogPostPage({ params }: Props) {
                   />
                 )}
                 <span className="font-semibold text-slate-900">{post.author.name}</span>
-                {post.author.role && <span className="text-xs text-slate-400">· {post.author.role}</span>}
+                {post.author.role && <span className="text-xs text-slate-600">· {post.author.role}</span>}
               </div>
             )}
             <span className="flex items-center gap-1">
@@ -204,7 +204,7 @@ export default async function BlogPostPage({ params }: Props) {
             {post.body ? (
               <PortableTextRenderer value={post.body} />
             ) : (
-              <p className="text-slate-500">No content yet.</p>
+              <p className="text-slate-700">No content yet.</p>
             )}
           </div>
 
@@ -235,7 +235,7 @@ export default async function BlogPostPage({ params }: Props) {
                 )}
                 <div>
                   <p className="font-bold text-slate-900">{post.author.name}</p>
-                  {post.author.role && <p className="text-xs text-slate-500">{post.author.role}</p>}
+                  {post.author.role && <p className="text-xs text-slate-700">{post.author.role}</p>}
                   <p className="mt-2 text-sm text-slate-600 leading-relaxed">{post.author.bio}</p>
                 </div>
               </div>
@@ -283,7 +283,7 @@ export default async function BlogPostPage({ params }: Props) {
       <section className="py-14 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Check Any VIN for Free</h2>
-          <p className="text-slate-500 mb-6">Get instant vehicle history reports.</p>
+          <p className="text-slate-700 mb-6">Get instant vehicle history reports.</p>
           <VinSearchForm size="sm" />
         </div>
       </section>

@@ -91,7 +91,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
       {/* Divider */}
       <div className="flex items-center gap-3 my-6">
         <div className="flex-1 border-t border-slate-200" />
-        <span className="text-xs text-slate-400 uppercase">or</span>
+        <span className="text-xs text-slate-600 uppercase">or</span>
         <div className="flex-1 border-t border-slate-200" />
       </div>
 
@@ -102,7 +102,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             Email address
           </label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
             <input
               id="email"
               type="email"
@@ -120,7 +120,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
             <input
               id="password"
               type={showPassword ? "text" : "password"}
@@ -134,7 +134,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-600 cursor-pointer"
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>

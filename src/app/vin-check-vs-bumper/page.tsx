@@ -98,7 +98,7 @@ export default function VinCheckVsBumperPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             CarCheckerVIN vs Bumper: Pricing &amp; Features Compared
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             Bumper is a subscription-first vehicle history service that
             charges roughly $19.99 per month for unlimited reports plus
             ongoing monitoring of vehicles you own. CarCheckerVIN takes
@@ -168,7 +168,7 @@ export default function VinCheckVsBumperPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-sm text-slate-700">
             Pricing reflects the publicly listed retail price for individual
             consumer reports and subscriptions as of April 2026.
           </p>
@@ -410,7 +410,7 @@ export default function VinCheckVsBumperPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Try a Smarter, Cheaper Alternative
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN and see what a $7.99 report looks
             like.
           </p>

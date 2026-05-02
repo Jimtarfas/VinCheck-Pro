@@ -73,7 +73,7 @@ export default async function BlogIndexPage() {
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
               VIN Check &amp; Car Buying Blog
             </h1>
-            <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+            <p className="mt-4 text-lg text-slate-700 leading-relaxed">
               Expert guides on used car buying, vehicle history, title brands, fraud prevention,
               and VIN decoding. Backed by NMVTIS and NICB data sources.
             </p>
@@ -83,7 +83,7 @@ export default async function BlogIndexPage() {
             <div className="mt-12 text-center py-20 bg-slate-50 rounded-2xl border border-slate-200">
               <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
               <h2 className="text-lg font-bold text-slate-900">No posts yet</h2>
-              <p className="text-sm text-slate-500 mt-2">
+              <p className="text-sm text-slate-700 mt-2">
                 Posts published in the Sanity Studio will appear here.
               </p>
               <Link
@@ -131,11 +131,11 @@ export default async function BlogIndexPage() {
                         {post.title}
                       </h2>
                       {post.excerpt && (
-                        <p className="mt-2 text-sm text-slate-500 leading-relaxed line-clamp-3">
+                        <p className="mt-2 text-sm text-slate-700 leading-relaxed line-clamp-3">
                           {post.excerpt}
                         </p>
                       )}
-                      <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                      <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-700">
                         <span className="flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           {new Date(post.publishedAt).toLocaleDateString("en-US", {

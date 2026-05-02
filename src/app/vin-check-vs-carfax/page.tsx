@@ -96,7 +96,7 @@ export default function VinCheckVsCarfaxPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             CarCheckerVIN vs Carfax: Which Is Better?
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             Carfax is the most recognized name in vehicle history reports,
             but it is also one of the most expensive. CarCheckerVIN delivers
             the same core data &mdash; title brands, accidents, odometer
@@ -166,7 +166,7 @@ export default function VinCheckVsCarfaxPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-sm text-slate-700">
             Pricing reflects the publicly listed retail price for individual
             consumer reports as of April 2026. Bundles and dealer pricing
             differ.
@@ -391,7 +391,7 @@ export default function VinCheckVsCarfaxPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Try a Smarter, Cheaper Alternative
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN and see what a $7.99 report looks
             like.
           </p>

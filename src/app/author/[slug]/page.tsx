@@ -123,7 +123,7 @@ export default async function AuthorPage({ params }: Props) {
               />
             ) : (
               <div className="w-[120px] h-[120px] rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0">
-                <User className="w-12 h-12 text-slate-400" />
+                <User className="w-12 h-12 text-slate-600" />
               </div>
             )}
             <div className="flex-1">
@@ -137,7 +137,7 @@ export default async function AuthorPage({ params }: Props) {
                 {author.name}
               </h1>
               {author.role && (
-                <p className="mt-1 text-sm font-semibold text-slate-500">{author.role}</p>
+                <p className="mt-1 text-sm font-semibold text-slate-700">{author.role}</p>
               )}
               {author.bio && (
                 <p className="mt-4 text-base text-slate-600 leading-relaxed">{author.bio}</p>
@@ -187,7 +187,7 @@ export default async function AuthorPage({ params }: Props) {
             {posts.length === 0 ? (
               <div className="text-center py-16 bg-slate-50 rounded-2xl border border-slate-200">
                 <FileText className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-                <p className="text-sm text-slate-500">No articles published yet.</p>
+                <p className="text-sm text-slate-700">No articles published yet.</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -227,11 +227,11 @@ export default async function AuthorPage({ params }: Props) {
                           {post.title}
                         </h3>
                         {post.excerpt && (
-                          <p className="mt-2 text-sm text-slate-500 leading-relaxed line-clamp-3">
+                          <p className="mt-2 text-sm text-slate-700 leading-relaxed line-clamp-3">
                             {post.excerpt}
                           </p>
                         )}
-                        <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-700">
                           <span className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             {new Date(post.publishedAt).toLocaleDateString("en-US", {

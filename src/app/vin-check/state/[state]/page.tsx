@@ -145,7 +145,7 @@ export default async function StatePage({ params }: Props) {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Title Brands Recognized in {state.name}
           </h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-slate-700 mb-8">
             The {state.dmvName} uses the following brands to flag vehicles with significant history.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -156,7 +156,7 @@ export default async function StatePage({ params }: Props) {
                 </div>
                 <div>
                   <h3 className="font-semibold text-slate-900">{brand}</h3>
-                  <p className="text-sm text-slate-500 mt-0.5">
+                  <p className="text-sm text-slate-700 mt-0.5">
                     Vehicles branded &ldquo;{brand}&rdquo; have been flagged by {state.name} or another state for significant damage, loss, or condition issues. Always verify with a VIN check before buying.
                   </p>
                 </div>
@@ -205,7 +205,7 @@ export default async function StatePage({ params }: Props) {
                 <div className="w-8 h-8 rounded-lg bg-primary-600 text-white flex items-center justify-center flex-shrink-0 text-sm font-bold">{step}</div>
                 <div>
                   <h3 className="font-semibold text-slate-900">{title}</h3>
-                  <p className="text-sm text-slate-500 mt-1">{desc}</p>
+                  <p className="text-sm text-slate-700 mt-1">{desc}</p>
                 </div>
               </div>
             ))}
@@ -277,7 +277,7 @@ export default async function StatePage({ params }: Props) {
                 </div>
                 <div>
                   <h3 className="font-semibold text-slate-900">{title}</h3>
-                  <p className="text-sm text-slate-500 mt-0.5">{desc}</p>
+                  <p className="text-sm text-slate-700 mt-0.5">{desc}</p>
                 </div>
               </Link>
             ))}

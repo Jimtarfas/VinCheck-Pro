@@ -369,10 +369,10 @@ export default function DealersPage() {
                   </div>
                 )}
                 <h3 className="text-xl font-bold text-slate-900">{tier.name}</h3>
-                <p className="mt-1 text-sm text-slate-500">{tier.volume}</p>
+                <p className="mt-1 text-sm text-slate-700">{tier.volume}</p>
                 <div className="mt-5 flex items-baseline gap-1">
                   <span className="text-4xl font-bold text-slate-900">{tier.price}</span>
-                  {tier.unit && <span className="text-slate-500">{tier.unit}</span>}
+                  {tier.unit && <span className="text-slate-700">{tier.unit}</span>}
                 </div>
                 <p className="mt-1 text-sm text-primary-600 font-medium">{tier.note}</p>
                 <ul className="mt-6 space-y-2.5">
@@ -505,7 +505,7 @@ export default function DealersPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-sm text-slate-700">
             Pricing reflects typical dealer contracts as of April 2026. Custom enterprise terms
             available on request.
           </p>
@@ -630,11 +630,11 @@ export default function DealersPage() {
               </div>
               <div>
                 <div className="font-semibold text-slate-900">Mike R.</div>
-                <div className="text-sm text-slate-500">Owner, Sunset Auto Sales</div>
+                <div className="text-sm text-slate-700">Owner, Sunset Auto Sales</div>
               </div>
             </div>
           </div>
-          <p className="mt-6 text-sm text-slate-500 text-center">
+          <p className="mt-6 text-sm text-slate-700 text-center">
             Want to talk to existing dealer customers? See our{" "}
             <Link href="/trust" className="text-primary-600 hover:underline">
               trust page

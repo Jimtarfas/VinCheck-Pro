@@ -86,7 +86,7 @@ export default function FreeVinCheckPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             Free VIN Check
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             A free VIN check lets you decode any 17-character Vehicle
             Identification Number to instantly see the vehicle&rsquo;s make,
             model, year, engine, and basic specifications at no cost. Whether
@@ -232,7 +232,7 @@ export default function FreeVinCheckPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-sm text-slate-700">
             Premium reports start at just $7.99 &mdash; a fraction of what major
             competitors charge.
           </p>
@@ -383,7 +383,7 @@ export default function FreeVinCheckPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Check Any VIN for Free
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN to get your free vehicle report instantly.
           </p>
           <VinSearchForm size="sm" />

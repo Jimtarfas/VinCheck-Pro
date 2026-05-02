@@ -54,7 +54,7 @@ const components: PortableTextComponents = {
           <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-slate-100">
             <Image src={url} alt={value.alt || ""} fill className="object-cover" sizes="(max-width: 768px) 100vw, 800px" />
           </div>
-          {value.caption && <figcaption className="text-sm text-slate-500 text-center mt-2">{value.caption}</figcaption>}
+          {value.caption && <figcaption className="text-sm text-slate-700 text-center mt-2">{value.caption}</figcaption>}
         </figure>
       );
     },

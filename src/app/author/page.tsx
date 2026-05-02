@@ -67,7 +67,7 @@ export default async function AuthorIndexPage() {
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
               Our Editorial Team
             </h1>
-            <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+            <p className="mt-4 text-lg text-slate-700 leading-relaxed">
               Meet the writers, researchers, and automotive experts behind CarCheckerVIN. Every
               article is reviewed for accuracy against NMVTIS, NICB, and manufacturer data.
             </p>
@@ -108,7 +108,7 @@ export default async function AuthorIndexPage() {
                       />
                     ) : (
                       <div className="w-[72px] h-[72px] rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0">
-                        <User className="w-8 h-8 text-slate-400" />
+                        <User className="w-8 h-8 text-slate-600" />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
@@ -116,18 +116,18 @@ export default async function AuthorIndexPage() {
                         {author.name}
                       </h2>
                       {author.role && (
-                        <p className="text-xs font-semibold text-slate-500 mt-0.5">
+                        <p className="text-xs font-semibold text-slate-700 mt-0.5">
                           {author.role}
                         </p>
                       )}
-                      <p className="text-xs text-slate-500 mt-1">
+                      <p className="text-xs text-slate-700 mt-1">
                         {author.postCount ?? 0}{" "}
                         {author.postCount === 1 ? "article" : "articles"}
                       </p>
                     </div>
                   </div>
                   {author.bio && (
-                    <p className="mt-4 text-sm text-slate-500 leading-relaxed line-clamp-3">
+                    <p className="mt-4 text-sm text-slate-700 leading-relaxed line-clamp-3">
                       {author.bio}
                     </p>
                   )}

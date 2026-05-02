@@ -7,7 +7,7 @@ import AuthForm from "@/components/AuthForm";
 export const metadata: Metadata = {
   title: "Log In",
   description: "Log in to your CarCheckerVIN account to access saved reports and history.",
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/login" },
 };
 
 export default async function LoginPage() {
@@ -23,10 +23,10 @@ export default async function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
-          <p className="text-slate-500 mt-2">Log in to your account</p>
+          <p className="text-slate-700 mt-2">Log in to your account</p>
         </div>
         <AuthForm mode="login" />
-        <p className="text-center text-sm text-slate-500 mt-6">
+        <p className="text-center text-sm text-slate-700 mt-6">
           Don&apos;t have an account?{" "}
           <Link href="/signup" className="text-primary-600 font-medium hover:text-primary-700 transition-colors">
             Sign up

@@ -96,10 +96,10 @@ export default async function AdminOverviewPage() {
       <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100">
           <h2 className="text-sm font-bold text-slate-900">Recent VIN Lookups</h2>
-          <p className="text-xs text-slate-500 mt-0.5">Last 10 report views</p>
+          <p className="text-xs text-slate-700 mt-0.5">Last 10 report views</p>
         </div>
         {stats.recentLookups.length === 0 ? (
-          <p className="p-8 text-center text-sm text-slate-500">No lookups yet.</p>
+          <p className="p-8 text-center text-sm text-slate-700">No lookups yet.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -117,7 +117,7 @@ export default async function AdminOverviewPage() {
                     <td className="px-5 py-2.5 text-slate-900">
                       {[l.year, l.make, l.model].filter(Boolean).join(" ") || "—"}
                     </td>
-                    <td className="px-5 py-2.5 text-slate-500 text-xs">
+                    <td className="px-5 py-2.5 text-slate-700 text-xs">
                       {new Date(l.created_at).toLocaleString()}
                     </td>
                   </tr>

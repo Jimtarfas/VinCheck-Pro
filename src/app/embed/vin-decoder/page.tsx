@@ -14,9 +14,9 @@ export default function EmbedPage() {
     <div className="min-h-screen flex items-center justify-center bg-white p-4">
       <div className="w-full max-w-md">
         <h2 className="text-xl font-bold text-slate-900 mb-2">Free VIN Decoder</h2>
-        <p className="text-sm text-slate-500 mb-4">Decode any VIN in under 60 seconds.</p>
+        <p className="text-sm text-slate-700 mb-4">Decode any VIN in under 60 seconds.</p>
         <VinSearchForm size="sm" />
-        <div className="mt-4 text-xs text-slate-400 flex items-center justify-between">
+        <div className="mt-4 text-xs text-slate-600 flex items-center justify-between">
           <span>Free &bull; No signup &bull; NMVTIS data</span>
           <a
             href="https://carcheckervin.com"

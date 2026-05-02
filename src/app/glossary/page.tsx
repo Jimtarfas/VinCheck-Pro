@@ -531,7 +531,7 @@ export default function GlossaryPage() {
       <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-slate-900 text-center">Quick Tools</h2>
-          <p className="mt-3 text-slate-500 text-center max-w-2xl mx-auto">
+          <p className="mt-3 text-slate-700 text-center max-w-2xl mx-auto">
             Put what you just learned to work. Run a free VIN check or jump straight to a focused
             history lookup.
           </p>
@@ -543,7 +543,7 @@ export default function GlossaryPage() {
                 className="block p-5 bg-white rounded-2xl border border-slate-200 hover:border-primary-500 hover:shadow-md transition-all text-slate-900 font-semibold"
               >
                 {tool.label}
-                <span className="block mt-1 text-sm text-slate-500 font-normal">
+                <span className="block mt-1 text-sm text-slate-700 font-normal">
                   Run a focused {tool.label.toLowerCase()} by VIN.
                 </span>
               </Link>
@@ -557,7 +557,7 @@ export default function GlossaryPage() {
           <h2 className="text-3xl font-bold text-slate-900 mb-3">
             Ready to Decode a VIN?
           </h2>
-          <p className="text-slate-500 mb-8">
+          <p className="text-slate-700 mb-8">
             Enter any 17-character VIN to see specs, title brands, and history in seconds.
           </p>
           <VinSearchForm size="sm" />

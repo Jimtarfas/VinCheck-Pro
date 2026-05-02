@@ -68,7 +68,7 @@ export default function GuidesPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900">
             VIN Guides & Resources
           </h1>
-          <p className="mt-4 text-lg text-slate-500 max-w-2xl leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 max-w-2xl leading-relaxed">
             Everything you need to know about Vehicle Identification Numbers. Our
             free guides help you decode, understand, and use VINs to make smarter
             vehicle decisions.
@@ -94,7 +94,7 @@ export default function GuidesPage() {
                   <h2 className="text-xl font-bold text-slate-900 group-hover:text-primary-600 transition-colors">
                     {title}
                   </h2>
-                  <p className="mt-1.5 text-slate-500 leading-relaxed">
+                  <p className="mt-1.5 text-slate-700 leading-relaxed">
                     {description}
                   </p>
                 </div>
@@ -109,7 +109,7 @@ export default function GuidesPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Ready to Check a Vehicle?
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter any 17-character VIN to get an instant vehicle report.
           </p>
           <VinSearchForm size="sm" />

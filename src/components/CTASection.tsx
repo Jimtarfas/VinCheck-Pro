@@ -25,7 +25,7 @@ export default function CTASection() {
               <VinSearchForm size="lg" onDark />
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-[11px] sm:text-sm font-semibold text-primary-fixed/60 uppercase tracking-widest mt-4">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-[11px] sm:text-sm font-semibold text-primary-fixed/90 uppercase tracking-widest mt-4">
               <span className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
                 NMVTIS Federal Data
@@ -42,7 +42,7 @@ export default function CTASection() {
 
             <Link
               href="/report/3GN7DNRP3TS104891"
-              className="text-sm text-primary-fixed/50 hover:text-primary-fixed transition-colors underline underline-offset-2"
+              className="text-sm text-primary-fixed/85 hover:text-primary-fixed transition-colors underline underline-offset-2"
             >
               View sample report →
             </Link>

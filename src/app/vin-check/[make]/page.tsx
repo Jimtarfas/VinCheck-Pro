@@ -114,7 +114,7 @@ export default async function MakePage({ params }: Props) {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             What&apos;s Included in a {make.name} VIN Report
           </h2>
-          <p className="text-slate-500 mb-8">Everything you need to know about any {make.name} vehicle</p>
+          <p className="text-slate-700 mb-8">Everything you need to know about any {make.name} vehicle</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {features.map(({ icon: Icon, title, description }) => (
               <div key={title} className="flex items-start gap-3 p-5 bg-white rounded-xl border border-slate-200">
@@ -123,7 +123,7 @@ export default async function MakePage({ params }: Props) {
                 </div>
                 <div>
                   <h3 className="font-semibold text-slate-900">{title}</h3>
-                  <p className="text-sm text-slate-500 mt-0.5">{description}</p>
+                  <p className="text-sm text-slate-700 mt-0.5">{description}</p>
                 </div>
               </div>
             ))}
@@ -137,7 +137,7 @@ export default async function MakePage({ params }: Props) {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Popular {make.name} Models to VIN Check
           </h2>
-          <p className="text-slate-500 mb-8">Run a VIN check on any of these popular {make.name} models</p>
+          <p className="text-slate-700 mb-8">Run a VIN check on any of these popular {make.name} models</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
             {make.popular.map((model) => (
               <div key={model} className="flex items-center gap-2 p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary-300 hover:bg-primary-50/30 transition-all">
@@ -165,7 +165,7 @@ export default async function MakePage({ params }: Props) {
                 <div className="w-8 h-8 rounded-lg bg-primary-600 text-white flex items-center justify-center flex-shrink-0 text-sm font-bold">{step}</div>
                 <div>
                   <h3 className="font-semibold text-slate-900">{title}</h3>
-                  <p className="text-sm text-slate-500 mt-1">{desc}</p>
+                  <p className="text-sm text-slate-700 mt-1">{desc}</p>
                 </div>
               </div>
             ))}

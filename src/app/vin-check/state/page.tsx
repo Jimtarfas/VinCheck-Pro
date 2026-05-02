@@ -115,7 +115,7 @@ export default function StateIndexPage() {
                       </div>
                       <div className="min-w-0">
                         <div className="font-semibold text-slate-900 truncate">{s.name}</div>
-                        <div className="text-xs text-slate-500">{s.abbr} • Pop. {s.population}</div>
+                        <div className="text-xs text-slate-700">{s.abbr} • Pop. {s.population}</div>
                       </div>
                     </div>
                     <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-primary-600 transition-colors flex-shrink-0" />

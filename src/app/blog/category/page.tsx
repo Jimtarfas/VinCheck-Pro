@@ -70,7 +70,7 @@ export default async function BlogCategoryIndexPage() {
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
               Blog Categories
             </h1>
-            <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+            <p className="mt-4 text-lg text-slate-700 leading-relaxed">
               Explore CarCheckerVIN articles by topic. From buying guides and VIN education to
               vehicle safety, market insights, and ownership advice.
             </p>
@@ -98,7 +98,7 @@ export default async function BlogCategoryIndexPage() {
                     {category.title}
                   </h2>
                   {category.description && (
-                    <p className="mt-2 text-sm text-slate-500 leading-relaxed line-clamp-3">
+                    <p className="mt-2 text-sm text-slate-700 leading-relaxed line-clamp-3">
                       {category.description}
                     </p>
                   )}

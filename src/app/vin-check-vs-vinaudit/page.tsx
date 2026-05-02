@@ -98,7 +98,7 @@ export default function VinCheckVsVinAuditPage() {
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
             CarCheckerVIN vs VinAudit: Which VIN Decoder Wins?
           </h1>
-          <p className="mt-4 text-lg text-slate-500 leading-relaxed">
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
             VinAudit is a long-running, NMVTIS-authorized vehicle history
             provider that has built a solid reputation around accurate
             title data and developer-friendly APIs. CarCheckerVIN pulls
@@ -168,7 +168,7 @@ export default function VinCheckVsVinAuditPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-4 text-sm text-slate-500">
+          <p className="mt-4 text-sm text-slate-700">
             Pricing reflects the publicly listed retail price for individual
             consumer reports as of April 2026.
           </p>
@@ -377,7 +377,7 @@ export default function VinCheckVsVinAuditPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Try a Smarter, Cheaper Alternative
           </h2>
-          <p className="text-slate-500 mb-6">
+          <p className="text-slate-700 mb-6">
             Enter a 17-character VIN and see what a $7.99 report looks
             like.
           </p>

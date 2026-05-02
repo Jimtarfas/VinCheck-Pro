@@ -34,7 +34,7 @@ export default async function AdminUsersPage() {
       <div className="flex items-end justify-between">
         <div>
           <h2 className="text-lg font-bold text-slate-900">All Users</h2>
-          <p className="text-sm text-slate-500">{users.length.toLocaleString()} total signups</p>
+          <p className="text-sm text-slate-700">{users.length.toLocaleString()} total signups</p>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export default async function AdminUsersPage() {
             <tbody className="divide-y divide-slate-100">
               {sorted.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-5 py-12 text-center text-slate-500">
+                  <td colSpan={5} className="px-5 py-12 text-center text-slate-700">
                     No users yet.
                   </td>
                 </tr>
@@ -67,10 +67,10 @@ export default async function AdminUsersPage() {
                     <tr key={u.id} className="hover:bg-slate-50">
                       <td className="px-5 py-3 text-slate-900">{u.email || "—"}</td>
                       <td className="px-5 py-3 text-slate-600 capitalize">{provider}</td>
-                      <td className="px-5 py-3 text-slate-500 text-xs">
+                      <td className="px-5 py-3 text-slate-700 text-xs">
                         {u.created_at ? new Date(u.created_at).toLocaleString() : "—"}
                       </td>
-                      <td className="px-5 py-3 text-slate-500 text-xs">
+                      <td className="px-5 py-3 text-slate-700 text-xs">
                         {u.last_sign_in_at
                           ? new Date(u.last_sign_in_at).toLocaleString()
                           : "—"}
