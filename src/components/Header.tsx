@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Menu, X, ChevronRight, User, LogOut, FileText } from "lucide-react";
 import Logo from "./Logo";
 import { createClient } from "@/lib/supabase/client";
@@ -18,8 +18,6 @@ const navLinks = [
 
 export default function Header() {
   const router = useRouter();
-  const pathname = usePathname();
-  const isReportPage = pathname?.startsWith("/report/") ?? false;
 
   const [mobileOpen, setMobileOpen]     = useState(false);
   const [scrolled, setScrolled]         = useState(false);
@@ -27,14 +25,13 @@ export default function Header() {
   const [user, setUser]                 = useState<SupabaseUser | null>(null);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  // Auto-hide header on report pages: hide when scrolling down, show when
-  // scrolling up, near the top of the page, or when cursor reaches top edge.
+  // Auto-hide header site-wide so it gets out of the way while reading:
+  //  - scroll down past the fold → hide
+  //  - scroll up                 → show
+  //  - near the top of the page  → show
+  //  - cursor reaches top edge   → show (recovers it on long pages)
+  // While the mobile menu is open we stay visible so the open menu is reachable.
   useEffect(() => {
-    if (!isReportPage) {
-      setHidden(false);
-      return;
-    }
-
     let lastY = window.scrollY;
     let ticking = false;
 
@@ -43,7 +40,7 @@ export default function Header() {
       ticking = true;
       requestAnimationFrame(() => {
         const y = window.scrollY;
-        if (y < 80) {
+        if (y < 80 || mobileOpen) {
           setHidden(false);
         } else if (y > lastY + 6) {
           setHidden(true);
@@ -66,7 +63,7 @@ export default function Header() {
       window.removeEventListener("scroll", onAutoHideScroll);
       window.removeEventListener("mousemove", onMouseMove);
     };
-  }, [isReportPage]);
+  }, [mobileOpen]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);

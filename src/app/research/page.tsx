@@ -139,7 +139,7 @@ export default function ResearchPage() {
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-28 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-5 [&_a]:text-primary-100 [&_a:hover]:text-white [&_span]:text-white [&_li_span]:text-primary-200">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Research" }]} />
+            <Breadcrumbs onDark items={[{ label: "Home", href: "/" }, { label: "Research" }]} />
           </div>
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-xs font-semibold uppercase tracking-wider">
             <BarChart3 className="w-3.5 h-3.5" /> Original Research

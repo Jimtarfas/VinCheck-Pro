@@ -98,7 +98,7 @@ export default function ChangelogPage() {
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-28 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-5 [&_a]:text-primary-100 [&_a:hover]:text-white [&_span]:text-white [&_li_span]:text-primary-200">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Changelog" }]} />
+            <Breadcrumbs onDark items={[{ label: "Home", href: "/" }, { label: "Changelog" }]} />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold">Product Changelog</h1>
           <p className="mt-5 text-lg text-primary-100 max-w-2xl leading-relaxed">

@@ -36,7 +36,7 @@ export default function VinCheckPage() {
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "VIN Check" }]} />
+            <Breadcrumbs onDark items={[{ label: "Home", href: "/" }, { label: "VIN Check" }]} />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">Free VIN Check & Decoder</h1>
           <p className="text-lg text-primary-100 max-w-2xl leading-relaxed mb-8">

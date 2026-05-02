@@ -63,7 +63,7 @@ export default function StateIndexPage() {
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
-            <Breadcrumbs items={[
+            <Breadcrumbs onDark items={[
               { label: "Home", href: "/" },
               { label: "VIN Check", href: "/vin-check" },
               { label: "By State" },

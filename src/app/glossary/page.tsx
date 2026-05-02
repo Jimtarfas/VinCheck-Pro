@@ -458,7 +458,7 @@ export default function GlossaryPage() {
       <section className="pt-28 pb-10 bg-gradient-to-br from-primary-600 to-primary-700 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-5 [&_a]:text-primary-100 [&_a:hover]:text-white [&_span]:text-white [&_li_span]:text-primary-200">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Glossary" }]} />
+            <Breadcrumbs onDark items={[{ label: "Home", href: "/" }, { label: "Glossary" }]} />
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold">VIN & Vehicle History Glossary</h1>
           <p className="mt-5 text-lg text-primary-100 leading-relaxed max-w-3xl">
