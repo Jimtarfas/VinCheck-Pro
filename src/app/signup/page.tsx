@@ -10,12 +10,25 @@ export const metadata: Metadata = {
   alternates: { canonical: "/signup" },
 };
 
-export default async function SignupPage() {
+function safeNext(raw: string | string[] | undefined): string {
+  const v = Array.isArray(raw) ? raw[0] : raw;
+  if (!v || !v.startsWith("/") || v.startsWith("//")) return "/";
+  return v;
+}
+
+export default async function SignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string | string[] }>;
+}) {
+  const { next: rawNext } = await searchParams;
+  const next = safeNext(rawNext);
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (user) {
-    redirect("/");
+    redirect(next);
   }
 
   return (
@@ -28,7 +41,10 @@ export default async function SignupPage() {
         <AuthForm mode="signup" />
         <p className="text-center text-sm text-slate-700 mt-6">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary-600 font-medium hover:text-primary-700 transition-colors">
+          <Link
+            href={next === "/" ? "/login" : `/login?next=${encodeURIComponent(next)}`}
+            className="text-primary-600 font-medium hover:text-primary-700 transition-colors"
+          >
             Log in
           </Link>
         </p>

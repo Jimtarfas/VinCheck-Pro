@@ -1,12 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
+/**
+ * Only allow same-origin internal redirects via `?next=`.
+ * Anything starting with "//" or containing a scheme is treated
+ * as untrusted and falls back to "/".
+ */
+function safeNext(raw: string | null): string {
+  if (!raw) return "/";
+  if (!raw.startsWith("/") || raw.startsWith("//")) return "/";
+  return raw;
+}
+
 export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = safeNext(searchParams.get("next"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +41,10 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          // Pass `next` through the email confirmation link so the user
+          // lands back on the page they originally tried to view (e.g.
+          // /report/{vin}) once they click confirm.
+          emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
         },
       });
       if (error) {
@@ -44,7 +60,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
       if (error) {
         setError(error.message);
       } else {
-        router.push("/");
+        router.push(next);
         router.refresh();
       }
     }
@@ -58,7 +74,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
       },
     });
     if (error) {

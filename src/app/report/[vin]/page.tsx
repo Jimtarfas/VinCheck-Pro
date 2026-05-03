@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { decodeVin } from "@/lib/api";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
+import ReportGate from "@/components/ReportGate";
 import { trackVinLookup } from "@/lib/tracking";
 
 interface Props {
@@ -116,7 +117,9 @@ export default async function ReportPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <VinReport data={data} />
+      <ReportGate vin={cleaned}>
+        <VinReport data={data} />
+      </ReportGate>
     </>
   );
 }
