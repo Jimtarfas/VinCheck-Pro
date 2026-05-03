@@ -39,7 +39,7 @@ function slugifyTag(tag: string): string {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://carcheckervin.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
   const now = new Date();
 
   const makePages: MetadataRoute.Sitemap = makes.map((m) => ({

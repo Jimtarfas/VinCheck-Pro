@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "VIN Check for Dealers — Wholesale Pricing & API",
     description:
       "Save $20,000+/year on vehicle history reports. Wholesale VIN pricing, REST API, bulk uploads, and white-label reports for auto dealers and auctions.",
-    url: "https://carcheckervin.com/dealers",
+    url: "https://www.carcheckervin.com/dealers",
     type: "website",
   },
 };
@@ -51,7 +51,7 @@ const dealersSchema = [
     provider: {
       "@type": "Organization",
       name: "CarCheckerVIN",
-      url: "https://carcheckervin.com",
+      url: "https://www.carcheckervin.com",
     },
     areaServed: {
       "@type": "Country",
@@ -82,14 +82,14 @@ const dealersSchema = [
         description: "Custom pricing with full REST API, white-label reports, and SLA for auto auctions and large dealer groups.",
       },
     ],
-    url: "https://carcheckervin.com/dealers",
+    url: "https://www.carcheckervin.com/dealers",
   },
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
-    logo: "https://carcheckervin.com/logo.png",
+    url: "https://www.carcheckervin.com",
+    logo: "https://www.carcheckervin.com/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+1-800-846-2432",
@@ -107,13 +107,13 @@ const dealersSchema = [
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://carcheckervin.com",
+        item: "https://www.carcheckervin.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "For Dealers",
-        item: "https://carcheckervin.com/dealers",
+        item: "https://www.carcheckervin.com/dealers",
       },
     ],
   },

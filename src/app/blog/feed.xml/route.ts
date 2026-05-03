@@ -4,7 +4,7 @@ import type { SanityPost } from "@/sanity/types";
 
 export const revalidate = 3600;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://carcheckervin.com";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
 
 function escapeXml(s: string) {
   return s

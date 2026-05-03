@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "CarCheckerVIN vs ClearVin: Side-by-Side (2026)",
     description:
       "Compare CarCheckerVIN with ClearVin on pricing, title brand checks, photos, and market value. See which is the better fit for your purchase.",
-    url: "https://carcheckervin.com/vin-check-vs-clearvin",
+    url: "https://www.carcheckervin.com/vin-check-vs-clearvin",
     type: "article",
   },
 };
@@ -39,16 +39,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/vin-check-vs-clearvin",
+    "@id": "https://www.carcheckervin.com/vin-check-vs-clearvin",
   },
   datePublished: "2026-04-26",
   dateModified: "2026-04-26",

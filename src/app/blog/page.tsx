@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "VIN Check Blog — Car Buying & Vehicle History Insights",
     description: "Expert guides on used car buying, VIN decoding, vehicle history, and avoiding fraud.",
-    url: "https://carcheckervin.com/blog",
+    url: "https://www.carcheckervin.com/blog",
     type: "website",
   },
 };
@@ -48,13 +48,13 @@ export default async function BlogIndexPage() {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "CarCheckerVIN Blog",
-    url: "https://carcheckervin.com/blog",
+    url: "https://www.carcheckervin.com/blog",
     description: "Expert guides on used car buying, VIN decoding, vehicle history.",
-    publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://carcheckervin.com" },
+    publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
     blogPost: posts.slice(0, 20).map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
-      url: `https://carcheckervin.com/blog/${p.slug}`,
+      url: `https://www.carcheckervin.com/blog/${p.slug}`,
       datePublished: p.publishedAt,
       dateModified: p._updatedAt || p.publishedAt,
       author: { "@type": "Person", name: p.author?.name || "CarCheckerVIN Editorial" },

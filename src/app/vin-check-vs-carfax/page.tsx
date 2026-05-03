@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative",
     description:
       "Compare CarCheckerVIN with Carfax on price, data sources, and report contents. See why drivers are switching to a smarter alternative.",
-    url: "https://carcheckervin.com/vin-check-vs-carfax",
+    url: "https://www.carcheckervin.com/vin-check-vs-carfax",
     type: "article",
   },
 };
@@ -38,16 +38,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/vin-check-vs-carfax",
+    "@id": "https://www.carcheckervin.com/vin-check-vs-carfax",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

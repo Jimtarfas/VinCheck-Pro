@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: "Press Kit & Media Resources",
     description:
       "Quick facts, brand assets, spokespeople, and press contact for CarCheckerVIN — the affordable vehicle history report platform.",
-    url: "https://carcheckervin.com/press",
+    url: "https://www.carcheckervin.com/press",
     type: "website",
   },
 };
@@ -42,7 +42,7 @@ const pressSchema = [
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "CarCheckerVIN Press Kit",
-    url: "https://carcheckervin.com/press",
+    url: "https://www.carcheckervin.com/press",
     description:
       "Press kit and media resources for CarCheckerVIN, including brand assets, spokespeople, and announcement timeline.",
   },
@@ -51,8 +51,8 @@ const pressSchema = [
     "@type": "Organization",
     name: "CarCheckerVIN",
     alternateName: "VINCheck Pro",
-    url: "https://carcheckervin.com",
-    logo: "https://carcheckervin.com/logo.svg",
+    url: "https://www.carcheckervin.com",
+    logo: "https://www.carcheckervin.com/logo.svg",
     foundingDate: "2025",
     description:
       "CarCheckerVIN provides instant, affordable vehicle history reports powered by NMVTIS, NICB, and manufacturer data sources.",

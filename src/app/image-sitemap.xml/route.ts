@@ -11,7 +11,7 @@ import { groq } from "next-sanity";
 
 export const revalidate = 3600;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://carcheckervin.com";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
 const LICENSE = "https://creativecommons.org/licenses/by/4.0/";
 
 interface ImagePost {

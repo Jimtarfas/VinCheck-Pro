@@ -36,7 +36,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://carcheckervin.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com"),
   title: {
     default: "Free VIN Check & Decoder — Vehicle History Reports | CarCheckerVIN",
     template: "%s | CarCheckerVIN",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const SITE = "https://carcheckervin.com";
+  const SITE = "https://www.carcheckervin.com";
 
   const organizationLd = {
     "@context": "https://schema.org",

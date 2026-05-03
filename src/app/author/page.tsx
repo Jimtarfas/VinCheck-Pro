@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: "Our Editorial Team",
     description:
       "Meet the CarCheckerVIN editorial team — automotive researchers and industry experts.",
-    url: "https://carcheckervin.com/author",
+    url: "https://www.carcheckervin.com/author",
     type: "website",
   },
 };
@@ -34,7 +34,7 @@ export default async function AuthorIndexPage() {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "CarCheckerVIN Editorial Team",
-    url: "https://carcheckervin.com/author",
+    url: "https://www.carcheckervin.com/author",
     mainEntity: {
       "@type": "ItemList",
       itemListElement: authors
@@ -42,7 +42,7 @@ export default async function AuthorIndexPage() {
         .map((a, i) => ({
           "@type": "ListItem",
           position: i + 1,
-          url: `https://carcheckervin.com/author/${a.slug}`,
+          url: `https://www.carcheckervin.com/author/${a.slug}`,
           name: a.name,
         })),
     },

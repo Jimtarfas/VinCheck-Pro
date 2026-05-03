@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "About CarCheckerVIN — Trusted Vehicle History Reports",
     description:
       "Our mission, our data sources, and the team behind CarCheckerVIN's accurate, affordable VIN reports.",
-    url: "https://carcheckervin.com/about",
+    url: "https://www.carcheckervin.com/about",
     type: "article",
   },
 };
@@ -30,8 +30,8 @@ const aboutSchema = [
     "@type": "Organization",
     name: "CarCheckerVIN",
     alternateName: "VINCheck Pro",
-    url: "https://carcheckervin.com",
-    logo: "https://carcheckervin.com/logo.png",
+    url: "https://www.carcheckervin.com",
+    logo: "https://www.carcheckervin.com/logo.png",
     description:
       "CarCheckerVIN provides instant, affordable vehicle history reports powered by NMVTIS, NICB, and manufacturer data sources.",
     foundingDate: "2025",
@@ -54,7 +54,7 @@ const aboutSchema = [
     "@context": "https://schema.org",
     "@type": "AboutPage",
     name: "About CarCheckerVIN",
-    url: "https://carcheckervin.com/about",
+    url: "https://www.carcheckervin.com/about",
     description:
       "About CarCheckerVIN: our mission, data sources, editorial standards, and the team behind our vehicle history reports.",
   },

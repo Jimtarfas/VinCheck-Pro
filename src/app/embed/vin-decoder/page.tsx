@@ -19,7 +19,7 @@ export default function EmbedPage() {
         <div className="mt-4 text-xs text-slate-600 flex items-center justify-between">
           <span>Free &bull; No signup &bull; NMVTIS data</span>
           <a
-            href="https://carcheckervin.com"
+            href="https://www.carcheckervin.com"
             target="_blank"
             rel="noopener"
             className="text-primary-600 hover:underline"

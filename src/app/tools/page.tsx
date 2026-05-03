@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "Free VIN Tools — Decoder, Mileage Checker & More",
     description:
       "Eight free vehicle research tools, plus an embeddable VIN decoder widget for your own site. No signup, NMVTIS-backed data.",
-    url: "https://carcheckervin.com/tools",
+    url: "https://www.carcheckervin.com/tools",
     type: "website",
   },
 };
@@ -113,7 +113,7 @@ const toolsSchema = [
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "Free VIN Tools Hub",
-    url: "https://carcheckervin.com/tools",
+    url: "https://www.carcheckervin.com/tools",
     description:
       "Free vehicle research tools from CarCheckerVIN: VIN decoder, salvage check, stolen lookup, odometer verification, glossary, and an embeddable widget.",
   },
@@ -129,7 +129,7 @@ const toolsSchema = [
         name: t.title,
         applicationCategory: "UtilityApplication",
         operatingSystem: "Web",
-        url: `https://carcheckervin.com${t.href}`,
+        url: `https://www.carcheckervin.com${t.href}`,
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         description: t.description,
       },
@@ -137,7 +137,7 @@ const toolsSchema = [
   },
 ];
 
-const embedSnippet = `<iframe src="https://carcheckervin.com/embed/vin-decoder"
+const embedSnippet = `<iframe src="https://www.carcheckervin.com/embed/vin-decoder"
         width="100%" height="200" frameborder="0"></iframe>`;
 
 export default function ToolsPage() {

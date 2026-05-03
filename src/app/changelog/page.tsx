@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Product Changelog — CarCheckerVIN",
     description:
       "Track every CarCheckerVIN release: new data sources, landing pages, integrations, and product features.",
-    url: "https://carcheckervin.com/changelog",
+    url: "https://www.carcheckervin.com/changelog",
     type: "article",
   },
 };
@@ -27,14 +27,14 @@ const changelogSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   name: "Product Changelog — CarCheckerVIN",
-  url: "https://carcheckervin.com/changelog",
+  url: "https://www.carcheckervin.com/changelog",
   description:
     "Public release notes for CarCheckerVIN, covering data, content, platform, and product changes since launch.",
   inLanguage: "en-US",
   isPartOf: {
     "@type": "WebSite",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
 };
 

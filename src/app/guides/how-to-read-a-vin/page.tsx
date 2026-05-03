@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: "How to Read a VIN Number — Complete VIN Breakdown Guide",
     description:
       "Learn how to read a VIN number with our step-by-step guide. Understand all 17 VIN digits and what each position means.",
-    url: "https://carcheckervin.com/guides/how-to-read-a-vin",
+    url: "https://www.carcheckervin.com/guides/how-to-read-a-vin",
     type: "article",
   },
 };

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Odometer & Mileage Check by VIN",
     description:
       "Spot odometer rollback fraud with a VIN-based mileage history check. Compare reported readings across NMVTIS records.",
-    url: "https://carcheckervin.com/odometer-check",
+    url: "https://www.carcheckervin.com/odometer-check",
     type: "article",
   },
 };
@@ -38,16 +38,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/odometer-check",
+    "@id": "https://www.carcheckervin.com/odometer-check",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

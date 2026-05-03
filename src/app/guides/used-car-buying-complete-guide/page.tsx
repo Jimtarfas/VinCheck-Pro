@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "The Complete Used Car Buying Guide (2026 Edition)",
     description:
       "From budgeting through final paperwork: a 3,000+ word, expert-written guide to buying a used car safely and confidently in 2026.",
-    url: "https://carcheckervin.com/guides/used-car-buying-complete-guide",
+    url: "https://www.carcheckervin.com/guides/used-car-buying-complete-guide",
     type: "article",
   },
 };
@@ -52,21 +52,21 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://carcheckervin.com/logo.png",
+      url: "https://www.carcheckervin.com/logo.png",
     },
   },
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id":
-      "https://carcheckervin.com/guides/used-car-buying-complete-guide",
+      "https://www.carcheckervin.com/guides/used-car-buying-complete-guide",
   },
   datePublished: "2026-04-23",
   dateModified: "2026-04-23",

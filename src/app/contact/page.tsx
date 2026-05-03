@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "Contact CarCheckerVIN — Support, Partnerships & Press",
     description:
       "Reach the CarCheckerVIN team for help with VIN lookups, vehicle history reports, partnerships, press, or legal inquiries.",
-    url: "https://carcheckervin.com/contact",
+    url: "https://www.carcheckervin.com/contact",
     type: "website",
   },
 };
@@ -38,7 +38,7 @@ const contactPageSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: "Contact CarCheckerVIN",
-  url: "https://carcheckervin.com/contact",
+  url: "https://www.carcheckervin.com/contact",
   description:
     "Contact CarCheckerVIN for support, partnerships, press, and legal inquiries.",
 };
@@ -47,8 +47,8 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "CarCheckerVIN",
-  url: "https://carcheckervin.com",
-  logo: "https://carcheckervin.com/icon.svg",
+  url: "https://www.carcheckervin.com",
+  logo: "https://www.carcheckervin.com/icon.svg",
   contactPoint: [
     {
       "@type": "ContactPoint",

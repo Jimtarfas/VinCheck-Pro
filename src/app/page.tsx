@@ -38,9 +38,9 @@ const productLd = {
   description: "Comprehensive VIN-decoded vehicle history report including title status, accidents, mileage records, recalls, market value, and ownership data.",
   brand: { "@type": "Brand", name: "CarCheckerVIN" },
   offers: [
-    { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://carcheckervin.com/" },
-    { "@type": "Offer", name: "Single Premium Report (Limited-Time Free)", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://carcheckervin.com/#pricing" },
-    { "@type": "Offer", name: "5-Pack Bundle (Limited-Time Free)", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://carcheckervin.com/#pricing" },
+    { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/" },
+    { "@type": "Offer", name: "Single Premium Report (Limited-Time Free)", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing" },
+    { "@type": "Offer", name: "5-Pack Bundle (Limited-Time Free)", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing" },
   ],
   aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000", bestRating: "5", worstRating: "1" },
   review: [

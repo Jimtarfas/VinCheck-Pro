@@ -4,7 +4,7 @@
  * and Google handles them identically.
  */
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://carcheckervin.com";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
 
 export const revalidate = 3600;
 

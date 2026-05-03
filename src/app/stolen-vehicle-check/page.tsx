@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Stolen Vehicle Check by VIN — Is This Car Stolen?",
     description:
       "Find out if a vehicle is reported stolen by checking the VIN against the NICB and national theft databases.",
-    url: "https://carcheckervin.com/stolen-vehicle-check",
+    url: "https://www.carcheckervin.com/stolen-vehicle-check",
     type: "article",
   },
 };
@@ -38,16 +38,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/stolen-vehicle-check",
+    "@id": "https://www.carcheckervin.com/stolen-vehicle-check",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: "Trust & Security at CarCheckerVIN",
     description:
       "Authoritative data sources, end-to-end encryption, transparent privacy practices, and a 100% money-back guarantee.",
-    url: "https://carcheckervin.com/trust",
+    url: "https://www.carcheckervin.com/trust",
     type: "article",
   },
 };
@@ -38,25 +38,25 @@ const trustSchema = [
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "Trust & Security — How We Protect Your Data",
-    url: "https://carcheckervin.com/trust",
+    url: "https://www.carcheckervin.com/trust",
     description:
       "How CarCheckerVIN sources, secures, and stewards the data behind every vehicle history report.",
     inLanguage: "en-US",
     isPartOf: {
       "@type": "WebSite",
       name: "CarCheckerVIN",
-      url: "https://carcheckervin.com",
+      url: "https://www.carcheckervin.com",
     },
   },
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
-    logo: "https://carcheckervin.com/logo.png",
+    url: "https://www.carcheckervin.com",
+    logo: "https://www.carcheckervin.com/logo.png",
     description:
       "Affordable, accurate vehicle history reports backed by NMVTIS, NICB, and manufacturer data sources.",
-    sameAs: ["https://carcheckervin.com/about"],
+    sameAs: ["https://www.carcheckervin.com/about"],
   },
 ];
 

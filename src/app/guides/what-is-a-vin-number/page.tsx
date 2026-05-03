@@ -23,7 +23,7 @@ export const metadata: Metadata = {
       "What is a VIN Number? Complete Guide to Vehicle Identification Numbers",
     description:
       "Learn what a VIN number is, why it matters, and where to find it. Everything you need to know about Vehicle Identification Numbers.",
-    url: "https://carcheckervin.com/guides/what-is-a-vin-number",
+    url: "https://www.carcheckervin.com/guides/what-is-a-vin-number",
     type: "article",
   },
 };
@@ -38,16 +38,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/guides/what-is-a-vin-number",
+    "@id": "https://www.carcheckervin.com/guides/what-is-a-vin-number",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

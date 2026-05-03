@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Salvage Title Check by VIN — Rebuilt & Branded Title Lookup",
     description:
       "Find out if a vehicle has a salvage, rebuilt, flood, or junk title brand before you buy. Run a VIN check in seconds.",
-    url: "https://carcheckervin.com/salvage-title-check",
+    url: "https://www.carcheckervin.com/salvage-title-check",
     type: "article",
   },
 };
@@ -38,16 +38,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/salvage-title-check",
+    "@id": "https://www.carcheckervin.com/salvage-title-check",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

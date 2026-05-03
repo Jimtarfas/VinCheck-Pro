@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "Vehicle History Research & Data Studies",
     description:
       "Original research from our analysis of 50,000+ VIN lookups, NICB theft data, and NMVTIS title records — free for journalists and analysts to cite.",
-    url: "https://carcheckervin.com/research",
+    url: "https://www.carcheckervin.com/research",
     type: "article",
   },
 };
@@ -101,7 +101,7 @@ const researchSchema = [
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "CarCheckerVIN Research & Data",
-    url: "https://carcheckervin.com/research",
+    url: "https://www.carcheckervin.com/research",
     description:
       "Original automotive research from CarCheckerVIN, citable by journalists, analysts, and educators.",
   },
@@ -113,15 +113,15 @@ const researchSchema = [
     creator: {
       "@type": "Organization",
       name: "CarCheckerVIN Editorial Team",
-      url: "https://carcheckervin.com",
+      url: "https://www.carcheckervin.com",
     },
     publisher: {
       "@type": "Organization",
       name: "CarCheckerVIN",
-      url: "https://carcheckervin.com",
+      url: "https://www.carcheckervin.com",
     },
     license: "https://creativecommons.org/licenses/by/4.0/",
-    url: `https://carcheckervin.com${s.href}`,
+    url: `https://www.carcheckervin.com${s.href}`,
     keywords: s.tag,
     datePublished: "2026-04-01",
   })),
@@ -236,7 +236,7 @@ export default function ResearchPage() {
               </div>
               <code className="block text-sm text-slate-800 font-mono leading-relaxed">
                 CarCheckerVIN Editorial Team. (2026). [Study Name]. Retrieved from
-                https://carcheckervin.com/research
+                https://www.carcheckervin.com/research
               </code>
             </div>
 
@@ -256,7 +256,7 @@ export default function ResearchPage() {
               </div>
               <code className="block text-sm text-slate-800 font-mono leading-relaxed">
                 &ldquo;[Study Name],&rdquo; CarCheckerVIN Editorial Team, accessed [date],
-                https://carcheckervin.com/research.
+                https://www.carcheckervin.com/research.
               </code>
             </div>
           </div>

@@ -58,8 +58,8 @@ export default async function MakePage({ params }: Props) {
     "@type": "WebPage",
     name: `${make.name} VIN Check & Decoder`,
     description: `Free ${make.name} VIN check. Decode any ${make.name} VIN for full vehicle history, specs, and market values.`,
-    url: `https://carcheckervin.com/vin-check/${make.slug}`,
-    isPartOf: { "@type": "WebSite", name: "CarCheckerVIN", url: "https://carcheckervin.com" },
+    url: `https://www.carcheckervin.com/vin-check/${make.slug}`,
+    isPartOf: { "@type": "WebSite", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
   };
 
   return (

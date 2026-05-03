@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "VIN Check by State — All 50 US States",
     description: "Free VIN check for every US state. Title brand info, lemon law facts, and vehicle history reports.",
     type: "website",
-    url: "https://carcheckervin.com/vin-check/state",
+    url: "https://www.carcheckervin.com/vin-check/state",
   },
 };
 
@@ -49,8 +49,8 @@ export default function StateIndexPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://carcheckervin.com" },
-      { "@type": "ListItem", position: 2, name: "VIN Check", item: "https://carcheckervin.com/vin-check" },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.carcheckervin.com" },
+      { "@type": "ListItem", position: 2, name: "VIN Check", item: "https://www.carcheckervin.com/vin-check" },
       { "@type": "ListItem", position: 3, name: "By State" },
     ],
   };

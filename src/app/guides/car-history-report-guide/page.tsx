@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Vehicle History Reports: Everything You Need to Know",
     description:
       "Comprehensive guide to vehicle history reports: data sources, what to look for, how to read one, and how providers stack up.",
-    url: "https://carcheckervin.com/guides/car-history-report-guide",
+    url: "https://www.carcheckervin.com/guides/car-history-report-guide",
     type: "article",
   },
 };
@@ -52,21 +52,21 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://carcheckervin.com/logo.png",
+      url: "https://www.carcheckervin.com/logo.png",
     },
   },
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id":
-      "https://carcheckervin.com/guides/car-history-report-guide",
+      "https://www.carcheckervin.com/guides/car-history-report-guide",
   },
   datePublished: "2026-04-23",
   dateModified: "2026-04-23",

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "VIN Decoding: The Master Guide to All 17 Characters",
     description:
       "Position-by-position breakdown of the 17-character VIN: WMI, VDS, check digit, year codes, plant codes, and more.",
-    url: "https://carcheckervin.com/guides/vin-decoding-master-guide",
+    url: "https://www.carcheckervin.com/guides/vin-decoding-master-guide",
     type: "article",
   },
 };
@@ -51,21 +51,21 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://carcheckervin.com/logo.png",
+      url: "https://www.carcheckervin.com/logo.png",
     },
   },
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id":
-      "https://carcheckervin.com/guides/vin-decoding-master-guide",
+      "https://www.carcheckervin.com/guides/vin-decoding-master-guide",
   },
   datePublished: "2026-04-23",
   dateModified: "2026-04-23",

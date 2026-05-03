@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Free VIN Check — Decode Any VIN Number for Free",
     description:
       "Run a free VIN check to decode any vehicle identification number. See what's included in free vs. premium VIN reports.",
-    url: "https://carcheckervin.com/guides/free-vin-check",
+    url: "https://www.carcheckervin.com/guides/free-vin-check",
     type: "article",
   },
 };
@@ -37,16 +37,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/guides/free-vin-check",
+    "@id": "https://www.carcheckervin.com/guides/free-vin-check",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

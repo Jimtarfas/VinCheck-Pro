@@ -3,7 +3,7 @@ import { groq } from "next-sanity";
 
 export const revalidate = 1800;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://carcheckervin.com";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
 
 // Google News spec: posts published within the last 2 days.
 const recentPostsQuery = groq`

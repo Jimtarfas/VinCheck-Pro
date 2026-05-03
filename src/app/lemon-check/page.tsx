@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Lemon Check by VIN — Lemon Law Buyback Lookup",
     description:
       "Find out if a used vehicle was bought back by the manufacturer under state lemon laws. Run a VIN lemon check in seconds.",
-    url: "https://carcheckervin.com/lemon-check",
+    url: "https://www.carcheckervin.com/lemon-check",
     type: "article",
   },
 };
@@ -38,16 +38,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/lemon-check",
+    "@id": "https://www.carcheckervin.com/lemon-check",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

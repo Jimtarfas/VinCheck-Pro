@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "Used Car Financing: The Complete 2026 Guide",
     description:
       "Credit scores, lenders, pre-approval, APR vs. total cost, leasing vs buying, and refinancing &mdash; the full playbook for financing a used car in 2026.",
-    url: "https://carcheckervin.com/guides/used-car-financing-guide",
+    url: "https://www.carcheckervin.com/guides/used-car-financing-guide",
     type: "article",
   },
 };
@@ -52,21 +52,21 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://carcheckervin.com/logo.png",
+      url: "https://www.carcheckervin.com/logo.png",
     },
   },
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id":
-      "https://carcheckervin.com/guides/used-car-financing-guide",
+      "https://www.carcheckervin.com/guides/used-car-financing-guide",
   },
   datePublished: "2026-04-23",
   dateModified: "2026-04-23",

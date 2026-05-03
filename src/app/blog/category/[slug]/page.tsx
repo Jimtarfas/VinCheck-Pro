@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${category.title} — VIN Check Blog`,
       description,
-      url: `https://carcheckervin.com/blog/category/${category.slug}`,
+      url: `https://www.carcheckervin.com/blog/category/${category.slug}`,
       type: "website",
     },
   };
@@ -72,13 +72,13 @@ export default async function BlogCategoryPage({ params }: Props) {
     "@type": "CollectionPage",
     name: `${category.title} — VIN Check Blog`,
     description: category.description,
-    url: `https://carcheckervin.com/blog/category/${category.slug}`,
+    url: `https://www.carcheckervin.com/blog/category/${category.slug}`,
     mainEntity: {
       "@type": "ItemList",
       itemListElement: posts.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `https://carcheckervin.com/blog/${p.slug}`,
+        url: `https://www.carcheckervin.com/blog/${p.slug}`,
         name: p.title,
       })),
     },

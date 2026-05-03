@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     title: "VIN Guides & Resources — Learn Everything About VIN Numbers",
     description:
       "Free VIN guides and resources. Learn how to read a VIN, what a VIN number means, and how to decode any vehicle identification number for free.",
-    url: "https://carcheckervin.com/guides",
+    url: "https://www.carcheckervin.com/guides",
     type: "website",
   },
 };

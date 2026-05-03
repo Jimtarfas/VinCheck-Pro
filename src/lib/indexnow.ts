@@ -28,7 +28,7 @@ export async function submitToIndexNow(urls: string | string[]): Promise<IndexNo
   const list = Array.isArray(urls) ? urls : [urls];
   if (list.length === 0) return { ok: true, status: 200, count: 0 };
 
-  // Normalize: must be absolute https://carcheckervin.com URLs.
+  // Normalize: must be absolute https://www.carcheckervin.com URLs.
   const normalized = list
     .map((u) => (u.startsWith("http") ? u : `https://${HOST}${u.startsWith("/") ? u : "/" + u}`))
     .filter((u) => u.includes(HOST))

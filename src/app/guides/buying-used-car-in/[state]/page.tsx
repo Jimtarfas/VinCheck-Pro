@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `Buying a Used Car in ${state.name} — Complete 2026 Guide`,
       description,
       type: "article",
-      url: `https://carcheckervin.com/guides/buying-used-car-in/${state.slug}`,
+      url: `https://www.carcheckervin.com/guides/buying-used-car-in/${state.slug}`,
     },
     robots: { index: true, follow: true },
   };
@@ -160,16 +160,16 @@ export default async function GuidePage({ params }: Props) {
     author: {
       "@type": "Organization",
       name: "CarCheckerVIN",
-      url: "https://carcheckervin.com",
+      url: "https://www.carcheckervin.com",
     },
     publisher: {
       "@type": "Organization",
       name: "CarCheckerVIN",
-      url: "https://carcheckervin.com",
+      url: "https://www.carcheckervin.com",
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://carcheckervin.com/guides/buying-used-car-in/${state.slug}`,
+      "@id": `https://www.carcheckervin.com/guides/buying-used-car-in/${state.slug}`,
     },
   };
 
@@ -222,13 +222,13 @@ export default async function GuidePage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://carcheckervin.com" },
-      { "@type": "ListItem", position: 2, name: "Guides", item: "https://carcheckervin.com/guides" },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.carcheckervin.com" },
+      { "@type": "ListItem", position: 2, name: "Guides", item: "https://www.carcheckervin.com/guides" },
       {
         "@type": "ListItem",
         position: 3,
         name: "Buying Used Car",
-        item: "https://carcheckervin.com/guides",
+        item: "https://www.carcheckervin.com/guides",
       },
       { "@type": "ListItem", position: 4, name: state.name },
     ],

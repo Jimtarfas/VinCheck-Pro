@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Blog Categories — All Topics",
     description:
       "Browse all CarCheckerVIN blog categories — buying guides, VIN education, vehicle safety, and more.",
-    url: "https://carcheckervin.com/blog/category",
+    url: "https://www.carcheckervin.com/blog/category",
     type: "website",
   },
 };
@@ -38,13 +38,13 @@ export default async function BlogCategoryIndexPage() {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "Blog Categories — CarCheckerVIN",
-    url: "https://carcheckervin.com/blog/category",
+    url: "https://www.carcheckervin.com/blog/category",
     mainEntity: {
       "@type": "ItemList",
       itemListElement: categories.map((c, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `https://carcheckervin.com/blog/category/${c.slug}`,
+        url: `https://www.carcheckervin.com/blog/category/${c.slug}`,
         name: c.title,
       })),
     },

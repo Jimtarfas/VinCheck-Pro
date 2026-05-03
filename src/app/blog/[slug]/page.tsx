@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: post.seoTitle || post.title,
       description: post.seoDescription || post.excerpt,
-      url: `https://carcheckervin.com/blog/${post.slug}`,
+      url: `https://www.carcheckervin.com/blog/${post.slug}`,
       type: "article",
       publishedTime: post.publishedAt,
       modifiedTime: post._updatedAt,
@@ -118,11 +118,11 @@ export default async function BlogPostPage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       name: "CarCheckerVIN",
-      logo: { "@type": "ImageObject", url: "https://carcheckervin.com/logo.svg" },
+      logo: { "@type": "ImageObject", url: "https://www.carcheckervin.com/logo.svg" },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://carcheckervin.com/blog/${post.slug}`,
+      "@id": `https://www.carcheckervin.com/blog/${post.slug}`,
     },
     keywords: post.keywords?.join(", "),
     articleSection: post.category?.title,

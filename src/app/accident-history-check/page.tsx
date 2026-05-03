@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Vehicle Accident History Check by VIN",
     description:
       "Find reported accidents, crash records, and damage claims tied to any VIN. Avoid hidden collision damage before you buy.",
-    url: "https://carcheckervin.com/accident-history-check",
+    url: "https://www.carcheckervin.com/accident-history-check",
     type: "article",
   },
 };
@@ -38,16 +38,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/accident-history-check",
+    "@id": "https://www.carcheckervin.com/accident-history-check",
   },
   datePublished: "2026-04-16",
   dateModified: "2026-04-16",

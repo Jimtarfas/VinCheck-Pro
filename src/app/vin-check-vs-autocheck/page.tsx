@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: "CarCheckerVIN vs AutoCheck: 2026 Comparison",
     description:
       "Compare CarCheckerVIN with Experian AutoCheck on pricing, data, and the AutoCheck Score. A fair side-by-side breakdown for used-car buyers.",
-    url: "https://carcheckervin.com/vin-check-vs-autocheck",
+    url: "https://www.carcheckervin.com/vin-check-vs-autocheck",
     type: "article",
   },
 };
@@ -40,16 +40,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/vin-check-vs-autocheck",
+    "@id": "https://www.carcheckervin.com/vin-check-vs-autocheck",
   },
   datePublished: "2026-04-26",
   dateModified: "2026-04-26",

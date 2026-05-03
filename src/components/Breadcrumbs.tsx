@@ -19,7 +19,7 @@ export default function Breadcrumbs({
       "@type": "ListItem",
       position: i + 1,
       name: item.label,
-      ...(item.href ? { item: `https://carcheckervin.com${item.href}` } : {}),
+      ...(item.href ? { item: `https://www.carcheckervin.com${item.href}` } : {}),
     })),
   };
 

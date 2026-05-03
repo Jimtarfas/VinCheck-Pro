@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "Vehicle Fraud Prevention: The Definitive 2026 Guide",
     description:
       "Title fraud, odometer rollback, salvage washing, VIN cloning, dealer scams, and online scams &mdash; how each works and how to defend yourself.",
-    url: "https://carcheckervin.com/guides/vehicle-fraud-prevention",
+    url: "https://www.carcheckervin.com/guides/vehicle-fraud-prevention",
     type: "article",
   },
 };
@@ -52,21 +52,21 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://carcheckervin.com/logo.png",
+      url: "https://www.carcheckervin.com/logo.png",
     },
   },
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id":
-      "https://carcheckervin.com/guides/vehicle-fraud-prevention",
+      "https://www.carcheckervin.com/guides/vehicle-fraud-prevention",
   },
   datePublished: "2026-04-23",
   dateModified: "2026-04-23",

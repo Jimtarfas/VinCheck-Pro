@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${state.name} VIN Check — Vehicle History Reports`,
       description,
       type: "website",
-      url: `https://carcheckervin.com/vin-check/state/${state.slug}`,
+      url: `https://www.carcheckervin.com/vin-check/state/${state.slug}`,
     },
   };
 }
@@ -67,8 +67,8 @@ export default async function StatePage({ params }: Props) {
     "@type": "WebPage",
     name: `${state.name} VIN Check`,
     description: `Free ${state.name} VIN check and vehicle history report. ${state.dmvName} title brand information and lemon law facts.`,
-    url: `https://carcheckervin.com/vin-check/state/${state.slug}`,
-    isPartOf: { "@type": "WebSite", name: "CarCheckerVIN", url: "https://carcheckervin.com" },
+    url: `https://www.carcheckervin.com/vin-check/state/${state.slug}`,
+    isPartOf: { "@type": "WebSite", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
     about: {
       "@type": "Place",
       name: state.name,
@@ -80,9 +80,9 @@ export default async function StatePage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://carcheckervin.com" },
-      { "@type": "ListItem", position: 2, name: "VIN Check", item: "https://carcheckervin.com/vin-check" },
-      { "@type": "ListItem", position: 3, name: "By State", item: "https://carcheckervin.com/vin-check/state" },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.carcheckervin.com" },
+      { "@type": "ListItem", position: 2, name: "VIN Check", item: "https://www.carcheckervin.com/vin-check" },
+      { "@type": "ListItem", position: 3, name: "By State", item: "https://www.carcheckervin.com/vin-check/state" },
       { "@type": "ListItem", position: 4, name: state.name },
     ],
   };

@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${resolved} Articles | CarCheckerVIN Blog`,
       description: `Read ${count} CarCheckerVIN ${count === 1 ? "article" : "articles"} tagged with ${resolved}.`,
-      url: `https://carcheckervin.com/blog/tag/${slugifyTag(resolved)}`,
+      url: `https://www.carcheckervin.com/blog/tag/${slugifyTag(resolved)}`,
       type: "website",
     },
   };
@@ -95,13 +95,13 @@ export default async function BlogTagPage({ params }: Props) {
     "@type": "CollectionPage",
     name: `Articles tagged: ${resolved}`,
     description: `CarCheckerVIN articles tagged with ${resolved}.`,
-    url: `https://carcheckervin.com/blog/tag/${slugifyTag(resolved)}`,
+    url: `https://www.carcheckervin.com/blog/tag/${slugifyTag(resolved)}`,
     mainEntity: {
       "@type": "ItemList",
       itemListElement: posts.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `https://carcheckervin.com/blog/${p.slug}`,
+        url: `https://www.carcheckervin.com/blog/${p.slug}`,
         name: p.title,
       })),
     },

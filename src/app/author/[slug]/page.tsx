@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${author.name} — Author at CarCheckerVIN`,
       description,
-      url: `https://carcheckervin.com/author/${author.slug}`,
+      url: `https://www.carcheckervin.com/author/${author.slug}`,
       type: "profile",
       images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : undefined,
     },
@@ -84,13 +84,13 @@ export default async function AuthorPage({ params }: Props) {
     name: author.name,
     jobTitle: author.role,
     description: author.bio,
-    url: `https://carcheckervin.com/author/${author.slug}`,
+    url: `https://www.carcheckervin.com/author/${author.slug}`,
     image: author.avatar ? urlFor(author.avatar).width(400).height(400).url() : undefined,
     sameAs: sameAs.length > 0 ? sameAs : undefined,
     worksFor: {
       "@type": "Organization",
       name: "CarCheckerVIN",
-      url: "https://carcheckervin.com",
+      url: "https://www.carcheckervin.com",
     },
   };
 

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "CarCheckerVIN vs VinAudit: Which VIN Decoder Wins?",
     description:
       "Compare CarCheckerVIN with VinAudit on pricing, NMVTIS coverage, report depth, and presentation. See which one is the better fit.",
-    url: "https://carcheckervin.com/vin-check-vs-vinaudit",
+    url: "https://www.carcheckervin.com/vin-check-vs-vinaudit",
     type: "article",
   },
 };
@@ -39,16 +39,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/vin-check-vs-vinaudit",
+    "@id": "https://www.carcheckervin.com/vin-check-vs-vinaudit",
   },
   datePublished: "2026-04-26",
   dateModified: "2026-04-26",

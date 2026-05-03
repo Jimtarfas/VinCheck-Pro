@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: "CarCheckerVIN vs Bumper: Pricing & Features Compared",
     description:
       "Compare CarCheckerVIN with Bumper on pricing, subscription model, ongoing monitoring, and report depth. A fair side-by-side breakdown.",
-    url: "https://carcheckervin.com/vin-check-vs-bumper",
+    url: "https://www.carcheckervin.com/vin-check-vs-bumper",
     type: "article",
   },
 };
@@ -39,16 +39,16 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://carcheckervin.com",
+    url: "https://www.carcheckervin.com",
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": "https://carcheckervin.com/vin-check-vs-bumper",
+    "@id": "https://www.carcheckervin.com/vin-check-vs-bumper",
   },
   datePublished: "2026-04-26",
   dateModified: "2026-04-26",

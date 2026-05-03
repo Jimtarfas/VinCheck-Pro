@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
 
   // Fetch our own sitemap and submit every URL.
   try {
-    const r = await fetch("https://carcheckervin.com/sitemap.xml");
+    const r = await fetch("https://www.carcheckervin.com/sitemap.xml");
     const xml = await r.text();
     const urls = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g)).map((m) => m[1]);
     const result = await submitToIndexNow(urls);

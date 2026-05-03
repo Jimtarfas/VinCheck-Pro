@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "VIN & Vehicle History Glossary — 60+ Terms Defined",
     description:
       "Plain-English definitions for VIN structure, title brands, inspection, valuation, and vehicle history terminology.",
-    url: "https://carcheckervin.com/glossary",
+    url: "https://www.carcheckervin.com/glossary",
     type: "article",
   },
 };
@@ -429,13 +429,13 @@ const definedTermSetSchema = {
   "@context": "https://schema.org",
   "@type": "DefinedTermSet",
   name: "VIN & Vehicle History Glossary",
-  url: "https://carcheckervin.com/glossary",
+  url: "https://www.carcheckervin.com/glossary",
   hasDefinedTerm: sortedTerms.map((t) => ({
     "@type": "DefinedTerm",
     name: t.term,
     description: t.definition,
-    inDefinedTermSet: "https://carcheckervin.com/glossary",
-    ...(t.href ? { url: `https://carcheckervin.com${t.href}` } : {}),
+    inDefinedTermSet: "https://www.carcheckervin.com/glossary",
+    ...(t.href ? { url: `https://www.carcheckervin.com${t.href}` } : {}),
   })),
 };
 

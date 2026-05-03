@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "Help & Support — CarCheckerVIN FAQ",
     description:
       "Find answers about VIN lookups, report contents, billing, and technical issues, or contact our support team.",
-    url: "https://carcheckervin.com/help",
+    url: "https://www.carcheckervin.com/help",
     type: "article",
   },
 };
