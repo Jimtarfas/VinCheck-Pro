@@ -32,6 +32,22 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Canonical-host enforcement: 308 redirect www.carcheckervin.com → apex
+  // carcheckervin.com so search engines (Bing flagged this on /lemon-check
+  // and /vin-check/porsche) only ever see one canonical hostname. Without
+  // this, both subdomains were serving 200s, splitting crawl signal and
+  // producing "page not in sitemap" errors for the www variants.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.carcheckervin.com" }],
+        destination: "https://carcheckervin.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   // Cache headers for static assets — long max-age + immutable
   async headers() {
     return [
