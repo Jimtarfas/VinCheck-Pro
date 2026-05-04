@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { makes } from "@/lib/makes";
 import { states } from "@/lib/states";
+import { marketplaces } from "@/lib/marketplaces";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 
@@ -55,6 +56,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "monthly" as const,
     priority: 0.75,
   }));
+
+  const marketplacePages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/marketplace-vin-check`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    ...marketplaces.map((m) => ({
+      url: `${baseUrl}/marketplace-vin-check/${m.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ];
 
   const buyingGuideStatePages: MetadataRoute.Sitemap = states.map((s) => ({
     url: `${baseUrl}/guides/buying-used-car-in/${s.slug}`,
@@ -124,6 +140,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/vin-check/state`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     ...makePages,
     ...statePages,
+    ...marketplacePages,
     { url: `${baseUrl}/stolen-vehicle-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/salvage-title-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/accident-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },

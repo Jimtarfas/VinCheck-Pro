@@ -11,6 +11,15 @@ const checkLinks = [
   { href: "/lemon-check",            label: "Lemon Check" },
 ];
 
+const marketplaceLinks = [
+  { href: "/marketplace-vin-check/facebook-marketplace", label: "Facebook Marketplace" },
+  { href: "/marketplace-vin-check/craigslist",           label: "Craigslist" },
+  { href: "/marketplace-vin-check/offerup",              label: "OfferUp" },
+  { href: "/marketplace-vin-check/ebay-motors",          label: "eBay Motors" },
+  { href: "/marketplace-vin-check/autotrader",           label: "AutoTrader" },
+  { href: "/marketplace-vin-check/copart",               label: "Copart" },
+];
+
 const guideLinks = [
   { href: "/blog",                            label: "Blog" },
   { href: "/guides",                          label: "All VIN Guides" },
@@ -39,7 +48,7 @@ export default function Footer() {
   return (
     <footer className="bg-inverse-surface text-inverse-on-surface/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 sm:gap-10 mb-12 sm:mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 sm:gap-10 mb-12 sm:mb-16">
 
           {/* Brand column */}
           <div className="col-span-2 md:col-span-2">
@@ -66,6 +75,18 @@ export default function Footer() {
             <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">VIN Checks</h3>
             <ul className="space-y-3">
               {checkLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Marketplace */}
+          <div>
+            <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">Marketplace</h3>
+            <ul className="space-y-3">
+              {marketplaceLinks.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
                 </li>
