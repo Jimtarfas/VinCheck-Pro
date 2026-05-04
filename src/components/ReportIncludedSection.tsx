@@ -15,22 +15,20 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-/* ── Feature checklist — two neat columns ── */
-const featuresLeft = [
-  { label: "Accident & damage history",             icon: FileWarning, color: "text-rose-500",   bg: "bg-rose-50" },
-  { label: "Odometer rollback detection",           icon: Gauge,       color: "text-amber-500",  bg: "bg-amber-50" },
-  { label: "Theft & recovery records",              icon: Car,         color: "text-slate-600",  bg: "bg-slate-100" },
-  { label: "Flood & fire damage reports",           icon: Flame,       color: "text-orange-500", bg: "bg-orange-50" },
-  { label: "Lien & impound information",            icon: Anchor,      color: "text-indigo-500", bg: "bg-indigo-50" },
-  { label: "VIN specs & factory options",           icon: RefreshCcw,  color: "text-cyan-600",   bg: "bg-cyan-50" },
-];
-const featuresRight = [
-  { label: "Title brand records (salvage, lemon)",  icon: ShieldCheck, color: "text-primary",    bg: "bg-primary/8" },
-  { label: "Ownership history & registration",      icon: Users,       color: "text-violet-500", bg: "bg-violet-50" },
-  { label: "Open safety recalls",                   icon: ShieldCheck, color: "text-red-500",    bg: "bg-red-50" },
-  { label: "Auction sale history with photos",      icon: BarChart3,   color: "text-blue-500",   bg: "bg-blue-50" },
-  { label: "Service & maintenance records",         icon: Wrench,      color: "text-emerald-500",bg: "bg-emerald-50" },
-  { label: "Market value estimate",                 icon: TrendingDown,color: "text-green-600",  bg: "bg-green-50" },
+/* ── 12-item feature list shown on the right ── */
+const features = [
+  { label: "Accident & damage history",            icon: FileWarning,  color: "text-rose-500",   bg: "bg-rose-50" },
+  { label: "Title brand records (salvage, lemon)", icon: ShieldCheck,  color: "text-primary",    bg: "bg-primary/8" },
+  { label: "Odometer rollback detection",          icon: Gauge,        color: "text-amber-500",  bg: "bg-amber-50" },
+  { label: "Ownership history & registration",     icon: Users,        color: "text-violet-500", bg: "bg-violet-50" },
+  { label: "Theft & recovery records",             icon: Car,          color: "text-slate-600",  bg: "bg-slate-100" },
+  { label: "Open safety recalls",                  icon: ShieldCheck,  color: "text-red-500",    bg: "bg-red-50" },
+  { label: "Flood & fire damage reports",          icon: Flame,        color: "text-orange-500", bg: "bg-orange-50" },
+  { label: "Auction sale history with photos",     icon: BarChart3,    color: "text-blue-500",   bg: "bg-blue-50" },
+  { label: "Lien & impound information",           icon: Anchor,       color: "text-indigo-500", bg: "bg-indigo-50" },
+  { label: "Service & maintenance records",        icon: Wrench,       color: "text-emerald-500",bg: "bg-emerald-50" },
+  { label: "VIN specs & factory options",          icon: RefreshCcw,   color: "text-cyan-600",   bg: "bg-cyan-50" },
+  { label: "Market value estimate",                icon: TrendingDown, color: "text-green-600",  bg: "bg-green-50" },
 ];
 
 /* ── Phone screen data rows ── */
@@ -43,61 +41,39 @@ const phoneRows = [
   { label: "Odometer",        value: "Verified",   badge: true,  badgeColor: "bg-blue-100 text-blue-700" },
 ];
 
-function FeatureRow({ label, icon: Icon, color, bg }: { label: string; icon: React.ElementType; color: string; bg: string }) {
-  return (
-    <div className="flex items-center gap-3 py-2.5 border-b border-slate-100 last:border-0">
-      <div className={`w-8 h-8 rounded-xl ${bg} flex items-center justify-center flex-shrink-0`}>
-        <Icon className={`w-4 h-4 ${color}`} />
-      </div>
-      <span className="text-sm text-slate-700 font-medium leading-snug">{label}</span>
-    </div>
-  );
-}
-
 export default function ReportIncludedSection() {
   return (
     <section
       id="whats-included"
-      className="py-20 sm:py-28 px-4 sm:px-6 overflow-hidden bg-surface-container-low"
+      className="py-16 sm:py-24 px-4 sm:px-6"
+      style={{ background: "linear-gradient(180deg, #f8fafc 0%, #eef1f5 50%, #f8fafc 100%)" }}
     >
       <div className="max-w-7xl mx-auto">
 
         {/* ── Header ── */}
-        <div className="text-center mb-16 sm:mb-20">
+        <div className="text-center mb-10 sm:mb-14">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/12 text-xs font-bold text-primary uppercase tracking-[0.18em] mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             40+ Data Points
           </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-headline font-extrabold text-on-surface tracking-tight mb-4">
-            What&apos;s Included in<br className="hidden sm:block" /> Every Report
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-on-surface tracking-tight mb-3">
+            What&apos;s Included in Every Report
           </h2>
           <p className="text-base sm:text-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
             Comprehensive vehicle history from NMVTIS and 50+ trusted sources — delivered instantly.
           </p>
         </div>
 
-        {/* ── 3-column layout: checklist | phone | preview card ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px_1fr] gap-8 lg:gap-10 items-start mb-16 sm:mb-20">
+        {/* ── Main: phone (left) + features (right) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 lg:gap-12 items-stretch">
 
-          {/* COL 1 — Left feature list */}
-          <div className="bg-surface-container-lowest rounded-3xl p-6 sm:p-8 shadow-sm border border-outline-variant/10">
-            <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mb-4">Data Coverage</p>
-            <div className="divide-y divide-slate-100">
-              {featuresLeft.map((f) => <FeatureRow key={f.label} {...f} />)}
-            </div>
-          </div>
-
-          {/* COL 2 — Phone mockup, centered */}
-          <div className="flex flex-col items-center justify-start gap-6 py-4">
-
-            {/* Phone shell */}
-            <div className="w-[190px] bg-slate-900 rounded-[2.8rem] shadow-2xl shadow-slate-900/30 p-[6px] border-2 border-slate-800">
+          {/* Phone column */}
+          <div className="flex justify-center lg:justify-start">
+            <div className="w-[210px] bg-slate-900 rounded-[2.8rem] shadow-2xl shadow-slate-900/30 p-[6px] border-2 border-slate-800 self-start">
               {/* Dynamic island */}
               <div className="mx-auto w-14 h-[11px] bg-slate-950 rounded-full mb-2" />
 
-              {/* Screen */}
               <div className="bg-white rounded-[2.3rem] overflow-hidden">
-
                 {/* App header */}
                 <div className="bg-primary px-4 pt-3 pb-4">
                   <div className="flex items-center gap-2 mb-3">
@@ -109,8 +85,6 @@ export default function ReportIncludedSection() {
                       <p className="text-[7px] font-mono text-white/60 leading-none mt-0.5">4T1B11HK5KU••••••</p>
                     </div>
                   </div>
-
-                  {/* Score + Value pills */}
                   <div className="flex gap-2">
                     <div className="flex-1 bg-white/15 rounded-2xl px-2 py-1.5 text-center">
                       <p className="text-[7px] text-white/60 uppercase tracking-widest leading-none mb-0.5">Score</p>
@@ -137,7 +111,6 @@ export default function ReportIncludedSection() {
                   ))}
                 </div>
 
-                {/* CTA */}
                 <div className="px-3 pb-4 pt-2">
                   <div className="bg-primary rounded-2xl py-2 text-center">
                     <span className="text-[8px] font-black text-white uppercase tracking-widest">View Full Report</span>
@@ -145,47 +118,46 @@ export default function ReportIncludedSection() {
                 </div>
               </div>
 
-              {/* Home indicator */}
               <div className="mx-auto mt-2 w-12 h-1 bg-slate-700 rounded-full" />
             </div>
-
-            {/* Caption under phone */}
-            <p className="text-[11px] text-center text-slate-400 font-medium max-w-[160px] leading-relaxed">
-              Every report looks exactly like this
-            </p>
           </div>
 
-          {/* COL 3 — Right feature list + preview card */}
-          <div className="flex flex-col gap-6">
-            {/* Right feature list */}
-            <div className="bg-surface-container-lowest rounded-3xl p-6 sm:p-8 shadow-sm border border-outline-variant/10">
-              <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em] mb-4">History & Records</p>
-              <div className="divide-y divide-slate-100">
-                {featuresRight.map((f) => <FeatureRow key={f.label} {...f} />)}
-              </div>
+          {/* Features + inline preview card */}
+          <div className="bg-surface-container-lowest rounded-3xl p-6 sm:p-8 shadow-sm border border-outline-variant/10 flex flex-col">
+
+            <div className="flex items-center justify-between mb-5">
+              <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em]">Full Coverage Checklist</p>
+              <span className="text-[10px] font-bold text-primary bg-primary/8 px-2 py-1 rounded-full">12 of 40+ shown</span>
             </div>
 
-            {/* Preview card — bottom of right column */}
-            <div className="bg-primary rounded-3xl p-6 sm:p-7 shadow-lg">
-              <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-1">Free Preview</p>
-              <p className="text-lg font-headline font-extrabold text-white mb-3">See What You&apos;ll Get</p>
-              <div className="space-y-2 mb-5">
-                {[
-                  "Full vehicle history with 50+ data points",
-                  "Title records, accidents, and recalls",
-                  "Print-ready format with navigation",
-                ].map((point) => (
-                  <div key={point} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-white/70 flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-white/85 leading-snug">{point}</span>
+            {/* 2-col feature grid (3-col on large) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-1 mb-6">
+              {features.map(({ label, icon: Icon, color, bg }) => (
+                <div key={label} className="flex items-center gap-3 py-2 border-b border-slate-100 last:border-0 sm:[&:nth-last-child(2)]:border-0">
+                  <div className={`w-8 h-8 rounded-xl ${bg} flex items-center justify-center flex-shrink-0`}>
+                    <Icon className={`w-4 h-4 ${color}`} />
                   </div>
-                ))}
+                  <span className="text-sm text-on-surface font-medium leading-snug">{label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Inline preview banner — tight, integrated, no floating empty space */}
+            <div className="mt-auto bg-primary rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:justify-between">
+              <div>
+                <p className="text-[10px] font-black text-white/70 uppercase tracking-[0.18em] mb-1">Free Preview</p>
+                <p className="text-base sm:text-lg font-headline font-extrabold text-white leading-tight mb-1">See what you&apos;ll get</p>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/80">
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> 50+ data points</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Title & accident records</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Print-ready</span>
+                </div>
               </div>
               <Link
                 href="/sample-report"
-                className="flex items-center justify-center gap-2 w-full bg-white text-primary text-sm font-bold rounded-2xl py-3 hover:bg-white/90 transition-colors group"
+                className="flex-shrink-0 inline-flex items-center gap-2 bg-white text-primary text-sm font-bold rounded-full px-5 py-3 hover:bg-white/90 transition-colors group whitespace-nowrap"
               >
-                View Sample Report
+                View Sample
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
@@ -193,17 +165,17 @@ export default function ReportIncludedSection() {
 
         </div>
 
-        {/* ── Bottom stat strip ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {/* ── Stat strip — closer to content ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8">
           {[
             { n: "50+",    label: "Trusted Sources",  color: "bg-surface-container-lowest text-primary border border-primary/10" },
             { n: "1B+",    label: "Records Checked",  color: "bg-violet-50 text-violet-700" },
             { n: "NMVTIS", label: "Federal Database", color: "bg-emerald-50 text-emerald-700" },
             { n: "<60s",   label: "Report Delivery",  color: "bg-amber-50 text-amber-700" },
           ].map(({ n, label, color }) => (
-            <div key={label} className={`rounded-2xl px-5 py-5 text-center ${color}`}>
-              <p className="text-2xl sm:text-3xl font-headline font-black leading-none mb-1">{n}</p>
-              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest opacity-60">{label}</p>
+            <div key={label} className={`rounded-2xl px-4 py-3.5 text-center ${color}`}>
+              <p className="text-xl sm:text-2xl font-headline font-black leading-none mb-1">{n}</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">{label}</p>
             </div>
           ))}
         </div>
