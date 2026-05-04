@@ -34,7 +34,7 @@ const sources = [
 
 export default function DataSourcesBar() {
   return (
-    <section className="bg-surface-container-low border-b border-outline-variant/20 py-3.5 px-4 sm:px-6">
+    <section className="py-3.5 px-4 sm:px-6" style={{ background: "linear-gradient(135deg, #f7f9fc 0%, #eceef1 100%)" }}>
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2">
 
         <span className="text-[10px] font-semibold text-outline uppercase tracking-[0.18em] mr-3 hidden sm:inline">
