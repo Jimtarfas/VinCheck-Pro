@@ -16,10 +16,28 @@ function safeNext(raw: string | null): string {
   return raw;
 }
 
-export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
+export default function AuthForm({
+  mode,
+  next: nextProp,
+  compact = false,
+}: {
+  mode: "login" | "signup";
+  /**
+   * Where to send the user after successful auth. If omitted, falls back
+   * to the `?next=` URL query param. Used by callers like <ReportGate>
+   * that mount this form inline (where the URL doesn't carry ?next=).
+   */
+  next?: string;
+  /**
+   * When true, drops the outer white card wrapper so the form can sit
+   * inside another container (e.g. an inline modal that already has its
+   * own card chrome). Defaults to false to preserve the page-level look.
+   */
+  compact?: boolean;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = safeNext(searchParams.get("next"));
+  const next = nextProp ?? safeNext(searchParams.get("next"));
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -84,7 +102,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+    <div className={compact ? "" : "bg-white rounded-2xl border border-slate-200 p-8 shadow-sm"}>
       {/* Google */}
       <button
         onClick={handleGoogleLogin}

@@ -2,25 +2,30 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Lock, ChevronRight, Check } from "lucide-react";
+import { Lock, Download, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Logo from "./Logo";
+import AuthForm from "./AuthForm";
 
 type AuthState = "loading" | "authed" | "guest";
 
 /**
  * ReportGate
  * ---------------------------------------------------------------
- * Gates the full VIN report behind a Supabase signup. Guests see
- * the report blurred behind a non-dismissible modal that pushes
- * them to /signup or /login (with ?next=/report/{vin} so they
- * land back on this report immediately after authentication).
+ * Gates the full VIN report behind Supabase auth. Guests see the
+ * report blurred behind a non-dismissible modal that contains an
+ * inline signup/login form (<AuthForm compact>). They can complete
+ * the entire flow without ever leaving the report URL — the moment
+ * Supabase emits an auth state change the gate drops live.
+ *
+ * The modal also exposes a tab toggle between "Sign up" (default,
+ * since this is a conversion gate) and "Log in" for returning users.
  *
  * Signed-in users see no overlay — the report renders normally.
  *
  * If Supabase env vars aren't configured we fall back to "authed"
- * so the report stays visible (don't block production behind a
- * misconfigured auth backend).
+ * so the report stays visible (a misconfigured auth backend should
+ * never brick the report page).
  */
 export default function ReportGate({
   vin,
@@ -30,6 +35,7 @@ export default function ReportGate({
   children: React.ReactNode;
 }) {
   const [auth, setAuth] = useState<AuthState>("loading");
+  const [mode, setMode] = useState<"signup" | "login">("signup");
 
   useEffect(() => {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -49,7 +55,9 @@ export default function ReportGate({
       setAuth(user ? "authed" : "guest");
     });
 
-    // If the user signs in/up in another tab, drop the gate live.
+    // If the user signs in/up in this tab (or another), drop the gate live.
+    // AuthForm calls signInWithPassword / signUp on the same client which
+    // triggers this listener, so the modal disappears without a redirect.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (!mounted) return;
@@ -89,7 +97,7 @@ export default function ReportGate({
   }
 
   // Guest — render report blurred + non-interactive behind a fullscreen scrim.
-  const next = encodeURIComponent(`/report/${vin}`);
+  const next = `/report/${vin}`;
 
   return (
     <>
@@ -105,15 +113,15 @@ export default function ReportGate({
         role="dialog"
         aria-modal="true"
         aria-labelledby="report-gate-title"
-        className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8 bg-slate-900/70 backdrop-blur-sm overflow-y-auto"
+        className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 bg-slate-900/70 backdrop-blur-sm overflow-y-auto"
       >
-        <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-7 sm:p-9">
+        <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 sm:p-8 my-auto">
           {/* Brand */}
-          <div className="flex justify-center mb-5">
+          <div className="flex justify-center mb-4">
             <Logo variant="onLight" size="sm" />
           </div>
 
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-3">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-xs font-bold text-primary-700 uppercase tracking-widest">
               <Lock className="w-3 h-3" /> Free account required
             </span>
@@ -121,52 +129,75 @@ export default function ReportGate({
 
           <h2
             id="report-gate-title"
-            className="text-2xl sm:text-3xl font-headline font-extrabold text-slate-900 text-center leading-tight tracking-tight mb-2"
+            className="text-2xl sm:text-[1.6rem] font-headline font-extrabold text-slate-900 text-center leading-tight tracking-tight mb-2"
           >
-            Sign up to view your report
+            {mode === "signup"
+              ? "Sign up to view & download"
+              : "Log in to view your report"}
           </h2>
-          <p className="text-sm text-slate-700 text-center mb-6">
-            Create a free account to unlock the full vehicle history for{" "}
-            <span className="font-mono font-semibold text-slate-900">{vin}</span>{" "}
-            — including specs, market values, photos, and recalls.
+          <p className="text-sm text-slate-700 text-center mb-5">
+            {mode === "signup" ? "Unlock the full report for " : "Continue to your report for "}
+            <span className="font-mono font-semibold text-slate-900">{vin}</span>
+            {mode === "signup"
+              ? " — view all specs, recalls, market values, and download a PDF copy."
+              : "."}
           </p>
 
-          <ul className="space-y-2.5 mb-7">
-            {[
-              "Full vehicle history & specs",
-              "Real listing photos & market values",
-              "Save reports to your dashboard",
-              "100% free — no credit card",
-            ].map((line) => (
-              <li
-                key={line}
-                className="flex items-start gap-2.5 text-sm text-slate-700"
-              >
-                <Check className="w-4 h-4 mt-0.5 text-emerald-500 flex-shrink-0" />
-                {line}
-              </li>
-            ))}
-          </ul>
-
-          <Link
-            href={`/signup?next=${next}`}
-            className="group flex items-center justify-center gap-1.5 w-full px-5 py-3 text-sm font-bold text-white bg-primary-600 rounded-full hover:bg-primary-700 transition-all shadow-md shadow-primary/20"
+          {/* Tabs */}
+          <div
+            role="tablist"
+            aria-label="Authentication mode"
+            className="flex bg-slate-100 rounded-full p-1 mb-5"
           >
-            Create free account
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-
-          <p className="text-center text-sm text-slate-700 mt-4">
-            Already have an account?{" "}
-            <Link
-              href={`/login?next=${next}`}
-              className="text-primary-600 font-semibold hover:text-primary-700"
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "signup"}
+              onClick={() => setMode("signup")}
+              className={`flex-1 px-4 py-2 text-sm font-semibold rounded-full transition-all cursor-pointer ${
+                mode === "signup"
+                  ? "bg-white text-primary-700 shadow-sm"
+                  : "text-slate-700 hover:text-slate-900"
+              }`}
+            >
+              Sign up
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "login"}
+              onClick={() => setMode("login")}
+              className={`flex-1 px-4 py-2 text-sm font-semibold rounded-full transition-all cursor-pointer ${
+                mode === "login"
+                  ? "bg-white text-primary-700 shadow-sm"
+                  : "text-slate-700 hover:text-slate-900"
+              }`}
             >
               Log in
-            </Link>
-          </p>
+            </button>
+          </div>
 
-          <div className="mt-6 pt-5 border-t border-slate-200 text-center">
+          {/* Inline auth — instant: signInWithPassword / signUp run on the
+              same Supabase client; the parent's onAuthStateChange listener
+              drops the gate the moment a session exists. */}
+          <AuthForm mode={mode} next={next} compact />
+
+          {/* Quick reassurance row */}
+          <div className="mt-5 flex items-center justify-center gap-4 text-[11px] font-semibold text-slate-600 uppercase tracking-widest">
+            <span className="inline-flex items-center gap-1.5">
+              <FileText className="w-3.5 h-3.5 text-primary-600" /> Full report
+            </span>
+            <span className="text-slate-300">•</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Download className="w-3.5 h-3.5 text-primary-600" /> PDF download
+            </span>
+            <span className="text-slate-300">•</span>
+            <span className="inline-flex items-center gap-1.5">
+              No credit card
+            </span>
+          </div>
+
+          <div className="mt-5 pt-4 border-t border-slate-200 text-center">
             <Link
               href="/"
               className="text-xs text-slate-500 hover:text-slate-700 transition-colors"
@@ -179,4 +210,3 @@ export default function ReportGate({
     </>
   );
 }
-
