@@ -75,8 +75,8 @@ export default function Home() {
       <DataSourcesBar />
       <TrustBar />
       <VinHistorySection />
-      <HowItWorks />
       <ReportIncludedSection />
+      <HowItWorks />
       <FeaturesSection />
       <AIFeaturesSection />
       <ComparisonSection />

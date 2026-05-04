@@ -154,7 +154,7 @@ export default function ReportIncludedSection() {
                 </div>
               </div>
               <Link
-                href="/sample-report"
+                href="/report/3GN7DNRP3TS104891"
                 className="flex-shrink-0 inline-flex items-center gap-2 bg-white text-primary text-sm font-bold rounded-full px-5 py-3 hover:bg-white/90 transition-colors group whitespace-nowrap"
               >
                 View Sample
