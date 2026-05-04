@@ -3,6 +3,7 @@ import TrustBar from "@/components/TrustBar";
 import DataSourcesBar from "@/components/DataSourcesBar";
 import VinHistorySection from "@/components/VinHistorySection";
 import HowItWorks from "@/components/HowItWorks";
+import ReportIncludedSection from "@/components/ReportIncludedSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import AIFeaturesSection from "@/components/AIFeaturesSection";
 import ComparisonSection from "@/components/ComparisonSection";
@@ -75,6 +76,7 @@ export default function Home() {
       <TrustBar />
       <VinHistorySection />
       <HowItWorks />
+      <ReportIncludedSection />
       <FeaturesSection />
       <AIFeaturesSection />
       <ComparisonSection />
