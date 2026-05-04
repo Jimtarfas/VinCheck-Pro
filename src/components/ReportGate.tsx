@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Lock, Download, FileText } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import Logo from "./Logo";
 import AuthForm from "./AuthForm";
@@ -119,12 +119,6 @@ export default function ReportGate({
           {/* Brand */}
           <div className="flex justify-center mb-4">
             <Logo variant="onLight" size="sm" />
-          </div>
-
-          <div className="flex justify-center mb-3">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 border border-primary-100 text-xs font-bold text-primary-700 uppercase tracking-widest">
-              <Lock className="w-3 h-3" /> Free account required
-            </span>
           </div>
 
           <h2
