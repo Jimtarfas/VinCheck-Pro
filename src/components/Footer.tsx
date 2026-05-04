@@ -11,6 +11,17 @@ const checkLinks = [
   { href: "/lemon-check",            label: "Lemon Check" },
 ];
 
+const moreChecksLinks = [
+  { href: "/window-sticker",        label: "Window Sticker" },
+  { href: "/license-plate-lookup",  label: "Plate Lookup" },
+  { href: "/recall-check",          label: "Recall Check" },
+  { href: "/market-value",          label: "Market Value" },
+  { href: "/warranty-check",        label: "Warranty Check" },
+  { href: "/motorcycle-vin-check",  label: "Motorcycle VIN" },
+  { href: "/rv-vin-check",          label: "RV VIN Check" },
+  { href: "/flood-check",           label: "Flood Check" },
+];
+
 const marketplaceLinks = [
   { href: "/marketplace-vin-check/facebook-marketplace", label: "Facebook Marketplace" },
   { href: "/marketplace-vin-check/craigslist",           label: "Craigslist" },
@@ -48,10 +59,10 @@ export default function Footer() {
   return (
     <footer className="bg-inverse-surface text-inverse-on-surface/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 sm:gap-10 mb-12 sm:mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-7 gap-8 sm:gap-10 mb-12 sm:mb-16">
 
           {/* Brand column */}
-          <div className="col-span-2 md:col-span-2">
+          <div className="col-span-2 md:col-span-2 lg:col-span-2">
             <div className="mb-5">
               <Logo variant="onDark" size="md" />
             </div>
@@ -87,6 +98,18 @@ export default function Footer() {
             <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">Marketplace</h3>
             <ul className="space-y-3">
               {marketplaceLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* More Tools */}
+          <div>
+            <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">More Tools</h3>
+            <ul className="space-y-3">
+              {moreChecksLinks.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
                 </li>
