@@ -1,5 +1,6 @@
 import Image from "next/image";
 import VinSearchForm from "./VinSearchForm";
+import VinLocatorHint from "./VinLocatorHint";
 
 const stats = [
   { value: "50K+",   label: "Trusted Buyers" },
@@ -48,6 +49,7 @@ export default function HeroSection() {
           {/* VIN Search */}
           <div className="animate-fade-in-up-delay-3">
             <VinSearchForm size="lg" />
+            <VinLocatorHint />
           </div>
 
           {/* Stats row */}
