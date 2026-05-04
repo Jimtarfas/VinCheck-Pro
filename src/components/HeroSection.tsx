@@ -2,6 +2,12 @@ import Image from "next/image";
 import VinSearchForm from "./VinSearchForm";
 import VinLocatorHint from "./VinLocatorHint";
 
+const trustedSources = [
+  { id: "nmvtis",     src: "https://epicvin.com/img2/security/webp/nmvtis-logo@2x.webp",  alt: "NMVTIS",                  h: "h-5" },
+  { id: "niada",      src: "https://epicvin.com/img2/security/png/niada-logo.png",         alt: "NIADA",                   h: "h-4" },
+  { id: "blockchain", src: "https://epicvin.com/img2/security/svg/blockchain-icon.svg",    alt: "Blockchain Confirmed Data",h: "h-5" },
+];
+
 const stats = [
   { value: "50K+",   label: "Trusted Buyers" },
   { value: "4.9",    label: "Avg Rating" },
@@ -60,6 +66,21 @@ export default function HeroSection() {
                 <p className="text-[10px] sm:text-xs text-on-surface-variant font-medium uppercase tracking-wider">{label}</p>
               </div>
             ))}
+          </div>
+
+          {/* Trusted sources — part of hero, no background */}
+          <div className="mt-8 pt-6 border-t border-slate-200/60 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.18em]">Trusted sources:</span>
+            {trustedSources.map(({ id, src, alt, h }) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={id} src={src} alt={alt} loading="lazy" decoding="async" className={`${h} w-auto object-contain opacity-50 grayscale`} />
+            ))}
+            <div className="flex items-center gap-1.5">
+              <div className="w-4 h-4 rounded-full bg-red-700 flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-[5px] font-black leading-none">NICB</span>
+              </div>
+              <span className="text-[10px] font-semibold text-slate-400 tracking-wide">NICB</span>
+            </div>
           </div>
         </div>
 

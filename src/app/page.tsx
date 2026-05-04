@@ -1,6 +1,5 @@
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
-import DataSourcesBar from "@/components/DataSourcesBar";
 import VinHistorySection from "@/components/VinHistorySection";
 import HowItWorks from "@/components/HowItWorks";
 import ReportIncludedSection from "@/components/ReportIncludedSection";
@@ -72,7 +71,6 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
 
       <HeroSection />
-      <DataSourcesBar />
       <TrustBar />
       <VinHistorySection />
       <ReportIncludedSection />
