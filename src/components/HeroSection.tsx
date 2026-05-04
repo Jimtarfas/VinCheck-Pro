@@ -13,7 +13,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-32 lg:pb-24 overflow-hidden"
+      className="relative pt-20 pb-6 sm:pt-24 sm:pb-10 lg:pt-32 lg:pb-16 overflow-hidden"
       style={{ background: "linear-gradient(135deg, #f7f9fc 0%, #eceef1 100%)" }}
     >
       {/* Soft background blobs */}
