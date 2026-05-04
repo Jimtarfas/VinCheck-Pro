@@ -42,6 +42,7 @@ export default function MarketplaceVinCheckPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
             <Breadcrumbs
+              onDark
               items={[
                 { label: "Home", href: "/" },
                 { label: "Marketplace VIN Check" },
@@ -56,7 +57,7 @@ export default function MarketplaceVinCheckPage() {
             platform below or enter a VIN directly to get a full vehicle history report.
           </p>
           <div className="max-w-xl">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg" onDark />
           </div>
         </div>
       </section>

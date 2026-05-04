@@ -88,6 +88,7 @@ export default async function MarketplacePage({ params }: Props) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
             <Breadcrumbs
+              onDark
               items={[
                 { label: "Home", href: "/" },
                 { label: "Marketplace VIN Check", href: "/marketplace-vin-check" },
@@ -104,7 +105,7 @@ export default async function MarketplacePage({ params }: Props) {
             full history before you commit to any purchase.
           </p>
           <div className="max-w-xl">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg" onDark />
           </div>
         </div>
       </section>
