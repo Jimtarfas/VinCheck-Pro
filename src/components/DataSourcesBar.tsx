@@ -3,69 +3,54 @@
  * -------------------------------------------------------
  * Shows the authoritative data sources powering CarCheckerVIN
  * reports — NMVTIS, NIADA, Blockchain Confirmed Data, NICB.
- * Sits below the hero / TrustBar so visitors immediately
- * understand the data is from trusted, regulated sources.
+ * Sits below the hero so visitors immediately understand the
+ * data comes from trusted, regulated industry sources.
  */
 
 const sources = [
   {
     id: "nmvtis",
+    // eslint-disable-next-line @next/next/no-img-element
     logo: (
-      <div className="flex items-center gap-2">
-        {/* NMVTIS shield */}
-        <svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M14 1L2 6v10c0 7.18 5.14 13.89 12 15.93C20.86 29.89 26 23.18 26 16V6L14 1Z" fill="#003178"/>
-          <path d="M14 1L2 6v10c0 7.18 5.14 13.89 12 15.93C20.86 29.89 26 23.18 26 16V6L14 1Z" fill="url(#nmvtis-grad)" opacity="0.4"/>
-          <text x="14" y="19" textAnchor="middle" fill="white" fontSize="7" fontWeight="800" fontFamily="sans-serif" letterSpacing="-0.5">NMVTIS</text>
-          <defs>
-            <linearGradient id="nmvtis-grad" x1="14" y1="1" x2="14" y2="32" gradientUnits="userSpaceOnUse">
-              <stop stopColor="white" stopOpacity="0.3"/>
-              <stop offset="1" stopColor="white" stopOpacity="0"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div>
-          <p className="text-[11px] font-black text-slate-800 uppercase tracking-widest leading-none">NMVTIS</p>
-          <p className="text-[9px] text-slate-500 leading-tight mt-0.5 max-w-[110px]">National Motor Vehicle<br/>Title Information System</p>
-        </div>
-      </div>
+      <img
+        src="https://epicvin.com/img2/security/webp/nmvtis-logo@2x.webp"
+        alt="NMVTIS — National Motor Vehicle Title Information System"
+        width={120}
+        height={40}
+        loading="lazy"
+        decoding="async"
+        className="h-9 w-auto object-contain"
+      />
     ),
   },
   {
     id: "niada",
+    // eslint-disable-next-line @next/next/no-img-element
     logo: (
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center flex-shrink-0">
-          <span className="text-white text-[8px] font-black leading-none tracking-tight">N<br/>I</span>
-        </div>
-        <div>
-          <p className="text-[13px] font-black text-slate-800 uppercase tracking-[0.15em] leading-none">NIADA</p>
-          <p className="text-[9px] text-slate-500 leading-tight mt-0.5 max-w-[110px]">National Ind. Automobile<br/>Dealers Association</p>
-        </div>
-      </div>
+      <img
+        src="https://epicvin.com/img2/security/png/niada-logo.png"
+        alt="NIADA — National Independent Automobile Dealers Association"
+        width={110}
+        height={40}
+        loading="lazy"
+        decoding="async"
+        className="h-9 w-auto object-contain"
+      />
     ),
   },
   {
     id: "blockchain",
+    // eslint-disable-next-line @next/next/no-img-element
     logo: (
-      <div className="flex items-center gap-2">
-        {/* Blockchain hexagon icon */}
-        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M15 2L27 8.5v13L15 28 3 21.5v-13L15 2Z" fill="#F59E0B" opacity="0.15"/>
-          <path d="M15 2L27 8.5v13L15 28 3 21.5v-13L15 2Z" stroke="#F59E0B" strokeWidth="1.5"/>
-          {/* chain link dots */}
-          <circle cx="15" cy="10" r="2" fill="#F59E0B"/>
-          <circle cx="10" cy="18" r="2" fill="#F59E0B"/>
-          <circle cx="20" cy="18" r="2" fill="#F59E0B"/>
-          <line x1="15" y1="10" x2="10" y2="18" stroke="#F59E0B" strokeWidth="1" opacity="0.6"/>
-          <line x1="15" y1="10" x2="20" y2="18" stroke="#F59E0B" strokeWidth="1" opacity="0.6"/>
-          <line x1="10" y1="18" x2="20" y2="18" stroke="#F59E0B" strokeWidth="1" opacity="0.6"/>
-        </svg>
-        <div>
-          <p className="text-[11px] font-black text-slate-800 uppercase tracking-widest leading-none">Blockchain</p>
-          <p className="text-[9px] text-slate-500 leading-tight mt-0.5">Confirmed Data</p>
-        </div>
-      </div>
+      <img
+        src="https://epicvin.com/img2/security/svg/blockchain-icon.svg"
+        alt="Blockchain Confirmed Data"
+        width={130}
+        height={40}
+        loading="lazy"
+        decoding="async"
+        className="h-9 w-auto object-contain"
+      />
     ),
   },
   {
@@ -77,7 +62,7 @@ const sources = [
         </div>
         <div>
           <p className="text-[11px] font-black text-slate-800 uppercase tracking-widest leading-none">NICB</p>
-          <p className="text-[9px] text-slate-500 leading-tight mt-0.5 max-w-[100px]">Nat'l Insurance Crime<br/>Bureau — Stolen Check</p>
+          <p className="text-[9px] text-slate-500 leading-tight mt-0.5 max-w-[100px]">Nat&apos;l Insurance Crime<br />Bureau — Stolen Check</p>
         </div>
       </div>
     ),
@@ -95,10 +80,12 @@ export default function DataSourcesBar() {
         </p>
 
         {/* Logos row */}
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 sm:gap-x-12">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 sm:gap-x-14">
           {sources.map(({ id, logo }, i) => (
             <div key={id} className="flex items-center gap-8">
-              {logo}
+              <div className="flex items-center justify-center h-10">
+                {logo}
+              </div>
               {i < sources.length - 1 && (
                 <div className="hidden sm:block w-px h-8 bg-slate-200" aria-hidden="true" />
               )}
