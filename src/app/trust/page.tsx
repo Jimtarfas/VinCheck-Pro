@@ -186,10 +186,10 @@ export default function TrustPage() {
           <p className="mt-4 text-lg text-slate-600 leading-relaxed">
             To exercise any of these rights, email{" "}
             <a
-              href="mailto:support@carcheckervin.com"
+              href="mailto:contact@carcheckervin.com"
               className="text-primary-600 hover:underline font-medium"
             >
-              support@carcheckervin.com
+              contact@carcheckervin.com
             </a>{" "}
             with the subject line "Privacy Request." We respond to every request within 30 days,
             often within one business day, and we never charge a fee for verified personal-data
@@ -290,10 +290,10 @@ export default function TrustPage() {
                 <p className="mt-1 text-slate-600 leading-relaxed">
                   Request a refund anytime within 30 days at{" "}
                   <a
-                    href="mailto:support@carcheckervin.com"
+                    href="mailto:contact@carcheckervin.com"
                     className="text-primary-600 hover:underline font-medium"
                   >
-                    support@carcheckervin.com
+                    contact@carcheckervin.com
                   </a>
                   . Most refunds are processed the same business day.
                 </p>

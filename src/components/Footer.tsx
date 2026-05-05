@@ -72,7 +72,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li className="flex items-center gap-2 text-sm">
                 <Mail className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0" />
-                support@carcheckervin.com
+                contact@carcheckervin.com
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Phone className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0" />

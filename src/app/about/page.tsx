@@ -39,7 +39,7 @@ const aboutSchema = [
       "@type": "ContactPoint",
       telephone: "+1-800-846-2432",
       contactType: "customer support",
-      email: "support@carcheckervin.com",
+      email: "contact@carcheckervin.com",
       areaServed: "US",
       availableLanguage: ["English"],
       hoursAvailable: {
@@ -267,10 +267,10 @@ export default function AboutPage() {
               <div>
                 <div className="font-semibold text-slate-900">Email</div>
                 <a
-                  href="mailto:support@carcheckervin.com"
+                  href="mailto:contact@carcheckervin.com"
                   className="text-primary-600 hover:underline"
                 >
-                  support@carcheckervin.com
+                  contact@carcheckervin.com
                 </a>
               </div>
             </div>

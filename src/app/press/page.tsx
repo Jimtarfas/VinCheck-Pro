@@ -60,7 +60,7 @@ const pressSchema = [
       {
         "@type": "ContactPoint",
         telephone: "+1-800-846-2432",
-        email: "press@carcheckervin.com",
+        email: "contact@carcheckervin.com",
         contactType: "press",
         areaServed: "US",
         availableLanguage: ["English"],
@@ -82,25 +82,25 @@ const spokespeople = [
   {
     name: "Marcus Chen",
     role: "Founder & CEO",
-    email: "marcus@carcheckervin.com",
+    email: "contact@carcheckervin.com",
     bio: "12 years in automotive data engineering at major insurance carriers; available for interviews on used-car fraud, NMVTIS policy, and dealer pricing.",
   },
   {
     name: "Priya Anand",
     role: "Head of Data",
-    email: "priya@carcheckervin.com",
+    email: "contact@carcheckervin.com",
     bio: "Former lead engineer at a Fortune 100 auto auction; speaks to vehicle data integrity, OEM API integration, and recall reporting.",
   },
   {
     name: "Devon Whitfield",
     role: "Lead Research Analyst",
-    email: "devon@carcheckervin.com",
+    email: "contact@carcheckervin.com",
     bio: "ASE-certified, decade in DMV fraud detection; available for commentary on title washing, VIN cloning, and odometer rollback.",
   },
   {
     name: "Sara Okonkwo",
     role: "Communications Lead",
-    email: "press@carcheckervin.com",
+    email: "contact@carcheckervin.com",
     bio: "Primary press contact, manages all media requests, embargoed previews, and custom data pulls for journalists and researchers.",
   },
 ];
@@ -358,11 +358,11 @@ export default function PressPage() {
             </p>
             <div className="mt-5 space-y-3">
               <a
-                href="mailto:press@carcheckervin.com"
+                href="mailto:contact@carcheckervin.com"
                 className="flex items-center gap-3 text-slate-700 hover:text-primary-600"
               >
                 <Mail className="w-5 h-5 text-primary-600" />
-                <span className="font-semibold">press@carcheckervin.com</span>
+                <span className="font-semibold">contact@carcheckervin.com</span>
               </a>
               <a
                 href="tel:1-800-846-2432"

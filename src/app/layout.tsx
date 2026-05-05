@@ -95,7 +95,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     contactPoint: [{
       "@type": "ContactPoint",
       telephone: "+1-800-846-2432",
-      email: "support@carcheckervin.com",
+      email: "contact@carcheckervin.com",
       contactType: "customer support",
       areaServed: "US",
       availableLanguage: ["English"],

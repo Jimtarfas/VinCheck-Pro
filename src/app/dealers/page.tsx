@@ -94,7 +94,7 @@ const dealersSchema = [
       "@type": "ContactPoint",
       telephone: "+1-800-846-2432",
       contactType: "sales",
-      email: "support@carcheckervin.com",
+      email: "contact@carcheckervin.com",
       areaServed: "US",
       availableLanguage: ["English"],
     },
@@ -668,10 +668,10 @@ export default function DealersPage() {
           </div>
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-600">
             <a
-              href="mailto:support@carcheckervin.com"
+              href="mailto:contact@carcheckervin.com"
               className="inline-flex items-center gap-2 hover:text-primary-600"
             >
-              <Mail className="w-4 h-4" /> support@carcheckervin.com
+              <Mail className="w-4 h-4" /> contact@carcheckervin.com
             </a>
             <a
               href="tel:1-800-846-2432"

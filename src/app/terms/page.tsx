@@ -51,8 +51,8 @@ export default function TermsPage() {
         <h2 className="text-xl font-semibold text-slate-900 mt-8">6. Contact</h2>
         <p>
           For questions about these terms, contact us at{" "}
-          <a href="mailto:legal@carcheckervin.com" className="text-primary-600 hover:underline">
-            legal@carcheckervin.com
+          <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">
+            contact@carcheckervin.com
           </a>
           .
         </p>

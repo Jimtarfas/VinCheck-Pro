@@ -52,8 +52,8 @@ export default function PrivacyPage() {
         <h2 className="text-xl font-semibold text-slate-900 mt-8">6. Contact</h2>
         <p>
           For privacy-related inquiries, contact us at{" "}
-          <a href="mailto:privacy@carcheckervin.com" className="text-primary-600 hover:underline">
-            privacy@carcheckervin.com
+          <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">
+            contact@carcheckervin.com
           </a>
           .
         </p>

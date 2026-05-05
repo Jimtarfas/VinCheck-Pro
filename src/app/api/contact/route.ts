@@ -135,8 +135,8 @@ export async function POST(req: NextRequest) {
       try {
         const fromAddress =
           process.env.RESEND_FROM ||
-          "CarCheckerVIN Contact <noreply@carcheckervin.com>";
-        const toAddress = process.env.CONTACT_TO || "support@carcheckervin.com";
+          "CarCheckerVIN Contact <contact@carcheckervin.com>";
+        const toAddress = process.env.CONTACT_TO || "contact@carcheckervin.com";
 
         const html = `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; color: #0f172a;">

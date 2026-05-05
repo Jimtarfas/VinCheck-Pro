@@ -71,7 +71,7 @@ const accountFaqs: Faq[] = [
   },
   {
     q: "What is your refund policy?",
-    a: "We offer a 100% money-back guarantee for 30 days on every paid report. If your report does not contain usable data or you are dissatisfied for any reason, email support@carcheckervin.com and we will refund you in full. Most refunds are processed the same business day.",
+    a: "We offer a 100% money-back guarantee for 30 days on every paid report. If your report does not contain usable data or you are dissatisfied for any reason, email contact@carcheckervin.com and we will refund you in full. Most refunds are processed the same business day.",
   },
   {
     q: "What payment methods do you accept?",
@@ -79,14 +79,14 @@ const accountFaqs: Faq[] = [
   },
   {
     q: "Do you offer subscription or volume pricing?",
-    a: "Yes. Dealers, wholesalers, and high-volume buyers can access discounted bulk pricing and a multi-report subscription. Email support@carcheckervin.com with your expected monthly volume and we will send a custom quote within one business day.",
+    a: "Yes. Dealers, wholesalers, and high-volume buyers can access discounted bulk pricing and a multi-report subscription. Email contact@carcheckervin.com with your expected monthly volume and we will send a custom quote within one business day.",
   },
 ];
 
 const technicalFaqs: Faq[] = [
   {
     q: "My report will not load. What should I do?",
-    a: "First, refresh the page and check your internet connection. If the report still does not load, try a different browser or open the link from the confirmation email we sent you. If the issue persists, email support@carcheckervin.com with your order number and we will resolve it within one business hour during support hours.",
+    a: "First, refresh the page and check your internet connection. If the report still does not load, try a different browser or open the link from the confirmation email we sent you. If the issue persists, email contact@carcheckervin.com with your order number and we will resolve it within one business hour during support hours.",
   },
   {
     q: "Why are some photos missing from my report?",
@@ -94,11 +94,11 @@ const technicalFaqs: Faq[] = [
   },
   {
     q: "I never received my email receipt.",
-    a: "Email receipts are sent within 30 seconds of checkout. If you do not see one, check your spam folder and add support@carcheckervin.com to your safe-senders list. You can also re-send the receipt anytime from your account dashboard, or contact support and we will resend it manually.",
+    a: "Email receipts are sent within 30 seconds of checkout. If you do not see one, check your spam folder and add contact@carcheckervin.com to your safe-senders list. You can also re-send the receipt anytime from your account dashboard, or contact support and we will resend it manually.",
   },
   {
     q: "Is CarCheckerVIN compatible with mobile devices and screen readers?",
-    a: "Yes. The site is fully responsive on phones and tablets, and reports are tested with VoiceOver, NarratorJaws, and NVDA for screen-reader compatibility. If you encounter an accessibility issue, please email support@carcheckervin.com and we will prioritize a fix.",
+    a: "Yes. The site is fully responsive on phones and tablets, and reports are tested with VoiceOver, NarratorJaws, and NVDA for screen-reader compatibility. If you encounter an accessibility issue, please email contact@carcheckervin.com and we will prioritize a fix.",
   },
 ];
 
@@ -202,10 +202,10 @@ export default function HelpPage() {
               <div>
                 <div className="font-semibold text-slate-900">Email</div>
                 <a
-                  href="mailto:support@carcheckervin.com"
+                  href="mailto:contact@carcheckervin.com"
                   className="text-primary-600 hover:underline"
                 >
-                  support@carcheckervin.com
+                  contact@carcheckervin.com
                 </a>
                 <div className="text-sm text-slate-700">
                   Replies within one business hour during support hours.
