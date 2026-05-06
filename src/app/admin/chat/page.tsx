@@ -14,6 +14,20 @@ interface Conversation {
   unread_visitor: number;
   last_message_at: string;
   created_at: string;
+  country: string | null;
+  country_name: string | null;
+  region: string | null;
+  city: string | null;
+}
+
+function flagFromCC(code: string | null | undefined): string {
+  if (!code || code.length !== 2) return "";
+  const A = 0x1f1e6;
+  const u = code.toUpperCase();
+  return (
+    String.fromCodePoint(A + u.charCodeAt(0) - 65) +
+    String.fromCodePoint(A + u.charCodeAt(1) - 65)
+  );
 }
 
 interface ConvoWithLast extends Conversation {
@@ -113,12 +127,18 @@ export default async function AdminChatPage() {
                         {(c.visitor_name || c.visitor_email || "?")[0].toUpperCase()}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-bold text-slate-900 truncate">
+                        <p className="font-bold text-slate-900 truncate flex items-center gap-1.5">
+                          {c.country && (
+                            <span title={c.country_name || c.country} className="text-base leading-none">
+                              {flagFromCC(c.country)}
+                            </span>
+                          )}
                           {c.visitor_name || c.visitor_email || "Anonymous visitor"}
                         </p>
-                        {c.visitor_email && c.visitor_name && (
-                          <p className="text-xs text-slate-600 truncate">{c.visitor_email}</p>
-                        )}
+                        <p className="text-xs text-slate-600 truncate">
+                          {c.visitor_email && c.visitor_name ? `${c.visitor_email} · ` : ""}
+                          {[c.city, c.region, c.country_name].filter(Boolean).join(", ") || ""}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">

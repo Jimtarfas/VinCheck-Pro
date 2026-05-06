@@ -153,3 +153,13 @@ create policy "anyone may read chat messages"
 -- (visitors only ever query by conversation_id they already created — the UUID
 --  is unguessable, so this read policy is safe enough for live chat. Tighten
 --  later by issuing per-visitor JWTs if needed.)
+
+-- ============================================================
+-- v2 schema additions for chat (run if you already created v1 tables)
+-- ============================================================
+alter table public.chat_conversations
+  add column if not exists country     text,
+  add column if not exists country_name text,
+  add column if not exists region      text,
+  add column if not exists city        text;
+

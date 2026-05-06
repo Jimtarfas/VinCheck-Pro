@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { ArrowLeft, Mail, Calendar, Globe } from "lucide-react";
+import { ArrowLeft, Mail, Calendar, Globe, MapPin } from "lucide-react";
 import ChatThread from "./ChatThread";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +19,20 @@ interface Conversation {
   status: "open" | "closed";
   created_at: string;
   last_message_at: string;
+  country: string | null;
+  country_name: string | null;
+  region: string | null;
+  city: string | null;
+}
+
+function flagFromCC(code: string | null | undefined): string {
+  if (!code || code.length !== 2) return "";
+  const A = 0x1f1e6;
+  const u = code.toUpperCase();
+  return (
+    String.fromCodePoint(A + u.charCodeAt(0) - 65) +
+    String.fromCodePoint(A + u.charCodeAt(1) - 65)
+  );
 }
 
 interface Message {
@@ -97,7 +111,12 @@ export default async function AdminChatThreadPage({ params }: Props) {
               {(conversation.visitor_name || conversation.visitor_email || "?")[0].toUpperCase()}
             </div>
             <div className="min-w-0">
-              <p className="font-bold text-slate-900 text-lg">
+              <p className="font-bold text-slate-900 text-lg flex items-center gap-2">
+                {conversation.country && (
+                  <span title={conversation.country_name || conversation.country} className="text-xl leading-none">
+                    {flagFromCC(conversation.country)}
+                  </span>
+                )}
                 {conversation.visitor_name || conversation.visitor_email || "Anonymous visitor"}
               </p>
               <div className="text-xs text-slate-600 space-y-0.5 mt-0.5">
@@ -110,6 +129,16 @@ export default async function AdminChatThreadPage({ params }: Props) {
                     >
                       {conversation.visitor_email}
                     </a>
+                  </div>
+                )}
+                {(conversation.country || conversation.city) && (
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-3 h-3 flex-shrink-0" />
+                    <span>
+                      {[conversation.city, conversation.region, conversation.country_name]
+                        .filter(Boolean)
+                        .join(", ")}
+                    </span>
                   </div>
                 )}
                 {conversation.page_url && (
