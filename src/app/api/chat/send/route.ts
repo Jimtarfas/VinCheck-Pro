@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendTelegram, escapeHtml } from "@/lib/telegram";
+import { sendTelegram, escapeHtml, chatInlineKeyboard } from "@/lib/telegram";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
 
@@ -69,12 +69,10 @@ export async function POST(req: NextRequest) {
           : `<b>From:</b> anonymous`,
         ``,
         escapeHtml(message),
-        ``,
-        `<i>Reply:</i> <code>/r ${conversationId} your text</code>`,
-        `<i>Or:</i> ${SITE}/admin/chat/${conversationId}`,
       ]
         .filter(Boolean)
         .join("\n"),
+      replyMarkup: chatInlineKeyboard(conversationId, SITE),
     });
 
     return NextResponse.json({ ok: true });

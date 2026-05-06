@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createHash } from "node:crypto";
 import { headers } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendTelegram, escapeHtml } from "@/lib/telegram";
+import { sendTelegram, escapeHtml, chatInlineKeyboard } from "@/lib/telegram";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
 
@@ -89,20 +89,20 @@ export async function POST(req: NextRequest) {
       source: "web",
     });
 
-    // Fire-and-forget Telegram notification.
+    // Fire-and-forget Telegram notification with action buttons.
     void sendTelegram({
       text: [
         `<b>💬 New chat message</b>`,
-        name || email ? `<b>From:</b> ${escapeHtml(name || "")} ${email ? `&lt;${escapeHtml(email)}&gt;` : ""}` : `<b>From:</b> anonymous`,
+        name || email
+          ? `<b>From:</b> ${escapeHtml(name || "")} ${email ? `&lt;${escapeHtml(email)}&gt;` : ""}`
+          : `<b>From:</b> anonymous`,
         pageUrl ? `<b>On:</b> ${escapeHtml(pageUrl)}` : "",
         ``,
         escapeHtml(message),
-        ``,
-        `<i>Reply with:</i> <code>/r ${conversationId} your reply here</code>`,
-        `<i>Or open:</i> ${SITE}/admin/chat/${conversationId}`,
       ]
         .filter(Boolean)
         .join("\n"),
+      replyMarkup: chatInlineKeyboard(conversationId, SITE),
     });
 
     return NextResponse.json({ ok: true, conversationId });

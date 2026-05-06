@@ -121,3 +121,65 @@ export function escapeHtml(s: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 }
+
+/**
+ * Build the inline keyboard shown under every visitor message.
+ *
+ *   ┌─────────────┬─────────────┐
+ *   │ ✍ Reply     │ ✓ Close     │
+ *   ├─────────────┴─────────────┤
+ *   │ 🌐 Open dashboard         │
+ *   └───────────────────────────┘
+ *
+ * Tapping "Reply" sends a callback to the webhook, which posts a fresh
+ * "Reply to <id>" prompt with `force_reply` — Telegram opens the input
+ * box and any text the admin types is treated as their reply (works in
+ * BOTH private chats and groups, unlike switch_inline_query).
+ *
+ * "Close" marks the conversation closed.
+ * "Open dashboard" links to /admin/chat/[id] in the browser.
+ */
+export function chatInlineKeyboard(conversationId: string, siteUrl: string) {
+  // Telegram callback_data has a 64-byte limit — UUIDs are 36 chars, fits
+  // easily with a short prefix.
+  return {
+    inline_keyboard: [
+      [
+        { text: "✍️ Reply", callback_data: `reply:${conversationId}` },
+        { text: "✓ Close", callback_data: `close:${conversationId}` },
+      ],
+      [
+        { text: "🌐 Open in dashboard", url: `${siteUrl}/admin/chat/${conversationId}` },
+      ],
+    ],
+  };
+}
+
+/**
+ * Build a "force reply" keyboard. When the bot sends a message with this
+ * keyboard, Telegram automatically opens the user's input box AND tags
+ * their next message as a reply to the bot's message. We use this so that
+ * after tapping "Reply" the admin just types text and sends — no command
+ * needed.
+ */
+export function forceReplyKeyboard(placeholder?: string) {
+  return {
+    force_reply: true,
+    input_field_placeholder: placeholder || "Type your reply…",
+    selective: true,
+  };
+}
+
+/** Answer a callback query — required after every callback_data button press. */
+export async function answerCallbackQuery(callbackQueryId: string, text?: string) {
+  if (!tg.token()) return;
+  try {
+    await fetch(`${TG_API}/bot${tg.token()}/answerCallbackQuery`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ callback_query_id: callbackQueryId, text }),
+    });
+  } catch {
+    // ignore
+  }
+}
