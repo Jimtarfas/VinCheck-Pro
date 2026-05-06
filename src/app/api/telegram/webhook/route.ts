@@ -46,28 +46,38 @@ export async function POST(req: NextRequest) {
   const msg = update.message;
   if (!msg || !msg.text) return NextResponse.json({ ok: true });
 
-  // Only accept messages from one of the configured admin chats
-  if (!tg.isAdminChat(msg.chat.id)) {
-    return NextResponse.json({ ok: true });
-  }
-
   const text = msg.text.trim();
 
-  // Handle /start — provide chat id back to user
-  if (text === "/start" || text === "/id") {
+  // /start, /id, /id@botname — always echo the chat ID, regardless of
+  // whether the chat is in the admin allowlist. This is how new admins
+  // (and groups) bootstrap their setup.
+  if (
+    text === "/start" ||
+    text === "/id" ||
+    text.startsWith("/start@") ||
+    text.startsWith("/id@")
+  ) {
+    const isGroup = msg.chat.type === "group" || msg.chat.type === "supergroup";
     await sendTelegram({
       chatId: String(msg.chat.id),
       text: [
-        `<b>👋 CarCheckerVIN bot connected</b>`,
+        `<b>👋 CarCheckerVIN bot</b>`,
         ``,
-        `Your chat id: <code>${msg.chat.id}</code>`,
+        `${isGroup ? "Group" : "Your"} chat id: <code>${msg.chat.id}</code>`,
         ``,
-        `Set this as <code>TELEGRAM_ADMIN_CHAT</code> in Vercel and redeploy.`,
+        `Add this id to <code>TELEGRAM_ADMIN_CHAT</code> in Vercel`,
+        `(comma-separated for multiple admins) and redeploy.`,
         ``,
         `<b>To reply to a visitor:</b>`,
         `<code>/r &lt;conversationId&gt; your reply text</code>`,
       ].join("\n"),
     });
+    return NextResponse.json({ ok: true });
+  }
+
+  // For every other command (/r, etc.), require the chat to be in the
+  // admin allowlist — prevents random people from spamming the bot.
+  if (!tg.isAdminChat(msg.chat.id)) {
     return NextResponse.json({ ok: true });
   }
 
