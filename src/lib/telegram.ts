@@ -6,28 +6,42 @@
  *   2. Copy the bot token BotFather gives you.
  *   3. In Vercel env vars, set:
  *        TELEGRAM_BOT_TOKEN  = <bot token>
- *        TELEGRAM_ADMIN_CHAT = <your numeric chat id — see below>
+ *        TELEGRAM_ADMIN_CHAT = <chat id> (one) OR <id1>,<id2>,<id3> (many)
  *        TELEGRAM_WEBHOOK_SECRET = <any random string>
- *   4. Open Telegram, message your bot once with /start.
- *      Visit https://api.telegram.org/bot<TOKEN>/getUpdates and copy the
- *      `chat.id` from the response into TELEGRAM_ADMIN_CHAT.
- *   5. Register the webhook: just hit
+ *   4. Each admin opens the bot in Telegram and sends /start to obtain
+ *      their numeric chat id (the bot replies with it). Add every chat id
+ *      to TELEGRAM_ADMIN_CHAT, comma-separated. Redeploy.
+ *   5. Register the webhook: hit
  *        https://carcheckervin.com/api/telegram/setup?token=<WEBHOOK_SECRET>
  *      and Telegram will start delivering replies to your site.
  *
- * Once configured, every new visitor message DMs you on Telegram, and any
- * reply you send back from Telegram (with /r <conversationId> <text> OR
- * just by replying to the bot's message) is forwarded to the visitor in
- * the chat widget.
+ * Once configured, every visitor message DMs every listed admin. Any
+ * admin can reply with /r <conversationId> <text> from their own
+ * Telegram, and the visitor sees it instantly in the chat widget.
  */
 
 const TG_API = "https://api.telegram.org";
 
+function parseAdminChats(): string[] {
+  const raw = process.env.TELEGRAM_ADMIN_CHAT || "";
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 export const tg = {
   token: () => process.env.TELEGRAM_BOT_TOKEN || "",
-  adminChat: () => process.env.TELEGRAM_ADMIN_CHAT || "",
+  /** First admin chat (kept for backwards-compat). */
+  adminChat: () => parseAdminChats()[0] || "",
+  /** All admin chat ids (one or many). */
+  adminChats: () => parseAdminChats(),
+  /** True if a chat id is in the configured admin list. */
+  isAdminChat: (id: string | number) =>
+    parseAdminChats().includes(String(id)),
   webhookSecret: () => process.env.TELEGRAM_WEBHOOK_SECRET || "",
-  enabled: () => !!process.env.TELEGRAM_BOT_TOKEN && !!process.env.TELEGRAM_ADMIN_CHAT,
+  enabled: () =>
+    !!process.env.TELEGRAM_BOT_TOKEN && parseAdminChats().length > 0,
 };
 
 export interface SendMessageOpts {
@@ -37,34 +51,68 @@ export interface SendMessageOpts {
   parseMode?: "Markdown" | "HTML";
 }
 
+/**
+ * Send a Telegram message. If `chatId` is omitted, the message is
+ * broadcast to every admin chat (one HTTP call per chat).
+ */
 export async function sendTelegram({
   chatId,
   text,
   replyMarkup,
   parseMode = "HTML",
-}: SendMessageOpts): Promise<{ ok: boolean; message_id?: number; error?: string }> {
+}: SendMessageOpts): Promise<{
+  ok: boolean;
+  results?: Array<{ chatId: string; ok: boolean; error?: string; message_id?: number }>;
+  message_id?: number;
+  error?: string;
+}> {
   if (!tg.enabled()) return { ok: false, error: "telegram disabled (no token)" };
-  const target = chatId || tg.adminChat();
-  if (!target) return { ok: false, error: "no chat id" };
 
-  try {
-    const res = await fetch(`${TG_API}/bot${tg.token()}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: target,
-        text,
-        parse_mode: parseMode,
-        disable_web_page_preview: true,
-        reply_markup: replyMarkup,
-      }),
-    });
-    const data = (await res.json()) as { ok: boolean; result?: { message_id: number }; description?: string };
-    if (!data.ok) return { ok: false, error: data.description };
-    return { ok: true, message_id: data.result?.message_id };
-  } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : "unknown" };
-  }
+  const targets = chatId ? [chatId] : tg.adminChats();
+  if (targets.length === 0) return { ok: false, error: "no chat id" };
+
+  const results = await Promise.all(
+    targets.map(async (target) => {
+      try {
+        const res = await fetch(`${TG_API}/bot${tg.token()}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: target,
+            text,
+            parse_mode: parseMode,
+            disable_web_page_preview: true,
+            reply_markup: replyMarkup,
+          }),
+        });
+        const data = (await res.json()) as {
+          ok: boolean;
+          result?: { message_id: number };
+          description?: string;
+        };
+        return {
+          chatId: target,
+          ok: data.ok,
+          error: data.ok ? undefined : data.description,
+          message_id: data.result?.message_id,
+        };
+      } catch (e) {
+        return {
+          chatId: target,
+          ok: false,
+          error: e instanceof Error ? e.message : "unknown",
+        };
+      }
+    })
+  );
+
+  const anyOk = results.some((r) => r.ok);
+  return {
+    ok: anyOk,
+    results,
+    message_id: results.find((r) => r.ok)?.message_id,
+    error: anyOk ? undefined : results[0]?.error,
+  };
 }
 
 export function escapeHtml(s: string): string {

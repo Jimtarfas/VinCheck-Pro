@@ -46,9 +46,8 @@ export async function POST(req: NextRequest) {
   const msg = update.message;
   if (!msg || !msg.text) return NextResponse.json({ ok: true });
 
-  // Only accept messages from the configured admin chat
-  const allowedChat = tg.adminChat();
-  if (allowedChat && String(msg.chat.id) !== allowedChat) {
+  // Only accept messages from one of the configured admin chats
+  if (!tg.isAdminChat(msg.chat.id)) {
     return NextResponse.json({ ok: true });
   }
 
