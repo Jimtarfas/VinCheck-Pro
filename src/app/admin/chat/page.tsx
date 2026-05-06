@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { MessageCircle, Calendar } from "lucide-react";
+import AutoRefresh from "./AutoRefresh";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,15 @@ interface Conversation {
   country_name: string | null;
   region: string | null;
   city: string | null;
+  last_visitor_seen_at: string | null;
+}
+
+// A visitor is "online" if their widget polled within the last 15 seconds.
+// Polling cadence is 4s, so 15s gives us 3 missed polls of headroom.
+const ONLINE_WINDOW_MS = 15_000;
+function isOnline(lastSeenAt: string | null | undefined): boolean {
+  if (!lastSeenAt) return false;
+  return Date.now() - new Date(lastSeenAt).getTime() < ONLINE_WINDOW_MS;
 }
 
 function flagFromCC(code: string | null | undefined): string {
@@ -65,22 +75,36 @@ async function getConversations() {
       }));
       const totalUnread = enriched.reduce((a, c) => a + (c.unread_admin || 0), 0);
       const openCount = enriched.filter((c) => c.status === "open").length;
-      return { conversations: enriched, totalUnread, openCount, error: null as string | null };
+      const onlineCount = enriched.filter((c) => isOnline(c.last_visitor_seen_at)).length;
+      return {
+        conversations: enriched,
+        totalUnread,
+        openCount,
+        onlineCount,
+        error: null as string | null,
+      };
     }
 
-    return { conversations: [] as ConvoWithLast[], totalUnread: 0, openCount: 0, error: null };
+    return {
+      conversations: [] as ConvoWithLast[],
+      totalUnread: 0,
+      openCount: 0,
+      onlineCount: 0,
+      error: null,
+    };
   } catch (e) {
     return {
       conversations: [] as ConvoWithLast[],
       totalUnread: 0,
       openCount: 0,
+      onlineCount: 0,
       error: e instanceof Error ? e.message : "unknown",
     };
   }
 }
 
 export default async function AdminChatPage() {
-  const { conversations, totalUnread, openCount, error } = await getConversations();
+  const { conversations, totalUnread, openCount, onlineCount, error } = await getConversations();
 
   if (error) {
     return (
@@ -98,11 +122,16 @@ export default async function AdminChatPage() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-4">
-        <Stat label="Open Conversations" value={openCount} color="bg-emerald-50 text-emerald-700 border-emerald-100" />
+      <AutoRefresh intervalMs={10_000} />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <Stat label="Online Right Now" value={onlineCount} color="bg-emerald-50 text-emerald-700 border-emerald-100" pulse />
+        <Stat label="Open Conversations" value={openCount} color="bg-blue-50 text-blue-700 border-blue-100" />
         <Stat label="Unread (You)" value={totalUnread} color="bg-rose-50 text-rose-700 border-rose-100" />
-        <Stat label="Total" value={conversations.length} color="bg-blue-50 text-blue-700 border-blue-100" />
+        <Stat label="Total" value={conversations.length} color="bg-slate-50 text-slate-700 border-slate-200" />
       </div>
+      <p className="text-xs text-slate-500 -mt-3">
+        &ldquo;Online&rdquo; means the visitor&rsquo;s chat widget is actively polling (active in the last 15&nbsp;seconds). This page updates every 10 seconds.
+      </p>
 
       <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100">
@@ -123,8 +152,16 @@ export default async function AdminChatPage() {
                 >
                   <div className="flex items-start justify-between gap-3 mb-1">
                     <div className="flex items-center gap-2 min-w-0">
-                      <div className="w-9 h-9 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm flex-shrink-0">
+                      <div className="relative w-9 h-9 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-sm flex-shrink-0">
                         {(c.visitor_name || c.visitor_email || "?")[0].toUpperCase()}
+                        <span
+                          className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${
+                            isOnline(c.last_visitor_seen_at)
+                              ? "bg-emerald-500"
+                              : "bg-slate-300"
+                          }`}
+                          title={isOnline(c.last_visitor_seen_at) ? "Online now" : "Offline"}
+                        />
                       </div>
                       <div className="min-w-0">
                         <p className="font-bold text-slate-900 truncate flex items-center gap-1.5">
@@ -142,6 +179,12 @@ export default async function AdminChatPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
+                      {isOnline(c.last_visitor_seen_at) && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-100">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          Online
+                        </span>
+                      )}
                       {c.unread_admin > 0 && (
                         <span className="min-w-5 h-5 px-1.5 rounded-full bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center">
                           {c.unread_admin}
@@ -150,7 +193,7 @@ export default async function AdminChatPage() {
                       <span
                         className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border ${
                           c.status === "open"
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                            ? "bg-blue-50 text-blue-700 border-blue-100"
                             : "bg-slate-50 text-slate-600 border-slate-200"
                         }`}
                       >
@@ -182,11 +225,28 @@ export default async function AdminChatPage() {
   );
 }
 
-function Stat({ label, value, color }: { label: string; value: number; color: string }) {
+function Stat({
+  label,
+  value,
+  color,
+  pulse,
+}: {
+  label: string;
+  value: number;
+  color: string;
+  pulse?: boolean;
+}) {
   return (
     <div className={`p-5 rounded-xl border ${color} bg-white`}>
       <div className="flex items-center gap-2 mb-3">
-        <MessageCircle className="w-4 h-4" />
+        {pulse ? (
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
+          </span>
+        ) : (
+          <MessageCircle className="w-4 h-4" />
+        )}
         <span className="text-xs font-medium uppercase tracking-wide">{label}</span>
       </div>
       <p className="text-3xl font-bold text-slate-900">{value.toLocaleString()}</p>

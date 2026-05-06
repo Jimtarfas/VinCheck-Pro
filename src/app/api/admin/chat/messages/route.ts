@@ -20,16 +20,30 @@ export async function GET(req: NextRequest) {
   try {
     const admin = createAdminClient();
     const sinceIso = since > 0 ? new Date(since).toISOString() : new Date(0).toISOString();
-    const { data: messages } = await admin
-      .from("chat_messages")
-      .select("id, sender, body, source, created_at")
-      .eq("conversation_id", conversationId)
-      .gt("created_at", sinceIso)
-      .order("created_at", { ascending: true });
+    const [{ data: messages }, { data: convo }] = await Promise.all([
+      admin
+        .from("chat_messages")
+        .select("id, sender, body, source, created_at")
+        .eq("conversation_id", conversationId)
+        .gt("created_at", sinceIso)
+        .order("created_at", { ascending: true }),
+      admin
+        .from("chat_conversations")
+        .select("last_visitor_seen_at, status")
+        .eq("id", conversationId)
+        .single(),
+    ]);
+
+    const lastSeen = convo?.last_visitor_seen_at as string | null | undefined;
+    const online =
+      !!lastSeen && Date.now() - new Date(lastSeen).getTime() < 15_000;
 
     return NextResponse.json({
       messages: messages ?? [],
       now: Date.now(),
+      online,
+      lastSeen: lastSeen || null,
+      status: convo?.status || "open",
     });
   } catch (e) {
     return NextResponse.json(

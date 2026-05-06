@@ -8,7 +8,9 @@ async function getUsers() {
     const admin = createAdminClient();
     const { data, error } = await admin.auth.admin.listUsers({ perPage: 1000 });
     if (error) throw error;
-    return { users: data.users, error: null as string | null };
+    // Filter out admin accounts so the Users table reflects real customers.
+    const realUsers = (data.users ?? []).filter((u) => !isAdminEmail(u.email));
+    return { users: realUsers, error: null as string | null };
   } catch (e) {
     return { users: [], error: e instanceof Error ? e.message : "Unknown error" };
   }

@@ -163,3 +163,45 @@ alter table public.chat_conversations
   add column if not exists region      text,
   add column if not exists city        text;
 
+
+-- ============================================================
+-- v3 schema additions — download tracking + chat presence
+-- ============================================================
+
+-- Track every report download. Inserted server-side from a client beacon.
+create table if not exists public.report_downloads (
+  id         bigserial primary key,
+  vin        text not null,
+  make       text,
+  model      text,
+  year       integer,
+  user_id    uuid references auth.users(id) on delete set null,
+  user_email text,
+  ip_hash    text,
+  user_agent text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists report_downloads_created_at_idx
+  on public.report_downloads (created_at desc);
+create index if not exists report_downloads_vin_idx
+  on public.report_downloads (vin);
+create index if not exists report_downloads_user_idx
+  on public.report_downloads (user_id);
+
+alter table public.report_downloads enable row level security;
+
+drop policy if exists "allow insert downloads" on public.report_downloads;
+create policy "allow insert downloads"
+  on public.report_downloads for insert
+  to anon, authenticated
+  with check (true);
+
+-- Presence: when did this visitor last poll the chat? Used to compute
+-- online/offline status in the admin panel.
+alter table public.chat_conversations
+  add column if not exists last_visitor_seen_at timestamptz;
+
+create index if not exists chat_conversations_last_visitor_seen_idx
+  on public.chat_conversations (last_visitor_seen_at desc);
+

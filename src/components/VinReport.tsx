@@ -54,6 +54,19 @@ function useDownloadReport(data: VinData) {
     const fullName  = [year, makeName, modelName, trim].filter(Boolean).join(" ");
     const styleName = data.years?.[0]?.styles?.[0]?.name || "";
 
+    // Fire-and-forget download tracking — never blocks or fails the export.
+    void fetch("/api/track-download", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({
+        vin: data.vin,
+        make: makeName,
+        model: modelName,
+        year: year ?? null,
+      }),
+    }).catch(() => {});
+
     const photoUrls = data.photos?.slice(0, 9) || [];
     const listingPhotoUrls = data.marketData?.sampleListings
       ?.filter((l) => l.primaryPhotoUrl).slice(0, 6).map((l) => l.primaryPhotoUrl!) || [];

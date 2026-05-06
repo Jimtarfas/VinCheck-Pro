@@ -44,10 +44,15 @@ export async function GET(req: NextRequest) {
       .gt("created_at", sinceIso)
       .order("created_at", { ascending: true });
 
-    // Clear visitor unread badge
+    // Clear visitor unread badge AND record presence — admin uses
+    // last_visitor_seen_at to compute online/offline status. Each poll
+    // (every ~4s while widget is open) refreshes this timestamp.
     await admin
       .from("chat_conversations")
-      .update({ unread_visitor: 0 })
+      .update({
+        unread_visitor: 0,
+        last_visitor_seen_at: new Date().toISOString(),
+      })
       .eq("id", conversationId);
 
     return NextResponse.json({

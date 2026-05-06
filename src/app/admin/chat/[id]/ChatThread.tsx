@@ -15,16 +15,26 @@ interface Props {
   conversationId: string;
   initialMessages: Message[];
   status: "open" | "closed";
+  initialOnline?: boolean;
+  initialLastSeen?: string | null;
 }
 
 const POLL_INTERVAL = 5000;
 
-export default function ChatThread({ conversationId, initialMessages, status: initialStatus }: Props) {
+export default function ChatThread({
+  conversationId,
+  initialMessages,
+  status: initialStatus,
+  initialOnline,
+  initialLastSeen,
+}: Props) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [status, setStatus] = useState<"open" | "closed">(initialStatus);
   const [statusUpdating, setStatusUpdating] = useState(false);
+  const [online, setOnline] = useState<boolean>(!!initialOnline);
+  const [lastSeen, setLastSeen] = useState<string | null>(initialLastSeen || null);
   const lastSinceRef = useRef<number>(
     initialMessages.length > 0
       ? new Date(initialMessages[initialMessages.length - 1].created_at).getTime()
@@ -39,18 +49,22 @@ export default function ChatThread({ conversationId, initialMessages, status: in
 
   const poll = useCallback(async () => {
     try {
-      // Reuse poll endpoint but as admin we just fetch directly via admin GET
-      // Actually simpler: re-fetch via the visitor poll route is per-visitor.
-      // We use a small admin-only fetch via /api/admin/chat/messages.
       const r = await fetch(
         `/api/admin/chat/messages?conversationId=${conversationId}&since=${lastSinceRef.current}`,
         { cache: "no-store" }
       );
       if (!r.ok) return;
-      const data = (await r.json()) as { messages: Message[]; now: number };
+      const data = (await r.json()) as {
+        messages: Message[];
+        now: number;
+        online?: boolean;
+        lastSeen?: string | null;
+      };
       if (data.messages.length > 0) {
         setMessages((prev) => [...prev, ...data.messages]);
       }
+      if (typeof data.online === "boolean") setOnline(data.online);
+      if (typeof data.lastSeen !== "undefined") setLastSeen(data.lastSeen);
       lastSinceRef.current = data.now;
     } catch {
       // ignore
@@ -109,8 +123,38 @@ export default function ChatThread({ conversationId, initialMessages, status: in
     send(t);
   }
 
+  function formatLastSeen(): string {
+    if (!lastSeen) return "Never seen";
+    const diff = Date.now() - new Date(lastSeen).getTime();
+    if (diff < 60_000) return "moments ago";
+    const mins = Math.floor(diff / 60_000);
+    if (mins < 60) return `${mins} min${mins === 1 ? "" : "s"} ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs} hr${hrs === 1 ? "" : "s"} ago`;
+    return new Date(lastSeen).toLocaleDateString();
+  }
+
   return (
     <>
+      <div className="px-5 py-3 border-b border-slate-100 flex items-center gap-2 bg-white">
+        {online ? (
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-100">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            Online — reply now
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full border bg-slate-50 text-slate-600 border-slate-200">
+            <span className="w-2 h-2 rounded-full bg-slate-400" />
+            Offline
+          </span>
+        )}
+        <span className="text-xs text-slate-500">
+          {online ? "Visitor's widget is open" : `Last seen ${formatLastSeen()}`}
+        </span>
+      </div>
       <div
         ref={scrollRef}
         className="max-h-[560px] overflow-y-auto p-5 space-y-3 bg-slate-50"

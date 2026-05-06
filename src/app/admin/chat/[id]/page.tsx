@@ -23,6 +23,7 @@ interface Conversation {
   country_name: string | null;
   region: string | null;
   city: string | null;
+  last_visitor_seen_at: string | null;
 }
 
 function flagFromCC(code: string | null | undefined): string {
@@ -170,6 +171,11 @@ export default async function AdminChatThreadPage({ params }: Props) {
           conversationId={conversation.id}
           initialMessages={messages}
           status={conversation.status}
+          initialOnline={
+            !!conversation.last_visitor_seen_at &&
+            Date.now() - new Date(conversation.last_visitor_seen_at).getTime() < 15_000
+          }
+          initialLastSeen={conversation.last_visitor_seen_at}
         />
       </div>
     </div>
