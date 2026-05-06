@@ -18,7 +18,7 @@ import { tg, sendTelegram } from "@/lib/telegram";
 interface TelegramMessage {
   message_id: number;
   from?: { id: number; username?: string };
-  chat: { id: number };
+  chat: { id: number; type?: "private" | "group" | "supergroup" | "channel" };
   text?: string;
   reply_to_message?: { text?: string };
 }
