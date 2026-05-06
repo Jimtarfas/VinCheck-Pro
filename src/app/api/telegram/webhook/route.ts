@@ -147,8 +147,8 @@ export async function POST(req: NextRequest) {
     chatId: String(msg.chat.id),
     text: [
       `Commands:`,
-      `<code>/start</code> &mdash; show your chat id`,
-      `<code>/r &lt;conversationId&gt; &lt;reply&gt;</code> &mdash; reply to a visitor`,
+      `<code>/start</code> — show your chat id`,
+      `<code>/r &lt;conversationId&gt; &lt;reply&gt;</code> — reply to a visitor`,
     ].join("\n"),
   });
   return NextResponse.json({ ok: true });
