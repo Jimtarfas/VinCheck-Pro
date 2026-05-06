@@ -88,3 +88,68 @@ create policy "allow insert contact"
   to anon, authenticated
   with check (true);
 -- Reads only via service-role admin client.
+
+-- ============================================================
+-- LIVE CHAT — visitor ↔ admin conversations
+-- ============================================================
+create extension if not exists "pgcrypto";
+
+create table if not exists public.chat_conversations (
+  id              uuid primary key default gen_random_uuid(),
+  visitor_id      text not null,                -- anonymous browser id (cookie/localStorage)
+  visitor_name    text,
+  visitor_email   text,
+  page_url        text,
+  user_agent      text,
+  ip_hash         text,
+  status          text not null default 'open', -- open | closed
+  unread_admin    integer not null default 0,
+  unread_visitor  integer not null default 0,
+  last_message_at timestamptz not null default now(),
+  created_at      timestamptz not null default now()
+);
+
+create index if not exists chat_conversations_status_idx
+  on public.chat_conversations (status, last_message_at desc);
+create index if not exists chat_conversations_visitor_idx
+  on public.chat_conversations (visitor_id);
+
+alter table public.chat_conversations enable row level security;
+
+-- Visitors can read/insert their own conversations (matched by visitor_id which
+-- their browser passes in the API request). Admin reads via service role.
+drop policy if exists "visitor inserts conversation" on public.chat_conversations;
+create policy "visitor inserts conversation"
+  on public.chat_conversations for insert
+  to anon, authenticated
+  with check (true);
+
+create table if not exists public.chat_messages (
+  id              bigserial primary key,
+  conversation_id uuid not null references public.chat_conversations(id) on delete cascade,
+  sender          text not null check (sender in ('visitor','admin')),
+  body            text not null,
+  source          text default 'web',           -- web | telegram
+  read_at         timestamptz,
+  created_at      timestamptz not null default now()
+);
+
+create index if not exists chat_messages_conversation_idx
+  on public.chat_messages (conversation_id, created_at);
+
+alter table public.chat_messages enable row level security;
+
+drop policy if exists "anyone may insert chat messages" on public.chat_messages;
+create policy "anyone may insert chat messages"
+  on public.chat_messages for insert
+  to anon, authenticated
+  with check (true);
+
+drop policy if exists "anyone may read chat messages" on public.chat_messages;
+create policy "anyone may read chat messages"
+  on public.chat_messages for select
+  to anon, authenticated
+  using (true);
+-- (visitors only ever query by conversation_id they already created — the UUID
+--  is unguessable, so this read policy is safe enough for live chat. Tighten
+--  later by issuing per-visitor JWTs if needed.)

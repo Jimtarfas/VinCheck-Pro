@@ -3,6 +3,7 @@ import { Manrope, Inter, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ChatWidgetMount from "@/components/ChatWidgetMount";
 import "./globals.css";
 
 const GA_ID = "G-7HL13B05JH";
@@ -182,6 +183,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ChatWidgetMount />
         {/*
           GA4 deferred to lazyOnload — does not block FCP, LCP, or hydration.
           Drops Lighthouse Performance penalty for "main thread work" by ~20%.
