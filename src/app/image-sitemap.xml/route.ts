@@ -124,6 +124,17 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Car Affordability Calculator — companion finance tool.
+  const carAffordabilityImage = `<url>
+  <loc>${SITE}/car-affordability-calculator</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Car Affordability Calculator &mdash; How Much Car Can I Afford?</image:title>
+    <image:caption>Enter your income, debts, and expenses to find the maximum car price you can comfortably afford. Uses the 20/4/10 rule, 15% rule, or custom budget with a full debt-to-income ratio check.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -132,6 +143,7 @@ ${windowStickerImage}
 ${motorcycleVinSearchImage}
 ${licensePlateLookupImage}
 ${carLoanCalcImage}
+${carAffordabilityImage}
 ${urls}
 </urlset>`;
 
