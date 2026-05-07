@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, X } from "lucide-react";
+import { Check, X, Trophy, ArrowRight, Sparkles } from "lucide-react";
 
 type ColVal = "check" | "cross" | "partial" | string;
 
@@ -15,84 +15,143 @@ const rows: { feature: string; us: ColVal; carfax: ColVal; autocheck: ColVal }[]
   { feature: "Pricing (Single Report)",    us: "FREE",    carfax: "$44.99",  autocheck: "$24.99" },
 ];
 
-function Cell({ val }: { val: ColVal }) {
-  if (val === "check")   return <Check className="w-5 h-5 text-green-500 mx-auto" />;
-  if (val === "cross")   return <X className="w-5 h-5 text-error mx-auto" />;
-  if (val === "partial") return <span className="text-secondary font-bold text-sm">Partial</span>;
-  return <span className="text-2xl font-headline font-black text-primary">{val}</span>;
+function Cell({ val, highlight = false }: { val: ColVal; highlight?: boolean }) {
+  if (val === "check") {
+    return (
+      <Check
+        className={`w-5 h-5 mx-auto ${highlight ? "text-white" : "text-green-500"}`}
+        strokeWidth={3}
+      />
+    );
+  }
+  if (val === "cross") {
+    return <X className="w-5 h-5 text-error/70 mx-auto" strokeWidth={2.5} />;
+  }
+  if (val === "partial") {
+    return (
+      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-secondary/15 text-secondary font-bold text-[11px] sm:text-xs uppercase tracking-wide">
+        Partial
+      </span>
+    );
+  }
+  // Custom string (pricing)
+  if (highlight) {
+    return (
+      <span className="text-xl sm:text-2xl font-headline font-black text-white drop-shadow-sm">
+        {val}
+      </span>
+    );
+  }
+  return (
+    <span className="text-base sm:text-lg font-headline font-bold text-on-surface-variant">
+      {val}
+    </span>
+  );
 }
 
 export default function ComparisonSection() {
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10 sm:mb-16">
-          <span className="text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4 block">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-10 sm:mb-14">
+          <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
             Market Comparison
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
             How We Stand Against the Giants
           </h2>
           <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto">
-            Don&apos;t settle for less data at a higher price. We provide more insights for a fraction of the cost.
+            Don&apos;t settle for less data at a higher price. We deliver more insights for a fraction of the cost.
           </p>
         </div>
 
-        <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-          <table className="w-full border-collapse min-w-[600px]">
-            <thead>
-              <tr>
-                <th className="p-3 sm:p-6 text-left font-headline text-sm sm:text-lg text-primary font-extrabold bg-surface-container-low rounded-tl-2xl sm:rounded-tl-3xl">
-                  Feature Comparison
-                </th>
-                {/* Our column — highlighted */}
-                <th className="p-3 sm:p-6 text-center bg-primary text-white font-headline text-base sm:text-xl font-black rounded-t-2xl sm:rounded-t-3xl relative overflow-hidden">
-                  <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
-                  VINCheck Pro
-                </th>
-                <th className="p-3 sm:p-6 text-center font-headline text-sm sm:text-lg text-on-surface-variant font-bold">
-                  Carfax
-                </th>
-                <th className="p-3 sm:p-6 text-center font-headline text-sm sm:text-lg text-on-surface-variant font-bold rounded-tr-2xl sm:rounded-tr-3xl">
-                  AutoCheck
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.feature} className="hover:bg-primary/3 transition-colors">
-                  <td className="p-3 sm:p-5 font-semibold text-on-surface text-xs sm:text-sm bg-surface-container-low">
-                    {row.feature}
-                  </td>
-                  <td className="p-3 sm:p-5 text-center bg-primary/5 border-x border-primary/10">
-                    <Cell val={row.us} />
-                  </td>
-                  <td className="p-3 sm:p-5 text-center">
-                    <Cell val={row.carfax} />
-                  </td>
-                  <td className="p-3 sm:p-5 text-center">
-                    <Cell val={row.autocheck} />
-                  </td>
+        {/* Comparison card */}
+        <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse min-w-[640px]">
+              <thead>
+                <tr className="bg-surface-container-low">
+                  <th className="p-4 sm:p-6 text-left font-headline text-sm sm:text-base text-primary font-extrabold align-bottom">
+                    Feature Comparison
+                  </th>
+                  {/* Our column — highlighted with badge */}
+                  <th className="p-0 align-bottom">
+                    <div className="relative bg-primary text-white px-3 sm:px-6 pt-7 sm:pt-9 pb-4 sm:pb-5 mx-1.5 sm:mx-2 rounded-t-2xl">
+                      {/* BEST VALUE badge */}
+                      <div
+                        className="absolute -top-0.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider whitespace-nowrap text-on-secondary-container shadow-md"
+                        style={{ background: "var(--color-secondary-container)" }}
+                      >
+                        Best Value
+                      </div>
+                      <div className="flex items-center justify-center gap-1.5 font-headline text-base sm:text-xl font-black">
+                        <Trophy className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: "var(--color-secondary-container)" }} />
+                        VINCheck Pro
+                      </div>
+                    </div>
+                  </th>
+                  <th className="p-4 sm:p-6 text-center font-headline text-sm sm:text-base text-on-surface-variant font-bold align-bottom">
+                    Carfax
+                  </th>
+                  <th className="p-4 sm:p-6 text-center font-headline text-sm sm:text-base text-on-surface-variant font-bold align-bottom">
+                    AutoCheck
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td className="p-3 sm:p-5 bg-surface-container-low rounded-bl-2xl sm:rounded-bl-3xl" />
-                <td className="p-3 sm:p-5 bg-primary border-x border-b border-primary rounded-b-2xl sm:rounded-b-3xl">
-                  <Link
-                    href="/#hero"
-                    className="block w-full py-2.5 sm:py-3 rounded-full font-bold text-center text-xs sm:text-base text-on-secondary-container hover:brightness-110 transition-all"
-                    style={{ background: "var(--color-secondary-container)" }}
-                  >
-                    Get Started
-                  </Link>
-                </td>
-                <td className="p-3 sm:p-5" />
-                <td className="p-3 sm:p-5 rounded-br-2xl sm:rounded-br-3xl" />
-              </tr>
-            </tfoot>
-          </table>
+              </thead>
+              <tbody>
+                {rows.map((row, idx) => {
+                  const isLast = idx === rows.length - 1;
+                  return (
+                    <tr
+                      key={row.feature}
+                      className={`border-t border-outline-variant/60 ${isLast ? "bg-primary/[0.02]" : ""}`}
+                    >
+                      <td
+                        className={`p-3 sm:p-5 text-xs sm:text-sm bg-surface-container-low ${
+                          isLast ? "font-headline font-extrabold text-primary text-sm sm:text-base" : "font-semibold text-on-surface"
+                        }`}
+                      >
+                        {row.feature}
+                      </td>
+                      <td className="p-0 text-center">
+                        <div
+                          className={`mx-1.5 sm:mx-2 py-3 sm:py-4 bg-primary border-x border-primary ${
+                            isLast ? "rounded-b-2xl" : ""
+                          }`}
+                        >
+                          <Cell val={row.us} highlight />
+                        </div>
+                      </td>
+                      <td className="p-3 sm:p-5 text-center">
+                        <Cell val={row.carfax} />
+                      </td>
+                      <td className="p-3 sm:p-5 text-center">
+                        <Cell val={row.autocheck} />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* CTA card below the table — gives the button real breathing room */}
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-center sm:text-left">
+          <p className="text-sm sm:text-base text-on-surface-variant max-w-md">
+            Get the same insights the giants charge $25–$45 for —{" "}
+            <span className="font-bold text-primary">100% free</span>, no credit card required.
+          </p>
+          <Link
+            href="/#hero"
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-bold text-sm sm:text-base text-on-secondary-container hover:brightness-110 hover:shadow-lg active:scale-[0.98] transition-all whitespace-nowrap shadow-md"
+            style={{ background: "var(--color-secondary-container)" }}
+          >
+            Run Free VIN Check
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>
