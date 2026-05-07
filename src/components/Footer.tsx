@@ -12,7 +12,7 @@ const checkLinks = [
 ];
 
 const moreChecksLinks = [
-  { href: "/window-sticker",        label: "Window Sticker" },
+  { href: "/window-sticker",        label: "Window Sticker Maker" },
   { href: "/license-plate-lookup",  label: "Plate Lookup" },
   { href: "/recall-check",          label: "Recall Check" },
   { href: "/market-value",          label: "Market Value" },

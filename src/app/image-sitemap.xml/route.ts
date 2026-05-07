@@ -80,10 +80,22 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Window Sticker Maker — flagship tool page, surface its OG image for Bing/Google image discovery.
+  const windowStickerImage = `<url>
+  <loc>${SITE}/window-sticker</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Window Sticker Maker &mdash; Build a Monroney Label by VIN</image:title>
+    <image:caption>Auto-fill any vehicle from a VIN, customize MSRP and factory options, then download or print a Monroney-style window sticker for free.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${homeImage}
+${windowStickerImage}
 ${urls}
 </urlset>`;
 

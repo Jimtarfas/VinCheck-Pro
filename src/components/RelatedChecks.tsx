@@ -8,7 +8,7 @@ const allChecks = [
   { href: "/odometer-check", icon: Gauge, title: "Odometer Check", desc: "Spot mileage rollback fraud" },
   { href: "/lemon-check", icon: AlertOctagon, title: "Lemon Check", desc: "Identify manufacturer buybacks" },
   { href: "/glossary", icon: ScrollText, title: "VIN Glossary", desc: "60+ vehicle history terms defined" },
-  { href: "/window-sticker", icon: Tag, title: "Window Sticker", desc: "Original factory window sticker" },
+  { href: "/window-sticker", icon: Tag, title: "Window Sticker Maker", desc: "Build a Monroney label by VIN" },
   { href: "/recall-check", icon: BellRing, title: "Recall Check", desc: "Open NHTSA safety recalls" },
   { href: "/market-value", icon: TrendingUp, title: "Market Value", desc: "Current market valuation" },
   { href: "/warranty-check", icon: ShieldCheck, title: "Warranty Check", desc: "Manufacturer warranty status" },
