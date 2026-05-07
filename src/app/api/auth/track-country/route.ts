@@ -14,7 +14,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { headers } from "next/headers";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { geoFromHeaders } from "@/lib/geo";
+import { geoFromHeadersWithFallback } from "@/lib/geo";
 
 export async function POST(req: NextRequest) {
   // Identify the caller via the cookie-bound server client.
@@ -37,9 +37,12 @@ export async function POST(req: NextRequest) {
   }
 
   const h = await headers();
-  const geo = geoFromHeaders(h);
+  // Use the with-fallback helper: if Vercel headers are absent (local dev,
+  // non-Vercel host), it falls back to a free IP-geo lookup so we still
+  // capture a country.
+  const geo = await geoFromHeadersWithFallback(h);
   if (!geo.country) {
-    // Nothing to record (likely local dev or unknown edge).
+    // Truly nothing we can determine (private IP, fallback service down).
     return NextResponse.json({ ok: true, skipped: true, reason: "no-geo" });
   }
 

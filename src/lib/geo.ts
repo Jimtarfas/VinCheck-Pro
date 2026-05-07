@@ -70,6 +70,61 @@ export function geoFromHeaders(h: HeaderReader): VisitorGeo {
   };
 }
 
+/**
+ * Geo with fallback: try Vercel headers first, then resolve the visitor's
+ * IP via a free public service. Use this for signup/login events where
+ * we'd rather make one extra HTTP call than save no country at all.
+ *
+ * Free service: ip-api.com (HTTPS, 45 req/min — fine for auth events).
+ */
+export async function geoFromHeadersWithFallback(
+  h: HeaderReader
+): Promise<VisitorGeo> {
+  const primary = geoFromHeaders(h);
+  if (primary.country) return primary;
+
+  // Extract the client IP. x-forwarded-for is a comma-separated list;
+  // the first entry is the original client.
+  const ip = (h.get("x-forwarded-for") || "").split(",")[0].trim()
+    || h.get("x-real-ip")
+    || "";
+
+  // Skip private/loopback IPs (local dev, Docker, etc.) — no point hitting
+  // an external API for them.
+  if (!ip || /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|::1|fc|fd)/i.test(ip)) {
+    return {};
+  }
+
+  try {
+    const res = await fetch(
+      `https://ipapi.co/${encodeURIComponent(ip)}/json/`,
+      {
+        signal: AbortSignal.timeout(2500),
+        headers: { Accept: "application/json" },
+      }
+    );
+    if (!res.ok) return {};
+    const data = (await res.json()) as {
+      country_code?: string;
+      country_name?: string;
+      region?: string;
+      city?: string;
+      error?: boolean;
+    };
+    if (data.error || !data.country_code) return {};
+    const cc = data.country_code.toUpperCase();
+    return {
+      country: cc,
+      countryName: data.country_name || COUNTRY_NAMES[cc] || cc,
+      countryFlag: flagFromCountryCode(cc),
+      region: data.region || undefined,
+      city: data.city || undefined,
+    };
+  } catch {
+    return {};
+  }
+}
+
 function decode(s: string): string {
   // Vercel URL-encodes non-ASCII region/city names (e.g. "Z%C3%BCrich").
   try {

@@ -60,15 +60,18 @@ export default async function AdminUsersPage() {
 
   // Country breakdown for the header pill row.
   const countryCounts = new Map<string, { name: string; count: number }>();
+  let usersWithCountry = 0;
   for (const u of sorted) {
     const g = geoFromUser(u.user_metadata as Record<string, unknown> | null);
     if (!g.country) continue;
+    usersWithCountry += 1;
     const prev = countryCounts.get(g.country);
     countryCounts.set(g.country, {
       name: g.country_name || g.country,
       count: (prev?.count || 0) + 1,
     });
   }
+  const usersWithoutCountry = sorted.length - usersWithCountry;
   const topCountries = Array.from(countryCounts.entries())
     .sort((a, b) => b[1].count - a[1].count)
     .slice(0, 8);
@@ -82,11 +85,18 @@ export default async function AdminUsersPage() {
         </div>
       </div>
 
-      {topCountries.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-xl px-4 py-3">
-          <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wide mb-2">
-            Top countries
+      <div className="bg-white border border-slate-200 rounded-xl px-4 py-3">
+        <div className="flex items-center justify-between gap-3 mb-2">
+          <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wide">
+            Geo Capture
           </p>
+          <p className="text-[11px] text-slate-500">
+            <span className="font-bold text-emerald-700">{usersWithCountry}</span> tagged
+            {" · "}
+            <span className="font-bold text-slate-700">{usersWithoutCountry}</span> pending
+          </p>
+        </div>
+        {topCountries.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {topCountries.map(([cc, info]) => (
               <span
@@ -101,8 +111,14 @@ export default async function AdminUsersPage() {
               </span>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <p className="text-xs text-slate-600">
+            No countries captured yet. Country is recorded the next time each user
+            signs up, logs in, or confirms their email — so it fills in over the
+            next few days.
+          </p>
+        )}
+      </div>
 
       <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div className="overflow-x-auto">
@@ -158,7 +174,12 @@ export default async function AdminUsersPage() {
                             </div>
                           </div>
                         ) : (
-                          <span className="text-slate-400">—</span>
+                          <span
+                            className="text-slate-400 text-xs"
+                            title="Country fills in the next time this user signs in, signs up, or confirms their email."
+                          >
+                            — pending
+                          </span>
                         )}
                       </td>
                       <td className="px-5 py-3 text-slate-600 capitalize">{provider}</td>

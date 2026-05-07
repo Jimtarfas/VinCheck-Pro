@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { geoFromHeaders } from "@/lib/geo";
+import { geoFromHeadersWithFallback } from "@/lib/geo";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
             typeof existingCountry === "string" && existingCountry.length === 2;
           if (!alreadyHas) {
             const h = await headers();
-            const geo = geoFromHeaders(h);
+            const geo = await geoFromHeadersWithFallback(h);
             if (geo.country) {
               const admin = createAdminClient();
               await admin.auth.admin.updateUserById(user.id, {

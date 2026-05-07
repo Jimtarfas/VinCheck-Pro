@@ -68,6 +68,15 @@ export default function AuthForm({
       if (error) {
         setError(error.message);
       } else {
+        // Fire-and-forget: try to capture country immediately. This works
+        // when email confirmation is off (signup creates a session right
+        // away). When it's on, this will 401 silently and the country gets
+        // captured on email-confirmation via /auth/callback instead.
+        try {
+          void fetch("/api/auth/track-country", { method: "POST" });
+        } catch {
+          // Non-fatal.
+        }
         setSuccess("Check your email for a confirmation link to complete your registration.");
       }
     } else {
