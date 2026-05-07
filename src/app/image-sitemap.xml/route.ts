@@ -168,6 +168,50 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // OBD-II Code Lookup — diagnostic trouble code reference.
+  const obd2CodesImage = `<url>
+  <loc>${SITE}/obd2-codes</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free OBD-II Code Lookup &mdash; Decode Any Check Engine Light Code</image:title>
+    <image:caption>Instant decode for any OBD-II / DTC trouble code. See meaning, symptoms, causes, severity, repair cost, and DIY difficulty. Covers powertrain, body, chassis, and network codes.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
+  // Car Depreciation Calculator.
+  const carDepreciationImage = `<url>
+  <loc>${SITE}/car-depreciation-calculator</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Car Depreciation Calculator &mdash; How Much Will My Car Be Worth?</image:title>
+    <image:caption>Calculate exactly how much your car will lose each year. See 1, 3, 5, 7, and 10-year projected values with brand-specific depreciation curves for 30+ makes.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
+  // Lease vs Buy Calculator.
+  const leaseVsBuyImage = `<url>
+  <loc>${SITE}/lease-vs-buy-calculator</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Lease vs Buy Calculator &mdash; Should I Lease or Buy a Car?</image:title>
+    <image:caption>Side-by-side comparison of leasing vs financing the same car. See total cost, monthly payments, equity, and net advantage over 3-7 years.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
+  // Total Cost of Ownership Calculator.
+  const tcoImage = `<url>
+  <loc>${SITE}/total-cost-of-ownership-calculator</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Total Cost of Ownership Calculator &mdash; True 5-Year Car Cost</image:title>
+    <image:caption>Calculate the real 5-year cost of any vehicle including depreciation, financing, fuel, insurance, maintenance, repairs, taxes, and registration. Compare two vehicles side-by-side.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -180,6 +224,10 @@ ${carAffordabilityImage}
 ${tradeInImage}
 ${gasMileageImage}
 ${vinDecoderImage}
+${obd2CodesImage}
+${carDepreciationImage}
+${leaseVsBuyImage}
+${tcoImage}
 ${urls}
 </urlset>`;
 
