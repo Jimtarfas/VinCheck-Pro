@@ -157,6 +157,17 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // VIN Decoder — free interactive tool.
+  const vinDecoderImage = `<url>
+  <loc>${SITE}/vin-decoder</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free VIN Decoder &mdash; Decode Any VIN Number Instantly</image:title>
+    <image:caption>Decode any 17-character VIN instantly. See WMI, VDS, check digit, model year, plant code, and production sequence. Free online VIN decoder tool.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -168,6 +179,7 @@ ${carLoanCalcImage}
 ${carAffordabilityImage}
 ${tradeInImage}
 ${gasMileageImage}
+${vinDecoderImage}
 ${urls}
 </urlset>`;
 

@@ -18,6 +18,7 @@ const moreChecksLinks = [
   { href: "/car-affordability-calculator", label: "Car Affordability Calculator" },
   { href: "/trade-in-value-estimator",     label: "Trade-In Value Estimator" },
   { href: "/gas-mileage-calculator",       label: "Gas Mileage Calculator" },
+  { href: "/vin-decoder",                  label: "VIN Decoder" },
   { href: "/recall-check",          label: "Recall Check" },
   { href: "/market-value",          label: "Market Value" },
   { href: "/warranty-check",        label: "Warranty Check" },
@@ -81,7 +82,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm">
                 <Phone className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0" />
-                1-800-VIN-CHECK
+                +1 (564) 212-3985
               </li>
             </ul>
           </div>

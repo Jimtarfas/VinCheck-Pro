@@ -59,7 +59,7 @@ const pressSchema = [
     contactPoint: [
       {
         "@type": "ContactPoint",
-        telephone: "+1-800-846-2432",
+        telephone: "+15642123985",
         email: "contact@carcheckervin.com",
         contactType: "press",
         areaServed: "US",
@@ -365,11 +365,11 @@ export default function PressPage() {
                 <span className="font-semibold">contact@carcheckervin.com</span>
               </a>
               <a
-                href="tel:1-800-846-2432"
+                href="tel:+15642123985"
                 className="flex items-center gap-3 text-slate-700 hover:text-primary-600"
               >
                 <Phone className="w-5 h-5 text-primary-600" />
-                <span className="font-semibold">1-800-VIN-CHECK (1-800-846-2432)</span>
+                <span className="font-semibold">+1 (564) 212-3985</span>
               </a>
               <div className="flex items-center gap-3 text-slate-700">
                 <Building2 className="w-5 h-5 text-primary-600" />

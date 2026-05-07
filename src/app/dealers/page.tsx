@@ -92,7 +92,7 @@ const dealersSchema = [
     logo: "https://www.carcheckervin.com/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+1-800-846-2432",
+      telephone: "+15642123985",
       contactType: "sales",
       email: "contact@carcheckervin.com",
       areaServed: "US",
@@ -674,10 +674,10 @@ export default function DealersPage() {
               <Mail className="w-4 h-4" /> contact@carcheckervin.com
             </a>
             <a
-              href="tel:1-800-846-2432"
+              href="tel:+15642123985"
               className="inline-flex items-center gap-2 hover:text-primary-600"
             >
-              <Phone className="w-4 h-4" /> 1-800-VIN-CHECK
+              <Phone className="w-4 h-4" /> +1 (564) 212-3985
             </a>
           </div>
         </div>

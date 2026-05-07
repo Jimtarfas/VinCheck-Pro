@@ -52,7 +52,7 @@ const organizationSchema = {
   contactPoint: [
     {
       "@type": "ContactPoint",
-      telephone: "+1-800-846-2432",
+      telephone: "+15642123985",
       contactType: "customer support",
       email: "contact@carcheckervin.com",
       areaServed: "US",
@@ -148,8 +148,8 @@ export default function ContactPage() {
                   <Phone className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
                   <div>
                     <div className="font-semibold text-slate-900">Phone</div>
-                    <a href="tel:1-800-846-2432" className="text-primary-600 hover:underline">
-                      1-800-VIN-CHECK (1-800-846-2432)
+                    <a href="tel:+15642123985" className="text-primary-600 hover:underline">
+                      +1 (564) 212-3985
                     </a>
                     <div className="text-sm text-slate-700">Toll-free, US callers.</div>
                   </div>
