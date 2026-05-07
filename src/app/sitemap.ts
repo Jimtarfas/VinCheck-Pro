@@ -155,6 +155,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/car-affordability-calculator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Trade-In Value Estimator — high-intent used car tool.
     { url: `${baseUrl}/trade-in-value-estimator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Gas Mileage Cost Calculator — high-traffic utility tool.
+    { url: `${baseUrl}/gas-mileage-calculator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/recall-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/market-value`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/warranty-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },

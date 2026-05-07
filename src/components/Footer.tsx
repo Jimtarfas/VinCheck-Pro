@@ -17,6 +17,7 @@ const moreChecksLinks = [
   { href: "/car-loan-calculator",        label: "Car Loan Calculator" },
   { href: "/car-affordability-calculator", label: "Car Affordability Calculator" },
   { href: "/trade-in-value-estimator",     label: "Trade-In Value Estimator" },
+  { href: "/gas-mileage-calculator",       label: "Gas Mileage Calculator" },
   { href: "/recall-check",          label: "Recall Check" },
   { href: "/market-value",          label: "Market Value" },
   { href: "/warranty-check",        label: "Warranty Check" },

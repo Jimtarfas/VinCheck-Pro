@@ -146,6 +146,17 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Gas Mileage Cost Calculator
+  const gasMileageImage = `<url>
+  <loc>${SITE}/gas-mileage-calculator</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Gas Mileage Cost Calculator &mdash; Fuel Cost Per Mile, Month &amp; Year</image:title>
+    <image:caption>Calculate daily, monthly, and annual fuel costs by MPG and gas price. Includes road trip mode, all 50 US state gas prices, and vehicle comparison with break-even analysis.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -156,6 +167,7 @@ ${licensePlateLookupImage}
 ${carLoanCalcImage}
 ${carAffordabilityImage}
 ${tradeInImage}
+${gasMileageImage}
 ${urls}
 </urlset>`;
 
