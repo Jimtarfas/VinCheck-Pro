@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
+import VinCheckBanner from "@/components/VinCheckBanner";
 import WindowStickerMaker from "./WindowStickerMaker";
 
 const PAGE_URL = "https://www.carcheckervin.com/window-sticker";
@@ -808,6 +809,11 @@ export default function WindowStickerMakerPage() {
           </div>
         </div>
       </section>
+
+      {/* ── VIN Check CTA ── */}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 print:hidden">
+        <VinCheckBanner />
+      </div>
 
       {/* Related */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-12 print:hidden">

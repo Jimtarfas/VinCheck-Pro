@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
+import VinCheckBanner from "@/components/VinCheckBanner";
 import MotorcycleVinSearch from "./MotorcycleVinSearch";
 
 const PAGE_URL = "https://www.carcheckervin.com/motorcycle-vin-search";
@@ -669,6 +670,11 @@ export default function MotorcycleVinSearchPage() {
           </div>
         </div>
       </section>
+
+          {/* ── VIN Check CTA ── */}
+          <div className="mt-10">
+            <VinCheckBanner />
+          </div>
 
       {/* Related */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-12">

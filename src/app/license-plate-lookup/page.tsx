@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check, Shield, Clock, Globe, Search, FileText, AlertCircle } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
+import VinCheckBanner from "@/components/VinCheckBanner";
 import LicensePlateLookup from "./LicensePlateLookup";
 
 const SITE = "https://www.carcheckervin.com";
@@ -346,6 +347,11 @@ export default function LicensePlateLookupPage() {
               ))}
             </div>
           </section>
+
+          {/* ── VIN Check CTA ── */}
+          <div className="mt-10">
+            <VinCheckBanner />
+          </div>
 
           {/* ── Plate vs VIN ── */}
           <section id="plate-vs-vin" className="mt-14">

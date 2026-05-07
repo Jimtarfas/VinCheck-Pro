@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check, TrendingUp, AlertCircle, DollarSign, Percent, Calendar } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
+import VinCheckBanner from "@/components/VinCheckBanner";
 import CarLoanCalculator from "./CarLoanCalculator";
 
 const SITE = "https://www.carcheckervin.com";
@@ -300,6 +301,11 @@ export default function CarLoanCalculatorPage() {
               ))}
             </ol>
           </section>
+
+          {/* ── VIN Check CTA ── */}
+          <div className="mt-10">
+            <VinCheckBanner />
+          </div>
 
           {/* ── Tips ── */}
           <section id="tips" className="mt-14">
