@@ -135,6 +135,17 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Trade-In Value Estimator — high-intent used car tool.
+  const tradeInImage = `<url>
+  <loc>${SITE}/trade-in-value-estimator</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Trade-In Value Estimator &mdash; How Much Is My Car Worth?</image:title>
+    <image:caption>Get instant private party, dealer trade-in, instant cash offer, and auction value estimates based on your vehicle's year, make, mileage, condition, and history.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
@@ -144,6 +155,7 @@ ${motorcycleVinSearchImage}
 ${licensePlateLookupImage}
 ${carLoanCalcImage}
 ${carAffordabilityImage}
+${tradeInImage}
 ${urls}
 </urlset>`;
 
