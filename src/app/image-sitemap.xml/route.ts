@@ -91,11 +91,23 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Motorcycle VIN Search — interactive decoder tool.
+  const motorcycleVinSearchImage = `<url>
+  <loc>${SITE}/motorcycle-vin-search</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Motorcycle VIN Search &amp; Decoder</image:title>
+    <image:caption>Decode any 17-character motorcycle VIN instantly. Manufacturer, country, model year, plant, and production sequence — Harley-Davidson, Honda, Yamaha, Suzuki, Kawasaki, BMW, Ducati, Triumph, KTM, and more.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${homeImage}
 ${windowStickerImage}
+${motorcycleVinSearchImage}
 ${urls}
 </urlset>`;
 

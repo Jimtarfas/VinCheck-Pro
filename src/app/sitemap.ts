@@ -158,7 +158,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/rental-car-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/fleet-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/classic-car-vin`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${baseUrl}/motorcycle-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/motorcycle-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    // Motorcycle VIN Search — interactive decoder tool. High priority for Google + Bing.
+    { url: `${baseUrl}/motorcycle-vin-search`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/rv-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/total-loss-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/rideshare-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },

@@ -17,7 +17,8 @@ const moreChecksLinks = [
   { href: "/recall-check",          label: "Recall Check" },
   { href: "/market-value",          label: "Market Value" },
   { href: "/warranty-check",        label: "Warranty Check" },
-  { href: "/motorcycle-vin-check",  label: "Motorcycle VIN" },
+  { href: "/motorcycle-vin-search", label: "Motorcycle VIN Search" },
+  { href: "/motorcycle-vin-check",  label: "Motorcycle VIN Check" },
   { href: "/rv-vin-check",          label: "RV VIN Check" },
   { href: "/flood-check",           label: "Flood Check" },
 ];

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets } from "lucide-react";
+import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search } from "lucide-react";
 
 const allChecks = [
   { href: "/stolen-vehicle-check", icon: Shield, title: "Stolen Vehicle Check", desc: "Verify against NICB theft database" },
@@ -12,6 +12,7 @@ const allChecks = [
   { href: "/recall-check", icon: BellRing, title: "Recall Check", desc: "Open NHTSA safety recalls" },
   { href: "/market-value", icon: TrendingUp, title: "Market Value", desc: "Current market valuation" },
   { href: "/warranty-check", icon: ShieldCheck, title: "Warranty Check", desc: "Manufacturer warranty status" },
+  { href: "/motorcycle-vin-search", icon: Search, title: "Motorcycle VIN Search", desc: "Free instant motorcycle VIN decoder" },
   { href: "/motorcycle-vin-check", icon: Bike, title: "Motorcycle VIN Check", desc: "Motorcycle VIN history" },
   { href: "/flood-check", icon: Droplets, title: "Flood Check", desc: "Water damage title records" },
 ];
