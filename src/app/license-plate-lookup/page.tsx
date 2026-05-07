@@ -1,211 +1,475 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, Shield, Clock, Globe, Search, FileText, AlertCircle } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import LicensePlateLookup from "./LicensePlateLookup";
+
+const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title: "License Plate Lookup — Search Any Vehicle by Plate Number",
+  title: "License Plate to VIN Lookup — Find Any Car by Plate Number (All 50 States)",
   description:
-    "Look up any vehicle by license plate number. Find the VIN, owner history, title status, accidents, and registration records from any US state plate.",
+    "Free license plate to VIN lookup for all 50 US states. Enter a plate number and state to instantly retrieve the VIN, year, make, model, title status, accident history, and owner records.",
   keywords: [
+    "license plate to VIN",
     "license plate lookup",
+    "plate to VIN lookup",
     "search by license plate",
-    "plate number search",
-    "find car by plate",
-    "reverse plate lookup",
+    "plate number to VIN",
+    "find car by plate number",
+    "reverse license plate lookup",
     "vehicle plate search",
+    "plate to VIN converter",
+    "license plate VIN decoder",
+    "free license plate lookup",
+    "license plate check",
+    "look up vehicle by plate",
+    "plate number vehicle history",
+    "run plate number",
+    "check license plate",
+    "DMV plate lookup",
+    "license plate vehicle identification",
+    "state plate lookup",
+    "plate number search USA",
+    "license plate VIN number",
+    "plate lookup car history",
+    "find VIN from plate",
+    "car plate number search",
+    "license plate registration lookup",
+    "plate number decode",
+    "DPPA plate lookup",
+    "license plate to vin free",
+    "how to find VIN from license plate",
+    "license plate records check",
   ],
   alternates: { canonical: "/license-plate-lookup" },
   openGraph: {
-    title: "License Plate Lookup — Search Any Vehicle by Plate Number",
+    title: "License Plate to VIN Lookup — Find Any Car by Plate Number",
     description:
-      "Look up any vehicle by license plate number. Find the VIN, title status, accidents, and registration records from any US state plate.",
-    url: "https://www.carcheckervin.com/license-plate-lookup",
-    type: "article",
+      "Free license plate to VIN lookup for all 50 US states. Enter a plate number and state to retrieve the VIN and full vehicle history instantly.",
+    url: `${SITE}/license-plate-lookup`,
+    type: "website",
+    siteName: "CarCheckerVIN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "License Plate to VIN Lookup — All 50 States",
+    description:
+      "Look up any vehicle by license plate. Get the VIN, year, make, model, and full history report instantly.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
   },
 };
 
-const articleSchema = {
+/* ─── JSON-LD Schemas ─────────────────────────────────────── */
+
+const webAppSchema = {
   "@context": "https://schema.org",
-  "@type": "Article",
-  headline: "License Plate Lookup",
+  "@type": ["WebApplication", "SoftwareApplication"],
+  name: "License Plate to VIN Lookup",
   description:
-    "Learn how to search any vehicle by license plate number to find the VIN, owner history, title status, and accident records.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+    "Free license plate to VIN lookup tool. Enter any US license plate number and state to instantly retrieve the VIN, vehicle details, and full history report.",
+  url: `${SITE}/license-plate-lookup`,
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Web Browser",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  featureList: [
+    "All 50 US states supported",
+    "VIN retrieval from plate number",
+    "Instant vehicle year, make, model decode",
+    "Links to full vehicle history report",
+    "DPPA-compliant data access",
+  ],
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
+    url: SITE,
+    logo: { "@type": "ImageObject", url: `${SITE}/logo.png` },
   },
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": "https://www.carcheckervin.com/license-plate-lookup",
-  },
-  datePublished: "2026-05-04",
-  dateModified: "2026-05-04",
 };
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Look Up a VIN by License Plate",
+  description:
+    "Use CarCheckerVIN's free tool to convert any US license plate number to a VIN in three steps.",
+  totalTime: "PT1M",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Enter the license plate number",
+      text: "Type the alphanumeric plate number into the search field exactly as it appears on the plate, without spaces or special characters.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Select the issuing state",
+      text: "Choose the US state that issued the plate from the dropdown. The same plate characters can exist in multiple states, so selecting the correct state is essential for an accurate match.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "View the VIN and vehicle details",
+      text: "Click 'Look Up VIN by Plate'. The tool returns the 17-character VIN along with year, make, model, and a direct link to the full vehicle history report.",
+    },
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Can I find a VIN from a license plate number for free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. CarCheckerVIN's license plate to VIN lookup is free for personal pre-purchase vehicle research. Create a free account, enter the plate number and issuing state, and the tool returns the associated 17-character VIN along with decoded vehicle details.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which US states are supported for plate-to-VIN lookup?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "All 50 US states plus the District of Columbia are supported. Each state's motor vehicle database is queried separately, which is why you must select the issuing state — the same plate number can exist in multiple states simultaneously.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is it legal to look up a license plate to get the VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, for permissible purposes under the Driver's Privacy Protection Act (DPPA). Vehicle research before a private-party purchase is a clearly permissible use. Our lookup returns vehicle information (VIN, make, model, title status) but not personal owner data like name or home address, which the DPPA restricts.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What information can I get from a license plate lookup?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A license plate lookup first returns the VIN. Once you have the VIN you can access the full vehicle history: year, make, model, title brands (salvage, flood, lemon law buyback), accident records, odometer readings across title transfers, number of previous owners, theft records, and open safety recalls.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What if the plate lookup returns no results?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No results usually means the plate is expired, out of state, a temporary dealer tag, or a personalized vanity plate not yet indexed. In these cases, ask the seller for the 17-character VIN directly and run a VIN check on CarCheckerVIN for the most accurate history report.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why do I need to select a state for the plate lookup?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "License plates are issued by individual states, not federally. The same alphanumeric sequence (e.g., 'ABC1234') can be active in California, Texas, and New York simultaneously. You must specify the issuing state so the lookup queries the correct state DMV database and returns the right vehicle record.",
+      },
+    },
+  ],
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+    { "@type": "ListItem", position: 2, name: "License Plate to VIN Lookup", item: `${SITE}/license-plate-lookup` },
+  ],
+};
+
+const speakableSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "License Plate to VIN Lookup",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: ["h1", "#what-you-get", "#how-it-works"],
+  },
+  url: `${SITE}/license-plate-lookup`,
+};
+
+/* ─── State coverage grid data ───────────────────────────── */
+const STATE_GROUPS = [
+  { region: "Northeast", states: ["CT", "DE", "MA", "ME", "MD", "NH", "NJ", "NY", "PA", "RI", "VT"] },
+  { region: "South", states: ["AL", "AR", "FL", "GA", "KY", "LA", "MS", "NC", "SC", "TN", "TX", "VA", "WV"] },
+  { region: "Midwest", states: ["IA", "IL", "IN", "KS", "MI", "MN", "MO", "ND", "NE", "OH", "SD", "WI"] },
+  { region: "West", states: ["AK", "AZ", "CA", "CO", "HI", "ID", "MT", "NM", "NV", "OR", "UT", "WA", "WY"] },
+];
 
 export default function LicensePlateLookupPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
 
-      <article className="pt-28 pb-16">
+      <main className="pt-28 pb-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
           <Breadcrumbs
             items={[
               { label: "Home", href: "/" },
-              { label: "License Plate Lookup" },
+              { label: "License Plate to VIN Lookup" },
             ]}
           />
 
           <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
-            License Plate Lookup
+            License Plate to VIN Lookup
           </h1>
           <p className="mt-4 text-lg text-slate-700 leading-relaxed">
-            A license plate lookup lets you search a vehicle using its plate number instead of the VIN. This is useful when you spot a car for sale and only have the plate, or when you want to verify that a plate matches the vehicle it&rsquo;s attached to. A plate search returns the associated VIN, which then unlocks the full vehicle history — title status, accidents, odometer records, and more.
+            Enter any US license plate number and state to instantly find the vehicle&rsquo;s VIN —
+            then pull the full history report: title brands, accidents, odometer records, and open recalls.
+            Free for all 50 states.
           </p>
 
-          <div className="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-100">
-            <h2 className="text-lg font-bold text-slate-900 mb-3">
-              Search a Vehicle by Plate Number
-            </h2>
-            <VinSearchForm size="sm" />
+          {/* Trust badges */}
+          <div className="mt-5 flex flex-wrap gap-3 text-xs font-semibold text-slate-600">
+            {[
+              { icon: Globe, text: "All 50 States" },
+              { icon: Shield, text: "DPPA Compliant" },
+              { icon: Clock, text: "Instant Results" },
+              { icon: Search, text: "Free Lookup" },
+            ].map(({ icon: Icon, text }) => (
+              <span key={text} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-full">
+                <Icon className="w-3.5 h-3.5 text-primary-600" />
+                {text}
+              </span>
+            ))}
           </div>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            How License Plate Lookup Works
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Every vehicle registered in the United States has both a license plate number assigned by the issuing state and a unique 17-character Vehicle Identification Number assigned by the manufacturer. State motor vehicle departments link these two identifiers in their registration databases. A license plate lookup queries those databases to retrieve the VIN associated with a given plate number.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Once the VIN is returned, the same search can pull the vehicle&rsquo;s complete history from NMVTIS, insurance databases, auction records, and service history aggregators — the same data sources used in a direct{" "}
-            <Link href="/vin-check" className="text-primary-600 hover:underline font-medium">
-              VIN history report
-            </Link>
-            . The plate serves as the entry point; the VIN is the primary key that unlocks every downstream record.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Plate lookups work best for currently registered vehicles in US states. Plates from expired registrations, out-of-country vehicles, or dealer temp tags may return limited results. In those cases, requesting the VIN directly from the seller is the most reliable approach.
-          </p>
+          {/* ── Interactive Tool ── */}
+          <div className="mt-8" id="tool">
+            <LicensePlateLookup />
+          </div>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            What a Plate Search Reveals
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            A license plate lookup returns a rich set of vehicle and ownership data once the associated VIN is identified. The depth of information depends on how thoroughly the state and third-party sources have reported the vehicle&rsquo;s history.
-          </p>
-          <ul className="mt-4 space-y-2 text-slate-600">
-            <li className="flex gap-2 items-start">
-              <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span><strong>Vehicle identification</strong> &mdash; year, make, model, trim, body style, and engine from the decoded VIN.</span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span><strong>Title and registration status</strong> &mdash; current title state, any brands (salvage, flood, lemon), and registration expiration.</span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span><strong>Accident and damage records</strong> &mdash; collision reports, insurance claims, and structural damage disclosures.</span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span><strong>Ownership history</strong> &mdash; number of previous owners and the states where the vehicle was registered.</span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span><strong>Odometer readings</strong> &mdash; mileage reported at each title transfer to detect rollback fraud.</span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span><strong>Theft records</strong> &mdash; whether the vehicle has been reported stolen through NICB or law enforcement databases.</span>
-            </li>
-          </ul>
+          {/* ── What You Get ── */}
+          <section id="what-you-get" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              What a Plate Lookup Returns
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-6">
+              The plate-to-VIN lookup is the first step. Once the VIN is identified you can
+              pull the complete vehicle history from NMVTIS, insurance databases, auction
+              records, and service history aggregators.
+            </p>
+            <ul className="space-y-3">
+              {[
+                { title: "17-character VIN", detail: "The universal vehicle identifier that unlocks every downstream record." },
+                { title: "Year, Make, Model & Trim", detail: "Decoded directly from the VIN — manufacturer, plant, body style, and engine." },
+                { title: "Title brands", detail: "Salvage, flood, rebuilt, lemon law buyback, hail damage, and non-repairable flags." },
+                { title: "Accident & damage records", detail: "Collision reports, insurance claims, and structural damage disclosures from NMVTIS and insurers." },
+                { title: "Odometer history", detail: "Mileage at each title transfer — detects rollback fraud before you buy." },
+                { title: "Ownership chain", detail: "Number of owners and which states the vehicle was registered in." },
+                { title: "Theft status", detail: "NICB and law enforcement records flagging active or recovered stolen vehicles." },
+                { title: "Open safety recalls", detail: "NHTSA-reported unrepaired recall campaigns that may affect the vehicle." },
+              ].map(({ title, detail }) => (
+                <li key={title} className="flex gap-3 items-start">
+                  <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">
+                    <strong className="text-slate-900">{title}</strong> — {detail}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            State-by-State Plate Formats
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            License plate formats vary significantly from state to state, which affects how a lookup is structured. Most states use a combination of letters and numbers, but the length and pattern differ. Some states like California use seven characters (1ABC234), while others like Ohio use five or six characters. Vanity and personalized plates further complicate automated lookups because they don&rsquo;t follow standard formats.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            When entering a plate number, always include the issuing state. A plate number alone is not unique — the same alphanumeric sequence can exist in multiple states simultaneously. Including the state narrows the search to the correct motor vehicle database and returns the right vehicle record.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Special plates — commercial, government, military, diplomatic, and dealer plates — may have restricted lookup access due to privacy exemptions. Standard passenger plates and most commercial plates are searchable through normal channels.
-          </p>
+          {/* ── How It Works ── */}
+          <section id="how-it-works" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              How License Plate to VIN Lookup Works
+            </h2>
+            <ol className="space-y-6">
+              {[
+                {
+                  n: 1,
+                  title: "Enter the plate number",
+                  body: "Type the alphanumeric plate number exactly as it appears — no spaces or special characters. Most US plates are 5–8 characters. Vanity and personalized plates follow their own format; enter them exactly as displayed.",
+                },
+                {
+                  n: 2,
+                  title: "Select the issuing state",
+                  body: "License plates are issued by individual states, not the federal government. The same plate characters can exist in multiple states simultaneously — \"7ABC123\" is a valid California format but \"ABC1234\" is common in other states. Selecting the correct state directs the query to the right DMV database.",
+                },
+                {
+                  n: 3,
+                  title: "Get the VIN and vehicle details",
+                  body: "The tool queries state registration records to find the 17-character VIN linked to that plate. Year, make, model, and trim are decoded automatically. From there you can pull the full vehicle history report with one click.",
+                },
+              ].map(({ n, title, body }) => (
+                <li key={n} className="flex gap-4">
+                  <span className="flex-shrink-0 w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold text-sm">
+                    {n}
+                  </span>
+                  <div>
+                    <h3 className="font-bold text-slate-900">{title}</h3>
+                    <p className="mt-1 text-slate-600 leading-relaxed">{body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            Privacy &amp; Legal Considerations
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            License plate lookups in the United States are governed primarily by the Driver&rsquo;s Privacy Protection Act (DPPA) of 1994, a federal law that restricts access to personal information contained in state motor vehicle records. Under the DPPA, personally identifiable information — such as the name and address of a registered owner — cannot be disclosed without a permissible purpose.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Permissible purposes include vehicle purchase verification, law enforcement, insurance claims, and litigation support. Consumer-facing plate lookup services must operate within these restrictions and typically return vehicle information (make, model, VIN, title status) rather than owner personal data. Our lookups are designed for pre-purchase vehicle research, which is a clearly permissible use under the DPPA.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            For a comprehensive pre-purchase check, combine the plate lookup with a{" "}
-            <Link href="/stolen-vehicle-check" className="text-primary-600 hover:underline font-medium">
-              stolen vehicle check
-            </Link>{" "}
-            and a full{" "}
-            <Link href="/accident-history-check" className="text-primary-600 hover:underline font-medium">
-              accident history report
-            </Link>
-            .
-          </p>
+          {/* ── State coverage ── */}
+          <section id="state-coverage" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">
+              State Coverage — All 50 States + DC
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-6">
+              Every US state and the District of Columbia is supported. Select the issuing
+              state from the dropdown in the tool above to direct the query to the correct
+              motor vehicle database.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {STATE_GROUPS.map(({ region, states: abbrs }) => (
+                <div key={region} className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">{region}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {abbrs.map((a) => (
+                      <span key={a} className="inline-block px-1.5 py-0.5 bg-white border border-slate-200 rounded text-xs font-mono text-slate-700">
+                        {a}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            License Plate vs VIN Search
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            While both approaches ultimately access the same vehicle history data, each has distinct advantages. A plate lookup is useful when you don&rsquo;t have direct access to the vehicle and can only note the plate number. It&rsquo;s also a quick way to verify that the plate currently on a vehicle actually belongs to it — a mismatch can indicate a swapped plate, which is a red flag for theft or fraud.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            A direct VIN search is more reliable because the VIN is the universal identifier used across all databases and is not state-specific. Before finalizing any used car purchase, always confirm the VIN by physically checking it on the dashboard, door jamb, and engine bay, then run a{" "}
-            <Link href="/vin-check" className="text-primary-600 hover:underline font-medium">
-              VIN check
-            </Link>{" "}
-            to get the definitive history report.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            A complete pre-purchase check should also include an{" "}
-            <Link href="/odometer-check" className="text-primary-600 hover:underline font-medium">
-              odometer check
-            </Link>{" "}
-            and a{" "}
-            <Link href="/salvage-title-check" className="text-primary-600 hover:underline font-medium">
-              salvage title check
-            </Link>{" "}
-            to rule out the most common forms of used car fraud.
-          </p>
+          {/* ── Plate vs VIN ── */}
+          <section id="plate-vs-vin" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">
+              License Plate Lookup vs. VIN Search
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
+                <h3 className="font-bold text-amber-900 mb-3 flex items-center gap-2">
+                  <Search className="w-4 h-4" /> License Plate Lookup
+                </h3>
+                <ul className="space-y-2 text-sm text-amber-800">
+                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> Useful when you only have the plate (street, listing photo)</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> Quick verification that the plate matches the vehicle</li>
+                  <li className="flex gap-2"><AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> May return no results for expired, temp, or out-of-state plates</li>
+                  <li className="flex gap-2"><AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> Requires knowing the issuing state</li>
+                </ul>
+              </div>
+              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5">
+                <h3 className="font-bold text-emerald-900 mb-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4" /> Direct VIN Search
+                </h3>
+                <ul className="space-y-2 text-sm text-emerald-800">
+                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> Most reliable — the VIN is the universal vehicle key</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> Works across all databases without state restrictions</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> Physically verify VIN on dash, door jamb, and engine bay</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> Best for final pre-purchase due diligence</li>
+                </ul>
+              </div>
+            </div>
+            <p className="mt-4 text-slate-600 leading-relaxed">
+              Best practice: start with the plate lookup to quickly identify the VIN, then confirm
+              that VIN physically on the vehicle and run a direct{" "}
+              <Link href="/vin-check" className="text-primary-600 hover:underline font-medium">VIN history report</Link>{" "}
+              for the definitive pre-purchase check.
+            </p>
+          </section>
+
+          {/* ── Privacy / Legal ── */}
+          <section id="privacy" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-3">
+              Privacy &amp; Legal — DPPA Explained
+            </h2>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 text-slate-700 text-sm leading-relaxed space-y-3">
+              <p>
+                License plate lookups in the US are governed by the{" "}
+                <strong>Driver&rsquo;s Privacy Protection Act (DPPA) of 1994</strong>, a federal law
+                restricting access to personal information in state motor vehicle records. Personally
+                identifiable data — owner name, address, SSN — cannot be disclosed without a
+                permissible purpose.
+              </p>
+              <p>
+                <strong>Permissible purposes</strong> include vehicle purchase verification, insurance
+                claims, law enforcement, and litigation support. Our tool is designed for pre-purchase
+                vehicle research — a clearly permissible use — and returns vehicle data (VIN, make,
+                model, title status) rather than owner personal information.
+              </p>
+              <p>
+                We require a free account to run plate lookups. This is both a DPPA compliance measure
+                (we must be able to identify who is accessing the data and for what purpose) and a
+                protection against automated scraping of the database.
+              </p>
+            </div>
+          </section>
+
+          {/* ── FAQ ── */}
+          <section id="faq" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              Frequently Asked Questions
+            </h2>
+            <dl className="space-y-6">
+              {[
+                {
+                  q: "Can I find a VIN from a license plate for free?",
+                  a: "Yes. Create a free CarCheckerVIN account, enter the plate and state in the tool above, and the VIN is returned instantly along with year, make, and model.",
+                },
+                {
+                  q: "What if the plate lookup returns no results?",
+                  a: "No results usually means the plate is expired, a temporary dealer tag, or the registration hasn't been indexed yet. Ask the seller for the 17-character VIN directly and run a VIN check — it's always the more reliable approach for a final pre-purchase check.",
+                },
+                {
+                  q: "Can I look up the owner's name from a license plate?",
+                  a: "No. The DPPA prohibits disclosing personal owner information (name, address, date of birth) to the general public without a specific permissible purpose. Our lookup returns vehicle data only — not personal information.",
+                },
+                {
+                  q: "Does the lookup work for commercial plates, dealer plates, or military plates?",
+                  a: "Commercial and fleet plates generally work. Dealer temp tags, government plates, diplomatic plates, and military plates may have restricted access due to privacy exemptions or separate registration systems.",
+                },
+                {
+                  q: "How accurate is the plate-to-VIN match?",
+                  a: "The match is drawn from state DMV registration records and is highly accurate for currently registered passenger vehicles. Expired registrations, recently transferred plates, or plates issued within the last few days may lag behind the database by 24–72 hours.",
+                },
+              ].map(({ q, a }) => (
+                <div key={q}>
+                  <dt className="font-bold text-slate-900">{q}</dt>
+                  <dd className="mt-1.5 text-slate-600 leading-relaxed">{a}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          {/* ── Related tools ── */}
+          <div className="mt-14">
+            <RelatedChecks exclude="/license-plate-lookup" />
+          </div>
         </div>
-      </article>
+      </main>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
-        <RelatedChecks exclude="/license-plate-lookup" />
-      </div>
-
-      <section className="py-14 bg-slate-50">
-        <div className="max-w-2xl mx-auto px-4 text-center">
+      {/* ── Bottom CTA ── */}
+      <section className="py-14 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Search Any Vehicle by Plate or VIN
+            Don&rsquo;t Have the Plate? Search by VIN.
           </h2>
-          <p className="text-slate-700 mb-6">
-            Enter a license plate number or 17-character VIN to get the full vehicle history report.
+          <p className="text-slate-600 mb-6">
+            A 17-character VIN gives you the most accurate and complete vehicle history.
+            Find it on the dashboard, driver-side door jamb, or registration card.
           </p>
-          <VinSearchForm size="sm" />
+          <Link
+            href="/vin-check"
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-colors"
+          >
+            Run a Free VIN Check
+          </Link>
         </div>
       </section>
     </>

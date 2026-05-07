@@ -102,12 +102,24 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // License Plate to VIN Lookup — interactive tool page.
+  const licensePlateLookupImage = `<url>
+  <loc>${SITE}/license-plate-lookup</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free License Plate to VIN Lookup &mdash; Find Any Car by Plate Number</image:title>
+    <image:caption>Enter a license plate number and state to instantly retrieve the VIN and full vehicle details. Free for all 50 US states. Powered by DPPA-compliant data.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${homeImage}
 ${windowStickerImage}
 ${motorcycleVinSearchImage}
+${licensePlateLookupImage}
 ${urls}
 </urlset>`;
 

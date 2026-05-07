@@ -78,6 +78,14 @@ export default function AuthForm({
       if (error) {
         setError(error.message);
       } else {
+        // Fire-and-forget: stamp the user's country onto their metadata so
+        // it surfaces in the admin Users panel. Skipped server-side if
+        // already recorded, so safe to call on every login.
+        try {
+          void fetch("/api/auth/track-country", { method: "POST" });
+        } catch {
+          // Non-fatal.
+        }
         router.push(next);
         router.refresh();
       }
