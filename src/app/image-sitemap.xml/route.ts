@@ -201,6 +201,39 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Compare Cars — side-by-side vehicle comparison tool.
+  const compareCarsImage = `<url>
+  <loc>${SITE}/compare-cars</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Car Comparison Tool &mdash; Compare Any Two Vehicles Side-by-Side</image:title>
+    <image:caption>Compare any two cars side-by-side. See MPG, horsepower, price, cargo, towing, safety, and 30+ specs for 40+ popular models. Free, instant, no sign-up.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
+  // Used Car Inspection Checklist — DIY pre-purchase PPI tool.
+  const inspectionChecklistImage = `<url>
+  <loc>${SITE}/used-car-inspection-checklist</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Used Car Inspection Checklist &mdash; 65-Point DIY Pre-Purchase Inspection</image:title>
+    <image:caption>Free interactive pre-purchase inspection checklist with 65 checks across 8 categories. Spot deal-breakers before you buy. Generate a shareable inspection report.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
+  // Vehicle Lien Check — dedicated lien/repo landing page.
+  const vehicleLienCheckImage = `<url>
+  <loc>${SITE}/vehicle-lien-check</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Free Vehicle Lien Check &mdash; Find Hidden Loans, Liens &amp; Repos by VIN</image:title>
+    <image:caption>Check any vehicle for hidden liens, outstanding loans, and repossession records before you buy. Free VIN-based lien lookup — protect yourself from inheriting someone else's debt.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   // Look Up Car Plates Free — SEO landing page.
   const lookUpPlatesFreeImage = `<url>
   <loc>${SITE}/look-up-car-plates-free</loc>
@@ -240,6 +273,9 @@ ${carDepreciationImage}
 ${leaseVsBuyImage}
 ${tcoImage}
 ${lookUpPlatesFreeImage}
+${compareCarsImage}
+${inspectionChecklistImage}
+${vehicleLienCheckImage}
 ${urls}
 </urlset>`;
 
