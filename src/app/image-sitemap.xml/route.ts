@@ -201,6 +201,17 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Look Up Car Plates Free — SEO landing page.
+  const lookUpPlatesFreeImage = `<url>
+  <loc>${SITE}/look-up-car-plates-free</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Look Up Car Plates Free &mdash; Free License Plate Lookup, All 50 States</image:title>
+    <image:caption>Look up any US license plate for free. Get the VIN, year, make, model, title brands, and history records instantly. No sign-up, no credit card.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   // Total Cost of Ownership Calculator.
   const tcoImage = `<url>
   <loc>${SITE}/total-cost-of-ownership-calculator</loc>
@@ -228,6 +239,7 @@ ${obd2CodesImage}
 ${carDepreciationImage}
 ${leaseVsBuyImage}
 ${tcoImage}
+${lookUpPlatesFreeImage}
 ${urls}
 </urlset>`;
 

@@ -14,6 +14,7 @@ const checkLinks = [
 const moreChecksLinks = [
   { href: "/window-sticker",        label: "Window Sticker Maker" },
   { href: "/license-plate-lookup",  label: "Plate to VIN Lookup" },
+  { href: "/look-up-car-plates-free", label: "Look Up Car Plates Free" },
   { href: "/car-loan-calculator",        label: "Car Loan Calculator" },
   { href: "/car-affordability-calculator", label: "Car Affordability Calculator" },
   { href: "/trade-in-value-estimator",     label: "Trade-In Value Estimator" },

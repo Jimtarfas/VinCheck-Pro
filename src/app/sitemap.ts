@@ -149,6 +149,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/license-plate-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Free plate lookup — keyword-targeted SEO landing page.
+    { url: `${baseUrl}/look-up-car-plates-free`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Car Loan Calculator — high-traffic finance tool for organic SEO.
     { url: `${baseUrl}/car-loan-calculator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Car Affordability Calculator — companion finance tool.
