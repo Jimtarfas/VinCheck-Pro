@@ -17,7 +17,7 @@ const moreChecksCol1 = [
   { href: "/look-up-car-plates-free",      label: "Look Up Car Plates Free" },
   { href: "/vin-decoder",                  label: "VIN Decoder" },
   { href: "/compare-cars",                 label: "Compare Vehicles" },
-  { href: "/used-car-inspection-checklist", label: "Pre-Purchase Inspection" },
+  { href: "/used-car-inspection-checklist", label: "Inspection Checklist" },
   { href: "/vehicle-lien-check",           label: "Vehicle Lien Check" },
   { href: "/obd2-codes",                   label: "OBD-II Code Lookup" },
   { href: "/recall-check",                 label: "Recall Check" },
