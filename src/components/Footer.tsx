@@ -11,29 +11,32 @@ const checkLinks = [
   { href: "/lemon-check",            label: "Lemon Check" },
 ];
 
-const moreChecksLinks = [
-  { href: "/window-sticker",        label: "Window Sticker Maker" },
-  { href: "/license-plate-lookup",  label: "Plate to VIN Lookup" },
-  { href: "/look-up-car-plates-free", label: "Look Up Car Plates Free" },
-  { href: "/car-loan-calculator",        label: "Car Loan Calculator" },
-  { href: "/car-affordability-calculator", label: "Car Affordability Calculator" },
-  { href: "/trade-in-value-estimator",     label: "Trade-In Value Estimator" },
-  { href: "/gas-mileage-calculator",       label: "Gas Mileage Calculator" },
+const moreChecksCol1 = [
+  { href: "/window-sticker",               label: "Window Sticker Maker" },
+  { href: "/license-plate-lookup",         label: "Plate to VIN Lookup" },
+  { href: "/look-up-car-plates-free",      label: "Look Up Car Plates Free" },
   { href: "/vin-decoder",                  label: "VIN Decoder" },
   { href: "/compare-cars",                 label: "Compare Vehicles" },
   { href: "/used-car-inspection-checklist", label: "Inspection Checklist" },
   { href: "/vehicle-lien-check",           label: "Vehicle Lien Check" },
   { href: "/obd2-codes",                   label: "OBD-II Code Lookup" },
-  { href: "/car-depreciation-calculator",  label: "Car Depreciation Calculator" },
-  { href: "/lease-vs-buy-calculator",      label: "Lease vs Buy Calculator" },
+  { href: "/recall-check",                 label: "Recall Check" },
+  { href: "/market-value",                 label: "Market Value" },
+  { href: "/warranty-check",               label: "Warranty Check" },
+];
+
+const moreChecksCol2 = [
+  { href: "/car-loan-calculator",               label: "Car Loan Calculator" },
+  { href: "/car-affordability-calculator",      label: "Car Affordability" },
+  { href: "/trade-in-value-estimator",          label: "Trade-In Estimator" },
+  { href: "/gas-mileage-calculator",            label: "Gas Mileage Calculator" },
+  { href: "/car-depreciation-calculator",       label: "Car Depreciation" },
+  { href: "/lease-vs-buy-calculator",           label: "Lease vs Buy" },
   { href: "/total-cost-of-ownership-calculator", label: "Total Cost of Ownership" },
-  { href: "/recall-check",          label: "Recall Check" },
-  { href: "/market-value",          label: "Market Value" },
-  { href: "/warranty-check",        label: "Warranty Check" },
-  { href: "/motorcycle-vin-search", label: "Motorcycle VIN Search" },
-  { href: "/motorcycle-vin-check",  label: "Motorcycle VIN Check" },
-  { href: "/rv-vin-check",          label: "RV VIN Check" },
-  { href: "/flood-check",           label: "Flood Check" },
+  { href: "/motorcycle-vin-search",             label: "Motorcycle VIN Search" },
+  { href: "/motorcycle-vin-check",              label: "Motorcycle VIN Check" },
+  { href: "/rv-vin-check",                      label: "RV VIN Check" },
+  { href: "/flood-check",                       label: "Flood Check" },
 ];
 
 const marketplaceLinks = [
@@ -73,7 +76,7 @@ export default function Footer() {
   return (
     <footer className="bg-inverse-surface text-inverse-on-surface/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-7 gap-8 sm:gap-10 mb-12 sm:mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-8 gap-8 sm:gap-10 mb-12 sm:mb-16">
 
           {/* Brand column */}
           <div className="col-span-2 md:col-span-2 lg:col-span-2">
@@ -119,16 +122,25 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* More Tools */}
-          <div>
+          {/* More Tools — split across 2 columns */}
+          <div className="col-span-2">
             <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">More Tools</h3>
-            <ul className="space-y-3">
-              {moreChecksLinks.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
-                </li>
-              ))}
-            </ul>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-0">
+              <ul className="space-y-3">
+                {moreChecksCol1.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
+                  </li>
+                ))}
+              </ul>
+              <ul className="space-y-3">
+                {moreChecksCol2.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Guides */}
