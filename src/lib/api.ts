@@ -90,7 +90,11 @@ export interface VinData {
   mpg?: { highway: number; city: number };
   // Photo data from listings API
   photos?: string[];
-  photoSource?: "vin";
+  // "vin" = exact-VIN gallery from auto.dev /photos endpoint
+  // "vin-listing" = exact-VIN photos from a live listing for this VIN
+  // "similar" = real photos from other listings of the same year/make/model
+  //             (shown with an attribution disclaimer in the UI)
+  photoSource?: "vin" | "vin-listing" | "similar";
   // Exact VIN listing data (if the car is currently listed for sale)
   listing?: ListingRecord;
   // Market data from similar listings
@@ -222,6 +226,7 @@ async function fetchSimilarListings(
   year: number
 ): Promise<{
   marketData: VinData["marketData"];
+  vehiclePhotos: string[];
 }> {
   const apiKey = process.env.AUTO_DEV_API_KEY;
   try {
@@ -229,11 +234,24 @@ async function fetchSimilarListings(
       `https://auto.dev/api/listings?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&year=${year}&apikey=${apiKey}`,
       { next: { revalidate: 86400 } }
     );
-    if (!res.ok) return { marketData: undefined };
+    if (!res.ok) return { marketData: undefined, vehiclePhotos: [] };
 
     const data = await res.json();
     const records: ListingRecord[] = data.records || [];
-    if (records.length === 0) return { marketData: undefined };
+    if (records.length === 0) return { marketData: undefined, vehiclePhotos: [] };
+
+    // Collect real photos from same year/make/model listings as a fallback
+    // for when auto.dev's exact-VIN photos endpoint returns nothing.
+    // Dedupe by URL and cap so we don't ship a 100-photo gallery.
+    const vehiclePhotos = Array.from(
+      new Set(
+        records.flatMap((r) => {
+          if (r.photoUrls && r.photoUrls.length > 0) return r.photoUrls;
+          if (r.primaryPhotoUrl) return [r.primaryPhotoUrl];
+          return [];
+        })
+      )
+    ).slice(0, 12);
 
     // Calculate market data
     const prices = records
@@ -263,9 +281,9 @@ async function fetchSimilarListings(
           }
         : undefined;
 
-    return { marketData };
+    return { marketData, vehiclePhotos };
   } catch {
-    return { marketData: undefined };
+    return { marketData: undefined, vehiclePhotos: [] };
   }
 }
 
@@ -307,13 +325,37 @@ export async function decodeVin(vin: string): Promise<VinData> {
   // Now fetch market data with the resolved make/model
   const marketResult = year && make && model
     ? await fetchSimilarListings(make, model, year)
-    : { marketData: undefined };
+    : { marketData: undefined, vehiclePhotos: [] };
+
+  // Photo fallback chain — when auto.dev's /photos endpoint returns nothing,
+  // we still want to show real photos of this car (or one just like it) instead
+  // of an empty gallery placeholder.
+  //
+  //   Tier 1: auto.dev /photos/{vin}                 → photoSource = "vin"
+  //   Tier 2: live listing for this exact VIN        → photoSource = "vin-listing"
+  //   Tier 3: same year/make/model from other        → photoSource = "similar"
+  //           listings (UI shows attribution)
+  let finalPhotos = photos;
+  let photoSource: VinData["photoSource"] = photos.length > 0 ? "vin" : undefined;
+
+  if (finalPhotos.length === 0) {
+    if (listing?.photoUrls && listing.photoUrls.length > 0) {
+      finalPhotos = listing.photoUrls;
+      photoSource = "vin-listing";
+    } else if (listing?.primaryPhotoUrl) {
+      finalPhotos = [listing.primaryPhotoUrl];
+      photoSource = "vin-listing";
+    } else if (marketResult.vehiclePhotos.length > 0) {
+      finalPhotos = marketResult.vehiclePhotos;
+      photoSource = "similar";
+    }
+  }
 
   return {
     vin,
     ...vinData,
-    photos,
-    photoSource: photos.length > 0 ? "vin" : undefined,
+    photos: finalPhotos,
+    photoSource,
     listing,
     marketData: marketResult.marketData,
   };
