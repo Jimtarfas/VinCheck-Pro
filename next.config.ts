@@ -29,6 +29,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "api.auto.dev", pathname: "/photos/**" },
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
       { protocol: "https", hostname: "cdn.sanity.io", pathname: "/**" },
+      // Bing Image Search CDN — used as an external fallback when auto.dev
+      // returns no photos for a VIN. See src/lib/external-photos.ts.
+      { protocol: "https", hostname: "ts1.mm.bing.net", pathname: "/**" },
+      { protocol: "https", hostname: "ts2.mm.bing.net", pathname: "/**" },
+      { protocol: "https", hostname: "ts3.mm.bing.net", pathname: "/**" },
+      { protocol: "https", hostname: "ts4.mm.bing.net", pathname: "/**" },
     ],
   },
 

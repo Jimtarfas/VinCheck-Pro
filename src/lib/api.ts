@@ -1,3 +1,5 @@
+import { fetchExternalVehiclePhotos } from "./external-photos";
+
 export interface VinData {
   vin: string;
   make: { id: number; name: string; niceName: string };
@@ -90,11 +92,12 @@ export interface VinData {
   mpg?: { highway: number; city: number };
   // Photo data from listings API
   photos?: string[];
-  // "vin" = exact-VIN gallery from auto.dev /photos endpoint
+  // "vin"         = exact-VIN gallery from auto.dev /photos endpoint
   // "vin-listing" = exact-VIN photos from a live listing for this VIN
-  // "similar" = real photos from other listings of the same year/make/model
-  //             (shown with an attribution disclaimer in the UI)
-  photoSource?: "vin" | "vin-listing" | "similar";
+  // "similar"     = real photos from other auto.dev listings of the same y/m/m
+  // "web"         = real photos of the same y/m/m fetched from web image search
+  //                 (Bing) when auto.dev has nothing — UI shows attribution
+  photoSource?: "vin" | "vin-listing" | "similar" | "web";
   // Exact VIN listing data (if the car is currently listed for sale)
   listing?: ListingRecord;
   // Market data from similar listings
@@ -334,7 +337,11 @@ export async function decodeVin(vin: string): Promise<VinData> {
   //   Tier 1: auto.dev /photos/{vin}                 → photoSource = "vin"
   //   Tier 2: live listing for this exact VIN        → photoSource = "vin-listing"
   //   Tier 3: same year/make/model from other        → photoSource = "similar"
-  //           listings (UI shows attribution)
+  //           auto.dev listings
+  //   Tier 4: web image search (Bing) for the same   → photoSource = "web"
+  //           year/make/model — last resort when
+  //           auto.dev has nothing
+  //   Tiers 3 & 4 show an attribution disclaimer in the UI.
   let finalPhotos = photos;
   let photoSource: VinData["photoSource"] = photos.length > 0 ? "vin" : undefined;
 
@@ -348,6 +355,12 @@ export async function decodeVin(vin: string): Promise<VinData> {
     } else if (marketResult.vehiclePhotos.length > 0) {
       finalPhotos = marketResult.vehiclePhotos;
       photoSource = "similar";
+    } else {
+      const webPhotos = await fetchExternalVehiclePhotos(year, make, model);
+      if (webPhotos.length > 0) {
+        finalPhotos = webPhotos;
+        photoSource = "web";
+      }
     }
   }
 

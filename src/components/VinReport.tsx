@@ -290,7 +290,7 @@ function PhotoGallery({
   // When the gallery is showing real photos of the same year/make/model
   // (rather than this exact VIN), make that crystal clear so users don't
   // think they're seeing the actual car.
-  const isSimilar = photoSource === "similar";
+  const isSimilar = photoSource === "similar" || photoSource === "web";
   const similarLabel = [year, make, model].filter(Boolean).join(" ");
 
   return (
