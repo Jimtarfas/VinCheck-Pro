@@ -274,6 +274,7 @@ function PhotoGallery({
   const [current, setCurrent] = useState(0);
 
   if (!photos || photos.length === 0) {
+    const label = [year, make, model].filter(Boolean).join(" ");
     return (
       <div className="flex flex-col items-center justify-center py-20 bg-surface-container-low rounded-[2rem]">
         <div className="w-20 h-20 rounded-2xl bg-surface-container flex items-center justify-center mb-4">
@@ -281,7 +282,8 @@ function PhotoGallery({
         </div>
         <h3 className="font-headline font-bold text-on-surface mb-1">No Photos Available</h3>
         <p className="text-sm text-on-surface-variant text-center max-w-sm">
-          This vehicle is not currently listed for sale, so no real photos are available.
+          We couldn&apos;t locate photos for this VIN or any{label ? ` ${label}` : ""} from
+          our data sources.
         </p>
       </div>
     );

@@ -25,11 +25,24 @@ const BING_USER_AGENT =
 export async function fetchExternalVehiclePhotos(
   year: number | undefined,
   make: string | undefined,
-  model: string | undefined
+  model: string | undefined,
+  // Optional extras — when we have them (e.g. from a listing or VIN decode)
+  // they tighten the search to the right trim/color so the gallery matches
+  // the actual vehicle more closely.
+  extras?: { trim?: string; color?: string; bodyType?: string }
 ): Promise<string[]> {
   if (!year || !make || !model) return [];
 
-  const query = `${year} ${make} ${model} car`;
+  const parts = [
+    String(year),
+    make,
+    model,
+    extras?.trim,
+    extras?.color,
+    // Only fall back to the generic "car" word when there's no body-type hint
+    extras?.bodyType || "car",
+  ].filter(Boolean) as string[];
+  const query = parts.join(" ");
 
   try {
     const res = await fetch(

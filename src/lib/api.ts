@@ -356,7 +356,21 @@ export async function decodeVin(vin: string): Promise<VinData> {
       finalPhotos = marketResult.vehiclePhotos;
       photoSource = "similar";
     } else {
-      const webPhotos = await fetchExternalVehiclePhotos(year, make, model);
+      // Tighten the web search using whatever we already know about this
+      // specific vehicle: trim from VIN decode, plus color/body-type from
+      // the listing (when present) or from the decode's category data.
+      const trim = vinData.years?.[0]?.styles?.[0]?.trim;
+      const bodyType =
+        listing?.bodyType ||
+        vinData.categories?.vehicleStyle ||
+        vinData.categories?.primaryBodyType;
+      const color = listing?.displayColor;
+
+      const webPhotos = await fetchExternalVehiclePhotos(year, make, model, {
+        trim,
+        color,
+        bodyType,
+      });
       if (webPhotos.length > 0) {
         finalPhotos = webPhotos;
         photoSource = "web";
