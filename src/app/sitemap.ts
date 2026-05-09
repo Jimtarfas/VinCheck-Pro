@@ -160,6 +160,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Gas Mileage Cost Calculator — high-traffic utility tool.
     { url: `${baseUrl}/gas-mileage-calculator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/vin-decoder`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Florida VIN Check — state-targeted SEO landing page.
+    { url: `${baseUrl}/florida-vin-check`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Vehicle Comparison Tool — long-tail SEO (Camry vs Accord, etc.)
     { url: `${baseUrl}/compare-cars`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Used Car Inspection Checklist — DIY pre-purchase PPI tool.

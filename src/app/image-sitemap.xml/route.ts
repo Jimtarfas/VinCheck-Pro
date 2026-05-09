@@ -201,6 +201,17 @@ export async function GET() {
   </image:image>
 </url>`;
 
+  // Florida VIN Check — state SEO landing page.
+  const floridaVinCheckImage = `<url>
+  <loc>${SITE}/florida-vin-check</loc>
+  <image:image>
+    <image:loc>${SITE}/opengraph-image</image:loc>
+    <image:title>Florida VIN Check &mdash; Free FL Vehicle History Report</image:title>
+    <image:caption>Free Florida VIN check with DHSMV data, title brands, accident history, flood damage records, and odometer verification. Results in under 5 seconds.</image:caption>
+    <image:license>${LICENSE}</image:license>
+  </image:image>
+</url>`;
+
   // Compare Cars — side-by-side vehicle comparison tool.
   const compareCarsImage = `<url>
   <loc>${SITE}/compare-cars</loc>
@@ -273,6 +284,7 @@ ${carDepreciationImage}
 ${leaseVsBuyImage}
 ${tcoImage}
 ${lookUpPlatesFreeImage}
+${floridaVinCheckImage}
 ${compareCarsImage}
 ${inspectionChecklistImage}
 ${vehicleLienCheckImage}
