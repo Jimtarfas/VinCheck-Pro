@@ -256,10 +256,25 @@ table{width:100%;border-collapse:collapse}td{padding:8px 16px;border-bottom:1px 
 /* ─────────────────────────────────────────────────────────────
    Photo Gallery
 ───────────────────────────────────────────────────────────── */
-function PhotoGallery({ photos, alt }: { photos: string[]; alt: string }) {
+function PhotoGallery({
+  photos,
+  photoSource,
+  alt,
+  year,
+  make,
+  model,
+}: {
+  photos: string[];
+  photoSource?: VinData["photoSource"];
+  alt: string;
+  year?: number;
+  make?: string;
+  model?: string;
+}) {
   const [current, setCurrent] = useState(0);
 
   if (!photos || photos.length === 0) {
+    const label = [year, make, model].filter(Boolean).join(" ");
     return (
       <div className="flex flex-col items-center justify-center py-20 bg-surface-container-low rounded-[2rem]">
         <div className="w-20 h-20 rounded-2xl bg-surface-container flex items-center justify-center mb-4">
@@ -267,14 +282,32 @@ function PhotoGallery({ photos, alt }: { photos: string[]; alt: string }) {
         </div>
         <h3 className="font-headline font-bold text-on-surface mb-1">No Photos Available</h3>
         <p className="text-sm text-on-surface-variant text-center max-w-sm">
-          This vehicle is not currently listed for sale, so no real photos are available.
+          We couldn&apos;t locate photos for this VIN or any{label ? ` ${label}` : ""} from
+          our data sources.
         </p>
       </div>
     );
   }
 
+  // When the gallery is showing real photos of the same year/make/model
+  // (rather than this exact VIN), make that crystal clear so users don't
+  // think they're seeing the actual car.
+  const isSimilar = photoSource === "similar" || photoSource === "web";
+  const similarLabel = [year, make, model].filter(Boolean).join(" ");
+
   return (
     <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
+      {/* Similar-vehicle disclaimer — only when photos aren't of this exact VIN */}
+      {isSimilar && (
+        <div className="flex items-start gap-2 px-4 sm:px-5 py-2.5 bg-secondary-container/60 border-b border-outline-variant text-[11px] sm:text-xs text-on-secondary-container">
+          <Info className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 flex-shrink-0" />
+          <span>
+            Showing real photos of a <strong>{similarLabel}</strong> from current
+            listings — actual vehicle&apos;s color, trim, and condition may differ.
+          </span>
+        </div>
+      )}
+
       {/* Main photo — 3:2 on mobile matches real car-photo dimensions so the whole
           vehicle stays visible (2:1 was cropping off the roof and wheels), 16:9 on desktop */}
       <div className="relative aspect-[3/2] sm:aspect-[16/9] bg-surface-container overflow-hidden">
@@ -286,7 +319,7 @@ function PhotoGallery({ photos, alt }: { photos: string[]; alt: string }) {
 
         {/* Photo count badge */}
         <div className="absolute top-3 sm:top-4 left-3 sm:left-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/70 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-bold">
-          {photos.length} Photos
+          {photos.length} {isSimilar ? "Similar" : ""} Photos
         </div>
 
         {photos.length > 1 && (
@@ -566,7 +599,14 @@ export default function VinReport({ data }: { data: VinData }) {
           <div className="lg:col-span-2 space-y-6 min-w-0">
 
             {/* Photo gallery */}
-            <PhotoGallery photos={data.photos || []} alt={fullName} />
+            <PhotoGallery
+              photos={data.photos || []}
+              photoSource={data.photoSource}
+              alt={fullName}
+              year={year}
+              make={makeName}
+              model={modelName}
+            />
 
             {/* Currently listed banner */}
             {data.listing && (
