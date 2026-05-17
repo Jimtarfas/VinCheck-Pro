@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Hail Damage Check by VIN — Detect Storm Damage Before You Buy",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "Hail Damage Check by VIN",
   description:
     "Learn how to check any vehicle for hail damage history by VIN, including storm damage records, insurance claims, and hail title brands.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

@@ -6,9 +6,11 @@ import VinSearchForm from "@/components/VinSearchForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "Free VIN Check by Make — Decode Any Vehicle",
+  title: {
+    absolute: "Free VIN Check by Make — Decode Any Vehicle",
+  },
   description:
-    "Free VIN check and decoder for every car brand. Look up Toyota, Ford, Honda, BMW, Tesla, and 30+ makes. Get full vehicle history, specs, photos, and market values instantly.",
+    "Free VIN check and decoder for every car brand. Look up any make and model and get instant vehicle history, specs, recalls, and market data.",
   keywords: [
     "VIN check", "VIN decoder", "free VIN check", "VIN lookup", "vehicle history report",
     "car VIN check", "check VIN number", "VIN number lookup", "decode VIN",
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/vin-check" },
   openGraph: {
     title: "Free VIN Check by Make — Every Brand Covered",
-    description: "Free VIN check for every car brand. Decode any VIN to get full specs, history, photos, and market values.",
+    description: "Free VIN check and decoder for every car brand. Look up any make and model and get instant vehicle history, specs, recalls, and market data.",
     type: "website",
   },
 };

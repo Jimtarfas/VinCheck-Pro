@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Salvage Title Check by VIN — Rebuilt & Branded Title Lookup",
@@ -35,11 +36,7 @@ const articleSchema = {
   headline: "Salvage Title Check by VIN",
   description:
     "Learn what salvage and branded titles mean, how to identify them, and the risks of buying a salvage-titled vehicle.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

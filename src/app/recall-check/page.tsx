@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "VIN Recall Check — NHTSA Safety Recall Lookup",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "VIN Recall Check — NHTSA Safety Recall Lookup",
   description:
     "Learn how to check any vehicle for open NHTSA safety recalls by VIN, including active campaigns, safety defects, and repair status.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

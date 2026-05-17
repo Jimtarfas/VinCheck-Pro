@@ -40,11 +40,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com"),
   title: {
-    default: "Free VIN Check & Decoder — Vehicle History Reports | CarCheckerVIN",
+    default: "Free VIN Check & Decoder — Vehicle History Reports",
     template: "%s | CarCheckerVIN",
   },
   description:
-    "Free VIN check & decoder — instant vehicle history reports with full specs, real photos, recalls, market values & ownership data. Trusted by 50,000+ buyers.",
+    "Free VIN check and decoder. Get instant vehicle history reports with full specs, real photos, recalls, market values, and ownership data.",
   keywords: [
     "VIN check", "VIN checker", "VIN decoder", "free VIN check", "VIN lookup",
     "VIN number check", "check VIN", "vehicle history report", "car history check",
@@ -58,14 +58,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "CarCheckerVIN",
-    title: "Free VIN Check & Decoder — Instant Vehicle History Reports",
-    description: "Check any VIN for free. Get instant vehicle history reports with full specs, real photos, equipment lists, recall info & market values.",
+    title: "Free VIN Check & Decoder — Vehicle History Reports",
+    description: "Free VIN check and decoder. Get instant vehicle history reports with full specs, real photos, recalls, market values, and ownership data.",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Free VIN Check & Decoder — CarCheckerVIN",
-    description: "Check any VIN for free. Instant vehicle history reports with specs, photos, recalls & market values.",
+    description: "Free VIN check and decoder. Instant vehicle history reports with specs, real photos, recalls, market values, and ownership data.",
   },
   robots: {
     index: true, follow: true,

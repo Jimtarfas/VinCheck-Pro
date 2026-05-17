@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Rental Car History Check by VIN — Was This Car a Rental?",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "Rental Car History Check by VIN",
   description:
     "Learn how to check if a used car was previously a rental vehicle by VIN, including what rental history means for value and reliability.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

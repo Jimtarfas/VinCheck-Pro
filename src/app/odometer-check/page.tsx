@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Odometer & Mileage Check by VIN — Detect Rollback Fraud",
@@ -35,11 +36,7 @@ const articleSchema = {
   headline: "Odometer & Mileage Check by VIN",
   description:
     "Learn how odometer fraud works, how a VIN check detects rollback, and which physical signs to look for on a used vehicle.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

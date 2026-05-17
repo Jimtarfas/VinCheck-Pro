@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "JDM Import VIN Check — Japanese Import Vehicle History",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "JDM Import VIN Check",
   description:
     "Learn how to check the history of Japanese Domestic Market import vehicles, including mileage verification, import records, and US compliance status.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

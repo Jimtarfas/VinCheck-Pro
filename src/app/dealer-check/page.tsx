@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Dealer History Check by VIN — Was This Car a Demo or Loaner?",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "Dealer History Check by VIN",
   description:
     "Learn how to check if a vehicle was used as a dealer demo, service loaner, or press fleet car by VIN.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

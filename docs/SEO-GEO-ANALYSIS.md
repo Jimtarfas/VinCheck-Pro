@@ -186,8 +186,76 @@ fluency. Adding the stats blocks is the single highest-EV next move.
 
 ---
 
+## One-time external setup (P4 + P5 from the original audit)
+
+These cannot be automated — they require an admin to verify domain
+ownership in each console. Once verified, IndexNow takes over for ongoing
+discovery.
+
+### Brave Search Webmaster Tools (Claude visibility)
+
+Claude's web search uses Brave's index, not Google's. Brave does **not**
+participate in IndexNow yet, so this is a manual sitemap submission:
+
+1. Go to <https://search.brave.com/help/webmaster-tools>
+2. Verify ownership of `carcheckervin.com` via DNS TXT record or HTML meta
+3. Submit:
+   - `https://www.carcheckervin.com/sitemap.xml`
+   - `https://www.carcheckervin.com/sitemap-index.xml`
+4. Brave will start crawling within 24-48h. Verify by querying Claude with
+   `site:carcheckervin.com {topic}` after a week.
+
+### Bing Webmaster Tools (Copilot visibility)
+
+Copilot's citations come straight from Bing's index. IndexNow already pings
+Bing on every URL change (see `src/lib/indexnow.ts`), so this is mainly
+about claiming the property for monitoring.
+
+1. Go to <https://www.bing.com/webmasters>
+2. Import from Google Search Console (1-click) or verify via DNS/meta
+3. Confirm sitemap submission auto-populated from the 4 sitemaps in
+   `robots.txt`
+4. Optional: paste IndexNow key `f642b32ff0c34140ba975127705effbd` in the
+   IndexNow section to view per-URL submission status
+
+### Verifying IndexNow is firing
+
+The endpoint already exists. Admin can trigger a full re-submit of every
+static URL:
+
+```bash
+curl -X GET "https://www.carcheckervin.com/api/indexnow?token=$ADMIN_PING_TOKEN&all=1"
+```
+
+Or POST a specific set:
+
+```bash
+curl -X POST https://www.carcheckervin.com/api/indexnow \
+  -H "Content-Type: application/json" \
+  -d '{"urls": ["/lemon-check", "/florida-vin-check"]}'
+```
+
+---
+
 ## Changelog
 
-- **2026-05-18** — Initial audit. `seo-geo` skill vendored to
+- **2026-05-18 (initial)** — Audit run. `seo-geo` skill vendored to
   `.claude/skills/seo-geo/`. `src/app/robots.ts` updated with explicit
   allow-rules for 15 AI crawlers.
+
+- **2026-05-18 (P1+P2+P3 applied)**:
+  - **P1**: Titles tightened to ≤60 chars and descriptions to ≤155 chars
+    on homepage, `/vin-check`, `/lemon-check`, `/florida-vin-check`,
+    `/license-plate-lookup`, `/look-up-car-plates-free`.
+    **NOT touched**: `/paint-code-lookup` — already ranking, no metadata
+    changes made to avoid disturbing existing position.
+  - **P2**: New `src/lib/seo/author.ts` with a canonical `ORG_AUTHOR`
+    Organization entity (Schema.org `Organization` with `knowsAbout`,
+    `logo`, `sameAs`, `description`). Wired into the Article schema on
+    ~33 landing pages and guides. **NOT applied to**: `/paint-code-lookup`.
+  - **P3**: Visible "By the numbers" stats cards + matching `Dataset`
+    JSON-LD added to `/lemon-check` and `/florida-vin-check`.
+    **NOT applied to**: `/paint-code-lookup` (kept frozen).
+  - **P4 + P5**: Manual setup steps documented above. IndexNow is already
+    pinging Bing/Yandex/Naver/Seznam on every URL change via
+    `src/lib/indexnow.ts`.

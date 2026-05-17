@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   PiggyBank,
   CreditCard,
@@ -49,11 +50,7 @@ const articleSchema = {
   headline: "Used Car Financing: The Complete 2026 Guide",
   description:
     "Comprehensive guide to financing a used car in 2026: credit, lenders, pre-approval, APR, total cost, leasing, refinancing, and avoiding finance-office traps.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

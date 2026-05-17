@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Vehicle Accident History Check by VIN — Crash Report Lookup",
@@ -35,11 +36,7 @@ const articleSchema = {
   headline: "Vehicle Accident History Check",
   description:
     "Learn how accident history is reported, what shows up on a VIN-based crash report, and how to identify hidden damage on a used car.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

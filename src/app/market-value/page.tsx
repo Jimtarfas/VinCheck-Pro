@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Car Market Value by VIN — Free Vehicle Valuation Tool",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "Car Market Value by VIN",
   description:
     "Learn how vehicle market value is calculated by VIN, including trade-in vs. private party vs. retail values and how mileage, condition, and region affect pricing.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

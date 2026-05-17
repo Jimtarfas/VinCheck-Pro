@@ -4,6 +4,7 @@ import { Check, X } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "CarCheckerVIN vs Bumper: Pricing & Features Compared",
@@ -36,11 +37,7 @@ const articleSchema = {
   headline: "CarCheckerVIN vs Bumper: Pricing & Features Compared",
   description:
     "A side-by-side comparison of CarCheckerVIN and Bumper covering pricing, subscription model, ongoing monitoring, report contents, and the right use case for each.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
