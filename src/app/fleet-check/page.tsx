@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Fleet & Ex-Police Car Check by VIN — Commercial Use History",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "Fleet & Ex-Police Car Check by VIN",
   description:
     "Learn how to check commercial fleet history by VIN, including ex-police cars, government vehicles, and high-usage fleet records.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

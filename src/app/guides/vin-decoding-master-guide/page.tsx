@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   Hash,
   Globe2,
@@ -48,11 +49,7 @@ const articleSchema = {
   headline: "VIN Decoding: The Master Guide to All 17 Characters",
   description:
     "Comprehensive position-by-position breakdown of the 17-character Vehicle Identification Number, including WMI, VDS, check digit, year codes, and plant codes.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

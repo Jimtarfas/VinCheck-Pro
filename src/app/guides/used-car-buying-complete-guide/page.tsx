@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   Wallet,
   Search,
@@ -49,11 +50,7 @@ const articleSchema = {
   headline: "The Complete Used Car Buying Guide (2026 Edition)",
   description:
     "A complete, step-by-step guide to buying a used car in 2026 covering budget, financing, search, inspection, negotiation, and paperwork.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

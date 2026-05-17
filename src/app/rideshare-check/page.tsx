@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Rideshare & Taxi History Check by VIN — Uber, Lyft & Taxi Records",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "Rideshare & Taxi History Check by VIN",
   description:
     "Learn how to check if a vehicle was used as an Uber, Lyft, or taxi by VIN, including what rideshare history means for value and reliability.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

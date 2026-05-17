@@ -30,14 +30,16 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
 import StateLemonLawTable from "./StateLemonLawTable";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title:
-    "Lemon Check by VIN — Free Lemon Law Buyback Lookup (All 50 States)",
+  title: {
+    absolute: "Lemon Check by VIN — Free Buyback Lookup, 50 States",
+  },
   description:
-    "Run a free lemon check by VIN. Find manufacturer buyback brands, lemon law buyback titles, and warranty repurchase records on any used car. Interactive 50-state lemon law table, 18-question FAQ, and pre-purchase HowTo guide.",
+    "Free lemon check by VIN. Find manufacturer buyback brands and lemon-law buybacks across all 50 states. NMVTIS-backed and instant — no signup.",
   keywords: [
     "lemon check by VIN",
     "is this car a lemon",
@@ -92,18 +94,18 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/lemon-check" },
   openGraph: {
-    title: "Lemon Check by VIN — Free Lemon Law Buyback Lookup",
+    title: "Lemon Check by VIN — Free Buyback Lookup, 50 States",
     description:
-      "Find out if a used vehicle was bought back under state lemon laws. Free VIN-based lemon check with a 50-state interactive lemon law table.",
+      "Free lemon check by VIN. Find manufacturer buyback brands and lemon-law buybacks across all 50 states. NMVTIS-backed and instant — no signup.",
     url: `${SITE}/lemon-check`,
     type: "article",
     siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Lemon Check by VIN — All 50 States",
+    title: "Lemon Check by VIN — Free Buyback Lookup, 50 States",
     description:
-      "Manufacturer buyback brands, warranty repurchase records, and lemon law histories on any VIN. Free, instant.",
+      "Free lemon check by VIN. Find manufacturer buyback brands and lemon-law buybacks across all 50 states. NMVTIS-backed, instant.",
   },
   robots: { index: true, follow: true },
 };
@@ -116,7 +118,7 @@ const articleSchema = {
   headline: "Lemon Check by VIN — Free Lemon Law Buyback Lookup",
   description:
     "Comprehensive guide to running a free lemon check by VIN. Covers manufacturer buyback brands, state-by-state lemon law variations, federal Magnuson-Moss protections, and pre-purchase red flags.",
-  author: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
@@ -384,7 +386,33 @@ const speakableSchema = {
   url: `${SITE}/lemon-check`,
 };
 
+const datasetSchema = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "Lemon Law Quick Statistics",
+  description:
+    "Key numbers about lemon law buybacks, repair-attempt thresholds, resale impact, and federal protections.",
+  url: `${SITE}/lemon-check`,
+  creator: ORG_AUTHOR,
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  variableMeasured: [
+    { "@type": "PropertyValue", name: "US jurisdictions covered", value: "51" },
+    { "@type": "PropertyValue", name: "Typical repair attempts threshold", value: "3-4" },
+    { "@type": "PropertyValue", name: "Out-of-service threshold (days)", value: "30" },
+    { "@type": "PropertyValue", name: "Typical resale discount on lemon-titled vehicles", value: "15-40%" },
+    { "@type": "PropertyValue", name: "Year Magnuson-Moss Warranty Act passed", value: "1975" },
+  ],
+};
+
 /* ── Component data ────────────────────────────────────────────── */
+
+const HEADLINE_STATS = [
+  { value: "51", label: "US jurisdictions covered (50 states + DC)" },
+  { value: "3–4", label: "Repair attempts that typically qualify as a lemon" },
+  { value: "30 days", label: "Out-of-service threshold in most state laws" },
+  { value: "15–40%", label: "Typical resale discount on a lemon-titled car" },
+  { value: "1975", label: "Year Magnuson-Moss Warranty Act passed" },
+];
 
 const TRUST_STATS = [
   { icon: MapPin, value: "All 50", label: "states + DC covered" },
@@ -626,6 +654,10 @@ export default function LemonCheckPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }}
+      />
 
       <article className="pt-10 pb-16 bg-surface">
         {/* ── Hero ────────────────────────────────────────────── */}
@@ -695,6 +727,37 @@ export default function LemonCheckPage() {
             </div>
           </div>
         </div>
+
+        {/* ── Stats block (By the numbers) ───────────────────── */}
+        <section
+          aria-labelledby="lemon-stats-heading"
+          className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 sm:-mt-10 relative z-10"
+        >
+          <div className="rounded-3xl bg-surface-container shadow-md border border-outline-variant p-5 sm:p-7">
+            <h2
+              id="lemon-stats-heading"
+              className="text-xs sm:text-sm font-headline font-black uppercase tracking-widest text-primary mb-4 sm:mb-5"
+            >
+              Lemon Law — By the Numbers
+            </h2>
+            <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+              {HEADLINE_STATS.map((s) => (
+                <div
+                  key={s.label}
+                  className="rounded-2xl bg-primary-container px-4 py-4 sm:py-5"
+                >
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="font-headline font-bold text-3xl sm:text-4xl text-on-primary-container leading-none mb-2">
+                    {s.value}
+                  </dd>
+                  <p className="text-xs sm:text-sm text-on-surface-variant leading-snug">
+                    {s.label}
+                  </p>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
 
         {/* ── Main content ───────────────────────────────────── */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   FileSearch,
   Database,
@@ -49,11 +50,7 @@ const articleSchema = {
     "Vehicle History Reports: Everything You Need to Know (2026)",
   description:
     "Everything in a vehicle history report explained: NMVTIS data, NICB checks, manufacturer recalls, market value, how to read a report, and how to compare providers.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

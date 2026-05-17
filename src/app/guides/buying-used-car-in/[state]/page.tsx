@@ -15,6 +15,7 @@ import {
 import VinSearchForm from "@/components/VinSearchForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { states, getStateBySlug } from "@/lib/states";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 interface Props {
   params: Promise<{ state: string }>;
@@ -157,11 +158,7 @@ export default async function GuidePage({ params }: Props) {
     description: `Step-by-step guide to buying a used car in ${state.name}. ${state.dmvName} title transfer, sales tax, ${state.name} lemon law, and inspection requirements explained.`,
     datePublished: "2026-04-26",
     dateModified: "2026-04-26",
-    author: {
-      "@type": "Organization",
-      name: "CarCheckerVIN",
-      url: "https://www.carcheckervin.com",
-    },
+    author: ORG_AUTHOR,
     publisher: {
       "@type": "Organization",
       name: "CarCheckerVIN",

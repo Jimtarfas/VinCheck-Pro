@@ -9,9 +9,11 @@ import LicensePlateLookup from "./LicensePlateLookup";
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title: "License Plate to VIN Lookup — Find Any Car by Plate Number (All 50 States)",
+  title: {
+    absolute: "License Plate to VIN Lookup — Free, All 50 States",
+  },
   description:
-    "Free license plate to VIN lookup for all 50 US states. Enter a plate number and state to instantly retrieve the VIN, year, make, model, title status, accident history, and owner records.",
+    "Free license plate to VIN lookup for all 50 US states. Enter a plate to get the VIN, year, make, model, and full vehicle history report.",
   keywords: [
     "license plate to VIN",
     "license plate lookup",
@@ -46,18 +48,18 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/license-plate-lookup" },
   openGraph: {
-    title: "License Plate to VIN Lookup — Find Any Car by Plate Number",
+    title: "License Plate to VIN Lookup — Free, All 50 States",
     description:
-      "Free license plate to VIN lookup for all 50 US states. Enter a plate number and state to retrieve the VIN and full vehicle history instantly.",
+      "Free license plate to VIN lookup for all 50 US states. Enter a plate to get the VIN, year, make, model, and full vehicle history report.",
     url: `${SITE}/license-plate-lookup`,
     type: "website",
     siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "License Plate to VIN Lookup — All 50 States",
+    title: "License Plate to VIN Lookup — Free, All 50 States",
     description:
-      "Look up any vehicle by license plate. Get the VIN, year, make, model, and full history report instantly.",
+      "Free license plate to VIN lookup for all 50 US states. Enter a plate to get the VIN, year, make, model, and full history.",
   },
   robots: {
     index: true,

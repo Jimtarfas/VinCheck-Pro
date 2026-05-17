@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Classic Car VIN Decoder — Pre-1981 Vehicle Identification",
@@ -33,11 +34,7 @@ const articleSchema = {
   headline: "Classic Car VIN Decoder",
   description:
     "Learn how to decode pre-1981 classic and vintage car VINs, including manufacturer-specific formats from GM, Ford, Chrysler, and more.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

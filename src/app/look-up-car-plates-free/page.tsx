@@ -24,10 +24,11 @@ import { states } from "@/lib/states";
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title:
-    "Look Up Car Plates Free — Free License Plate Lookup (No Sign-Up, All 50 States)",
+  title: {
+    absolute: "Look Up Car Plates Free — License Plate Lookup, 50 States",
+  },
   description:
-    "Look up car plates for free across all 50 US states. Enter any license plate to instantly see VIN, year, make, model, title brands, accident history, and odometer records — 100% free, no credit card, no sign-up.",
+    "Free license plate lookup for all 50 US states. Enter any car plate to see VIN, year, make, model, title brands, accidents, and odometer data.",
   keywords: [
     "look up car plates free",
     "free car plate lookup",
@@ -64,18 +65,18 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/look-up-car-plates-free" },
   openGraph: {
-    title: "Look Up Car Plates Free — No Sign-Up, All 50 States",
+    title: "Look Up Car Plates Free — License Plate Lookup, 50 States",
     description:
-      "Free license plate lookup for any US plate. Get the VIN, vehicle specs, title status, and full history instantly — 100% free.",
+      "Free license plate lookup for all 50 US states. Enter any car plate to see VIN, year, make, model, title brands, accidents, and odometer data.",
     url: `${SITE}/look-up-car-plates-free`,
     type: "website",
     siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Look Up Car Plates Free — Instant Results, All 50 States",
+    title: "Look Up Car Plates Free — License Plate Lookup, 50 States",
     description:
-      "Look up any US license plate instantly. VIN, year, make, model, title status, accident history — 100% free.",
+      "Free license plate lookup for all 50 US states. Enter any car plate to see VIN, year, make, model, title brands, accidents, and odometer.",
   },
   robots: { index: true, follow: true },
 };

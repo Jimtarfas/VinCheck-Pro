@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   ShieldAlert,
   KeyRound,
@@ -49,11 +50,7 @@ const articleSchema = {
   headline: "Vehicle Fraud Prevention: The Definitive 2026 Guide",
   description:
     "Comprehensive guide to vehicle fraud schemes including title fraud, odometer rollback, salvage washing, VIN cloning, dealer scams, and online fraud.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

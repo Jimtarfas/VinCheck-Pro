@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "What is a VIN Number? Complete Guide to Vehicle Identification Numbers",
@@ -35,11 +36,7 @@ const articleSchema = {
     "What is a VIN Number? Complete Guide to Vehicle Identification Numbers",
   description:
     "Learn what a VIN number is, why it matters, and where to find it on any vehicle.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

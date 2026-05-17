@@ -20,13 +20,16 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title: "Florida VIN Check — Free Vehicle History Report (FL DMV Data)",
+  title: {
+    absolute: "Florida VIN Check — Free FL Vehicle History Report",
+  },
   description:
-    "Run a free Florida VIN check instantly. Access FL DMV vehicle history reports, title search by VIN, accident records, odometer data, and VIN verification. Trusted by thousands of Florida car buyers.",
+    "Free Florida VIN check. FL DMV vehicle history with title brands, hurricane flood records, accident data, and recalls. Instant NMVTIS-backed.",
   keywords: [
     "Florida VIN check",
     "Florida vehicle history report",
@@ -58,16 +61,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Florida VIN Check — Free FL Vehicle History Report",
     description:
-      "Free Florida VIN check with DMV data, title records, accident history, and odometer verification. Run a VIN lookup in seconds — no sign-up required.",
+      "Free Florida VIN check. FL DMV vehicle history with title brands, hurricane flood records, accident data, and recalls. Instant NMVTIS-backed.",
     url: `${SITE}/florida-vin-check`,
     type: "article",
     siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Florida VIN Check — FL DMV Vehicle History",
+    title: "Florida VIN Check — Free FL Vehicle History Report",
     description:
-      "Check any Florida vehicle VIN instantly. Title status, accident history, flood damage, salvage records, and more.",
+      "Free Florida VIN check. FL DMV history with title brands, hurricane flood records, accident data, and recalls. NMVTIS-backed.",
   },
   robots: { index: true, follow: true },
 };
@@ -80,7 +83,7 @@ const articleSchema = {
   headline: "Florida VIN Check — Free Vehicle History Report (FL DMV Data)",
   description:
     "Comprehensive guide to running a free Florida VIN check. Covers FL DMV data, title search, accident records, VIN verification, and motorcycle VIN checks.",
-  author: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
@@ -196,7 +199,34 @@ const speakableSchema = {
   url: `${SITE}/florida-vin-check`,
 };
 
+const datasetSchema = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "Florida VIN Check Quick Statistics",
+  description:
+    "Coverage, performance, and statute reference data for CarCheckerVIN's Florida VIN check.",
+  url: `${SITE}/florida-vin-check`,
+  creator: ORG_AUTHOR,
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  spatialCoverage: { "@type": "Place", name: "Florida, United States" },
+  variableMeasured: [
+    { "@type": "PropertyValue", name: "Florida-registered vehicles checked", value: "4.8M+" },
+    { "@type": "PropertyValue", name: "Title brands tracked across all state DMVs", value: "51" },
+    { "@type": "PropertyValue", name: "Average VIN decode time (seconds)", value: "<5" },
+    { "@type": "PropertyValue", name: "Florida statute governing salvage title brands", value: "§ 319.14" },
+    { "@type": "PropertyValue", name: "Cost for the free preview (USD)", value: "0" },
+  ],
+};
+
 /* ── Component ─────────────────────────────────────────────── */
+
+const HEADLINE_STATS = [
+  { value: "4.8M+", label: "Florida-registered vehicles checked" },
+  { value: "51", label: "Title brands tracked across all state DMVs" },
+  { value: "<5 sec", label: "Average VIN decode time" },
+  { value: "§ 319.14", label: "Florida statute governing salvage title brands" },
+  { value: "$0", label: "Cost for the free preview" },
+];
 
 const TRUST_STATS = [
   { icon: Car,        value: "4.8M+",   label: "FL vehicles in database" },
@@ -242,6 +272,7 @@ export default function FloridaVinCheckPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
 
       <article className="pt-10 pb-16 bg-surface">
 
@@ -298,6 +329,37 @@ export default function FloridaVinCheckPage() {
             </div>
           </div>
         </div>
+
+        {/* ── Stats block (By the numbers) ─────────────────── */}
+        <section
+          aria-labelledby="fl-stats-heading"
+          className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 sm:-mt-10 relative z-10"
+        >
+          <div className="rounded-3xl bg-surface-container shadow-md border border-outline-variant p-5 sm:p-7">
+            <h2
+              id="fl-stats-heading"
+              className="text-xs sm:text-sm font-headline font-black uppercase tracking-widest text-primary mb-4 sm:mb-5"
+            >
+              Florida VIN Check — By the Numbers
+            </h2>
+            <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+              {HEADLINE_STATS.map((s) => (
+                <div
+                  key={s.label}
+                  className="rounded-2xl bg-primary-container px-4 py-4 sm:py-5"
+                >
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="font-headline font-bold text-3xl sm:text-4xl text-on-primary-container leading-none mb-2">
+                    {s.value}
+                  </dd>
+                  <p className="text-xs sm:text-sm text-on-surface-variant leading-snug">
+                    {s.label}
+                  </p>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
 
         {/* ── Main content ─────────────────────────────────── */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6">

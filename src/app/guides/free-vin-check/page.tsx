@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check, X } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Free VIN Check — Decode Any VIN Number for Free",
@@ -34,11 +35,7 @@ const articleSchema = {
   headline: "Free VIN Check — Decode Any VIN Number for Free",
   description:
     "Run a free VIN check to decode any vehicle identification number. Learn what free checks include and how they compare to premium reports.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

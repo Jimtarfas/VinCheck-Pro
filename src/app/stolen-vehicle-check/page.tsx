@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "Stolen Vehicle Check by VIN — Is This Car Stolen?",
@@ -35,11 +36,7 @@ const articleSchema = {
   headline: "Stolen Vehicle Check by VIN",
   description:
     "Learn how to check if a vehicle is stolen using its VIN, what the NICB database covers, and what to do if you suspect a stolen car.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

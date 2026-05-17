@@ -4,6 +4,7 @@ import { Check, X } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
 export const metadata: Metadata = {
   title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative",
@@ -35,11 +36,7 @@ const articleSchema = {
   headline: "CarCheckerVIN vs Carfax: Which Is Better?",
   description:
     "A side-by-side comparison of CarCheckerVIN and Carfax covering pricing, data sources, report contents, and the right use case for each.",
-  author: {
-    "@type": "Organization",
-    name: "CarCheckerVIN",
-    url: "https://www.carcheckervin.com",
-  },
+  author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
