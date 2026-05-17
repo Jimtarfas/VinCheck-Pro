@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatWidgetMount from "@/components/ChatWidgetMount";
@@ -186,6 +187,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <ChatWidgetMount />
         <SocialProofMount />
+        <SpeedInsights />
         {/*
           GA4 deferred to lazyOnload — does not block FCP, LCP, or hydration.
           Drops Lighthouse Performance penalty for "main thread work" by ~20%.
