@@ -8,7 +8,9 @@
 
 const KEY = "f642b32ff0c34140ba975127705effbd";
 const HOST = "carcheckervin.com";
-const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
+// Bing verified the key from the www. host historically; keep that exact URL
+// here so any future verification still resolves.
+const KEY_LOCATION = `https://www.${HOST}/${KEY}.txt`;
 
 // Bing accepts up to 10,000 URLs in a single batch. We submit to bing.com
 // directly; it forwards to all participating engines (Yandex, Naver, etc).
