@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     "VIN number lookup", "decode VIN", "vehicle report", "car VIN check",
     "free VIN decoder", "NMVTIS", "vehicle identification number",
     "used car VIN check", "VIN search", "car checker",
-    // Review-intent keywords — funnel to review.carcheckervin.com.
+    // Review-intent keywords — funnel to reviews.carcheckervin.com.
     "CarCheckerVIN reviews", "VIN check reviews", "VIN checker reviews",
     "vehicle history report reviews", "free VIN check reviews",
     "is CarCheckerVIN legit", "VIN decoder reviews", "best VIN check service",
@@ -95,7 +95,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   // otherwise keep the user trapped on the reviews-only subdomain.
   const h = await headers();
   const host = h.get("host")?.toLowerCase() ?? "";
-  const isReviewSubdomain = host === "review.carcheckervin.com";
+  const isReviewSubdomain = host === "reviews.carcheckervin.com";
   const logoHref = isReviewSubdomain ? SITE : "/";
 
   const organizationLd = {
@@ -117,7 +117,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       availableLanguage: ["English"],
       hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:00", closes: "18:00" },
     }],
-    sameAs: ["https://review.carcheckervin.com"],
+    sameAs: ["https://reviews.carcheckervin.com"],
   };
 
   const websiteLd = {
@@ -165,7 +165,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     itemListElement: [
       { "@type": "SiteNavigationElement", position: 1, name: "VIN Check", url: `${SITE}/vin-check`,             description: "Free VIN check and decoder with full vehicle history report." },
       { "@type": "SiteNavigationElement", position: 2, name: "Pricing",   url: `${SITE}/pricing`,                description: "VIN check pricing — single, 3-pack, 5-pack and pro bundles." },
-      { "@type": "SiteNavigationElement", position: 3, name: "Reviews",   url: "https://review.carcheckervin.com", description: "Verified customer reviews and ratings for CarCheckerVIN." },
+      { "@type": "SiteNavigationElement", position: 3, name: "Reviews",   url: "https://reviews.carcheckervin.com", description: "Verified customer reviews and ratings for CarCheckerVIN." },
       { "@type": "SiteNavigationElement", position: 4, name: "Guides",    url: `${SITE}/guides`,                 description: "Long-form guides on VINs, used-car buying, and vehicle fraud." },
       { "@type": "SiteNavigationElement", position: 5, name: "Blog",      url: `${SITE}/blog`,                   description: "CarCheckerVIN blog — news, deep dives, and how-tos." },
       { "@type": "SiteNavigationElement", position: 6, name: "About",     url: `${SITE}/about`,                  description: "About CarCheckerVIN — data sources, team, and mission." },

@@ -1,24 +1,35 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
-// Hosts that get the special review-subdomain routing. Listed explicitly so
-// Vercel preview deployments (which use *.vercel.app hostnames) aren't
-// inadvertently treated as the reviews subdomain.
-const REVIEW_HOSTS = new Set(["review.carcheckervin.com"]);
+// Canonical reviews host (plural — matches user search intent and industry
+// convention for review-section subdomains like reviews.apple.com).
+const REVIEWS_HOST = "reviews.carcheckervin.com";
+// Legacy host: the original subdomain was singular. We keep it resolving so
+// any links already shared/printed still work, but every request is 308'd
+// to the plural canonical so Google never indexes both versions.
+const LEGACY_REVIEW_HOSTS = new Set(["review.carcheckervin.com"]);
 const WWW_ORIGIN = "https://www.carcheckervin.com";
+const REVIEWS_ORIGIN = `https://${REVIEWS_HOST}`;
 
 export async function proxy(request: NextRequest) {
   const host = request.headers.get("host")?.toLowerCase() ?? "";
+  const { pathname, search } = request.nextUrl;
+
+  // ── Legacy singular host → permanent redirect to plural ──────────
+  // Keeps the original `review.carcheckervin.com` URL alive without splitting
+  // SEO signal between two hostnames.
+  if (LEGACY_REVIEW_HOSTS.has(host)) {
+    return NextResponse.redirect(`${REVIEWS_ORIGIN}${pathname}${search}`, 308);
+  }
 
   // ── Reviews subdomain ─────────────────────────────────────────────
-  // We point review.carcheckervin.com at the same Vercel project but want it
-  // to behave like its own single-page site:
+  // reviews.carcheckervin.com points at the same Vercel project but we want
+  // it to behave like its own single-page site:
   //   • "/" serves the reviews page (rewrite, URL stays on the subdomain)
   //   • Every other path 308s back to the canonical www. URL so the subdomain
   //     can't accidentally mirror the entire main site (duplicate-content
   //     risk for Google + a self-contradicting SiteNavigationElement signal).
-  if (REVIEW_HOSTS.has(host)) {
-    const { pathname, search } = request.nextUrl;
+  if (host === REVIEWS_HOST) {
     if (pathname === "/" || pathname === "") {
       const url = request.nextUrl.clone();
       url.pathname = "/reviews";
@@ -28,10 +39,10 @@ export async function proxy(request: NextRequest) {
   }
 
   // ── Main site: keep /reviews as a single canonical URL ────────────
-  // /reviews on www. → 308 to review.carcheckervin.com so Google only ever
+  // /reviews on www. → 308 to reviews.carcheckervin.com so Google only ever
   // indexes one version of the page. Skip in dev so local preview works.
-  if (request.nextUrl.pathname === "/reviews" && process.env.NODE_ENV === "production") {
-    return NextResponse.redirect("https://review.carcheckervin.com/", 308);
+  if (pathname === "/reviews" && process.env.NODE_ENV === "production") {
+    return NextResponse.redirect(`${REVIEWS_ORIGIN}/`, 308);
   }
 
   return await updateSession(request);

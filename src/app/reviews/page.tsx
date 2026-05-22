@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Star, ShieldCheck, Zap, Search, ArrowRight } from "lucide-react";
 
 const WWW = "https://www.carcheckervin.com";
-const SUBDOMAIN = "https://review.carcheckervin.com";
+const SUBDOMAIN = "https://reviews.carcheckervin.com";
 
 // SEO note: this page lives on the review.* subdomain and is the single
 // canonical surface for review-intent queries ("CarCheckerVIN reviews",

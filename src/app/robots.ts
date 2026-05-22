@@ -56,5 +56,7 @@ export default function robots(): MetadataRoute.Robots {
       `${baseUrl}/image-sitemap.xml`,
       `${baseUrl}/sitemap-index.xml`,
     ],
+    // Note: /llms.txt (llmstxt.org) is auto-discovered by AI crawlers at the
+    // well-known root path — no robots.txt directive needed.
   };
 }
