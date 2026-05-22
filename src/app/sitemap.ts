@@ -138,6 +138,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: baseUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${baseUrl}/vin-check`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/pricing`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Reviews subdomain — canonical surface for review-intent queries
+    // ("CarCheckerVIN reviews", "is CarCheckerVIN legit", etc.).
+    { url: "https://review.carcheckervin.com", lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/vin-check/state`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     ...makePages,
     ...statePages,
