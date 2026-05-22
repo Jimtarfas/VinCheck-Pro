@@ -16,14 +16,14 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 const navLinks: { href: string; label: string; external?: boolean }[] = [
   { href: "/vin-check", label: "VIN Check" },
   { href: "/pricing",   label: "Pricing" },
-  { href: "https://review.carcheckervin.com", label: "Reviews", external: true },
+  { href: "https://reviews.carcheckervin.com", label: "Reviews", external: true },
   { href: "/guides",    label: "Guides" },
   { href: "/blog",      label: "Blog" },
   { href: "/about",     label: "About" },
 ];
 
 // `logoHref` lets the parent (root layout) override where the brand logo links.
-// On the reviews subdomain (review.carcheckervin.com) we pass the absolute www.
+// On the reviews subdomain (reviews.carcheckervin.com) we pass the absolute www.
 // URL so clicking the logo escapes back to the main site instead of looping
 // the user back to the reviews page on the same subdomain.
 export default function Header({ logoHref = "/" }: { logoHref?: string }) {
