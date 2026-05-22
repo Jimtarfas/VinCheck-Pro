@@ -52,6 +52,11 @@ export const metadata: Metadata = {
     "VIN number lookup", "decode VIN", "vehicle report", "car VIN check",
     "free VIN decoder", "NMVTIS", "vehicle identification number",
     "used car VIN check", "VIN search", "car checker",
+    // Review-intent keywords — funnel to review.carcheckervin.com.
+    "CarCheckerVIN reviews", "VIN check reviews", "VIN checker reviews",
+    "vehicle history report reviews", "free VIN check reviews",
+    "is CarCheckerVIN legit", "VIN decoder reviews", "best VIN check service",
+    "trusted VIN checker", "Carfax alternative reviews",
   ],
   authors: [{ name: "CarCheckerVIN" }],
   creator: "CarCheckerVIN",
@@ -112,7 +117,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       availableLanguage: ["English"],
       hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:00", closes: "18:00" },
     }],
-    sameAs: [],
+    sameAs: ["https://review.carcheckervin.com"],
   };
 
   const websiteLd = {

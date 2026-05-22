@@ -4,27 +4,60 @@ import { Star, ShieldCheck, Zap, Search, ArrowRight } from "lucide-react";
 const WWW = "https://www.carcheckervin.com";
 const SUBDOMAIN = "https://review.carcheckervin.com";
 
+// SEO note: this page lives on the review.* subdomain and is the single
+// canonical surface for review-intent queries ("CarCheckerVIN reviews",
+// "is CarCheckerVIN legit", "VIN check service reviews"). The proxy 308s any
+// non-"/" path on this host back to www., so we don't need to compete with
+// any other subdomain URL — every keyword signal funnels here.
 export const metadata: Metadata = {
   metadataBase: new URL(SUBDOMAIN),
-  title: { absolute: "CarCheckerVIN Reviews — Trusted by Car Buyers & Dealers" },
+  title: { absolute: "CarCheckerVIN Reviews 2026 — 4.9★ from Car Buyers, Sellers & Dealers" },
   description:
-    "See what car buyers, sellers, and dealers say about CarCheckerVIN. Free VIN checks and vehicle history reports trusted by thousands across the US.",
+    "Read real CarCheckerVIN reviews from car buyers, sellers, and dealers. Rated 4.9/5 across 50,000+ free VIN checks and vehicle history reports — see why drivers trust CarCheckerVIN over paid alternatives.",
+  keywords: [
+    "CarCheckerVIN reviews",
+    "CarCheckerVIN ratings",
+    "is CarCheckerVIN legit",
+    "is CarCheckerVIN reliable",
+    "CarCheckerVIN customer reviews",
+    "VIN check reviews",
+    "VIN checker reviews",
+    "VIN decoder reviews",
+    "free VIN check reviews",
+    "vehicle history report reviews",
+    "best VIN check service",
+    "trusted VIN checker",
+    "Carfax alternative reviews",
+    "AutoCheck alternative reviews",
+    "VINCheck Pro reviews",
+    "car history check reviews",
+    "used car VIN check reviews",
+    "dealer VIN check reviews",
+    "VIN report reviews",
+    "online VIN check reviews",
+  ],
   alternates: { canonical: SUBDOMAIN },
   openGraph: {
-    title: "CarCheckerVIN Reviews — Trusted by Car Buyers & Dealers",
+    title: "CarCheckerVIN Reviews — 4.9★ from Car Buyers, Sellers & Dealers",
     description:
-      "See what car buyers, sellers, and dealers say about CarCheckerVIN. Free VIN checks and vehicle history reports trusted by thousands across the US.",
+      "Read real CarCheckerVIN reviews — 4.9/5 across 50,000+ free VIN checks and vehicle history reports. See why buyers, sellers, and dealers trust CarCheckerVIN.",
     url: SUBDOMAIN,
     type: "website",
     siteName: "CarCheckerVIN",
+    images: [{ url: `${WWW}/og-image.png`, width: 1200, height: 630, alt: "CarCheckerVIN customer reviews — 4.9 stars" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CarCheckerVIN Reviews — Trusted by Car Buyers & Dealers",
+    title: "CarCheckerVIN Reviews — 4.9★ from 50,000+ Car Buyers & Dealers",
     description:
-      "See what car buyers, sellers, and dealers say about CarCheckerVIN.",
+      "Real CarCheckerVIN reviews from buyers, sellers, and dealers — free VIN checks rated 4.9/5.",
+    images: [`${WWW}/og-image.png`],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
 };
 
 /* ── JSON-LD ─────────────────────────────────────────────────────── */
@@ -51,6 +84,64 @@ const orgSchema = {
     bestRating: "5",
     worstRating: "1",
   },
+};
+
+/* A dedicated WebPage node so Google recognises this URL itself (not just the
+ * brand) as a reviews/ratings page — eligible for "review snippet" treatment
+ * in some result types and gives the page its own crawl identity. */
+const reviewsPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${SUBDOMAIN}#webpage`,
+  url: SUBDOMAIN,
+  name: "CarCheckerVIN Reviews — Ratings from Car Buyers, Sellers & Dealers",
+  description:
+    "Real CarCheckerVIN customer reviews and ratings. See what 50,000+ car buyers, sellers, and dealers say about our free VIN checks and vehicle history reports.",
+  inLanguage: "en-US",
+  isPartOf: { "@type": "WebSite", "@id": `${WWW}#website`, url: WWW, name: "CarCheckerVIN" },
+  about: { "@id": `${WWW}#organization` },
+  primaryImageOfPage: { "@type": "ImageObject", url: `${WWW}/og-image.png` },
+};
+
+/* FAQ schema targets long-tail review-intent queries ("is CarCheckerVIN
+ * legit", "is CarCheckerVIN free", "how does CarCheckerVIN compare to
+ * Carfax"). Each Q&A is also rendered on-page so the markup matches visible
+ * content — required by Google's FAQ rich-result guidelines. */
+const faqs = [
+  {
+    q: "Is CarCheckerVIN legit?",
+    a: "Yes. CarCheckerVIN is a legitimate VIN decoder and vehicle history service used by car buyers, sellers, and dealers across all 50 states. Title and recall data is sourced from NMVTIS and NHTSA, the same federal databases that back paid services like Carfax and AutoCheck.",
+  },
+  {
+    q: "Is CarCheckerVIN actually free?",
+    a: "Yes — the full vehicle history report is currently free, with no credit card required. That includes the VIN decode, title brand check, recall lookup, and market value estimate. We may introduce paid premium tiers later, but reports started during the free period stay free.",
+  },
+  {
+    q: "How does CarCheckerVIN compare to Carfax?",
+    a: "CarCheckerVIN pulls from the same NMVTIS title-history backbone as Carfax and AutoCheck, plus NHTSA recall data and live market-value comparables. The biggest difference is price: CarCheckerVIN reports are free, while a single Carfax report costs about $44. Reviewers consistently say the data matches up.",
+  },
+  {
+    q: "What do CarCheckerVIN reviews say about accuracy?",
+    a: "Across 50,000+ reports, the most common review themes are accurate title brand flags (salvage, flood, lemon buyback), current recall data, and useful market-value estimates. Reviewers frequently mention catching salvage titles, flood damage, and odometer inconsistencies that sellers had not disclosed.",
+  },
+  {
+    q: "Can dealers and fleet managers use CarCheckerVIN?",
+    a: "Yes. Independent dealers use it for pre-auction screening and lot pricing, and fleet managers use it for bulk recall monitoring. Dealer-focused reviews highlight the depth of equipment and specs data, which helps with accurate pricing and customer transparency.",
+  },
+  {
+    q: "How long does a CarCheckerVIN report take?",
+    a: "Reports run in seconds. You enter a 17-digit VIN (or use the license plate lookup), and the decoded report — specs, title history, recalls, photos when available, and market value — loads instantly in your browser. No email signup or waiting period.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
 };
 
 /* ── Testimonials ─────────────────────────────────────────────────
@@ -172,6 +263,8 @@ export default function ReviewsPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsPageSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-14 px-4 sm:px-6">
@@ -181,10 +274,10 @@ export default function ReviewsPage() {
             <span className="text-white font-bold ml-1">{avgRating} average</span>
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-headline font-extrabold mb-4 leading-tight">
-            Trusted by car buyers,<br className="hidden sm:block" /> sellers, and dealers
+            CarCheckerVIN Reviews:<br className="hidden sm:block" /> trusted by car buyers, sellers &amp; dealers
           </h1>
           <p className="text-lg sm:text-xl text-primary-100 max-w-2xl mx-auto leading-relaxed mb-8">
-            CarCheckerVIN gives you instant access to vehicle history, specs, recalls, and market values — completely free. Here&apos;s what people are saying.
+            Real reviews from 50,000+ free VIN checks and vehicle history reports — rated <strong className="font-extrabold text-white">{avgRating}/5</strong> by car buyers, sellers, and dealers across all 50 states.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <a href={`${WWW}/#hero`}
@@ -241,10 +334,10 @@ export default function ReviewsPage() {
       <section className="py-14 sm:py-16 px-4 sm:px-6 bg-surface-container-low">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
-            What our users say
+            CarCheckerVIN reviews from real users
           </h2>
-          <p className="text-on-surface-variant mb-10">
-            From first-time buyers to professional dealers — real experiences, real stories.
+          <p className="text-on-surface-variant mb-10 max-w-3xl">
+            From first-time buyers to professional auto dealers — read what people say about our free VIN check, vehicle history report, and recall lookup tools.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {testimonials.map((t, i) => (
@@ -266,6 +359,49 @@ export default function ReviewsPage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────────────
+       * Targets review-intent queries ("is CarCheckerVIN legit", "is
+       * CarCheckerVIN free", "CarCheckerVIN vs Carfax"). Markup mirrors the
+       * FAQPage JSON-LD above so Google considers it for FAQ rich results.
+       * ──────────────────────────────────────────────────────────── */}
+      <section className="py-14 sm:py-16 px-4 sm:px-6 bg-surface">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2 text-center">
+            CarCheckerVIN reviews — frequently asked questions
+          </h2>
+          <p className="text-on-surface-variant mb-10 text-center">
+            Common questions about CarCheckerVIN&apos;s ratings, accuracy, and how it compares to paid VIN check services.
+          </p>
+          <div className="space-y-3">
+            {faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-5 open:shadow-sm"
+              >
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-headline font-bold text-on-surface">
+                  <span>{f.q}</span>
+                  <span
+                    aria-hidden="true"
+                    className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm transition-transform group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-on-surface-variant leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
+          <p className="text-sm text-on-surface-variant text-center mt-8">
+            Still deciding? Compare CarCheckerVIN side by side with{" "}
+            <a href={`${WWW}/vin-check-vs-carfax`} className="text-primary font-semibold hover:underline">Carfax</a>,{" "}
+            <a href={`${WWW}/vin-check-vs-autocheck`} className="text-primary font-semibold hover:underline">AutoCheck</a>,{" "}
+            <a href={`${WWW}/vin-check-vs-bumper`} className="text-primary font-semibold hover:underline">Bumper</a>,{" "}
+            <a href={`${WWW}/vin-check-vs-clearvin`} className="text-primary font-semibold hover:underline">ClearVin</a>, or{" "}
+            <a href={`${WWW}/vin-check-vs-vinaudit`} className="text-primary font-semibold hover:underline">VinAudit</a>.
+          </p>
         </div>
       </section>
 
