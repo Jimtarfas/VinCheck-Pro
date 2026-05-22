@@ -22,7 +22,11 @@ const navLinks: { href: string; label: string; external?: boolean }[] = [
   { href: "/about",     label: "About" },
 ];
 
-export default function Header() {
+// `logoHref` lets the parent (root layout) override where the brand logo links.
+// On the reviews subdomain (review.carcheckervin.com) we pass the absolute www.
+// URL so clicking the logo escapes back to the main site instead of looping
+// the user back to the reviews page on the same subdomain.
+export default function Header({ logoHref = "/" }: { logoHref?: string }) {
   const router = useRouter();
 
   const [mobileOpen, setMobileOpen]     = useState(false);
@@ -116,7 +120,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
         {/* ── Brand ── */}
-        <Logo variant="onLight" size="md" />
+        <Logo variant="onLight" size="md" href={logoHref} />
 
 
         {/* ── Desktop nav ── */}

@@ -173,20 +173,6 @@ export default function ReviewsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
 
-      {/* ── Header bar ─────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-outline-variant/20 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto h-14 flex items-center justify-between gap-4">
-          <a href={WWW} className="flex items-center gap-2 font-headline font-extrabold text-lg text-primary">
-            <span className="w-7 h-7 rounded-lg bg-primary text-white text-xs font-black flex items-center justify-center">V</span>
-            CarCheckerVIN
-          </a>
-          <a href={`${WWW}/#hero`}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-all">
-            Free VIN Check <ArrowRight className="w-3.5 h-3.5" />
-          </a>
-        </div>
-      </header>
-
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-16 pb-14 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -305,25 +291,6 @@ export default function ReviewsPage() {
         </div>
       </section>
 
-      {/* ── Minimal footer ─────────────────────────────────────── */}
-      <footer className="py-6 px-4 bg-surface border-t border-outline-variant/20">
-        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3 text-sm text-on-surface-variant">
-          <a href={WWW} className="font-bold text-primary hover:underline">CarCheckerVIN</a>
-          <div className="flex flex-wrap gap-4">
-            {[
-              { label: "VIN Check",         href: `${WWW}/vin-check` },
-              { label: "Lemon Check",       href: `${WWW}/lemon-check` },
-              { label: "License Plate",     href: `${WWW}/license-plate-lookup` },
-              { label: "Pricing",           href: `${WWW}/pricing` },
-              { label: "Guides",            href: `${WWW}/guides` },
-            ].map(l => (
-              <a key={l.label} href={l.href} className="hover:text-primary hover:underline transition-colors">
-                {l.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
