@@ -274,11 +274,13 @@ export default function FloridaVinCheckPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
 
-      <article className="pt-10 pb-16 bg-surface">
+      <article className="pb-16 bg-surface">
 
         {/* ── Hero ─────────────────────────────────────────── */}
+        {/* pt-24 reserves room for the fixed Header so the breadcrumb isn't
+            buried under it; matches the pattern in /vin-check/state/[state]. */}
         <div className="bg-primary text-white">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
             <Breadcrumbs
               items={[{ label: "Home", href: "/" }, { label: "Florida VIN Check" }]}
               onDark
