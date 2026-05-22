@@ -174,7 +174,7 @@ export default function ReviewsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
 
       {/* ── Hero ───────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-16 pb-14 px-4 sm:px-6">
+      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-14 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 mb-5">
             {[1,2,3,4,5].map(n => <Star key={n} className="w-5 h-5 fill-amber-400 text-amber-400" />)}
