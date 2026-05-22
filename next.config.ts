@@ -38,6 +38,19 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // 301 redirects to fix keyword cannibalization between sibling pages.
+  // `/florida-vin-check` is the dedicated, better-converting state landing
+  // page, so the older programmatic URL points all link equity at it.
+  async redirects() {
+    return [
+      {
+        source: "/vin-check/state/florida",
+        destination: "/florida-vin-check",
+        permanent: true,
+      },
+    ];
+  },
+
   // Cache headers for static assets — long max-age + immutable
   async headers() {
     return [

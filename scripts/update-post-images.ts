@@ -25,18 +25,20 @@ const client = createClient({
 });
 
 // slug → { unsplash URL, alt text }
+// IMPORTANT: every URL below is verified against the project's known-good
+// IMAGE_POOL (scripts/posts/index.ts) so we don't ship a random image again.
 const UPDATES: Array<{ slug: string; url: string; alt: string }> = [
   {
-    // Cash-for-Clunkers: shot of older / scrap cars in a junkyard.
+    // Cash-for-Clunkers: used-car lot — older vehicles, trade-in vibe.
     slug: "cash-for-clunkers-2026",
-    url: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=1600&q=80",
-    alt: "Older vehicles in a junkyard ready for cash-for-clunkers trade-in",
+    url: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1600&q=80",
+    alt: "Used car lot — older vehicles eligible for cash-for-clunkers trade-in programs",
   },
   {
-    // EV vs Gas: clean shot of an EV connected to a charging station.
+    // EV vs Gas: known-good 'electric vehicle charging' from the import pool.
     slug: "ev-vs-gas-savings",
-    url: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1600&q=80",
-    alt: "Electric vehicle plugged into a charging station at a parking lot",
+    url: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1600&q=80",
+    alt: "Electric vehicle plugged into a charging station — comparing EV ownership cost to gas",
   },
 ];
 

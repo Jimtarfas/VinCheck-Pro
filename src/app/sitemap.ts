@@ -50,12 +50,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const statePages: MetadataRoute.Sitemap = states.map((s) => ({
-    url: `${baseUrl}/vin-check/state/${s.slug}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.75,
-  }));
+  // Exclude Florida — it 301-redirects to /florida-vin-check (a dedicated
+  // landing page that ranks better). Listing it here would advertise a URL
+  // that immediately bounces to another canonical, wasting crawl budget.
+  const statePages: MetadataRoute.Sitemap = states
+    .filter((s) => s.slug !== "florida")
+    .map((s) => ({
+      url: `${baseUrl}/vin-check/state/${s.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    }));
 
   const marketplacePages: MetadataRoute.Sitemap = [
     {
