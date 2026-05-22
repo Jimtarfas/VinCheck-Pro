@@ -8,12 +8,18 @@ import Logo from "./Logo";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
-const navLinks = [
-  { href: "/vin-check",  label: "How it Works" },
-  { href: "/#pricing",   label: "Pricing" },
-  { href: "/blog",       label: "Blog" },
-  { href: "/guides",     label: "Guides" },
-  { href: "/about",      label: "About" },
+// Primary navigation. Order, hrefs, and labels match the SiteNavigationElement
+// JSON-LD in src/app/layout.tsx — when changing either, update both together so
+// Google's sitelinks signal stays consistent. `external` items render as <a>
+// (with rel="noopener") instead of <Link> so off-domain destinations resolve
+// correctly without Next.js prefetching them.
+const navLinks: { href: string; label: string; external?: boolean }[] = [
+  { href: "/vin-check", label: "VIN Check" },
+  { href: "/pricing",   label: "Pricing" },
+  { href: "https://review.carcheckervin.com", label: "Reviews", external: true },
+  { href: "/guides",    label: "Guides" },
+  { href: "/blog",      label: "Blog" },
+  { href: "/about",     label: "About" },
 ];
 
 export default function Header() {
@@ -115,15 +121,26 @@ export default function Header() {
 
         {/* ── Desktop nav ── */}
         <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="px-4 py-2 text-sm font-medium text-on-surface/70 hover:text-primary rounded-lg hover:bg-surface-container transition-all duration-200"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.href}
+                href={link.href}
+                rel="noopener"
+                className="px-4 py-2 text-sm font-medium text-on-surface/70 hover:text-primary rounded-lg hover:bg-surface-container transition-all duration-200"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-4 py-2 text-sm font-medium text-on-surface/70 hover:text-primary rounded-lg hover:bg-surface-container transition-all duration-200"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
 
         {/* ── Desktop auth ── */}
@@ -193,16 +210,28 @@ export default function Header() {
       {/* ── Mobile menu ── */}
       <div className={`md:hidden transition-all duration-300 overflow-hidden ${mobileOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}`}>
         <div className="px-6 py-4 space-y-1 bg-surface-container-lowest border-t border-outline-variant/10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className="block px-4 py-3 text-sm font-medium text-on-surface/70 hover:text-primary rounded-xl hover:bg-surface-container transition-all"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.href}
+                href={link.href}
+                rel="noopener"
+                onClick={() => setMobileOpen(false)}
+                className="block px-4 py-3 text-sm font-medium text-on-surface/70 hover:text-primary rounded-xl hover:bg-surface-container transition-all"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="block px-4 py-3 text-sm font-medium text-on-surface/70 hover:text-primary rounded-xl hover:bg-surface-container transition-all"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <div className="pt-2 space-y-2">
             {user ? (
               <>
