@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
 import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -81,8 +82,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const SITE = "https://www.carcheckervin.com";
+
+  // When the reviews subdomain serves this layout, the global Header's logo
+  // should point back to the canonical www. site instead of "/", which would
+  // otherwise keep the user trapped on the reviews-only subdomain.
+  const h = await headers();
+  const host = h.get("host")?.toLowerCase() ?? "";
+  const isReviewSubdomain = host === "review.carcheckervin.com";
+  const logoHref = isReviewSubdomain ? SITE : "/";
 
   const organizationLd = {
     "@context": "https://schema.org",
@@ -203,7 +212,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppLd) }} />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-on-surface">
-        <Header />
+        <Header logoHref={logoHref} />
         <main className="flex-1">{children}</main>
         <Footer />
         <ChatWidgetMount />
