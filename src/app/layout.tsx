@@ -137,6 +137,27 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000", bestRating: "5", worstRating: "1" },
   };
 
+  // Declares the canonical primary navigation to Google. Order, hrefs, and
+  // names must match the navLinks array in src/components/Header.tsx — both
+  // are the same signal expressed in HTML vs. JSON-LD. This is the strongest
+  // technical input Google uses when deciding which sub-pages to surface as
+  // sitelinks under our homepage SERP result.
+  const navLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${SITE}#primary-nav`,
+    name: "Primary navigation",
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    itemListElement: [
+      { "@type": "SiteNavigationElement", position: 1, name: "VIN Check", url: `${SITE}/vin-check`,             description: "Free VIN check and decoder with full vehicle history report." },
+      { "@type": "SiteNavigationElement", position: 2, name: "Pricing",   url: `${SITE}/pricing`,                description: "VIN check pricing — single, 3-pack, 5-pack and pro bundles." },
+      { "@type": "SiteNavigationElement", position: 3, name: "Reviews",   url: "https://review.carcheckervin.com", description: "Verified customer reviews and ratings for CarCheckerVIN." },
+      { "@type": "SiteNavigationElement", position: 4, name: "Guides",    url: `${SITE}/guides`,                 description: "Long-form guides on VINs, used-car buying, and vehicle fraud." },
+      { "@type": "SiteNavigationElement", position: 5, name: "Blog",      url: `${SITE}/blog`,                   description: "CarCheckerVIN blog — news, deep dives, and how-tos." },
+      { "@type": "SiteNavigationElement", position: 6, name: "About",     url: `${SITE}/about`,                  description: "About CarCheckerVIN — data sources, team, and mission." },
+    ],
+  };
+
   const webAppLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -177,6 +198,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(navLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppLd) }} />
       </head>
