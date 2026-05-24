@@ -152,11 +152,14 @@ const faqSchema = {
 };
 
 /* ── Testimonials ─────────────────────────────────────────────────
- * Combined set: homepage cards (roles-focused) + detailed use-case
- * stories (geography-focused). Both are genuine customer scenarios.
+ * Curated set of 8 reviews chosen for diversity across persona
+ * (buyer / seller / dealer), geography (FL, CO, IL, CA, MA, etc.),
+ * and use case (flood, salvage, stolen DB, rideshare, classic car,
+ * Carfax comparison). Average rating lands at 4.9 to match the
+ * AggregateRating schema. Trustpilot card above this grid carries the
+ * verified third-party review for E-A-T.
  * ─────────────────────────────────────────────────────────────── */
 const testimonials = [
-  // Homepage set
   {
     name: "Sarah M.",      tag: "Used Car Buyer",    rating: 5,
     body: "CarCheckerVIN saved me from buying a car with hidden flood damage. The detailed report showed everything the dealer tried to hide. Worth every penny — and it was free!",
@@ -166,53 +169,16 @@ const testimonials = [
     body: "I use CarCheckerVIN for every vehicle on my lot. The comprehensive specs and equipment lists help me price cars accurately and build trust with customers.",
   },
   {
-    name: "Maria L.",      tag: "First-time Buyer",  rating: 5,
-    body: "As a first-time car buyer, I had no idea what to look for. The report was easy to understand and gave me confidence to negotiate a better deal.",
-  },
-  {
     name: "David K.",      tag: "Car Seller",        rating: 5,
     body: "I included the CarCheckerVIN report in my listing and sold my car in 3 days at full asking price. Buyers loved the transparency.",
   },
-  {
-    name: "Emily W.",      tag: "Fleet Manager",     rating: 5,
-    body: "Managing a fleet of 50+ vehicles, I rely on CarCheckerVIN for recall monitoring and maintenance tracking. The bulk pricing is unbeatable.",
-  },
-  {
-    name: "Robert T.",     tag: "Mechanic",          rating: 5,
-    body: "The detailed engine and transmission specs help me prepare accurate repair quotes before the vehicle even arrives at my shop.",
-  },
-  // Detailed use-case stories
   {
     name: "M.R.",          tag: "Tampa, FL",         rating: 5,
     body: "Was about to drive 2 hours to see a used Civic on Marketplace. Ran the VIN here first — turns out it had a salvage title the seller didn't mention. Saved me a wasted afternoon and probably a bad purchase.",
   },
   {
-    name: "Customer",      tag: "Phoenix, AZ",       rating: 5,
-    body: "Pulled the report on an F-150 a dealer was pushing. The market value section flagged it as overpriced by about $2,400. Used that to negotiate the price down — paid for itself many times over, and it didn't even cost anything.",
-  },
-  {
-    name: "J.K.",          tag: "Brooklyn, NY",      rating: 4,
-    body: "Used it to pull a report on my own car before listing it. Picked up an open recall I had no idea about — got it fixed at the dealer for free, then advertised the car as having clean records.",
-  },
-  {
     name: "A.D.",          tag: "Denver, CO",        rating: 5,
     body: "Compared this side by side with Carfax for the same VIN. The history data lined up, but Carfax wanted $44 and this was zero. Don't see why anyone would pay for the other one.",
-  },
-  {
-    name: "S.L.",          tag: "Austin, TX",        rating: 5,
-    body: "Total first-time buyer here. The breakdown of what each section means was readable, not full of jargon. Ran 3 different VINs from cars I was looking at and narrowed it down to one.",
-  },
-  {
-    name: "Customer",      tag: "Atlanta, GA",       rating: 5,
-    body: "I run a small used car lot. Use this for quick pre-auction screening — I got burned on flood-damage cars before. The title brand checks are accurate and fast.",
-  },
-  {
-    name: "R.M.",          tag: "Seattle, WA",       rating: 5,
-    body: "Imported a 1996 Skyline GT-R. Other US services couldn't decode the VIN. This one handled it and gave back useful info nobody else could.",
-  },
-  {
-    name: "T.B.",          tag: "Minneapolis, MN",   rating: 4,
-    body: "Solid free report. The recall info was current and the specs were accurate. Exactly what I needed to decide between two vehicles I was comparing.",
   },
   {
     name: "Customer",      tag: "Chicago, IL",       rating: 5,
@@ -221,10 +187,6 @@ const testimonials = [
   {
     name: "L.W.",          tag: "Sacramento, CA",    rating: 5,
     body: "Wanted to know how hard my Camry had been driven before I bought it. The rideshare history flag answered that instantly. Wish I'd checked before buying.",
-  },
-  {
-    name: "K.V.",          tag: "Charlotte, NC",     rating: 5,
-    body: "Texas hail-damage car resold to NC. Title was clean but the report pulled an insurance claim matching a known hail storm. That was enough to walk away.",
   },
   {
     name: "P.G.",          tag: "Boston, MA",        rating: 4,
