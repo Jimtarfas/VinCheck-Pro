@@ -109,6 +109,12 @@ CarCheckerVIN turns a 17-digit VIN (or US license plate) into an instant report 
 - [Contact](${SITE}/contact): Support email and US phone number.
 - [Pricing](${SITE}/pricing): Plans and current free tier.
 
+## Policies
+
+- [Refund Policy](${SITE}/refund-policy): Refunds are issued only when the report data does not match the actual vehicle for the submitted VIN. All other requests are not eligible.
+- [Terms of Service](${SITE}/terms): Service terms, permitted use, accuracy disclaimer, liability limits.
+- [Privacy Policy](${SITE}/privacy): How CarCheckerVIN collects, uses, and protects customer data.
+
 ## Sitemaps
 
 - [Main XML sitemap](${SITE}/sitemap.xml)

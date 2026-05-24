@@ -48,7 +48,18 @@ export default function TermsPage() {
           any damages arising from the use of our reports or reliance on the information provided.
         </p>
 
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">6. Contact</h2>
+        <h2 className="text-xl font-semibold text-slate-900 mt-8">6. Refunds</h2>
+        <p>
+          Refunds are issued only when the data in a report does not match
+          the vehicle identified by the VIN you submitted. See the full{" "}
+          <a href="/refund-policy" className="text-primary-600 hover:underline">
+            Refund Policy
+          </a>{" "}
+          for eligibility criteria, evidence requirements, and the request
+          process.
+        </p>
+
+        <h2 className="text-xl font-semibold text-slate-900 mt-8">7. Contact</h2>
         <p>
           For questions about these terms, contact us at{" "}
           <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">

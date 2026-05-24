@@ -68,8 +68,9 @@ const companyLinks = [
   { href: "/#pricing",  label: "Pricing" },
   { href: "/login",     label: "Log In" },
   { href: "/signup",    label: "Sign Up" },
-  { href: "/privacy",   label: "Privacy Policy" },
-  { href: "/terms",     label: "Terms of Service" },
+  { href: "/privacy",         label: "Privacy Policy" },
+  { href: "/terms",           label: "Terms of Service" },
+  { href: "/refund-policy",   label: "Refund Policy" },
 ];
 
 export default function Footer() {
