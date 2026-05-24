@@ -13,47 +13,10 @@
 
 import type { PostSpec } from "./catalog-writer";
 
-// Picsum-like proxied Unsplash URLs are hot-linkable & free for commercial use.
-// The import script downloads them and uploads to Sanity CDN.
-
-const UNSPLASH = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
-
-// A pool of high-quality Unsplash automotive photo IDs (verified clean / no
-// dealer branding). Each post gets a deterministic image from the pool.
-const IMAGE_POOL = [
-  { id: "photo-1492144534655-ae79c964c9d7", alt: "Modern car parked at dusk" },
-  { id: "photo-1494976388531-d1058494cdd8", alt: "Premium sedan on highway" },
-  { id: "photo-1583121274602-3e2820c69888", alt: "Sports coupe in showroom" },
-  { id: "photo-1549317661-bd32c8ce0db2", alt: "Used car keys on a desk" },
-  { id: "photo-1503376780353-7e6692767b70", alt: "Classic sports car" },
-  { id: "photo-1605559424843-9e4c228bf1c2", alt: "Modern luxury SUV" },
-  { id: "photo-1542362567-b07e54358753", alt: "Mechanic inspecting an engine" },
-  { id: "photo-1547038577-da80abbc4f19", alt: "Car dashboard close-up" },
-  { id: "photo-1516919549054-e08258825f80", alt: "Pickup truck on dirt road" },
-  { id: "photo-1502877338535-766e1452684a", alt: "Convertible by the coast" },
-  { id: "photo-1525609004556-c46c7d6cf023", alt: "Performance car at sunset" },
-  { id: "photo-1485463611174-f302f6a5c1c9", alt: "Steering wheel and dashboard" },
-  { id: "photo-1494976388531-d1058494cdd8", alt: "Sedan on open road" },
-  { id: "photo-1606664515524-ed2f786a0bd6", alt: "Compact SUV on city street" },
-  { id: "photo-1568844293986-8d0400bd4745", alt: "Family minivan in suburb" },
-  { id: "photo-1560958089-b8a1929cea89", alt: "Electric vehicle charging" },
-  { id: "photo-1494976388531-d1058494cdd8", alt: "Modern luxury sedan" },
-  { id: "photo-1552519507-da3b142c6e3d", alt: "Yellow sports car on track" },
-  { id: "photo-1469854523086-cc02fe5d8800", alt: "Convertible roadster" },
-  { id: "photo-1489824904134-891ab64532f1", alt: "Off-road SUV in landscape" },
-  { id: "photo-1542228262-3d663b306a53", alt: "Black luxury sedan close-up" },
-  { id: "photo-1555215695-3004980ad54e", alt: "Modern hatchback front view" },
-  { id: "photo-1553440569-bcc63803a83d", alt: "Used car lot detail" },
-  { id: "photo-1532581291347-9c39cf10a73c", alt: "Couple buying a used car" },
-  { id: "photo-1471444928139-48c5bf5173f8", alt: "Pickup truck on country road" },
-];
-
-function pickImage(seed: string): { url: string; alt: string } {
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  const img = IMAGE_POOL[h % IMAGE_POOL.length];
-  return { url: UNSPLASH(img.id), alt: img.alt };
-}
+// Hero images and publish dates are assigned downstream in
+// ./index.ts (see pickHeroImage in ./image-picker.ts). The static
+// Unsplash pool that used to live here was rotated across 100+ posts
+// and caused duplicate-image SEO penalties — removed.
 
 // April 16 2026 is the original blog date; spread posts across April-March 2026.
 function dateFor(i: number): string {
@@ -495,23 +458,22 @@ const RAW: RawPost[] = [
 // Auto-finish slugs that already exist (or could conflict). Trim or extend in
 // posts/index.ts (catalog-writer expands these into full posts).
 
-export const POST_SPECS: PostSpec[] = RAW.map((r, i) => {
-  const img = pickImage(r.slug);
-  return {
-    slug: r.slug,
-    title: r.title,
-    seoTitle: r.seoTitle,
-    seoDescription: r.seoDescription,
-    excerpt: r.excerpt,
-    focusKeyword: r.focusKeyword,
-    keywords: r.keywords,
-    category: r.category,
-    tags: r.tags,
-    publishedAt: dateFor(i),
-    heroImageUrl: img.url,
-    heroImageAlt: img.alt,
-    outline: r.outline,
-    intro: r.intro,
-    conclusion: r.conclusion,
-  };
-});
+// heroImageUrl / heroImageAlt are placeholders here — index.ts re-picks them
+// from Bing per topic so each post gets a unique, real-vehicle photo.
+export const POST_SPECS: PostSpec[] = RAW.map((r, i) => ({
+  slug: r.slug,
+  title: r.title,
+  seoTitle: r.seoTitle,
+  seoDescription: r.seoDescription,
+  excerpt: r.excerpt,
+  focusKeyword: r.focusKeyword,
+  keywords: r.keywords,
+  category: r.category,
+  tags: r.tags,
+  publishedAt: dateFor(i),
+  heroImageUrl: "",
+  heroImageAlt: "",
+  outline: r.outline,
+  intro: r.intro,
+  conclusion: r.conclusion,
+}));
