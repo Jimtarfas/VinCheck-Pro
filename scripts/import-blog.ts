@@ -146,8 +146,9 @@ async function main() {
   console.log("Seeding author…");
   const authorId = await ensureAuthor();
 
-  console.log(`\nImporting ${ALL_POSTS.length} posts…`);
-  for (const post of ALL_POSTS) {
+  const posts = await ALL_POSTS;
+  console.log(`\nImporting ${posts.length} posts…`);
+  for (const post of posts) {
     try {
       await importPost(post, authorId, categoryIds);
     } catch (e) {
