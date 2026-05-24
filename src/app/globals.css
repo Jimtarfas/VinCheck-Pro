@@ -71,13 +71,9 @@
 
 html { scroll-behavior: smooth; }
 
-/* Prevent accidental horizontal scroll on mobile caused by rotated/blurred
-   decorations. We use `overflow-x: clip` (not `hidden`) because `hidden`
-   makes the element a scroll container, which kills position:sticky for
-   every descendant on the site. `clip` clips the overflow without
-   establishing a scroll container, so sticky positioning still works. */
+/* Prevent accidental horizontal scroll on mobile caused by rotated/blurred decorations */
 html, body {
-  overflow-x: clip;
+  overflow-x: hidden;
   max-width: 100%;
 }
 
