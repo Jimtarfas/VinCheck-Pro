@@ -1,8 +1,22 @@
 import type { Metadata } from "next";
-import { Star, ShieldCheck, Zap, Search, ArrowRight } from "lucide-react";
+import Script from "next/script";
+import { Star, ShieldCheck, Zap, Search, ArrowRight, ExternalLink } from "lucide-react";
 
 const WWW = "https://www.carcheckervin.com";
 const SUBDOMAIN = "https://reviews.carcheckervin.com";
+
+/* ── Trustpilot config ────────────────────────────────────────────
+ * TRUSTPILOT_BUID: your Business Unit ID. Find it at
+ *   Trustpilot Business → Integrations → TrustBox → any widget
+ *   (it's the value of `data-businessunit-id` in the snippet).
+ * When set, the TrustBox widget renders live reviews + star count
+ * pulled from Trustpilot's CDN. When empty (""), the page falls
+ * back to a static "View on Trustpilot" card linking to the
+ * profile — still useful, just no embedded review carousel.
+ * ──────────────────────────────────────────────────────────────── */
+const TRUSTPILOT_BUID = process.env.NEXT_PUBLIC_TRUSTPILOT_BUID ?? "";
+const TRUSTPILOT_PROFILE = "https://www.trustpilot.com/review/www.carcheckervin.com";
+const TRUSTPILOT_EVALUATE = "https://www.trustpilot.com/evaluate/www.carcheckervin.com";
 
 // SEO note: this page lives on the review.* subdomain and is the single
 // canonical surface for review-intent queries ("CarCheckerVIN reviews",
@@ -77,6 +91,7 @@ const orgSchema = {
   name: "CarCheckerVIN",
   url: WWW,
   logo: { "@type": "ImageObject", url: `${WWW}/logo.png` },
+  sameAs: [SUBDOMAIN, TRUSTPILOT_PROFILE],
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
@@ -309,8 +324,106 @@ export default function ReviewsPage() {
         </div>
       </section>
 
+      {/* ── Trustpilot ─────────────────────────────────────────────
+       * Independent third-party reviews on Trustpilot. When
+       * NEXT_PUBLIC_TRUSTPILOT_BUID is set, the official TrustBox
+       * widget renders live reviews + star count from Trustpilot's
+       * CDN. Without a BUID, the fallback card still gives a
+       * prominent CTA + sameAs link to the public profile.
+       * ───────────────────────────────────────────────────────── */}
+      <section id="trustpilot" className="py-14 px-4 sm:px-6 bg-surface">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-1">
+                Verified on Trustpilot
+              </h2>
+              <p className="text-on-surface-variant text-sm sm:text-base">
+                Independent reviews from real customers — collected and verified by Trustpilot.
+              </p>
+            </div>
+            {/* Inline Trustpilot star + wordmark (Trustpilot brand green #00B67A) */}
+            <a
+              href={TRUSTPILOT_PROFILE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-bold text-on-surface hover:text-primary transition-colors"
+              aria-label="Open CarCheckerVIN profile on Trustpilot"
+            >
+              <span
+                aria-hidden="true"
+                className="inline-flex items-center justify-center w-7 h-7 rounded bg-[#00B67A] text-white"
+              >
+                <Star className="w-4 h-4 fill-white" />
+              </span>
+              <span>Trustpilot</span>
+              <ExternalLink className="w-3.5 h-3.5 text-outline" />
+            </a>
+          </div>
+
+          {TRUSTPILOT_BUID ? (
+            <>
+              {/* Official TrustBox — Carousel template (53aa8912dec7e10d38f59f36)
+                  shows the most recent reviews + aggregate star rating, pulled
+                  live from Trustpilot's CDN. Swap data-template-id for a
+                  different layout (Mini, Micro Review Count, etc.) any time. */}
+              <div
+                className="trustpilot-widget rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-4"
+                data-locale="en-US"
+                data-template-id="53aa8912dec7e10d38f59f36"
+                data-businessunit-id={TRUSTPILOT_BUID}
+                data-style-height="240px"
+                data-style-width="100%"
+                data-theme="light"
+                data-stars="1,2,3,4,5"
+              >
+                <a href={TRUSTPILOT_PROFILE} target="_blank" rel="noopener noreferrer">
+                  Trustpilot
+                </a>
+              </div>
+              <Script
+                src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+                strategy="lazyOnload"
+              />
+            </>
+          ) : (
+            /* Fallback card shown until NEXT_PUBLIC_TRUSTPILOT_BUID is set.
+               Keeps the section meaningful + drives traffic to the profile. */
+            <div className="rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-6 sm:p-8 text-center">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#00B67A]/10 mb-4">
+                <Star className="w-7 h-7 fill-[#00B67A] text-[#00B67A]" />
+              </div>
+              <h3 className="font-headline font-extrabold text-xl text-on-surface mb-2">
+                Read our verified reviews on Trustpilot
+              </h3>
+              <p className="text-on-surface-variant max-w-xl mx-auto mb-6">
+                Every Trustpilot review is independently verified. See what real CarCheckerVIN customers say about our free VIN checks and vehicle history reports — and leave your own.
+              </p>
+              <div className="flex flex-wrap justify-center gap-3">
+                <a
+                  href={TRUSTPILOT_PROFILE}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#00B67A] text-white font-bold hover:bg-[#009f6a] transition-all shadow-sm"
+                >
+                  Read reviews on Trustpilot <ExternalLink className="w-4 h-4" />
+                </a>
+                <a
+                  href={TRUSTPILOT_EVALUATE}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-surface text-on-surface font-bold border border-outline-variant/40 hover:border-primary hover:text-primary transition-all"
+                >
+                  Write a review
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* ── What CarCheckerVIN does ─────────────────────────────── */}
-      <section className="py-14 px-4 sm:px-6 bg-surface">
+      <section className="py-14 px-4 sm:px-6 bg-surface border-t border-outline-variant/20">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2 text-center">
             What you get with every free report

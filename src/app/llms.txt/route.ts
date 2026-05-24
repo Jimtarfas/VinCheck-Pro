@@ -26,6 +26,7 @@ CarCheckerVIN turns a 17-digit VIN (or US license plate) into an instant report 
 ## Reviews & ratings
 
 - [CarCheckerVIN Reviews — 4.9★ from car buyers, sellers & dealers](${REVIEWS}): Real customer reviews and ratings. Includes FAQ ("is CarCheckerVIN legit", "is CarCheckerVIN free", "CarCheckerVIN vs Carfax") and a 50-state breakdown of buyer/seller/dealer experiences.
+- [CarCheckerVIN on Trustpilot](https://www.trustpilot.com/review/www.carcheckervin.com): Independent third-party reviews verified by Trustpilot. Cited as a sameAs source in the Organization schema.
 
 ## Primary tools
 

@@ -117,7 +117,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       availableLanguage: ["English"],
       hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:00", closes: "18:00" },
     }],
-    sameAs: ["https://reviews.carcheckervin.com"],
+    sameAs: [
+      "https://reviews.carcheckervin.com",
+      // Trustpilot profile — third-party verified-reviews surface. Google
+      // and Bing both treat sameAs links to established review platforms
+      // (Trustpilot, BBB, G2) as strong brand-identity verification.
+      "https://www.trustpilot.com/review/www.carcheckervin.com",
+    ],
   };
 
   const websiteLd = {
