@@ -810,13 +810,13 @@ export default function VinReport({ data }: { data: VinData }) {
             </div>
           </div>
 
-          {/* ── RIGHT SIDEBAR (1/3) — sticky on lg+; when the sidebar
-              content (Market Analysis + Report Summary + AI cards) is
-              taller than the viewport it scrolls inside itself so the
-              user keeps the whole sidebar visible while reading the
-              main column. self-start prevents the grid from stretching
-              the sidebar to match the main column's height. ── */}
-          <div className="space-y-6 lg:self-start lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1 [scrollbar-gutter:stable]">
+          {/* ── RIGHT SIDEBAR (1/3) — sticky on lg+. Moves with the
+              page as the user scrolls through the main column. No
+              internal scrollbar — if the sidebar is taller than the
+              viewport, the user scrolls the page normally to reach the
+              rest. self-start prevents the grid from stretching the
+              sidebar to match the main column's height. ── */}
+          <div className="space-y-6 lg:self-start lg:sticky lg:top-24">
 
             {/* Pricing sidebar card */}
             {data.price && (
