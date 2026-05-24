@@ -4,8 +4,11 @@
  * Refreshes hero images on blog posts in Sanity. Runs on Vercel where
  * SANITY_API_TOKEN already lives — no need to pull the token locally.
  *
- * Auth: bearer using SANITY_REVALIDATE_SECRET (already configured for
- * the Sanity webhook). Reusing it avoids adding a new env var.
+ * Auth: bearer using BLOG_REFRESH_SECRET (a value YOU pick and add to
+ * Vercel's env vars). We use a dedicated secret instead of reusing
+ * SANITY_REVALIDATE_SECRET because Vercel's "Sensitive" flag makes
+ * existing secrets unreadable — so a new env var you control is the
+ * only way to know the value.
  *
  * Body (all optional):
  *   {
@@ -26,7 +29,7 @@
  * Typical usage from a laptop (paginated to stay under the function
  * timeout — each call processes 5 posts in ~10-15 seconds):
  *
- *   SECRET="$SANITY_REVALIDATE_SECRET"
+ *   SECRET="$BLOG_REFRESH_SECRET"   # value you set in Vercel env
  *   URL="https://www.carcheckervin.com/api/admin/refresh-blog-images"
  *
  *   # Dry-run audit (single batch)
@@ -58,10 +61,14 @@ export const maxDuration = 300;
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  const expected = process.env.SANITY_REVALIDATE_SECRET;
+  const expected = process.env.BLOG_REFRESH_SECRET;
   if (!expected) {
     return NextResponse.json(
-      { error: "Server misconfigured: SANITY_REVALIDATE_SECRET not set" },
+      {
+        error:
+          "Server misconfigured: BLOG_REFRESH_SECRET env var not set. " +
+          "Add it in Vercel Project Settings → Environment Variables, then redeploy.",
+      },
       { status: 500 }
     );
   }
