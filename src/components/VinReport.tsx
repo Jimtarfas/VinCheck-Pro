@@ -592,7 +592,10 @@ export default function VinReport({ data }: { data: VinData }) {
       {/* ══════════════════════════════════════════════════════
           BODY — Two-column layout
       ══════════════════════════════════════════════════════ */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full overflow-hidden">
+      {/* overflow-x-clip (not overflow-hidden) so position:sticky on the
+          sidebar works — `overflow:hidden` makes an ancestor a scroll
+          container and pins sticky elements inside it. */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full overflow-x-clip">
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
 
           {/* ── LEFT / MAIN COLUMN (2/3) ── */}
@@ -807,8 +810,13 @@ export default function VinReport({ data }: { data: VinData }) {
             </div>
           </div>
 
-          {/* ── RIGHT SIDEBAR (1/3) — scrolls naturally with the page ── */}
-          <div className="space-y-6 lg:self-start">
+          {/* ── RIGHT SIDEBAR (1/3) — sticky on lg+; when the sidebar
+              content (Market Analysis + Report Summary + AI cards) is
+              taller than the viewport it scrolls inside itself so the
+              user keeps the whole sidebar visible while reading the
+              main column. self-start prevents the grid from stretching
+              the sidebar to match the main column's height. ── */}
+          <div className="space-y-6 lg:self-start lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1 [scrollbar-gutter:stable]">
 
             {/* Pricing sidebar card */}
             {data.price && (
