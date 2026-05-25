@@ -72,16 +72,31 @@ export default function FAQSection() {
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   className="w-full flex items-center justify-between p-4 sm:p-6 text-left cursor-pointer"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${index}`}
                 >
-                  <span className={`font-headline font-bold text-base sm:text-lg pr-3 sm:pr-4 ${isOpen ? "text-primary" : "text-on-surface"}`}>
+                  {/*
+                    h3 (not span) so each question is a real heading in the
+                    DOM — feeds Google's passage-level indexing and helps
+                    AI Overviews extract Q&A pairs cleanly. The `faq-question`
+                    class anchors the SpeakableSpecification declared in
+                    src/app/page.tsx for voice / AI audio surfaces.
+                  */}
+                  <h3
+                    className={`faq-question font-headline font-bold text-base sm:text-lg pr-3 sm:pr-4 m-0 ${isOpen ? "text-primary" : "text-on-surface"}`}
+                  >
                     {faq.question}
-                  </span>
+                  </h3>
                   <ChevronDown
                     className={`w-5 h-5 flex-shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : "text-outline"}`}
                   />
                 </button>
-                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
-                  <p className="px-4 sm:px-6 pb-4 sm:pb-6 text-sm sm:text-base text-on-surface-variant leading-relaxed">
+                <div
+                  id={`faq-answer-${index}`}
+                  role="region"
+                  className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+                >
+                  <p className="faq-answer px-4 sm:px-6 pb-4 sm:pb-6 text-sm sm:text-base text-on-surface-variant leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>

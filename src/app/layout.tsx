@@ -46,17 +46,20 @@ export const metadata: Metadata = {
   },
   description:
     "Free VIN check and decoder. Get instant vehicle history reports with full specs, real photos, recalls, market values, and ownership data.",
+  // Kept short and unique. Google has ignored meta-keywords since 2009 and
+  // long stuffed lists are a quality-signal liability with Bing/Yandex.
+  // Princeton GEO research (2024) shows keyword stuffing REDUCES AI-search
+  // citation rate by ~10%. We keep only the core intent buckets — branded,
+  // primary action, and category descriptor. Long-tail variations live in
+  // the description, headings, and body copy where they actually count.
   keywords: [
-    "VIN check", "VIN checker", "VIN decoder", "free VIN check", "VIN lookup",
-    "VIN number check", "check VIN", "vehicle history report", "car history check",
-    "VIN number lookup", "decode VIN", "vehicle report", "car VIN check",
-    "free VIN decoder", "NMVTIS", "vehicle identification number",
-    "used car VIN check", "VIN search", "car checker",
-    // Review-intent keywords — funnel to reviews.carcheckervin.com.
-    "CarCheckerVIN reviews", "VIN check reviews", "VIN checker reviews",
-    "vehicle history report reviews", "free VIN check reviews",
-    "is CarCheckerVIN legit", "VIN decoder reviews", "best VIN check service",
-    "trusted VIN checker", "Carfax alternative reviews",
+    "VIN check",
+    "VIN decoder",
+    "vehicle history report",
+    "free VIN check",
+    "NMVTIS",
+    "CarCheckerVIN",
+    "Carfax alternative",
   ],
   authors: [{ name: "CarCheckerVIN" }],
   creator: "CarCheckerVIN",
@@ -141,20 +144,53 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     inLanguage: "en-US",
   };
 
+  // NOTE: Google's review-snippet policy lists the supported parent types as
+  // Book, Course, Event, HowTo, LocalBusiness, MediaObject, Movie, Product,
+  // Recipe, SoftwareApplication. `Service` is NOT on that list, so an
+  // aggregateRating attached here can trigger a "Misleading structured data"
+  // manual action. The Product schema on the homepage carries the rating in
+  // a policy-compliant location instead.
+  //
+  // Promotional language ("Limited-Time Free", "Sale", percentage off, etc.)
+  // is also explicitly disallowed inside structured-data `name` fields per
+  // Google's Offer guidelines — the price field ("0") already communicates
+  // free, and a customer-facing promo string belongs in the description.
+  // ── Service = the headline offering ──────────────────────────────────────
+  // CarCheckerVIN is fundamentally a vehicle history reporting SERVICE; the
+  // SoftwareApplication below is just the tool that delivers it. We elevate
+  // Service in three ways:
+  //   1. Inject this script BEFORE webAppLd (Google reads top-down).
+  //   2. Reference the deliverable Product (#vehicle-history-report) so the
+  //      Service is concretely tied to what users actually receive.
+  //   3. Use `category` to give the entity a clean industry label that maps
+  //      to Google's business taxonomy.
   const serviceLd = {
     "@context": "https://schema.org",
     "@type": "Service",
     "@id": `${SITE}#service`,
+    // Keep "VIN Check" in the name — it's the dominant search query users
+    // actually type. Dropping it for the cleaner-sounding "Vehicle History
+    // Report Service" would lose direct keyword anchoring in the entity
+    // graph. @type already says "Service", so the word doesn't need to live
+    // in the name field.
     name: "VIN Check & Vehicle History Report",
     serviceType: "Vehicle History Report",
+    category: "Automotive Information Service",
     provider: { "@id": `${SITE}#organization` },
+    isPartOf: { "@id": `${SITE}#website` },
     areaServed: { "@type": "Country", name: "United States" },
-    description: "Instant VIN decoding and comprehensive vehicle history reports including title checks, accident history, theft records, odometer verification, and market value.",
-    offers: [
-      { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", description: "Year, make, model, engine, transmission and basic specs", availability: "https://schema.org/InStock" },
-      { "@type": "Offer", name: "Premium Vehicle History Report (Limited-Time Free)", price: "0", priceCurrency: "USD", description: "Full report with photos, equipment, recalls, market value and ownership history — currently free for a limited time.", availability: "https://schema.org/InStock" },
-    ],
-    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000", bestRating: "5", worstRating: "1" },
+    description: "Vehicle history reporting service: instant VIN decoding plus comprehensive history reports including title checks, accident history, theft records, odometer verification, recalls, and market value.",
+    // The Service produces this concrete deliverable — the report customers
+    // actually receive. Defined in src/app/page.tsx as a Product entity.
+    // `itemOffered` resolves through the cross-file @id reference.
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "CarCheckerVIN Report Plans",
+      itemListElement: [
+        { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", description: "Year, make, model, engine, transmission and basic specs.", availability: "https://schema.org/InStock", itemOffered: { "@id": `${SITE}/#vehicle-history-report` } },
+        { "@type": "Offer", name: "Premium Vehicle History Report", price: "0", priceCurrency: "USD", description: "Full report with photos, equipment, recalls, market value and ownership history. Free during the current launch promotion.", availability: "https://schema.org/InStock", itemOffered: { "@id": `${SITE}/#vehicle-history-report` } },
+      ],
+    },
   };
 
   // Declares the canonical primary navigation to Google. Order, hrefs, and
@@ -178,17 +214,48 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     ],
   };
 
+  // Use `SoftwareApplication` (Google-supported for review snippets) rather
+  // than `WebApplication` (a subtype that is NOT on the rich-results allowed
+  // list). The aggregateRating that lives here is backed by testimonials
+  // rendered in the <Reviews /> component on the homepage, which keeps us
+  // compliant with Google's "ratings must be visible on the page" rule.
+  // SoftwareApplication describes the *tool* (the VIN lookup platform), NOT
+  // the primary thing customers buy. The primary offering is the Service
+  // (#service) — the vehicle history report itself. We strip the
+  // aggregateRating from here for two reasons:
+  //   1. Users don't rate "the software"; they rate the reports it produces.
+  //      Keeping the rating only on Product (#vehicle-history-report) makes
+  //      that semantically honest.
+  //   2. Putting reviewCount: 50000 on both SoftwareApplication AND Product
+  //      reads as a duplicated rating signal, which Google's documentation
+  //      warns against ("don't repeat the same rating across multiple types").
+  //
+  // The name + description here are deliberately phrased as "platform / tool",
+  // so Google's Knowledge Graph understands SoftwareApplication as the
+  // delivery mechanism rather than the product. The free Offer remains to
+  // signal the platform itself is free to use.
   const webAppLd = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "VINCheck Pro",
-    description: "Instant VIN decoder and vehicle history reports.",
+    "@type": "SoftwareApplication",
+    "@id": `${SITE}#software`,
+    // Distinct from the Organization name on purpose. The Organization (the
+    // company) and the SoftwareApplication (the platform that powers the
+    // company's service) are genuinely different entities, and Google's
+    // entity disambiguation works more reliably when name+type both differ.
+    // Brand consolidation is handled by the explicit `publisher` @id ref
+    // below — not by name collision.
+    name: "CarCheckerVIN VIN Lookup Platform",
+    description: "Online platform used to generate and deliver CarCheckerVIN vehicle history reports. The platform decodes any 17-character VIN and renders the corresponding report on the web.",
     url: SITE,
     applicationCategory: "UtilityApplication",
     operatingSystem: "Web",
     browserRequirements: "Requires JavaScript",
+    publisher: { "@id": `${SITE}#organization` },
+    isPartOf: { "@id": `${SITE}#website` },
+    // Functional link: this software is the implementation of the Service.
+    // Helps Google recognise "the platform is how the service is delivered."
+    additionalType: "https://schema.org/WebApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000" },
   };
 
   return (
