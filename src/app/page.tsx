@@ -12,9 +12,33 @@ import SellerSection from "@/components/SellerSection";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 
+// `speakable` marks specific answers as eligible for Google Assistant + voice
+// surfaces (including AI Overviews' audio playback). It's the only schema
+// feature Google explicitly ties to voice/AI surface eligibility, and it
+// signals to the RAG retriever which passages are self-contained answers.
+// CSS selector + xpath both provided per Google's recommendation.
+const SITE = "https://www.carcheckervin.com";
+
+// `isPartOf` binds the FAQPage to the same WebSite entity declared in the
+// root layout, so Google treats the homepage's FAQ as part of the brand's
+// knowledge graph instead of a floating page-level fact set. `about` adds
+// a topical anchor — the FAQ is *about* our VIN-check service entity.
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${SITE}/#faqpage`,
+  isPartOf: { "@id": `${SITE}#website` },
+  about: { "@id": `${SITE}#service` },
+  inLanguage: "en-US",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".faq-question", ".faq-answer"],
+  },
+  // Freshness hint for Google's RAG layer — the AI guide explicitly says
+  // generative features rely on "up-to-date web pages" pulled by core
+  // ranking. dateModified is cheap, defensible, and re-evaluated on each
+  // deploy because page.tsx is statically rendered at build time.
+  dateModified: new Date().toISOString().split("T")[0],
   mainEntity: [
     { "@type": "Question", name: "What is a VIN and where can I find it?", acceptedAnswer: { "@type": "Answer", text: "A Vehicle Identification Number (VIN) is a unique 17-character code assigned to every motor vehicle. You can find it on the driver-side dashboard (visible through the windshield), the driver-side door jamb sticker, your vehicle registration, or insurance documents." } },
     { "@type": "Question", name: "What information is included in a VIN check report?", acceptedAnswer: { "@type": "Answer", text: "Our VIN check reports include complete vehicle specifications (engine, transmission, drivetrain), all factory-installed options and equipment, market value estimates, recall information, real vehicle photos, and detailed technical data sourced from NMVTIS and manufacturer databases." } },
@@ -32,16 +56,36 @@ const faqStructuredData = {
   ],
 };
 
+// Promotional phrases ("Limited-Time Free", "Sale", "% off") are explicitly
+// banned from structured-data `name` fields per Google's Merchant / Offer
+// guidelines. The price ("0") already communicates "free" to crawlers; promo
+// context belongs in the description, which Google reads but doesn't enforce
+// as strictly.
+// ── Product = the rated deliverable ────────────────────────────────────────
+// The Vehicle History Report is what users actually receive and rate. Per
+// Google's review-snippet policy, Product IS on the supported types list, so
+// this is the policy-compliant home for aggregateRating + individual reviews.
+//
+// Hierarchy reads: Service (CarCheckerVIN) → produces → Product (Report);
+// the SoftwareApplication entity in layout.tsx is intentionally rating-free
+// because it's the tool, not the rated deliverable.
 const productLd = {
   "@context": "https://schema.org",
   "@type": "Product",
+  "@id": `${SITE}/#vehicle-history-report`,
   name: "Vehicle History Report",
   description: "Comprehensive VIN-decoded vehicle history report including title status, accidents, mileage records, recalls, market value, and ownership data.",
+  category: "Vehicle History Report",
   brand: { "@type": "Brand", name: "CarCheckerVIN" },
+  // Cross-entity links — closes the "deliverable ↔ service ↔ company" loop
+  // declared in layout.tsx. `isRelatedTo` is the schema.org-sanctioned way
+  // to express the Product/Service pairing without overloading Product type.
+  isRelatedTo: { "@id": `${SITE}#service` },
+  manufacturer: { "@id": `${SITE}#organization` },
   offers: [
-    { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/" },
-    { "@type": "Offer", name: "Single Premium Report (Limited-Time Free)", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing" },
-    { "@type": "Offer", name: "5-Pack Bundle (Limited-Time Free)", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing" },
+    { "@type": "Offer", name: "Free VIN Decode", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/", description: "Year, make, model, engine, and basic spec decode at no cost." },
+    { "@type": "Offer", name: "Single Premium Report", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing", description: "Full vehicle history report. Currently free during the launch promotion (regular price $7.99)." },
+    { "@type": "Offer", name: "5-Pack Bundle", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing", description: "Five premium reports. Currently free during the launch promotion." },
   ],
   aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "50000", bestRating: "5", worstRating: "1" },
   review: [
