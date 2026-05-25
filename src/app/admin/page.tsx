@@ -1,5 +1,6 @@
 import { createAdminClient, getAdminEmails } from "@/lib/supabase/admin";
-import { Users, Search, TrendingUp, Calendar, Download } from "lucide-react";
+import { Users, Search, TrendingUp, Calendar, Download, Smartphone, Monitor, Tablet, HelpCircle } from "lucide-react";
+import { tallyDevices, type DeviceBreakdown } from "@/lib/device-detect";
 
 export const dynamic = "force-dynamic";
 
@@ -28,8 +29,9 @@ async function getStats() {
       { data: downloadsTodayRows },
     ] = await Promise.all([
       admin.auth.admin.listUsers({ perPage: 1000 }),
-      // Pull only the columns we need; we'll dedupe + admin-filter in JS
-      admin.from("vin_lookups").select("vin, make, model, year, user_email, created_at"),
+      // Pull only the columns we need; we'll dedupe + admin-filter in JS.
+      // user_agent feeds the device-breakdown card below.
+      admin.from("vin_lookups").select("vin, make, model, year, user_email, user_agent, created_at"),
       admin.from("vin_lookups").select("vin, user_email, created_at").gte("created_at", startOfDay),
       admin.from("vin_lookups").select("vin, user_email, created_at").gte("created_at", weekAgo),
       admin.from("report_downloads").select("vin, user_email, created_at"),
@@ -71,6 +73,13 @@ async function getStats() {
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
       .slice(0, 10) as RecentLookup[];
 
+    // Device breakdown — counts every lookup (not deduped by VIN), because
+    // the same VIN re-viewed from desktop AND phone is still useful signal
+    // about what hardware our audience is using. Admin rows already filtered.
+    const devices = tallyDevices(
+      (lookupsPublic as Array<{ user_agent: string | null }>).map((r) => r.user_agent)
+    );
+
     return {
       totalUsers: realUsers.length,
       newUsersWeek: realUsers.filter(
@@ -82,6 +91,7 @@ async function getStats() {
       downloadsTotal: downloadsPublic.length,
       downloadsToday: downloadsTodayPublic.length,
       recentLookups,
+      devices,
       error: null as string | null,
     };
   } catch (e) {
@@ -94,6 +104,7 @@ async function getStats() {
       downloadsTotal: 0,
       downloadsToday: 0,
       recentLookups: [] as RecentLookup[],
+      devices: { mobile: 0, tablet: 0, desktop: 0, unknown: 0, total: 0 } as DeviceBreakdown,
       error: e instanceof Error ? e.message : "Unknown error",
     };
   }
@@ -147,6 +158,8 @@ export default async function AdminOverviewPage() {
         ))}
       </div>
 
+      <DeviceBreakdownCard devices={stats.devices} />
+
       <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100">
           <h2 className="text-sm font-bold text-slate-900">Recent New VINs</h2>
@@ -182,5 +195,70 @@ export default async function AdminOverviewPage() {
         )}
       </section>
     </div>
+  );
+}
+
+/* ── Device breakdown card ─────────────────────────────────────────
+   Counts every lookup row (not unique-by-VIN), since the same VIN
+   re-viewed on phone AND desktop is genuine multi-device traffic
+   we want reflected here. "Unknown" appears only if a UA was missing
+   (very old rows, before tracking captured user_agent) — hidden when
+   the bucket is empty to keep the chart clean.
+─────────────────────────────────────────────────────────────────── */
+function DeviceBreakdownCard({ devices }: { devices: DeviceBreakdown }) {
+  const rows = [
+    { key: "mobile",  label: "Mobile",  icon: Smartphone, count: devices.mobile,  bar: "bg-blue-500"   },
+    { key: "desktop", label: "Desktop", icon: Monitor,    count: devices.desktop, bar: "bg-emerald-500"},
+    { key: "tablet",  label: "Tablet",  icon: Tablet,     count: devices.tablet,  bar: "bg-violet-500" },
+    { key: "unknown", label: "Unknown", icon: HelpCircle, count: devices.unknown, bar: "bg-slate-400"  },
+  ].filter((r) => r.key !== "unknown" || r.count > 0);
+
+  const total = devices.total;
+  const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
+
+  return (
+    <section className="bg-white rounded-xl border border-slate-200 p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h2 className="text-sm font-bold text-slate-900">Device Breakdown</h2>
+          <p className="text-xs text-slate-700 mt-0.5">
+            What devices visitors use ({total.toLocaleString()} total lookups)
+          </p>
+        </div>
+        <Smartphone className="w-5 h-5 text-slate-400" />
+      </div>
+
+      {total === 0 ? (
+        <p className="text-sm text-slate-700 py-4 text-center">
+          No device data yet — visit a VIN report to populate.
+        </p>
+      ) : (
+        <div className="space-y-3">
+          {rows.map((r) => {
+            const p = pct(r.count);
+            return (
+              <div key={r.key}>
+                <div className="flex items-center justify-between text-sm mb-1">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <r.icon className="w-4 h-4" />
+                    <span className="font-medium">{r.label}</span>
+                  </div>
+                  <div className="text-slate-600 tabular-nums">
+                    {r.count.toLocaleString()}{" "}
+                    <span className="text-slate-500">({p}%)</span>
+                  </div>
+                </div>
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full ${r.bar} transition-all`}
+                    style={{ width: `${p}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
   );
 }
