@@ -1,6 +1,7 @@
 import { createAdminClient, getAdminEmails } from "@/lib/supabase/admin";
 import { Users, Search, TrendingUp, Calendar, Download, Smartphone, Monitor, Tablet, HelpCircle } from "lucide-react";
 import { tallyDevices, type DeviceBreakdown } from "@/lib/device-detect";
+import AutoRefresh from "./_components/AutoRefresh";
 
 export const dynamic = "force-dynamic";
 
@@ -142,8 +143,13 @@ export default async function AdminOverviewPage() {
 
   return (
     <div className="space-y-6">
+      {/* Auto-refreshes the whole overview (stat cards, device breakdown,
+          recent lookups) every 30s so new traffic appears live. Pauses
+          while the tab is hidden. */}
+      <AutoRefresh intervalMs={30_000} />
       <p className="text-xs text-slate-500">
         Admin emails are excluded from all stats. Each VIN counted once.
+        <span className="ml-1 text-slate-400">Updates every 30s.</span>
       </p>
 
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
