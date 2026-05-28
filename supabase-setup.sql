@@ -205,3 +205,42 @@ alter table public.chat_conversations
 create index if not exists chat_conversations_last_visitor_seen_idx
   on public.chat_conversations (last_visitor_seen_at desc);
 
+
+-- ============================================================
+-- v4 schema additions — saved VIN reports
+-- ============================================================
+-- Persists the full decode payload per user+VIN so reports survive
+-- the browser cache and follow the user across devices. One row per
+-- (user, VIN) — re-pulling the same VIN updates the snapshot in place.
+create table if not exists public.vin_reports (
+  id          uuid primary key default gen_random_uuid(),
+  user_id     uuid not null references auth.users(id) on delete cascade,
+  vin         text not null,
+  make        text,
+  model       text,
+  year        integer,
+  report_data jsonb not null,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now(),
+  unique (user_id, vin)
+);
+
+create index if not exists vin_reports_user_updated_idx
+  on public.vin_reports (user_id, updated_at desc);
+
+alter table public.vin_reports enable row level security;
+
+-- Reads + deletes by the owning user (their own data). Inserts/updates
+-- flow through the service-role admin client, which bypasses RLS.
+drop policy if exists "users read own reports" on public.vin_reports;
+create policy "users read own reports"
+  on public.vin_reports for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+drop policy if exists "users delete own reports" on public.vin_reports;
+create policy "users delete own reports"
+  on public.vin_reports for delete
+  to authenticated
+  using (auth.uid() = user_id);
+

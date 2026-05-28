@@ -4,7 +4,7 @@ import { decodeVin } from "@/lib/api";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
 import ReportGate from "@/components/ReportGate";
-import { trackVinLookup } from "@/lib/tracking";
+import { trackVinLookup, saveVinReport } from "@/lib/tracking";
 
 interface Props {
   params: Promise<{ vin: string }>;
@@ -81,6 +81,18 @@ export default async function ReportPage({ params }: Props) {
     make: data.make?.name ?? null,
     model: data.model?.name ?? null,
     year: data.years?.[0]?.year ?? null,
+  });
+
+  // Persist the full decode payload to vin_reports. ReportGate ensures
+  // the user is signed in before they see the report, so the upsert lands
+  // under their user_id and the report becomes reachable from /dashboard
+  // and any other device they're signed into. No-op for unauthed.
+  await saveVinReport({
+    vin: cleaned,
+    make: data.make?.name ?? null,
+    model: data.model?.name ?? null,
+    year: data.years?.[0]?.year ?? null,
+    reportData: data,
   });
 
   const jsonLd = {

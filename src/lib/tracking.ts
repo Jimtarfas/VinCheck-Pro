@@ -52,3 +52,54 @@ export async function trackVinLookup({ vin, make, model, year }: TrackVinLookupP
     // Silent fail — tracking must never break user experience
   }
 }
+
+interface SaveVinReportParams {
+  vin: string;
+  make?: string | null;
+  model?: string | null;
+  year?: number | null;
+  reportData: unknown;
+}
+
+/**
+ * Persists the full decode payload to vin_reports, keyed by (user_id, vin).
+ * Re-pulling the same VIN updates the existing row in place.
+ *
+ * No-op for unauthed requests — the report page is gated behind ReportGate,
+ * so in practice this only runs for signed-in users.
+ *
+ * Best-effort: never throws — a failed save should not break the report page.
+ */
+export async function saveVinReport({
+  vin,
+  make,
+  model,
+  year,
+  reportData,
+}: SaveVinReportParams) {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const admin = createAdminClient();
+    await admin
+      .from("vin_reports")
+      .upsert(
+        {
+          user_id: user.id,
+          vin,
+          make: make ?? null,
+          model: model ?? null,
+          year: year ?? null,
+          report_data: reportData,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "user_id,vin" },
+      );
+  } catch {
+    // Silent fail
+  }
+}
