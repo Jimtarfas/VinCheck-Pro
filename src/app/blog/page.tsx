@@ -77,6 +77,20 @@ export default async function BlogIndexPage() {
               Expert guides on used car buying, vehicle history, title brands, fraud prevention,
               and VIN decoding. Backed by NMVTIS and NICB data sources.
             </p>
+            <div className="mt-5 flex flex-wrap gap-3 text-sm">
+              <Link
+                href="/blog/category"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 text-slate-800 font-semibold hover:bg-primary-50 hover:text-primary-700 transition-colors"
+              >
+                Browse by category
+              </Link>
+              <Link
+                href="/blog/feed.xml"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 text-slate-700 font-semibold hover:border-primary-300 hover:text-primary-700 transition-colors"
+              >
+                RSS feed
+              </Link>
+            </div>
           </div>
 
           {posts.length === 0 ? (

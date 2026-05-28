@@ -9,6 +9,10 @@ const checkLinks = [
   { href: "/accident-history-check", label: "Accident History" },
   { href: "/odometer-check",         label: "Odometer Check" },
   { href: "/lemon-check",            label: "Lemon Check" },
+  { href: "/airbag-check",           label: "Airbag Check" },
+  { href: "/hail-damage-check",      label: "Hail Damage Check" },
+  { href: "/impound-check",          label: "Impound Check" },
+  { href: "/dealer-check",           label: "Dealer Check" },
 ];
 
 const moreChecksCol1 = [
@@ -37,6 +41,12 @@ const moreChecksCol2 = [
   { href: "/motorcycle-vin-check",              label: "Motorcycle VIN Check" },
   { href: "/rv-vin-check",                      label: "RV VIN Check" },
   { href: "/flood-check",                       label: "Flood Check" },
+  { href: "/paint-code-lookup",                 label: "Paint Code Lookup" },
+  { href: "/classic-car-vin",                   label: "Classic Car VIN" },
+  { href: "/jdm-import-check",                  label: "JDM Import Check" },
+  { href: "/fleet-check",                       label: "Fleet Check" },
+  { href: "/rental-car-check",                  label: "Rental Car Check" },
+  { href: "/rideshare-check",                   label: "Rideshare Check" },
 ];
 
 const marketplaceLinks = [
@@ -65,6 +75,8 @@ const companyLinks = [
   { href: "/dealers",   label: "For Dealers" },
   { href: "/help",      label: "Help Center" },
   { href: "/trust",     label: "Trust & Security" },
+  { href: "/research",  label: "Research" },
+  { href: "/changelog", label: "Changelog" },
   { href: "/#pricing",  label: "Pricing" },
   { href: "/login",     label: "Log In" },
   { href: "/signup",    label: "Sign Up" },
