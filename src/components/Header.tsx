@@ -113,8 +113,8 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
         hidden ? "-translate-y-full" : "translate-y-0"
       } ${
         scrolled
-          ? "bg-white/95 shadow-md shadow-primary/5 border-b border-outline-variant/30"
-          : "bg-white/80 border-b border-outline-variant/10"
+          ? "bg-white shadow-md shadow-primary/5 border-b border-outline-variant/30"
+          : "bg-white border-b border-outline-variant/10"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
