@@ -659,10 +659,10 @@ export default function LemonCheckPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }}
       />
 
-      <article className="pt-10 pb-16 bg-surface">
+      <article className="pb-16 bg-surface">
         {/* ── Hero ────────────────────────────────────────────── */}
         <div className="bg-primary text-white">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
             <Breadcrumbs
               items={[
                 { label: "Home", href: "/" },
