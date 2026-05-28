@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdminEmail } from "@/lib/supabase/admin";
+import AutoRefresh from "../_components/AutoRefresh";
 
 export const dynamic = "force-dynamic";
 
@@ -347,11 +348,15 @@ export default async function AdminSignupsPage({
 
   return (
     <div className="space-y-4">
+      {/* Auto-refreshes the server-rendered data every 30s so new signups
+          appear without a manual reload. Pauses while the tab is hidden. */}
+      <AutoRefresh intervalMs={30_000} />
       <div className="flex items-end justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-lg font-bold text-slate-900">Signup Sources</h2>
           <p className="text-sm text-slate-700">
-            Where users come from before they create an account.
+            Where users come from before they create an account.{" "}
+            <span className="text-slate-500">Updates every 30s.</span>
           </p>
         </div>
         <div className="text-xs text-slate-600">
