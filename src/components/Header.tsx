@@ -113,7 +113,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
         hidden ? "-translate-y-full" : "translate-y-0"
       } ${
         scrolled
-          ? "bg-white shadow-md shadow-primary/5 border-b border-outline-variant/30"
+          ? "bg-white/85 shadow-md shadow-primary/5 border-b border-outline-variant/30"
           : "bg-white border-b border-outline-variant/10"
       }`}
     >
