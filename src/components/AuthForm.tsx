@@ -16,6 +16,54 @@ function safeNext(raw: string | null): string {
   return raw;
 }
 
+/**
+ * Captures *where* a signup originated — the page the user was on, the
+ * external referrer that drove them there, and any UTM tags on the URL.
+ * Surfaces in the admin "Signups" panel so we can see which pages convert.
+ *
+ * Returns plain strings (no PII) clipped to sensible lengths so they fit
+ * comfortably in user_metadata.
+ */
+function captureSignupSource(nextPath: string) {
+  if (typeof window === "undefined") return {};
+  // Prefer the actual page the form is mounted on; if the user is sitting
+  // on /login or /signup, fall back to the `next` they're trying to reach,
+  // because that's the page that effectively triggered the auth gate.
+  const here = window.location.pathname;
+  const isAuthPage = here === "/login" || here === "/signup";
+  const path = (isAuthPage && nextPath !== "/" ? nextPath : here).slice(0, 200);
+
+  const params = new URLSearchParams(window.location.search);
+  const referrer = (document.referrer || "").slice(0, 300);
+
+  return {
+    signup_path: path,
+    signup_referrer: referrer || null,
+    signup_utm_source: params.get("utm_source")?.slice(0, 80) || null,
+    signup_utm_medium: params.get("utm_medium")?.slice(0, 80) || null,
+    signup_utm_campaign: params.get("utm_campaign")?.slice(0, 120) || null,
+    signup_captured_at: new Date().toISOString(),
+  };
+}
+
+/**
+ * Persist signup-source attribution for the OAuth flow. The user doesn't
+ * exist yet when they click "Continue with Google", so we stash the source
+ * in a short-lived cookie and merge it into user_metadata in /auth/callback.
+ */
+function stashSignupSourceCookie(nextPath: string) {
+  if (typeof document === "undefined") return;
+  const src = captureSignupSource(nextPath);
+  try {
+    const value = encodeURIComponent(JSON.stringify(src));
+    // 10-minute TTL — long enough for the Google round-trip, short enough
+    // that a stale cookie can't accidentally tag a future signup.
+    document.cookie = `cc_signup_src=${value}; Max-Age=600; Path=/; SameSite=Lax`;
+  } catch {
+    // Non-fatal.
+  }
+}
+
 export default function AuthForm({
   mode,
   next: nextProp,
@@ -63,6 +111,14 @@ export default function AuthForm({
           // lands back on the page they originally tried to view (e.g.
           // /report/{vin}) once they click confirm.
           emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+          // `data` lands in raw_user_meta_data (a.k.a. user_metadata) so
+          // the admin "Signups" panel can see which page each user came
+          // from. Captured client-side because referrer + path are only
+          // observable in the browser.
+          data: {
+            ...captureSignupSource(next),
+            signup_method: "email",
+          },
         },
       });
       if (error) {
@@ -105,6 +161,11 @@ export default function AuthForm({
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     setError("");
+    // Stash signup source in a short-lived cookie so /auth/callback can
+    // merge it into user_metadata after the OAuth round-trip completes.
+    // No-op for returning users — the callback only applies the cookie
+    // when the metadata is still empty (i.e. brand-new account).
+    stashSignupSourceCookie(next);
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",

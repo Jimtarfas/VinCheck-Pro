@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { isAdminEmail } from "@/lib/supabase/admin";
-import { LayoutDashboard, Users, Search, LogOut, Home, Mail, MessageCircle } from "lucide-react";
+import { LayoutDashboard, Users, Search, LogOut, Home, Mail, MessageCircle, Compass } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +15,7 @@ const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/chat", label: "Live Chat", icon: MessageCircle },
   { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin/signups", label: "Signup Sources", icon: Compass },
   { href: "/admin/lookups", label: "VIN Lookups", icon: Search },
   { href: "/admin/contact", label: "Contact Forms", icon: Mail },
 ];
