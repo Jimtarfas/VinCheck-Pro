@@ -210,14 +210,22 @@ export default async function BlogPostPage({ params }: Props) {
 
           {post.tags && post.tags.length > 0 && (
             <div className="mt-12 pt-6 border-t border-slate-200 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-2.5 py-1 bg-slate-100 text-slate-700 rounded-full"
-                >
-                  #{tag}
-                </span>
-              ))}
+              {post.tags.map((tag) => {
+                const tagSlug = tag
+                  .toLowerCase()
+                  .trim()
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/^-+|-+$/g, "");
+                return (
+                  <Link
+                    key={tag}
+                    href={`/blog/tag/${tagSlug}`}
+                    className="text-xs px-2.5 py-1 bg-slate-100 text-slate-700 rounded-full hover:bg-primary-50 hover:text-primary-700 transition-colors"
+                  >
+                    #{tag}
+                  </Link>
+                );
+              })}
             </div>
           )}
 

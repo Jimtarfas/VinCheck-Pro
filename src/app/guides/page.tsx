@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Hash, Search } from "lucide-react";
+import { BookOpen, Hash, Search, MapPin } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
+import { states } from "@/lib/states";
 
 export const metadata: Metadata = {
   title: "VIN Guides & Resources — Learn Everything About VIN Numbers",
@@ -98,6 +99,35 @@ export default function GuidesPage() {
                     {description}
                   </p>
                 </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
+              Buying a Used Car by State
+            </h2>
+          </div>
+          <p className="text-slate-700 leading-relaxed mb-6 max-w-2xl">
+            State-specific buying guides covering DMV title rules, lemon laws,
+            common title brands, and what to verify before purchase. Pick your
+            state below.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            {states.map((s) => (
+              <Link
+                key={s.slug}
+                href={`/guides/buying-used-car-in/${s.slug}`}
+                className="px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:border-primary-200 hover:text-primary-700 hover:bg-primary-50/30 transition-all"
+              >
+                {s.name}
               </Link>
             ))}
           </div>
