@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) {
-      // Guests already get localStorage history on the client.
+      // Report page is gated behind auth, so this branch shouldn't fire
+      // in practice — return 200 anyway so the beacon doesn't retry.
       return NextResponse.json({ ok: true, guest: true });
     }
 

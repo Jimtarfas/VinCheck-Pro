@@ -15,8 +15,9 @@ interface Body {
  * Records a PDF/report download for the currently signed-in user.
  *
  * Best-effort: never surfaces errors to the browser (analytics shouldn't
- * break the download UX). Guests are simply ignored — guest history lives
- * in localStorage via /src/lib/vinHistory.ts.
+ * break the download UX). Unauthed requests no-op — the report page is
+ * gated behind ReportGate, so downloads are always authenticated in
+ * practice.
  */
 export async function POST(req: NextRequest) {
   try {

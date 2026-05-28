@@ -10,7 +10,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
-import { addToHistory } from "@/lib/vinHistory";
 import VinSearchForm from "./VinSearchForm";
 import dynamic from "next/dynamic";
 
@@ -428,20 +427,12 @@ export default function VinReport({ data }: { data: VinData }) {
 
   const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
 
-  // Persist this visit into the per-browser history so the home page
-  // can show it back to the user (guest or logged-in).
+  // Client-side backstop for server-side tracking. The server component
+  // already calls trackVinLookup + saveVinReport, but this fetch covers
+  // the edge case where the serverless function froze before the inserts
+  // resolved, or where the user signed in mid-render via ReportGate.
   useEffect(() => {
     if (!data.vin) return;
-    addToHistory({
-      vin: data.vin,
-      label: fullName || data.vin,
-      photo: data.photos?.[0],
-      price: data.listing?.price,
-    });
-
-    // Client-side backstop for server-side tracking. If the user is signed
-    // in, this ensures the view lands in vin_lookups with their user_id so
-    // it shows in /dashboard. The API silently no-ops for guests.
     try {
       void fetch("/api/user/track-view", {
         method: "POST",
@@ -457,7 +448,7 @@ export default function VinReport({ data }: { data: VinData }) {
     } catch {
       /* ignore */
     }
-  }, [data.vin, fullName, data.photos, data.listing?.price, makeName, modelName, year]);
+  }, [data.vin, makeName, modelName, year]);
 
   const handleShare = useCallback(async () => {
     if (typeof window === "undefined") return;

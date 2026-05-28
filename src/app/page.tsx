@@ -1,6 +1,6 @@
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
-import VinHistorySection from "@/components/VinHistorySection";
+import RecentReportsSection from "@/components/RecentReportsSection";
 import HowItWorks from "@/components/HowItWorks";
 import ReportIncludedSection from "@/components/ReportIncludedSection";
 import FeaturesSection from "@/components/FeaturesSection";
@@ -116,7 +116,7 @@ export default function Home() {
 
       <HeroSection />
       <TrustBar />
-      <VinHistorySection />
+      <RecentReportsSection />
       <ReportIncludedSection />
       <HowItWorks />
       <FeaturesSection />
