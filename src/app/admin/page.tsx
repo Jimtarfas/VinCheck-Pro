@@ -13,6 +13,28 @@ interface RecentLookup {
   created_at: string;
 }
 
+// PostgREST defaults to a 1000-row cap on every `.select()`. Without paging,
+// the device breakdown (and any other "all-time" stat) froze at the count of
+// the first 1000 inserted rows — new lookups never entered the result, so
+// the card stopped updating once the table crossed 1k rows.
+//
+// `fetchAll` pages through .range() in 1000-row batches until exhausted.
+// Typed against the supabase-js filter builder loosely (`any`) so it works
+// for both `vin_lookups` and `report_downloads` selects in one helper.
+const PAGE_SIZE = 1000;
+type Pageable<T> = { range: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: unknown }> };
+async function fetchAll<T>(makeQuery: () => Pageable<T>): Promise<T[]> {
+  const out: T[] = [];
+  // Hard upper bound (~1M rows) is a safety stop, not a real ceiling.
+  for (let from = 0; from < 1_000_000; from += PAGE_SIZE) {
+    const { data, error } = await makeQuery().range(from, from + PAGE_SIZE - 1);
+    if (error || !data || data.length === 0) break;
+    out.push(...data);
+    if (data.length < PAGE_SIZE) break;
+  }
+  return out;
+}
+
 async function getStats() {
   try {
     const admin = createAdminClient();
@@ -23,20 +45,30 @@ async function getStats() {
 
     const [
       { data: usersList },
-      { data: lookupsAll },
-      { data: lookupsTodayRows },
-      { data: lookupsWeekRows },
-      { data: downloadsAll },
-      { data: downloadsTodayRows },
+      lookupsAll,
+      lookupsTodayRows,
+      lookupsWeekRows,
+      downloadsAll,
+      downloadsTodayRows,
     ] = await Promise.all([
       admin.auth.admin.listUsers({ perPage: 1000 }),
       // Pull only the columns we need; we'll dedupe + admin-filter in JS.
       // user_agent feeds the device-breakdown card below.
-      admin.from("vin_lookups").select("vin, make, model, year, user_email, user_agent, created_at"),
-      admin.from("vin_lookups").select("vin, user_email, created_at").gte("created_at", startOfDay),
-      admin.from("vin_lookups").select("vin, user_email, created_at").gte("created_at", weekAgo),
-      admin.from("report_downloads").select("vin, user_email, created_at"),
-      admin.from("report_downloads").select("vin, user_email, created_at").gte("created_at", startOfDay),
+      fetchAll<{ vin: string; make: string | null; model: string | null; year: number | null; user_email: string | null; user_agent: string | null; created_at: string }>(
+        () => admin.from("vin_lookups").select("vin, make, model, year, user_email, user_agent, created_at")
+      ),
+      fetchAll<{ vin: string; user_email: string | null; created_at: string }>(
+        () => admin.from("vin_lookups").select("vin, user_email, created_at").gte("created_at", startOfDay)
+      ),
+      fetchAll<{ vin: string; user_email: string | null; created_at: string }>(
+        () => admin.from("vin_lookups").select("vin, user_email, created_at").gte("created_at", weekAgo)
+      ),
+      fetchAll<{ vin: string; user_email: string | null; created_at: string }>(
+        () => admin.from("report_downloads").select("vin, user_email, created_at")
+      ),
+      fetchAll<{ vin: string; user_email: string | null; created_at: string }>(
+        () => admin.from("report_downloads").select("vin, user_email, created_at").gte("created_at", startOfDay)
+      ),
     ]);
 
     // ── filter out admin accounts everywhere ──
