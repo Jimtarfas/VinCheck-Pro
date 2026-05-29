@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { isAdminEmail } from "@/lib/supabase/admin";
-import { LayoutDashboard, Users, Search, LogOut, Home, Mail, MessageCircle, Compass } from "lucide-react";
+import { LogOut, ArrowUpRight, ShieldCheck } from "lucide-react";
+import AdminNav from "./_components/AdminNav";
 
 export const dynamic = "force-dynamic";
 
@@ -12,12 +13,12 @@ export const metadata = {
 };
 
 const navItems = [
-  { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/chat", label: "Live Chat", icon: MessageCircle },
-  { href: "/admin/users", label: "Users", icon: Users },
-  { href: "/admin/signups", label: "Signup Sources", icon: Compass },
-  { href: "/admin/lookups", label: "VIN Lookups", icon: Search },
-  { href: "/admin/contact", label: "Contact Forms", icon: Mail },
+  { href: "/admin", label: "Overview" },
+  { href: "/admin/chat", label: "Live Chat" },
+  { href: "/admin/users", label: "Users" },
+  { href: "/admin/signups", label: "Signup Sources" },
+  { href: "/admin/lookups", label: "VIN Lookups" },
+  { href: "/admin/contact", label: "Contact Forms" },
 ];
 
 export default async function AdminLayout({
@@ -40,53 +41,62 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-slate-50 pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Admin Panel</h1>
-            <p className="text-sm text-slate-700 mt-0.5">
-              Signed in as <span className="font-mono text-slate-700">{user.email}</span>
-            </p>
+      {/* Sticky admin header — brand on left, nav in middle, user controls on right.
+          Sits below the public site header (pt-16 above) so admin chrome doesn't
+          overlap the marketing nav when a session is active. */}
+      <header className="sticky top-16 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 gap-6">
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center justify-center w-7 h-7 rounded-md bg-slate-900 text-white">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <span className="text-sm font-semibold text-slate-900 tracking-tight">
+                Admin
+              </span>
+            </div>
+
+            <div className="flex-1 min-w-0 hidden sm:block">
+              <AdminNav items={navItems} />
+            </div>
+
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span
+                className="hidden md:inline-block text-xs font-mono text-slate-500 px-2 py-1 bg-slate-50 border border-slate-200 rounded-md max-w-[180px] truncate"
+                title={user.email ?? ""}
+              >
+                {user.email}
+              </span>
+              <Link
+                href="/"
+                className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition"
+              >
+                Site
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+              <form action="/auth/signout" method="post">
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-md transition"
+                  aria-label="Sign out"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Sign out</span>
+                </button>
+              </form>
+            </div>
           </div>
-          <Link
-            href="/"
-            className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-lg transition"
-          >
-            <Home className="w-4 h-4" />
-            Back to site
-          </Link>
-        </div>
 
-        <div className="flex flex-col md:flex-row gap-6">
-          <nav className="md:w-56 flex-shrink-0">
-            <ul className="flex md:flex-col gap-1 bg-white border border-slate-200 rounded-xl p-2">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition"
-                  >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-              <li className="border-t border-slate-100 mt-1 pt-1">
-                <form action="/auth/signout" method="post">
-                  <button
-                    type="submit"
-                    className="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Sign Out
-                  </button>
-                </form>
-              </li>
-            </ul>
-          </nav>
-
-          <main className="flex-1 min-w-0">{children}</main>
+          {/* Mobile nav row — surfaces nav below header on small screens
+              where the inline middle slot is hidden. */}
+          <div className="sm:hidden border-t border-slate-100">
+            <AdminNav items={navItems} />
+          </div>
         </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main>{children}</main>
       </div>
     </div>
   );
