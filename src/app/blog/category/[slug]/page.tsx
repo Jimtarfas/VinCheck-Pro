@@ -45,6 +45,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `https://www.carcheckervin.com/blog/category/${category.slug}`,
       type: "website",
     },
+    // Category archives are navigation, not destinations. See the matching
+    // comment on /blog/tag/[tag] — Google parks listing pages in
+    // "Crawled — currently not indexed" because they're just post-title
+    // lists. `follow: true` preserves link equity to the real posts.
+    robots: { index: false, follow: true },
   };
 }
 

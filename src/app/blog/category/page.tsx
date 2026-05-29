@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     url: "https://www.carcheckervin.com/blog/category",
     type: "website",
   },
+  // Category index is navigation — links out to per-category archives
+  // which are themselves noindex. Same rationale as /blog/tag/[tag].
+  robots: { index: false, follow: true },
 };
 
 const categoryColors: Record<string, string> = {

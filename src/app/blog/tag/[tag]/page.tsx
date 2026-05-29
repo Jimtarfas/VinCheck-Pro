@@ -68,6 +68,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `https://www.carcheckervin.com/blog/tag/${slugifyTag(resolved)}`,
       type: "website",
     },
+    // Tag archives are navigation, not destinations. Google was repeatedly
+    // putting them in "Crawled — currently not indexed" because they're just
+    // lists of post titles with no original content. Explicitly noindex so
+    // they transition into the cleaner "Excluded by noindex" bucket and
+    // stop competing with the actual articles for crawl budget.
+    // `follow: true` keeps link equity flowing to the real posts.
+    robots: { index: false, follow: true },
   };
 }
 
