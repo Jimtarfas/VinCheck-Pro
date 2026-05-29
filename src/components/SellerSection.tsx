@@ -53,7 +53,7 @@ export default function SellerSection() {
             Selling Your Vehicle?
           </h2>
           <p className="text-base sm:text-lg text-on-surface-variant mb-8 sm:mb-10">
-            A VINCheck Pro report helps you sell faster and at a better price. Give buyers the transparency they need to say yes with confidence.
+            A CarCheckerVIN report helps you sell faster and at a better price. Give buyers the transparency they need to say yes with confidence.
           </p>
 
           <div className="space-y-3 sm:space-y-4">

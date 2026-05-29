@@ -17,7 +17,7 @@ export default function CTASection() {
             Ready to discover<br />the truth?
           </h2>
           <p className="text-base sm:text-xl text-white/85 max-w-2xl mx-auto mb-8 sm:mb-12">
-            Don&apos;t leave your investment to chance. Join 50,000+ buyers who made smarter decisions with VINCheck Pro.
+            Don&apos;t leave your investment to chance. Join the buyers making smarter decisions with CarCheckerVIN.
           </p>
 
           <div className="flex flex-col items-center gap-5">
@@ -36,7 +36,7 @@ export default function CTASection() {
               </span>
               <span className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim" />
-                50,000+ Buyers Trust Us
+                Free During Launch
               </span>
             </div>
 
