@@ -3,14 +3,17 @@ import VinSearchForm from "./VinSearchForm";
 import VinLocatorHint from "./VinLocatorHint";
 
 const trustedSources = [
-  { id: "nmvtis",     src: "https://epicvin.com/img2/security/webp/nmvtis-logo@2x.webp",  alt: "NMVTIS",                  h: "h-5" },
-  { id: "niada",      src: "https://epicvin.com/img2/security/png/niada-logo.png",         alt: "NIADA",                   h: "h-4" },
-  { id: "blockchain", src: "https://epicvin.com/img2/security/svg/blockchain-icon.svg",    alt: "Blockchain Confirmed Data",h: "h-5" },
+  { id: "nmvtis",     src: "/badges/nmvtis.webp",     alt: "NMVTIS",              h: "h-5" },
+  { id: "niada",      src: "/badges/niada.png",       alt: "NIADA",               h: "h-4" },
+  { id: "blockchain", src: "/badges/blockchain.svg",  alt: "Blockchain verified", h: "h-5" },
 ];
 
+// Verifiable product/data facts. The previous "50K+ Trusted Buyers" and
+// "4.9 Avg Rating" claims were unsubstantiable for a 2025-founded site and
+// were removed alongside the inflated aggregateRating in the Product JSON-LD.
 const stats = [
-  { value: "50K+",   label: "Trusted Buyers" },
-  { value: "4.9",    label: "Avg Rating" },
+  { value: "100%",   label: "Free Right Now" },
+  { value: "NMVTIS", label: "Federal Data Source" },
   { value: "<60s",   label: "Report Speed" },
   { value: "40+",    label: "Data Points" },
 ];

@@ -1,6 +1,9 @@
+// Verifiable product facts. "50K+ Happy Customers" and "4.9 Average Rating"
+// were unsubstantiable for a 2025-founded site and were removed alongside the
+// inflated aggregateRating in the Product JSON-LD.
 const stats = [
-  { value: "50K+",   label: "Happy Customers" },
-  { value: "4.9",    label: "Average Rating" },
+  { value: "100%",   label: "Free Right Now" },
+  { value: "NMVTIS", label: "Federal Data Source" },
   { value: "<60s",   label: "Avg. Delivery Time" },
   { value: "24/7",   label: "Data Available" },
 ];

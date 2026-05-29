@@ -7,17 +7,17 @@ const sources = [
   {
     id: "nmvtis",
     // eslint-disable-next-line @next/next/no-img-element
-    logo: <img src="https://epicvin.com/img2/security/webp/nmvtis-logo@2x.webp" alt="NMVTIS" loading="lazy" decoding="async" className="h-6 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
+    logo: <img src="/badges/nmvtis.webp" alt="NMVTIS" loading="lazy" decoding="async" className="h-6 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
   },
   {
     id: "niada",
     // eslint-disable-next-line @next/next/no-img-element
-    logo: <img src="https://epicvin.com/img2/security/png/niada-logo.png" alt="NIADA" loading="lazy" decoding="async" className="h-5 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
+    logo: <img src="/badges/niada.png" alt="NIADA" loading="lazy" decoding="async" className="h-5 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
   },
   {
     id: "blockchain",
     // eslint-disable-next-line @next/next/no-img-element
-    logo: <img src="https://epicvin.com/img2/security/svg/blockchain-icon.svg" alt="Blockchain Confirmed Data" loading="lazy" decoding="async" className="h-6 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
+    logo: <img src="/badges/blockchain.svg" alt="Blockchain verified" loading="lazy" decoding="async" className="h-6 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
   },
   {
     id: "nicb",
