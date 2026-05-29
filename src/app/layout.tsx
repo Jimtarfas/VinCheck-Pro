@@ -319,6 +319,20 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             })(window, document, "clarity", "script", "${CLARITY_ID}");`}
           </Script>
         )}
+        {/*
+          Trustpilot Automatic Feedback Service (AFS).
+          The script bootstraps the `tp()` queue and registers our integration
+          key so server-side or post-purchase code can call
+          `tp('createInvitation', {...})` to trigger review-invite emails.
+          afterInteractive (not lazyOnload) so Trustpilot can pick up domain
+          verification crawls and any tp() calls fired right after checkout.
+        */}
+        <Script id="trustpilot-afs" strategy="afterInteractive">
+          {`(function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
+            a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
+            f.parentNode.insertBefore(a,f)})(window,document,'script','https://invitejs.trustpilot.com/tp.min.js','tp');
+            tp('register', 'AyhvdpNh2fuxwn0n');`}
+        </Script>
       </body>
     </html>
   );
