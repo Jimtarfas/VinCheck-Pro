@@ -40,11 +40,11 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-16">
+    <div className="min-h-screen bg-slate-50">
       {/* Sticky admin header — brand on left, nav in middle, user controls on right.
-          Sits below the public site header (pt-16 above) so admin chrome doesn't
-          overlap the marketing nav when a session is active. */}
-      <header className="sticky top-16 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
+          The public marketing Header is hidden on /admin/* (see Header.tsx) so
+          this is the only chrome at the top of the viewport. */}
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 gap-6">
             <div className="flex items-center gap-2 flex-shrink-0">

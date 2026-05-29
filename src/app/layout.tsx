@@ -3,7 +3,7 @@ import { Manrope, Inter, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import Script from "next/script";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import ConditionalFooter from "@/components/ConditionalFooter";
 import ChatWidgetMount from "@/components/ChatWidgetMount";
 import SocialProofMount from "@/components/SocialProofMount";
 import "./globals.css";
@@ -291,7 +291,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body className="min-h-full flex flex-col bg-surface text-on-surface">
         <Header logoHref={logoHref} />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <ConditionalFooter />
         <ChatWidgetMount />
         <SocialProofMount />
         {/*

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Menu, X, ChevronRight, User, LogOut, FileText } from "lucide-react";
 import Logo from "./Logo";
 import { createClient } from "@/lib/supabase/client";
@@ -28,6 +28,15 @@ const navLinks: { href: string; label: string; external?: boolean }[] = [
 // the user back to the reviews page on the same subdomain.
 export default function Header({ logoHref = "/" }: { logoHref?: string }) {
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Hide the public marketing header on the admin panel. /admin has its own
+  // sticky top-bar (see src/app/admin/layout.tsx) — showing the public nav
+  // on top of it makes the admin chrome look amateurish and wastes vertical
+  // space. Returning null after hooks is safe because every hook above this
+  // point still runs unconditionally on every render.
+  const isAdmin =
+    pathname === "/admin" || (pathname?.startsWith("/admin/") ?? false);
 
   const [mobileOpen, setMobileOpen]     = useState(false);
   const [scrolled, setScrolled]         = useState(false);
@@ -106,6 +115,8 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
     router.push("/");
     router.refresh();
   };
+
+  if (isAdmin) return null;
 
   return (
     <header
