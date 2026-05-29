@@ -88,7 +88,7 @@ export default function ComparisonSection() {
                       </div>
                       <div className="flex items-center justify-center gap-1.5 font-headline text-base sm:text-xl font-black">
                         <Trophy className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: "var(--color-secondary-container)" }} />
-                        CarCheckerVIN
+                        VINCheck Pro
                       </div>
                     </div>
                   </th>

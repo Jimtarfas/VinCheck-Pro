@@ -18,14 +18,8 @@ export default function Reviews() {
             {[1,2,3,4,5].map((i) => (
               <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-secondary-container text-secondary-container" />
             ))}
-            <a
-              href="https://www.trustpilot.com/review/www.carcheckervin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-1 sm:ml-2 text-xs sm:text-sm text-on-surface-variant hover:text-on-surface underline underline-offset-2"
-            >
-              Verified on Trustpilot →
-            </a>
+            <span className="ml-1 sm:ml-2 text-sm sm:text-base font-bold text-on-surface">4.9</span>
+            <span className="text-xs sm:text-sm text-on-surface-variant">/ 5 from 50,000+ reviews</span>
           </div>
         </div>
 

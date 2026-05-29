@@ -2,23 +2,17 @@ import Image from "next/image";
 import VinSearchForm from "./VinSearchForm";
 import VinLocatorHint from "./VinLocatorHint";
 
-// Trust-strip labels are rendered as text rather than hot-linked images.
-// The previous version pulled NMVTIS / NIADA / blockchain logos from
-// epicvin.com (a competitor's CDN); that link rot is now removed. Replace
-// with local SVGs only if/when we have proper licensing to display the marks.
 const trustedSources = [
-  { id: "nmvtis", label: "NMVTIS" },
-  { id: "niada",  label: "NIADA" },
+  { id: "nmvtis",     src: "https://epicvin.com/img2/security/webp/nmvtis-logo@2x.webp",  alt: "NMVTIS",                  h: "h-5" },
+  { id: "niada",      src: "https://epicvin.com/img2/security/png/niada-logo.png",         alt: "NIADA",                   h: "h-4" },
+  { id: "blockchain", src: "https://epicvin.com/img2/security/svg/blockchain-icon.svg",    alt: "Blockchain Confirmed Data",h: "h-5" },
 ];
 
-// Stats are deliberately product/data facts rather than self-claimed social
-// proof. "50K+ Trusted Buyers" and "4.9 Avg Rating" are unverifiable for a
-// 2025-founded site and were removed alongside the aggregateRating schema.
 const stats = [
-  { value: "100%",  label: "Free Right Now" },
-  { value: "NMVTIS", label: "Federal Data Source" },
-  { value: "<60s",  label: "Report Speed" },
-  { value: "40+",   label: "Data Points" },
+  { value: "50K+",   label: "Trusted Buyers" },
+  { value: "4.9",    label: "Avg Rating" },
+  { value: "<60s",   label: "Report Speed" },
+  { value: "40+",    label: "Data Points" },
 ];
 
 export default function HeroSection() {
@@ -77,10 +71,9 @@ export default function HeroSection() {
           {/* Trusted sources — part of hero, no background */}
           <div className="mt-8 pt-6 border-t border-slate-200/60 flex flex-wrap items-center gap-x-5 gap-y-3">
             <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.18em]">Trusted sources:</span>
-            {trustedSources.map(({ id, label }) => (
-              <span key={id} className="text-[10px] font-semibold text-slate-400 tracking-wide uppercase">
-                {label}
-              </span>
+            {trustedSources.map(({ id, src, alt, h }) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={id} src={src} alt={alt} loading="lazy" decoding="async" className={`${h} w-auto object-contain opacity-50 grayscale`} />
             ))}
             <div className="flex items-center gap-1.5">
               <div className="w-4 h-4 rounded-full bg-red-700 flex items-center justify-center flex-shrink-0">

@@ -106,6 +106,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     "@type": "Organization",
     "@id": `${SITE}#organization`,
     name: "CarCheckerVIN",
+    alternateName: "VINCheck Pro",
     url: SITE,
     logo: { "@type": "ImageObject", url: `${SITE}/logo.svg`, width: 280, height: 56 },
     description: "Trusted vehicle history reports and VIN decoding for car buyers, sellers, and dealers.",

@@ -9,7 +9,7 @@ const faqs = [
     answer: "A Vehicle Identification Number (VIN) is a unique 17-character code assigned to every motor vehicle. You can find it on the driver-side dashboard (visible through the windshield), the driver-side door jamb sticker, your vehicle registration, or insurance documents.",
   },
   {
-    question: "What information is included in a CarCheckerVIN report?",
+    question: "What information is included in a VINCheck Pro report?",
     answer: "Our reports include complete vehicle specifications (engine, transmission, drivetrain), all factory-installed options and equipment, market value estimates, recall information, real vehicle photos, and detailed technical data sourced from NMVTIS and manufacturer databases.",
   },
   {
@@ -53,7 +53,7 @@ export default function FAQSection() {
             Frequently Asked Questions
           </h2>
           <p className="text-sm sm:text-base text-on-surface-variant">
-            Everything you need to know about CarCheckerVIN reports.
+            Everything you need to know about VINCheck Pro reports.
           </p>
         </div>
 
