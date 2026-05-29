@@ -3,21 +3,25 @@
  * Sits below the hero, matches site bg-surface-container-low.
  */
 
+// Logos were previously hot-linked from epicvin.com (a competitor's CDN).
+// Until we have proper licensed local assets, we render text-only labels
+// for the trusted sources to avoid both the link-rot risk and the IP issue.
 const sources = [
   {
     id: "nmvtis",
-    // eslint-disable-next-line @next/next/no-img-element
-    logo: <img src="https://epicvin.com/img2/security/webp/nmvtis-logo@2x.webp" alt="NMVTIS" loading="lazy" decoding="async" className="h-6 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
+    logo: (
+      <span className="text-[11px] font-bold text-slate-500 tracking-wide uppercase">
+        NMVTIS
+      </span>
+    ),
   },
   {
     id: "niada",
-    // eslint-disable-next-line @next/next/no-img-element
-    logo: <img src="https://epicvin.com/img2/security/png/niada-logo.png" alt="NIADA" loading="lazy" decoding="async" className="h-5 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
-  },
-  {
-    id: "blockchain",
-    // eslint-disable-next-line @next/next/no-img-element
-    logo: <img src="https://epicvin.com/img2/security/svg/blockchain-icon.svg" alt="Blockchain Confirmed Data" loading="lazy" decoding="async" className="h-6 w-auto object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all" />,
+    logo: (
+      <span className="text-[11px] font-bold text-slate-500 tracking-wide uppercase">
+        NIADA
+      </span>
+    ),
   },
   {
     id: "nicb",
