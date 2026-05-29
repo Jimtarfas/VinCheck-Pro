@@ -287,6 +287,22 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(navLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppLd) }} />
+        {/*
+          Trustpilot Automatic Feedback Service (AFS) — raw inline <script>
+          tag, NOT next/script. Trustpilot's domain verifier does a plain
+          HTML fetch of the homepage and grep's for this snippet literally.
+          When emitted via <Script>, Next.js inlines the contents inside an
+          RSC streaming payload (self.__next_f.push(...)) which the verifier
+          cannot see, causing "We weren't able to verify your domain".
+          Putting it inside <head> via dangerouslySetInnerHTML emits it as a
+          flat <script>...</script> element that the verifier will find.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(a,f)})(window,document,'script','https://invitejs.trustpilot.com/tp.min.js','tp');tp('register', 'AyhvdpNh2fuxwn0n');",
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-on-surface">
         <Header logoHref={logoHref} />
@@ -319,20 +335,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             })(window, document, "clarity", "script", "${CLARITY_ID}");`}
           </Script>
         )}
-        {/*
-          Trustpilot Automatic Feedback Service (AFS).
-          The script bootstraps the `tp()` queue and registers our integration
-          key so server-side or post-purchase code can call
-          `tp('createInvitation', {...})` to trigger review-invite emails.
-          afterInteractive (not lazyOnload) so Trustpilot can pick up domain
-          verification crawls and any tp() calls fired right after checkout.
-        */}
-        <Script id="trustpilot-afs" strategy="afterInteractive">
-          {`(function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
-            a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
-            f.parentNode.insertBefore(a,f)})(window,document,'script','https://invitejs.trustpilot.com/tp.min.js','tp');
-            tp('register', 'AyhvdpNh2fuxwn0n');`}
-        </Script>
       </body>
     </html>
   );
