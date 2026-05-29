@@ -159,7 +159,19 @@ const faqSchema = {
  * AggregateRating schema. Trustpilot card above this grid carries the
  * verified third-party review for E-A-T.
  * ─────────────────────────────────────────────────────────────── */
-const testimonials = [
+const testimonials: Array<{ name: string; tag: string; rating: number; body: string; url?: string }> = [
+  // Real Trustpilot reviews — each has a `url` pointing to the verified
+  // source review. Verbatim body text (do not "clean up" grammar).
+  {
+    name: "Carmen Liam",  tag: "Verified Trustpilot review · United States",  rating: 5,
+    body: "the report was so good , the website smooth , i compared my report with the dealer report i got the same informations , everything was perfect",
+    url:  "https://www.trustpilot.com/reviews/6a12904f15413943cf4a044d",
+  },
+  {
+    name: "Adams Daniel Brook",  tag: "Verified Trustpilot review · United States",  rating: 5,
+    body: "i was looking for a used suv , when i found this website in google i checked the vin in their free tool, everything was good thank you",
+    url:  "https://www.trustpilot.com/reviews/6a120d8945c068e3a0ba004d",
+  },
   {
     name: "Sarah M.",      tag: "Used Car Buyer",    rating: 5,
     body: "CarCheckerVIN saved me from buying a car with hidden flood damage. The detailed report showed everything the dealer tried to hide. Worth every penny — and it was free!",
@@ -376,10 +388,22 @@ export default function ReviewsPage() {
                   <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-headline font-black flex-shrink-0 ${avatarColors[i % avatarColors.length]}`}>
                     {t.name[0]}
                   </div>
-                  <div>
-                    <p className="font-semibold text-on-surface text-sm">{t.name}</p>
-                    <p className="text-xs text-outline">{t.tag}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-on-surface text-sm truncate">{t.name}</p>
+                    <p className="text-xs text-outline truncate">{t.tag}</p>
                   </div>
+                  {t.url && (
+                    <a
+                      href={t.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Read ${t.name}'s review on Trustpilot`}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#00B67A] hover:underline whitespace-nowrap"
+                    >
+                      Trustpilot
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  )}
                 </div>
               </article>
             ))}
