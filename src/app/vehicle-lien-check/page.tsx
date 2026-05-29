@@ -95,11 +95,10 @@ const webApplicationSchema = {
     price: "0",
     priceCurrency: "USD",
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "2147",
-  },
+  // aggregateRating intentionally omitted. Small honest counts on a young
+  // domain read worse to AI overviews than no aggregate at all. The
+  // verified Trustpilot reviews on the homepage Product JSON-LD carry the
+  // social proof per-row, each linked to its source URL.
 };
 
 const faqs = [

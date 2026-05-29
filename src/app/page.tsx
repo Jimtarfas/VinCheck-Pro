@@ -87,16 +87,17 @@ const productLd = {
     { "@type": "Offer", name: "Single Premium Report", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing", description: "Full vehicle history report. Currently free during the launch promotion (regular price $7.99)." },
     { "@type": "Offer", name: "5-Pack Bundle", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing", description: "Five premium reports. Currently free during the launch promotion." },
   ],
-  // aggregateRating intentionally omitted: the site was founded in 2025, so the
-  // previous reviewCount of 50,000 is not yet substantiable. Re-add once it can
-  // be backed by a verifiable source (e.g. live Trustpilot widget count).
-  // Google's structured-data policy treats unverifiable aggregateRating as spam
-  // and can trigger a manual action.
+  // aggregateRating intentionally omitted. A small reviewCount on a young
+  // domain reads worse to AI overviews than no aggregate at all — and
+  // Google rejects aggregateRating that lacks a count. The individual
+  // verified Trustpilot reviews below carry the social proof on their own,
+  // each linked back to a source URL so the rating is verifiable per-row.
   // Real verified Trustpilot reviews — each has a `url` pointing back to the
   // source review so the structured data is independently verifiable.
   review: [
     { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "Carmen Liam" }, datePublished: "2026-05-24", reviewBody: "the report was so good , the website smooth , i compared my report with the dealer report i got the same informations , everything was perfect", url: "https://www.trustpilot.com/reviews/6a12904f15413943cf4a044d", publisher: { "@type": "Organization", name: "Trustpilot" } },
     { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "Adams Daniel Brook" }, datePublished: "2026-05-23", reviewBody: "i was looking for a used suv , when i found this website in google i checked the vin in their free tool, everything was good thank you", url: "https://www.trustpilot.com/reviews/6a120d8945c068e3a0ba004d", publisher: { "@type": "Organization", name: "Trustpilot" } },
+    { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "David Franz Friedhof" }, datePublished: "2026-05-29", reviewBody: "saved me from buying a car with hidden flood damage , the report showed everything needed , Thank you carcheckervin", url: "https://www.trustpilot.com/reviews/6a198ea437894c11a0770f83", publisher: { "@type": "Organization", name: "Trustpilot" } },
   ],
 };
 

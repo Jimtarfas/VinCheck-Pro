@@ -20,6 +20,14 @@ const reviews = [
     role: "Verified Trustpilot reviewer",
     url: "https://www.trustpilot.com/reviews/6a120d8945c068e3a0ba004d",
   },
+  {
+    name: "David Franz Friedhof",
+    location: "United States",
+    rating: 5,
+    text: "saved me from buying a car with hidden flood damage , the report showed everything needed , Thank you carcheckervin",
+    role: "Verified Trustpilot reviewer",
+    url: "https://www.trustpilot.com/reviews/6a198ea437894c11a0770f83",
+  },
 ];
 
 export default function Reviews() {
@@ -45,7 +53,7 @@ export default function Reviews() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-5 sm:gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-5 sm:gap-8">
           {reviews.map((r) => (
             <div
               key={r.name}

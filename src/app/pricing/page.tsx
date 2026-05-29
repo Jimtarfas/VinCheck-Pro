@@ -107,13 +107,10 @@ const productSchema = {
       },
     ],
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: "50000",
-    bestRating: "5",
-    worstRating: "1",
-  },
+  // aggregateRating intentionally omitted. Small honest counts on a young
+  // domain read worse to AI overviews than no aggregate at all. The
+  // verified Trustpilot reviews on the homepage Product JSON-LD carry the
+  // social proof per-row, each linked to its source URL.
 };
 
 const faqs: { q: string; a: string }[] = [

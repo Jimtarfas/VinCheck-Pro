@@ -84,13 +84,12 @@ const orgSchema = {
   url: WWW,
   logo: { "@type": "ImageObject", url: `${WWW}/logo.png` },
   sameAs: [SUBDOMAIN, TRUSTPILOT_PROFILE],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: "50000",
-    bestRating: "5",
-    worstRating: "1",
-  },
+  // aggregateRating intentionally omitted. The site is young, so any
+  // honest reviewCount is small — and a small count on the Organization
+  // node reads worse to AI overviews than no aggregate at all. The
+  // verified Trustpilot reviews rendered on the page (and emitted in
+  // Product JSON-LD on the homepage) carry social proof per-row, each
+  // linked to its source URL so the rating is independently verifiable.
 };
 
 /* A dedicated WebPage node so Google recognises this URL itself (not just the
@@ -171,6 +170,11 @@ const testimonials: Array<{ name: string; tag: string; rating: number; body: str
     name: "Adams Daniel Brook",  tag: "Verified Trustpilot review · United States",  rating: 5,
     body: "i was looking for a used suv , when i found this website in google i checked the vin in their free tool, everything was good thank you",
     url:  "https://www.trustpilot.com/reviews/6a120d8945c068e3a0ba004d",
+  },
+  {
+    name: "David Franz Friedhof",  tag: "Verified Trustpilot review · United States",  rating: 5,
+    body: "saved me from buying a car with hidden flood damage , the report showed everything needed , Thank you carcheckervin",
+    url:  "https://www.trustpilot.com/reviews/6a198ea437894c11a0770f83",
   },
   {
     name: "Sarah M.",      tag: "Used Car Buyer",    rating: 5,
