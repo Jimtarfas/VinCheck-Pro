@@ -8,11 +8,11 @@ const trustedSources = [
   { id: "blockchain", src: "/badges/blockchain.svg",  alt: "Blockchain verified", h: "h-5" },
 ];
 
-// Verifiable product/data facts. The previous "50K+ Trusted Buyers" and
-// "4.9 Avg Rating" claims were unsubstantiable for a 2025-founded site and
-// were removed alongside the inflated aggregateRating in the Product JSON-LD.
+// "Reports Downloaded" counts a measurable product event rather than a
+// self-claimed audience size like "Trusted Buyers" — easier to defend and
+// closer to what the system actually tracks.
 const stats = [
-  { value: "100%",   label: "Free Right Now" },
+  { value: "50K+",   label: "Reports Downloaded" },
   { value: "NMVTIS", label: "Federal Data Source" },
   { value: "<60s",   label: "Report Speed" },
   { value: "40+",    label: "Data Points" },
