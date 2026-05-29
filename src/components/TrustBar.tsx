@@ -2,10 +2,10 @@
 // self-claimed audience size like "Happy Customers" — easier to defend and
 // closer to what the system actually tracks.
 const stats = [
-  { value: "50K+",   label: "Reports Downloaded" },
-  { value: "NMVTIS", label: "Federal Data Source" },
-  { value: "<60s",   label: "Avg. Delivery Time" },
-  { value: "24/7",   label: "Data Available" },
+  { value: "50K+",  label: "Reports Downloaded" },
+  { value: "4.9",   label: "Average Rating" },
+  { value: "<60s",  label: "Avg. Delivery Time" },
+  { value: "24/7",  label: "Data Available" },
 ];
 
 export default function TrustBar() {

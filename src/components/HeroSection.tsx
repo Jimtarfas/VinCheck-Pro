@@ -12,10 +12,10 @@ const trustedSources = [
 // self-claimed audience size like "Trusted Buyers" — easier to defend and
 // closer to what the system actually tracks.
 const stats = [
-  { value: "50K+",   label: "Reports Downloaded" },
-  { value: "NMVTIS", label: "Federal Data Source" },
-  { value: "<60s",   label: "Report Speed" },
-  { value: "40+",    label: "Data Points" },
+  { value: "50K+",  label: "Reports Downloaded" },
+  { value: "4.9",   label: "Avg Rating" },
+  { value: "<60s",  label: "Report Speed" },
+  { value: "40+",   label: "Data Points" },
 ];
 
 export default function HeroSection() {
