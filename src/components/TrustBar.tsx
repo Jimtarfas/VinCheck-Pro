@@ -1,8 +1,8 @@
-// Verifiable product facts. "50K+ Happy Customers" and "4.9 Average Rating"
-// were unsubstantiable for a 2025-founded site and were removed alongside the
-// inflated aggregateRating in the Product JSON-LD.
+// "Reports Downloaded" counts a measurable product event rather than a
+// self-claimed audience size like "Happy Customers" — easier to defend and
+// closer to what the system actually tracks.
 const stats = [
-  { value: "100%",   label: "Free Right Now" },
+  { value: "50K+",   label: "Reports Downloaded" },
   { value: "NMVTIS", label: "Federal Data Source" },
   { value: "<60s",   label: "Avg. Delivery Time" },
   { value: "24/7",   label: "Data Available" },
