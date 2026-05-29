@@ -92,10 +92,11 @@ const productLd = {
   // be backed by a verifiable source (e.g. live Trustpilot widget count).
   // Google's structured-data policy treats unverifiable aggregateRating as spam
   // and can trigger a manual action.
+  // Real verified Trustpilot reviews — each has a `url` pointing back to the
+  // source review so the structured data is independently verifiable.
   review: [
-    { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "Marcus J." }, reviewBody: "Saved me from buying a flood-damaged truck. The salvage title flag came up immediately and the dealer had no idea I'd checked." },
-    { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "Sarah L." }, reviewBody: "I've sold three cars on Facebook Marketplace and including the VIN report up front cut my listing time in half." },
-    { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "David R." }, reviewBody: "The accident history detail was way more thorough than what Carfax gave me last year, and at a fraction of the price." },
+    { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "Carmen Liam" }, datePublished: "2026-05-24", reviewBody: "the report was so good , the website smooth , i compared my report with the dealer report i got the same informations , everything was perfect", url: "https://www.trustpilot.com/reviews/6a12904f15413943cf4a044d", publisher: { "@type": "Organization", name: "Trustpilot" } },
+    { "@type": "Review", reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, author: { "@type": "Person", name: "Adams Daniel Brook" }, datePublished: "2026-05-23", reviewBody: "i was looking for a used suv , when i found this website in google i checked the vin in their free tool, everything was good thank you", url: "https://www.trustpilot.com/reviews/6a120d8945c068e3a0ba004d", publisher: { "@type": "Organization", name: "Trustpilot" } },
   ],
 };
 
