@@ -29,7 +29,6 @@ const aboutSchema = [
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "CarCheckerVIN",
-    alternateName: "VINCheck Pro",
     url: "https://www.carcheckervin.com",
     logo: "https://www.carcheckervin.com/logo.png",
     description:
