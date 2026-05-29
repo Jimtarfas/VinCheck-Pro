@@ -151,13 +151,10 @@ const webApplicationSchema = {
     "Print-to-PDF export",
     "Portable HTML download",
   ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: "1280",
-    bestRating: "5",
-    worstRating: "1",
-  },
+  // aggregateRating intentionally omitted. Small honest counts on a young
+  // domain read worse to AI overviews than no aggregate at all. The
+  // verified Trustpilot reviews on the homepage Product JSON-LD carry the
+  // social proof per-row, each linked to its source URL.
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",
