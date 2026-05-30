@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Shield, Search, FileText, Clock, CheckCircle, ArrowRight } from "lucide-react";
+import { Shield, Search, FileText, Clock, CheckCircle, ArrowRight, ScanLine, Wrench, ShieldAlert, Lightbulb } from "lucide-react";
 import { makes, getMakeBySlug } from "@/lib/makes";
 import VinSearchForm from "@/components/VinSearchForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -62,9 +62,37 @@ export default async function MakePage({ params }: Props) {
     isPartOf: { "@type": "WebSite", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
   };
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `What do ${make.name} VIN numbers start with?`,
+        acceptedAnswer: { "@type": "Answer", text: make.vinNote },
+      },
+      {
+        "@type": "Question",
+        name: `What common issues should I check on a used ${make.name}?`,
+        acceptedAnswer: { "@type": "Answer", text: make.commonIssues },
+      },
+      {
+        "@type": "Question",
+        name: `Does my ${make.name} have any open recalls?`,
+        acceptedAnswer: { "@type": "Answer", text: make.recallContext },
+      },
+      {
+        "@type": "Question",
+        name: `What should I look for when buying a used ${make.name}?`,
+        acceptedAnswer: { "@type": "Answer", text: make.buyingTip },
+      },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
@@ -108,8 +136,38 @@ export default async function MakePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Features */}
+      {/* Make-Specific VIN & History Notes */}
       <section className="py-16 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
+            What to Check on a Used {make.name}
+          </h2>
+          <p className="text-slate-700 mb-8">
+            {make.name}-specific VIN details, known model issues, and recall history every buyer should verify.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { icon: ScanLine, title: `Decoding a ${make.name} VIN`, body: make.vinNote },
+              { icon: Wrench, title: `Common ${make.name} Issues to Verify`, body: make.commonIssues },
+              { icon: ShieldAlert, title: `${make.name} Recall History`, body: make.recallContext },
+              { icon: Lightbulb, title: `Buying a Used ${make.name}`, body: make.buyingTip },
+            ].map(({ icon: Icon, title, body }) => (
+              <div key={title} className="p-6 bg-white rounded-xl border border-slate-200">
+                <div className="flex items-center gap-2.5 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-semibold text-slate-900">{title}</h3>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             What&apos;s Included in a {make.name} VIN Report
@@ -132,7 +190,7 @@ export default async function MakePage({ params }: Props) {
       </section>
 
       {/* Popular Models */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Popular {make.name} Models to VIN Check
@@ -150,7 +208,7 @@ export default async function MakePage({ params }: Props) {
       </section>
 
       {/* How To */}
-      <section className="py-16 bg-slate-50">
+      <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-8">
             How to Check a {make.name} VIN Number
@@ -174,7 +232,7 @@ export default async function MakePage({ params }: Props) {
       </section>
 
       {/* Other Makes */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">
             Check Other Vehicle Brands
