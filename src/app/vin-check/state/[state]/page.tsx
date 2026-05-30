@@ -170,7 +170,7 @@ export default async function StatePage({ params }: Props) {
       {
         "@type": "Question",
         name: `Does ${state.name} have a lemon law?`,
-        acceptedAnswer: { "@type": "Answer", text: state.lemonLawNotes },
+        acceptedAnswer: { "@type": "Answer", text: `Yes. ${state.lemonLawNotes}` },
       },
       {
         "@type": "Question",

@@ -78,7 +78,7 @@ export default async function MakePage({ params }: Props) {
       },
       {
         "@type": "Question",
-        name: `Does my ${make.name} have any open recalls?`,
+        name: `What recalls have affected ${make.name} vehicles?`,
         acceptedAnswer: { "@type": "Answer", text: make.recallContext },
       },
       {
