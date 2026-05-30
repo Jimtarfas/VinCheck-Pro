@@ -87,11 +87,23 @@ const productLd = {
     { "@type": "Offer", name: "Single Premium Report", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing", description: "Full vehicle history report. Currently free during the launch promotion (regular price $7.99)." },
     { "@type": "Offer", name: "5-Pack Bundle", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock", url: "https://www.carcheckervin.com/#pricing", description: "Five premium reports. Currently free during the launch promotion." },
   ],
-  // aggregateRating intentionally omitted. A small reviewCount on a young
-  // domain reads worse to AI overviews than no aggregate at all — and
-  // Google rejects aggregateRating that lacks a count. The individual
-  // verified Trustpilot reviews below carry the social proof on their own,
-  // each linked back to a source URL so the rating is verifiable per-row.
+  // aggregateRating MUST accompany any individual review entries — Google's
+  // Rich Results policy rejects the entire Product item as "Multiple reviews
+  // without aggregateRating object" otherwise. ratingValue and reviewCount
+  // here are computed from the exact review[] array below: 3 verified
+  // Trustpilot reviews, each 5 stars → 5.0 average over 3 reviews. The
+  // numbers are intentionally small but honest; this matches what the
+  // visible UI on the homepage and /reviews page already advertises, and
+  // every entry below has a `url` deep-link to its source on Trustpilot,
+  // so the aggregate is independently verifiable. If you add or remove a
+  // review here, update reviewCount accordingly.
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    bestRating: "5",
+    worstRating: "1",
+    reviewCount: 3,
+  },
   // Real verified Trustpilot reviews — each has a `url` pointing back to the
   // source review so the structured data is independently verifiable.
   review: [
