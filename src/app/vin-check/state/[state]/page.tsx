@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Shield, FileText, AlertTriangle, MapPin, CheckCircle, ArrowRight, Car, Search } from "lucide-react";
 import VinSearchForm from "@/components/VinSearchForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { states, getStateBySlug } from "@/lib/states";
+import { states, getStateBySlug, getBrandDescription } from "@/lib/states";
 
 interface Props {
   params: Promise<{ state: string }>;
@@ -155,10 +155,44 @@ export default async function StatePage({ params }: Props) {
     ],
   };
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `What title brands does ${state.name} use?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `The ${state.dmvName} flags vehicles with brands including ${state.titleBrands.join(", ")}. ${getBrandDescription(state.titleBrands[0], state.name)}`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Does ${state.name} have a lemon law?`,
+        acceptedAnswer: { "@type": "Answer", text: state.lemonLawNotes },
+      },
+      {
+        "@type": "Question",
+        name: `What's unique about checking a VIN in ${state.name}?`,
+        acceptedAnswer: { "@type": "Answer", text: state.specialFact },
+      },
+      {
+        "@type": "Question",
+        name: `Is a VIN check free for ${state.name} vehicles?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Yes. You can run a free VIN check on any vehicle registered in ${state.name} to see title brands, salvage and flood records, odometer history, and open recalls before you buy — no signup or credit card required.`,
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
@@ -225,7 +259,7 @@ export default async function StatePage({ params }: Props) {
                 <div>
                   <h3 className="font-semibold text-slate-900">{brand}</h3>
                   <p className="text-sm text-slate-700 mt-0.5">
-                    Vehicles branded &ldquo;{brand}&rdquo; have been flagged by {state.name} or another state for significant damage, loss, or condition issues. Always verify with a VIN check before buying.
+                    {getBrandDescription(brand, state.name)}
                   </p>
                 </div>
               </div>

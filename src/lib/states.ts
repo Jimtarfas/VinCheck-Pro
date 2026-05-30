@@ -66,3 +66,79 @@ export const states: StateInfo[] = [
 export function getStateBySlug(slug: string): StateInfo | undefined {
   return states.find((s) => s.slug === slug);
 }
+
+/**
+ * Factual definitions for each title-brand type used across the 51 states.
+ * Used to replace the old fill-in-the-blank brand sentence so every brand on
+ * every state page carries genuinely distinct, useful content instead of the
+ * same string with only the brand name swapped.
+ */
+export const BRAND_DESCRIPTIONS: Record<string, string> = {
+  "Salvage":
+    "Issued when an insurer declares a vehicle a total loss — usually when repair costs reach roughly 65–100% of its value, depending on the state. A salvage vehicle cannot legally be driven until it is repaired, inspected, and re-titled.",
+  "Rebuilt":
+    "A salvage vehicle that has been repaired and passed a state inspection to legally return to the road. The prior total-loss damage permanently lowers its value and can complicate insurance and resale.",
+  "Rebuilt Salvage":
+    "A salvage vehicle that has been repaired and passed inspection to return to the road. The vehicle's total-loss history stays on its record permanently and affects value and insurability.",
+  "Restored Salvage":
+    "A previously salvaged vehicle that has been repaired and re-inspected for road use. Restoration does not erase the original total-loss event from the vehicle's history.",
+  "Reconstructed":
+    "A vehicle rebuilt from a salvage or significantly damaged base and re-inspected for road use. Reconstructed vehicles often combine parts from multiple cars, so a full history check is essential.",
+  "Revived Salvage":
+    "California's term for a salvage vehicle that has been repaired and re-registered for road use after inspection. The salvage history remains permanently attached to the VIN.",
+  "Flood":
+    "Marks a vehicle damaged by water submersion. Flood cars frequently develop hidden electrical faults, corrosion, and mold months or years later — often after cosmetic cleanup hides the evidence.",
+  "Flood Damage":
+    "A title brand for vehicles damaged by flooding or storm water. These cars carry long-term corrosion and electrical risk and are commonly shipped across state lines for resale.",
+  "Hurricane":
+    "Flags vehicles damaged by named tropical storms or hurricanes. Like other flood-damaged cars, they carry hidden corrosion and electrical risk and are frequently transported to other states to be resold.",
+  "Hail Damage":
+    "Flags storm-related body and glass damage. While often cosmetic, severe hail can mask underlying structural or mechanical issues, so a full inspection and history check are worthwhile.",
+  "Junk":
+    "Marks a vehicle deemed unfit for road use and intended only for parts or scrap. A junk-branded vehicle should never be re-titled for driving.",
+  "Junked":
+    "Indicates a vehicle written off as scrap or parts-only. It cannot legally be returned to the road and should be avoided by buyers seeking a driveable car.",
+  "Junking Certificate":
+    "A certificate showing the vehicle has been retired as junk or scrap. It permanently bars the vehicle from being re-titled for road use.",
+  "Scrap":
+    "Designates a vehicle destined for dismantling or recycling. A scrap brand means the car cannot legally return to the road.",
+  "Certificate of Destruction":
+    "The strongest non-repairable designation: the vehicle must be dismantled or crushed and can never be re-titled for road use. A clear warning sign on any history report.",
+  "Non-Repairable":
+    "Means the vehicle is too damaged to ever be legally returned to the road. It can be sold only for parts or scrap — never re-titled for driving.",
+  "Non-Rebuildable":
+    "Indicates a vehicle that cannot legally be repaired and re-titled for road use. It is restricted to parts or scrap value only.",
+  "Unrebuildable":
+    "Georgia's designation for a vehicle too damaged to ever be re-titled for the road. These vehicles are limited to parts or scrap.",
+  "Destroyed":
+    "Means the vehicle cannot be returned to roadworthy condition. A destroyed brand is a strong warning that the car is suitable only for parts.",
+  "Total Loss":
+    "Indicates an insurer declared the vehicle a total loss. Depending on the state, it may still be rebuildable, but the prior loss permanently affects value and insurability.",
+  "Totaled":
+    "Oregon's brand for any insurance-declared total loss, giving buyers clear visibility into prior major damage even if the car was later repaired.",
+  "Prior Salvage":
+    "Notes that the vehicle once carried a salvage title, even if it has since been rebuilt. This permanent flag warns buyers of a past total-loss event.",
+  "Previous Salvage":
+    "Indicates the vehicle previously held a salvage title. Even after repair, this history stays on the record and affects resale value.",
+  "Lemon Law Buyback":
+    "Means the manufacturer repurchased the vehicle for a chronic defect it could not fix under warranty. The same underlying problem can persist for the next owner.",
+  "Distressed":
+    "Flags significant non-collision damage that may fall below the salvage threshold but still affects the vehicle's value and safety. Always investigate the underlying cause.",
+  "Disclosed Damage":
+    "Notes prior significant damage the owner voluntarily reported, even if it did not meet the salvage threshold. A useful transparency signal worth investigating.",
+  "Salvage Parts Only":
+    "Means the vehicle may be used solely as a source of components and cannot be titled for road use under any circumstances.",
+  "Parts Only":
+    "Restricts the vehicle to use as a parts donor. It cannot legally be registered or driven on public roads.",
+  "Owner Retained":
+    "Applies when an owner keeps a vehicle the insurer declared a total loss. It signals significant prior damage that the owner chose not to surrender.",
+  "Non-Highway":
+    "Means the vehicle is not legal for public-road use and is restricted to off-road or private operation.",
+};
+
+export function getBrandDescription(brand: string, stateName: string): string {
+  return (
+    BRAND_DESCRIPTIONS[brand] ||
+    `A title brand used by ${stateName} or another state to flag vehicles with significant damage, loss, or condition issues. Always verify the details with a full VIN history check before buying.`
+  );
+}
