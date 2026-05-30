@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Star, ShieldCheck, Zap, Search, ArrowRight, ExternalLink } from "lucide-react";
+import TrustpilotBlock from "@/components/TrustpilotBlock";
 
 const WWW = "https://www.carcheckervin.com";
 const SUBDOMAIN = "https://reviews.carcheckervin.com";
@@ -159,8 +160,11 @@ const faqSchema = {
  * verified third-party review for E-A-T.
  * ─────────────────────────────────────────────────────────────── */
 const testimonials: Array<{ name: string; tag: string; rating: number; body: string; url?: string }> = [
-  // Real Trustpilot reviews — each has a `url` pointing to the verified
-  // source review. Verbatim body text (do not "clean up" grammar).
+  // Only verified Trustpilot reviews are shown on this page. The synthetic
+  // first-person testimonials were removed so this page reads as 100% real,
+  // verifiable social proof — every card now has a `url` deep-link back to
+  // the source review on Trustpilot. If you add a new entry, it MUST include
+  // a real Trustpilot review URL or it doesn't belong here.
   {
     name: "Carmen Liam",  tag: "Verified Trustpilot review · United States",  rating: 5,
     body: "the report was so good , the website smooth , i compared my report with the dealer report i got the same informations , everything was perfect",
@@ -175,38 +179,6 @@ const testimonials: Array<{ name: string; tag: string; rating: number; body: str
     name: "David Franz Friedhof",  tag: "Verified Trustpilot review · United States",  rating: 5,
     body: "saved me from buying a car with hidden flood damage , the report showed everything needed , Thank you carcheckervin",
     url:  "https://www.trustpilot.com/reviews/6a198ea437894c11a0770f83",
-  },
-  {
-    name: "Sarah M.",      tag: "Used Car Buyer",    rating: 5,
-    body: "CarCheckerVIN saved me from buying a car with hidden flood damage. The detailed report showed everything the dealer tried to hide. Worth every penny — and it was free!",
-  },
-  {
-    name: "James R.",      tag: "Auto Dealer",       rating: 5,
-    body: "I use CarCheckerVIN for every vehicle on my lot. The comprehensive specs and equipment lists help me price cars accurately and build trust with customers.",
-  },
-  {
-    name: "David K.",      tag: "Car Seller",        rating: 5,
-    body: "I included the CarCheckerVIN report in my listing and sold my car in 3 days at full asking price. Buyers loved the transparency.",
-  },
-  {
-    name: "M.R.",          tag: "Tampa, FL",         rating: 5,
-    body: "Was about to drive 2 hours to see a used Civic on Marketplace. Ran the VIN here first — turns out it had a salvage title the seller didn't mention. Saved me a wasted afternoon and probably a bad purchase.",
-  },
-  {
-    name: "A.D.",          tag: "Denver, CO",        rating: 5,
-    body: "Compared this side by side with Carfax for the same VIN. The history data lined up, but Carfax wanted $44 and this was zero. Don't see why anyone would pay for the other one.",
-  },
-  {
-    name: "Customer",      tag: "Chicago, IL",       rating: 5,
-    body: "The report flagged that the VIN was in the NMVTIS stolen database. Seller went silent when I mentioned it. Reported the listing. This thing is no joke — it works.",
-  },
-  {
-    name: "L.W.",          tag: "Sacramento, CA",    rating: 5,
-    body: "Wanted to know how hard my Camry had been driven before I bought it. The rideshare history flag answered that instantly. Wish I'd checked before buying.",
-  },
-  {
-    name: "P.G.",          tag: "Boston, MA",        rating: 4,
-    body: "Checked a classic car with a pre-1981 VIN format and the tool handled it gracefully — even explained why data is thinner on older vehicles. Really appreciated the honesty.",
   },
 ];
 
@@ -294,47 +266,15 @@ export default function ReviewsPage() {
         </div>
       </section>
 
-      {/* ── Trustpilot ─────────────────────────────────────────────
-       * Single click-through card. The whole card is wrapped in <a> so
-       * tapping anywhere on it opens the CarCheckerVIN profile page on
-       * Trustpilot in a new tab, where the verified review lives.
-       * No widget, no API — just a clean link to the source.
+      {/* ── Trustpilot trust block ─────────────────────────────────
+       * Static TrustBox-style banner. Pure HTML — AI crawlers and the
+       * structured-data validator read every word, unlike a paid widget
+       * which renders inside an iframe. Plus a one-line CTA to leave a
+       * new review on Trustpilot.
        * ───────────────────────────────────────────────────────── */}
       <section id="trustpilot" className="py-14 px-4 sm:px-6 bg-surface">
         <div className="max-w-3xl mx-auto">
-          <a
-            href={TRUSTPILOT_PROFILE}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Read our verified review on Trustpilot (opens in a new tab)"
-            className="group block rounded-2xl border border-outline-variant/30 bg-surface-container-lowest p-6 sm:p-8 hover:border-[#00B67A] hover:shadow-md transition-all"
-          >
-            <div className="flex items-start gap-4">
-              {/* Trustpilot brand green star tile */}
-              <span
-                aria-hidden="true"
-                className="flex-shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#00B67A] text-white"
-              >
-                <Star className="w-6 h-6 fill-white" />
-              </span>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#00B67A]">Trustpilot</span>
-                  <span className="text-xs text-on-surface-variant">· Verified review</span>
-                </div>
-                <h2 className="font-headline font-extrabold text-xl sm:text-2xl text-on-surface mb-2 group-hover:text-[#00B67A] transition-colors">
-                  Read our verified Trustpilot review
-                </h2>
-                <p className="text-on-surface-variant text-sm sm:text-base leading-relaxed mb-4">
-                  We&apos;re on Trustpilot. Tap to open the verified customer review on Trustpilot&apos;s site.
-                </p>
-                <span className="inline-flex items-center gap-1.5 text-[#00B67A] font-bold text-sm group-hover:gap-2.5 transition-all">
-                  View on Trustpilot
-                  <ExternalLink className="w-4 h-4" />
-                </span>
-              </div>
-            </div>
-          </a>
+          <TrustpilotBlock variant="wide" />
           <p className="text-xs text-on-surface-variant text-center mt-4">
             Want to share your own experience?{" "}
             <a

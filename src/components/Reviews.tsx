@@ -1,4 +1,5 @@
 import { Star, ExternalLink } from "lucide-react";
+import TrustpilotBlock from "./TrustpilotBlock";
 
 // Real verified Trustpilot reviews. Text is preserved verbatim — do not
 // "clean up" grammar/punctuation. Each card links to its source review so
@@ -38,18 +39,8 @@ export default function Reviews() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
             What Customers Are Saying
           </h2>
-          <div className="flex items-center justify-center flex-wrap gap-x-1.5 gap-y-1 mt-4">
-            {[1,2,3,4,5].map((i) => (
-              <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-secondary-container text-secondary-container" />
-            ))}
-            <a
-              href="https://www.trustpilot.com/review/www.carcheckervin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-1 sm:ml-2 text-xs sm:text-sm text-on-surface-variant hover:text-on-surface underline underline-offset-2"
-            >
-              Verified on Trustpilot →
-            </a>
+          <div className="mt-5 flex justify-center">
+            <TrustpilotBlock variant="compact" />
           </div>
         </div>
 
