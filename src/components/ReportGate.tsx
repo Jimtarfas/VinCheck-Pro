@@ -116,23 +116,24 @@ export default function ReportGate({
         role="dialog"
         aria-modal="true"
         aria-labelledby="report-gate-title"
-        className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 overflow-y-auto bg-slate-900/30"
+        className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center px-0 py-0 sm:px-4 sm:py-8 overflow-y-auto bg-slate-900/30"
       >
-        <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 sm:p-8 my-auto">
+        {/* Bottom sheet on mobile (report peeks above it); centered card on desktop */}
+        <div className="relative w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-8 max-h-[85vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
           {/* Brand */}
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-2.5 sm:mb-4">
             <Logo variant="onLight" size="sm" />
           </div>
 
           <h2
             id="report-gate-title"
-            className="text-2xl sm:text-[1.6rem] font-headline font-extrabold text-slate-900 text-center leading-tight tracking-tight mb-2"
+            className="text-xl sm:text-[1.6rem] font-headline font-extrabold text-slate-900 text-center leading-tight tracking-tight mb-1.5 sm:mb-2"
           >
             {mode === "signup"
               ? "Sign up to view & download"
               : "Log in to view your report"}
           </h2>
-          <p className="text-sm text-slate-700 text-center mb-5">
+          <p className="text-[13px] sm:text-sm text-slate-700 text-center mb-4 sm:mb-5">
             {mode === "signup" ? "Unlock the full report for " : "Continue to your report for "}
             <span className="font-mono font-semibold text-slate-900">{vin}</span>
             {mode === "signup"
@@ -144,7 +145,7 @@ export default function ReportGate({
           <div
             role="tablist"
             aria-label="Authentication mode"
-            className="flex bg-slate-100 rounded-full p-1 mb-5"
+            className="flex bg-slate-100 rounded-full p-1 mb-4 sm:mb-5"
           >
             <button
               type="button"
@@ -180,7 +181,7 @@ export default function ReportGate({
           <AuthForm mode={mode} next={next} compact />
 
           {/* Quick reassurance row */}
-          <div className="mt-5 flex items-center justify-center gap-4 text-[11px] font-semibold text-slate-600 uppercase tracking-widest">
+          <div className="mt-4 sm:mt-5 flex items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-[11px] font-semibold text-slate-600 uppercase tracking-wider sm:tracking-widest">
             <span className="inline-flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-primary-600" /> Full report
             </span>
@@ -194,7 +195,7 @@ export default function ReportGate({
             </span>
           </div>
 
-          <div className="mt-5 pt-4 border-t border-slate-200 text-center">
+          <div className="mt-4 pt-3 sm:mt-5 sm:pt-4 border-t border-slate-200 text-center">
             <Link
               href="/"
               className="text-xs text-slate-500 hover:text-slate-700 transition-colors"
