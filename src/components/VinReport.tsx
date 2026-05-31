@@ -255,7 +255,7 @@ table{width:100%;border-collapse:collapse}td{padding:8px 16px;border-bottom:1px 
 /* ─────────────────────────────────────────────────────────────
    Photo Gallery
 ───────────────────────────────────────────────────────────── */
-export function PhotoGallery({
+function PhotoGallery({
   photos,
   photoSource,
   alt,
@@ -363,7 +363,7 @@ export function PhotoGallery({
 /* ─────────────────────────────────────────────────────────────
    Reusable primitives
 ───────────────────────────────────────────────────────────── */
-export function DataCard({ icon: Icon, label, value, accent = "bg-primary/8 text-primary" }: {
+function DataCard({ icon: Icon, label, value, accent = "bg-primary/8 text-primary" }: {
   icon: React.ComponentType<{ className?: string }>; label: string; value: string; accent?: string;
 }) {
   return (

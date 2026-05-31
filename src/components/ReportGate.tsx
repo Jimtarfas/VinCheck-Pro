@@ -2,32 +2,34 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Download, FileText, X } from "lucide-react";
+import {
+  Download, FileText, X, Lock, ChevronRight, Camera, BarChart3,
+  DollarSign, ListChecks, ShieldCheck,
+} from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { VinData } from "@/lib/api";
 import Logo from "./Logo";
 import AuthForm from "./AuthForm";
-import ReportTeaser from "./ReportTeaser";
 
 type AuthState = "loading" | "authed" | "guest";
 
 /**
  * ReportGate
  * ---------------------------------------------------------------
- * Two-stage, intent-based gate that replaces the old blur-everything
- * wall (which bounced users the instant the page loaded).
+ * Intent-based paywall tease. Guests see the *real* full report
+ * rendered behind a frosted "fade-to-blur" veil:
  *
- *   1. Guests first see a fully-visible <ReportTeaser>: photos, the
- *      vehicle name + VIN + key specs, and an honest "What we found
- *      for this VIN" counts grid. Nothing is blurred — they get real
- *      value and build curiosity before any ask.
- *   2. Only when they click "View Full Report — Free" do we surface
- *      the signup/login popup. It's dismissible (X / backdrop /
- *      Esc) so the teaser never feels like a trap — closing just
- *      returns them to the teaser instead of bouncing the tab.
+ *   • The hero + photo gallery + first specs stay sharp (a mask
+ *     gradient keeps the top ~55vh un-blurred) so the visitor can
+ *     confirm we found their exact vehicle and see there's real
+ *     data here — the thing that builds trust and curiosity.
+ *   • Everything below fades into a glassy blur, with a floating
+ *     "View Full Report — Free" unlock card that tracks scroll over
+ *     the locked content and shows honest counts of what's inside.
  *
- * The moment Supabase emits an auth state change the gate drops and
- * the full report (children) renders in place — no redirect.
+ * Clicking the CTA opens a dismissible signup/login popup (X /
+ * backdrop / Esc). The moment Supabase confirms a session the veil
+ * drops and the full report renders interactively — no redirect.
  *
  * If Supabase env vars aren't configured we fall back to "authed"
  * so the report stays visible (a misconfigured auth backend should
@@ -80,16 +82,16 @@ export default function ReportGate({
     };
   }, []);
 
-  // Lock body scroll only while the signup popup is open. The teaser itself
-  // scrolls freely — we only trap scroll for the modal.
+  // Lock body scroll only while the signup popup is open. The blurred report
+  // itself scrolls freely so the floating unlock card can track the content.
   useEffect(() => {
-    if (!showAuth || auth !== "guest") return;
+    if (!showAuth) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [showAuth, auth]);
+  }, [showAuth]);
 
   // Close the popup on Escape.
   useEffect(() => {
@@ -101,13 +103,13 @@ export default function ReportGate({
     return () => window.removeEventListener("keydown", onKey);
   }, [showAuth]);
 
-  // While we're checking auth, render an invisible teaser to reserve layout
-  // space and avoid a flash of either the teaser (for signed-in users) or
-  // the full report (for guests).
+  // While we're checking auth, render the report invisible to reserve layout
+  // space and avoid a flash of either the veil (for signed-in users) or the
+  // sharp report (for guests).
   if (auth === "loading") {
     return (
       <div aria-busy="true" className="opacity-0">
-        <ReportTeaser data={data} onUnlock={() => {}} />
+        {children}
       </div>
     );
   }
@@ -116,13 +118,132 @@ export default function ReportGate({
     return <>{children}</>;
   }
 
-  // Guest — show the free teaser. The full report (children) is NOT rendered
-  // until they have a session, so it can't be peeked via devtools either.
+  // ── Guest — real report behind a fade-to-blur veil ──
   const next = `/report/${vin}`;
+
+  // Honest, data-derived counts surfaced on the unlock card.
+  const photoCount = data.photos?.length ?? 0;
+  const listingCount = data.marketData?.totalListings ?? 0;
+  const pricePoints = data.price
+    ? [
+        data.price.baseMsrp,
+        data.price.baseInvoice,
+        data.price.usedTmvRetail,
+        data.price.usedTradeIn,
+        data.price.usedPrivateParty,
+      ].filter((p) => (p ?? 0) > 0).length
+    : 0;
+  const optionCount = data.options?.reduce((a, c) => a + c.options.length, 0) ?? 0;
+
+  const chips = [
+    { icon: Camera, label: photoCount > 0 ? `${photoCount} photos` : "Photos", show: true },
+    { icon: BarChart3, label: listingCount > 0 ? `${listingCount} listings` : "Market data", show: !!data.marketData },
+    { icon: DollarSign, label: pricePoints > 0 ? `${pricePoints} price points` : "Valuation", show: pricePoints > 0 },
+    { icon: ListChecks, label: optionCount > 0 ? `${optionCount} options` : "Full specs", show: true },
+  ].filter((c) => c.show);
+
+  // Mask gradient: fully transparent (sharp) for the first 55vh, then ramps
+  // into the blur by ~85vh and stays blurred to the bottom of the report.
+  const mask =
+    "linear-gradient(to bottom, transparent 0, transparent 55vh, rgba(0,0,0,0.92) 85vh, #000 100vh)";
 
   return (
     <>
-      <ReportTeaser data={data} onUnlock={() => setShowAuth(true)} />
+      <div className="relative">
+        {/* Real report — non-interactive while gated. */}
+        <div aria-hidden="true" className="pointer-events-none select-none">
+          {children}
+        </div>
+
+        {/* Frosted veil: blurs everything below the sharp zone. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 backdrop-blur-[7px] pointer-events-none"
+          style={{
+            WebkitMaskImage: mask,
+            maskImage: mask,
+            background:
+              "linear-gradient(to bottom, transparent 50vh, rgba(248,250,252,0.45) 80vh, rgba(248,250,252,0.82) 110vh)",
+          }}
+        />
+
+        {/* Floating unlock card — tracks scroll over the locked content.
+            NOTE: the sticky element must NOT be a flex child (flex alignment
+            breaks position: sticky), so we center it with mx-auto and push it
+            into the blur zone with a top margin instead of a flex wrapper. */}
+        <div className="absolute inset-0 px-4 pointer-events-none">
+          <div className="sticky top-[26vh] mt-[52vh] mx-auto h-fit w-full max-w-md pointer-events-auto">
+            <div className="relative rounded-3xl bg-white/95 backdrop-blur-xl shadow-2xl ring-1 ring-slate-900/5 p-6 sm:p-7 text-center">
+              {/* Lock badge */}
+              <div className="flex justify-center -mt-12 mb-3">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg text-on-secondary-container"
+                  style={{ background: "var(--color-secondary-container)" }}
+                >
+                  <Lock className="w-7 h-7" />
+                </div>
+              </div>
+
+              <h2 className="font-headline font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight leading-tight">
+                Your full report is ready
+              </h2>
+              <p className="text-sm text-slate-600 mt-1.5">
+                Create a free account to unlock everything we found for
+                {" "}
+                <span className="font-mono font-semibold text-slate-800">{vin}</span>.
+              </p>
+
+              {/* Honest count chips */}
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
+                {chips.map(({ icon: Icon, label }) => (
+                  <span
+                    key={label}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-700"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-primary-600" />
+                    {label}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <button
+                onClick={() => setShowAuth(true)}
+                className="group mt-5 w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl text-base sm:text-lg font-extrabold text-on-secondary-container shadow-lg hover:brightness-110 transition cursor-pointer"
+                style={{ background: "var(--color-secondary-container)" }}
+              >
+                <Lock className="w-5 h-5" />
+                View Full Report — Free
+                <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+
+              <p className="mt-3 flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-500 uppercase tracking-widest flex-wrap">
+                <span className="inline-flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary-600" /> No credit card
+                </span>
+                <span className="text-slate-300">•</span>
+                <span>Free account</span>
+                <span className="text-slate-300">•</span>
+                <span>Instant access</span>
+              </p>
+
+              <p className="mt-4 text-xs text-slate-500">
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("login");
+                    setShowAuth(true);
+                  }}
+                  className="font-semibold text-primary-700 hover:text-primary-800 cursor-pointer"
+                >
+                  Log in
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {showAuth && (
         <div
@@ -131,7 +252,6 @@ export default function ReportGate({
           aria-labelledby="report-gate-title"
           className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 overflow-y-auto bg-slate-900/60 backdrop-blur-sm"
           onClick={(e) => {
-            // Backdrop click closes; clicks inside the card don't bubble here.
             if (e.target === e.currentTarget) setShowAuth(false);
           }}
         >
