@@ -48,6 +48,10 @@ interface StickerData {
   plantCode: string;
   dealerName: string;
   dealerLocation: string;
+  warrantyBasic: string;
+  warrantyPowertrain: string;
+  warrantyCorrosion: string;
+  warrantyRoadside: string;
 }
 
 const sample: StickerData = {
@@ -95,6 +99,10 @@ const sample: StickerData = {
   plantCode: "F",
   dealerName: "",
   dealerLocation: "",
+  warrantyBasic: "3 yr / 36,000 mi bumper-to-bumper",
+  warrantyPowertrain: "5 yr / 60,000 mi powertrain",
+  warrantyCorrosion: "5 yr / unlimited mi corrosion perforation",
+  warrantyRoadside: "5 yr / 60,000 mi roadside assistance",
 };
 
 const blank: StickerData = {
@@ -122,6 +130,10 @@ const blank: StickerData = {
   plantCode: "",
   dealerName: "",
   dealerLocation: "",
+  warrantyBasic: "",
+  warrantyPowertrain: "",
+  warrantyCorrosion: "",
+  warrantyRoadside: "",
 };
 
 function formatMoney(v: string | number): string {
@@ -136,6 +148,33 @@ function formatMoney(v: string | number): string {
 
 function uid(): string {
   return Math.random().toString(36).slice(2, 9);
+}
+
+/* Walk a laid-out source tree and copy each element's computed style onto the
+   matching node in a detached destination clone (same structure). Lets us
+   export a Tailwind-styled sticker as a standalone, self-styled HTML file. */
+function inlineComputedStyles(src: Element, dest: Element): void {
+  const cs = window.getComputedStyle(src);
+  const decls: string[] = [];
+  for (let i = 0; i < cs.length; i++) {
+    const prop = cs[i];
+    decls.push(`${prop}:${cs.getPropertyValue(prop)}`);
+  }
+  dest.setAttribute("style", decls.join(";"));
+  dest.removeAttribute("class");
+  const srcKids = src.children;
+  const destKids = dest.children;
+  for (let i = 0; i < srcKids.length; i++) {
+    const d = destKids[i];
+    if (d) inlineComputedStyles(srcKids[i], d);
+  }
+}
+
+/* QR image (renders in preview, print, and the exported file) that points to
+   the live vehicle report for this VIN — "scan to open window sticker". */
+function qrUrl(vin: string): string {
+  const target = `https://www.carcheckervin.com/report/${encodeURIComponent(vin)}`;
+  return `https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&format=svg&data=${encodeURIComponent(target)}`;
 }
 
 type AuthState = "loading" | "authed" | "guest";
@@ -376,28 +415,35 @@ export default function WindowStickerMaker() {
   function doDownloadHtml() {
     const node = document.getElementById("sticker-export");
     if (!node) return;
-    const styles = `
-      <style>
-        body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f1f5f9; padding: 24px; }
-        .sticker { background: #fff; border: 2px solid #0f172a; max-width: 900px; margin: 0 auto; }
-        .sticker h1, .sticker h2, .sticker h3 { margin: 0; }
-        .sticker .band { background: #0c2d5e; color: #fff; padding: 14px 20px; }
-        .sticker .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-        .sticker .pad { padding: 14px 20px; }
-        .sticker .border-t { border-top: 1px solid #cbd5e1; }
-        .sticker .border-r { border-right: 1px solid #cbd5e1; }
-        .sticker table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .sticker th, .sticker td { padding: 4px 0; text-align: left; }
-        .sticker .muted { color: #475569; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
-        .sticker .right { text-align: right; }
-        .sticker .total { background: #0c2d5e; color: #fff; padding: 12px 20px; font-weight: 800; font-size: 18px; display: flex; justify-content: space-between; }
-        .sticker .mpg { background: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; }
-        .sticker .mpg .big { font-size: 64px; font-weight: 800; color: #0c2d5e; line-height: 1; }
-        .sticker ul { margin: 0; padding-left: 16px; font-size: 12px; line-height: 1.55; color: #1e293b; }
-        .sticker .vin { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .05em; }
-      </style>
-    `;
-    const html = `<!doctype html><html><head><meta charset="utf-8"><title>${data.year} ${data.make} ${data.model} Window Sticker</title>${styles}</head><body>${node.outerHTML}</body></html>`;
+
+    // Build a fully self-contained HTML file that renders identically to the
+    // on-screen sticker. The preview is styled with Tailwind utility classes,
+    // which won't exist in a standalone file — so we render an offscreen copy
+    // at a fixed print width, read every element's *computed* style, and bake
+    // those values into inline styles on a detached clone. The result is a
+    // real, portable Monroney label, not an unstyled dump.
+    const stage = document.createElement("div");
+    stage.style.cssText =
+      "position:fixed;left:-100000px;top:0;width:880px;opacity:0;pointer-events:none;";
+    const laidOut = node.cloneNode(true) as HTMLElement;
+    laidOut.style.width = "880px";
+    stage.appendChild(laidOut);
+    document.body.appendChild(stage);
+
+    const exported = laidOut.cloneNode(true) as HTMLElement;
+    inlineComputedStyles(laidOut, exported);
+    document.body.removeChild(stage);
+
+    const html =
+      `<!doctype html><html lang="en"><head><meta charset="utf-8">` +
+      `<meta name="viewport" content="width=device-width, initial-scale=1">` +
+      `<title>${data.year} ${data.make} ${data.model} Window Sticker</title>` +
+      `<style>*{box-sizing:border-box}html,body{margin:0}` +
+      `body{background:#e2e8f0;padding:24px;display:flex;justify-content:center;` +
+      `font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}` +
+      `@media print{@page{size:letter portrait;margin:.4in}body{background:#fff;padding:0}}` +
+      `</style></head><body>${exported.outerHTML}</body></html>`;
+
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -683,6 +729,37 @@ export default function WindowStickerMaker() {
           </Field>
         </Section>
 
+        <Section title="Warranty">
+          <Field label="Basic / bumper-to-bumper">
+            <input
+              value={data.warrantyBasic}
+              onChange={(e) => update("warrantyBasic", e.target.value)}
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Powertrain">
+            <input
+              value={data.warrantyPowertrain}
+              onChange={(e) => update("warrantyPowertrain", e.target.value)}
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Corrosion / rust-through">
+            <input
+              value={data.warrantyCorrosion}
+              onChange={(e) => update("warrantyCorrosion", e.target.value)}
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Roadside assistance">
+            <input
+              value={data.warrantyRoadside}
+              onChange={(e) => update("warrantyRoadside", e.target.value)}
+              className={inputCls}
+            />
+          </Field>
+        </Section>
+
         <Section title="Origin (optional)">
           <Field label="Assembled in">
             <input
@@ -946,165 +1023,298 @@ function StickerPreview({
   totals: { base: number; dest: number; opts: number; total: number };
   standardList: string[];
 }) {
+  const annual = parseFloat(data.annualFuelCost);
+  const annualValid = Number.isFinite(annual);
+  // EPA prints a 5-year fuel cost projection against a 15,000 mi/yr average.
+  const fiveYear = annualValid ? annual * 5 : null;
+  const warranties = [
+    { k: "Basic", v: data.warrantyBasic },
+    { k: "Powertrain", v: data.warrantyPowertrain },
+    { k: "Corrosion", v: data.warrantyCorrosion },
+    { k: "Roadside", v: data.warrantyRoadside },
+  ].filter((w) => w.v.trim());
+
   return (
     <div
       id="sticker-export"
-      className="bg-white border-2 border-slate-900 shadow-xl shadow-slate-900/10 overflow-hidden text-slate-900"
+      className="bg-white border border-slate-900 shadow-xl shadow-slate-900/10 overflow-hidden text-slate-900"
     >
-      {/* Top band */}
-      <div className="bg-[#0c2d5e] text-white px-5 py-3 flex items-center justify-between">
-        <div>
-          <p className="text-[10px] tracking-[0.2em] font-bold opacity-80">
-            MONRONEY LABEL
-          </p>
-          <h3 className="text-xl font-extrabold leading-tight">
+      {/* OEM brand header — make name like a manufacturer's own window label */}
+      <div className="bg-white border-b-4 border-[#0c2d5e] px-5 pt-4 pb-3">
+        <p className="text-[26px] leading-none font-black uppercase tracking-tight text-[#0c2d5e]">
+          {data.make || "Vehicle"}
+        </p>
+        <p className="text-[10px] tracking-[0.25em] font-bold text-slate-500 mt-1">
+          MONRONEY VEHICLE LABEL · WINDOW STICKER
+        </p>
+      </div>
+
+      {/* Title bar: year/model/trim + MSRP callout */}
+      <div className="bg-[#0c2d5e] text-white px-5 py-3 flex items-end justify-between gap-4">
+        <div className="min-w-0">
+          <h3 className="text-xl font-extrabold leading-tight truncate">
             {data.year || "—"} {data.make || "Vehicle"} {data.model}
           </h3>
+          <p className="text-[11px] opacity-80 truncate">
+            {data.trim || "—"}
+            {data.bodyStyle ? ` · ${data.bodyStyle}` : ""}
+            {data.drivetrain ? ` · ${data.drivetrain}` : ""}
+          </p>
         </div>
-        <div className="text-right">
-          <p className="text-[10px] tracking-[0.2em] font-bold opacity-80">VIN</p>
-          <p className="font-mono text-sm font-bold tracking-wider">
-            {data.vin || "—"}
+        <div className="text-right shrink-0">
+          <p className="text-[9px] tracking-[0.2em] font-bold opacity-70">BASE MSRP</p>
+          <p className="font-mono text-lg font-extrabold leading-none tabular-nums">
+            {formatMoney(totals.base)}
           </p>
         </div>
       </div>
 
-      {/* Trim / Body strip */}
-      <div className="bg-slate-100 border-b border-slate-300 px-5 py-2 flex justify-between text-xs">
-        <span className="font-semibold text-slate-700">{data.trim || "—"}</span>
-        <span className="text-slate-600">
-          {data.bodyStyle}
-          {data.drivetrain ? ` · ${data.drivetrain}` : ""}
+      {/* VIN strip */}
+      <div className="bg-slate-100 border-b border-slate-300 px-5 py-1.5 flex justify-between items-center text-[11px]">
+        <span className="font-bold tracking-[0.15em] text-slate-500">
+          VEHICLE IDENTIFICATION NUMBER
+        </span>
+        <span className="font-mono font-bold tracking-[0.18em] text-slate-900">
+          {data.vin || "—"}
         </span>
       </div>
 
-      {/* Description block */}
+      {/* Description + Standard equipment | Options + Pricing */}
       <div className="grid grid-cols-2">
-        <div className="p-4 border-r border-slate-300">
-          <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-            VEHICLE DESCRIPTION
-          </p>
-          <dl className="text-xs space-y-1">
-            <Row k="Engine" v={data.engine} />
-            <Row k="Transmission" v={data.transmission} />
-            <Row k="Drivetrain" v={data.drivetrain} />
-            <Row k="Exterior" v={data.exteriorColor} />
-            <Row k="Interior" v={data.interiorColor} />
-            {data.assembledIn && <Row k="Assembled in" v={data.assembledIn} />}
-          </dl>
+        {/* Left column */}
+        <div className="border-r border-slate-300">
+          <div className="p-4 border-b border-slate-300">
+            <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
+              VEHICLE DESCRIPTION
+            </p>
+            <dl className="text-xs space-y-1">
+              <Row k="Engine" v={data.engine} />
+              <Row k="Transmission" v={data.transmission} />
+              <Row k="Drivetrain" v={data.drivetrain} />
+              <Row k="Exterior" v={data.exteriorColor} />
+              <Row k="Interior" v={data.interiorColor} />
+              {data.assembledIn && <Row k="Assembled in" v={data.assembledIn} />}
+            </dl>
+          </div>
+          <div className="p-4">
+            <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
+              STANDARD EQUIPMENT
+            </p>
+            {standardList.length > 0 ? (
+              <ul className="text-[11px] leading-relaxed text-slate-800 space-y-0.5 list-disc pl-4">
+                {standardList.map((line, i) => (
+                  <li key={i}>{line}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[11px] italic text-slate-400">
+                Add standard equipment in the form…
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* Fuel economy box */}
-        <div className="p-4 bg-slate-50">
-          <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-            FUEL ECONOMY · EPA
-          </p>
-          <div className="flex items-end gap-3">
-            <div className="text-center">
-              <p className="text-5xl font-extrabold text-[#0c2d5e] leading-none">
-                {data.combinedMpg || "—"}
+        {/* Right column */}
+        <div>
+          <div className="p-4 border-b border-slate-300">
+            <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
+              OPTIONAL EQUIPMENT
+            </p>
+            {data.options.some((o) => o.name) ? (
+              <table className="w-full text-[11px]">
+                <tbody>
+                  {data.options
+                    .filter((o) => o.name || o.price)
+                    .map((o) => (
+                      <tr
+                        key={o.id}
+                        className="border-b border-dashed border-slate-200 last:border-0"
+                      >
+                        <td className="py-1 pr-2 text-slate-800">{o.name || "—"}</td>
+                        <td className="py-1 text-right font-mono font-semibold tabular-nums whitespace-nowrap">
+                          {o.price ? formatMoney(o.price) : "—"}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="text-[11px] italic text-slate-400">
+                Add optional packages in the form…
               </p>
-              <p className="text-[10px] font-bold text-slate-500 tracking-wider mt-1">
-                COMBINED MPG
-              </p>
-            </div>
-            <div className="text-xs text-slate-700 space-y-0.5 pb-1">
-              <p>
-                <span className="font-bold">{data.cityMpg || "—"}</span> city
-              </p>
-              <p>
-                <span className="font-bold">{data.hwyMpg || "—"}</span> highway
-              </p>
-              <p className="text-slate-500">{data.fuelType || "Gasoline"}</p>
+            )}
+          </div>
+
+          {/* Pricing summary */}
+          <div className="p-4">
+            <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
+              PRICE INFORMATION
+            </p>
+            <div className="grid grid-cols-2 gap-y-1 text-xs">
+              <span className="text-slate-600">Base price</span>
+              <span className="text-right font-mono font-semibold tabular-nums">
+                {formatMoney(totals.base)}
+              </span>
+              <span className="text-slate-600">Total options</span>
+              <span className="text-right font-mono font-semibold tabular-nums">
+                {formatMoney(totals.opts)}
+              </span>
+              <span className="text-slate-600">Destination charge</span>
+              <span className="text-right font-mono font-semibold tabular-nums">
+                {formatMoney(totals.dest)}
+              </span>
             </div>
           </div>
-          {data.annualFuelCost && (
-            <p className="mt-2 text-[11px] text-slate-600">
-              Est. annual fuel cost: <strong>{formatMoney(data.annualFuelCost)}</strong>
-            </p>
-          )}
         </div>
       </div>
 
-      {/* Equipment columns */}
-      <div className="grid grid-cols-2 border-t border-slate-300">
-        <div className="p-4 border-r border-slate-300">
-          <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-            STANDARD EQUIPMENT
+      {/* Total band */}
+      <div className="bg-[#0c2d5e] text-white px-5 py-3 flex items-center justify-between border-t border-slate-300">
+        <span className="font-extrabold tracking-wide">TOTAL VEHICLE PRICE</span>
+        <span className="font-mono font-extrabold text-xl tabular-nums">
+          {formatMoney(totals.total)}
+        </span>
+      </div>
+
+      {/* Official-style EPA fuel economy panel */}
+      <div className="border-t border-slate-300 bg-[#fbe10a] text-slate-900">
+        <div className="flex items-center justify-between px-5 pt-3">
+          <p className="text-[13px] font-black uppercase tracking-tight">
+            Fuel Economy &amp; Environment
           </p>
-          {standardList.length > 0 ? (
-            <ul className="text-[11px] leading-relaxed text-slate-800 space-y-0.5 list-disc pl-4">
-              {standardList.map((line, i) => (
-                <li key={i}>{line}</li>
+          <p className="text-[10px] font-bold uppercase tracking-wider">EPA</p>
+        </div>
+        <div className="grid grid-cols-[auto_1fr] gap-4 px-5 py-3 items-stretch">
+          {/* Big combined number */}
+          <div className="flex flex-col items-center justify-center border-r-2 border-slate-900/40 pr-5">
+            <p className="text-[9px] font-bold uppercase tracking-wider">Combined</p>
+            <p className="text-[58px] leading-none font-black">
+              {data.combinedMpg || "—"}
+            </p>
+            <p className="text-[11px] font-bold uppercase tracking-wide">MPG</p>
+          </div>
+          {/* City / Highway + costs */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2 content-center">
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-wider">City</p>
+              <p className="text-2xl font-black leading-none">
+                {data.cityMpg || "—"}
+                <span className="text-[11px] font-bold"> MPG</span>
+              </p>
+            </div>
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-wider">Highway</p>
+              <p className="text-2xl font-black leading-none">
+                {data.hwyMpg || "—"}
+                <span className="text-[11px] font-bold"> MPG</span>
+              </p>
+            </div>
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-wider">
+                Est. annual fuel cost
+              </p>
+              <p className="text-lg font-black leading-none">
+                {annualValid ? formatMoney(annual) : "—"}
+              </p>
+            </div>
+            <div>
+              <p className="text-[9px] font-bold uppercase tracking-wider">
+                5-year fuel cost
+              </p>
+              <p className="text-lg font-black leading-none">
+                {fiveYear !== null ? formatMoney(fiveYear) : "—"}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="px-5 pb-2 flex justify-between text-[9px] font-semibold text-slate-800/80">
+          <span>Fuel type: {data.fuelType || "Gasoline"}</span>
+          <span>Based on 15,000 mi/yr · fueleconomy.gov</span>
+        </div>
+      </div>
+
+      {/* Warranty + QR */}
+      <div className="grid grid-cols-[1fr_auto] gap-4 border-t border-slate-300 p-4 items-center">
+        <div>
+          <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
+            WARRANTY COVERAGE
+          </p>
+          {warranties.length > 0 ? (
+            <dl className="text-[11px] space-y-1">
+              {warranties.map((w) => (
+                <div key={w.k} className="flex justify-between gap-4">
+                  <dt className="text-slate-500 shrink-0">{w.k}</dt>
+                  <dd className="text-right font-medium text-slate-800">{w.v}</dd>
+                </div>
               ))}
-            </ul>
+            </dl>
           ) : (
             <p className="text-[11px] italic text-slate-400">
-              Add standard equipment in the form…
+              Add warranty terms in the form…
             </p>
           )}
         </div>
-
-        <div className="p-4">
-          <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-            OPTIONAL EQUIPMENT
+        <div className="flex flex-col items-center shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={qrUrl(data.vin || "VIN")}
+            alt="QR code linking to the live VIN report"
+            width={96}
+            height={96}
+            className="w-24 h-24 border border-slate-300 bg-white"
+          />
+          <p className="text-[8px] font-bold uppercase tracking-wider text-slate-500 mt-1 text-center leading-tight max-w-[96px]">
+            Scan to open window sticker
           </p>
-          {data.options.some((o) => o.name) ? (
-            <table className="w-full text-[11px]">
-              <tbody>
-                {data.options
-                  .filter((o) => o.name || o.price)
-                  .map((o) => (
-                    <tr key={o.id} className="border-b border-dashed border-slate-200 last:border-0">
-                      <td className="py-1 pr-2 text-slate-800">{o.name || "—"}</td>
-                      <td className="py-1 text-right font-mono font-semibold tabular-nums whitespace-nowrap">
-                        {o.price ? formatMoney(o.price) : "—"}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          ) : (
-            <p className="text-[11px] italic text-slate-400">
-              Add optional packages in the form…
-            </p>
-          )}
         </div>
       </div>
 
-      {/* Pricing summary */}
-      <div className="border-t border-slate-300">
-        <div className="px-5 py-3 grid grid-cols-2 gap-y-1 text-sm">
-          <span className="text-slate-700">Base MSRP</span>
-          <span className="text-right font-mono font-semibold tabular-nums">
-            {formatMoney(totals.base)}
-          </span>
-          <span className="text-slate-700">Total options</span>
-          <span className="text-right font-mono font-semibold tabular-nums">
-            {formatMoney(totals.opts)}
-          </span>
-          <span className="text-slate-700">Destination charge</span>
-          <span className="text-right font-mono font-semibold tabular-nums">
-            {formatMoney(totals.dest)}
-          </span>
-        </div>
-        <div className="bg-[#0c2d5e] text-white px-5 py-3 flex items-center justify-between">
-          <span className="font-extrabold tracking-wide">TOTAL VEHICLE PRICE</span>
-          <span className="font-mono font-extrabold text-lg tabular-nums">
-            {formatMoney(totals.total)}
-          </span>
-        </div>
-      </div>
-
-      {/* Footer strip */}
+      {/* Dealer / disclaimer row */}
       <div className="px-5 py-2 bg-slate-50 border-t border-slate-300 flex justify-between text-[10px] text-slate-500">
         <span>
-          {data.dealerName && <strong className="text-slate-700">{data.dealerName}</strong>}
+          {data.dealerName && (
+            <strong className="text-slate-700">{data.dealerName}</strong>
+          )}
           {data.dealerName && data.dealerLocation && " · "}
           {data.dealerLocation}
         </span>
-        <span>
-          Generated by carcheckervin.com · Replica for display purposes
+        <span>Replica for display purposes only</span>
+      </div>
+
+      {/* Branded footer — our logo + website. Literal colors (no CSS vars) so
+          the standalone HTML export renders the brand faithfully. */}
+      <div className="px-5 py-3 bg-[#0c2d5e] text-white flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <svg
+            width={26}
+            height={26}
+            viewBox="0 0 40 40"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect width="40" height="40" rx="10" fill="#003178" />
+            <path
+              d="M 26.75 11.96 A 10.5 10.5 0 1 0 26.75 28.04"
+              stroke="#ffffff"
+              strokeWidth="3.4"
+              strokeLinecap="round"
+              fill="none"
+            />
+            <path
+              d="M 14.5 20.6 L 17.8 24 L 25 16"
+              stroke="#ff9800"
+              strokeWidth="2.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
+          </svg>
+          <span className="font-black tracking-tight text-base leading-none">
+            CarChecker<span className="ml-1 text-[#ff9800]">VIN</span>
+          </span>
+        </div>
+        <span className="font-semibold text-[11px] tracking-wide text-white/90">
+          www.carcheckervin.com
         </span>
       </div>
     </div>
