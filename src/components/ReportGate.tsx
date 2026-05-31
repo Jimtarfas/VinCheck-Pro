@@ -106,7 +106,7 @@ export default function ReportGate({
     <>
       <div
         aria-hidden="true"
-        className="filter blur-[1.5px] pointer-events-none select-none"
+        className="filter blur-[1.8px] pointer-events-none select-none"
       >
         {children}
       </div>
