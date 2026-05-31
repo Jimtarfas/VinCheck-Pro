@@ -150,14 +150,26 @@ function uid(): string {
   return Math.random().toString(36).slice(2, 9);
 }
 
+/* Replaced elements keep their exact box; everything else lets layout reflow. */
+const KEEP_SIZE_TAGS = new Set(["IMG", "SVG", "CANVAS", "VIDEO"]);
+
 /* Walk a laid-out source tree and copy each element's computed style onto the
    matching node in a detached destination clone (same structure). Lets us
-   export a Tailwind-styled sticker as a standalone, self-styled HTML file. */
+   export a Tailwind-styled sticker as a standalone, self-styled HTML file.
+
+   We deliberately DROP `width`/`height` for non-replaced elements: baking the
+   exact rendered width onto a text box makes it re-wrap if the target document
+   measures the font even 1px differently (which is exactly what mangled the
+   printed/exported sticker — "TOTAL VEHICLE PRICE" broke onto two lines). With
+   width/height omitted, flex/grid/padding still drive structure and text sizes
+   to its natural content. The root width is pinned by the export stylesheet. */
 function inlineComputedStyles(src: Element, dest: Element): void {
   const cs = window.getComputedStyle(src);
+  const dropSize = !KEEP_SIZE_TAGS.has(src.tagName);
   const decls: string[] = [];
   for (let i = 0; i < cs.length; i++) {
     const prop = cs[i];
+    if (dropSize && (prop === "width" || prop === "height")) continue;
     decls.push(`${prop}:${cs.getPropertyValue(prop)}`);
   }
   dest.setAttribute("style", decls.join(";"));
@@ -175,6 +187,25 @@ function inlineComputedStyles(src: Element, dest: Element): void {
 function qrUrl(vin: string): string {
   const target = `https://www.carcheckervin.com/report/${encodeURIComponent(vin)}`;
   return `https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&format=svg&data=${encodeURIComponent(target)}`;
+}
+
+/* OEM manufacturer logo (Ford oval, Toyota mark, etc.) by make, via the public
+   car-logos-dataset on jsDelivr. Unknown makes resolve to a 404 image, which we
+   hide with onError so the header degrades gracefully to the make wordmark. */
+const BRAND_ALIASES: Record<string, string> = {
+  vw: "volkswagen",
+  chevy: "chevrolet",
+  mercedes: "mercedes-benz",
+  "mercedes benz": "mercedes-benz",
+  "general motors": "gmc",
+};
+
+function brandLogoUrl(make: string): string {
+  const m = make.trim().toLowerCase();
+  const slug =
+    BRAND_ALIASES[m] ||
+    m.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return `https://cdn.jsdelivr.net/gh/filippofilip95/car-logos-dataset@master/logos/optimized/${slug}.png`;
 }
 
 type AuthState = "loading" | "authed" | "guest";
@@ -408,20 +439,19 @@ export default function WindowStickerMaker() {
     doDownloadHtml();
   }
 
-  function doPrint() {
-    if (typeof window !== "undefined") window.print();
-  }
-
-  function doDownloadHtml() {
+  // Build a fully self-contained HTML document that renders identically to the
+  // on-screen sticker. The preview is styled with Tailwind utility classes,
+  // which won't exist in a standalone document — so we render an offscreen copy
+  // at a fixed print width, read every element's *computed* style, and bake
+  // those values into inline styles on a detached clone. The result is a real,
+  // portable Monroney label, used for BOTH download and print so the two paths
+  // can never diverge. The print path scales the 880px sticker to fit a letter
+  // page; this is far more reliable than hijacking the live DOM with print CSS
+  // (which broke once the preview lived inside a position:sticky / grid column).
+  function buildStickerHtml(): string | null {
     const node = document.getElementById("sticker-export");
-    if (!node) return;
+    if (!node) return null;
 
-    // Build a fully self-contained HTML file that renders identically to the
-    // on-screen sticker. The preview is styled with Tailwind utility classes,
-    // which won't exist in a standalone file — so we render an offscreen copy
-    // at a fixed print width, read every element's *computed* style, and bake
-    // those values into inline styles on a detached clone. The result is a
-    // real, portable Monroney label, not an unstyled dump.
     const stage = document.createElement("div");
     stage.style.cssText =
       "position:fixed;left:-100000px;top:0;width:880px;opacity:0;pointer-events:none;";
@@ -434,15 +464,82 @@ export default function WindowStickerMaker() {
     inlineComputedStyles(laidOut, exported);
     document.body.removeChild(stage);
 
-    const html =
+    return (
       `<!doctype html><html lang="en"><head><meta charset="utf-8">` +
       `<meta name="viewport" content="width=device-width, initial-scale=1">` +
       `<title>${data.year} ${data.make} ${data.model} Window Sticker</title>` +
       `<style>*{box-sizing:border-box}html,body{margin:0}` +
       `body{background:#e2e8f0;padding:24px;display:flex;justify-content:center;` +
       `font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}` +
-      `@media print{@page{size:letter portrait;margin:.4in}body{background:#fff;padding:0}}` +
-      `</style></head><body>${exported.outerHTML}</body></html>`;
+      `#sticker-export{width:880px;flex:0 0 auto}` +
+      `@media print{@page{size:letter portrait;margin:.4in}` +
+      `body{background:#fff;padding:0;display:block}` +
+      // 880px sticker → ~0.84 scale fits the ~7.7in printable width.
+      `#sticker-export{transform:scale(.84);transform-origin:top left}}` +
+      `</style></head><body>${exported.outerHTML}</body></html>`
+    );
+  }
+
+  function doPrint() {
+    const html = buildStickerHtml();
+    if (!html) {
+      if (typeof window !== "undefined") window.print();
+      return;
+    }
+
+    // Render the self-contained sticker in a hidden iframe and print only that.
+    const iframe = document.createElement("iframe");
+    iframe.setAttribute("aria-hidden", "true");
+    iframe.style.cssText =
+      "position:fixed;right:0;bottom:0;width:0;height:0;border:0;";
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!doc) {
+      iframe.remove();
+      window.print();
+      return;
+    }
+    doc.open();
+    doc.write(html);
+    doc.close();
+
+    let printed = false;
+    const triggerPrint = () => {
+      if (printed) return;
+      printed = true;
+      const win = iframe.contentWindow;
+      if (win) {
+        win.focus();
+        win.print();
+      }
+      setTimeout(() => iframe.remove(), 500);
+    };
+
+    // Wait for images (QR code, brand logo) to finish loading before printing,
+    // otherwise the printout shows broken-image alt text. Cap the wait so a slow
+    // CDN can't hang the print dialog forever.
+    const imgs = Array.from(doc.images);
+    const pending = imgs.filter((img) => !img.complete);
+    if (pending.length === 0) {
+      triggerPrint();
+    } else {
+      let remaining = pending.length;
+      const one = () => {
+        remaining -= 1;
+        if (remaining <= 0) triggerPrint();
+      };
+      pending.forEach((img) => {
+        img.addEventListener("load", one);
+        img.addEventListener("error", one);
+      });
+      setTimeout(triggerPrint, 2500);
+    }
+  }
+
+  function doDownloadHtml() {
+    const html = buildStickerHtml();
+    if (!html) return;
 
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -858,7 +955,7 @@ export default function WindowStickerMaker() {
             visibility: visible !important;
           }
           #sticker-export {
-            position: absolute;
+            position: fixed;
             left: 0;
             top: 0;
             width: 100%;
@@ -1039,14 +1136,28 @@ function StickerPreview({
       id="sticker-export"
       className="bg-white border border-slate-900 shadow-xl shadow-slate-900/10 overflow-hidden text-slate-900"
     >
-      {/* OEM brand header — make name like a manufacturer's own window label */}
-      <div className="bg-white border-b-4 border-[#0c2d5e] px-5 pt-4 pb-3">
-        <p className="text-[26px] leading-none font-black uppercase tracking-tight text-[#0c2d5e]">
-          {data.make || "Vehicle"}
-        </p>
-        <p className="text-[10px] tracking-[0.25em] font-bold text-slate-500 mt-1">
-          MONRONEY VEHICLE LABEL · WINDOW STICKER
-        </p>
+      {/* OEM brand header — manufacturer logo + make name, like a real label */}
+      <div className="bg-white border-b-4 border-[#0c2d5e] px-5 pt-4 pb-3 flex items-center gap-3">
+        {data.make && (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            key={data.make}
+            src={brandLogoUrl(data.make)}
+            alt={`${data.make} logo`}
+            className="h-11 w-auto max-w-[120px] object-contain shrink-0"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
+        )}
+        <div className="min-w-0">
+          <p className="text-[26px] leading-none font-black uppercase tracking-tight text-[#0c2d5e] truncate">
+            {data.make || "Vehicle"}
+          </p>
+          <p className="text-[10px] tracking-[0.25em] font-bold text-slate-500 mt-1">
+            MONRONEY VEHICLE LABEL · WINDOW STICKER
+          </p>
+        </div>
       </div>
 
       {/* Title bar: year/model/trim + MSRP callout */}
