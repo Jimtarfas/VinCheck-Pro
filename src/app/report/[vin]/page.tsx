@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { decodeVin } from "@/lib/api";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
-import { AuthGateProvider } from "@/components/PremiumGate";
+import ReportGate from "@/components/ReportGate";
 import { trackVinLookup, saveVinReport } from "@/lib/tracking";
 
 interface Props {
@@ -83,9 +83,10 @@ export default async function ReportPage({ params }: Props) {
     year: data.years?.[0]?.year ?? null,
   });
 
-  // Persist the full decode payload to vin_reports. No-op for unauthed
-  // visitors; for signed-in users the upsert lands under their user_id so
-  // the report becomes reachable from /dashboard and any other device.
+  // Persist the full decode payload to vin_reports. ReportGate ensures
+  // the user is signed in before they see the report, so the upsert lands
+  // under their user_id and the report becomes reachable from /dashboard
+  // and any other device they're signed into. No-op for unauthed.
   await saveVinReport({
     vin: cleaned,
     make: data.make?.name ?? null,
@@ -128,9 +129,9 @@ export default async function ReportPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <AuthGateProvider vin={cleaned}>
+      <ReportGate vin={cleaned}>
         <VinReport data={data} />
-      </AuthGateProvider>
+      </ReportGate>
     </>
   );
 }

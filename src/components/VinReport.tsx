@@ -4,14 +4,13 @@ import {
   Car, Gauge, Settings, Fuel, Cog, DoorOpen, Check, Shield, ChevronDown,
   ChevronLeft, ChevronRight, Printer, Share2, ArrowLeft, DollarSign,
   TrendingUp, TrendingDown, BarChart3, MapPin, Calendar, Palette, Tag,
-  Zap, Award, Info, Activity, Download, AlertTriangle, Lock,
+  Zap, Award, Info, Activity, Download, AlertTriangle,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
 import VinSearchForm from "./VinSearchForm";
-import { LockedCard, usePremiumGate } from "./PremiumGate";
 import dynamic from "next/dynamic";
 
 // Lazy-load AI section — it's below the fold and only needed after initial render.
@@ -417,25 +416,6 @@ export default function VinReport({ data }: { data: VinData }) {
     setExpandedCategories((prev) => { const next = new Set(prev); if (next.has(cat)) next.delete(cat); else next.add(cat); return next; });
   };
   const { download: downloadReport, loading: downloadLoading } = useDownloadReport(data);
-  const { status: gateStatus, openSignup } = usePremiumGate();
-
-  // Download is premium: guests get the signup modal instead of a PDF.
-  const handleDownload = useCallback(() => {
-    if (gateStatus === "guest") {
-      openSignup();
-      return;
-    }
-    void downloadReport();
-  }, [gateStatus, openSignup, downloadReport]);
-
-  // Print is premium too: guests get the signup modal instead.
-  const handlePrint = useCallback(() => {
-    if (gateStatus === "guest") {
-      openSignup();
-      return;
-    }
-    window.print();
-  }, [gateStatus, openSignup]);
 
   const year      = data.years?.[0]?.year;
   const trim      = data.years?.[0]?.styles?.[0]?.trim;
@@ -450,7 +430,7 @@ export default function VinReport({ data }: { data: VinData }) {
   // Client-side backstop for server-side tracking. The server component
   // already calls trackVinLookup + saveVinReport, but this fetch covers
   // the edge case where the serverless function froze before the inserts
-  // resolved, or where the user signed in mid-render via the auth gate.
+  // resolved, or where the user signed in mid-render via ReportGate.
   useEffect(() => {
     if (!data.vin) return;
     try {
@@ -559,19 +539,15 @@ export default function VinReport({ data }: { data: VinData }) {
 
               {/* Action buttons */}
               <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
-                <button onClick={handleDownload} disabled={downloadLoading}
+                <button onClick={downloadReport} disabled={downloadLoading}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-on-secondary-container hover:brightness-110 transition cursor-pointer disabled:opacity-60"
                   style={{ background: "var(--color-secondary-container)" }}>
-                  {gateStatus === "guest" ? (
-                    <Lock className="w-4 h-4" />
-                  ) : (
-                    <Download className={`w-4 h-4 ${downloadLoading ? "animate-pulse" : ""}`} />
-                  )}
+                  <Download className={`w-4 h-4 ${downloadLoading ? "animate-pulse" : ""}`} />
                   {downloadLoading ? "Preparing…" : "Download Report"}
                 </button>
-                <button onClick={handlePrint}
+                <button onClick={() => window.print()}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
-                  {gateStatus === "guest" ? <Lock className="w-4 h-4" /> : <Printer className="w-4 h-4" />} Print
+                  <Printer className="w-4 h-4" /> Print
                 </button>
                 <button
                   onClick={handleShare}
@@ -679,7 +655,6 @@ export default function VinReport({ data }: { data: VinData }) {
 
             {/* Engine & Performance */}
             {data.engine && (
-              <LockedCard label="Engine & Performance">
               <Card icon={Zap} title="Engine & Performance" subtitle="Complete powertrain specifications" accent="bg-amber-50 text-amber-600">
                 <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
                   {data.engine.cylinder     && <Stat label="Configuration" value={`${data.engine.cylinder}-Cyl ${data.engine.configuration}`} />}
@@ -694,12 +669,10 @@ export default function VinReport({ data }: { data: VinData }) {
                   {data.engine.valve && <><Stat label="Valve Timing" value={data.engine.valve.timing} /><Stat label="Valve Gear" value={data.engine.valve.gear} /></>}
                 </div>
               </Card>
-              </LockedCard>
             )}
 
             {/* Transmission */}
             {data.transmission && (
-              <LockedCard label="Transmission & Drivetrain">
               <Card icon={Cog} title="Transmission & Drivetrain" accent="bg-cyan-50 text-cyan-600">
                 <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
                   <Stat label="Type"          value={data.transmission.transmissionType} />
@@ -709,7 +682,6 @@ export default function VinReport({ data }: { data: VinData }) {
                   {data.numOfDoors && <Stat label="Doors" value={`${data.numOfDoors} Doors`} />}
                 </div>
               </Card>
-              </LockedCard>
             )}
 
             {/* Fuel Economy */}
@@ -733,7 +705,6 @@ export default function VinReport({ data }: { data: VinData }) {
 
             {/* Vehicle Classification */}
             {data.categories && (
-              <LockedCard label="Vehicle Classification">
               <Card icon={Info} title="Vehicle Classification" accent="bg-indigo-50 text-indigo-600">
                 <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
                   {data.categories.primaryBodyType && <Stat label="Body Type"    value={data.categories.primaryBodyType} />}
@@ -746,12 +717,10 @@ export default function VinReport({ data }: { data: VinData }) {
                   {data.squishVin                  && <Stat label="Squish VIN"   value={data.squishVin} />}
                 </div>
               </Card>
-              </LockedCard>
             )}
 
             {/* Colors */}
             {data.colors && data.colors.length > 0 && (
-              <LockedCard label="Available Colors">
               <Card icon={Palette} title="Available Colors" accent="bg-pink-50 text-pink-600">
                 <div className="space-y-5">
                   {data.colors.map((c) => (
@@ -768,12 +737,10 @@ export default function VinReport({ data }: { data: VinData }) {
                   ))}
                 </div>
               </Card>
-              </LockedCard>
             )}
 
             {/* Options & Equipment — accordion */}
             {data.options && data.options.length > 0 && (
-              <LockedCard label="Options & Equipment">
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-6 py-5 border-b border-surface-container">
                   <h2 className="font-headline font-bold text-lg text-on-surface flex items-center gap-3">
@@ -818,7 +785,6 @@ export default function VinReport({ data }: { data: VinData }) {
                   ))}
                 </div>
               </div>
-              </LockedCard>
             )}
 
             {/* Check another VIN */}
@@ -837,7 +803,6 @@ export default function VinReport({ data }: { data: VinData }) {
 
             {/* Pricing sidebar card */}
             {data.price && (
-              <LockedCard label="Valuation">
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-surface-container">
                   <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
@@ -877,12 +842,10 @@ export default function VinReport({ data }: { data: VinData }) {
                   )}
                 </div>
               </div>
-              </LockedCard>
             )}
 
             {/* Market analysis sidebar */}
             {data.marketData && (
-              <LockedCard label="Market Analysis">
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-surface-container">
                   <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
@@ -942,7 +905,6 @@ export default function VinReport({ data }: { data: VinData }) {
                   )}
                 </div>
               </div>
-              </LockedCard>
             )}
 
             {/* Quick report summary sidebar */}
@@ -972,9 +934,7 @@ export default function VinReport({ data }: { data: VinData }) {
             </div>
 
             {/* AI-powered report sections (Concierge, Risk Insights, Storyteller) */}
-            <LockedCard label="AI insights">
-              <VinReportAI data={data} fullName={fullName} />
-            </LockedCard>
+            <VinReportAI data={data} fullName={fullName} />
 
           </div>{/* end sidebar */}
         </div>{/* end grid */}
