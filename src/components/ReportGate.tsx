@@ -96,24 +96,36 @@ export default function ReportGate({
     return <>{children}</>;
   }
 
-  // Guest — render report blurred + non-interactive behind a fullscreen scrim.
+  // Guest — show the top of the report as a real, unblurred preview, then
+  // fade it out so it reads as "here's a genuine preview, sign up for the
+  // rest" rather than the full report given away. Body scroll stays locked
+  // (see effect above), so guests only ever see this first screen. Signup is
+  // still required: the modal is non-dismissible and the page is
+  // non-interactive until they have a session.
   const next = `/report/${vin}`;
 
   return (
     <>
       <div
         aria-hidden="true"
-        className="filter blur-md pointer-events-none select-none"
+        className="pointer-events-none select-none"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to bottom, #000 0, #000 52vh, transparent 88vh)",
+          maskImage:
+            "linear-gradient(to bottom, #000 0, #000 52vh, transparent 88vh)",
+        }}
       >
         {children}
       </div>
 
-      {/* Fullscreen scrim + centered card */}
+      {/* Graded scrim (clear at top so the preview shows, darker toward the
+          card for legibility) + centered card */}
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="report-gate-title"
-        className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 bg-slate-900/70 backdrop-blur-sm overflow-y-auto"
+        className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 overflow-y-auto bg-gradient-to-b from-slate-900/5 via-slate-900/40 to-slate-900/75"
       >
         <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 sm:p-8 my-auto">
           {/* Brand */}
