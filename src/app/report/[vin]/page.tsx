@@ -129,7 +129,7 @@ export default async function ReportPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ReportGate vin={cleaned}>
+      <ReportGate vin={cleaned} data={data}>
         <VinReport data={data} />
       </ReportGate>
     </>
