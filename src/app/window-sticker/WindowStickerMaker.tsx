@@ -1286,7 +1286,9 @@ function StickerPreview({
 
       {/* Total band */}
       <div className="bg-[#0c2d5e] text-white px-5 py-3 flex items-center justify-between border-t border-slate-300">
-        <span className="font-extrabold tracking-wide">TOTAL VEHICLE PRICE</span>
+        <span className="font-extrabold tracking-wide whitespace-nowrap">
+          TOTAL VEHICLE PRICE
+        </span>
         <span className="font-mono font-extrabold text-xl tabular-nums">
           {formatMoney(totals.total)}
         </span>
@@ -1295,7 +1297,7 @@ function StickerPreview({
       {/* Official-style EPA fuel economy panel */}
       <div className="border-t border-slate-300 bg-[#fbe10a] text-slate-900">
         <div className="flex items-center justify-between px-5 pt-3">
-          <p className="text-[13px] font-black uppercase tracking-tight">
+          <p className="text-[13px] font-black uppercase tracking-tight whitespace-nowrap">
             Fuel Economy &amp; Environment
           </p>
           <p className="text-[10px] font-bold uppercase tracking-wider">EPA</p>
@@ -1394,7 +1396,7 @@ function StickerPreview({
           {data.dealerName && data.dealerLocation && " · "}
           {data.dealerLocation}
         </span>
-        <span>Replica for display purposes only</span>
+        <span className="whitespace-nowrap">Replica for display purposes only</span>
       </div>
 
       {/* Branded footer — our logo + website. Literal colors (no CSS vars) so
