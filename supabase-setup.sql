@@ -14,8 +14,16 @@ create table if not exists public.vin_lookups (
   user_email text,
   ip_hash    text,
   user_agent text,
+  geo_country text,
+  geo_region  text,
+  geo_city    text,
   created_at timestamptz not null default now()
 );
+
+-- Migration for existing installs (safe to re-run): add coarse geo columns.
+alter table public.vin_lookups add column if not exists geo_country text;
+alter table public.vin_lookups add column if not exists geo_region  text;
+alter table public.vin_lookups add column if not exists geo_city    text;
 
 create index if not exists vin_lookups_created_at_idx on public.vin_lookups (created_at desc);
 create index if not exists vin_lookups_vin_idx        on public.vin_lookups (vin);

@@ -24,6 +24,13 @@ export async function trackVinLookup({ vin, make, model, year }: TrackVinLookupP
     const ipHash = crypto.createHash("sha256").update(ip).digest("hex").slice(0, 16);
     const userAgent = h.get("user-agent")?.slice(0, 300) || null;
 
+    // Coarse geo from Vercel's edge headers (no external lookup, no raw IP
+    // stored). Lets the admin panel show where signup-wall drop-off comes from.
+    const geoCountry = h.get("x-vercel-ip-country") || null;
+    const geoRegion = h.get("x-vercel-ip-country-region") || null;
+    const geoCityRaw = h.get("x-vercel-ip-city");
+    const geoCity = geoCityRaw ? decodeURIComponent(geoCityRaw) : null;
+
     let userEmail: string | null = null;
     let userId: string | null = null;
     try {
@@ -38,7 +45,7 @@ export async function trackVinLookup({ vin, make, model, year }: TrackVinLookupP
     }
 
     const admin = createAdminClient();
-    await admin.from("vin_lookups").insert({
+    const baseRow = {
       vin,
       make: make ?? null,
       model: model ?? null,
@@ -47,7 +54,18 @@ export async function trackVinLookup({ vin, make, model, year }: TrackVinLookupP
       user_email: userEmail,
       ip_hash: ipHash,
       user_agent: userAgent,
+    };
+    const { error } = await admin.from("vin_lookups").insert({
+      ...baseRow,
+      geo_country: geoCountry,
+      geo_region: geoRegion,
+      geo_city: geoCity,
     });
+    // If the geo columns don't exist yet (migration not run), retry without
+    // them so tracking keeps working regardless of deploy/migration order.
+    if (error) {
+      await admin.from("vin_lookups").insert(baseRow);
+    }
   } catch {
     // Silent fail — tracking must never break user experience
   }

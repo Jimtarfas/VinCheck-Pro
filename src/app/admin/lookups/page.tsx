@@ -13,6 +13,9 @@ interface Lookup {
   user_email: string | null;
   ip_hash: string | null;
   user_agent: string | null;
+  geo_country: string | null;
+  geo_region: string | null;
+  geo_city: string | null;
   created_at: string;
 }
 
@@ -40,6 +43,17 @@ interface SourceAgg {
   userAgent: string | null;
   firstAt: string;
   lastAt: string;
+}
+
+// Turn a 2-letter country code into its flag emoji.
+function flagFromCC(code: string | null | undefined): string {
+  if (!code || code.length !== 2) return "";
+  const A = 0x1f1e6;
+  const u = code.toUpperCase();
+  return (
+    String.fromCodePoint(A + u.charCodeAt(0) - 65) +
+    String.fromCodePoint(A + u.charCodeAt(1) - 65)
+  );
 }
 
 // Best-effort label for a raw user-agent string so the admin can tell at a
@@ -71,7 +85,7 @@ async function getLookups() {
     const [{ data: rows, error }, { data: dlRows }] = await Promise.all([
       admin
         .from("vin_lookups")
-        .select("id, vin, make, model, year, user_email, ip_hash, user_agent, created_at")
+        .select("id, vin, make, model, year, user_email, ip_hash, user_agent, geo_country, geo_region, geo_city, created_at")
         .order("created_at", { ascending: false })
         .limit(2000),
       admin
@@ -186,12 +200,61 @@ async function getLookups() {
       .sort((a, b) => b.lookups - a.lookups)
       .slice(0, 15);
 
+    // ── Signup-wall leak ──
+    // Anon rows = someone pulled a report but had no session when it loaded,
+    // i.e. they hit the signup popup. Signed-in rows = they were registered.
+    // We count distinct *people* (anon → distinct hashed IP, registered →
+    // distinct email) so a single user re-checking cars isn't over-counted.
+    // It's an estimate: a user's very first pull (pre-signup) also lands in
+    // the anon bucket, so true drop-off is marginally lower than shown.
+    const anonIPs = new Set<string>();
+    const registeredEmails = new Set<string>();
+    let anonLookups = 0;
+    let signedLookups = 0;
+    // Where the lost (anon) prospects come from — distinct anon visitors per
+    // country, so one person re-checking cars counts once per country.
+    const anonCountryIPs = new Map<string, Set<string>>();
+    let anonGeoTagged = 0;
+    for (const r of filtered) {
+      if (r.user_email) {
+        signedLookups += 1;
+        registeredEmails.add(r.user_email.toLowerCase());
+      } else {
+        anonLookups += 1;
+        if (r.ip_hash) anonIPs.add(r.ip_hash);
+        if (r.geo_country) {
+          anonGeoTagged += 1;
+          const set = anonCountryIPs.get(r.geo_country) ?? new Set<string>();
+          set.add(r.ip_hash || `row-${r.id}`);
+          anonCountryIPs.set(r.geo_country, set);
+        }
+      }
+    }
+    const anonVisitors = anonIPs.size;
+    const registeredVisitors = registeredEmails.size;
+    const totalVisitors = anonVisitors + registeredVisitors;
+    const dropOffPct =
+      totalVisitors > 0 ? Math.round((anonVisitors / totalVisitors) * 100) : 0;
+    const anonByCountry = Array.from(anonCountryIPs.entries())
+      .map(([cc, ips]) => ({ cc, visitors: ips.size }))
+      .sort((a, b) => b.visitors - a.visitors)
+      .slice(0, 12);
+
     return {
       uniqueLookups: unique.slice(0, 500),
       uniqueCount: unique.length,
       totalDownloads: dlPublic.length,
       topMakes,
       topSources,
+      leak: {
+        anonLookups,
+        signedLookups,
+        anonVisitors,
+        registeredVisitors,
+        dropOffPct,
+        anonByCountry,
+        anonGeoTagged,
+      },
       error: null as string | null,
     };
   } catch (e) {
@@ -201,13 +264,22 @@ async function getLookups() {
       totalDownloads: 0,
       topMakes: [] as [string, number][],
       topSources: [] as SourceAgg[],
+      leak: {
+        anonLookups: 0,
+        signedLookups: 0,
+        anonVisitors: 0,
+        registeredVisitors: 0,
+        dropOffPct: 0,
+        anonByCountry: [] as { cc: string; visitors: number }[],
+        anonGeoTagged: 0,
+      },
       error: e instanceof Error ? e.message : "Unknown error",
     };
   }
 }
 
 export default async function AdminLookupsPage() {
-  const { uniqueLookups, uniqueCount, totalDownloads, topMakes, topSources, error } = await getLookups();
+  const { uniqueLookups, uniqueCount, totalDownloads, topMakes, topSources, leak, error } = await getLookups();
 
   // Flag likely-scraper sources: one hashed IP responsible for a lot of
   // lookups across many distinct VINs. Tuned conservatively so a normal
@@ -231,6 +303,77 @@ export default async function AdminLookupsPage() {
       <p className="text-xs text-slate-500">
         Admin lookups excluded · each VIN counted once · downloads tracked separately
       </p>
+
+      {/* Signup-wall leak — how many report-pullers never registered */}
+      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <div className="px-5 py-4 border-b border-slate-100">
+          <h2 className="text-sm font-bold text-slate-900">Signup-Wall Drop-Off</h2>
+          <p className="text-xs text-slate-700 mt-0.5">
+            People who pulled a report but hit the signup popup without an account.
+            Estimate — anon counted by distinct hashed IP, registered by distinct email.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-100">
+          <div className="px-5 py-4">
+            <p className="text-2xl font-black text-red-600">{leak.dropOffPct}%</p>
+            <p className="text-[11px] text-slate-600 mt-0.5 uppercase tracking-wide">
+              Lost at signup wall
+            </p>
+          </div>
+          <div className="px-5 py-4">
+            <p className="text-2xl font-black text-slate-900">
+              {leak.anonVisitors.toLocaleString()}
+            </p>
+            <p className="text-[11px] text-slate-600 mt-0.5 uppercase tracking-wide">
+              Anon visitors (no signup)
+            </p>
+          </div>
+          <div className="px-5 py-4">
+            <p className="text-2xl font-black text-emerald-700">
+              {leak.registeredVisitors.toLocaleString()}
+            </p>
+            <p className="text-[11px] text-slate-600 mt-0.5 uppercase tracking-wide">
+              Registered visitors
+            </p>
+          </div>
+          <div className="px-5 py-4">
+            <p className="text-2xl font-black text-slate-900">
+              {leak.anonLookups.toLocaleString()}
+            </p>
+            <p className="text-[11px] text-slate-600 mt-0.5 uppercase tracking-wide">
+              Anon report pulls
+            </p>
+          </div>
+        </div>
+
+        {/* Where the lost prospects come from */}
+        <div className="px-5 py-4 border-t border-slate-100">
+          <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wide mb-2">
+            Lost prospects by country
+          </p>
+          {leak.anonByCountry.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {leak.anonByCountry.map(({ cc, visitors }) => (
+                <span
+                  key={cc}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs text-slate-700"
+                  title={cc}
+                >
+                  <span className="text-base leading-none">{flagFromCC(cc)}</span>
+                  <span className="font-medium">{cc}</span>
+                  <span className="text-slate-400">·</span>
+                  <span className="font-bold text-slate-900">{visitors}</span>
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-slate-600">
+              No geo captured yet — country fills in on new anon lookups once the
+              geo columns exist and traffic flows through Vercel&apos;s edge.
+            </p>
+          )}
+        </div>
+      </div>
 
       {suspectSources.length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4">
