@@ -96,36 +96,27 @@ export default function ReportGate({
     return <>{children}</>;
   }
 
-  // Guest — show the top of the report as a real, unblurred preview, then
-  // fade it out so it reads as "here's a genuine preview, sign up for the
-  // rest" rather than the full report given away. Body scroll stays locked
-  // (see effect above), so guests only ever see this first screen. Signup is
-  // still required: the modal is non-dismissible and the page is
-  // non-interactive until they have a session.
+  // Guest — render the report with only a light blur so images and text stay
+  // readable (a teaser the visitor can actually see), kept non-interactive.
+  // Signup is still required: the modal is non-dismissible and body scroll is
+  // locked (see effect above) until they have a session.
   const next = `/report/${vin}`;
 
   return (
     <>
       <div
         aria-hidden="true"
-        className="pointer-events-none select-none"
-        style={{
-          WebkitMaskImage:
-            "linear-gradient(to bottom, #000 0, #000 52vh, transparent 88vh)",
-          maskImage:
-            "linear-gradient(to bottom, #000 0, #000 52vh, transparent 88vh)",
-        }}
+        className="filter blur-[1.5px] pointer-events-none select-none"
       >
         {children}
       </div>
 
-      {/* Graded scrim (clear at top so the preview shows, darker toward the
-          card for legibility) + centered card */}
+      {/* Light scrim so the report stays visible behind the card + centered card */}
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="report-gate-title"
-        className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 overflow-y-auto bg-gradient-to-b from-slate-900/5 via-slate-900/40 to-slate-900/75"
+        className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 overflow-y-auto bg-slate-900/30"
       >
         <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 sm:p-8 my-auto">
           {/* Brand */}
