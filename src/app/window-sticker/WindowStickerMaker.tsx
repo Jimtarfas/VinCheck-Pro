@@ -442,21 +442,26 @@ export default function WindowStickerMaker() {
   // Build a fully self-contained HTML document that renders identically to the
   // on-screen sticker. The preview is styled with Tailwind utility classes,
   // which won't exist in a standalone document — so we render an offscreen copy
-  // at a fixed print width, read every element's *computed* style, and bake
-  // those values into inline styles on a detached clone. The result is a real,
+  // at a fixed width, read every element's *computed* style, and bake those
+  // values into inline styles on a detached clone. The result is a real,
   // portable Monroney label, used for BOTH download and print so the two paths
-  // can never diverge. The print path scales the 880px sticker to fit a letter
-  // page; this is far more reliable than hijacking the live DOM with print CSS
-  // (which broke once the preview lived inside a position:sticky / grid column).
+  // can never diverge.
+  //
+  // The sticker is built at 720px — narrow enough to fit the ~7.7in printable
+  // width of a letter page (margins .4in) WITHOUT any print-only scaling. That
+  // is the key to print matching download/website exactly: there is no @media
+  // print transform to make the printed copy look different (an earlier
+  // transform:scale left the printout shrunk and pinned to the top-left).
+  const EXPORT_WIDTH = 720;
+
   function buildStickerHtml(): string | null {
     const node = document.getElementById("sticker-export");
     if (!node) return null;
 
     const stage = document.createElement("div");
-    stage.style.cssText =
-      "position:fixed;left:-100000px;top:0;width:880px;opacity:0;pointer-events:none;";
+    stage.style.cssText = `position:fixed;left:-100000px;top:0;width:${EXPORT_WIDTH}px;opacity:0;pointer-events:none;`;
     const laidOut = node.cloneNode(true) as HTMLElement;
-    laidOut.style.width = "880px";
+    laidOut.style.width = `${EXPORT_WIDTH}px`;
     stage.appendChild(laidOut);
     document.body.appendChild(stage);
 
@@ -471,11 +476,11 @@ export default function WindowStickerMaker() {
       `<style>*{box-sizing:border-box}html,body{margin:0}` +
       `body{background:#e2e8f0;padding:24px;display:flex;justify-content:center;` +
       `font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}` +
-      `#sticker-export{width:880px;flex:0 0 auto}` +
+      `#sticker-export{width:${EXPORT_WIDTH}px;flex:0 0 auto}` +
+      // Print uses the very same layout — only the page chrome changes, so the
+      // printed/PDF sticker is identical to the downloaded one.
       `@media print{@page{size:letter portrait;margin:.4in}` +
-      `body{background:#fff;padding:0;display:block}` +
-      // 880px sticker → ~0.84 scale fits the ~7.7in printable width.
-      `#sticker-export{transform:scale(.84);transform-origin:top left}}` +
+      `body{background:#fff;padding:0}}` +
       `</style></head><body>${exported.outerHTML}</body></html>`
     );
   }
