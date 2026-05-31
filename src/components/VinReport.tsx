@@ -4,13 +4,14 @@ import {
   Car, Gauge, Settings, Fuel, Cog, DoorOpen, Check, Shield, ChevronDown,
   ChevronLeft, ChevronRight, Printer, Share2, ArrowLeft, DollarSign,
   TrendingUp, TrendingDown, BarChart3, MapPin, Calendar, Palette, Tag,
-  Zap, Award, Info, Activity, Download, AlertTriangle,
+  Zap, Award, Info, Activity, Download, AlertTriangle, Lock,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
 import VinSearchForm from "./VinSearchForm";
+import { LockedCard, usePremiumGate } from "./PremiumGate";
 import dynamic from "next/dynamic";
 
 // Lazy-load AI section — it's below the fold and only needed after initial render.
@@ -416,6 +417,16 @@ export default function VinReport({ data }: { data: VinData }) {
     setExpandedCategories((prev) => { const next = new Set(prev); if (next.has(cat)) next.delete(cat); else next.add(cat); return next; });
   };
   const { download: downloadReport, loading: downloadLoading } = useDownloadReport(data);
+  const { status: gateStatus, openSignup } = usePremiumGate();
+
+  // Download is premium: guests get the signup modal instead of a PDF.
+  const handleDownload = useCallback(() => {
+    if (gateStatus === "guest") {
+      openSignup();
+      return;
+    }
+    void downloadReport();
+  }, [gateStatus, openSignup, downloadReport]);
 
   const year      = data.years?.[0]?.year;
   const trim      = data.years?.[0]?.styles?.[0]?.trim;
@@ -430,7 +441,7 @@ export default function VinReport({ data }: { data: VinData }) {
   // Client-side backstop for server-side tracking. The server component
   // already calls trackVinLookup + saveVinReport, but this fetch covers
   // the edge case where the serverless function froze before the inserts
-  // resolved, or where the user signed in mid-render via ReportGate.
+  // resolved, or where the user signed in mid-render via the auth gate.
   useEffect(() => {
     if (!data.vin) return;
     try {
@@ -539,10 +550,14 @@ export default function VinReport({ data }: { data: VinData }) {
 
               {/* Action buttons */}
               <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
-                <button onClick={downloadReport} disabled={downloadLoading}
+                <button onClick={handleDownload} disabled={downloadLoading}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-on-secondary-container hover:brightness-110 transition cursor-pointer disabled:opacity-60"
                   style={{ background: "var(--color-secondary-container)" }}>
-                  <Download className={`w-4 h-4 ${downloadLoading ? "animate-pulse" : ""}`} />
+                  {gateStatus === "guest" ? (
+                    <Lock className="w-4 h-4" />
+                  ) : (
+                    <Download className={`w-4 h-4 ${downloadLoading ? "animate-pulse" : ""}`} />
+                  )}
                   {downloadLoading ? "Preparing…" : "Download Report"}
                 </button>
                 <button onClick={() => window.print()}
@@ -803,6 +818,7 @@ export default function VinReport({ data }: { data: VinData }) {
 
             {/* Pricing sidebar card */}
             {data.price && (
+              <LockedCard label="Valuation">
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-surface-container">
                   <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
@@ -842,10 +858,12 @@ export default function VinReport({ data }: { data: VinData }) {
                   )}
                 </div>
               </div>
+              </LockedCard>
             )}
 
             {/* Market analysis sidebar */}
             {data.marketData && (
+              <LockedCard label="Market Analysis">
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-surface-container">
                   <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
@@ -905,6 +923,7 @@ export default function VinReport({ data }: { data: VinData }) {
                   )}
                 </div>
               </div>
+              </LockedCard>
             )}
 
             {/* Quick report summary sidebar */}
@@ -934,7 +953,9 @@ export default function VinReport({ data }: { data: VinData }) {
             </div>
 
             {/* AI-powered report sections (Concierge, Risk Insights, Storyteller) */}
-            <VinReportAI data={data} fullName={fullName} />
+            <LockedCard label="AI insights">
+              <VinReportAI data={data} fullName={fullName} />
+            </LockedCard>
 
           </div>{/* end sidebar */}
         </div>{/* end grid */}
