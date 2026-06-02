@@ -2,10 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Download, FileText, X, Lock, ChevronRight, Camera, BarChart3,
-  DollarSign, ListChecks, ShieldCheck,
-} from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { VinData } from "@/lib/api";
 import Logo from "./Logo";
@@ -16,20 +13,16 @@ type AuthState = "loading" | "authed" | "guest";
 /**
  * ReportGate
  * ---------------------------------------------------------------
- * Intent-based paywall tease. Guests see the *real* full report
- * rendered behind a frosted "fade-to-blur" veil:
+ * Gates the full VIN report behind Supabase auth. Guests see the
+ * real report behind a light 2.3px blur (readable teaser) with a
+ * signup/login popup over it. No heavy "locked content" overlay —
+ * just blur + popup, so the visitor can see real data is here.
  *
- *   • The hero + photo gallery + first specs stay sharp (a mask
- *     gradient keeps the top ~55vh un-blurred) so the visitor can
- *     confirm we found their exact vehicle and see there's real
- *     data here — the thing that builds trust and curiosity.
- *   • Everything below fades into a glassy blur, with a floating
- *     "View Full Report — Free" unlock card that tracks scroll over
- *     the locked content and shows honest counts of what's inside.
- *
- * Clicking the CTA opens a dismissible signup/login popup (X /
- * backdrop / Esc). The moment Supabase confirms a session the veil
- * drops and the full report renders interactively — no redirect.
+ * On mobile the popup docks as a bottom sheet (max-h, internal
+ * scroll) so the top of the blurred report peeks above it instead
+ * of the popup covering the whole screen. On desktop it's a
+ * centered card. The flow completes inline: the moment Supabase
+ * emits an auth state change the gate drops live — no redirect.
  *
  * If Supabase env vars aren't configured we fall back to "authed"
  * so the report stays visible (a misconfigured auth backend should
@@ -37,16 +30,14 @@ type AuthState = "loading" | "authed" | "guest";
  */
 export default function ReportGate({
   vin,
-  data,
   children,
 }: {
   vin: string;
-  data: VinData;
+  data?: VinData;
   children: React.ReactNode;
 }) {
   const [auth, setAuth] = useState<AuthState>("loading");
   const [mode, setMode] = useState<"signup" | "login">("signup");
-  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -82,30 +73,20 @@ export default function ReportGate({
     };
   }, []);
 
-  // Lock body scroll only while the signup popup is open. The blurred report
-  // itself scrolls freely so the floating unlock card can track the content.
+  // Lock body scroll while the gate is up so the popup feels modal and the
+  // bottom sheet's own internal scroll takes over on mobile.
   useEffect(() => {
-    if (!showAuth) return;
+    if (auth !== "guest") return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [showAuth]);
+  }, [auth]);
 
-  // Close the popup on Escape.
-  useEffect(() => {
-    if (!showAuth) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setShowAuth(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [showAuth]);
-
-  // While we're checking auth, render the report invisible to reserve layout
-  // space and avoid a flash of either the veil (for signed-in users) or the
-  // sharp report (for guests).
+  // While we're checking auth, render the children but invisible to
+  // avoid (a) a content flash for guests and (b) a flash of the gate
+  // for signed-in users. Reserving layout space prevents CLS.
   if (auth === "loading") {
     return (
       <div aria-busy="true" className="opacity-0">
@@ -118,240 +99,117 @@ export default function ReportGate({
     return <>{children}</>;
   }
 
-  // ── Guest — real report behind a fade-to-blur veil ──
+  // Guest — render the report with only a light 2.3px blur so images and text
+  // stay readable (a teaser the visitor can actually see), kept non-interactive.
   const next = `/report/${vin}`;
-
-  // Honest, data-derived counts surfaced on the unlock card.
-  const photoCount = data.photos?.length ?? 0;
-  const listingCount = data.marketData?.totalListings ?? 0;
-  const pricePoints = data.price
-    ? [
-        data.price.baseMsrp,
-        data.price.baseInvoice,
-        data.price.usedTmvRetail,
-        data.price.usedTradeIn,
-        data.price.usedPrivateParty,
-      ].filter((p) => (p ?? 0) > 0).length
-    : 0;
-  const optionCount = data.options?.reduce((a, c) => a + c.options.length, 0) ?? 0;
-
-  const chips = [
-    { icon: Camera, label: photoCount > 0 ? `${photoCount} photos` : "Photos", show: true },
-    { icon: BarChart3, label: listingCount > 0 ? `${listingCount} listings` : "Market data", show: !!data.marketData },
-    { icon: DollarSign, label: pricePoints > 0 ? `${pricePoints} price points` : "Valuation", show: pricePoints > 0 },
-    { icon: ListChecks, label: optionCount > 0 ? `${optionCount} options` : "Full specs", show: true },
-  ].filter((c) => c.show);
-
-  // Mask gradient: fully transparent (sharp) for the first 55vh, then ramps
-  // into the blur by ~85vh and stays blurred to the bottom of the report.
-  const mask =
-    "linear-gradient(to bottom, transparent 0, transparent 55vh, rgba(0,0,0,0.92) 85vh, #000 100vh)";
 
   return (
     <>
-      <div className="relative">
-        {/* Real report — non-interactive while gated. */}
-        <div aria-hidden="true" className="pointer-events-none select-none">
-          {children}
-        </div>
+      <div
+        aria-hidden="true"
+        className="blur-[2.3px] pointer-events-none select-none"
+      >
+        {children}
+      </div>
 
-        {/* Frosted veil: blurs everything below the sharp zone. */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 backdrop-blur-[7px] pointer-events-none"
-          style={{
-            WebkitMaskImage: mask,
-            maskImage: mask,
-            background:
-              "linear-gradient(to bottom, transparent 50vh, rgba(248,250,252,0.45) 80vh, rgba(248,250,252,0.82) 110vh)",
-          }}
-        />
+      {/* Light scrim so the blurred report stays visible behind the popup.
+          Mobile: docked to the bottom as a sheet (items-end), so the top of
+          the report peeks above. Desktop: centered card (sm:items-center). */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="report-gate-title"
+        className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center px-0 py-0 sm:px-4 sm:py-8 bg-slate-900/30"
+      >
+        <div className="relative w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:p-8 sm:pb-8 max-h-[86vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
+          {/* Grab handle (mobile sheet affordance) */}
+          <div className="sm:hidden mx-auto mb-3 h-1 w-10 rounded-full bg-slate-300" />
 
-        {/* Floating unlock card — tracks scroll over the locked content.
-            NOTE: the sticky element must NOT be a flex child (flex alignment
-            breaks position: sticky), so we center it with mx-auto and push it
-            into the blur zone with a top margin instead of a flex wrapper. */}
-        <div className="absolute inset-0 px-4 pointer-events-none">
-          <div className="sticky top-[26vh] mt-[52vh] mx-auto h-fit w-full max-w-md pointer-events-auto">
-            <div className="relative rounded-3xl bg-white/95 backdrop-blur-xl shadow-2xl ring-1 ring-slate-900/5 p-6 sm:p-7 text-center">
-              {/* Lock badge */}
-              <div className="flex justify-center -mt-12 mb-3">
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg text-on-secondary-container"
-                  style={{ background: "var(--color-secondary-container)" }}
-                >
-                  <Lock className="w-7 h-7" />
-                </div>
-              </div>
+          {/* Brand */}
+          <div className="flex justify-center mb-2.5 sm:mb-4">
+            <Logo variant="onLight" size="sm" />
+          </div>
 
-              <h2 className="font-headline font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight leading-tight">
-                Your full report is ready
-              </h2>
-              <p className="text-sm text-slate-600 mt-1.5">
-                Create a free account to unlock everything we found for
-                {" "}
-                <span className="font-mono font-semibold text-slate-800">{vin}</span>.
-              </p>
+          <h2
+            id="report-gate-title"
+            className="text-xl sm:text-[1.6rem] font-headline font-extrabold text-slate-900 text-center leading-tight tracking-tight mb-1.5 sm:mb-2"
+          >
+            {mode === "signup"
+              ? "Sign up to view & download"
+              : "Log in to view your report"}
+          </h2>
+          <p className="text-[13px] sm:text-sm text-slate-700 text-center mb-4 sm:mb-5">
+            {mode === "signup" ? "Unlock the full report for " : "Continue to your report for "}
+            <span className="font-mono font-semibold text-slate-900">{vin}</span>
+            {mode === "signup"
+              ? " — view all specs, recalls, market values, and download a PDF copy."
+              : "."}
+          </p>
 
-              {/* Honest count chips */}
-              <div className="flex flex-wrap justify-center gap-2 mt-4">
-                {chips.map(({ icon: Icon, label }) => (
-                  <span
-                    key={label}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-700"
-                  >
-                    <Icon className="w-3.5 h-3.5 text-primary-600" />
-                    {label}
-                  </span>
-                ))}
-              </div>
+          {/* Tabs */}
+          <div
+            role="tablist"
+            aria-label="Authentication mode"
+            className="flex bg-slate-100 rounded-full p-1 mb-4 sm:mb-5"
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "signup"}
+              onClick={() => setMode("signup")}
+              className={`flex-1 px-4 py-2 text-sm font-semibold rounded-full transition-all cursor-pointer ${
+                mode === "signup"
+                  ? "bg-white text-primary-700 shadow-sm"
+                  : "text-slate-700 hover:text-slate-900"
+              }`}
+            >
+              Sign up
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "login"}
+              onClick={() => setMode("login")}
+              className={`flex-1 px-4 py-2 text-sm font-semibold rounded-full transition-all cursor-pointer ${
+                mode === "login"
+                  ? "bg-white text-primary-700 shadow-sm"
+                  : "text-slate-700 hover:text-slate-900"
+              }`}
+            >
+              Log in
+            </button>
+          </div>
 
-              {/* CTA */}
-              <button
-                onClick={() => setShowAuth(true)}
-                className="group mt-5 w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl text-base sm:text-lg font-extrabold text-on-secondary-container shadow-lg hover:brightness-110 transition cursor-pointer"
-                style={{ background: "var(--color-secondary-container)" }}
-              >
-                <Lock className="w-5 h-5" />
-                View Full Report — Free
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-              </button>
+          {/* Inline auth — instant: signInWithPassword / signUp run on the
+              same Supabase client; the parent's onAuthStateChange listener
+              drops the gate the moment a session exists. */}
+          <AuthForm mode={mode} next={next} compact />
 
-              <p className="mt-3 flex items-center justify-center gap-2 text-[11px] font-semibold text-slate-500 uppercase tracking-widest flex-wrap">
-                <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-primary-600" /> No credit card
-                </span>
-                <span className="text-slate-300">•</span>
-                <span>Free account</span>
-                <span className="text-slate-300">•</span>
-                <span>Instant access</span>
-              </p>
+          {/* Quick reassurance row */}
+          <div className="mt-4 sm:mt-5 flex items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-[11px] font-semibold text-slate-600 uppercase tracking-wider sm:tracking-widest">
+            <span className="inline-flex items-center gap-1.5">
+              <FileText className="w-3.5 h-3.5 text-primary-600" /> Full report
+            </span>
+            <span className="text-slate-300">•</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Download className="w-3.5 h-3.5 text-primary-600" /> PDF download
+            </span>
+            <span className="text-slate-300">•</span>
+            <span className="inline-flex items-center gap-1.5">
+              No credit card
+            </span>
+          </div>
 
-              <p className="mt-4 text-xs text-slate-500">
-                Already have an account?{" "}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMode("login");
-                    setShowAuth(true);
-                  }}
-                  className="font-semibold text-primary-700 hover:text-primary-800 cursor-pointer"
-                >
-                  Log in
-                </button>
-              </p>
-            </div>
+          <div className="mt-4 pt-3 sm:mt-5 sm:pt-4 border-t border-slate-200 text-center">
+            <Link
+              href="/"
+              className="text-xs text-slate-500 hover:text-slate-700 transition-colors"
+            >
+              ← Back to home
+            </Link>
           </div>
         </div>
       </div>
-
-      {showAuth && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="report-gate-title"
-          className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center px-4 py-6 sm:py-8 overflow-y-auto bg-slate-900/60 backdrop-blur-sm"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setShowAuth(false);
-          }}
-        >
-          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 sm:p-8 my-auto">
-            {/* Dismiss */}
-            <button
-              type="button"
-              onClick={() => setShowAuth(false)}
-              aria-label="Close"
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* Brand */}
-            <div className="flex justify-center mb-4">
-              <Logo variant="onLight" size="sm" />
-            </div>
-
-            <h2
-              id="report-gate-title"
-              className="text-2xl sm:text-[1.6rem] font-headline font-extrabold text-slate-900 text-center leading-tight tracking-tight mb-2"
-            >
-              {mode === "signup"
-                ? "Create your free account"
-                : "Log in to view your report"}
-            </h2>
-            <p className="text-sm text-slate-700 text-center mb-5">
-              {mode === "signup" ? "Unlock the full report for " : "Continue to your report for "}
-              <span className="font-mono font-semibold text-slate-900">{vin}</span>
-              {mode === "signup"
-                ? " — all specs, market values, options, and a downloadable PDF."
-                : "."}
-            </p>
-
-            {/* Tabs */}
-            <div
-              role="tablist"
-              aria-label="Authentication mode"
-              className="flex bg-slate-100 rounded-full p-1 mb-5"
-            >
-              <button
-                type="button"
-                role="tab"
-                aria-selected={mode === "signup"}
-                onClick={() => setMode("signup")}
-                className={`flex-1 px-4 py-2 text-sm font-semibold rounded-full transition-all cursor-pointer ${
-                  mode === "signup"
-                    ? "bg-white text-primary-700 shadow-sm"
-                    : "text-slate-700 hover:text-slate-900"
-                }`}
-              >
-                Sign up
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={mode === "login"}
-                onClick={() => setMode("login")}
-                className={`flex-1 px-4 py-2 text-sm font-semibold rounded-full transition-all cursor-pointer ${
-                  mode === "login"
-                    ? "bg-white text-primary-700 shadow-sm"
-                    : "text-slate-700 hover:text-slate-900"
-                }`}
-              >
-                Log in
-              </button>
-            </div>
-
-            {/* Inline auth — instant: signInWithPassword / signUp run on the
-                same Supabase client; the parent's onAuthStateChange listener
-                drops the gate the moment a session exists. */}
-            <AuthForm mode={mode} next={next} compact />
-
-            {/* Quick reassurance row */}
-            <div className="mt-5 flex items-center justify-center gap-4 text-[11px] font-semibold text-slate-600 uppercase tracking-widest">
-              <span className="inline-flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-primary-600" /> Full report
-              </span>
-              <span className="text-slate-300">•</span>
-              <span className="inline-flex items-center gap-1.5">
-                <Download className="w-3.5 h-3.5 text-primary-600" /> PDF download
-              </span>
-              <span className="text-slate-300">•</span>
-              <span className="inline-flex items-center gap-1.5">
-                No credit card
-              </span>
-            </div>
-
-            <div className="mt-5 pt-4 border-t border-slate-200 text-center">
-              <Link
-                href="/"
-                className="text-xs text-slate-500 hover:text-slate-700 transition-colors"
-              >
-                ← Back to home
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
