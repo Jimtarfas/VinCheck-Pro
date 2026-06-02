@@ -121,7 +121,7 @@ export default function ReportGate({
         aria-labelledby="report-gate-title"
         className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center px-0 py-0 sm:px-4 sm:py-8 bg-slate-900/30"
       >
-        <div className="relative w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:p-8 sm:pb-8 max-h-[62vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
+        <div className="relative w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:p-8 sm:pb-8 max-h-[48vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
           {/* Grab handle (mobile sheet affordance) */}
           <div className="sm:hidden mx-auto mb-3 h-1 w-10 rounded-full bg-slate-300" />
 
