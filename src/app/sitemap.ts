@@ -192,6 +192,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/warranty-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/build-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/paint-code-lookup`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    // Paint Code Finder — color-name + brand directory sibling to /paint-code-lookup.
+    { url: `${baseUrl}/paint-code-finder`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/flood-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/rental-car-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/fleet-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
