@@ -11,6 +11,7 @@ import {
   Gauge,
   Code,
   Copy,
+  Hash,
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Free VIN Tools — Decoder, Mileage Checker & More",
     description:
-      "Eight free vehicle research tools, plus an embeddable VIN decoder widget for your own site. No signup, NMVTIS-backed data.",
+      "Nine free vehicle research tools, plus an embeddable VIN decoder widget for your own site. No signup, NMVTIS-backed data.",
     url: "https://www.carcheckervin.com/tools",
     type: "website",
   },
@@ -57,6 +58,14 @@ const tools = [
       "Browse make-specific VIN check pages with model-year coverage notes, common issues, and recall guidance for 40+ manufacturers.",
     href: "/vin-check",
     cta: "Browse Makes",
+  },
+  {
+    icon: Hash,
+    title: "Chassis Number Lookup",
+    description:
+      "A chassis number is the same as a VIN. Decode any 17-character chassis number to find the car type, make, model, year, and engine — works worldwide.",
+    href: "/chassis-number-lookup",
+    cta: "Decode a Chassis No.",
   },
   {
     icon: BookOpen,
@@ -173,7 +182,7 @@ export default function ToolsPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-lg text-slate-600 leading-relaxed">
             We built CarCheckerVIN because the data buyers need to make a smart used-car decision
-            should not be locked behind a thirty-dollar paywall. The eight tools below cover the
+            should not be locked behind a thirty-dollar paywall. The nine tools below cover the
             most common questions we hear every day: who built this car, has it been stolen, does
             it have a clean title, has the odometer been rolled back, and what does the law in my
             state say about title brands. Use them on your next purchase, link to them from your
@@ -188,7 +197,7 @@ export default function ToolsPage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-slate-900">All Free Tools</h2>
             <p className="mt-3 text-lg text-slate-600 leading-relaxed">
-              Eight tools, zero accounts required. Click any card to jump straight into the tool.
+              Nine tools, zero accounts required. Click any card to jump straight into the tool.
             </p>
           </div>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

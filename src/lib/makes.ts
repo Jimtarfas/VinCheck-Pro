@@ -248,6 +248,20 @@ export const makes: MakeInfo[] = [
     recallContext: "Alfa Romeo issued recalls for electrical, brake, and software issues on the Giulia and Stelvio. Confirm open recalls by VIN.",
     buyingTip: "Alfas are character-rich but maintenance-sensitive — buy a fully-documented example, confirm warranty status, and use the history report to rule out accident and electrical-repair red flags.",
   },
+  {
+    slug: "suzuki", name: "Suzuki", country: "Japan", description: "a Japanese maker of compact cars, SUVs, and motorcycles", vinPrefix: "JS", founded: "1909", popular: ["Grand Vitara", "SX4", "Kizashi", "Equator", "Samurai"],
+    vinNote: "Japan-built Suzuki cars and SUVs begin with \"JS2\" / \"JS3\", while Suzuki motorcycles use \"JS1\". Suzuki withdrew from the US auto market after 2013, so most US-road cars are 2013-and-older — the 10th VIN character confirms the model year. Vehicles are still sold widely outside North America.",
+    commonIssues: "Higher-mileage Grand Vitara and SX4 models can show timing-chain and suspension wear, and the discontinued US dealer network makes some parts harder to source. A history report flags accident, flood, or salvage records on these older vehicles.",
+    recallContext: "Certain Suzuki models were part of the Takata airbag recall, and earlier vehicles had campaigns for brake and fuel-system parts. Because Suzuki left the US auto market, confirm any open recall by VIN and check that remedies were completed before the dealer wind-down.",
+    buyingTip: "With no US new-car dealer network, focus on a clean title and documented maintenance, and confirm parts availability for your specific Grand Vitara or SX4 before buying.",
+  },
+  {
+    slug: "freightliner", name: "Freightliner", country: "USA", description: "North America's leading heavy-duty and commercial truck brand", vinPrefix: "1FU", founded: "1942", popular: ["Cascadia", "M2 106", "Sprinter", "Columbia", "Business Class"],
+    vinNote: "Freightliner Class 8 trucks begin with \"1FU\" (US-built); the Freightliner-badged Sprinter van uses Mercedes-Benz \"WD\" WMIs. Commercial-truck VINs are still 17 characters, but the structure emphasizes GVWR class, engine, and chassis configuration rather than passenger-car trim.",
+    commonIssues: "Heavy-duty Freightliners live hard commercial lives — high mileage, engine rebuilds (Detroit DD13/DD15, Cummins), and DEF/emissions-system service are routine. A history report can reveal prior fleet ownership, accident records, and odometer history on a used tractor or vocational truck.",
+    recallContext: "Freightliner (Daimler Truck) issues NHTSA recalls for braking, steering, and wiring on its Cascadia and M2 lines, and the Sprinter shares Mercedes-Benz van campaigns. Always confirm open recalls by VIN before putting a commercial truck back in service.",
+    buyingTip: "On any used Freightliner, treat the VIN history as essential — verify the odometer trail, prior fleet/lease use, and accident records, since commercial trucks accumulate wear far faster than passenger vehicles.",
+  },
 ];
 
 export function getMakeBySlug(slug: string): MakeInfo | undefined {

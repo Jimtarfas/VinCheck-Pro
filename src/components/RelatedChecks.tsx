@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search } from "lucide-react";
+import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search, Hash } from "lucide-react";
 
 const allChecks = [
   { href: "/stolen-vehicle-check", icon: Shield, title: "Stolen Vehicle Check", desc: "Verify against NICB theft database" },
+  { href: "/chassis-number-lookup", icon: Hash, title: "Chassis Number Lookup", desc: "Decode any chassis number (VIN) free" },
   { href: "/salvage-title-check", icon: FileText, title: "Salvage Title Check", desc: "Detect rebuilt and branded titles" },
   { href: "/accident-history-check", icon: AlertTriangle, title: "Accident History", desc: "Review crash and damage records" },
   { href: "/odometer-check", icon: Gauge, title: "Odometer Check", desc: "Spot mileage rollback fraud" },
