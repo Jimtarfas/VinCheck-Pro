@@ -193,6 +193,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/hin-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Semi Truck VIN Lookup — low-KD commercial-truck cluster (Freightliner, Peterbilt, trailers).
     { url: `${baseUrl}/semi-truck-vin-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Golf Cart VIN Lookup — lowest-KD cluster; serial decoder (Club Car) + EZGO/Yamaha guides.
+    { url: `${baseUrl}/golf-cart-vin-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/recall-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/market-value`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/warranty-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
