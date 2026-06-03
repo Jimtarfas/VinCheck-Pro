@@ -18,9 +18,9 @@ import DiminishedValueCalculator from "./DiminishedValueCalculator";
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title: "Free Diminished Value Calculator — 17c Formula & Real Market Loss",
+  title: "Diminished Value Calculator — 17c Formula",
   description:
-    "Calculate the diminished value of your car after an accident with the insurer's 17c formula, then see the realistic market loss range. Free, instant, no sign-up — built to help you negotiate a fair diminished value claim.",
+    "Calculate your car's diminished value after an accident with the 17c formula, then see the realistic market loss range. Free, instant, no sign-up.",
   keywords: [
     "diminished value calculator",
     "17c diminished value calculator",

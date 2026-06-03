@@ -24,10 +24,9 @@ import VinCheckBanner from "@/components/VinCheckBanner";
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title:
-    "Semi Truck VIN Lookup — Free Freightliner, Peterbilt & Trailer Decoder",
+  title: "Semi Truck VIN Lookup — Free Decoder",
   description:
-    "Free semi truck VIN lookup. Decode any Freightliner, Peterbilt, Kenworth, Volvo or Mack tractor — plus semi trailer VINs — to find the year, engine, GVWR class, and plant in seconds. No sign-up.",
+    "Decode any Freightliner, Peterbilt, Kenworth, Volvo or Mack tractor — plus semi trailers — to the year, engine, GVWR class, and plant. Free.",
   keywords: [
     "semi truck vin number lookup",
     "semi vin lookup",

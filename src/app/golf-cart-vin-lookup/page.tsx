@@ -23,10 +23,9 @@ import GolfCartDecoder from "./GolfCartDecoder";
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title:
-    "Golf Cart VIN Lookup — Free Serial Number Decoder (Club Car, EZGO, Yamaha)",
+  title: "Golf Cart VIN Lookup — Serial Decoder",
   description:
-    "Free golf cart VIN lookup. Golf carts use a serial number, not a 17-character VIN. Find and decode the serial on a Club Car, E-Z-GO, or Yamaha cart to get the model year. Instant, no sign-up.",
+    "Golf carts use a serial number, not a 17-character VIN. Decode a Club Car serial for the model year, with E-Z-GO and Yamaha guides. Free.",
   keywords: [
     "golf cart vin lookup",
     "yamaha golf cart vin lookup",

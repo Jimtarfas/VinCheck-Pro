@@ -23,10 +23,9 @@ import HinDecoder from "./HinDecoder";
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title:
-    "HIN Lookup — Free Boat Hull Identification Number Decoder (Boat VIN)",
+  title: "HIN Lookup — Free Boat Hull ID Decoder",
   description:
-    "Free HIN lookup. A boat's Hull Identification Number is its VIN — decode the 12-character HIN to find the manufacturer code, hull serial, and build year. US Coast Guard format, works for any boat built since 1972. No sign-up.",
+    "A boat's Hull Identification Number is its VIN. Decode the 12-character HIN to find the manufacturer code, hull serial, and build year. Free.",
   keywords: [
     "hin lookup",
     "hull identification number lookup",
