@@ -25,6 +25,7 @@ const moreChecksCol1 = [
   { href: "/vehicle-lien-check",           label: "Vehicle Lien Check" },
   { href: "/obd2-codes",                   label: "OBD-II Code Lookup" },
   { href: "/hin-lookup",                   label: "HIN Lookup (Boat VIN)" },
+  { href: "/semi-truck-vin-lookup",        label: "Semi Truck VIN Lookup" },
   { href: "/recall-check",                 label: "Recall Check" },
   { href: "/market-value",                 label: "Market Value" },
   { href: "/warranty-check",               label: "Warranty Check" },
