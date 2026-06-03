@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search, Hash } from "lucide-react";
+import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search, Hash, TrendingDown, Anchor } from "lucide-react";
 
 const allChecks = [
   { href: "/stolen-vehicle-check", icon: Shield, title: "Stolen Vehicle Check", desc: "Verify against NICB theft database" },
@@ -16,6 +16,8 @@ const allChecks = [
   { href: "/motorcycle-vin-search", icon: Search, title: "Motorcycle VIN Search", desc: "Free instant motorcycle VIN decoder" },
   { href: "/motorcycle-vin-check", icon: Bike, title: "Motorcycle VIN Check", desc: "Motorcycle VIN history" },
   { href: "/flood-check", icon: Droplets, title: "Flood Check", desc: "Water damage title records" },
+  { href: "/diminished-value-calculator", icon: TrendingDown, title: "Diminished Value", desc: "Value lost after an accident" },
+  { href: "/hin-lookup", icon: Anchor, title: "HIN Lookup", desc: "Decode a boat hull (HIN) number free" },
 ];
 
 interface Props {

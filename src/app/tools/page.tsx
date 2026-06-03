@@ -12,6 +12,8 @@ import {
   Code,
   Copy,
   Hash,
+  TrendingDown,
+  Anchor,
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -36,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Free VIN Tools — Decoder, Mileage Checker & More",
     description:
-      "Nine free vehicle research tools, plus an embeddable VIN decoder widget for your own site. No signup, NMVTIS-backed data.",
+      "Eleven free vehicle research tools, plus an embeddable VIN decoder widget for your own site. No signup, NMVTIS-backed data.",
     url: "https://www.carcheckervin.com/tools",
     type: "website",
   },
@@ -115,6 +117,22 @@ const tools = [
     href: "/odometer-check",
     cta: "Verify Mileage",
   },
+  {
+    icon: TrendingDown,
+    title: "Diminished Value Calculator",
+    description:
+      "Estimate the value your car lost after an accident. Runs the insurer 17c formula and the real market-loss range — claim-ready, no signup.",
+    href: "/diminished-value-calculator",
+    cta: "Calculate Value Loss",
+  },
+  {
+    icon: Anchor,
+    title: "HIN Lookup (Boat VIN)",
+    description:
+      "A boat's VIN is its 12-character Hull Identification Number. Decode the HIN to the builder code, hull serial, and build date instantly.",
+    href: "/hin-lookup",
+    cta: "Decode a HIN",
+  },
 ];
 
 const toolsSchema = [
@@ -182,7 +200,7 @@ export default function ToolsPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-lg text-slate-600 leading-relaxed">
             We built CarCheckerVIN because the data buyers need to make a smart used-car decision
-            should not be locked behind a thirty-dollar paywall. The nine tools below cover the
+            should not be locked behind a thirty-dollar paywall. The eleven tools below cover the
             most common questions we hear every day: who built this car, has it been stolen, does
             it have a clean title, has the odometer been rolled back, and what does the law in my
             state say about title brands. Use them on your next purchase, link to them from your
@@ -197,7 +215,7 @@ export default function ToolsPage() {
           <div className="max-w-3xl">
             <h2 className="text-3xl font-bold text-slate-900">All Free Tools</h2>
             <p className="mt-3 text-lg text-slate-600 leading-relaxed">
-              Nine tools, zero accounts required. Click any card to jump straight into the tool.
+              Eleven tools, zero accounts required. Click any card to jump straight into the tool.
             </p>
           </div>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

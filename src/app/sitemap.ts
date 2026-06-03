@@ -187,6 +187,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/lease-vs-buy-calculator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Total Cost of Ownership Calculator — capstone finance tool.
     { url: `${baseUrl}/total-cost-of-ownership-calculator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Diminished Value Calculator — post-accident value-loss SEO tool (17c + market loss).
+    { url: `${baseUrl}/diminished-value-calculator`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // HIN Lookup — boat Hull Identification Number ("boat VIN") decoder, under-served niche.
+    { url: `${baseUrl}/hin-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/recall-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/market-value`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/warranty-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
