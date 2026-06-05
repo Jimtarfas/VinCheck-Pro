@@ -29,6 +29,14 @@ const reviews = [
     role: "Verified Trustpilot reviewer",
     url: "https://www.trustpilot.com/reviews/6a198ea437894c11a0770f83",
   },
+  {
+    name: "regano jerom",
+    location: "United States",
+    rating: 5,
+    text: "I heard about the website in a car community on reddit, i try it , the report has complete information and the pricing was reasonable",
+    role: "Verified Trustpilot reviewer",
+    url: "https://www.trustpilot.com/reviews/6a22c3c4acf19a498a02e136",
+  },
 ];
 
 export default function Reviews() {
@@ -57,7 +65,7 @@ export default function Reviews() {
                 ))}
               </div>
 
-              <p className="text-on-surface-variant leading-relaxed italic text-sm mb-7 flex-1">
+              <p className="font-headline text-on-surface leading-relaxed text-base sm:text-lg mb-7 flex-1">
                 &ldquo;{r.text}&rdquo;
               </p>
 
