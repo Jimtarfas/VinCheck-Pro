@@ -180,6 +180,11 @@ const testimonials: Array<{ name: string; tag: string; rating: number; body: str
     body: "saved me from buying a car with hidden flood damage , the report showed everything needed , Thank you carcheckervin",
     url:  "https://www.trustpilot.com/reviews/6a198ea437894c11a0770f83",
   },
+  {
+    name: "regano jerom",  tag: "Verified Trustpilot review · United States",  rating: 5,
+    body: "I heard about the website in a car community on reddit, i try it , the report has complete information and the pricing was reasonable",
+    url:  "https://www.trustpilot.com/reviews/6a22c3c4acf19a498a02e136",
+  },
 ];
 
 const avatarColors = [
