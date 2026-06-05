@@ -52,41 +52,40 @@ export default function Reviews() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5 sm:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {reviews.map((r) => (
             <div
               key={r.name}
-              className="bg-surface-container-lowest p-6 sm:p-8 rounded-3xl sm:rounded-[2rem] shadow-sm border border-outline-variant/10 flex flex-col"
+              className="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/10 flex flex-col"
             >
               {/* Stars */}
-              <div className="flex gap-1 mb-5">
+              <div className="flex gap-0.5 mb-3">
                 {Array.from({ length: r.rating }).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-secondary-container text-secondary-container" />
+                  <Star key={i} className="w-3.5 h-3.5 fill-secondary-container text-secondary-container" />
                 ))}
               </div>
 
-              <p className="font-headline text-on-surface leading-relaxed text-base sm:text-lg mb-7 flex-1">
+              <p className="font-mono text-on-surface leading-relaxed text-[13px] mb-5 flex-1">
                 &ldquo;{r.text}&rdquo;
               </p>
 
-              <div className="flex items-center gap-3 pt-4 border-t border-outline-variant/10">
-                <div className="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center text-sm font-headline font-black flex-shrink-0">
+              <div className="flex items-center gap-2.5 pt-3 border-t border-outline-variant/10">
+                <div className="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-xs font-headline font-black flex-shrink-0">
                   {r.name[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-on-surface text-sm truncate">{r.name}</p>
-                  <p className="text-xs text-outline">{r.role} &middot; {r.location}</p>
+                  <p className="font-bold text-on-surface text-xs truncate">{r.name}</p>
+                  <a
+                    href={r.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline whitespace-nowrap"
+                    aria-label={`Read ${r.name}'s review on Trustpilot`}
+                  >
+                    Trustpilot
+                    <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
                 </div>
-                <a
-                  href={r.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline whitespace-nowrap"
-                  aria-label={`Read ${r.name}'s review on Trustpilot`}
-                >
-                  Trustpilot
-                  <ExternalLink className="w-3 h-3" />
-                </a>
               </div>
             </div>
           ))}
