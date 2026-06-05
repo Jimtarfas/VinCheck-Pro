@@ -62,31 +62,45 @@ export default async function MakePage({ params }: Props) {
     isPartOf: { "@type": "WebSite", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
   };
 
+  // Single source of truth for the FAQ — rendered both as visible <details>
+  // accordions and as FAQPage JSON-LD, so schema can never drift from the
+  // on-page content. Questions target the exact GSC query variants people use
+  // ("{make} vin lookup / search / check", free, stolen, recall, accident).
+  const faqs = [
+    {
+      q: `Is a ${make.name} VIN check free?`,
+      a: `Yes. Our ${make.name} VIN check is completely free. Enter the 17-character VIN above to decode the specs and pull available history — no account or payment required.`,
+    },
+    {
+      q: `How do I look up a ${make.name} VIN number?`,
+      a: `Find the 17-character VIN on the driver-side dashboard, the door-jamb sticker, or the title, then type or paste it into the search box above. Our ${make.name} VIN lookup returns specifications, factory equipment, market value, and history in seconds.`,
+    },
+    {
+      q: `What can a ${make.name} VIN decoder tell me?`,
+      a: `Decoding a ${make.name} VIN reveals the model year, engine, trim, body style, and assembly plant, plus factory-installed equipment. Paired with history data it also surfaces title brands, odometer readings, and open recalls.`,
+    },
+    {
+      q: `Can I check a ${make.name} for open recalls by VIN?`,
+      a: `Yes. ${make.name} recall campaigns are tied to the VIN, so a check shows the safety recalls that apply to that specific vehicle and whether the repair has been completed.`,
+    },
+    {
+      q: `How do I tell if a used ${make.name} was in an accident?`,
+      a: `Run the VIN above. A ${make.name} history report flags reported accidents, salvage or rebuilt title brands, and odometer discrepancies recorded in national databases — the records a seller may not disclose.`,
+    },
+    {
+      q: `Can I check if a ${make.name} is stolen or has a salvage title?`,
+      a: `A VIN history report surfaces reported salvage, theft, and total-loss records where they appear in national databases. Because models like the ${make.name} ${make.popular[0]} are common theft targets, also match the dashboard VIN to the door-jamb sticker and title before buying.`,
+    },
+  ];
+
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: `What do ${make.name} VIN numbers start with?`,
-        acceptedAnswer: { "@type": "Answer", text: make.vinNote },
-      },
-      {
-        "@type": "Question",
-        name: `What common issues should I check on a used ${make.name}?`,
-        acceptedAnswer: { "@type": "Answer", text: make.commonIssues },
-      },
-      {
-        "@type": "Question",
-        name: `What recalls have affected ${make.name} vehicles?`,
-        acceptedAnswer: { "@type": "Answer", text: make.recallContext },
-      },
-      {
-        "@type": "Question",
-        name: `What should I look for when buying a used ${make.name}?`,
-        acceptedAnswer: { "@type": "Answer", text: make.buyingTip },
-      },
-    ],
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   };
 
   return (
@@ -247,6 +261,29 @@ export default async function MakePage({ params }: Props) {
           <Link href="/vin-check" className="inline-flex items-center gap-1.5 mt-6 text-primary-600 font-medium text-sm hover:text-primary-700 transition-colors">
             View all brands <ArrowRight className="w-4 h-4" />
           </Link>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">
+            {make.name} VIN Check — Frequently Asked Questions
+          </h2>
+          <div className="space-y-3">
+            {faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="font-semibold text-slate-900 pr-2">{f.q}</span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-xl font-light group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <p className="text-sm text-slate-600 leading-relaxed mt-3">{f.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
