@@ -26,10 +26,10 @@ const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Florida VIN Check — Free FL Vehicle History Report",
+    absolute: "Free Florida VIN Check: Title, Flood & Recall History",
   },
   description:
-    "Free Florida VIN check. FL DMV vehicle history with title brands, hurricane flood records, accident data, and recalls. Instant NMVTIS-backed.",
+    "Free Florida VIN check — no signup. See title brands, hurricane flood damage, accidents, odometer fraud and open recalls. Instant results, NMVTIS-backed.",
   keywords: [
     "Florida VIN check",
     "Florida vehicle history report",
@@ -59,18 +59,18 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/florida-vin-check" },
   openGraph: {
-    title: "Florida VIN Check — Free FL Vehicle History Report",
+    title: "Free Florida VIN Check: Title, Flood & Recall History",
     description:
-      "Free Florida VIN check. FL DMV vehicle history with title brands, hurricane flood records, accident data, and recalls. Instant NMVTIS-backed.",
+      "Free Florida VIN check — no signup. See title brands, hurricane flood damage, accidents, odometer fraud and open recalls. Instant results, NMVTIS-backed.",
     url: `${SITE}/florida-vin-check`,
     type: "article",
     siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Florida VIN Check — Free FL Vehicle History Report",
+    title: "Free Florida VIN Check: Title, Flood & Recall History",
     description:
-      "Free Florida VIN check. FL DMV history with title brands, hurricane flood records, accident data, and recalls. NMVTIS-backed.",
+      "Free Florida VIN check — no signup. See title brands, hurricane flood, accidents, odometer fraud and recalls. Instant, NMVTIS-backed.",
   },
   robots: { index: true, follow: true },
 };

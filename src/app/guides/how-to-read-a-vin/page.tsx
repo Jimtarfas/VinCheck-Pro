@@ -4,7 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
 export const metadata: Metadata = {
-  title: "How to Read a VIN Number — Complete VIN Breakdown Guide",
+  title: "How to Read a VIN — Complete VIN Breakdown",
   description:
     "Learn how to read a VIN number with our step-by-step guide. Understand all 17 VIN digits, including the WMI, VDS, and VIS sections, and what each position means.",
   keywords: [
@@ -16,6 +16,10 @@ export const metadata: Metadata = {
     "WMI VDS VIS",
     "VIN position meaning",
     "read vehicle identification number",
+    "VIN year chart",
+    "VIN model year code",
+    "10th digit VIN year",
+    "VIN year code chart",
   ],
   alternates: { canonical: "/guides/how-to-read-a-vin" },
   openGraph: {
@@ -113,6 +117,44 @@ const vinPositions = [
     example:
       "A unique serial number assigned to each vehicle on the production line",
   },
+];
+
+// VIN 10th-character model-year codes. The standard runs on a 30-year cycle
+// (1980-2009, repeating 2010-2039). Letters I, O, Q, U, Z and the digit 0 are
+// never used. The same character therefore maps to two possible years 30 apart;
+// the 7th VIN character (numeric vs alphabetic) is what disambiguates them on
+// real vehicles, but for a quick chart both cycles are shown side by side.
+const modelYearCodes = [
+  { code: "A", c1: 1980, c2: 2010 },
+  { code: "B", c1: 1981, c2: 2011 },
+  { code: "C", c1: 1982, c2: 2012 },
+  { code: "D", c1: 1983, c2: 2013 },
+  { code: "E", c1: 1984, c2: 2014 },
+  { code: "F", c1: 1985, c2: 2015 },
+  { code: "G", c1: 1986, c2: 2016 },
+  { code: "H", c1: 1987, c2: 2017 },
+  { code: "J", c1: 1988, c2: 2018 },
+  { code: "K", c1: 1989, c2: 2019 },
+  { code: "L", c1: 1990, c2: 2020 },
+  { code: "M", c1: 1991, c2: 2021 },
+  { code: "N", c1: 1992, c2: 2022 },
+  { code: "P", c1: 1993, c2: 2023 },
+  { code: "R", c1: 1994, c2: 2024 },
+  { code: "S", c1: 1995, c2: 2025 },
+  { code: "T", c1: 1996, c2: 2026 },
+  { code: "V", c1: 1997, c2: 2027 },
+  { code: "W", c1: 1998, c2: 2028 },
+  { code: "X", c1: 1999, c2: 2029 },
+  { code: "Y", c1: 2000, c2: 2030 },
+  { code: "1", c1: 2001, c2: 2031 },
+  { code: "2", c1: 2002, c2: 2032 },
+  { code: "3", c1: 2003, c2: 2033 },
+  { code: "4", c1: 2004, c2: 2034 },
+  { code: "5", c1: 2005, c2: 2035 },
+  { code: "6", c1: 2006, c2: 2036 },
+  { code: "7", c1: 2007, c2: 2037 },
+  { code: "8", c1: 2008, c2: 2038 },
+  { code: "9", c1: 2009, c2: 2039 },
 ];
 
 export default function HowToReadAVinPage() {
@@ -301,6 +343,48 @@ export default function HowToReadAVinPage() {
               </tbody>
             </table>
           </div>
+
+          {/* --- VIN Year Chart --- */}
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            VIN Year Chart — Model Year Code (10th Digit)
+          </h2>
+          <p className="mt-3 text-slate-600 leading-relaxed">
+            The 10th character of a VIN tells you the model year. It runs on a
+            30-year cycle, so the same code repeats — for example,{" "}
+            <span className="font-mono font-semibold">R</span> means 1994{" "}
+            <em>and</em> 2024. Use the body style and condition of the vehicle to
+            tell which cycle applies. Letters{" "}
+            <span className="font-mono">I, O, Q, U, Z</span> and the digit{" "}
+            <span className="font-mono">0</span> are never used.
+          </p>
+
+          <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200">
+            <table className="w-full text-sm text-left">
+              <thead className="bg-slate-50 text-slate-700">
+                <tr>
+                  <th className="px-4 py-3 font-semibold">VIN Code</th>
+                  <th className="px-4 py-3 font-semibold">Model Year</th>
+                  <th className="px-4 py-3 font-semibold">Model Year (repeat)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {modelYearCodes.map((row) => (
+                  <tr key={row.code} className="hover:bg-slate-50/50">
+                    <td className="px-4 py-3 font-mono font-bold text-primary-600">
+                      {row.code}
+                    </td>
+                    <td className="px-4 py-3 text-slate-900">{row.c1}</td>
+                    <td className="px-4 py-3 text-slate-700">{row.c2}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-sm text-slate-500 leading-relaxed">
+            Note: the modern 17-character VIN became mandatory for the 1981 model
+            year, so <span className="font-mono">A = 1980</span> only appears on a
+            handful of early-adopter vehicles.
+          </p>
 
           {/* --- Characters not allowed --- */}
           <h2 className="mt-12 text-2xl font-bold text-slate-900">
