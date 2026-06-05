@@ -48,6 +48,26 @@ const nextConfig: NextConfig = {
         destination: "/florida-vin-check",
         permanent: true,
       },
+      // Old already-indexed `/state-vin-check/*` URLs 404 (route is now
+      // `/vin-check/state/*`). 301 them to preserve link equity + clear the
+      // crawler 404s. Florida has a dedicated landing page, so route it there
+      // directly to avoid a redirect chain through `/vin-check/state/florida`.
+      {
+        source: "/state-vin-check/florida",
+        destination: "/florida-vin-check",
+        permanent: true,
+      },
+      {
+        source: "/state-vin-check/:state",
+        destination: "/vin-check/state/:state",
+        permanent: true,
+      },
+      // Recall tool was renamed `/recall-lookup` -> `/recall-check`.
+      {
+        source: "/recall-lookup",
+        destination: "/recall-check",
+        permanent: true,
+      },
     ];
   },
 
