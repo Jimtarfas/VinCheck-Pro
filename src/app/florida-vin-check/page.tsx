@@ -165,6 +165,22 @@ const faqSchema = {
         text: "Enter the VIN in our search tool above. We pull Florida title records via NMVTIS and DHSMV-linked data sources to show the current title status, any lienholders of record, and all historical title brands. For a certified title copy you must request directly from DHSMV.",
       },
     },
+    {
+      "@type": "Question",
+      name: "Is a Florida vehicle history report the same as a Carfax report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our Florida vehicle history report covers the same data categories as Carfax — title records, accident history, odometer readings, theft records, and recall status — but our report is free. Carfax charges $44.99 per report. We source data from the same NMVTIS-certified feeds plus additional insurance history providers.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does 'title washing' mean for Florida vehicles?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Title washing is when a badly-branded vehicle (salvage, flood, lemon) is re-titled in a state with looser branding laws to remove the brand, then brought back to Florida for sale. NMVTIS was created specifically to stop this practice — our report queries all 50 states' records so a washed title cannot hide its history.",
+      },
+    },
   ],
 };
 
