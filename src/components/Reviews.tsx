@@ -65,7 +65,7 @@ export default function Reviews() {
                 ))}
               </div>
 
-              <p className="font-mono text-on-surface leading-relaxed text-[13px] mb-5 flex-1">
+              <p className="text-on-surface-variant leading-relaxed italic text-[13px] mb-5 flex-1">
                 &ldquo;{r.text}&rdquo;
               </p>
 
