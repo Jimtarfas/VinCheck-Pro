@@ -559,7 +559,7 @@ export default function OBD2CodesPage() {
           <div className="mt-14 grid sm:grid-cols-3 gap-3">
             {[
               { href: "/vin-check", label: "Free VIN Check", sub: "Full vehicle history report" },
-              { href: "/recall-lookup", label: "Recall Lookup", sub: "Open NHTSA safety recalls" },
+              { href: "/recall-check", label: "Recall Lookup", sub: "Open NHTSA safety recalls" },
               { href: "/window-sticker", label: "Window Sticker", sub: "Original equipment & options" },
             ].map(({ href, label, sub }) => (
               <Link

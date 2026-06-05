@@ -552,7 +552,7 @@ export default function LookUpCarPlatesFreePage() {
                   return (
                     <Link
                       key={s.slug}
-                      href={`/state-vin-check/${s.slug}`}
+                      href={`/vin-check/state/${s.slug}`}
                       className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary text-white text-xs sm:text-sm font-bold hover:brightness-110 transition-all"
                     >
                       {s.name} <ArrowRight className="w-3 h-3" />
