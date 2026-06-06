@@ -52,6 +52,66 @@ const articleSchema = {
   dateModified: "2026-04-26",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the difference between CarCheckerVIN and AutoCheck?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "AutoCheck, owned by Experian, is a vehicle history service best known for the AutoCheck Score and strong wholesale auction-lane data. CarCheckerVIN delivers the same core records, title brands, accidents, odometer, theft, and recalls, but at a lower price ($7.99 versus $24.99 per single report) and adds real vehicle photos and a market value estimate that AutoCheck does not include at the consumer tier. CarCheckerVIN also offers a free instant VIN decode with no account required.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the AutoCheck Score?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The AutoCheck Score is Experian's proprietary 0-100 number that rolls a vehicle's age, mileage, title brands, and reported events into a single summary metric, then compares it against a similar peer group of vehicles. It is genuinely popular at wholesale auctions, where buyers need a quick relative ranking across hundreds of vehicles in one session. CarCheckerVIN does not publish a proprietary risk score; it gives you the underlying NMVTIS, NICB, and DMV records to judge yourself.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is CarCheckerVIN cheaper than AutoCheck?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. CarCheckerVIN charges $7.99 for a single report, roughly one-third of AutoCheck's $24.99 single-report price. CarCheckerVIN also offers a three-report bundle for $14.99 and a full month of unlimited access for $24.99, while AutoCheck's 25-report package runs $49.99 and is valid for 21 days. For a buyer cross-shopping a few cars, CarCheckerVIN is the lower-cost option for the same essential data.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do CarCheckerVIN and AutoCheck use the same data?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Both pull from the same backbone of public and industry data: NMVTIS for title brands, all 50 state DMVs, the NICB for stolen vehicle records, the NHTSA for recalls, and insurance industry feeds for accident and total-loss events. Experian's position gives AutoCheck strong auction-lane data, while CarCheckerVIN adds partner data exchanges for accident and salvage events. For 95% of used-car shoppers, the critical data points are essentially identical between the two providers.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which is better for dealers and auctions versus private buyers?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "AutoCheck makes the most sense for wholesale and auction buyers who genuinely use the AutoCheck Score to rank dozens of vehicles per session, or who will run more than ten reports a month using the 25-report bundle. CarCheckerVIN fits private-party buyers comparing one to five vehicles who want real photos, a market value estimate, and to keep total report spend under $25 while reading the raw records themselves.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a free alternative to AutoCheck?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN offers a free instant VIN decode that returns factory build data without creating an account, something AutoCheck does not provide. The free decode covers the VIN breakdown, but full history records, NMVTIS title brands, accidents, odometer timeline, theft check, recalls, and real photos, require a paid CarCheckerVIN report starting at $7.99, still roughly a third of AutoCheck's single-report price.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const comparisonRows: {
   feature: string;
   carchecker: boolean | string;
@@ -82,6 +142,10 @@ export default function VinCheckVsAutoCheckPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -397,6 +461,30 @@ export default function VinCheckVsAutoCheckPage() {
             </Link>
             .
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

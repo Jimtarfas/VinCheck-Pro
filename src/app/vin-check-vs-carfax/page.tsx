@@ -73,12 +73,76 @@ const comparisonRows: {
   { feature: "Instant download report", carchecker: true, carfax: true },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the difference between CarCheckerVIN and Carfax?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Both deliver vehicle history reports covering title brands, accidents, odometer history, theft records, recalls, and lemon flags. The core differences are price and service-record depth: CarCheckerVIN charges $7.99 per report versus Carfax's $44.99, while Carfax maintains a larger franchise-dealer service-record network built since 1984. For most private-party buyers, the critical data is essentially identical; Carfax's edge is in dealer service records.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is CarCheckerVIN cheaper than Carfax?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. CarCheckerVIN costs $7.99 for a single report, $14.99 for three, and $24.99 for unlimited 30-day access. Carfax charges $44.99 for one report, $84.99 for three, and $99.99 for one month of unlimited access. Across every tier the savings run roughly 75–85%, so a buyer evaluating several cars might spend $15 instead of $85.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does CarCheckerVIN use the same data as Carfax?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Largely yes for the core data. Both draw on NMVTIS title records, all 50 state DMVs, NICB stolen-vehicle data, NHTSA recall records, and insurance-industry accident feeds. The main difference is Carfax's proprietary franchise-dealer service-record network, which CarCheckerVIN does not match. For title brands, accidents, theft, odometer, and recalls, the underlying data is essentially the same between both providers.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a free alternative to Carfax?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN offers a free VIN decode that returns factory specs and build data without entering a credit card, which Carfax does not provide. Full history data (title brands, accidents, odometer, theft, recalls, lemon flags) requires a paid CarCheckerVIN report at $7.99 — still far below Carfax's $44.99. Use the free decode for basic spec verification, then upgrade only if you need the full report.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does Carfax include that CarCheckerVIN doesn't, and vice versa?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Carfax includes a proprietary franchise-dealer service-record network built since 1984, which CarCheckerVIN does not offer — valuable if a car was always serviced at the same dealer chain. CarCheckerVIN includes a free no-signup VIN decode and requires no subscription, neither of which Carfax provides. Both cover NMVTIS title brands, accidents, odometer, theft, recalls, lemon flags, market value, and real photos.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which is better for buying a used car, CarCheckerVIN or Carfax?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For most private-party buyers, CarCheckerVIN delivers the data that matters — title brands, accidents, odometer, theft, recalls, lemon status — for a fraction of Carfax's price. Carfax retains an edge for franchise-dealer trade-ins that were always serviced at one dealer chain, where its service-record depth shines. Either way, pair any VIN report with an independent pre-purchase mechanic inspection.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function VinCheckVsCarfaxPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -376,6 +440,30 @@ export default function VinCheckVsCarfaxPage() {
             </Link>
             .
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

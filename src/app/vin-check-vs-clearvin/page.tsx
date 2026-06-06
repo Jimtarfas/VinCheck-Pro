@@ -51,6 +51,66 @@ const articleSchema = {
   dateModified: "2026-04-26",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the difference between CarCheckerVIN and ClearVin?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Both are value-tier vehicle history report services that pull NMVTIS title brand data. ClearVin is known for thorough title brand coverage and is well-suited to wholesale, export, and salvage-rebuild buyers. CarCheckerVIN covers the same NMVTIS brand categories but adds a built-in market value estimate in the standard report and charges a lower single-report price of $7.99 versus ClearVin's $14.99.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is CarCheckerVIN cheaper than ClearVin?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For a single report, yes. CarCheckerVIN lists a single report at $7.99 versus ClearVin's $14.99, roughly half the price. For unlimited access the picture flips: ClearVin's unlimited package is $19.99 while CarCheckerVIN's 30-day unlimited tier is $24.99. If you need just one to three reports, CarCheckerVIN wins; if you run more than three a month, ClearVin's unlimited is slightly cheaper.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do CarCheckerVIN and ClearVin use the same data (NMVTIS)?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Both providers source title brand history from NMVTIS, the federally mandated National Motor Vehicle Title Information System that pulls from all 50 state DMVs. Because the underlying NMVTIS feed is the same, salvage, rebuilt, junk, flood, and manufacturer buyback brand data quality is essentially equivalent between the two services. The differences are in pricing, presentation, and extras like market value.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is ClearVin good for auction or dealer cars?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. ClearVin has built a strong reputation specifically around title brand verification, which is genuinely valuable for buyers shopping the wholesale, auction, re-export, and salvage-rebuild market where title brand ambiguity is a real concern. It clearly calls out salvage, rebuilt, junk, flood, hail, and manufacturer buyback flags, making it a solid fit for auction and dealer-oriented purchases.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which is better for a typical used-car buyer, CarCheckerVIN or ClearVin?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For the typical private-party buyer evaluating one to three cars, CarCheckerVIN is the better pick. It delivers equivalent NMVTIS title brand data plus a built-in market value estimate, real vehicle photos, and a lower single-report price of $7.99. ClearVin remains a respected choice if your main concern is title brand verification for export or salvage rebuilds, or you want the cheapest unlimited plan.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a free alternative to ClearVin?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Both CarCheckerVIN and ClearVin offer a free VIN decode without an account, which returns factory build data. For full history including title brands, accidents, odometer timeline, and recalls, a paid report is required. CarCheckerVIN's free instant decode and $7.99 full report make it a low-cost alternative; see the free VIN check guide for what the free decode includes.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const comparisonRows: {
   feature: string;
   carchecker: boolean | string;
@@ -81,6 +141,10 @@ export default function VinCheckVsClearVinPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -383,6 +447,30 @@ export default function VinCheckVsClearVinPage() {
             </Link>
             .
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

@@ -51,6 +51,66 @@ const articleSchema = {
   dateModified: "2026-04-26",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the difference between CarCheckerVIN and Bumper?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The core difference is the pricing model. Bumper is subscription-first, charging roughly $19.99 per month for unlimited reports plus continuous monitoring of vehicles you own. CarCheckerVIN is pay-as-you-go: $7.99 for a single report with no recurring charges. Both pull vehicle data from the same backbone — NMVTIS, NICB, NHTSA, and state DMV feeds — so the underlying vehicle history is comparable.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is Bumper a subscription service?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Bumper's consumer offering is built around a recurring monthly subscription, currently around $19.99 per month, that bundles unlimited reports and ongoing monitoring. New users typically see a low introductory price for the first week, which then rolls into the standard monthly rate unless cancelled. CarCheckerVIN, by contrast, has no auto-renewal on any tier.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is CarCheckerVIN cheaper than Bumper?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For a single vehicle, yes. CarCheckerVIN charges $7.99 for one report with no subscription, while Bumper requires a monthly subscription of about $19.99. If you only need one report this year, you pay $7.99 once and you are done. A forgotten Bumper subscription can quietly cost $200 to $240 a year, so for one-time buyers CarCheckerVIN is the cheaper path.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do CarCheckerVIN and Bumper use the same data sources?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Largely yes. Both services pull from the same backbone: NMVTIS, NICB, NHTSA, and state DMV feeds. Reports from each cover the same core categories — title brands, salvage and rebuilt checks, accident history, odometer timeline, stolen vehicle checks, open recalls, lemon and buyback flags, market value, and photos when available. Bumper adds people-search style add-ons; the vehicle data itself is functionally comparable.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I get a one-time report instead of a subscription?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "With CarCheckerVIN, yes. It is intentionally pay-as-you-go: $7.99 for a single report, $14.99 for a three-pack, or $24.99 for a 30-day unlimited pass that simply expires on its own with no auto-renewal. Bumper does not offer an equivalent one-time report — its consumer model is built around an ongoing monthly subscription that you must remember to cancel.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which is better value, CarCheckerVIN or Bumper?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It depends on your need. For the typical used-car buyer whose search lasts two to four weeks, CarCheckerVIN offers better value: comparable vehicle data for a one-time $7.99 report with no recurring charge. Bumper offers better value if you own multiple vehicles and want continuous monitoring with alerts, or will regularly use its people-search add-ons enough to justify the monthly fee.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const comparisonRows: {
   feature: string;
   carchecker: boolean | string;
@@ -81,6 +141,10 @@ export default function VinCheckVsBumperPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -397,6 +461,32 @@ export default function VinCheckVsBumperPage() {
           </p>
         </div>
       </article>
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <h2 className="text-2xl font-bold text-slate-900">
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-6 space-y-3">
+          {FAQS.map((faq) => (
+            <details
+              key={faq.question}
+              className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                  {faq.question}
+                </h3>
+                <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-slate-600 leading-relaxed">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
         <RelatedChecks exclude="" />
