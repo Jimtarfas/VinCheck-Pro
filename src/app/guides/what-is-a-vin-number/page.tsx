@@ -83,12 +83,84 @@ const vinLocations = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a VIN number?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN number is a Vehicle Identification Number, a unique 17-character code that the manufacturer assigns to every car, truck, SUV, van, and motorcycle. Since 1981 it follows a standardized format set by NHTSA (FMVSS 115) and aligned with ISO 3779. It uses letters and digits but never the letters I, O, or Q, and it identifies one specific vehicle for its entire life.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a VIN used for?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN is used to uniquely identify and track a single vehicle. It is the key DMVs use to register and title a car, insurers use to set premiums and write policies, manufacturers use to issue recalls by VIN range, and history reports use to compile accident, odometer, and ownership records. Law enforcement also relies on it to identify stolen or recovered vehicles.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is saying 'VIN number' redundant?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Technically yes. VIN already stands for Vehicle Identification Number, so 'VIN number' literally means 'Vehicle Identification Number number,' similar to saying 'ATM machine' or 'PIN number.' Despite the redundancy, the phrase is so widely used that both 'VIN' and 'VIN number' are universally understood to mean the same 17-character vehicle identifier.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do all vehicles have a VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Nearly all do. Every car, truck, SUV, van, and motorcycle sold in the United States since 1981 carries a standardized 17-character VIN. Vehicles built before 1981 also have an identifying serial number, but those used non-standard formats of roughly 5 to 13 characters that vary by manufacturer. Some trailers, off-road equipment, and very old vehicles may use different identifier systems.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is a VIN the same as a license plate or title number?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. A VIN is permanently assigned by the manufacturer and never changes for the life of the vehicle. A license plate is issued by the state and changes when you move, renew, or transfer the car, and the title number is a document reference that changes each time a new title is issued. Only the VIN stays constant across owners, states, and decades.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can two cars have the same VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No two legitimately manufactured vehicles share the same VIN. The 17-character format combines manufacturer codes, model-year indicators, and sequential production numbers specifically to guarantee uniqueness worldwide. If two vehicles appear to have identical VINs, one is almost certainly a clone, where a stolen car is given the VIN of a legally registered vehicle to disguise it. Duplicate VINs are a red flag for fraud.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is my VIN confidential or safe to share?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN is not confidential. It is stamped on the dashboard and visible through the windshield of any parked vehicle, so sharing it with buyers, mechanics, or insurers is normal and necessary. It is not a secret like a Social Security number. Still, avoid posting it alongside your full name and address in public listings, since thieves can misuse an exposed VIN for cloning.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function WhatIsAVinNumberPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -309,43 +381,30 @@ export default function WhatIsAVinNumberPage() {
             covers all vehicles from 1981 onward.
           </p>
 
-          {/* --- Common Questions --- */}
+          {/* --- Frequently Asked Questions --- */}
           <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            Frequently Asked Questions About VIN Numbers
+            Frequently Asked Questions
           </h2>
-
-          <h3 className="mt-6 text-lg font-semibold text-slate-900">
-            Can two vehicles have the same VIN?
-          </h3>
-          <p className="mt-2 text-slate-600 leading-relaxed">
-            No. The VIN system is designed to ensure every vehicle in the world
-            receives a unique 17-character code. The combination of
-            manufacturer codes, model year indicators, and sequential production
-            numbers makes duplication essentially impossible under legitimate
-            manufacturing. If you encounter two vehicles with identical VINs,
-            one of them is likely a clone.
-          </p>
-
-          <h3 className="mt-6 text-lg font-semibold text-slate-900">
-            Does the VIN change when a vehicle changes owners?
-          </h3>
-          <p className="mt-2 text-slate-600 leading-relaxed">
-            No. A VIN is permanently assigned at the factory and stays with the
-            vehicle for its entire life, regardless of how many times it is sold,
-            re-registered, or transferred between states or countries.
-          </p>
-
-          <h3 className="mt-6 text-lg font-semibold text-slate-900">
-            Is it safe to share my VIN publicly?
-          </h3>
-          <p className="mt-2 text-slate-600 leading-relaxed">
-            Generally, yes. A VIN is not sensitive personal information. It is
-            visible on the dashboard of every vehicle parked on any public
-            street. Sharing your VIN with potential buyers, mechanics, or
-            insurance companies is standard practice. However, you should be
-            cautious about sharing it alongside other personal details like your
-            home address and full name in public forums.
-          </p>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-slate-50 p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="flex-shrink-0 text-2xl font-light text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

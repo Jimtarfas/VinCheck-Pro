@@ -107,6 +107,74 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How does used car financing work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Used car financing is a secured installment loan: a lender pays the seller, you repay the borrowed amount plus interest in fixed monthly payments, and the vehicle serves as collateral until the loan is paid off. Lenders evaluate your credit history, income, and the loan-to-value ratio, along with the car's age and mileage, because older or higher-mileage vehicles depreciate faster and carry more risk. You can borrow from a bank, credit union, online lender, or through dealer-arranged financing.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What credit score do I need to finance a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "There is no universal minimum, and some lenders approve borrowers with scores in the 500s, but a higher score generally unlocks lower interest rates and more lender choices. Lenders typically group applicants into tiers such as super-prime, prime, near-prime, and subprime, with each lower tier paying meaningfully higher rates. Beyond the score itself, lenders also weigh your income, debt-to-income ratio, and the loan-to-value of the specific vehicle.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Should I get pre-approved before shopping for a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Pre-approval is a written conditional offer from a lender stating the amount, rate, and term they will finance. It clarifies your realistic budget before you shop, locks in a rate you can compare against dealer offers, and shifts negotiation toward the vehicle's price rather than a monthly payment. Submitting several applications within a short shopping window (commonly counted as a single inquiry by credit-scoring models) lets you compare lenders with minimal credit-score impact.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is dealer financing or a bank/credit union loan better?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Each channel has trade-offs. Credit unions are member-owned and often offer competitive used-car rates, sometimes considering relationship factors beyond the credit score. Banks and online lenders compete on speed and convenience. Dealer financing is indirect lending: the dealer submits your application to lenders and may add a markup to the rate, so it can be convenient but harder to verify. Comparing a pre-approval against any dealer quote is the most reliable way to see which is actually cheaper.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you finance a salvage or branded-title car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It is often difficult. Many banks and credit unions decline loans on salvage or rebuilt-title vehicles entirely because the title brand reduces collateral value and resale certainty. Lenders that do finance them typically charge higher rates and require shorter terms or larger down payments. Because a title brand can collapse a pre-approval at funding, it is worth running a VIN check before applying so you know exactly what brands appear on the title and can disclose them upfront.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a typical used-car loan term?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Used-car loan terms commonly range from 36 to 72 months, and some lenders offer 84-month terms. A longer term lowers the monthly payment but increases the total interest paid and keeps you owing money on the vehicle for longer, which raises the chance of being underwater (owing more than the car is worth). A shorter term costs more each month but reduces total interest and builds equity faster.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does a down payment affect my used-car loan?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A down payment reduces the amount you finance, which lowers both your monthly payment and the total interest paid over the loan. It also improves your loan-to-value ratio, helping offset early depreciation so you are less likely to owe more than the car is worth. A larger down payment can additionally widen the pool of willing lenders and may help applicants with lower credit scores qualify or secure better terms.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function UsedCarFinancingGuidePage() {
   return (
     <>
@@ -117,6 +185,10 @@ export default function UsedCarFinancingGuidePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -953,6 +1025,36 @@ export default function UsedCarFinancingGuidePage() {
             </Link>{" "}
             for the complete pre-purchase playbook.
           </p>
+
+          {/* FAQ */}
+          <h2 className="mt-14 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <p className="mt-3 text-slate-600 leading-relaxed">
+            General, educational answers to the most-searched questions
+            about financing a used car. This is informational guidance,
+            not personalized financial advice.
+          </p>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="flex-shrink-0 text-2xl font-light text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

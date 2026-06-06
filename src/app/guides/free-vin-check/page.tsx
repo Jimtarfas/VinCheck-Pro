@@ -62,12 +62,84 @@ const comparisonRows = [
   { feature: "Detailed trim and options", free: false, premium: true },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How can I check a VIN for free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into a free VIN decoder such as the search box on CarCheckerVIN. In seconds you get the vehicle's year, make, model, engine, transmission, body style, drivetrain, and country of manufacture decoded directly from the VIN. There is no account, no credit card, and no limit on the number of free checks. For recalls, you can also use the free NHTSA tool at nhtsa.gov.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does a free VIN check show versus a paid report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A free VIN check decodes factory-build specifications: year, make, model, engine, transmission, body style, drivetrain, and country of manufacture. A paid report adds depth a free decode cannot: the full factory equipment list, real vehicle photos, market value estimates, comparable dealer listings, recall details, and detailed trim and options. On CarCheckerVIN the premium report starts at $7.99 with no subscription.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is a free VIN check reliable?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, for what it covers. A free VIN decode reads the standardized 17-character VIN and verifies the specifications against manufacturer build data, so the year, make, model, and engine it returns are accurate for vehicles built from 1981 onward. It is reliable for confirming a vehicle matches its listing, but it does not include title, accident, or odometer history, which require additional data sources.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What free government and nonprofit VIN tools exist?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Three genuinely free tools are worth using. NHTSA.gov offers a free recall lookup by VIN for open safety recalls. NICB VINCheck (vincheck.nicb.org) gives a free stolen and total-loss flag, limited to a few lookups per day. Free VIN decoders return specifications only. Full title history comes from NMVTIS-approved providers, which charge a small fee because NMVTIS data access is not free.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I see accident or title history for free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not in full. Free VIN decoders show specifications, not accident or title history. NICB VINCheck offers a free stolen and total-loss flag but not a complete history. Comprehensive title-brand and history data flows from NMVTIS-approved providers, which charge a small fee. Be cautious of sites advertising a completely \"free history report\" that then require a card or push a subscription.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I do a free VIN decode?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Locate the 17-character VIN on the dashboard through the windshield, the driver-side door jamb sticker, or the registration card. Type or paste it into a free decoder such as the CarCheckerVIN search box. The decode returns instantly with year, make, model, engine, transmission, body style, drivetrain, and country of manufacture. No account or payment is required to read these core specifications.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I avoid fake \"free\" VIN report scams?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Choose a service that decodes the VIN with no credit card required, shows transparent pricing for any premium report, and sources data from verified databases such as NMVTIS and manufacturer records. Avoid sites that demand a card for a \"free\" report, enroll you in recurring charges, or serve outdated data. CarCheckerVIN's free decode is genuinely free, and premium reports are priced clearly at $7.99 with no auto-renewals.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function FreeVinCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -371,6 +443,35 @@ export default function FreeVinCheckPage() {
             because buyers feel more comfortable making an offer when they can
             verify the details independently.
           </p>
+
+          {/* --- FAQ --- */}
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <p className="mt-3 text-slate-600 leading-relaxed">
+            The most common questions about running a free VIN check, what it
+            includes, and which free tools are genuinely free.
+          </p>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

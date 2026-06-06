@@ -115,6 +115,74 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is title washing and how do I avoid it?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Title washing is re-titling a branded vehicle — salvage, flood, junk, or rebuilt — in a state with weaker branding rules so the brand drops off the new clean-looking title. Avoid it by running a NMVTIS-backed history check, which aggregates title data from all 50 state DMVs and surfaces the original brand even when the current paper title hides it. Also confirm the title is issued in the seller's state of residence and watch for a chain that bounces between three or more states in a few years.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is VIN cloning?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "VIN cloning is copying a legitimate VIN from a clean, legally titled vehicle onto a stolen car of the same make and model. The stolen car then carries paperwork that looks valid until law enforcement traces the real VIN and recovers it — leaving the buyer with neither the car nor the money. Defend against it by physically matching the VIN across the dashboard plate, driver-door jamb sticker, and title, checking for tampered rivets or glue, and running a NICB stolen-vehicle check.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is curbstoning?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Curbstoning is when an unlicensed dealer poses as a private seller to offload problem cars — often vehicles with branded titles, undisclosed damage, or rolled-back odometers — while dodging lemon-law obligations and consumer protections that apply to licensed dealers. Warning signs include a seller whose name does not match the title, multiple vehicles tied to the same phone number, and a refusal to meet at a registered business address. Always verify the seller's name matches the title exactly.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I spot odometer fraud?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Compare the displayed mileage against the vehicle's recorded history: every NMVTIS title transfer captures an odometer reading, so a current number lower than a prior record is conclusive rollback. Also check that wear matches the mileage — a polished steering wheel, worn brake pedal, or collapsed seat bolster on a car showing low miles does not add up. Cross-reference service stickers, oil-change records, and inspection stamps, which all carry mileage that can be verified against the dashboard reading.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can a VIN check protect me from used-car fraud?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN check decodes the vehicle's identity against NMVTIS title and brand records and NICB theft data, surfacing salvage, flood, lemon, and junk brands, odometer discontinuities, and stolen-vehicle reports that a paper title may hide. Because NMVTIS aggregates data from all 50 state DMVs, it defeats cross-state title washing. Always pull the report yourself at the time of inspection — never trust a printed report the seller hands you, which can be altered in seconds with a PDF editor.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What should I verify before paying for a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Confirm the VIN matches across the dashboard plate, door-jamb sticker, engine-bay stamping, title, registration, and bill of sale. Pull a full NMVTIS-backed history report and run a NICB stolen-vehicle check. Validate that every recorded odometer reading trends upward. Get an independent pre-purchase inspection from a mechanic who is not the seller's shop. Inspect the title in person for watermarks, raised seals, and alterations. Pay only by traceable methods — bank wire or cashier's check, never gift cards or crypto.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What are common online car-buying scams?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The most common online scams share a shape: a price well below market, a seller unavailable for in-person viewing (citing deployment, illness, or relocation), and pressure to use a third-party escrow or shipping service that puts your money beyond reach. Watch for fake escrow sites, listings with stolen or stock photos, invoices using a real company's logo from the wrong domain, and requests for wire transfers, gift cards, or cryptocurrency. The core rule: if you cannot physically inspect the car and verify the VIN in person, do not send money.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function VehicleFraudPreventionPage() {
   return (
     <>
@@ -125,6 +193,10 @@ export default function VehicleFraudPreventionPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -979,6 +1051,31 @@ export default function VehicleFraudPreventionPage() {
             </Link>
             .
           </p>
+
+          {/* FAQ */}
+          <h2 className="mt-14 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-4 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

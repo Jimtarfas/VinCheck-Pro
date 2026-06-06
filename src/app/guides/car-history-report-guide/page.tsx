@@ -113,6 +113,74 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a vehicle history report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A vehicle history report is a structured summary of every recorded event tied to a specific 17-character VIN. It compiles title transfers, title brands, odometer disclosures, accident and total-loss records, theft flags, lien activity, and open recalls into a chronological timeline. Buyers use it to verify a used car's past before purchase, surfacing problems a seller may not disclose, such as a salvage title, flood damage, or rolled-back mileage.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does a car history report include?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A typical report includes title and registration history, brand records (salvage, rebuilt, flood, junk, lemon buyback), the odometer reading chain, accident and damage records, theft and recovery flags, lien and loan history, open and completed safety recalls, factory equipment lists, and where available, service records and a market-value estimate. Coverage of service and accident data varies by provider, since those sources are partly voluntary.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does vehicle history report data come from?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Credible reports draw from several authoritative sources. NMVTIS, run by the U.S. Department of Justice, aggregates title and brand data from state DMVs nationwide. NICB compiles theft and total-loss records from insurance carriers. NHTSA publishes recall campaigns and VIN decoding. Additional data comes from salvage auctions, manufacturer (OEM) build and warranty records, and independent service networks. Providers differ mainly in how they integrate and refresh these feeds.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How accurate and complete are vehicle history reports?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No vehicle history report is 100% complete. A report only shows events that were actually reported into its source databases, so a fender-bender repaired out of pocket or a flood claim that never reached an insurer will not appear. Comprehensive reports catch the large majority of meaningful issues like title brands and odometer fraud, but they are necessary, not sufficient. Always pair a report with a hands-on pre-purchase mechanical inspection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does a vehicle history report cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Prices range widely. As of early 2026, single reports run about $44.99 at Carfax, $24.99 at AutoCheck, $14.99 at ClearVIN, and $9.99 at VINAudit, while Bumper uses a roughly $19.99 monthly subscription. CarCheckerVIN sells single reports for $7.99 with no subscription or auto-renewal. A free VIN decode confirms basic specs, but title brands, accident records, the odometer chain, and recalls require a paid report.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I need a history report if the car looks clean?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A clean appearance does not reveal a salvage or flood title, a rolled-back odometer, an open safety recall, an unreleased lien, or accident damage that was cosmetically repaired. These problems are recorded in databases, not visible in a test drive. Running a report before you transact, ideally a fresh one within 24 hours of signing, is inexpensive insurance against buying a vehicle with a hidden, value-destroying history.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I read a vehicle history report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Read it top to bottom rather than relying on the summary panel. First confirm the report VIN matches the dashboard plate and door-jamb sticker. Check the title and brand history for salvage, flood, or lemon flags and title washing across states. Verify the odometer chain trends upward with no rollbacks. Review accident severity, airbag deployment, and structural repairs. Finally, cross-check open NHTSA recalls and confirm whether each was completed.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function CarHistoryReportGuidePage() {
   return (
     <>
@@ -123,6 +191,10 @@ export default function CarHistoryReportGuidePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -699,61 +771,25 @@ export default function CarHistoryReportGuidePage() {
             <HelpCircle className="w-6 h-6 text-primary-600" />{" "}
             Frequently asked questions
           </h2>
-          <div className="mt-4 space-y-5">
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                Are vehicle history reports 100% accurate?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                No. Reports reflect what has been reported into
-                NMVTIS, NICB, NHTSA, and other source databases.
-                Unreported incidents will not appear. A
-                comprehensive report still catches the vast
-                majority of meaningful issues, but always pair it
-                with a physical inspection.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                How often is the data updated?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                NMVTIS data refreshes from each participating
-                state on its own cadence &mdash; typically
-                weekly or daily. NICB updates near-realtime. OEM
-                and service-network data refresh on the source
-                provider&rsquo;s schedule. Pull a fresh report
-                immediately before you transact, not days
-                earlier.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                Why is my report different from another
-                provider&rsquo;s?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                Different providers integrate different data
-                sources and may license different proprietary
-                feeds. NMVTIS-approved providers all share the
-                same baseline title data, but accident-record
-                coverage varies meaningfully across providers.
-                Always run two reports for high-stakes
-                transactions.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                Should the seller pay for the report or the
-                buyer?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                You should pay. A seller-supplied report can be
-                outdated, edited, or fabricated. Spending $7.99
-                on a fresh report you control is the cheapest
-                insurance you will ever buy.
-              </p>
-            </div>
+          <div className="mt-4 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
           </div>
 
           <h2 className="mt-12 text-2xl font-bold text-slate-900 scroll-mt-24">

@@ -112,6 +112,74 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How is the VIN check digit (position 9) calculated?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The check digit at position 9 is computed from the other 16 characters using a weighted-transliteration formula. Each letter is converted to a number via a fixed table, each position is multiplied by an assigned weight (8,7,6,5,4,3,2,10 for positions 1-8 and 9,8,7,6,5,4,3,2 for positions 10-17), the products are summed, and the total is divided by 11. The remainder is the check digit, with a remainder of 10 written as the letter X.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between the VDS and VIS sections of a VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The VDS (Vehicle Descriptor Section) is positions 4-8 and encodes manufacturer-defined attributes such as model line, body style, restraint system, and engine. The VIS (Vehicle Identifier Section) is positions 10-17 and encodes the model year, assembly plant, and unique production serial number. In short, the VDS describes what the vehicle is, while the VIS identifies the specific unit and when and where it was built.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can a VIN decoder tell me the engine and trim of a vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Often yes, but accuracy depends on manufacturer data. Engine and restraint details are encoded in the VDS (positions 4-8), and a decoder maps those characters against the manufacturer's table for that brand and model year. Engine type frequently decodes reliably, but trim, packages, and exact options are not always carried in the VIN itself. Coverage varies by brand, so some vehicles decode to a full configuration while others return only the base build attributes.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What's the difference between decoding a VIN and running a vehicle history report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Decoding a VIN reads the static build information encoded in the 17 characters: manufacturer, country of assembly, model year, plant, and configuration attributes. A vehicle history report instead compiles events recorded over the car's life, such as title transfers, accidents, odometer readings, recalls, and theft records. Decoding answers what the vehicle is; a history report answers what has happened to it. The two are complementary, not interchangeable.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does NHTSA's vPIC VIN decoder work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "NHTSA's free vPIC (Product Information Catalog and Vehicle Listing) decoder maps a VIN's WMI and VDS characters to make, model, body class, and specifications for U.S.-market vehicles. It draws on data manufacturers submit under federal regulation and returns standardized attributes. vPIC is authoritative for U.S.-spec light vehicles, but it does not provide vehicle history, and its detail level varies by how much specification data each manufacturer has filed.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why do two cars of the same model have different VIN patterns?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Identical models can carry different VIN patterns mainly because of the country of assembly and the build configuration. The first three characters (WMI) reflect where the vehicle was assembled, so a model built in two plants in different countries gets different WMIs. The VDS (positions 4-8) also differs when engine, body, or restraint configurations differ. Plant code and serial number in the VIS differ for every individual unit as well.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can decoding a VIN reveal factory options and installed equipment?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Only partially, and it depends on the manufacturer. The standardized VIN encodes core attributes like engine, body, and restraint system in the VDS, but full option-level detail such as paint, packages, and accessories is usually stored in a separate factory build sheet or window-sticker record keyed to the VIN, not in the 17 characters. To retrieve complete equipment data you typically need the manufacturer's build record, and coverage varies by brand.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function VinDecodingMasterGuidePage() {
   return (
     <>
@@ -122,6 +190,10 @@ export default function VinDecodingMasterGuidePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -1129,6 +1201,31 @@ export default function VinDecodingMasterGuidePage() {
             for more deep dives on specific brands, plants, and
             model years.
           </p>
+
+          {/* FAQ */}
+          <h2 className="mt-14 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-4">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

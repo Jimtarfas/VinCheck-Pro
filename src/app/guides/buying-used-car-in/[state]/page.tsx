@@ -151,6 +151,47 @@ export default async function GuidePage({ params }: Props) {
   const otherStates = pickOtherStates(state.slug);
   const regionalLine = regionalRiskLine(state);
 
+  // Single source of truth for the FAQ — rendered both as visible <details>
+  // accordions and as FAQPage JSON-LD so schema can never drift from the
+  // on-page copy. Answers are written to be true for any state without
+  // asserting state-specific tax rates, fees, or day-counts that vary.
+  const faqs = [
+    {
+      q: `How do I buy a used car in ${state.name}?`,
+      a: `To buy a used car in ${state.name}, find a vehicle, run its 17-character VIN to check the history, inspect it in person or with a mechanic, agree on a price, then complete the title transfer and registration with the ${state.dmvName}. Bring the signed title, a bill of sale, your ID, proof of insurance, and any required tax payment to finish the deal.`,
+    },
+    {
+      q: `How do I transfer a title in ${state.name}?`,
+      a: `In ${state.name}, the seller signs the certificate of title over to you and you submit it to the ${state.dmvName} along with a bill of sale, your photo ID, and proof of insurance. The state issues a new title in your name. Time limits and fees vary, so check the ${state.dmvName} for the exact deadline that applies to your purchase.`,
+    },
+    {
+      q: `Do I pay sales tax on a used car in ${state.name}?`,
+      a: `Most states, including ${state.name}, charge sales or use tax on used-car purchases, and it is usually collected by the ${state.dmvName} at the time of title and registration. The rate and any local additions vary, so confirm ${state.name}'s current rate with its DMV or revenue department. Trade-in credits, gifts, and family transfers may reduce or eliminate the tax owed.`,
+    },
+    {
+      q: `Does ${state.name} require a safety or emissions inspection?`,
+      a: `Inspection and emissions requirements vary by state and sometimes by county, so verify whether ${state.name} requires one before you register. Where required, the check is typically tied to titling or registration through the ${state.dmvName}. A separate VIN inspection is also common when a vehicle comes from out of state or carries a salvage or rebuilt history.`,
+    },
+    {
+      q: `How do I check a car's history before buying in ${state.name}?`,
+      a: `Enter the vehicle's 17-character VIN into a vehicle history report before you put down any money. For a ${state.name} purchase this surfaces title brands, reported accidents, salvage or flood damage, odometer discrepancies, and open recalls recorded in national databases — including out-of-state records the seller or local DMV may not show. Always match the VIN on the dashboard, door jamb, and title.`,
+    },
+    {
+      q: `Do I need a bill of sale in ${state.name}?`,
+      a: `A bill of sale documents the purchase price, date, and both parties for a used-car sale, and ${state.name} generally expects one as part of the title-transfer paperwork submitted to the ${state.dmvName}. Even where it is not strictly required, keep a signed copy: it supports the sales-tax calculation and protects both buyer and seller if a dispute arises later.`,
+    },
+  ];
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -236,6 +277,7 @@ export default async function GuidePage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <article className="pt-28 pb-16 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -539,42 +581,23 @@ export default async function GuidePage({ params }: Props) {
             <div className="flex items-center gap-2 mb-4 text-primary-600">
               <FileText className="w-5 h-5" />
               <span className="text-xs font-semibold uppercase tracking-wider">
-                Quick FAQ
+                FAQ
               </span>
             </div>
             <h2 className="text-2xl font-bold text-slate-900 mb-6">
-              Quick FAQ
+              Frequently Asked Questions
             </h2>
             <div className="space-y-4">
-              {[
-                {
-                  q: `Do I need a VIN inspection in ${state.name}?`,
-                  a: `${state.name} typically requires a VIN inspection for vehicles coming from out of state, vehicles with a salvage or rebuilt history, and certain custom-built or kit vehicles. Check with the ${state.dmvName} for the exact requirements that apply to your situation.`,
-                },
-                {
-                  q: `What's the sales tax rate on a used car in ${state.name}?`,
-                  a: `${state.name} sales or use tax on used vehicles varies by county and city, and is collected at the time of title transfer by the ${state.dmvName}. Always confirm the current rate on the official ${state.dmvName} website before closing a deal.`,
-                },
-                {
-                  q: `Can I buy a salvage-titled car in ${state.name}?`,
-                  a: `Yes, you can buy a salvage-titled vehicle in ${state.name}, but expect significantly lower resale value, restricted insurance options, and additional inspection requirements before it can be re-titled as rebuilt. Always pull a full VIN history before you buy.`,
-                },
-                {
-                  q: `How long do I have to register a newly purchased car in ${state.name}?`,
-                  a: `Most ${state.name} buyers should plan to title and register a newly purchased used vehicle within 30 days of the sale to avoid late penalties. Confirm the exact window with the ${state.dmvName}.`,
-                },
-              ].map(({ q, a }) => (
+              {faqs.map((f) => (
                 <details
-                  key={q}
-                  className="group p-5 bg-slate-50 border border-slate-200 rounded-xl"
+                  key={f.q}
+                  className="group p-5 bg-slate-50 border border-slate-200 rounded-xl [&_summary::-webkit-details-marker]:hidden"
                 >
-                  <summary className="font-semibold text-slate-900 cursor-pointer flex items-start justify-between gap-3">
-                    <span>{q}</span>
-                    <span className="text-primary-600 text-sm group-open:rotate-180 transition-transform">
-                      <ArrowRight className="w-4 h-4 rotate-90" />
-                    </span>
+                  <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                    <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">{f.q}</h3>
+                    <span className="flex-shrink-0 text-2xl text-primary-600 font-light transition-transform group-open:rotate-45">+</span>
                   </summary>
-                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{a}</p>
+                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{f.a}</p>
                 </details>
               ))}
             </div>

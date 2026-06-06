@@ -122,6 +122,74 @@ const howToSchema = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What should I check before buying a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Before buying a used car, verify the 17-character VIN matches the dashboard, door-jamb plate, and title exactly, then run a vehicle history report to confirm the title is clean and lien-free with no salvage, flood, or odometer-rollback issues. Check for open recalls on NHTSA's free lookup, get an independent pre-purchase inspection, and take a 30-minute test drive across mixed conditions. Skipping the history report or inspection is the most common buyer mistake.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What documents do I need when buying a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You need the title signed by the seller of record (with the VIN matching the dash and door-jamb plates), a bill of sale listing the price, date, both parties' names and any as-is language, and a federal odometer disclosure (required on transfers of vehicles under 20 years old). If the title shows a lender, get a lien release before registering. Many states also require a valid smog or safety certificate at the time of sale.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Should I get a pre-purchase inspection?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A pre-purchase inspection from an independent mechanic with no relationship to the seller typically costs $150 to $250 and is one of the smartest pre-purchase steps. The mechanic puts the car on a lift, runs a scan tool against the OBD-II port, and produces a written report that often pays for itself within the first two findings. A history report verifies the past; the inspection verifies the present. A seller who refuses a pre-purchase inspection is waving a red flag.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I negotiate a used car price?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Pull three comparable listings for the same year, trim, mileage, and region, then make your opening offer just below the lowest asking price. Always negotiate the out-the-door price, the total including taxes, title, registration, and every fee, not the monthly payment, which can hide a longer term and higher rate. Decline add-ons like paint protection, VIN etching, and marked-up extended warranties. Walking in with a credit-union pre-approval gives you the leverage to ask a dealer to match or beat the rate.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How many miles is too many on a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "There is no hard cutoff: condition and maintenance history matter more than the odometer alone. US vehicles are typically driven around 12,000 to 15,000 miles per year, so you can gauge whether a car's mileage is high or low for its age against that benchmark. A well-maintained car with full service records at 120,000 miles is usually a safer bet than a neglected one at 60,000. Confirm odometer readings trend upward across every recorded history event to rule out rollback.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Should I buy from a dealer or a private seller?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Dealers cost more but offer recourse: certified pre-owned warranties, manufacturer-backed coverage, and in some states an implied warranty of merchantability. Private-party sales are usually 10 to 20% cheaper but are almost always sold as-is with no warranty and no returns, so you absorb all the risk. Private deals make sense if you are confident running a VIN check and paying for an independent inspection; if you want protection and convenience, a dealer is worth the premium.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What red flags mean I should walk away from a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Walk away if the title is branded salvage, flood, rebuilt, junk, or lemon and was not disclosed, if odometer readings drop or plateau across history events, or if accident records contradict what the seller told you. Other hard stops include a seller who refuses to share the VIN before you visit, refuses an independent pre-purchase inspection, or pushes you to focus on the monthly payment instead of the total price. If the paperwork conflicts with the history report, stop the transaction.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function UsedCarBuyingCompleteGuidePage() {
   return (
     <>
@@ -132,6 +200,10 @@ export default function UsedCarBuyingCompleteGuidePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -838,56 +910,27 @@ export default function UsedCarBuyingCompleteGuidePage() {
             id="faq"
             className="mt-12 text-2xl font-bold text-slate-900 scroll-mt-24"
           >
-            Frequently asked questions
+            Frequently Asked Questions
           </h2>
-          <div className="mt-4 space-y-5">
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                What is the best mileage to buy a used car at?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                The depreciation curve flattens between 60,000 and
-                100,000 miles, which is generally the value sweet
-                spot. Below 30,000 miles you are paying a premium for
-                low use; above 150,000 you are betting on continued
-                reliability without much warranty cushion.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                Should I buy from a dealer or a private party?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                Dealers offer recourse and warranties; private parties
-                offer better prices. If you are confident running a
-                VIN check and paying for an inspection, private-party
-                deals typically save 10&ndash;20%.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                How much should I put down on a used car?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                A 20% down payment is the long-standing rule of
-                thumb. It keeps you right-side-up on the loan as the
-                car depreciates and meaningfully reduces your interest
-                cost over the life of the loan.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                Is a CPO car worth the premium?
-              </h3>
-              <p className="mt-1 text-slate-600 leading-relaxed">
-                For a vehicle you intend to keep five-plus years, the
-                manufacturer-backed extended warranty often pays for
-                itself on a single major repair. CPO premiums of
-                5&ndash;8% over comparable non-CPO inventory are
-                generally defensible for buyers prioritizing peace of
-                mind.
-              </p>
-            </div>
+          <div className="mt-4 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
           </div>
 
           {/* Deep dives */}
