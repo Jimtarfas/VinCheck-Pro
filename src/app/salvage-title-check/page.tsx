@@ -50,12 +50,84 @@ const articleSchema = {
   dateModified: "2026-04-16",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a salvage title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A salvage title is a state-issued title brand applied when an insurance company declares a vehicle a total loss — usually because the cost to repair it exceeds a state-defined percentage of its pre-loss value, often around 70–80% (the exact threshold varies by state). The brand can result from a collision, flood, fire, theft recovery, or hail. Once applied, the salvage brand stays attached to the VIN permanently.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check if a car has a salvage title by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into the search box on this page. The report cross-references NMVTIS, state DMV title-brand files, and major insurance total-loss feeds to surface any salvage, rebuilt, flood, or junk brand. Because the history is tied to the VIN rather than the paper title, a VIN check reveals brands even when the current document looks clean.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a salvage title and a rebuilt title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A salvage title means the vehicle was declared a total loss and is not legal to drive on public roads until it is repaired. A rebuilt or reconstructed title is issued after a salvage vehicle is repaired and passes a state inspection that confirms it is roadworthy. The title never reverts to clean — a rebuilt brand permanently signals the vehicle's prior salvage history.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you insure or finance a salvage-title car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It is limited. A pure salvage car generally cannot be insured for road use until it is rebuilt and re-inspected. On rebuilt titles, many carriers offer liability-only coverage and decline comprehensive or collision. Financing is also restricted — most banks and credit unions will not write a loan on a branded title, so buyers often need to pay cash or use a specialty lender.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is it safe to buy a salvage-title car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It can be, but the risk is higher than with a clean title. A well-documented, professionally rebuilt vehicle that passed inspection may be sound, but hidden structural damage can compromise airbag deployment and crash performance. Before buying, get an independent pre-purchase inspection, review repair documentation, and confirm the brand history with a VIN check. Expect a lower resale value and tighter insurance and financing options.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does a car get a salvage title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A car typically gets a salvage title when an insurer determines it is a total loss — meaning estimated repair costs exceed a state-set percentage of the vehicle's pre-loss market value, often around 70–80% though the threshold varies by state. The triggering event can be a collision, flood, fire, hail, or theft recovery. The insurer reports the total loss, and the state issues the salvage brand.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is title washing, and does NMVTIS show salvage brands?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Title washing is moving a branded vehicle to a state with weaker title laws and re-registering it to obtain a clean-looking title. NMVTIS — the National Motor Vehicle Title Information System, run by the U.S. Department of Justice — counters this by aggregating brands reported by all 50 state DMVs, insurers, and salvage and junk reporters. Because it pulls from every state, NMVTIS surfaces salvage brands that washing tries to hide.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function SalvageTitleCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -299,6 +371,30 @@ export default function SalvageTitleCheckPage() {
             </Link>{" "}
             when you are ready to commit.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="flex-shrink-0 text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

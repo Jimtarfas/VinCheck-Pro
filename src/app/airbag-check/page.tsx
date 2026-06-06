@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Does a VIN check show airbag deployment history?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN check rarely logs each airbag deployment as a separate line item. Instead, it surfaces the records that point to deployment: severe accident reports, insurance total-loss declarations, and salvage or rebuilt title brands. When a frontal or side collision appears in the history at speeds that typically trigger the SRS system, that is strong evidence airbags deployed — even when no explicit airbag entry exists.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why do deployed airbags matter when buying a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Airbags are single-use devices. Once deployed, they must be replaced with proper modules, sensors, and the airbag control module to restore crash protection. A correct replacement can cost $3,000 to $10,000, which tempts some sellers to install counterfeit modules, stuff the cavity with rags, or leave the system disabled. A buyer then drives a car that looks repaired but offers no airbag protection in the next crash.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you tell if airbags were replaced after deployment?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not always from the VIN alone. Body-shop repair records are not centrally databased, so airbag replacement is often inferred rather than documented. The most reliable confirmation combines the VIN history with a physical inspection: check for a lit SRS warning light, mismatched dashboard or steering-wheel covers, and have a technician read SRS fault codes with an OBD-II scan tool before buying.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a salvage or total-loss title mean airbags deployed?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not automatically, but it is a strong signal. A salvage or total-loss brand means an insurer declared the repair cost too high relative to the car's value, and severe frontal or side collisions that cause that damage usually deploy airbags. Flood or theft total-losses may not involve deployment. Treat any salvage or rebuilt title as a prompt to verify the SRS system was fully and correctly restored.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check airbag status by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into the search tool above. The report pulls accident severity, insurance total-loss, and salvage title records that indicate likely airbag deployment, plus any open NHTSA airbag-related recalls. For full confirmation, pair the VIN check with a pre-purchase inspection that includes an SRS diagnostic scan, since the actual condition of the airbag modules must be verified in person.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are airbag recalls like the Takata recall shown by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Open airbag-related recalls are tied to the VIN through NHTSA's recall database, which you can search free at nhtsa.gov. The Takata inflator recall — the largest automotive recall in U.S. history, affecting tens of millions of vehicles — is tracked this way. A defective Takata inflator can rupture and send metal fragments into the cabin, so always confirm any open recall is closed before buying.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is it safe to buy a car with previously deployed airbags?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It can be, but only if the airbags and the full SRS system were replaced correctly with OEM or equivalent parts by a qualified shop. The danger is not the prior deployment itself but improper repair — counterfeit modules, used modules that cannot redeploy, or a disabled warning light. Require documented repair records and an SRS diagnostic scan, and never rely on the airbag light being off alone.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function AirbagCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -179,6 +251,30 @@ export default function AirbagCheckPage() {
             </Link>{" "}
             for complete pre-purchase protection.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

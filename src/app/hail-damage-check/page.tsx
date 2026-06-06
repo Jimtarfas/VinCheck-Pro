@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Does a VIN check show hail damage?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN check can show hail damage when it generated a record. If an owner filed a comprehensive insurance claim, that claim is logged in industry databases and may surface in a history report. If the storm caused a total loss, a salvage or storm/hail title brand is reported to NMVTIS, which aggregates data from all 50 state DMVs. Minor hail repaired without a claim — for example self-paid paintless dent repair — may leave no VIN-linked trace, so pair the report with a physical inspection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a hail title or catastrophic-loss brand?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A hail or storm-damage title brand is a permanent notation an insurer or DMV applies when severe hail leads to a comprehensive total loss. The exact wording varies by state — some use a specific hail or storm-damage brand, while others apply a general salvage brand. Once the vehicle is repaired and re-titled it typically becomes a rebuilt salvage title. These brands are reported to NMVTIS and follow the VIN for life, so they appear in a VIN history check regardless of where the car is later sold.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are hail-damaged cars safe to buy?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Hail damage is usually cosmetic — dents in the roof, hood, and body panels — and a professionally repaired car with a clean title can be safe and a genuine value. The risks are hidden ones: hail can crack windshields, damage seals and weatherstripping, and let water in, leading to corrosion or electrical problems later. A hail-totaled vehicle with a rebuilt title carries added uncertainty about repair quality. Always confirm the title status by VIN and get an independent pre-purchase inspection before buying.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between cosmetic and structural hail damage?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Cosmetic hail damage is surface denting on panels and the roof that can usually be corrected with paintless dent repair (PDR) without affecting safety. Structural or hidden damage is less common but more serious: cracked windshields, compromised seals that allow water intrusion, damaged sunroof glass, or paint film failure that exposes metal to corrosion. Improper repairs — dents hammered from the inside rather than professional PDR — can work-harden metal and cause cracking over time. A professional inspection identifies the repair method and reveals damage a history report cannot.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do insurers total cars for hail damage?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. When hail repair costs exceed a state's total-loss threshold relative to the vehicle's actual cash value, an insurer can declare a comprehensive total loss. Older trucks and SUVs with lower values are especially vulnerable because their repair-cost ratio crosses the threshold more easily. A totaled vehicle is typically branded salvage or storm-damage and sold at auction. After repair it carries a rebuilt salvage title that appears in any VIN history check.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check if a car was a hail or comprehensive-claim total loss?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Run the car's 17-character VIN through a history check. The report queries NMVTIS — the federal system that aggregates salvage and total-loss brands from all 50 state DMVs plus insurance and salvage reporters — for any storm-damage, hail, or salvage brand. It also surfaces comprehensive insurance claims recorded in industry databases. Because brands follow the VIN, a total loss cannot be erased by re-titling in another state. Be aware that hail repaired without a claim may not appear, so combine the check with an inspection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are flood and hail catastrophe cars resold after big storms?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A single severe storm can damage thousands of vehicles at once, and many are bought at salvage auction, repaired, and resold — sometimes shipped across state lines to markets where the storm history is less obvious. These catastrophe vehicles often carry salvage, flood, or storm-damage title brands. NMVTIS retains those brands for the life of the VIN, so a VIN check is the most reliable way to identify a storm-resold car even when the current paper title looks clean.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function HailDamageCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -171,6 +243,30 @@ export default function HailDamageCheckPage() {
             </Link>{" "}
             to capture the full scope of any damage history beyond the hail events.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

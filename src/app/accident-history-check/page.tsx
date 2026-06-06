@@ -50,12 +50,84 @@ const articleSchema = {
   dateModified: "2026-04-16",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What does an accident history check show?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "An accident history check tied to a VIN surfaces reported collisions and damage events, including the date and location of each accident, a severity classification (minor, moderate, or severe), the point of impact (front, rear, side, or rollover), whether airbags deployed, any estimated repair cost reported by the insurer, and total-loss status. It consolidates insurance claims, police reports, body-shop records, and salvage-auction data into a single timeline keyed to the VIN.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does an accident history check show every accident?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. An accident history report only shows accidents that were reported to a data source it pulls from, such as an insurance claim, a police crash report, a body-shop record, or a total-loss filing. A minor fender bender that the owner paid for out of pocket with no insurance claim and no police report will not appear. That is why no vehicle history report captures 100% of accidents, and why a report works best alongside an in-person inspection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does VIN accident data come from?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Accident data does not come from one national database. It is aggregated from several sources that each capture part of a collision event: auto insurance companies that report claims to industry data exchanges, police departments that file crash reports through state DMVs, collision repair shops that log work performed on a VIN, and salvage auctions that record total-loss vehicles. A quality report combines insurance and police-reported data for a fuller picture than either source alone.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a clean accident report mean the car was never in an accident?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not necessarily. A clean report means no accident was ever reported to the data sources the check pulls from. A collision that was repaired without an insurance claim or police report can leave no database trace, so it would not show up. Treat a clean report as strong but not absolute evidence, and confirm it with an in-person inspection looking for uneven panel gaps, mismatched paint, fresh weld marks, or replaced airbag covers.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check a car's accident history by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the vehicle's 17-character VIN into the accident history check form on this page. The system queries insurance claim feeds, police crash reports, collision repair records, and total-loss data tied to that VIN, then returns a timeline of any reported accidents with the date, severity, point of impact, and airbag deployment status. The VIN is stamped on the dashboard at the base of the windshield and on the driver-side door jamb sticker.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do minor accidents show up on a VIN check?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Minor accidents show up only if they were reported. A minor collision that generated an insurance claim, a police report, or a body-shop record will appear, usually flagged as minor severity. A small scrape repaired privately with no claim or report often leaves no record at all. When reading a report, weigh severity and point of impact: a minor rear bumper repaint is usually a non-issue, while any severe front-end impact with airbag deployment deserves a closer look.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why does accident severity and location matter more than the count?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A single severe collision can matter far more than several minor ones. When reading an accident report, focus on three things: the severity rating, the point of impact, and whether airbags deployed. A minor parking-lot scrape is cosmetic, but a severe front-end collision with airbag deployment may have damaged structural components, sensors, and ECUs that are expensive to fully restore. Severely damaged vehicles can also end up with a salvage title brand, which is worth checking separately.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function AccidentHistoryCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -307,6 +379,31 @@ export default function AccidentHistoryCheckPage() {
             </Link>{" "}
             for step-by-step walkthroughs.
           </p>
+          <section className="mt-16">
+            <h2 className="text-2xl font-bold text-slate-900">
+              Frequently Asked Questions
+            </h2>
+            <div className="mt-6 space-y-3">
+              {FAQS.map((faq, i) => (
+                <details
+                  key={i}
+                  className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+                >
+                  <summary className="flex cursor-pointer items-center justify-between gap-4 font-semibold list-none">
+                    <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                      {faq.question}
+                    </h3>
+                    <span className="flex-shrink-0 text-2xl text-primary-600 font-light transition-transform group-open:rotate-45">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 leading-relaxed text-slate-600">
+                    {faq.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </section>
         </div>
       </article>
 

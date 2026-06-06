@@ -50,12 +50,84 @@ const articleSchema = {
   dateModified: "2026-04-16",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I check a car's odometer history by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into a mileage check tool and it pulls every reported odometer reading on file. Readings are collected at title transfers, state inspections, oil changes, dealer service visits, and auction sales, then arranged into a date-stamped timeline. Because mileage should only ever increase, any reading lower than an earlier one — or a long unexplained gap — immediately stands out as a possible rollback.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is odometer rollback?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Odometer rollback is the illegal practice of altering a vehicle's mileage display to show fewer miles than it has actually traveled. Lower mileage commands a higher resale price, so a few thousand miles erased can add thousands of dollars to the asking price. Despite the name, rollback also covers spinning a reading forward or backward — any tampering done to misrepresent true mileage with intent to defraud a buyer.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can I spot a rolled-back odometer?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Compare the dashboard reading against the VIN's reported mileage history — a current reading lower than a past record is near-certain rollback. Also watch physical clues: worn pedals, steering wheel, or seat bolsters on a low-mileage claim, service stickers showing higher miles than the dash, and a dashboard cluster with mismatched fonts or misaligned digits. Check the title for a 'Not Actual Mileage' brand.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a VIN check show mileage history?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A VIN-based check assembles odometer readings reported at title transfers, state safety and emissions inspections, and service or auction events into a single timeline. Coverage varies by vehicle and state, and a reading is only as good as what was actually reported — so gaps can exist. Still, a typical older vehicle has multiple recorded data points, usually enough to confirm or disprove a seller's mileage claim.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is odometer fraud illegal?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The federal Truth in Mileage Act makes odometer tampering a federal crime and requires sellers to disclose the true mileage in writing on the title at every transfer. Disconnecting, resetting, or altering an odometer with intent to defraud (49 U.S.C. § 32703) can bring prison time and substantial fines. A defrauded buyer may also recover treble damages plus attorney fees under federal law.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does a 'Not Actual Mileage' or 'Exceeds Mechanical Limits' title brand mean?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "These are odometer title brands. 'Not Actual Mileage' means the recorded reading is known or suspected to be inaccurate — often the signature of a rollback or a replaced cluster. 'Exceeds Mechanical Limits' means the true mileage is higher than the odometer can physically display, common on older five-digit units that rolled past 99,999. Either brand permanently follows the VIN and signals the reading cannot be trusted at face value.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can digital odometers be rolled back?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes — a common misconception is that digital odometers cannot be altered. In reality, inexpensive tools that plug into the OBD-II port can rewrite the stored mileage in minutes, and on modern cars the figure lives in multiple electronic modules. NHTSA estimates odometer fraud affects on the order of hundreds of thousands of vehicles per year, which is exactly why a VIN-based reading history is more reliable than the dashboard alone.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function OdometerCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -274,6 +346,30 @@ export default function OdometerCheckPage() {
             </Link>{" "}
             to confirm the basic specs.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="flex-shrink-0 text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

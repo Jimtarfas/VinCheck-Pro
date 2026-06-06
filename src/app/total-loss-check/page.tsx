@@ -48,12 +48,92 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What does it mean when a car is a total loss?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A total loss means an insurer determined that repairing the vehicle would cost more than it is worth to fix. Specifically, the insurance company declares a total loss when repair costs — sometimes combined with the vehicle's salvage value — exceed its pre-accident actual cash value (ACV) or a state-defined total-loss threshold. Instead of paying for repairs, the insurer pays out the vehicle's value and usually takes ownership of the wreck.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check if a car was declared a total loss by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into the search tool above. The system queries NMVTIS and national title and insurance sources for total-loss declarations, salvage brands, and structural damage records. Because NMVTIS aggregates data from all 50 state DMVs and from insurers and salvage auctions, a VIN check can surface a prior total loss even if the vehicle was later rebuilt or re-titled in a different state.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a total loss and a salvage title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A total loss is an insurance decision; a salvage title is a legal title brand. When an insurer declares a vehicle a total loss, the state typically brands the title as salvage. However, the two do not always line up: some salvage titles come from severe damage with no insurance claim, and some states let owners keep a totaled car under an owner-retained or non-repairable brand instead of standard salvage.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a total-loss threshold?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A total-loss threshold is the point at which an insurer must declare a vehicle a total loss, expressed as a percentage of the vehicle's actual cash value. The exact percentage varies by state — some states set a fixed threshold while others use a total-loss formula comparing repair cost plus salvage value to the vehicle's value. Once repair estimates cross that threshold, the insurer totals the car rather than repairing it.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can a totaled car be back on the road?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A car declared a total loss is often sold at salvage auction, repaired, and then issued a rebuilt or reconstructed title after passing a state inspection in most states. Inspection standards vary widely by state, so rebuild quality is inconsistent. A properly rebuilt vehicle can be safe, but a poorly repaired one can be dangerous — always have a rebuilt total loss inspected by a structural repair specialist before buying.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a total loss always create a salvage title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not always. A total loss usually triggers a salvage title, but the resulting brand depends on the state and the cause of loss. Some states use flood, non-repairable, or owner-retained brands instead of standard salvage, and a few situations may not produce a salvage brand at all. Because the paper title may not capture every event, a VIN-based NMVTIS check is more reliable than reading the title alone.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Will a prior total loss affect a car's insurance and value?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A prior total loss typically reduces resale value, often substantially, because the history follows the VIN and appears in future buyers' reports. It can also limit insurance: many carriers restrict rebuilt or salvage-branded vehicles to liability-only coverage and decline comprehensive or collision. Coverage availability and the size of the value discount vary by insurer, state, and the extent of the original damage.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does total-loss data come from?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Total-loss and salvage records reach NMVTIS through the 50 state DMVs, insurance carriers, and salvage auctions, with insurer total-loss reporting as a primary source. Insurers are generally required to report total losses to NMVTIS within a set timeframe, and salvage auctions like Copart and IAA report vehicles they receive. No single database is perfect, so coverage can have gaps, but a multi-source VIN check is the most thorough way to surface a prior total loss.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function TotalLossCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -167,6 +247,30 @@ export default function TotalLossCheckPage() {
             </Link>{" "}
             to capture both the total loss event and any additional damage incidents.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Does a VIN check show flood damage?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, in most cases. A VIN check surfaces flood damage when a state DMV applied a 'Flood' or 'Water Damage' title brand, or when an insurer reported a flood-related total loss to NMVTIS. It also captures salvage-auction records from companies like Copart and IAA. The limit: a flood car that was never insured or claimed may still carry a clean title, so a physical inspection remains important.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a flood or water-damage title brand?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A flood or water-damage title brand is a permanent designation a state adds to a vehicle's title after it was significantly damaged by flooding, typically when water reached the floorboards or higher and an insurer declared it a total loss. Common brand wording includes 'Flood,' 'Water Damage,' and 'Storm Damage.' Once applied, the brand is reported to NMVTIS and is meant to follow the VIN for the life of the vehicle.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can I spot a flood-damaged car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Start with a VIN check for flood and salvage brands, then inspect in person. Look for a musty or mildew odor under the carpet and in the trunk, tide-line water stains inside door panels and the spare-tire well, greenish corrosion on electrical connectors and ground points, premature rust on seat bolts and brake lines, and recently replaced carpet or interior trim. Intermittent electrical glitches are another red flag.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does NMVTIS show flood titles?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. NMVTIS — the National Motor Vehicle Title Information System, administered by the U.S. Department of Justice — aggregates title-brand data from all 50 state DMVs plus insurance carriers, junk yards, and salvage auctions. It flags flood, water-damage, salvage, and junk brands. Because it pulls from every state, a flood brand reported by one state is visible even after the vehicle is moved or retitled elsewhere.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can flood damage be hidden through title washing?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It can be attempted, but it is harder than it used to be. Title washing means re-titling a flood vehicle in a state with weaker brand-transfer rules to obtain a 'clean' title. NMVTIS was created specifically to disrupt this by preserving the original brand history regardless of where the current paper title was issued. A multi-source VIN check that draws on NMVTIS is the most reliable defense against a washed title.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why are flood-damaged cars dangerous?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Flood water corrodes the wiring harnesses, control modules, and connectors that run nearly every modern vehicle system — engine management, ABS, traction control, and airbags. This corrosion develops over months, causing intermittent failures that are costly to diagnose. Water-damaged airbag and SRS components may fail to deploy or deploy unexpectedly, and trapped moisture promotes mold and structural rust, making a flood car genuinely hazardous to drive.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are flood cars from hurricanes resold across state lines?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. After major events like Hurricane Katrina, Harvey, and Ian, large numbers of flood-damaged vehicles are dried out and shipped to used-car markets far from the disaster zone, often in states where buyers are less alert to flood history. Gulf Coast states such as Texas, Louisiana, Florida, and Mississippi see the most flooding, but the affected vehicles migrate nationwide, which is why a VIN-based flood check matters anywhere.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function FloodCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -176,6 +248,30 @@ export default function FloodCheckPage() {
             </Link>{" "}
             before purchasing any used vehicle.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 
