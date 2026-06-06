@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is an impound check?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "An impound check is a VIN-based search for records showing that a vehicle was seized and stored by law enforcement or a government authority. It looks for impound-related events such as outstanding storage fees, abandoned-vehicle proceedings, or liens placed against the title. Because local impound records are not consistently reported to centralized databases, an impound check is most reliable when an impound intersected title, salvage, lien, or auction records.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a VIN check show if a car was impounded?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sometimes, but not always. A VIN check surfaces impound events only when they were recorded in a database tied to the VIN — for example, when an impound resulted in an auction sale, an abandoned-vehicle title proceeding, or a lien against the title. Many local law enforcement impound records are never reported to centralized systems, so a clean VIN report does not guarantee a vehicle was never impounded.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why do cars get impounded?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Vehicles are impounded for a range of reasons, including driving under the influence, operating an uninsured or unregistered vehicle, unpaid parking fines, vehicle abandonment, association with criminal activity, or being held as evidence in an investigation. When a vehicle is impounded, the event is recorded in law enforcement databases. Outstanding storage or towing fees from an impound can become liens that must be cleared before a clean title transfer.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can impound history affect a used car's value?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It can, mainly through its consequences rather than the impound itself. Unpaid impound or storage fees can become liens that block registration in a new owner's name, and a vehicle impounded as evidence may be unavailable for transfer until the legal matter resolves. An impound that led to an auction or abandoned-vehicle title can also leave a branded or reassigned title that lowers resale value and complicates financing.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check a car's impound or tow history by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN in the search form on this page to check for impound, repossession, and lien records associated with the vehicle. Because comprehensive nationwide impound databases are limited, pair the VIN check with a review of the physical title for liens or brands, and contact the state DMV, which maintains lien and title records and can confirm holds tied to a specific VIN.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What records reveal that a vehicle was impounded?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Impounds most often surface through related records rather than a dedicated impound entry. These include liens against the title for unpaid storage or towing fees, abandoned-vehicle title proceedings, auction sale records, and title brands that resulted from an impound process. Active liens reported to NMVTIS can appear in comprehensive vehicle history reports, while purely local impound events may leave no VIN-linked trace at all.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is impound history harder to find than title brands?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Title brands such as salvage or flood are reported by state DMVs into centralized systems like NMVTIS, making them broadly searchable by VIN. Impound and tow data is far less centralized — local law enforcement reporting is inconsistent, so impound history typically becomes visible only when it intersects title, salvage, lien, or auction records, or when checked directly with local sources.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function ImpoundCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -171,6 +243,30 @@ export default function ImpoundCheckPage() {
             </Link>{" "}
             alongside the impound and lien check for full pre-purchase protection.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

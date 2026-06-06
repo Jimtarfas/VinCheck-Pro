@@ -50,12 +50,84 @@ const articleSchema = {
   dateModified: "2026-04-16",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I check if a car is stolen by its VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into a stolen-vehicle lookup that queries theft databases. The National Insurance Crime Bureau (NICB) offers a free VINCheck tool that flags vehicles reported stolen-and-unrecovered or as insurance salvage by participating member insurers. For a fuller picture, pair the VIN with an NMVTIS-sourced title-history report so you also see salvage, theft-recovery, and total-loss brands recorded by state DMVs.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a free stolen car database I can search?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The NICB VINCheck tool is free and lets you run a limited number of VIN searches per day. It returns whether a VIN has been reported stolen-and-unrecovered or declared a salvage total loss by a participating insurer. It is not a complete national registry, so a clean result is reassuring but not a guarantee. Confirm anything you find directly with local law enforcement.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What database shows if a car is stolen?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Two main systems matter. The NICB VINCheck database carries theft and salvage records submitted by participating insurers and is searchable free by VIN. The National Motor Vehicle Title Information System (NMVTIS) aggregates title brands from all 50 state DMVs, insurers, and salvage operators, including theft-recovery and salvage brands. Local and federal law enforcement also maintain the NCIC, which is not public but is checked when you file a report.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What should I do if a car is reported stolen?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Do not confront the seller or drive the vehicle. Walk away calmly and contact your local police non-emergency line as soon as it is safe. Give them the VIN, listing URL, meeting location, and the seller's name and number. If you already bought it, stop driving it, preserve all paperwork and payment records, and notify both police and your insurer. The legal owner can usually reclaim a stolen car without repaying you.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can a stolen car have a clean title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A freshly stolen vehicle, a car with a cloned or altered VIN, or a theft never reported to insurance may still show a clean title and a clean database result. Thieves sometimes 'wash' titles across states or swap VIN plates to mask a car's history. A clean title is not proof a car was never stolen, so always verify the VIN matches the title, registration, and door-jamb plate.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between stolen, theft-recovery, and salvage?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A 'stolen' record means a vehicle is currently reported stolen and not yet recovered. 'Theft recovery' means a previously stolen car has been found, sometimes with a salvage brand if it was damaged or stripped. 'Salvage' is a broader title brand for vehicles an insurer declared a total loss, which can stem from theft, collision, flood, or other damage. A VIN check can surface all three as separate records.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a VIN check guarantee a car isn't stolen?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. A VIN check only reflects thefts that were reported and entered into the databases it queries. A car stolen hours ago, one with a cloned VIN, or a theft never reported to insurance may not appear. Treat a clean result as one positive signal, not a guarantee. Confirm the VIN matches across the title, registration, and door-jamb plate, and contact local police or the NICB if anything looks off.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function StolenVehicleCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -296,6 +368,30 @@ export default function StolenVehicleCheckPage() {
             </Link>{" "}
             breakdown.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="flex-shrink-0 text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

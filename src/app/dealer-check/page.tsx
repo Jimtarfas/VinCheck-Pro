@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a dealer demo vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A dealer demonstrator (demo) is a new vehicle that a dealership titles in its own name to use for customer test drives, as a sales-staff or manager vehicle, or as a showroom example before selling it to a retail buyer. Demos accumulate mileage while still classified as new inventory and are usually sold at a discount that reflects that use.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can I tell if a car was a dealer demo or service loaner by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN above to run a history report. When a dealer titles a vehicle in the dealership's name for demo or loaner use, that title event appears in the ownership chain, showing the dealer name, the state of titling, and the date. Auction records also capture dealer-to-dealer transfers. Note that short-term demo use under the original title may not always create a title record.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does demo or loaner use affect the factory warranty?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The manufacturer's warranty starts from the vehicle's in-service date, not your purchase date. If a car served as a demo or service loaner for six months before you buy it, you get roughly six months less factory coverage than a vehicle delivered new to you. Run a warranty check to confirm the in-service date and the actual remaining coverage before you sign.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a demo car and a service loaner?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Demo cars are used for test drives and as sales-staff or manager vehicles, so they tend to have lower total mileage and mixed driving. Service loaners are lent to repair customers and run in near-continuous short-trip urban use, often covering 2,000 to 4,000 miles a month. Loaners typically accumulate mileage faster and show heavier interior wear from a diverse driver population.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is it a good idea to buy a former demo or loaner vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Former demos and loaners can be strong values when priced correctly. They are typically well-optioned, have documented dealer maintenance, and may still carry substantial factory warranty. The typical discount runs about 10 to 20 percent below an equivalent new vehicle, depending on mileage and the manufacturer's program. Base your offer on accurate mileage, the actual remaining warranty, and a careful interior inspection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does dealer use always appear in a VIN history report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not always. Dealer use is captured when the dealer titles the vehicle in the dealership's name, which most states require for demos and loaners. However, some states let dealers keep a vehicle in demo status under the original title for short periods without retitling, so that use may not appear in title history. Service records and manufacturer fleet registration data can help fill those gaps.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a press fleet vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A press fleet vehicle is a car a manufacturer or dealer lends to automotive media for road tests and reviews before it enters the retail market. These vehicles are usually well maintained but are driven hard by professional evaluators. Like demos and loaners, press fleet use can appear in title and ownership records and may affect the in-service date that starts the warranty clock.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function DealerCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -174,6 +246,30 @@ export default function DealerCheckPage() {
             </Link>{" "}
             — demo and loaner vehicles are sometimes involved in minor accidents during their dealer use that may or may not be fully disclosed.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

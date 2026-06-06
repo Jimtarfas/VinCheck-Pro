@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How can I tell if a used car was a rental?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Run a VIN history check and look at the ownership chain. Former rentals are usually titled to a rental company — such as Enterprise Holdings, Hertz Corporation, or Avis Budget Group — typically as the first owner after the manufacturer. Some reports also carry a 'rental' or 'fleet' prior-use designation. Be aware coverage isn't guaranteed: a rental only shows up if the prior owner's title and registration were reported into the history databases.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is buying a former rental car a bad idea?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not necessarily. Former rentals are often well-maintained because rental companies service vehicles on strict schedules and pull problem cars from service quickly. The trade-offs are many different drivers, heavier interior wear, and high mileage accumulated early. A former rental with clean post-rental history can be a sound value — the key is verifying accidents, damage, and title status after the rental period ended.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does a VIN check reveal prior rental or fleet use?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN check pulls the title and registration history, which records each owner. When a rental or fleet company holds the title, that commercial ownership appears in the chain, and many reports flag it as a 'rental' or 'fleet' prior-use designation. Prior use is often inferred from a title or registration showing a rental-company or fleet owner rather than from a single explicit label, so reviewing the full ownership timeline is the most reliable method.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do former rental cars have more wear and tear?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It depends on the area. Interiors — seats, carpets, and controls — often show accelerated wear because the vehicle was driven by many different people. Mechanically, the picture can be better than expected: rental miles are frequently highway-dominated, which is easier on the drivetrain than stop-and-go city use, and maintenance is typically done on schedule by professional fleet teams. An independent pre-purchase inspection is the best way to confirm condition.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are ex-rental cars cheaper than other used cars?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Generally yes. Former rentals usually sell at a modest discount to comparable single-owner vehicles, reflecting the market's perception of higher-intensity use and early mileage. The exact gap varies by make, model, mileage, and condition. Use the rental history as pricing context: a clean former rental priced below comparable cars can be a good deal, but always weigh it against the vehicle's full post-rental history before negotiating.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does prior-use data (rental, fleet, lease) come from?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Prior-use designations — rental, fleet, lease, taxi, or government — come from title and registration history and the recorded ownership chain. They can appear as an explicit prior-use note or as a title/use brand, but are often inferred from a title held by a rental company, leasing firm, or fleet operator. Coverage depends on how the prior owner registered and reported the vehicle, so not every former rental is flagged.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does the title show that a car was previously a rental?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sometimes, but not always. A few jurisdictions apply a use brand or note prior commercial or rental use on the title, and the rental company often appears as a prior owner in the title history. However, many former rentals carry an ordinary clean title with no explicit rental brand, so the paper title alone is unreliable. A VIN-based history check that shows the full ownership chain is the most dependable way to confirm prior rental use.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function RentalCarCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -170,6 +242,35 @@ export default function RentalCarCheckPage() {
           </p>
         </div>
       </article>
+
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-4">
+        <h2 className="text-2xl font-bold text-slate-900">
+          Frequently Asked Questions
+        </h2>
+        <p className="mt-3 text-slate-600 leading-relaxed">
+          Common questions about checking a used car for former rental and fleet history by VIN.
+        </p>
+        <div className="mt-6 space-y-3">
+          {FAQS.map((faq) => (
+            <details
+              key={faq.question}
+              className="group rounded-xl border border-slate-200 bg-white p-5"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                  {faq.question}
+                </h3>
+                <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-slate-600 leading-relaxed">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
         <RelatedChecks exclude="/rental-car-check" />

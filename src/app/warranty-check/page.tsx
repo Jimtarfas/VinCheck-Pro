@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I check a car's warranty by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into a warranty lookup tool, which retrieves the manufacturer's in-service date (the date of first retail sale) and calculates remaining coverage against the current mileage. The most authoritative source is the manufacturer or a franchised dealer of that brand, since they query the official warranty database keyed to the VIN. A comprehensive VIN report can also surface CPO extensions and service contracts that the factory lookup alone may not show.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can I tell if a used car is still under factory warranty?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Factory warranty status depends on two things: the in-service date and the current mileage. The warranty is still active only if the vehicle is within both the time limit and the mileage limit of each coverage. Run a VIN-based warranty check to retrieve the in-service date, then compare the time elapsed and the odometer reading against the brand's published limits. Exact remaining coverage should be confirmed with the manufacturer or a franchised dealer.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a powertrain and a bumper-to-bumper warranty?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A bumper-to-bumper (basic) warranty covers virtually all components except normal wear items, but for a shorter period — commonly around 3 years/36,000 miles, though this varies by brand. A powertrain warranty covers only the engine, transmission, and drivetrain, but lasts longer — commonly around 5 years/60,000 miles, and as long as 10 years/100,000 miles for some brands such as Hyundai and Kia. Both run from the in-service date.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a factory warranty transfer to a second owner?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, in most cases. The remaining factory bumper-to-bumper warranty typically transfers automatically to subsequent owners at no cost, because coverage follows the VIN and the in-service date rather than the original buyer. Some brands apply different transfer terms to the powertrain portion — for example, a longer powertrain term may be reduced for second owners. Confirm the specific transfer rules with the manufacturer or a franchised dealer for that brand.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check how much warranty is remaining?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Remaining warranty is the time and mileage left before each coverage's limit is reached. Find the in-service date (via a VIN check or the manufacturer), then subtract elapsed time from the time limit and current mileage from the mileage limit for each coverage — whichever runs out first ends that coverage. Because mileage can be misrepresented, pair the warranty check with an odometer check, and confirm the exact figures with the manufacturer or a franchised dealer.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a factory warranty and an extended or aftermarket warranty?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A factory warranty is provided by the manufacturer, included with the vehicle, and honored at any franchised dealer of that brand. An extended warranty — also called a vehicle service contract — is purchased separately and may be issued by the manufacturer, the selling dealer, or a third-party (aftermarket) administrator. Aftermarket contracts vary widely in coverage and reliability, so always read the exclusions before buying. Manufacturer-backed and CPO coverage is generally the most dependable.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How long do factory warranties typically last?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Factory warranties are limited by both time and mileage, and the exact lengths vary by brand. As industry-typical examples, bumper-to-bumper coverage commonly runs about 3 years/36,000 miles and powertrain coverage about 5 years/60,000 miles, while some brands such as Hyundai and Kia offer powertrain coverage up to 10 years/100,000 miles. Corrosion, emissions, and EV-battery warranties run on separate, often longer schedules. Always verify the specific limits for the brand and model.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function WarrantyCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -187,6 +259,29 @@ export default function WarrantyCheckPage() {
             </Link>{" "}
             before any purchase decision.
           </p>
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

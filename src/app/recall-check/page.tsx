@@ -48,12 +48,92 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I check for recalls by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the full 17-character VIN into a recall lookup tool, which queries the NHTSA recall database for your exact vehicle. Because recalls often target specific build-date ranges or factories, the VIN matches your car against the affected ranges precisely — more reliably than searching by year and model alone. The lookup returns any open (unrepaired) recall campaigns along with the affected component and defect description.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are recall repairs free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Federal law requires the manufacturer to fix a safety recall at no cost to the owner, and the repair is performed free at any franchised dealer for that brand. You do not have to be the original owner or visit the dealer where the car was bought. The free remedy generally applies regardless of how many times the vehicle has changed hands, though very old vehicles can occasionally fall outside a manufacturer's obligation window.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between an open and a completed recall?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "An open recall means a safety defect has been identified for your vehicle but the free repair has not yet been performed. A completed recall means an authorized dealer has already done the remedy and recorded it. A VIN lookup against NHTSA shows which recalls remain open for that specific vehicle. There can be a short lag between a repair being done and it showing as completed in the database, so keep the service receipt as proof.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a safety recall?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A safety recall is issued when a manufacturer or NHTSA determines that a vehicle, tire, equipment, or child seat has a defect that creates an unreasonable safety risk or fails to meet federal safety standards. The manufacturer must notify owners and provide a free remedy — a repair, replacement, or refund. A recall differs from a technical service bulletin, which documents a known issue and repair procedure but does not carry the same free-fix legal obligation.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does recall data come from?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Recall information comes from the National Highway Traffic Safety Administration (NHTSA), which maintains the official U.S. recall database. Manufacturers report campaigns to NHTSA, which makes them publicly searchable by VIN. The data is updated as new campaigns are announced and as remedies become available. Be aware that very recently announced recalls — within roughly the past couple of weeks — may not yet appear in a VIN lookup while records are still being processed.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you buy or sell a car with an open recall?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "In most cases it is legal to sell a used car with an open recall, and buyers can purchase one — the open recall simply transfers with the vehicle and can be repaired for free afterward. New cars face stricter rules: dealers are generally barred from selling a new vehicle with an open recall until it is fixed. When buying used, treat an open recall as a negotiating point and have it remedied at a franchised dealer before or soon after purchase.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the Takata airbag recall?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The Takata airbag inflator recall is the largest automotive recall in U.S. history, affecting tens of millions of vehicles across nearly every major manufacturer. The defect involves airbag inflators that can rupture and project metal fragments when deployed, posing a serious injury risk. Because it spans so many makes and model years, checking your VIN against the NHTSA database is the most reliable way to confirm whether your specific vehicle is affected and still unrepaired.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I get a recall fixed?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Contact any franchised dealer for your vehicle's brand and provide the VIN and the recall campaign number from your report. The dealer orders the correct parts and performs the remedy at no charge. Repairs typically take a few hours to a full day. If parts are not yet available, ask to join a waiting list. For urgent recalls involving fire or airbag risk, dealers may provide a loaner vehicle while you wait for the remedy.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function RecallCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -185,7 +265,33 @@ export default function RecallCheckPage() {
         <RelatedChecks exclude="/recall-check" />
       </div>
 
-      <section className="py-14 bg-slate-50">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <h2 className="text-2xl font-bold text-slate-900">
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-6 space-y-3">
+          {FAQS.map((faq) => (
+            <details
+              key={faq.question}
+              className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                  {faq.question}
+                </h3>
+                <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-slate-600 leading-relaxed">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-14 bg-slate-50 mt-12">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Check for Open NHTSA Recalls

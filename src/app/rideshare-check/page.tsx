@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Does a VIN check reveal if a car was an Uber or Lyft?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Usually not directly. Uber and Lyft do not report individual vehicles to NMVTIS or vehicle-history databases, so there is rarely a definitive 'rideshare' flag. Former rideshare use is most often inferred from very high mileage relative to the vehicle's age, commercial or for-hire registration, and commercial-insurance records when those exist. A VIN check surfaces those supporting signals rather than a confirmed Uber or Lyft label.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can I tell if a used car was a former rideshare vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Look at mileage relative to age first: a two- to three-year-old car with 80,000 or more miles is a common rideshare pattern. Then check the title history for commercial or 'for-hire' registration, look for a rideshare-style endorsement or commercial-insurance record, and inspect the interior for heavy seat, carpet, and door-handle wear. No single clue is proof, but several together strongly suggest commercial passenger use.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why do former rideshare cars have such high mileage and wear?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A full-time Uber or Lyft driver can cover 40,000 to 60,000 miles a year, three to five times the typical private vehicle. That mileage is mostly stop-and-go city driving with frequent short trips, so brakes, transmissions, and engines wear faster than the same miles on the highway. Constant passenger entry and exit also accelerates interior wear on seats, carpets, and door panels.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are former rideshare cars a bad buy?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not automatically. Like rental cars, former rideshare vehicles were driven regularly and may have been maintained on a predictable schedule, which is gentler than long storage or erratic use. The real risk is variable upkeep, since rideshare cars are owned by individual drivers rather than a maintained fleet. Judge each car on its actual mileage, service records, and a mechanic's inspection rather than on rideshare stigma alone.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does rideshare or commercial use show up in vehicle history?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Traditional taxis and livery cars are registered as commercial 'for-hire' vehicles, creating clear NMVTIS and DMV records. Uber and Lyft cars are typically registered as private passenger vehicles, so they often leave no explicit commercial mark. In those cases, the history points are indirect: unusually high annual mileage, a commercial-insurance entry, or a state-specific rideshare registration where local law requires one.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Should I avoid a high-mileage former rideshare car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "High mileage alone is not a reason to walk away if the price reflects it and the car checks out mechanically. Prioritize a former rideshare car with documented maintenance and a clean pre-purchase inspection over a cheaper one with no records. Pay special attention to brakes, transmission fluid condition, and suspension components, since city stop-and-go driving wears those systems faster than the odometer suggests.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does commercial-use insurance history appear on a VIN report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sometimes. When a vehicle carried a commercial or rideshare-endorsed policy, that coverage can appear in insurance-sourced records tied to the VIN and is a strong hint of for-hire use. But many part-time rideshare drivers use personal policies with only a rideshare add-on, which may not surface clearly. Treat the absence of a commercial-insurance record as inconclusive rather than proof the car was never used for rideshare.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function RideshareCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -173,6 +245,32 @@ export default function RideshareCheckPage() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
         <RelatedChecks exclude="/rideshare-check" />
       </div>
+
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <h2 className="text-2xl font-bold text-slate-900">
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-6 space-y-3">
+          {FAQS.map((faq) => (
+            <details
+              key={faq.question}
+              className="group rounded-xl border border-slate-200 bg-white p-5"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                  {faq.question}
+                </h3>
+                <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-slate-600 leading-relaxed">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <section className="py-14 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
