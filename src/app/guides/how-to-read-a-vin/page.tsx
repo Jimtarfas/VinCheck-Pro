@@ -71,6 +71,55 @@ const howToSchema = {
   ],
 };
 
+// Position-level FAQ. Each answer is written as a self-contained, citable
+// passage (direct answer first) so AI engines and Bing FAQ rich results can
+// lift a single Q&A without surrounding context. The same array drives both the
+// visible accordion and the FAQPage schema, keeping schema<->visible parity.
+const faqs = [
+  {
+    q: "What does the 10th digit of a VIN tell you?",
+    a: "The 10th digit of a VIN is the model-year code. It uses a standardized letter or number that runs on a 30-year cycle: A = 1980, B = 1981, and so on up to Y = 2000, then 1 = 2001 through 9 = 2009, after which the letters repeat (A = 2010, B = 2011...). Because each code maps to two years 30 years apart, you confirm the cycle using the vehicle's body style and overall condition. The letters I, O, Q, U, Z and the digit 0 are never used.",
+  },
+  {
+    q: "What is the WMI in a VIN?",
+    a: "The WMI, or World Manufacturer Identifier, is the first three characters of a VIN. Position 1 identifies the country of manufacture (1, 4, or 5 = United States; 2 = Canada; 3 = Mexico; J = Japan; W = Germany; K = South Korea; S = United Kingdom). Position 2 identifies the manufacturer (G = General Motors, F = Ford, T = Toyota, H = Honda). Position 3 indicates the vehicle type or the manufacturer's division.",
+  },
+  {
+    q: "What characters are never used in a VIN?",
+    a: "A VIN never contains the letters I, O, or Q because they are too easily confused with the numbers 1 and 0. In the 10th-position model-year code, the letters U and Z and the digit 0 are also skipped. If a 17-character VIN contains an I, O, or Q, it has been misread or is fraudulent — every legitimate VIN since the 1981 standard avoids those three letters entirely.",
+  },
+  {
+    q: "What is the check digit in a VIN?",
+    a: "The check digit is the 9th character of a VIN. It is a single value from 0 to 9, or the letter X (representing 10), calculated from all the other characters using a weighted mathematical formula. Its only purpose is to verify the VIN is internally consistent: if someone alters or mistypes a character, the check digit will no longer match, flagging the VIN as invalid. It is mandatory on all vehicles sold in North America.",
+  },
+  {
+    q: "How long is a VIN and when did the 17-character standard start?",
+    a: "A modern VIN is exactly 17 characters long. The standardized 17-character format became mandatory for all vehicles manufactured for the 1981 model year and later, defined by ISO standards 3779 and 3780 and the U.S. National Highway Traffic Safety Administration. Vehicles built before 1981 used shorter, non-standardized VINs that varied by manufacturer and ranged from 11 to 17 characters.",
+  },
+  {
+    q: "What do the 4th through 8th VIN characters mean?",
+    a: "Characters 4 through 8 form the Vehicle Descriptor Section (VDS). These five positions encode the vehicle's attributes — body style, engine type, model line, series, and restraint (safety) system. Unlike the country and year codes, the exact meaning of each VDS character is defined by the individual manufacturer, so the same letter can mean different things across brands. Decoding the VDS fully usually requires the manufacturer's reference or a VIN decoder tool.",
+  },
+  {
+    q: "Where can I find the VIN on a vehicle?",
+    a: "The most common place to find a VIN is on the lower-left corner of the dashboard, visible through the windshield from outside the car. It also appears on a sticker or plate in the driver's-side door jamb, on the vehicle title and registration, and on the insurance card. On many vehicles the VIN is additionally stamped on the engine block and the firewall. Always confirm the dashboard VIN matches the title to rule out a cloned or stolen vehicle.",
+  },
+  {
+    q: "Can you tell a car's age from the VIN?",
+    a: "Yes. The 10th character of the VIN reveals the model year directly — for example, R = 2024, S = 2025, T = 2026. Because the code repeats on a 30-year cycle, that single character could indicate either of two years 30 years apart, so you confirm the correct one using the vehicle's design, features, and condition. The model year is the most reliable single piece of age information encoded in a VIN.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 const vinPositions = [
   {
     positions: "1",
@@ -163,6 +212,10 @@ export default function HowToReadAVinPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -349,10 +402,16 @@ export default function HowToReadAVinPage() {
             VIN Year Chart — Model Year Code (10th Digit)
           </h2>
           <p className="mt-3 text-slate-600 leading-relaxed">
-            The 10th character of a VIN tells you the model year. It runs on a
-            30-year cycle, so the same code repeats — for example,{" "}
+            The 10th character of a VIN encodes the model year. The chart below
+            covers every code from{" "}
+            <span className="font-mono font-semibold">A (1980)</span> through{" "}
+            <span className="font-mono font-semibold">9 (2009)</span>, then
+            repeating from <span className="font-mono font-semibold">A (2010)</span>{" "}
+            to <span className="font-mono font-semibold">9 (2039)</span>. Because
+            the code runs on a 30-year cycle, each character maps to two years 30
+            years apart — for example,{" "}
             <span className="font-mono font-semibold">R</span> means 1994{" "}
-            <em>and</em> 2024. Use the body style and condition of the vehicle to
+            <em>and</em> 2024 — so use the vehicle's body style and condition to
             tell which cycle applies. Letters{" "}
             <span className="font-mono">I, O, Q, U, Z</span> and the digit{" "}
             <span className="font-mono">0</span> are never used.
@@ -429,6 +488,26 @@ export default function HowToReadAVinPage() {
             including full specs, equipment lists, recall information, and market
             values.
           </p>
+          {/* --- FAQ --- */}
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            VIN Reading FAQ
+          </h2>
+          <div className="mt-6 space-y-3">
+            {faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 font-semibold text-slate-900 list-none">
+                  {f.q}
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 
