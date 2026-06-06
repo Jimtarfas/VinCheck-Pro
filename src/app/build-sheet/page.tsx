@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a build sheet?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A build sheet — also called a build record, broadcast sheet, or factory invoice — is the manufacturer's internal production document listing the original factory configuration of a single vehicle. Tied to the VIN, it records the trim level, paint and interior codes, engine and transmission, and every factory-installed option using internal manufacturer codes. It documents exactly how the car was ordered and assembled, which is more detailed than the consumer window sticker.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I get a build sheet by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into the lookup form above. The system queries manufacturer build databases linked to that VIN and returns the decoded original factory configuration where coverage exists. Availability depends on the manufacturer and model year — modern vehicles are well covered, while some older or imported models may have limited or no decoded data. You can also request the original build record directly from the manufacturer.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a build sheet and a window sticker?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Both describe the same vehicle but serve different purposes. The window sticker — the Monroney label — is the federally mandated new-car disclosure showing options in plain language with retail pricing and fuel-economy ratings. The build sheet is the factory production document that lists the same equipment using internal manufacturer option codes, plus assembly details like plant and build sequence. The build sheet is more technical; the window sticker is consumer-facing.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What information is on a build sheet?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A build sheet typically lists the trim level, exterior paint code, interior trim code, engine and transmission, and every factory-installed option and package using manufacturer codes (such as GM RPO codes). It also commonly records the assembly plant, build date or sequence, and destination or ordering dealer. The exact fields vary by manufacturer and model year, but the goal is a complete component-level record of the car as it left the factory.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I find the original factory options by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Run a build sheet or window sticker lookup using the VIN. The VIN itself encodes the manufacturer, model year, and plant, but the full option list lives in the manufacturer's build database linked to that VIN — not in the VIN characters alone. A build sheet lookup retrieves that database record and returns the installed options, packages, and color codes as originally ordered, where the manufacturer's data coverage allows.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you get a build sheet for any car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not always. Coverage depends on the manufacturer and model year. Most mainstream vehicles built since the 1980s have retrievable digital build data, and many manufacturers offer build records or window-sticker reprints for their own vehicles. Older, rare, low-volume, or some imported models may have incomplete or unavailable decoded data. When digital records are missing, a surviving paper build sheet found inside the vehicle may be the only original source.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where is the original build sheet located in a car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "During assembly, some manufacturers physically tucked a paper build sheet inside the vehicle, where it occasionally survives for decades. Common hiding spots include under or behind seat cushions, beneath the carpet, on top of the gas tank, inside door panels, and above the headliner. Not every car has one, and survival is never guaranteed. For a reliable record, use a VIN-based build sheet lookup or request the build record from the manufacturer.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function BuildSheetPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -190,7 +262,33 @@ export default function BuildSheetPage() {
         <RelatedChecks exclude="/build-sheet" />
       </div>
 
-      <section className="py-14 bg-slate-50">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <h2 className="text-2xl font-bold text-slate-900">
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-6 space-y-3">
+          {FAQS.map((faq) => (
+            <details
+              key={faq.question}
+              className="group rounded-xl border border-slate-200 bg-white p-5"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-4 list-none [&::-webkit-details-marker]:hidden">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                  {faq.question}
+                </h3>
+                <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-slate-600 leading-relaxed">
+                {faq.answer}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-14 bg-slate-50 mt-12">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             Look Up the Factory Build Sheet

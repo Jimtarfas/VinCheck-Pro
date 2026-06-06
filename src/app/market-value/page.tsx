@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I find a car's market value by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN into a VIN-based valuation tool. The VIN decodes the exact factory configuration — year, make, model, trim, and installed options — which is then matched against real transaction data (dealer sales, auctions, and private listings) to produce trade-in, private party, and dealer retail estimates. A VIN-based value is more precise than a generic model-year average because it accounts for the specific equipment on that vehicle.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What factors affect a used car's market value?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The biggest drivers are year, make, model, and trim, followed by mileage, overall condition, and factory options like all-wheel drive, navigation, or premium audio. Title history matters too — accidents and branded titles reduce value. Regional demand also shifts pricing: four-wheel-drive trucks command more in snowy regions, while convertibles sell higher in warm-weather markets. Each factor adjusts the baseline value up or down.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between trade-in, private party, and retail value?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "These are three benchmarks for the same vehicle, and they follow a typical hierarchy from lowest to highest. Trade-in value is what a dealer offers, since they need margin to recondition and resell. Private party value is what you'd get selling directly to another buyer, usually higher than trade-in. Dealer retail value is the highest — what a dealer charges on the lot, including reconditioning, overhead, and profit.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does a clean vs. branded title affect a car's value?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A clean title supports full market value, while a branded title — salvage, rebuilt, flood, or lemon law buyback — substantially reduces it. Branded-title vehicles trade at a meaningful discount to comparable clean-title cars because they carry insurance limitations, financing restrictions, and buyer hesitancy. The exact reduction depends on the brand type, the damage history, and local market demand, but the discount follows the VIN permanently.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How accurate are online car value estimates?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Online estimates are statistical ranges built from real transaction data, not guaranteed prices or formal appraisals. They are a reliable starting point for negotiation, but the actual sale price depends on local supply and demand, the vehicle's true condition, and how the buyer and seller value specific options. Treat any estimate as a guide; an in-person inspection or professional appraisal gives the most accurate figure for a specific car.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How often do used car values change?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Used car values shift continuously because they're derived from ongoing market transactions. Prices respond to seasonal demand, new-vehicle inventory, fuel costs, interest rates, and broader economic conditions. Certain vehicle types peak at predictable times — convertibles and sports cars in spring and summer, four-wheel-drive trucks and SUVs before winter. Because of this, a valuation is a snapshot of current conditions rather than a fixed long-term number.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can a VIN check improve my car's resale value?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Indirectly, yes. A VIN check doesn't change a vehicle's mechanical worth, but presenting a clean VIN history report builds buyer confidence and reduces perceived risk, which helps you sell closer to private party value. Pairing the report with complete service records, a current inspection, and any completed recalls removes buyer objections and strengthens your negotiating position, often translating to a higher final sale price.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function MarketValuePage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -167,6 +239,30 @@ export default function MarketValuePage() {
           <p className="mt-3 text-slate-600 leading-relaxed">
             Always check for open recalls before listing your vehicle. Buyers will find them during their due diligence, and having the recall already completed removes an objection and demonstrates responsible ownership.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

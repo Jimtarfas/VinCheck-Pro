@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the 25-year import rule?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The US '25-year rule' (administered by NHTSA and US Customs under 49 CFR 591) lets a nonconforming vehicle be imported once it is at least 25 years old, measured from its month of manufacture. At that age it is exempt from Federal Motor Vehicle Safety Standards (FMVSS) and from EPA conformity requirements. This is why JDM models never sold in America, like the Nissan Skyline GT-R, become legally importable only after they turn 25.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do JDM imports have a 17-character VIN or a Japanese chassis code?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Most Japanese-domestic-market vehicles do not use a 17-character VIN. Instead they carry a manufacturer chassis code (also called a frame or model number), such as JZA80 for a Toyota Supra or BNR32 for a Nissan Skyline GT-R, followed by a sequential production number. A standardized 17-character US VIN was not required for the Japan market, so JDM cars are identified by this shorter chassis/frame number until they are titled in the United States.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I decode a Japanese chassis number?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A Japanese chassis number combines a model code with a production sequence, for example BNR32-123456. The letter-and-number model code identifies the platform, body, and often the engine: in BNR32, 'BNR32' designates the R32-generation Skyline GT-R with the RB26DETT engine. The digits after the dash are the unit's build sequence. Decoding is manufacturer-specific, so confirm the code against the maker's chassis catalog rather than assuming a universal format.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you run a US history report on a JDM import?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You can, but be aware of a major limitation: US history databases such as NMVTIS generally hold little or no record for a freshly imported JDM vehicle, because all of its history happened in Japan before it arrived. NMVTIS draws from US state DMVs, insurers, and salvage operators, none of which saw the car. A meaningful US record only begins after the vehicle clears customs and receives a US title and VIN.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check a JDM import's history before it was brought to the US?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Because US databases will not cover the Japan period, the primary sources are Japanese auction sheets and the export/deregistration certificate. Auction sheets from houses like USS, TAA, or JU record the mileage, a graded condition score (typically 1 to 5), and a damage map at the time of sale. The export certificate documents the vehicle as it left Japan. Together these are the best evidence of a JDM import's pre-import condition and mileage.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a deregistration or export certificate?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "When a vehicle is exported from Japan, its domestic registration is cancelled and Japanese authorities issue a deregistration (or export) certificate. This document proves the car was officially removed from Japan's registry and lawfully exported, and it typically records the chassis code, recorded mileage, and export date. US importers use it during customs entry, and it is a key authenticity record buyers should ask to see for any JDM import.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I verify a JDM import was legally imported?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Confirm the vehicle was at least 25 years old at the time of import (or, rarely, meets full FMVSS and EPA compliance), then verify the paper trail: a US Customs and Border Protection entry record (CBP Form 7501) with bond release, the Japanese export/deregistration certificate, and a US title issued by the state of first registration. Illegally imported vehicles cannot be lawfully titled and may be subject to seizure, so this documentation is essential before purchase.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function JdmImportCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -180,6 +252,30 @@ export default function JdmImportCheckPage() {
           </p>
         </div>
       </article>
+
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <h2 className="text-2xl font-bold text-slate-900">
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-6 space-y-3">
+          {FAQS.map((faq) => (
+            <details
+              key={faq.question}
+              className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                  {faq.question}
+                </h3>
+                <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-slate-600 leading-relaxed">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
         <RelatedChecks exclude="/jdm-import-check" />

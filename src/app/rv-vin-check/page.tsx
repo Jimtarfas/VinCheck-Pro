@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Do RVs and motorhomes have VINs?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Both motorized RVs (Class A, B, and C motorhomes and camper vans) and towable units (travel trailers, fifth wheels, pop-up campers) carry a 17-character Vehicle Identification Number, just like cars. The VIN is how you title, register, insure, and run a history check on any recreational vehicle. Knowing the exact VIN is the starting point for any RV VIN check.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where is the VIN located on a motorhome or travel trailer?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "On Class A, B, and C motorhomes the VIN is usually on the driver-side dashboard (visible through the windshield) and on the driver-side door jamb, following the chassis manufacturer's placement. On travel trailers, fifth wheels, and pop-up campers the VIN is typically stamped on the forward left (street) side of the frame or on an exterior data plate near the tongue.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I check an RV's history by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Enter the 17-character VIN from the dashboard, door jamb, or frame plate into a VIN history tool. The report queries NMVTIS-backed title records and other national data sources to return title status, branding, accident records, liens, and recall data. For motorhomes, decode results often reflect the chassis manufacturer rather than the coach builder, so confirm both when reviewing the report.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can a VIN check show RV title brands, salvage, flood damage, and liens?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. RV title brands such as salvage, rebuilt, and flood, plus active liens, can appear in NMVTIS-backed checks the same way they do for cars, because state DMVs report this data into the national system. Liens matter most for RVs since they are often financed with long-term loans, and an unreleased lien can block a clean title transfer. Always verify the lien status before paying.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does the chassis maker differ from the coach builder in an RV VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Most Class A and Class C motorhomes are built on a chassis from Ford, Freightliner, Mercedes, RAM, or Workhorse, while a separate company such as Winnebago, Thor, or Forest River builds the living quarters (the coach). The first three VIN characters (the WMI) usually identify the chassis manufacturer, so a VIN decode commonly reflects the chassis maker, not the coach builder.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a motorhome VIN and a towable trailer VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Both use a 17-character VIN, but a motorized RV (Class A, B, or C) is titled and registered as a self-propelled motor vehicle, with the VIN tied to the chassis manufacturer. A travel trailer or fifth wheel is a non-motorized towable, so its VIN tracks title and lien data but some states register towables separately from standard motor vehicles. Check your state's rules for the exact process.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are RV recalls included in a VIN check?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Chassis recalls are well documented. Recall data for the drivetrain, brakes, and safety systems comes from NHTSA and is tied to the chassis manufacturer's VIN, so it surfaces reliably in a VIN check. Coach-specific recalls (appliances, slideouts, electrical) may be reported separately by the coach builder and can be less complete in VIN-linked records, so also check the coach maker's recall notices directly.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function RvVinCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -179,6 +251,30 @@ export default function RvVinCheckPage() {
             </Link>{" "}
             for complete pre-purchase protection.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

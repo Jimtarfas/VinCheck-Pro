@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How can I tell if a used car was a former fleet vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The clearest signal is the title history. Fleet and government vehicles are usually titled to a company or agency — like a city, county, rental firm, or corporation — and that name appears in the ownership chain of a VIN report. Other clues include a single corporate owner before the first private owner, a short ownership period with high mileage, and dealer-auction records right after the first registration.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Will a VIN check always flag a car as a fleet vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not always. There is no universal 'fleet' title brand, so prior fleet use is usually inferred from registration and title records rather than explicitly labeled. A VIN report can show a corporate or government owner in the title chain, but private leasing companies and some corporate fleets may not be obvious. Pair the VIN check with a physical inspection and ask the seller directly about prior commercial use.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are former fleet cars well maintained?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "It depends on the fleet type. Government and corporate fleets often follow strict scheduled maintenance and keep documented service records, sometimes available as public records for decommissioned government vehicles. Taxis and police interceptors, by contrast, endure heavy 24/7 use that wears the powertrain, brakes, and interior faster than mileage alone suggests. The quality of the maintenance program matters more than the fleet label itself.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do former fleet vehicles have high mileage?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Often, but not always. Taxis, police cars, and utility vehicles typically accumulate very high mileage from continuous operation. Corporate fleet cars, however, are frequently sold on fixed replacement cycles — for example 36 months and 45,000 miles — so their odometers can be moderate. Because heavy fleet use can wear components beyond what mileage shows, always pair a fleet check with an odometer verification.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I spot a former police car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Look for physical evidence that upfitting leaves behind: plugged holes and cut wiring in the headliner, doors, and trunk from radios and light bars; partition bracket mount points in the floor and ceiling; and ghost markings or paint overspray where decals were removed. Police-package models like the Ford Police Interceptor and Dodge Charger Pursuit also encode their package designation in the VIN.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a fleet car and a rental car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Both are commercial-use vehicles, but they differ in use pattern and ownership. Rental cars are driven by many short-term drivers and titled to rental companies like Hertz or Enterprise. Fleet vehicles — police, government, corporate, taxi, and utility — usually serve a single operator's mission, with wear patterns specific to that use. Both appear in a VIN's title history under a company or agency name rather than an individual.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Should I avoid buying a former fleet vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not automatically. A well-maintained corporate fleet car on a regular replacement cycle can be a strong value and is often mechanically excellent. A neglected single-owner car can be in worse shape than a documented fleet vehicle. The deciding factors are the fleet type and maintenance quality. Verify with a full VIN history report, an accident history check, and an independent pre-purchase inspection before deciding.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function FleetCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -184,6 +256,30 @@ export default function FleetCheckPage() {
             </Link>{" "}
             before making any purchase decision.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-4 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

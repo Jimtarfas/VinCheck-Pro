@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Do motorcycles have 17-character VINs like cars?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. On-road motorcycles built for the 1981 model year onward use the same standardized 17-character VIN as cars, mandated by NHTSA and based on the ISO 3779 format. The structure is identical: characters 1–3 are the World Manufacturer Identifier, 4–8 the descriptor section, 9 the check digit, 10 the model year, 11 the plant, and 12–17 the production sequence. Pre-1981 bikes used shorter, manufacturer-specific numbers that a standard decoder cannot read.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where is the VIN located on a motorcycle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The primary VIN is stamped into the steering head (frame neck) on most motorcycles — on Harley-Davidsons it is on the right side of the frame neck, and on Japanese sportbikes it sits just below the handlebars. Many bikes also carry a VIN or partial VIN on the engine case near the cylinder head. Note that the frame number is the legal VIN; the engine has its own separate serial number, so a non-matching engine number does not always mean fraud.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does a motorcycle VIN check show title, salvage, and theft history?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A motorcycle VIN check surfaces title and registration history, brand records such as salvage, rebuilt, flood, and parts-only, plus theft records. Title brands and salvage data come from NMVTIS-backed sources that aggregate all 50 state DMVs, while theft status is cross-referenced against National Insurance Crime Bureau (NICB) and law-enforcement stolen-vehicle records. The report also includes odometer readings recorded at title transfers.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can I tell if a used motorcycle is stolen?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Run the frame VIN through a theft check that queries NICB and law-enforcement stolen-vehicle databases to see whether it has been reported stolen. Then physically inspect the VIN stamped on the steering head: restamped, ground-down, or altered digits are a strong theft indicator. Cross-check that the stamped frame VIN exactly matches the title, registration, and insurance card. If the numbers differ or show tampering, walk away from the purchase.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I check motorcycle recalls by VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. NHTSA maintains open-recall records by VIN for motorcycles sold in the United States, and manufacturers issue safety recalls for defects such as brake, fuel-system, or electrical faults. A VIN-based recall lookup tells you whether any open recalls have not yet been remedied. Because recalls are tied to the specific VIN, an unrepaired recall stays flagged until the work is completed at an authorized dealer at no cost to the owner.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I verify a used motorcycle before buying it?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Run the 17-character VIN to confirm title status, salvage or rebuilt brands, theft records, and reported accident or odometer history. Physically match the stamped frame VIN to the title and registration, and check for tampering. Because a motorcycle frame is its main structural component, have any salvage or rebuilt bike inspected by a qualified mechanic for frame integrity before you buy. Pair the VIN check with a salvage-title and stolen-vehicle lookup for full coverage.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do dirt bikes and off-road motorcycles have VINs?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Coverage is inconsistent. Many street-legal and dual-sport off-road bikes carry a standard 17-character VIN, but competition-only dirt bikes and some youth or off-road models may use a shorter manufacturer-specific frame number instead, and not every state titles off-road vehicles. If an off-road bike lacks a 17-character VIN, a standard decoder and NMVTIS history check may return limited or no results, so verify the frame number directly with the manufacturer or a marque registry.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function MotorcycleVinCheckPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -185,6 +257,30 @@ export default function MotorcycleVinCheckPage() {
           </ul>
         </div>
       </article>
+
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+        <h2 className="text-2xl font-bold text-slate-900">
+          Frequently Asked Questions
+        </h2>
+        <div className="mt-6 space-y-3">
+          {FAQS.map((faq) => (
+            <details
+              key={faq.question}
+              className="group rounded-xl border border-slate-200 bg-white p-5"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                  {faq.question}
+                </h3>
+                <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-slate-600 leading-relaxed">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
         <RelatedChecks exclude="/motorcycle-vin-check" />

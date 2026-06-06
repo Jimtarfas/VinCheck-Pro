@@ -48,12 +48,84 @@ const articleSchema = {
   dateModified: "2026-05-04",
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I decode a classic car VIN from before 1981?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Identify the exact make and model year first, then apply that manufacturer's specific decoding key — there was no universal standard before 1981. A GM VIN from the 1970s uses a 13-character format encoding division, model year, body series, engine, and assembly plant, while Ford and Chrysler used entirely different schemes. Because the coding changed year to year, decoding a 1969 Camaro requires different reference tables than a 1975 Camaro.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why are old car VINs shorter than 17 characters?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The standardized 17-character VIN only became mandatory for the 1981 model year, when NHTSA required a uniform format for all vehicles sold in the United States. Before that, there was no federal length requirement, so manufacturers used their own systems. Pre-1981 VINs commonly ran 11 to 17 characters — GM used 13 characters through most of the 1970s, while Ford varied from 11 to 17 depending on the year.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can you run a vehicle history report on a classic car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Coverage is limited for pre-1981 vehicles. NMVTIS and commercial history reports were built around the standardized 17-character VIN, so older shorter VINs often return little or no title, accident, or odometer data. Verification of a classic car instead relies on manufacturer build sheets, marque registries, original trim tags, and documented ownership records rather than a modern database lookup. A history report is most useful for confirming any post-1981 retitling events.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where is the VIN located on a classic car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "VIN placement varied by era and manufacturer. On many 1950s and 1960s cars the number is stamped on a plate riveted to the driver's door post, door jamb, or firewall, or on a tag attached to the frame. Dashboard-visible VIN plates at the base of the windshield became common in the late 1960s. Classic cars often also carry separate body trim tags or cowl tags with additional build codes near the firewall.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How have VIN formats changed over the decades?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "In the 1950s and early 1960s, most VINs were simple sequential serial numbers with a model prefix — little more than a production counter. Through the 1960s and 1970s, manufacturers added encoded model, engine, and assembly-plant data, but each scheme was proprietary and frequently changed annually. The 1981 model year introduced the universal 17-character standard with a fixed structure: world manufacturer identifier, vehicle descriptor, check digit, and serial section.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does numbers-matching mean for a classic car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Numbers-matching means the engine, transmission, and other major components carry casting and stamping codes that match the vehicle's original factory build for that VIN. On many GM and Mopar classics, the VIN-stamped engine code can be cross-checked against the casting numbers on the block to confirm the original drivetrain. A verified numbers-matching car commands a significant premium over one with correct-appearing but replaced components.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I verify a classic car's authenticity?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Decode the VIN for the original factory configuration, then cross-check it against physical evidence: the trim/cowl tag, casting numbers on the engine and transmission, and the rear axle code. Confirm these against marque-specific registries and reproduction build sheets — for example Pontiac Historic Services for Pontiacs or Marti Auto Works for 1967-onward Fords. Manufacturer-sourced documentation tied to the VIN provides the strongest provenance for high-value collector cars.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function ClassicCarVinPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <article className="pt-28 pb-16">
@@ -171,6 +243,30 @@ export default function ClassicCarVinPage() {
             </Link>{" "}
             to verify clean ownership and title history.
           </p>
+
+          <h2 className="mt-12 text-2xl font-bold text-slate-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-6 space-y-3">
+            {FAQS.map((faq) => (
+              <details
+                key={faq.question}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">
+                    {faq.question}
+                  </h3>
+                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </article>
 

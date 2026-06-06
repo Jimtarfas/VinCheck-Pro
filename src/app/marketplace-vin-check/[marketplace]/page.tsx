@@ -79,9 +79,51 @@ export default async function MarketplacePage({ params }: Props) {
 
   const risk = riskColors[marketplace.riskLevel];
 
+  // Single source of truth for the FAQ — rendered both as visible <details>
+  // accordions and as FAQPage JSON-LD, so schema can never drift from the
+  // on-page content. Parameterized with marketplace.name so each rendered
+  // marketplace page gets relevant, on-topic buyer-intent Q&As.
+  const faqs = [
+    {
+      q: `Is a VIN check free for ${marketplace.name} listings?`,
+      a: `Yes. Enter the 17-character VIN from any ${marketplace.name} listing into the search box above to decode the vehicle and pull available history — no account or payment required. Because ${marketplace.name} listings are written by the seller, an independent VIN check is the only way to confirm the vehicle is what the ad claims before you spend money or your time meeting up.`,
+    },
+    {
+      q: `Is it safe to buy a car on ${marketplace.name}?`,
+      a: `Buying on ${marketplace.name} can be safe if you verify the vehicle yourself. Private-party and online listings carry a higher fraud risk than franchised dealers because there is no third party confirming the title, mileage, or condition. Run the VIN above to surface accident, salvage, theft, and odometer records, meet in a public place, inspect the car in person, and never wire a deposit before seeing it.`,
+    },
+    {
+      q: `How do I verify a VIN from a ${marketplace.name} listing?`,
+      a: `Copy the 17-character VIN from the ${marketplace.name} ad and paste it into the search box above. When you meet the seller, confirm that same VIN appears on the driver-side dashboard, the door-jamb sticker, and the title — they must all match. A VIN shown in the listing that differs from the one on the car is a major warning sign of a cloned or misrepresented vehicle.`,
+    },
+    {
+      q: `How do I avoid scams and curbstoners on ${marketplace.name}?`,
+      a: `To avoid scams on ${marketplace.name}, watch for prices well below market, sellers who refuse to share the VIN, pressure to pay before inspection, and "dealers" posing as private owners (curbstoners) flipping branded cars. Run the VIN above first, confirm the seller's name matches the title, never pay by wire or gift card, and walk away from any listing where the story or paperwork does not add up.`,
+    },
+    {
+      q: `Can I check if a ${marketplace.name} car is stolen, salvage, or flood damaged?`,
+      a: `Yes. Enter the VIN above to run an NMVTIS-backed check that surfaces reported salvage, rebuilt, flood, and total-loss title brands, theft records, and odometer discrepancies where they appear in national databases. These are exactly the issues a ${marketplace.name} seller may not disclose, so verifying the VIN before you buy protects you from inheriting a branded or stolen vehicle you cannot legally register.`,
+    },
+    {
+      q: `Why do private-party ${marketplace.name} sales need a VIN check?`,
+      a: `Private-party ${marketplace.name} sales are typically sold "as-is" with no warranty and no dealer disclosure, so the buyer assumes all risk. There is no one verifying the seller's claims about accidents, mileage, or title status. A VIN history report gives you an independent record of the car's past — accidents, branded titles, odometer readings, and reported theft — so you can negotiate or walk away before handing over any money.`,
+    },
+  ];
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
@@ -254,6 +296,29 @@ export default async function MarketplacePage({ params }: Props) {
           >
             View all marketplaces <ArrowRight className="w-4 h-4" />
           </Link>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-3">
+            {faqs.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0 pr-2">{f.q}</h3>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <p className="text-sm text-slate-600 leading-relaxed mt-3">{f.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
