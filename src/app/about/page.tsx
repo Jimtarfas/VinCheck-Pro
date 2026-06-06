@@ -59,6 +59,74 @@ const aboutSchema = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Where does CarCheckerVIN get its vehicle data?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN assembles each report in real time from multiple authoritative sources. Title brands, salvage, and junk records come from NMVTIS (the National Motor Vehicle Title Information System). Stolen-vehicle and total-loss records come from the NICB (National Insurance Crime Bureau). Manufacturer APIs supply trim-level VIN decoding plus open recalls and Technical Service Bulletins, and Auto.dev provides supplemental specifications, valuations, and listing-history signals.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is CarCheckerVIN affiliated with Carfax or AutoCheck?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. CarCheckerVIN is an independent vehicle history service and is not affiliated with, endorsed by, or owned by Carfax, AutoCheck, or any other report provider. We draw from the same kinds of authoritative federal and industry data sources — NMVTIS, NICB, and manufacturer feeds — and offer reports at a lower price.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is NMVTIS and why does it matter?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "NMVTIS — the National Motor Vehicle Title Information System — is a federally mandated database that aggregates title and brand records from state motor vehicle agencies, insurance carriers, and salvage and junk operators. Because it pulls from every state, it surfaces cross-state title history that a single paper title can hide, which is what makes it the backbone of an honest vehicle history check.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How current is the data in a CarCheckerVIN report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Every report is assembled in real time from live data sources at the moment you run it, then validated and normalized by our internal data layer before it reaches you. We do not store stale snapshots and resell them weeks later. Our published editorial content and guides are reviewed on a quarterly cadence to reflect changes in state title laws and federal recall guidance.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does a CarCheckerVIN report cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A basic VIN decode is genuinely free with no signup required. Full paid history reports start at $7.99. Our car-buying guides are also free to read with no paywall, because we believe informed buyers make better decisions.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Who is behind CarCheckerVIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN is built by a small team with a combined background in automotive data engineering, insurance fraud investigation, DMV records, ASE-certified vehicle inspection, and customer support. Founded in 2025, the company sources its data from NMVTIS-approved providers, the NICB, and manufacturer APIs.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What do I do if I find an error in a report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Contact our team and we will investigate personally. When we discover or confirm an inaccuracy, we correct it within two business days and disclose the change in our changelog. You can reach support by email at contact@carcheckervin.com or by phone at +1 (564) 212-3985, Monday through Friday, 9:00 AM to 6:00 PM Eastern.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  q: q.name,
+  a: q.acceptedAnswer.text,
+}));
+
 const team = [
   {
     name: "Marcus Chen",
@@ -88,6 +156,10 @@ export default function AboutPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-28 pb-16">
@@ -294,6 +366,32 @@ export default function AboutPage() {
       </section>
 
       <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900">Frequently Asked Questions</h2>
+          <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+            Common questions about who we are, where our data comes from, and how our
+            vehicle history reports work.
+          </p>
+          <div className="mt-8 space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-2xl border border-slate-200 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-lg font-bold text-slate-900 pr-2">{f.q}</span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-2xl font-light leading-none group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-slate-900 mb-3">Ready to Check a Vehicle?</h2>
           <p className="text-slate-700 mb-8">

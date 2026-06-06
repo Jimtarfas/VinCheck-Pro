@@ -9,6 +9,7 @@ import {
   AlertTriangle,
   Newspaper,
   Quote,
+  HelpCircle,
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -96,6 +97,82 @@ const studies = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Can I cite CarCheckerVIN research in my article or paper?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. All of our studies are published under a Creative Commons Attribution (CC BY 4.0) license, which means you are free to quote, paraphrase, and republish the findings in academic papers, news articles, and blog posts. We ask only that you link back to the original page and credit the CarCheckerVIN Editorial Team. The page provides ready-to-use APA, MLA, and Chicago/News citation formats.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What data sources does CarCheckerVIN research use?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our studies combine the anonymized lookup history from our own platform with public datasets, including the National Motor Vehicle Title Information System (NMVTIS), the National Insurance Crime Bureau (NICB), state DMV title transfer records, and OEM recall feeds. Each study links to the underlying methodology and dataset where available.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is NMVTIS and why does it matter for vehicle research?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "NMVTIS, the National Motor Vehicle Title Information System, is a federal system administered by the U.S. Department of Justice that aggregates title and brand data from state DMVs, insurance carriers, and salvage operators nationwide. Because it pools records across all states, it is a reliable source for tracking salvage and flood-branded vehicles even after they move across state lines.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does the NICB theft data in the research cover?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The National Insurance Crime Bureau (NICB) compiles vehicle theft records reported by insurers and law enforcement across the United States. Our most-stolen-vehicles study analyzes these records to rank vehicles by theft frequency, with state-level breakdowns and year/model risk scoring. NICB is a long-established nonprofit source for national auto-theft statistics.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How often does CarCheckerVIN publish new studies?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our editorial and data team publishes original studies several times a year. Topics rotate across theft and crime, title fraud and salvage migration, electric-vehicle battery degradation, flood-damaged vehicles, used-car pricing, and lemon buyback frequency.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is title washing real, and can research detect it?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Title washing is the practice of moving a branded vehicle to a state with weaker branding rules, re-titling it there, and reselling it with an apparently clean title. Our salvage migration study tracks branded VINs through subsequent title transfers to identify the corridors where this most often happens. A VIN check sourced from NMVTIS surfaces the original brand history regardless of where the current paper title was issued.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How can journalists request interviews or custom data?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Reporters working on a story can request an interview, additional data slices, or a quote from our research team through our press kit, which lists spokespeople, brand assets, and direct contact details. We respond to press inquiries within one business day.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can the research findings apply to a specific vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our studies report population-level trends, not the status of any individual car. To see how a finding applies to a specific vehicle, run a free VIN check from the form on this page. The VIN lookup decodes the vehicle and pulls its own title and history records, sourced from the same NMVTIS-backed data behind our research.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const researchSchema = [
   {
     "@context": "https://schema.org",
@@ -105,6 +182,7 @@ const researchSchema = [
     description:
       "Original automotive research from CarCheckerVIN, citable by journalists, analysts, and educators.",
   },
+  faqSchema,
   ...studies.map((s) => ({
     "@context": "https://schema.org",
     "@type": "Dataset",
@@ -259,6 +337,42 @@ export default function ResearchPage() {
                 https://www.carcheckervin.com/research.
               </code>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-2 mb-3">
+            <HelpCircle className="w-5 h-5 text-primary-600" />
+            <h2 className="text-3xl font-bold text-slate-900">
+              Research &amp; Citation FAQ
+            </h2>
+          </div>
+          <p className="mt-2 text-lg text-slate-600 leading-relaxed">
+            Common questions from journalists, analysts, and researchers about
+            our data, sources, and licensing.
+          </p>
+          <div className="mt-8 space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group rounded-2xl border border-slate-200 bg-slate-50 p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base font-bold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                  {f.answer}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </section>

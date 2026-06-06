@@ -27,6 +27,82 @@ export const metadata: Metadata = {
   },
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a VIN and what does it reveal?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN (Vehicle Identification Number) is the unique 17-character code assigned to every car, truck, and motorcycle built since the 1981 model year. Encoded within it are the country of origin, manufacturer, make, model, body style, engine type, model year, and a unique serial number. Decoded against title and history databases, the VIN also unlocks a vehicle's title brands, accident records, odometer readings, and theft history.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I read a VIN number?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Read a 17-character VIN in three sections: characters 1-3 are the World Manufacturer Identifier (country and maker), characters 4-9 are the Vehicle Descriptor Section (model, body, engine, plus a check digit in position 9), and characters 10-17 are the Vehicle Identifier Section. The 10th character is the model year and the 11th is the assembly plant. Our 'How to Read a VIN Number' guide breaks down all 17 positions one by one.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Which character of the VIN is the model year?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The 10th character of a standardized 17-digit VIN encodes the model year. The year code uses a repeating cycle of letters and numbers — for example, the letters B through Y (skipping I, O, Q, U, and Z) cover 1981 onward, then digits 1 through 9 are reused, and the cycle repeats every 30 years. Cross-checking the 10th character against the rest of the VIN helps confirm a vehicle hasn't been misrepresented.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the best way to check a used car's history?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The most reliable starting point is a VIN-based history check sourced from NMVTIS (the National Motor Vehicle Title Information System), the federal database that aggregates title brands from all 50 state DMVs, insurers, and salvage yards. Combine the VIN report with the seller's service records and an independent pre-purchase inspection. Our 'Free VIN Check' guide explains what a free report reveals and how it compares to premium reports.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where can I learn how to decode a VIN for free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Start with our free guides: 'How to Read a VIN Number' walks through every position, 'What Is a VIN Number?' covers the history and where to find the VIN on a vehicle, and 'Free VIN Check' explains how to turn a decoded VIN into a full history report. You can also enter any 17-character VIN into the search tool on this site to decode it instantly at no cost.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why do all VINs have exactly 17 characters?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Since the 1981 model year, U.S. regulators (and the ISO 3779 international standard) have required every road vehicle to carry a standardized 17-character VIN. The fixed length and structure let any decoder anywhere identify the vehicle consistently. Vehicles built before 1981 may have shorter VINs of varying length and formats, which is why pre-1981 decoding is far less standardized.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do VIN rules differ by state when buying a used car?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The 17-character VIN format is national, but title rules, lemon laws, common title brands, and DMV transfer requirements vary state by state. A salvage or buyback brand recorded in one state follows the VIN through NMVTIS, but the paperwork and inspections you face at purchase depend on where you register the vehicle. Our state-by-state buying guides cover the specific title rules and red flags for each state.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where do I find the VIN on a vehicle?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The VIN appears in several places: on the driver's-side dashboard (visible through the windshield), on the driver's-side door jamb sticker, on the vehicle title and registration, and on insurance documents. It is also stamped on major components such as the engine and frame. Confirming the VIN matches across all these locations is a quick way to spot tampering or VIN cloning.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const guides = [
   {
     href: "/guides/how-to-read-a-vin",
@@ -57,6 +133,11 @@ const guides = [
 export default function GuidesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       <section className="pt-28 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs
@@ -129,6 +210,38 @@ export default function GuidesPage() {
               >
                 {s.name}
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            VIN Guides FAQ
+          </h2>
+          <p className="text-slate-700 leading-relaxed mb-6 max-w-2xl">
+            Quick answers to the most common questions about VIN numbers,
+            decoding, and checking a vehicle&apos;s history.
+          </p>
+          <div className="space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base sm:text-lg font-bold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-2xl font-light leading-none group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-700 leading-relaxed">
+                  {f.answer}
+                </p>
+              </details>
             ))}
           </div>
         </div>

@@ -25,6 +25,82 @@ export const metadata: Metadata = {
   },
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Does a VIN check work in every US state?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. A VIN check works nationwide because it draws on NMVTIS — the National Motor Vehicle Title Information System — which aggregates title and brand data reported by all 50 state DMVs plus the District of Columbia. No matter where a vehicle was titled, registered, or sold, the same 17-character VIN lookup returns its consolidated history.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is NMVTIS?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "NMVTIS — the National Motor Vehicle Title Information System — is a federal database administered by the U.S. Department of Justice. It collects title records, brand information, odometer readings, and total-loss reports from state motor-vehicle agencies, insurance carriers, and salvage and junk operators. It was established in part to prevent title fraud and title washing across state lines, and it is the backbone of a nationwide VIN check.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Why do title brands differ from state to state?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Each state writes its own motor-vehicle code, so the wording and criteria for brands like salvage, rebuilt, flood, junk, or lemon-law buyback are set independently. The same physical condition can be labeled differently — or trigger a brand in one state but not another. Because the standards vary, the safest way to understand a specific brand is to check the rules published by the DMV in the state where the title was issued.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can a car's title history span multiple states?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, and it often does. Vehicles are frequently bought, sold, and re-registered across state lines over their lifetime, so a single VIN can carry records from several state DMVs. Because brands and disclosure rules differ between states, a vehicle's complete picture only emerges when records from every state it touched are combined — which is exactly what a NMVTIS-sourced VIN check does.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is title washing?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Title washing is the practice of moving a branded vehicle to a state with different titling rules and re-titling it so the brand no longer appears on the new paper title. NMVTIS was created in large part to disrupt this, because the original brand stays attached to the VIN in the federal record even when a later paper title looks clean. A VIN check surfaces the underlying brand history regardless of where the current title was issued.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does my state's DMV report salvage and junk titles?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "State motor-vehicle agencies are required to report title and brand information, including salvage and junk designations, into NMVTIS, and insurers and salvage yards report total-loss and junk vehicles as well. However, the exact threshold for declaring a vehicle salvage or junk — and the terminology used — is set by each state. For the precise definition and process in your state, consult that state's DMV.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I need a different report for each state?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. One VIN check returns a consolidated, nationwide history, so you do not need a separate report per state. The per-state pages on this site exist to explain local DMV procedures and titling terminology, but the underlying lookup is the same nationwide query for any vehicle.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where can I find my state's specific title rules?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Title-branding thresholds, fees, and disclosure requirements are set by each state and change over time, so the authoritative source is your own state's Department of Motor Vehicles (or equivalent agency). Use the state directory above to reach a page for your state, then verify any state-specific figures directly with that state's DMV before relying on them.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const regions: { name: string; slugs: string[] }[] = [
   {
     name: "West",
@@ -58,6 +134,7 @@ export default function StateIndexPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
@@ -126,6 +203,38 @@ export default function StateIndexPage() {
           </section>
         );
       })}
+
+      {/* FAQ */}
+      <section className="py-12 bg-white border-t border-slate-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
+            VIN Check by State — Frequently Asked Questions
+          </h2>
+          <p className="text-slate-600 mb-8">
+            How nationwide VIN history works across all 50 state DMVs, and why title rules differ from state to state.
+          </p>
+          <div className="space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group rounded-xl border border-slate-200 bg-white p-4 sm:p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="font-semibold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                  {f.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="py-14 bg-primary-600 text-white">

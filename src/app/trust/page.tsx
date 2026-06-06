@@ -60,12 +60,92 @@ const trustSchema = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Where does CarCheckerVIN get its vehicle data?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Every record is sourced from federally recognized or industry-standard providers, not scraped forums or unverified aggregators. The backbone of each paid report is NMVTIS, the only federally mandated database consolidating title, brand, junk, and salvage records across all U.S. jurisdictions. We also integrate NICB for stolen-vehicle and insurer total-loss records, NHTSA for open recalls and safety investigations, and direct manufacturer APIs for trim-level VIN decoding and Technical Service Bulletins.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is my payment information secure?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. CarCheckerVIN never stores your credit card or bank information on its servers. All payments are tokenized and processed exclusively by Stripe, a PCI-DSS Level 1 certified provider. Every page and transaction on the site is protected by 256-bit SSL encryption.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do you sell my personal data?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. We never sell your personal data to third parties, and we never share your VIN history with marketers, dealers, or insurers. We follow a strict data-minimization principle and collect only what is needed to deliver your report and protect your account — the VINs you look up, your email if you create an account or buy a report, and standard log information used to prevent abuse.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How is my data encrypted?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "All data is encrypted in transit using TLS 1.3 and at rest using AES-256, the same standard used by major financial institutions. Passwords are hashed with bcrypt, so they are never stored in a recoverable form — even our own engineers cannot read them.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How accurate are CarCheckerVIN reports?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Reports are built on authoritative data sources — NMVTIS, NICB, NHTSA, and manufacturer APIs — and every record is validated by our internal data layer before it reaches your screen. NMVTIS is the gold standard for cross-state title history, the same trust chain insurance carriers and franchise dealerships rely on. Each paid report includes the federally required NMVTIS disclaimer and source attribution.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is any vehicle history report 100% complete?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No single report can guarantee it captures every event in a vehicle's life. A history report reflects what has been reported to the underlying databases — for example, an accident never filed with insurance or a record a state has not yet submitted to NMVTIS may not appear. That is why we draw on multiple authoritative sources and recommend pairing any report with an in-person inspection before purchase.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What privacy rights do I have?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN respects the privacy laws that apply where our customers live, including the EU GDPR and the California CCPA. You have the right to know what data we hold, request a copy, correct inaccurate information, opt out of non-essential processing, and request deletion at any time. To exercise these rights, email contact@carcheckervin.com with the subject line 'Privacy Request.' We respond within 30 days, often within one business day, and never charge a fee for verified requests.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is your refund policy?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "We back every report with a 100% money-back guarantee. If your report does not contain usable data, a record is materially inaccurate, or you are dissatisfied for any reason within 30 days of purchase, email our team for a full refund — no forms, no phone trees, no questions. Most refunds are processed the same business day.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function TrustPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(trustSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-28 pb-16">
@@ -304,6 +384,41 @@ export default function TrustPage() {
       </section>
 
       <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-4">
+            <Shield className="w-7 h-7 text-primary-600" />
+            <h2 className="text-2xl font-bold text-slate-900">
+              Trust & Security FAQ
+            </h2>
+          </div>
+          <p className="mt-2 text-lg text-slate-600 leading-relaxed mb-8">
+            Straight answers about where our data comes from, how we secure your
+            information, and what your report does and does not cover.
+          </p>
+          <div className="space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group rounded-2xl border border-slate-200 bg-slate-50 p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base sm:text-lg font-semibold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {f.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-slate-900 mb-3">Run a Report You Can Trust</h2>
           <p className="text-slate-700 mb-8">

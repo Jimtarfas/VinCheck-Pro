@@ -119,6 +119,77 @@ const dealersSchema = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How much does a dealer VIN report cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN wholesale dealer pricing runs between $1 and $3 per report. Independent dealers running under 50 reports per month pay $3 per report with no setup fee, volume dealers running 50–500 reports per month pay $1.50 per report with a dashboard included, and auctions or large dealer groups running 500+ reports per month get custom volume-discounted pricing. Contact the dealer sales team for a quote tailored to your monthly volume.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does the vehicle history data come from?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Dealer reports pull from the same authoritative sources as the consumer product: NMVTIS (the National Motor Vehicle Title Information System), NICB theft records, and OEM data. Every report includes full NMVTIS title-brand data along with accident, odometer, theft, and recall history.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a REST API for dealers?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. CarCheckerVIN offers a production-grade REST API with bearer-token authentication over TLS 1.3, structured JSON in and out, and a downloadable PDF link on every response. Official SDKs are available for Node, Python, and PHP, and sandbox keys let you test before going live. Basic API access is included on the Volume tier; the full REST API with webhooks is available on the Enterprise/Auction tier.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I run bulk VIN lookups?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. You can upload a CSV or JSON file with up to 1,000 VINs and receive full reports back in seconds — useful for prepping an auction lane or syncing a fresh inventory feed. Bulk CSV upload is available starting on the Volume Dealer tier.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do you offer white-label vehicle history reports?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. White-label reports let you brand every PDF and HTML report with your dealership logo, colors, and contact details, so buyers see your brand instead of ours. White-label reporting is available on the Enterprise/Auction tier.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does CarCheckerVIN integrate with my DMS or CRM?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The REST API plugs into DealerSocket, vAuto, AutoTrader, and most major DMS platforms, so reports attach automatically to the right deal record. For auction buyers, the API connects to AuctionEdge, EdgeSimulcast, and most custom auction-buying tools. Webhooks can push report-ready and recall-update events directly into your DMS or CRM.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How long does it take to get set up?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Most dealers go from first contact to first live API call in under a week, and some are set up in a single afternoon. After you contact the dealer team with your volume and systems, you receive a custom quote within 24 hours, then sandbox and production API keys, a branded dashboard, and team accounts are provisioned once the agreement is signed.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is dealer lookup activity logged for compliance?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Every lookup is logged with user, timestamp, IP, and consent metadata to provide a fully NMVTIS-compliant audit trail. The dealer dashboard also lets you track every report your team runs and search history by VIN or stock number.",
+      },
+    },
+  ],
+};
+
 const tiers = [
   {
     name: "Independent Dealer",
@@ -251,12 +322,21 @@ const codeResponse = `{
   "report_url": "https://api.carcheckervin.com/v1/reports/abc123.pdf"
 }`;
 
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function DealersPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(dealersSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       {/* Hero */}
@@ -645,6 +725,39 @@ export default function DealersPage() {
             </Link>{" "}
             for more answers.
           </p>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900">
+            Dealer & Wholesale FAQ
+          </h2>
+          <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+            The questions dealers, auctions, and BHPH lots ask most about
+            wholesale pricing, API access, and bulk vehicle history reports.
+          </p>
+          <div className="mt-8 space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group bg-white border border-slate-200 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base font-bold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">
+                  {f.answer}
+                </p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

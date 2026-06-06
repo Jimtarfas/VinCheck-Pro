@@ -448,12 +448,92 @@ const quickTools = [
   { href: "/lemon-check", label: "Lemon Check" },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is a VIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A VIN (Vehicle Identification Number) is a 17-character alphanumeric code that uniquely identifies every modern vehicle. It encodes the manufacturer, brand, vehicle type, model year, assembly plant, and a unique production serial number. The VIN appears on the dashboard, driver-side doorjamb, engine block, title, registration, and insurance documents, and is the key used to pull a vehicle's full title and history records.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does NMVTIS stand for?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "NMVTIS stands for the National Motor Vehicle Title Information System. It is a federally mandated database, administered by the U.S. Department of Justice, that aggregates title, brand, junk, and salvage records from state motor vehicle agencies, insurance carriers, junkyards, and salvage auctions across U.S. jurisdictions. Because it consolidates data nationwide, NMVTIS is the most authoritative source for catching cross-state title brand history and title washing.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a salvage title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A salvage title is a title brand applied when an insurer declares a vehicle a total loss, typically after damage exceeds a state-defined threshold of roughly 70 to 90 percent of the vehicle's pre-loss value. A salvage-titled vehicle cannot legally be driven on public roads until it is repaired, passes a state safety inspection, and is re-titled as rebuilt. The salvage brand is permanent and follows the VIN across state lines.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a title brand?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A title brand is a permanent notation on a vehicle's title indicating significant damage, theft recovery, or other adverse history. Common brands include salvage, rebuilt, flood, junk, non-repairable, and lemon (manufacturer buyback). A title brand follows the VIN across state lines for the life of the vehicle, generally reduces resale value, and can make the vehicle harder to insure or finance.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the difference between a salvage title and a rebuilt title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A salvage title marks a vehicle that an insurer declared a total loss; it cannot legally be driven until repaired and re-inspected. A rebuilt title is issued to a previously salvaged vehicle that has been repaired and has passed a state safety inspection, making it road-legal again. Rebuilt vehicles are road-legal but typically worth 20 to 40 percent less than a comparable clean-title vehicle, and both insurance and financing options remain limited.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is odometer rollback?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Odometer rollback is a form of odometer fraud in which a vehicle's displayed mileage is illegally reduced to make the car appear less used and worth more. Modern digital instrument clusters can be rolled back with service tools, leaving few visible signs. Federal law requires odometer disclosure on title transfers and bans rollback. The best defense is comparing the displayed mileage against the most recent state inspection, oil-change, or service records.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is title washing?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Title washing is the fraudulent practice of moving a branded vehicle through one or more states to remove or hide an adverse title brand, then re-titling it as clean. NMVTIS, which consolidates brand records nationwide, makes title washing much harder, but it still occurs in gaps between state reporting systems. Running a multi-source VIN history check before buying is the most reliable way to surface a brand that was washed off the paper title.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is a lemon buyback?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A lemon buyback is a vehicle that the manufacturer repurchased from its original owner under a state lemon law because a substantial defect could not be repaired within a reasonable number of attempts. Lemon buybacks must generally be disclosed and typically carry a permanent title brand such as 'Lemon Law Buyback' or 'Manufacturer Buyback.' These vehicles often return to the used market after repairs, usually at a steep discount.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 export default function GlossaryPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSetSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <section className="pt-28 pb-10 bg-gradient-to-br from-primary-600 to-primary-700 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -525,6 +605,36 @@ export default function GlossaryPage() {
               </dl>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="py-16 bg-white border-t border-slate-200">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900 text-center">
+            Frequently Asked Questions
+          </h2>
+          <p className="mt-3 text-slate-700 text-center max-w-2xl mx-auto">
+            Quick, plain-English answers to the most common questions about VINs, title
+            brands, and vehicle history terminology.
+          </p>
+          <div className="mt-8 space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group rounded-2xl border border-slate-200 bg-white p-5 hover:border-primary-500 transition-colors [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base sm:text-lg font-semibold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-2xl font-light leading-none group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">{f.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

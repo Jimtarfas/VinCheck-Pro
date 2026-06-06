@@ -181,6 +181,82 @@ const toolsSchema = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Are these vehicle tools really free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Every tool on this hub is genuinely free, requires no signup, and is powered by the same NMVTIS, NICB, and OEM data that fuels our paid reports. There is no upsell modal, no popup, and no email capture required to use them.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I need an account to use the tools?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. All of the tools work without an account — there are zero accounts required. Click any tool card to jump straight into the tool and start researching a vehicle.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What does the VIN decoder show?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The VIN decoder instantly decodes any 17-character VIN to its year, make, model, trim, engine, transmission, plant code, and country of origin. It is free and unlimited, with no signup required.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What tools are included in this hub?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The hub bundles thirteen free tools: a VIN decoder, VIN check by make, chassis number lookup, a VIN glossary, a state-by-state VIN check, a full vehicle history report, a stolen vehicle lookup (NICB cross-reference), a salvage title check, odometer verification, a diminished value calculator, a HIN lookup for boats, a semi truck VIN lookup, and a golf cart VIN lookup.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does the diminished value calculator work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The diminished value calculator estimates the value your car lost after an accident. It runs the insurer 17c formula alongside the real market-loss range, giving you a claim-ready estimate with no signup.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is the data behind these tools trustworthy?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The tools draw on the same federally mandated National Motor Vehicle Title Information System (NMVTIS) feed, NICB theft data, and manufacturer APIs that power our paid history reports — so readers get authoritative results rather than a regex-matched guess from a short JavaScript snippet.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I embed the VIN decoder on my own website?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. You can drop our free VIN decoder onto your page with a single iframe tag — no API keys and no tracking pixels. Paste the embed code anywhere HTML is allowed and resize the width and height to fit your layout. Each embed includes a small \"Powered by CarCheckerVIN\" credit link below the form, which is our only ask in exchange for the free tool.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I check whether a vehicle is stolen or has a salvage title?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The stolen vehicle lookup cross-references a VIN against the National Insurance Crime Bureau (NICB) database, and the salvage title check shows whether a vehicle has ever carried a salvage, junk, rebuilt, or flood title in any of the 50 states or U.S. territories.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const embedSnippet = `<iframe src="https://www.carcheckervin.com/embed/vin-decoder"
         width="100%" height="200" frameborder="0"></iframe>`;
 
@@ -190,6 +266,10 @@ export default function ToolsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(toolsSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       {/* Hero */}
@@ -339,8 +419,41 @@ export default function ToolsPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900">
+            Free Tools FAQ
+          </h2>
+          <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+            The most common questions about our free VIN decoder, calculators,
+            and lookup tools.
+          </p>
+          <div className="mt-8 space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group rounded-2xl border border-slate-200 bg-slate-50 p-5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base font-bold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                  {f.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
-      <section className="py-14 bg-white">
+      <section className="py-14 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-slate-900 mb-3">
             Try the Decoder Right Now

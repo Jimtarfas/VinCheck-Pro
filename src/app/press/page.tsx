@@ -68,6 +68,74 @@ const pressSchema = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is CarCheckerVIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN is a vehicle history report platform that provides instant, affordable VIN-based reports covering title, theft, and recall data. It was founded in 2025 and aims to put the same authoritative data insurance companies and franchise dealers rely on into the hands of every used-car buyer for less than the price of a tank of gas.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Who do I contact for media inquiries?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Route press inquiries to the CarCheckerVIN communications team at contact@carcheckervin.com or +1 (564) 212-3985. The team handles interviews, embargoed previews, custom data pulls, and fact-check requests, and responds to press inquiries within one business day.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does CarCheckerVIN's data come from?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN reports are powered by NMVTIS (the National Motor Vehicle Title Information System), NICB, manufacturer/OEM APIs, and Auto.dev. These sources supply title-brand, theft, and recall records used across the platform's vehicle history reports.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I use the CarCheckerVIN logo?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The official logo is available for download from the Brand Assets section of this press kit in SVG and PNG formats, alongside a brand guidelines PDF. Please use only the official assets and follow the color and clear-space rules in the guidelines.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Who are CarCheckerVIN's spokespeople?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN makes several spokespeople available for interviews and on-the-record commentary, including Marcus Chen (Founder & CEO), Priya Anand (Head of Data), Devon Whitfield (Lead Research Analyst), and Sara Okonkwo (Communications Lead). For the fastest response, route initial inquiries through the communications lead.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What topics can CarCheckerVIN comment on?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Available commentary areas include used-car fraud, NMVTIS policy, dealer pricing, vehicle data integrity, OEM API integration, recall reporting, title washing, VIN cloning, and odometer rollback. Spokespeople are available for interviews, podcasts, and on-the-record commentary.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What are the key facts about CarCheckerVIN?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CarCheckerVIN was founded in 2025, is headquartered in the United States, has served 50,000+ lifetime VIN lookups, delivers 300,000+ reports per year, works with 5,000+ dealer partners, and sources data from NMVTIS, NICB, OEM APIs, and Auto.dev.",
+      },
+    },
+  ],
+};
+
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const facts = [
   { label: "Founded", value: "2025" },
   { label: "Lifetime VIN Lookups", value: "50,000+" },
@@ -133,6 +201,10 @@ export default function PressPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pressSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
       {/* Hero */}
@@ -375,6 +447,37 @@ export default function PressPage() {
                 <span>United States — replies in English</span>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Press FAQ */}
+      <section className="py-14 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900">Press FAQ</h2>
+          <p className="mt-3 text-lg text-slate-600 leading-relaxed">
+            The questions journalists, podcasters, and analysts ask most often about
+            CarCheckerVIN.
+          </p>
+          <div className="mt-8 space-y-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.question}
+                className="group p-5 bg-slate-50 border border-slate-200 rounded-2xl [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base sm:text-lg font-bold text-slate-900 pr-2">
+                    {f.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed text-sm">
+                  {f.answer}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </section>
