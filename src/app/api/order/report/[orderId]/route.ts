@@ -1,0 +1,169 @@
+import { NextResponse } from "next/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient as createServerClient } from "@/lib/supabase/server";
+import { fetchFullReport } from "@/lib/clearvin";
+import { stripeConfig } from "@/lib/stripe";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+/**
+ * GET /api/order/report/:orderId
+ *
+ * Auth-gated fetch of the persisted ClearVin report for a single order.
+ * Authorization rule:
+ *   - logged-in user whose user_id matches the order, OR
+ *   - logged-in user whose email matches the order's user_email, OR
+ *   - in MOCK MODE (no Stripe configured), allow anyone with the order id
+ *     so the dev flow is reviewable without auth.
+ *
+ * If the order is marked `paid` but `clearvin_report` is null (the webhook
+ * couldn't reach ClearVin), this endpoint will re-attempt the fetch on
+ * demand so the user isn't stranded.
+ */
+export async function GET(
+  _req: Request,
+  ctx: { params: Promise<{ orderId: string }> }
+) {
+  const { orderId } = await ctx.params;
+  if (!orderId || !/^[0-9a-f-]{36}$/i.test(orderId)) {
+    return NextResponse.json({ ok: false, error: "Invalid order id." }, { status: 400 });
+  }
+
+  const admin = createAdminClient();
+  const { data: order, error } = await admin
+    .from("report_orders")
+    .select(
+      "id, user_id, user_email, vin, vehicle_label, status, amount_cents, currency, clearvin_report, clearvin_fetched_at, clearvin_error, paid_at, delivered_at, created_at"
+    )
+    .eq("id", orderId)
+    .single();
+
+  if (error || !order) {
+    return NextResponse.json({ ok: false, error: "Order not found." }, { status: 404 });
+  }
+
+  // ─── Authorization ───
+  const isMock = !stripeConfig.isConfigured();
+  let authorized = isMock; // mock mode lets anyone view (for ClearVin review)
+
+  if (!authorized) {
+    try {
+      const supa = await createServerClient();
+      const { data: userData } = await supa.auth.getUser();
+      const user = userData.user;
+      if (user) {
+        const sameId = user.id && user.id === order.user_id;
+        const sameEmail =
+          user.email &&
+          user.email.toLowerCase() === (order.user_email || "").toLowerCase();
+        authorized = Boolean(sameId || sameEmail);
+      }
+    } catch {
+      // ignore — `authorized` stays false
+    }
+  }
+
+  if (!authorized) {
+    return NextResponse.json(
+      { ok: false, error: "Not authorized to view this report." },
+      { status: 403 }
+    );
+  }
+
+  // ─── Status gating ───
+  if (order.status === "pending") {
+    // In mock mode the Stripe webhook never fires — auto-promote so the
+    // end-to-end flow is reviewable. This branch is gated on `isMock` so it
+    // is a no-op as soon as real Stripe credentials are in place.
+    if (isMock) {
+      await admin
+        .from("report_orders")
+        .update({
+          status: "paid",
+          paid_at: new Date().toISOString(),
+          stripe_payment_intent_id: "mock_pi",
+        })
+        .eq("id", order.id);
+      order.status = "paid";
+    } else {
+      return NextResponse.json({
+        ok: true,
+        status: "pending",
+        message: "Payment not yet confirmed. Refresh this page shortly.",
+        order: {
+          id: order.id,
+          vin: order.vin,
+          vehicleLabel: order.vehicle_label,
+          amountCents: order.amount_cents,
+          currency: order.currency,
+        },
+      });
+    }
+  }
+  if (order.status === "failed") {
+    return NextResponse.json({
+      ok: false,
+      status: "failed",
+      error: order.clearvin_error || "Payment failed.",
+    });
+  }
+  if (order.status === "refunded") {
+    return NextResponse.json({
+      ok: false,
+      status: "refunded",
+      error: "This order was refunded and the report is no longer accessible.",
+    });
+  }
+
+  // ─── Deliver the report ───
+  if (order.clearvin_report) {
+    return NextResponse.json({
+      ok: true,
+      status: order.status,
+      order: {
+        id: order.id,
+        vin: order.vin,
+        vehicleLabel: order.vehicle_label,
+        createdAt: order.created_at,
+        deliveredAt: order.delivered_at,
+      },
+      report: order.clearvin_report,
+    });
+  }
+
+  // Paid but missing report → re-attempt ClearVin fetch on demand.
+  const refetch = await fetchFullReport(order.vin, order.id);
+  if (!("ok" in refetch) || refetch.ok !== true) {
+    await admin
+      .from("report_orders")
+      .update({ clearvin_error: refetch.message })
+      .eq("id", order.id);
+    return NextResponse.json(
+      { ok: false, status: "paid", error: refetch.message },
+      { status: 502 }
+    );
+  }
+  await admin
+    .from("report_orders")
+    .update({
+      clearvin_report: refetch.data,
+      clearvin_fetched_at: new Date().toISOString(),
+      status: "delivered",
+      delivered_at: new Date().toISOString(),
+    })
+    .eq("id", order.id);
+
+  return NextResponse.json({
+    ok: true,
+    status: "delivered",
+    order: {
+      id: order.id,
+      vin: order.vin,
+      vehicleLabel: order.vehicle_label,
+      createdAt: order.created_at,
+      deliveredAt: new Date().toISOString(),
+    },
+    report: refetch.data,
+  });
+}

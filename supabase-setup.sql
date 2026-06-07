@@ -252,3 +252,90 @@ create policy "users delete own reports"
   to authenticated
   using (auth.uid() = user_id);
 
+
+-- ============================================================
+-- ORDERS — paid VIN report purchases (ClearVin integration)
+-- Lives behind the isolated /order/* flow; never touches existing tables.
+-- ============================================================
+create table if not exists public.report_orders (
+  id                         uuid primary key default gen_random_uuid(),
+  user_id                    uuid references auth.users(id) on delete set null,
+  user_email                 text not null,
+  vin                        text not null,
+  vehicle_label              text,        -- "2021 Toyota Camry" — cached for receipts/emails
+
+  -- Pricing
+  amount_cents               integer not null,
+  currency                   text not null default 'usd',
+
+  -- Payment provider (Stripe)
+  stripe_session_id          text unique,
+  stripe_payment_intent_id   text,
+
+  -- ClearVin response
+  clearvin_report            jsonb,        -- the FULL unmodified report payload
+  clearvin_fetched_at        timestamptz,
+  clearvin_error             text,         -- populated if the API call failed
+
+  -- Generated artifacts
+  pdf_url                    text,         -- signed Supabase Storage URL or similar
+
+  -- Lifecycle
+  status                     text not null default 'pending'
+    check (status in ('pending','paid','delivered','failed','refunded')),
+  paid_at                    timestamptz,
+  delivered_at               timestamptz,
+  refunded_at                timestamptz,
+
+  -- Metadata
+  ip_hash                    text,
+  user_agent                 text,
+  created_at                 timestamptz not null default now()
+);
+
+create index if not exists report_orders_user_idx        on public.report_orders (user_id);
+create index if not exists report_orders_email_idx       on public.report_orders (user_email);
+create index if not exists report_orders_vin_idx         on public.report_orders (vin);
+create index if not exists report_orders_status_idx      on public.report_orders (status, created_at desc);
+create index if not exists report_orders_stripe_session_idx
+  on public.report_orders (stripe_session_id);
+create index if not exists report_orders_created_at_idx  on public.report_orders (created_at desc);
+
+alter table public.report_orders enable row level security;
+
+-- A signed-in user can read their own orders (looked up by user_id OR email
+-- for guest-checkout-style purchases where the user signs in later with the
+-- same email used at Stripe).
+drop policy if exists "users read own orders" on public.report_orders;
+create policy "users read own orders"
+  on public.report_orders for select
+  to authenticated
+  using (
+    auth.uid() = user_id
+    OR auth.jwt() ->> 'email' = user_email
+  );
+
+-- All writes go through service-role server routes (Stripe webhook + admin
+-- panel). No anon/authenticated insert policy on purpose.
+
+-- ============================================================
+-- ClearVin API call log — debugging, cost tracking, rate-limit forensics
+-- ============================================================
+create table if not exists public.clearvin_calls (
+  id            bigserial primary key,
+  endpoint      text not null,        -- "preview" | "full_report"
+  vin           text not null,
+  order_id      uuid references public.report_orders(id) on delete set null,
+  status_code   integer,
+  duration_ms   integer,
+  error         text,
+  request_id    text,                 -- ClearVin's X-Request-ID if returned
+  created_at    timestamptz not null default now()
+);
+
+create index if not exists clearvin_calls_created_idx  on public.clearvin_calls (created_at desc);
+create index if not exists clearvin_calls_endpoint_idx on public.clearvin_calls (endpoint, created_at desc);
+create index if not exists clearvin_calls_vin_idx      on public.clearvin_calls (vin);
+
+alter table public.clearvin_calls enable row level security;
+-- No anon access; only service-role reads from /admin.
