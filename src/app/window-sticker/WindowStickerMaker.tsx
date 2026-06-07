@@ -190,6 +190,7 @@ export default function WindowStickerMaker() {
   // it being redundant when the full preview is already visible.
   const [stickerVisible, setStickerVisible] = useState(true);
   const [generatingPdf, setGeneratingPdf] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
   // Action queued while waiting for the user to authenticate
   const pendingActionRef = useRef<"print" | "download" | null>(null);
 
@@ -440,28 +441,100 @@ export default function WindowStickerMaker() {
     );
   }
 
+  /* Convert an external image URL to a data URL by fetching it through the
+     browser (bypasses CORS restrictions that would taint the canvas). */
+  async function imgToDataUrl(url: string): Promise<string | null> {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const blob = await res.blob();
+      return await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch {
+      return null;
+    }
+  }
+
   /* Capture the live sticker element as a high-res canvas using html2canvas.
-     useCORS lets the brand logo + QR images (external CDNs) render correctly.
-     scale:2 gives retina-quality output (the canvas is 2× the DOM pixels). */
+     We clone the node offscreen and replace all external <img> srcs with data
+     URLs first — this is the only reliable way to avoid the CORS canvas-taint
+     SecurityError that causes toDataURL() to silently fail. */
   async function captureCanvas(): Promise<HTMLCanvasElement | null> {
     const node = document.getElementById("sticker-export");
     if (!node) return null;
-    const { default: html2canvas } = await import("html2canvas");
-    return html2canvas(node, {
-      scale: 2,
-      useCORS: true,
-      allowTaint: false,
-      backgroundColor: "#ffffff",
-      logging: false,
-    });
+
+    // Clone into a hidden, same-size offscreen element
+    const clone = node.cloneNode(true) as HTMLElement;
+    clone.style.cssText = `
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+      width: ${node.offsetWidth}px;
+      visibility: hidden;
+      pointer-events: none;
+    `;
+    document.body.appendChild(clone);
+
+    try {
+      // Pre-fetch every external image as a data URL so html2canvas never
+      // has to do a cross-origin request (eliminates canvas taint entirely).
+      const imgs = Array.from(clone.querySelectorAll<HTMLImageElement>("img"));
+      await Promise.all(
+        imgs.map(async (img) => {
+          const src = img.getAttribute("src");
+          if (!src || src.startsWith("data:") || src.startsWith("blob:")) return;
+          const dataUrl = await imgToDataUrl(src);
+          if (dataUrl) {
+            img.src = dataUrl;
+          } else {
+            img.style.display = "none";
+          }
+        })
+      );
+
+      const { default: html2canvas } = await import("html2canvas");
+      return await html2canvas(clone, {
+        scale: 2,
+        useCORS: false,   // not needed — all imgs are now data URLs
+        allowTaint: false,
+        backgroundColor: "#ffffff",
+        logging: false,
+      });
+    } finally {
+      document.body.removeChild(clone);
+    }
   }
 
   /* Download a pixel-perfect PDF of exactly what the user sees in the preview. */
   async function doPdf() {
     setGeneratingPdf(true);
+    setExportError(null);
     try {
-      const canvas = await captureCanvas();
-      if (!canvas) return;
+      let canvas: HTMLCanvasElement | null = null;
+      try {
+        canvas = await captureCanvas();
+      } catch (err) {
+        console.error("[WindowSticker] captureCanvas failed:", err);
+        setExportError("Could not generate the PDF — please try again.");
+        return;
+      }
+      if (!canvas) {
+        setExportError("Sticker element not found. Please try again.");
+        return;
+      }
+
+      let imgData: string;
+      try {
+        imgData = canvas.toDataURL("image/png");
+      } catch (err) {
+        console.error("[WindowSticker] toDataURL failed:", err);
+        setExportError("Image export failed. Please try again.");
+        return;
+      }
 
       const { default: jsPDF } = await import("jspdf");
 
@@ -478,15 +551,7 @@ export default function WindowStickerMaker() {
         format: [pageW, printH + margins * 2],
       });
 
-      pdf.addImage(
-        canvas.toDataURL("image/png"),
-        "PNG",
-        margins,
-        margins,
-        printW,
-        printH
-      );
-
+      pdf.addImage(imgData, "PNG", margins, margins, printW, printH);
       pdf.save(`${stickerFileName()}-window-sticker.pdf`);
 
       fetch("/api/window-sticker/track", {
@@ -494,6 +559,9 @@ export default function WindowStickerMaker() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "download" }),
       }).catch(() => {});
+    } catch (err) {
+      console.error("[WindowSticker] doPdf failed:", err);
+      setExportError("Something went wrong. Please try again.");
     } finally {
       setGeneratingPdf(false);
     }
@@ -504,34 +572,78 @@ export default function WindowStickerMaker() {
      logos. The user can choose their printer or "Save as PDF". */
   async function doPrint() {
     setGeneratingPdf(true);
+    setExportError(null);
     try {
-      const canvas = await captureCanvas();
-      if (!canvas) { window.print(); return; }
+      let canvas: HTMLCanvasElement | null = null;
+      try {
+        canvas = await captureCanvas();
+      } catch (err) {
+        console.error("[WindowSticker] captureCanvas failed:", err);
+        setExportError("Could not generate the print image — please try again.");
+        return;
+      }
+      if (!canvas) {
+        setExportError("Sticker element not found. Please try again.");
+        return;
+      }
 
-      const imgSrc = canvas.toDataURL("image/png");
+      let imgSrc: string;
+      try {
+        imgSrc = canvas.toDataURL("image/png");
+      } catch (err) {
+        console.error("[WindowSticker] toDataURL failed:", err);
+        setExportError("Image export failed. Please try again.");
+        return;
+      }
+
+      // Try popup first; fall back to an injected iframe if the popup is blocked.
       const win = window.open("", "_blank");
-      if (!win) { window.print(); return; }
-
-      win.document.write(
-        `<!doctype html><html><head>` +
-        `<title>${data.year} ${data.make} ${data.model} Window Sticker</title>` +
-        `<style>` +
-        `*{margin:0;padding:0;box-sizing:border-box}` +
-        `body{background:#fff}` +
-        `img{display:block;width:100%;height:auto}` +
-        `@media print{@page{size:auto;margin:0.4in}body{background:#fff}}` +
-        `</style></head><body>` +
-        `<img src="${imgSrc}" alt="Window sticker"/>` +
-        `<script>window.onload=function(){window.print();}<\/script>` +
-        `</body></html>`
-      );
-      win.document.close();
+      if (win) {
+        win.document.write(
+          `<!doctype html><html><head>` +
+          `<title>${data.year} ${data.make} ${data.model} Window Sticker</title>` +
+          `<style>` +
+          `*{margin:0;padding:0;box-sizing:border-box}` +
+          `body{background:#fff}` +
+          `img{display:block;width:100%;height:auto}` +
+          `@media print{@page{size:auto;margin:0.4in}body{background:#fff}}` +
+          `</style></head><body>` +
+          `<img src="${imgSrc}" alt="Window sticker"/>` +
+          `<script>window.onload=function(){window.print();}<\/script>` +
+          `</body></html>`
+        );
+        win.document.close();
+      } else {
+        // Popup blocked — inject a hidden iframe to trigger print
+        const iframe = document.createElement("iframe");
+        iframe.style.cssText = "position:absolute;top:-9999px;left:-9999px;width:1px;height:1px;border:none;";
+        document.body.appendChild(iframe);
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (doc) {
+          doc.open();
+          doc.write(
+            `<!doctype html><html><head>` +
+            `<title>Window Sticker</title>` +
+            `<style>*{margin:0;padding:0}body{background:#fff}img{display:block;width:100%;height:auto}` +
+            `@media print{@page{size:auto;margin:0.4in}}</style>` +
+            `</head><body><img src="${imgSrc}" alt="Window sticker"/></body></html>`
+          );
+          doc.close();
+          setTimeout(() => {
+            iframe.contentWindow?.print();
+            setTimeout(() => document.body.removeChild(iframe), 2000);
+          }, 500);
+        }
+      }
 
       fetch("/api/window-sticker/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "print" }),
       }).catch(() => {});
+    } catch (err) {
+      console.error("[WindowSticker] doPrint failed:", err);
+      setExportError("Something went wrong. Please try again.");
     } finally {
       setGeneratingPdf(false);
     }
@@ -935,6 +1047,13 @@ export default function WindowStickerMaker() {
               </button>
             </div>
           </div>
+
+          {exportError && (
+            <p className="mb-2 rounded-lg bg-rose-50 border border-rose-200 px-3 py-2 text-xs font-medium text-rose-700 flex items-center gap-1.5">
+              <X className="w-3.5 h-3.5 shrink-0" />
+              {exportError}
+            </p>
+          )}
 
           <StickerPreview data={data} totals={totals} standardList={standardList} />
 
