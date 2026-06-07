@@ -11,7 +11,7 @@ import "./globals.css";
 const GA_ID = "G-7HL13B05JH";
 // Microsoft Clarity — free heatmaps & session replays from Microsoft.
 // Bing reportedly uses Clarity engagement signals as a ranking input.
-const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
+const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || "x3242sq7oo";
 
 const manrope = Manrope({
   variable: "--font-manrope",
