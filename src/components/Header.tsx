@@ -37,6 +37,12 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
   // point still runs unconditionally on every render.
   const isAdmin =
     pathname === "/admin" || (pathname?.startsWith("/admin/") ?? false);
+  // /order/* is served from app.carcheckervin.com (proxy rewrite) and has
+  // its own minimal checkout header in src/app/order/layout.tsx — don't
+  // stack the marketing nav on top of it. Pairs with the same check in
+  // src/components/ConditionalFooter.tsx.
+  const isOrder =
+    pathname === "/order" || (pathname?.startsWith("/order/") ?? false);
 
   const [mobileOpen, setMobileOpen]     = useState(false);
   const [scrolled, setScrolled]         = useState(false);
@@ -116,7 +122,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
     router.refresh();
   };
 
-  if (isAdmin) return null;
+  if (isAdmin || isOrder) return null;
 
   return (
     <header
