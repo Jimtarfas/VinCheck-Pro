@@ -521,6 +521,144 @@ export function isUsingMockData(): boolean {
 }
 
 /**
+ * Fetch the report as a PDF byte stream. We prefer reportId when present
+ * (free re-fetch per ClearVin's pricing) and fall back to VIN otherwise.
+ *
+ * Returns the raw PDF bytes + the ClearVin request id (when supplied) so
+ * the caller can stream them straight back to the browser as application/pdf.
+ */
+export async function fetchFullReportPdf(
+  rawVin: string,
+  opts: { reportId?: string; orderId?: string } = {}
+): Promise<
+  | { ok: true; pdf: Uint8Array; requestId?: string }
+  | ClearVinError
+> {
+  const vin = normalizeVin(rawVin);
+  if (!vin) {
+    return {
+      ok: false,
+      status: 400,
+      code: "VIN_INVALID",
+      message: "VIN must be 17 valid alphanumeric characters.",
+    };
+  }
+
+  if (USE_MOCK()) {
+    // 1x1 white minimal PDF so the iframe still has a non-empty document.
+    const stub = mockMinimalPdf(vin);
+    void logCall({
+      endpoint: "full_report",
+      vin,
+      orderId: opts.orderId,
+      statusCode: 200,
+      durationMs: 8,
+    });
+    return { ok: true, pdf: stub };
+  }
+
+  const url = opts.reportId
+    ? `${BASE()}/rest/vendor/report?reportId=${encodeURIComponent(
+        opts.reportId
+      )}&format=pdf`
+    : `${BASE()}/rest/vendor/report?vin=${encodeURIComponent(vin)}&format=pdf`;
+
+  const start = Date.now();
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${TOKEN()}`,
+        Accept: "application/pdf, application/json",
+      },
+      signal: AbortSignal.timeout(45_000),
+    });
+    const duration = Date.now() - start;
+    const requestId = res.headers.get("x-request-id") || undefined;
+
+    if (!res.ok) {
+      // Errors come back as JSON even when we ask for PDF.
+      let errMsg = res.statusText;
+      try {
+        const j = (await res.json()) as { message?: string };
+        if (j.message) errMsg = j.message;
+      } catch {
+        /* ignore */
+      }
+      const err = mapClearVinError(res.status, errMsg);
+      void logCall({
+        endpoint: "full_report",
+        vin,
+        orderId: opts.orderId,
+        statusCode: res.status,
+        durationMs: duration,
+        error: err.message,
+        requestId,
+      });
+      return err;
+    }
+
+    const ab = await res.arrayBuffer();
+    const pdf = new Uint8Array(ab);
+    void logCall({
+      endpoint: "full_report",
+      vin,
+      orderId: opts.orderId,
+      statusCode: 200,
+      durationMs: duration,
+      requestId,
+    });
+    return { ok: true, pdf, requestId };
+  } catch (e) {
+    const duration = Date.now() - start;
+    const msg = e instanceof Error ? e.message : "unknown";
+    void logCall({
+      endpoint: "full_report",
+      vin,
+      orderId: opts.orderId,
+      statusCode: 0,
+      durationMs: duration,
+      error: msg,
+    });
+    if (e instanceof Error && e.name === "TimeoutError") {
+      return {
+        ok: false,
+        status: 504,
+        code: "TIMEOUT",
+        message: "Report PDF generation timed out.",
+      };
+    }
+    return { ok: false, status: 500, code: "UNKNOWN", message: msg };
+  }
+}
+
+/** Minimal valid PDF body — used in mock mode only. */
+function mockMinimalPdf(vin: string): Uint8Array {
+  const txt = `Mock PDF for VIN ${vin} — set CLEARVIN_API_TOKEN to fetch the live report.`;
+  const stream = `BT /F1 12 Tf 50 750 Td (${txt}) Tj ET`;
+  const objects = [
+    "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n",
+    "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
+    "3 0 obj\n<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 5 0 R >> >> /MediaBox [0 0 612 792] /Contents 4 0 R >>\nendobj\n",
+    `4 0 obj\n<< /Length ${stream.length} >>\nstream\n${stream}\nendstream\nendobj\n`,
+    "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n",
+  ];
+  let body = "%PDF-1.4\n";
+  const offsets: number[] = [];
+  for (const o of objects) {
+    offsets.push(body.length);
+    body += o;
+  }
+  const xrefStart = body.length;
+  body += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  for (const off of offsets) {
+    body += `${String(off).padStart(10, "0")} 00000 n \n`;
+  }
+  body += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`;
+  return new TextEncoder().encode(body);
+}
+
+/**
  * Test-environment VINs ClearVin will accept. In test mode any other VIN
  * returns 404 "Vin not found". We surface this list in the UI as a hint.
  */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import {
   LoaderCircle,
@@ -18,14 +18,16 @@ interface Props {
 }
 
 /**
- * ClearVin returns the full report as a self-contained HTML document.
- * Compliance requirement: the data must be displayed *unmodified*. We
- * embed it in a sandboxed iframe via srcdoc so:
- *   - ClearVin's HTML renders exactly as they produced it,
- *   - it can't read our DOM / cookies (sandbox attribute),
- *   - we keep our own page chrome around it (the part they explicitly
- *     allow us to customise).
+ * ClearVin returns the full report as a PDF. We just iframe our PDF proxy
+ * endpoint and let the browser render it natively — gives the buyer
+ * native scroll/zoom/save/print controls and zero JS-shim complexity.
+ *
+ * Compliance: the PDF binary is forwarded byte-for-byte from ClearVin
+ * (the data they require "rendered unmodified"); only the page chrome
+ * around the iframe is our own (the part they explicitly allow us to
+ * customise).
  */
+
 interface OrderMeta {
   id: string;
   vin: string;
@@ -36,10 +38,9 @@ interface OrderMeta {
 
 interface ReportData {
   vin: string;
-  html: string;
   reportId?: string;
   requestId?: string;
-  /** False if ClearVin returned an effectively empty HTML body. */
+  /** False if ClearVin returned an empty html_report. */
   hasContent?: boolean;
   generatedAt: string;
   schemaVersion?: number;
@@ -60,15 +61,20 @@ export default function ReportView({ orderId }: Props) {
   const [pending, setPending] = useState(false);
   const [order, setOrder] = useState<OrderMeta | null>(null);
   const [report, setReport] = useState<ReportData | null>(null);
-  const [iframeHeight, setIframeHeight] = useState<number>(800);
   const [expanded, setExpanded] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+
+  // The PDF endpoint we'll iframe — and pass through to the download button.
+  const pdfUrl = `/api/order/report-pdf/${orderId}`;
 
   const fetchReport = useCallback(async () => {
     setLoading(true);
     setErrorMessage(null);
     try {
-      const res = await fetch(`/api/order/report/${orderId}`, { cache: "no-store" });
+      // We still hit the JSON endpoint to validate auth + payment status +
+      // pick up metadata (vehicle label, delivered timestamp, report id).
+      const res = await fetch(`/api/order/report/${orderId}`, {
+        cache: "no-store",
+      });
       const json = (await res.json()) as ApiResponse;
 
       if (json.status === "pending") {
@@ -76,13 +82,13 @@ export default function ReportView({ orderId }: Props) {
         setOrder(json.order || null);
         return;
       }
-      if (!res.ok || !json.ok || !json.report) {
+      if (!res.ok || !json.ok) {
         setErrorMessage(json.error || json.message || "Could not load report.");
         return;
       }
       setPending(false);
       setOrder(json.order || null);
-      setReport(json.report);
+      setReport(json.report || null);
     } catch {
       setErrorMessage("Network error — please retry.");
     } finally {
@@ -101,48 +107,20 @@ export default function ReportView({ orderId }: Props) {
     return () => clearInterval(t);
   }, [pending, fetchReport]);
 
-  // Auto-size the iframe to the rendered ClearVin document so the buyer
-  // doesn't get a tiny scrolling box inside our page. We measure
-  // scrollHeight on load + on subsequent resize events posted from inside
-  // the iframe (we inject a tiny postMessage shim into the srcdoc).
-  useEffect(() => {
-    function onMessage(e: MessageEvent) {
-      if (e?.data?.type === "cv-report-height" && typeof e.data.value === "number") {
-        // Clamp to a sane range to avoid layout explosions on tiny reports.
-        const h = Math.max(600, Math.min(20000, Math.round(e.data.value)));
-        setIframeHeight(h);
-      }
-    }
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, []);
-
-  function handleIframeLoad() {
-    try {
-      const doc = iframeRef.current?.contentDocument;
-      if (!doc) return;
-      const h = doc.documentElement.scrollHeight || doc.body?.scrollHeight || 800;
-      setIframeHeight(Math.max(600, Math.min(20000, h)));
-    } catch {
-      // Cross-origin (shouldn't happen with srcdoc, but be defensive).
-    }
-  }
-
   function handlePrint() {
-    iframeRef.current?.contentWindow?.print();
-  }
-
-  function handleDownloadHtml() {
-    if (!report) return;
-    const blob = new Blob([report.html], { type: "text/html;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `vinreport-${order?.vin || report.vin}.html`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+    // Open PDF in new tab so the browser's native print dialog gets the
+    // PDF directly — more reliable than iframe.contentWindow.print() for
+    // PDFs (some browsers print the page, not the embedded PDF).
+    const w = window.open(pdfUrl, "_blank");
+    if (w) {
+      w.addEventListener("load", () => {
+        try {
+          w.print();
+        } catch {
+          /* user can hit print themselves */
+        }
+      });
+    }
   }
 
   // ── Loading / error / pending states ──
@@ -200,27 +178,13 @@ export default function ReportView({ orderId }: Props) {
     );
   }
 
-  if (!report || !order) return null;
+  if (!order || !report) return null;
 
   // ── Empty-content fallback ──
-  // ClearVin may legitimately have no data on a given VIN — especially
-  // in test mode where many of the whitelisted VINs return an empty
-  // html_report. Render a friendly explanation instead of a blank iframe.
   if (report.hasContent === false) {
     return (
       <div className="space-y-4">
-        <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl overflow-hidden">
-          <div className="bg-gradient-to-br from-primary via-primary-700 to-primary-800 text-white px-6 sm:px-8 py-6">
-            <p className="text-[11px] uppercase font-bold tracking-[0.16em] text-white/70">
-              Vehicle History Report
-            </p>
-            <h1 className="text-2xl sm:text-3xl font-headline font-extrabold mt-1 tracking-tight">
-              {order.vehicleLabel || "Vehicle history report"}
-            </h1>
-            <p className="text-sm font-mono text-white/70 mt-1">{order.vin}</p>
-          </div>
-        </div>
-
+        <ReportHeader order={order} />
         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 max-w-2xl mx-auto text-center">
           <TriangleAlert className="w-8 h-8 text-amber-700 mx-auto" />
           <p className="mt-3 text-sm font-bold text-amber-900">
@@ -243,71 +207,16 @@ export default function ReportView({ orderId }: Props) {
             with order {order.id.slice(0, 8)}.
           </p>
         </div>
-
-        <div className="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-5 text-xs text-on-surface-variant leading-relaxed">
-          <p className="flex items-start gap-2">
-            <Info className="w-4 h-4 text-outline mt-0.5 flex-shrink-0" />
-            <span>
-              Report generated{" "}
-              <strong>{new Date(report.generatedAt).toLocaleString()}</strong>
-              {report.reportId && (
-                <>
-                  {" · ClearVin report id "}
-                  <code className="px-1 bg-white border border-outline-variant/60 rounded">
-                    {report.reportId}
-                  </code>
-                </>
-              )}
-              . Data sourced from <strong>ClearVin LLC</strong>, an approved
-              NMVTIS Data Provider, and rendered unmodified.
-            </span>
-          </p>
-        </div>
+        <ReportFooter report={report} />
       </div>
     );
   }
 
-  // ── Build the iframe document.
-  // We inject a tiny <script> at the end of the body that posts the
-  // document height back to us — both on load and on ResizeObserver
-  // events — so the iframe height stays in sync with the report.
-  // ClearVin's HTML itself is untouched; the shim is appended, not
-  // edited into their markup.
-  const SIZE_SHIM = `
-<script>
-(function(){
-  function post(){
-    try { parent.postMessage({type:'cv-report-height', value: document.documentElement.scrollHeight}, '*'); }
-    catch(e) {}
-  }
-  window.addEventListener('load', post);
-  if ('ResizeObserver' in window) {
-    new ResizeObserver(post).observe(document.documentElement);
-  }
-  setTimeout(post, 100);
-  setTimeout(post, 500);
-  setTimeout(post, 1500);
-})();
-</script>`;
-  const srcDoc = report.html.includes("</body>")
-    ? report.html.replace("</body>", `${SIZE_SHIM}</body>`)
-    : report.html + SIZE_SHIM;
-
   return (
     <div className="space-y-4 print:space-y-2">
-      {/* ── Header strip — our own chrome (the part ClearVin lets us style) ── */}
+      {/* Header strip + toolbar */}
       <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl overflow-hidden">
-        <div className="bg-gradient-to-br from-primary via-primary-700 to-primary-800 text-white px-6 sm:px-8 py-6">
-          <p className="text-[11px] uppercase font-bold tracking-[0.16em] text-white/70">
-            Vehicle History Report
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-headline font-extrabold mt-1 tracking-tight">
-            {order.vehicleLabel || "Vehicle history report"}
-          </h1>
-          <p className="text-sm font-mono text-white/70 mt-1">{order.vin}</p>
-        </div>
-
-        {/* Toolbar */}
+        <ReportHeaderInner order={order} />
         <div className="px-6 sm:px-8 py-3 flex flex-wrap items-center justify-between gap-2 bg-surface-container/50 print:hidden">
           <p className="text-xs text-on-surface-variant">
             Order{" "}
@@ -325,13 +234,14 @@ export default function ReportView({ orderId }: Props) {
               <Printer className="w-3.5 h-3.5" />
               Print
             </button>
-            <button
-              onClick={handleDownloadHtml}
+            <a
+              href={pdfUrl}
+              download={`vinreport-${order.vin}.pdf`}
               className="text-xs px-3 py-1.5 bg-white border border-outline-variant/60 rounded-lg inline-flex items-center gap-1.5 hover:bg-surface-container-low"
             >
               <Download className="w-3.5 h-3.5" />
-              Save HTML
-            </button>
+              Download PDF
+            </a>
             <button
               onClick={() => setExpanded((v) => !v)}
               className="text-xs px-3 py-1.5 bg-white border border-outline-variant/60 rounded-lg inline-flex items-center gap-1.5 hover:bg-surface-container-low"
@@ -353,16 +263,16 @@ export default function ReportView({ orderId }: Props) {
         </div>
       </div>
 
-      {/* ── ClearVin report (rendered unmodified) ── */}
+      {/* ClearVin PDF — rendered unmodified by the browser */}
       <div
         className={
           expanded
-            ? "fixed inset-0 z-50 bg-surface p-3 overflow-auto"
+            ? "fixed inset-0 z-50 bg-surface p-3 overflow-hidden flex flex-col"
             : "bg-surface-container-lowest border border-outline-variant/40 rounded-2xl overflow-hidden"
         }
       >
         {expanded && (
-          <div className="flex items-center justify-between px-3 pb-3 print:hidden">
+          <div className="flex items-center justify-between px-3 pb-3 flex-shrink-0 print:hidden">
             <p className="text-xs text-on-surface-variant">
               Full-screen view · {order.vin}
             </p>
@@ -376,63 +286,71 @@ export default function ReportView({ orderId }: Props) {
           </div>
         )}
         <iframe
-          ref={iframeRef}
+          src={pdfUrl}
           title={`ClearVin report for ${order.vin}`}
-          srcDoc={srcDoc}
-          onLoad={handleIframeLoad}
-          /* sandbox: render scripts (ClearVin's report may use them for
-             tables/charts) but block top-level navigation + form
-             submission, and DON'T grant same-origin so it cannot reach
-             our cookies / storage. */
-          sandbox="allow-scripts allow-same-origin"
-          referrerPolicy="no-referrer"
           className={
             expanded
-              ? "w-full h-[calc(100vh-60px)] rounded-xl border border-outline-variant/40 bg-white"
-              : "w-full bg-white"
+              ? "w-full flex-1 rounded-xl border border-outline-variant/40 bg-white"
+              : "w-full bg-white block"
           }
-          style={
-            expanded
-              ? undefined
-              : { height: `${iframeHeight}px`, border: "none" }
-          }
+          style={expanded ? undefined : { height: "1100px", border: "none" }}
         />
       </div>
 
-      {/* ── Footer disclosures ── */}
-      <div className="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-5 sm:p-6 text-xs text-on-surface-variant leading-relaxed">
-        <p className="flex items-start gap-2">
-          <Info className="w-4 h-4 text-outline mt-0.5 flex-shrink-0" />
-          <span>
-            Report generated{" "}
-            <strong>{new Date(report.generatedAt).toLocaleString()}</strong>
-            {report.reportId && (
-              <>
-                {" · ClearVin report id "}
-                <code className="px-1 bg-white border border-outline-variant/60 rounded">
-                  {report.reportId}
-                </code>
-              </>
-            )}
-            {!report.reportId && report.requestId && (
-              <>
-                {" · ClearVin reference "}
-                <code className="px-1 bg-white border border-outline-variant/60 rounded">
-                  {report.requestId}
-                </code>
-              </>
-            )}
-            . Data sourced from <strong>ClearVin LLC</strong>, an approved
-            NMVTIS Data Provider, and rendered unmodified. For the limits
-            of NMVTIS data and the federally-mandated consumer disclosure,
-            see the{" "}
-            <Link href="/disclaimer" className="underline hover:text-primary">
-              NMVTIS Disclaimer
-            </Link>
-            .
-          </span>
-        </p>
-      </div>
+      <ReportFooter report={report} />
+    </div>
+  );
+}
+
+// ── Subcomponents ────────────────────────────────────────────────────
+
+function ReportHeader({ order }: { order: OrderMeta }) {
+  return (
+    <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl overflow-hidden">
+      <ReportHeaderInner order={order} />
+    </div>
+  );
+}
+
+function ReportHeaderInner({ order }: { order: OrderMeta }) {
+  return (
+    <div className="bg-gradient-to-br from-primary via-primary-700 to-primary-800 text-white px-6 sm:px-8 py-6">
+      <p className="text-[11px] uppercase font-bold tracking-[0.16em] text-white/70">
+        Vehicle History Report
+      </p>
+      <h1 className="text-2xl sm:text-3xl font-headline font-extrabold mt-1 tracking-tight">
+        {order.vehicleLabel || "Vehicle history report"}
+      </h1>
+      <p className="text-sm font-mono text-white/70 mt-1">{order.vin}</p>
+    </div>
+  );
+}
+
+function ReportFooter({ report }: { report: ReportData }) {
+  return (
+    <div className="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-5 sm:p-6 text-xs text-on-surface-variant leading-relaxed">
+      <p className="flex items-start gap-2">
+        <Info className="w-4 h-4 text-outline mt-0.5 flex-shrink-0" />
+        <span>
+          Report generated{" "}
+          <strong>{new Date(report.generatedAt).toLocaleString()}</strong>
+          {report.reportId && (
+            <>
+              {" · ClearVin report id "}
+              <code className="px-1 bg-white border border-outline-variant/60 rounded">
+                {report.reportId}
+              </code>
+            </>
+          )}
+          . Data sourced from <strong>ClearVin LLC</strong>, an approved NMVTIS
+          Data Provider, and rendered unmodified. For the limits of NMVTIS data
+          and the federally-mandated consumer disclosure, see the{" "}
+          <Link href="/disclaimer" className="underline hover:text-primary">
+            NMVTIS Disclaimer
+          </Link>
+          .
+        </span>
+      </p>
     </div>
   );
 }
