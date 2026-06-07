@@ -231,7 +231,7 @@ export default function WindowStickerMaker() {
     setAuthOpen(false);
     const t = setTimeout(() => {
       if (action === "print") doPrint();
-      if (action === "download") doDownloadHtml();
+      if (action === "download") doPdf();
     }, 120);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
