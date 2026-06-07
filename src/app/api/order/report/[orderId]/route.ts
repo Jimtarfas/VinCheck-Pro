@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReport } from "@/lib/clearvin";
@@ -11,11 +12,16 @@ export const dynamic = "force-dynamic";
  * GET /api/order/report/:orderId
  *
  * Auth-gated fetch of the persisted ClearVin report for a single order.
- * Authorization rule:
- *   - logged-in user whose user_id matches the order, OR
- *   - logged-in user whose email matches the order's user_email, OR
- *   - in MOCK MODE (no Stripe configured), allow anyone with the order id
- *     so the dev flow is reviewable without auth.
+ * Authorization rule (any one of these grants access):
+ *   1. buyer's `order_<id>=1` cookie is present — set at /api/order/checkout
+ *      time so the anonymous buyer can read the report they just paid for
+ *      without having to create an account;
+ *   2. logged-in user whose Supabase id matches the order's user_id;
+ *   3. logged-in user whose email matches the order's user_email
+ *      (covers the "I paid as a guest then signed up with the same
+ *       email later" path);
+ *   4. in MOCK MODE (no Stripe configured) — anyone with the order id can
+ *      view, so reviewers (e.g. ClearVin compliance) can walk the flow.
  *
  * If the order is marked `paid` but `clearvin_report` is null (the webhook
  * couldn't reach ClearVin), this endpoint will re-attempt the fetch on
@@ -47,6 +53,22 @@ export async function GET(
   const isMock = !stripeConfig.isConfigured();
   let authorized = isMock; // mock mode lets anyone view (for ClearVin review)
 
+  // (1) Buyer cookie set at checkout time — covers the anonymous-buyer
+  // happy path (most purchases). Cookie name is scoped to the order id;
+  // since order ids are unguessable v4 UUIDs, having the cookie is itself
+  // strong evidence the visitor is the buyer who initiated this purchase.
+  if (!authorized) {
+    try {
+      const cookieStore = await cookies();
+      if (cookieStore.get(`order_${orderId}`)?.value === "1") {
+        authorized = true;
+      }
+    } catch {
+      // ignore — fall through to the Supabase check
+    }
+  }
+
+  // (2)(3) Logged-in user matches the order by id or email.
   if (!authorized) {
     try {
       const supa = await createServerClient();

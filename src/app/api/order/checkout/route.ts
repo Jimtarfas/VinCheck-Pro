@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { createHash } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
@@ -101,6 +102,22 @@ export async function POST(req: Request) {
       .from("report_orders")
       .update({ stripe_session_id: session.id })
       .eq("id", orderRow.id);
+
+    // ── Buyer access cookie ──
+    // The buyer is typically anonymous (no Supabase login) — Stripe sends
+    // them back to /success → /r/<id> and they shouldn't have to create an
+    // account to read the report they just paid for. We set an httpOnly
+    // cookie scoped to this specific order id; the report API treats the
+    // cookie as proof-of-purchase from the same browser. 30 days so the
+    // buyer can return to the report from email/bookmark.
+    const cookieStore = await cookies();
+    cookieStore.set(`order_${orderRow.id}`, "1", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    });
 
     return NextResponse.json({
       ok: true,
