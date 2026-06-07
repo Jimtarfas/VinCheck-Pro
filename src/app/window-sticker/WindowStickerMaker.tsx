@@ -12,6 +12,7 @@ import {
   Lock,
   X,
   ShieldCheck,
+  ArrowUp,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import AuthForm from "@/components/AuthForm";
@@ -217,6 +218,10 @@ export default function WindowStickerMaker() {
   const [auth, setAuth] = useState<AuthState>("loading");
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
+  // Mini summary bar shows only while the full sticker is scrolled off-screen,
+  // so the user always has the live total in view (mobile AND desktop) without
+  // it being redundant when the full preview is already visible.
+  const [stickerVisible, setStickerVisible] = useState(true);
   // Action queued while waiting for the user to authenticate
   const pendingActionRef = useRef<"print" | "download" | null>(null);
 
@@ -263,6 +268,25 @@ export default function WindowStickerMaker() {
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
+
+  // Track whether the full sticker is on screen — drives the mini summary bar.
+  useEffect(() => {
+    const el = document.getElementById("sticker-export");
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setStickerVisible(entry.isIntersecting),
+      // Fire as soon as any part of the sticker enters/leaves the viewport.
+      { threshold: 0 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  function scrollToSticker() {
+    document
+      .getElementById("sticker-export")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   // Lock body scroll while the auth modal is up
   useEffect(() => {
@@ -988,6 +1012,44 @@ export default function WindowStickerMaker() {
           }
         }
       `}</style>
+
+      {/* Live mini summary bar — sticks to the bottom of the screen whenever
+          the full sticker is scrolled out of view (mobile + desktop), so the
+          running total stays visible while editing. Tapping it jumps back to
+          the full preview. Hidden when the sticker is on screen, and in print. */}
+      {!stickerVisible && (
+        <button
+          type="button"
+          onClick={scrollToSticker}
+          aria-label="Scroll to full window sticker preview"
+          className="fixed inset-x-0 bottom-0 z-40 print:hidden border-t border-slate-700 bg-slate-900/95 backdrop-blur text-white shadow-[0_-4px_20px_rgba(0,0,0,0.25)]"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3">
+            <div className="min-w-0 text-left">
+              <p className="text-[10px] uppercase tracking-wider text-slate-400 leading-none">
+                Live preview
+              </p>
+              <p className="text-sm font-semibold truncate leading-tight mt-0.5">
+                {[data.year, data.make, data.model].filter(Boolean).join(" ") ||
+                  "Your vehicle"}
+              </p>
+            </div>
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="text-right">
+                <p className="text-[10px] uppercase tracking-wider text-slate-400 leading-none">
+                  Total
+                </p>
+                <p className="font-mono font-extrabold tabular-nums leading-tight mt-0.5">
+                  {formatMoney(totals.total)}
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-1 rounded-lg bg-primary-600 px-3 py-1.5 text-xs font-semibold">
+                View <ArrowUp className="w-3.5 h-3.5" />
+              </span>
+            </div>
+          </div>
+        </button>
+      )}
 
       {/* Auth gate modal — opens when a guest clicks Print or Download */}
       {authOpen && (
