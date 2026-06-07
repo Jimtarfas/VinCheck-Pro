@@ -441,72 +441,26 @@ export default function WindowStickerMaker() {
     );
   }
 
-  /* Convert an external image URL to a data URL by fetching it through the
-     browser (bypasses CORS restrictions that would taint the canvas). */
-  async function imgToDataUrl(url: string): Promise<string | null> {
-    try {
-      const res = await fetch(url);
-      if (!res.ok) return null;
-      const blob = await res.blob();
-      return await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    } catch {
-      return null;
-    }
-  }
+  /* Capture the live sticker element as a high-res canvas.
 
-  /* Capture the live sticker element as a high-res canvas using html2canvas.
-     We clone the node offscreen and replace all external <img> srcs with data
-     URLs first — this is the only reliable way to avoid the CORS canvas-taint
-     SecurityError that causes toDataURL() to silently fail. */
+     We use html-to-image (not html2canvas) because the app is built on
+     Tailwind v4, whose default palette (slate, rose, etc.) emits `oklch()`
+     colors. html2canvas 1.4.1 cannot parse oklch and throws immediately —
+     which was the silent failure. html-to-image renders through the browser's
+     own SVG <foreignObject> engine, so oklch and all modern CSS Just Work,
+     and it inlines external images (brand logo, QR) as data URLs itself. */
   async function captureCanvas(): Promise<HTMLCanvasElement | null> {
     const node = document.getElementById("sticker-export");
     if (!node) return null;
-
-    // Clone into a hidden, same-size offscreen element
-    const clone = node.cloneNode(true) as HTMLElement;
-    clone.style.cssText = `
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-      width: ${node.offsetWidth}px;
-      visibility: hidden;
-      pointer-events: none;
-    `;
-    document.body.appendChild(clone);
-
-    try {
-      // Pre-fetch every external image as a data URL so html2canvas never
-      // has to do a cross-origin request (eliminates canvas taint entirely).
-      const imgs = Array.from(clone.querySelectorAll<HTMLImageElement>("img"));
-      await Promise.all(
-        imgs.map(async (img) => {
-          const src = img.getAttribute("src");
-          if (!src || src.startsWith("data:") || src.startsWith("blob:")) return;
-          const dataUrl = await imgToDataUrl(src);
-          if (dataUrl) {
-            img.src = dataUrl;
-          } else {
-            img.style.display = "none";
-          }
-        })
-      );
-
-      const { default: html2canvas } = await import("html2canvas");
-      return await html2canvas(clone, {
-        scale: 2,
-        useCORS: false,   // not needed — all imgs are now data URLs
-        allowTaint: false,
-        backgroundColor: "#ffffff",
-        logging: false,
-      });
-    } finally {
-      document.body.removeChild(clone);
-    }
+    const { toCanvas } = await import("html-to-image");
+    return await toCanvas(node, {
+      pixelRatio: 2,
+      backgroundColor: "#ffffff",
+      cacheBust: true,
+      // Skip <link>/@font-face embedding — fonts are already loaded in-page
+      // and embedding them can fail on cross-origin font files.
+      skipFonts: true,
+    });
   }
 
   /* Download a pixel-perfect PDF of exactly what the user sees in the preview. */
