@@ -11,37 +11,48 @@ import {
   Lock,
   ShieldCheck,
   FileText,
-  Car,
-  Gauge,
-  Wrench,
-  OctagonAlert,
-  BadgeCheck,
   EyeOff,
   Info,
-  Globe,
   Mail,
   ArrowRight,
+  Image as ImageIcon,
+  Gavel,
+  OctagonAlert,
 } from "lucide-react";
+
+// ── Type mirrors src/lib/clearvin.ts ─────────────────────────────────
+
+interface ClearVinRecall {
+  Make: string;
+  Model: string;
+  ModelYear: string;
+  Component: string;
+  Summary: string;
+  Consequence: string;
+  Remedy: string;
+  Notes?: string;
+  Manufacturer: string;
+  ReportReceivedDate: string;
+  NHTSACampaignNumber: string;
+}
 
 interface PreviewData {
   vin: string;
-  year: number | null;
-  make: string | null;
-  model: string | null;
-  trim: string | null;
-  bodyType: string | null;
-  engine: string | null;
-  transmission: string | null;
-  drivetrain: string | null;
-  fuelType: string | null;
-  madeIn: string | null;
-  recordCounts: {
-    accidents: number;
-    titleBrands: number;
-    owners: number;
-    recalls: number;
-    odometerReadings: number;
-    serviceRecords: number;
+  previewImageURL: string | null;
+  imagesAmount: number;
+  auctionHistoryRecords: number;
+  recalls: ClearVinRecall[];
+  vinSpec: {
+    vin: string;
+    year: string | null;
+    make: string | null;
+    model: string | null;
+    trim: string | null;
+    engine: string | null;
+    madeIn: string | null;
+    style: string | null;
+    msrp: string | null;
+    invoice: string | null;
   };
   hasMajorIssues: boolean;
 }
@@ -116,38 +127,35 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
 
   async function handleBuy() {
     if (!preview) return;
-
-    // ── Client-side validation ──
     const trimmedEmail = email.trim();
     if (!trimmedEmail) {
       setBuyError("Please enter your email so we can deliver your report.");
-      // Bring focus to the email input so the user lands directly on the
-      // field they need to fix.
-      document
-        .querySelector<HTMLInputElement>('input[type="email"]')
-        ?.focus();
+      document.querySelector<HTMLInputElement>('input[type="email"]')?.focus();
       return;
     }
     if (!EMAIL_RE.test(trimmedEmail)) {
       setBuyError("That doesn't look like a valid email address.");
-      document
-        .querySelector<HTMLInputElement>('input[type="email"]')
-        ?.focus();
+      document.querySelector<HTMLInputElement>('input[type="email"]')?.focus();
       return;
     }
 
     setBuyError(null);
     setSubmitting(true);
     try {
+      const vehicleLabel = [
+        preview.vinSpec.year,
+        preview.vinSpec.make,
+        preview.vinSpec.model,
+      ]
+        .filter(Boolean)
+        .join(" ");
       const res = await fetch("/api/order/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           vin: preview.vin,
           email: trimmedEmail,
-          vehicleLabel: [preview.year, preview.make, preview.model]
-            .filter(Boolean)
-            .join(" "),
+          vehicleLabel,
         }),
       });
       const json = await res.json();
@@ -164,7 +172,12 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
   const priceLabel = `$${(priceCents / 100).toFixed(2)}`;
   const vehicleTitle =
     preview &&
-    ([preview.year, preview.make, preview.model, preview.trim]
+    ([
+      preview.vinSpec.year,
+      preview.vinSpec.make,
+      preview.vinSpec.model,
+      preview.vinSpec.trim,
+    ]
       .filter(Boolean)
       .join(" ") ||
       "Unknown vehicle");
@@ -222,7 +235,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
         </p>
       </form>
 
-      {/* ── Preview error ─────────────────────────────────────────── */}
+      {/* ── Preview error ────────────────────────────────────────── */}
       {previewError && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-800 flex items-start gap-2">
           <TriangleAlert className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -230,12 +243,11 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
         </div>
       )}
 
-      {/* ── Preview result ────────────────────────────────────────── */}
+      {/* ── Preview result ───────────────────────────────────────── */}
       {preview && (
         <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-3xl overflow-hidden shadow-2xl shadow-primary/10">
-          {/* Hero header — vehicle identity */}
-          <div className="relative bg-gradient-to-br from-primary via-primary-700 to-primary-800 text-white px-6 sm:px-8 py-7 overflow-hidden">
-            {/* subtle background pattern */}
+          {/* Hero header — vehicle identity + photo */}
+          <div className="relative bg-gradient-to-br from-primary via-primary-700 to-primary-800 text-white overflow-hidden">
             <div
               className="absolute inset-0 opacity-[0.08] pointer-events-none"
               style={{
@@ -244,108 +256,107 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
                 backgroundSize: "16px 16px",
               }}
             />
-            <div className="relative">
-              <div className="flex items-center justify-between gap-3 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-bold uppercase tracking-[0.16em]">
-                  <EyeOff className="w-3 h-3" />
-                  Free Preview
-                </span>
-                {preview.hasMajorIssues ? (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-500/25 border border-red-300/40 text-white text-[11px] font-bold">
-                    <OctagonAlert className="w-3.5 h-3.5" />
-                    Issues Detected
+            <div className="relative grid sm:grid-cols-[1fr_220px] gap-0">
+              {/* Identity */}
+              <div className="px-6 sm:px-8 py-7">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-bold uppercase tracking-[0.16em]">
+                    <EyeOff className="w-3 h-3" />
+                    Free Preview
                   </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-500/25 border border-green-300/40 text-white text-[11px] font-bold">
-                    <CircleCheck className="w-3.5 h-3.5" />
-                    No Red Flags
-                  </span>
-                )}
+                  {preview.hasMajorIssues ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-500/25 border border-red-300/40 text-white text-[11px] font-bold">
+                      <OctagonAlert className="w-3.5 h-3.5" />
+                      Records Found
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-green-500/25 border border-green-300/40 text-white text-[11px] font-bold">
+                      <CircleCheck className="w-3.5 h-3.5" />
+                      Clean Preview
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-[10px] uppercase font-bold tracking-[0.18em] text-white/60">
+                  Vehicle Identified
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-headline font-extrabold mt-1 tracking-tight">
+                  {vehicleTitle}
+                </h2>
+                <p className="text-xs font-mono text-white/70 mt-1">
+                  {preview.vin}
+                </p>
+
+                {/* Spec chips — only show fields ClearVin actually returned */}
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {preview.vinSpec.style && (
+                    <SpecChipDark>{preview.vinSpec.style}</SpecChipDark>
+                  )}
+                  {preview.vinSpec.engine && (
+                    <SpecChipDark>{preview.vinSpec.engine}</SpecChipDark>
+                  )}
+                  {preview.vinSpec.madeIn && (
+                    <SpecChipDark>Made in {preview.vinSpec.madeIn}</SpecChipDark>
+                  )}
+                  {preview.vinSpec.msrp && (
+                    <SpecChipDark>MSRP {preview.vinSpec.msrp}</SpecChipDark>
+                  )}
+                </div>
               </div>
 
-              <p className="text-[10px] uppercase font-bold tracking-[0.18em] text-white/60">
-                Vehicle Identified
-              </p>
-              <h2 className="text-2xl sm:text-3xl font-headline font-extrabold mt-1 tracking-tight">
-                {vehicleTitle}
-              </h2>
-              <p className="text-xs font-mono text-white/70 mt-1">{preview.vin}</p>
-
-              {/* Spec chips */}
-              <div className="flex flex-wrap gap-1.5 mt-4">
-                {preview.bodyType && (
-                  <SpecChipDark icon={Car}>{preview.bodyType}</SpecChipDark>
-                )}
-                {preview.engine && (
-                  <SpecChipDark icon={Wrench}>{preview.engine}</SpecChipDark>
-                )}
-                {preview.transmission && (
-                  <SpecChipDark icon={Gauge}>{preview.transmission}</SpecChipDark>
-                )}
-                {preview.drivetrain && (
-                  <SpecChipDark icon={ShieldCheck}>{preview.drivetrain}</SpecChipDark>
-                )}
-                {preview.fuelType && (
-                  <SpecChipDark icon={Wrench}>{preview.fuelType}</SpecChipDark>
-                )}
-                {preview.madeIn && (
-                  <SpecChipDark icon={Globe}>{preview.madeIn}</SpecChipDark>
-                )}
-              </div>
+              {/* Auction photo — provided by ClearVin */}
+              {preview.previewImageURL && (
+                <div className="relative h-40 sm:h-auto sm:min-h-[180px] bg-black/20">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={preview.previewImageURL}
+                    alt={vehicleTitle || preview.vin}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {preview.imagesAmount > 1 && (
+                    <span className="absolute bottom-2 right-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur text-white text-[11px] font-bold">
+                      <ImageIcon className="w-3 h-3" />
+                      {preview.imagesAmount} photos
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* ── What we found (record counts) ─────────────────────── */}
-          <div className="px-6 sm:px-8 py-6 bg-surface-container-lowest">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em]">
-                  Records on file
-                </p>
-                <p className="text-sm font-bold text-on-surface mt-0.5">
-                  Unlock the full detail with the paid report
-                </p>
-              </div>
-              <BadgeCheck className="w-5 h-5 text-primary hidden sm:block" />
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-              <RecordTile
-                label="Accident records"
-                count={preview.recordCounts.accidents}
-                alert={preview.recordCounts.accidents > 0}
-              />
-              <RecordTile
-                label="Title brands"
-                count={preview.recordCounts.titleBrands}
-                alert={preview.recordCounts.titleBrands > 0}
-              />
-              <RecordTile
-                label="Past owners"
-                count={preview.recordCounts.owners}
-              />
-              <RecordTile
+          {/* ── At-a-glance numbers ── */}
+          <div className="px-6 sm:px-8 py-5 bg-surface-container-lowest border-b border-outline-variant/40">
+            <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em] mb-3">
+              Records ClearVin already has on this VIN
+            </p>
+            <div className="grid grid-cols-3 gap-3">
+              <PreviewStat
                 label="Open recalls"
-                count={preview.recordCounts.recalls}
-                alert={preview.recordCounts.recalls > 0}
+                count={preview.recalls.length}
+                alert={preview.recalls.length > 0}
               />
-              <RecordTile
-                label="Odometer readings"
-                count={preview.recordCounts.odometerReadings}
+              <PreviewStat
+                label="Auction history"
+                count={preview.auctionHistoryRecords}
+                alert={preview.auctionHistoryRecords > 0}
               />
-              <RecordTile
-                label="Service records"
-                count={preview.recordCounts.serviceRecords}
+              <PreviewStat
+                label="Photos on file"
+                count={preview.imagesAmount}
               />
             </div>
 
-            {/* What you get bullets — adds purchase clarity */}
-            <div className="mt-5 grid sm:grid-cols-2 gap-x-4 gap-y-1.5">
+            {/* Honest copy — explain what the full report adds */}
+            <div className="mt-4 grid sm:grid-cols-2 gap-x-4 gap-y-1.5">
               {[
-                "Every record above with dates, states & details",
-                "NHTSA recall remedies & service history",
-                "Odometer rollback detection",
-                "Title brand history across all states",
+                "Full title brand history & all recorded states",
+                "Reported accident records with severity",
+                "Every odometer reading from DMV transfers",
+                "Past owners & registration transfers",
+                "Service & maintenance records",
+                "Theft / total-loss / lemon flags",
               ].map((b) => (
                 <p
                   key={b}
@@ -357,6 +368,57 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               ))}
             </div>
           </div>
+
+          {/* ── Recalls (ClearVin returns full detail in preview) ── */}
+          {preview.recalls.length > 0 && (
+            <div className="px-6 sm:px-8 py-5 border-b border-outline-variant/40">
+              <div className="flex items-center gap-2 mb-3">
+                <OctagonAlert className="w-4 h-4 text-amber-700" />
+                <p className="text-sm font-bold text-on-surface">
+                  Active safety recalls ({preview.recalls.length})
+                </p>
+              </div>
+              <div className="space-y-2">
+                {preview.recalls.slice(0, 3).map((r) => (
+                  <div
+                    key={r.NHTSACampaignNumber}
+                    className="border border-amber-200 bg-amber-50 rounded-xl px-3 py-2.5 text-[12px]"
+                  >
+                    <p className="font-bold text-amber-900">
+                      {r.Component}{" "}
+                      <span className="font-mono text-[11px] text-amber-700">
+                        · {r.NHTSACampaignNumber}
+                      </span>
+                    </p>
+                    <p className="text-amber-900 mt-1 line-clamp-2">
+                      {r.Summary}
+                    </p>
+                  </div>
+                ))}
+                {preview.recalls.length > 3 && (
+                  <p className="text-[11px] text-on-surface-variant text-center pt-1">
+                    + {preview.recalls.length - 3} more in the full report
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── Auction-history teaser ── */}
+          {preview.auctionHistoryRecords > 0 && (
+            <div className="px-6 sm:px-8 py-4 border-b border-outline-variant/40 flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-primary/8 flex items-center justify-center flex-shrink-0">
+                <Gavel className="w-4 h-4 text-primary" />
+              </div>
+              <p className="text-[12px] text-on-surface-variant">
+                <strong className="text-on-surface">
+                  {preview.auctionHistoryRecords} auction-history record
+                  {preview.auctionHistoryRecords === 1 ? "" : "s"}
+                </strong>{" "}
+                on file — unlocked with the full report.
+              </p>
+            </div>
+          )}
 
           {/* ── Buy section ──────────────────────────────────────── */}
           <div className="px-6 sm:px-8 py-6 bg-surface-container/40 border-t border-outline-variant/40">
@@ -399,7 +461,6 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  // Clear the error as soon as the user starts typing again
                   if (buyError) setBuyError(null);
                 }}
                 placeholder="you@example.com"
@@ -414,8 +475,6 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               />
             </div>
 
-            {/* Inline error — shown directly above the order button so the
-                user sees it without scrolling and knows exactly what to fix. */}
             {buyError && (
               <div
                 id="order-buy-error"
@@ -447,13 +506,11 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               )}
             </button>
 
-            {/* ── NMVTIS DISCLAIMER — required by ClearVin spec ──
-                 Must sit directly below the order button on every page
-                 of the checkout flow. Wording mirrors ClearVin's own
-                 checkout copy. */}
+            {/* Consent + NMVTIS link */}
             <div className="mt-3 px-3 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
               <p className="text-[11px] text-on-surface-variant leading-relaxed text-center">
-                By clicking <strong className="text-on-surface">Order Full Report</strong>{" "}
+                By clicking{" "}
+                <strong className="text-on-surface">Order Full Report</strong>{" "}
                 you acknowledge that this report is for your personal use only
                 and you agree to our{" "}
                 <Link
@@ -507,7 +564,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
           {/* ── Data provider attribution (ClearVin compliance) ─── */}
           <div className="px-6 sm:px-8 py-3 bg-surface-container-low border-t border-outline-variant/40">
             <p className="text-[10px] text-on-surface-variant flex flex-wrap items-center justify-center gap-1.5">
-              <BadgeCheck className="w-3 h-3 text-primary" />
+              <ShieldCheck className="w-3 h-3 text-primary" />
               <span>
                 Vehicle data sourced from{" "}
                 <strong className="text-on-surface">ClearVin LLC</strong>, an
@@ -518,12 +575,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
         </div>
       )}
 
-      {/* ── FEDERALLY-MANDATED NMVTIS DISCLOSURE ON CHECKOUT ───────
-           ClearVin's integration spec requires this disclaimer text to
-           appear *on the checkout page itself* (not just behind a link).
-           Wording mirrors the official NMVTIS consumer-access notice
-           published at clearvin.com/en/terms-and-conditions/#nmvtis-disclaimer
-           and the federal regulation at 28 CFR Part 25, Subpart C. */}
+      {/* ── FEDERALLY-MANDATED NMVTIS DISCLOSURE ON CHECKOUT ───── */}
       <div className="bg-surface-container-low border border-outline-variant/40 rounded-2xl px-5 sm:px-6 py-5">
         <div className="flex items-start gap-3 mb-3">
           <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center flex-shrink-0">
@@ -541,19 +593,19 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
 
         <div className="space-y-3 text-[12px] text-on-surface-variant leading-relaxed">
           <p>
-            The National Motor Vehicle Title Information System (NMVTIS) is
-            an electronic system that contains information on certain
-            automobiles titled in the United States. NMVTIS is intended to
-            serve as a reliable source of title and brand history for
-            automobiles, but it does not contain detailed information
-            regarding the vehicle&rsquo;s repair history.
+            The National Motor Vehicle Title Information System (NMVTIS) is an
+            electronic system that contains information on certain automobiles
+            titled in the United States. NMVTIS is intended to serve as a
+            reliable source of title and brand history for automobiles, but it
+            does not contain detailed information regarding the vehicle&rsquo;s
+            repair history.
           </p>
           <p>
             All states, insurance carriers, and junk and salvage yards are
-            required by federal law to report information to NMVTIS.
-            However, NMVTIS data is supplied by current data providers, and
-            the data for any vehicle may not be in the system if the data
-            providers are not yet reporting.
+            required by federal law to report information to NMVTIS. However,
+            NMVTIS data is supplied by current data providers, and the data
+            for any vehicle may not be in the system if the data providers are
+            not yet reporting.
           </p>
           <p>
             While NMVTIS is designed to protect consumers from fraud and
@@ -565,14 +617,14 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
           </p>
           <p>
             <strong>
-              Before purchasing a vehicle, in addition to obtaining a
-              vehicle history report, consumers should:
+              Before purchasing a vehicle, in addition to obtaining a vehicle
+              history report, consumers should:
             </strong>
           </p>
           <ul className="ml-4 list-disc space-y-1">
             <li>
-              Obtain an independent vehicle inspection by a qualified
-              mechanic of their choosing.
+              Obtain an independent vehicle inspection by a qualified mechanic
+              of their choosing.
             </li>
             <li>
               Verify that the vehicle identification number (VIN) on the
@@ -585,9 +637,8 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
             </li>
           </ul>
           <p>
-            For more information about NMVTIS, the data included in the
-            system, and the definitions of the standard NMVTIS brands,
-            please visit{" "}
+            For more information about NMVTIS, the data included in the system,
+            and the definitions of the standard NMVTIS brands, please visit{" "}
             <a
               href="https://vehiclehistory.bja.ojp.gov"
               target="_blank"
@@ -611,24 +662,17 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
   );
 }
 
-// ── Subcomponents ─────────────────────────────────────────────────────
+// ── Subcomponents ────────────────────────────────────────────────────
 
-function SpecChipDark({
-  icon: Icon,
-  children,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  children: React.ReactNode;
-}) {
+function SpecChipDark({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] font-medium text-white/95 backdrop-blur-sm">
-      <Icon className="w-3 h-3 text-white/70" />
+    <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] font-medium text-white/95 backdrop-blur-sm">
       {children}
     </span>
   );
 }
 
-function RecordTile({
+function PreviewStat({
   label,
   count,
   alert,
@@ -640,7 +684,7 @@ function RecordTile({
   const hasData = count > 0;
   return (
     <div
-      className={`relative flex flex-col items-start justify-center rounded-xl px-3 py-3 border transition ${
+      className={`relative flex flex-col items-start justify-center rounded-xl px-3 py-3 border ${
         alert
           ? "bg-red-50/70 border-red-200"
           : hasData
@@ -653,20 +697,11 @@ function RecordTile({
       </span>
       <span
         className={`text-xl font-headline font-extrabold leading-none mt-1.5 ${
-          alert
-            ? "text-red-700"
-            : hasData
-            ? "text-primary"
-            : "text-outline"
+          alert ? "text-red-700" : hasData ? "text-primary" : "text-outline"
         }`}
       >
         {hasData ? count : "0"}
       </span>
-      {alert && (
-        <span className="absolute top-1.5 right-1.5">
-          <TriangleAlert className="w-3 h-3 text-red-500" />
-        </span>
-      )}
     </div>
   );
 }
