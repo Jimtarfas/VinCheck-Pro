@@ -151,43 +151,10 @@ function uid(): string {
   return Math.random().toString(36).slice(2, 9);
 }
 
-/* Replaced elements keep their exact box; everything else lets layout reflow. */
-const KEEP_SIZE_TAGS = new Set(["IMG", "SVG", "CANVAS", "VIDEO"]);
-
-/* Walk a laid-out source tree and copy each element's computed style onto the
-   matching node in a detached destination clone (same structure). Lets us
-   export a Tailwind-styled sticker as a standalone, self-styled HTML file.
-
-   We deliberately DROP `width`/`height` for non-replaced elements: baking the
-   exact rendered width onto a text box makes it re-wrap if the target document
-   measures the font even 1px differently (which is exactly what mangled the
-   printed/exported sticker — "TOTAL VEHICLE PRICE" broke onto two lines). With
-   width/height omitted, flex/grid/padding still drive structure and text sizes
-   to its natural content. The root width is pinned by the export stylesheet. */
-function inlineComputedStyles(src: Element, dest: Element): void {
-  const cs = window.getComputedStyle(src);
-  const dropSize = !KEEP_SIZE_TAGS.has(src.tagName);
-  const decls: string[] = [];
-  for (let i = 0; i < cs.length; i++) {
-    const prop = cs[i];
-    if (dropSize && (prop === "width" || prop === "height")) continue;
-    decls.push(`${prop}:${cs.getPropertyValue(prop)}`);
-  }
-  dest.setAttribute("style", decls.join(";"));
-  dest.removeAttribute("class");
-  const srcKids = src.children;
-  const destKids = dest.children;
-  for (let i = 0; i < srcKids.length; i++) {
-    const d = destKids[i];
-    if (d) inlineComputedStyles(srcKids[i], d);
-  }
-}
-
-/* QR image (renders in preview, print, and the exported file) that points to
-   the live vehicle report for this VIN — "scan to open window sticker". */
+/* QR image — PNG so html2canvas can render it faithfully in the exported PDF. */
 function qrUrl(vin: string): string {
   const target = `https://www.carcheckervin.com/report/${encodeURIComponent(vin)}`;
-  return `https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&format=svg&data=${encodeURIComponent(target)}`;
+  return `https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=4&format=png&data=${encodeURIComponent(target)}`;
 }
 
 /* OEM manufacturer logo (Ford oval, Toyota mark, etc.) by make, via the public
@@ -222,6 +189,7 @@ export default function WindowStickerMaker() {
   // so the user always has the live total in view (mobile AND desktop) without
   // it being redundant when the full preview is already visible.
   const [stickerVisible, setStickerVisible] = useState(true);
+  const [generatingPdf, setGeneratingPdf] = useState(false);
   // Action queued while waiting for the user to authenticate
   const pendingActionRef = useRef<"print" | "download" | null>(null);
 
@@ -458,145 +426,115 @@ export default function WindowStickerMaker() {
     doPrint();
   }
 
-  function handleDownloadHtml() {
+  function handleDownloadPdf() {
     if (!requireAuth("download")) return;
-    doDownloadHtml();
+    doPdf();
   }
 
-  // Build a fully self-contained HTML document that renders identically to the
-  // on-screen sticker. The preview is styled with Tailwind utility classes,
-  // which won't exist in a standalone document — so we render an offscreen copy
-  // at a fixed width, read every element's *computed* style, and bake those
-  // values into inline styles on a detached clone. The result is a real,
-  // portable Monroney label, used for BOTH download and print so the two paths
-  // can never diverge.
-  //
-  // The sticker is built at 720px — narrow enough to fit the ~7.7in printable
-  // width of a letter page (margins .4in) WITHOUT any print-only scaling. That
-  // is the key to print matching download/website exactly: there is no @media
-  // print transform to make the printed copy look different (an earlier
-  // transform:scale left the printout shrunk and pinned to the top-left).
-  const EXPORT_WIDTH = 720;
-
-  function buildStickerHtml(): string | null {
-    const node = document.getElementById("sticker-export");
-    if (!node) return null;
-
-    const stage = document.createElement("div");
-    stage.style.cssText = `position:fixed;left:-100000px;top:0;width:${EXPORT_WIDTH}px;opacity:0;pointer-events:none;`;
-    const laidOut = node.cloneNode(true) as HTMLElement;
-    laidOut.style.width = `${EXPORT_WIDTH}px`;
-    stage.appendChild(laidOut);
-    document.body.appendChild(stage);
-
-    const exported = laidOut.cloneNode(true) as HTMLElement;
-    inlineComputedStyles(laidOut, exported);
-    document.body.removeChild(stage);
-
+  function stickerFileName(): string {
     return (
-      `<!doctype html><html lang="en"><head><meta charset="utf-8">` +
-      `<meta name="viewport" content="width=device-width, initial-scale=1">` +
-      `<title>${data.year} ${data.make} ${data.model} Window Sticker</title>` +
-      `<style>*{box-sizing:border-box}html,body{margin:0}` +
-      `body{background:#e2e8f0;padding:24px;display:flex;justify-content:center;` +
-      `font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}` +
-      `#sticker-export{width:${EXPORT_WIDTH}px;flex:0 0 auto}` +
-      // Print uses the very same layout — only the page chrome changes, so the
-      // printed/PDF sticker is identical to the downloaded one.
-      `@media print{@page{size:letter portrait;margin:.4in}` +
-      `body{background:#fff;padding:0}}` +
-      `</style></head><body>${exported.outerHTML}</body></html>`
-    );
-  }
-
-  function doPrint() {
-    const html = buildStickerHtml();
-    // Fire-and-forget: track the print action
-    fetch("/api/window-sticker/track", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "print" }),
-    }).catch(() => {});
-    if (!html) {
-      if (typeof window !== "undefined") window.print();
-      return;
-    }
-
-    // Render the self-contained sticker in a hidden iframe and print only that.
-    const iframe = document.createElement("iframe");
-    iframe.setAttribute("aria-hidden", "true");
-    iframe.style.cssText =
-      "position:fixed;right:0;bottom:0;width:0;height:0;border:0;";
-    document.body.appendChild(iframe);
-
-    const doc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (!doc) {
-      iframe.remove();
-      window.print();
-      return;
-    }
-    doc.open();
-    doc.write(html);
-    doc.close();
-
-    let printed = false;
-    const triggerPrint = () => {
-      if (printed) return;
-      printed = true;
-      const win = iframe.contentWindow;
-      if (win) {
-        win.focus();
-        win.print();
-      }
-      setTimeout(() => iframe.remove(), 500);
-    };
-
-    // Wait for images (QR code, brand logo) to finish loading before printing,
-    // otherwise the printout shows broken-image alt text. Cap the wait so a slow
-    // CDN can't hang the print dialog forever.
-    const imgs = Array.from(doc.images);
-    const pending = imgs.filter((img) => !img.complete);
-    if (pending.length === 0) {
-      triggerPrint();
-    } else {
-      let remaining = pending.length;
-      const one = () => {
-        remaining -= 1;
-        if (remaining <= 0) triggerPrint();
-      };
-      pending.forEach((img) => {
-        img.addEventListener("load", one);
-        img.addEventListener("error", one);
-      });
-      setTimeout(triggerPrint, 2500);
-    }
-  }
-
-  function doDownloadHtml() {
-    const html = buildStickerHtml();
-    if (!html) return;
-
-    // Fire-and-forget: track the sticker download
-    fetch("/api/window-sticker/track", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "download" }),
-    }).catch(() => {});
-
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    const safeName =
       `${data.year}-${data.make}-${data.model}`
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "") || "window-sticker";
-    a.href = url;
-    a.download = `${safeName}-window-sticker.html`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+        .replace(/^-+|-+$/g, "") || "window-sticker"
+    );
+  }
+
+  /* Capture the live sticker element as a high-res canvas using html2canvas.
+     useCORS lets the brand logo + QR images (external CDNs) render correctly.
+     scale:2 gives retina-quality output (the canvas is 2× the DOM pixels). */
+  async function captureCanvas(): Promise<HTMLCanvasElement | null> {
+    const node = document.getElementById("sticker-export");
+    if (!node) return null;
+    const { default: html2canvas } = await import("html2canvas");
+    return html2canvas(node, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: "#ffffff",
+      logging: false,
+    });
+  }
+
+  /* Download a pixel-perfect PDF of exactly what the user sees in the preview. */
+  async function doPdf() {
+    setGeneratingPdf(true);
+    try {
+      const canvas = await captureCanvas();
+      if (!canvas) return;
+
+      const { default: jsPDF } = await import("jspdf");
+
+      // Fit the sticker width to an A4 page (210 mm) with 10 mm side margins.
+      const pageW = 210;
+      const margins = 10;
+      const printW = pageW - margins * 2;
+      const ratio = canvas.height / canvas.width;
+      const printH = printW * ratio;
+
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: [pageW, printH + margins * 2],
+      });
+
+      pdf.addImage(
+        canvas.toDataURL("image/png"),
+        "PNG",
+        margins,
+        margins,
+        printW,
+        printH
+      );
+
+      pdf.save(`${stickerFileName()}-window-sticker.pdf`);
+
+      fetch("/api/window-sticker/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "download" }),
+      }).catch(() => {});
+    } finally {
+      setGeneratingPdf(false);
+    }
+  }
+
+  /* Print: render to canvas → open a minimal print window with the PNG so the
+     browser's print dialog shows exactly what the preview shows, including all
+     logos. The user can choose their printer or "Save as PDF". */
+  async function doPrint() {
+    setGeneratingPdf(true);
+    try {
+      const canvas = await captureCanvas();
+      if (!canvas) { window.print(); return; }
+
+      const imgSrc = canvas.toDataURL("image/png");
+      const win = window.open("", "_blank");
+      if (!win) { window.print(); return; }
+
+      win.document.write(
+        `<!doctype html><html><head>` +
+        `<title>${data.year} ${data.make} ${data.model} Window Sticker</title>` +
+        `<style>` +
+        `*{margin:0;padding:0;box-sizing:border-box}` +
+        `body{background:#fff}` +
+        `img{display:block;width:100%;height:auto}` +
+        `@media print{@page{size:auto;margin:0.4in}body{background:#fff}}` +
+        `</style></head><body>` +
+        `<img src="${imgSrc}" alt="Window sticker"/>` +
+        `<script>window.onload=function(){window.print();}<\/script>` +
+        `</body></html>`
+      );
+      win.document.close();
+
+      fetch("/api/window-sticker/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "print" }),
+      }).catch(() => {});
+    } finally {
+      setGeneratingPdf(false);
+    }
   }
 
   const standardList = data.standardEquipment
@@ -967,27 +905,33 @@ export default function WindowStickerMaker() {
             <div className="flex gap-2">
               <button
                 type="button"
-                onClick={handleDownloadHtml}
-                className="px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-700 text-sm font-semibold hover:border-primary-400 hover:text-primary-700 transition inline-flex items-center gap-1.5"
+                onClick={handleDownloadPdf}
+                disabled={generatingPdf}
+                className="px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-700 text-sm font-semibold hover:border-primary-400 hover:text-primary-700 transition inline-flex items-center gap-1.5 disabled:opacity-60 disabled:cursor-wait"
               >
-                {auth === "guest" ? (
+                {generatingPdf ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : auth === "guest" ? (
                   <Lock className="w-4 h-4" />
                 ) : (
                   <Download className="w-4 h-4" />
                 )}
-                Download
+                {generatingPdf ? "Generating…" : "Download PDF"}
               </button>
               <button
                 type="button"
                 onClick={handlePrint}
-                className="px-3 py-2 rounded-lg bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition inline-flex items-center gap-1.5"
+                disabled={generatingPdf}
+                className="px-3 py-2 rounded-lg bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition inline-flex items-center gap-1.5 disabled:opacity-60 disabled:cursor-wait"
               >
-                {auth === "guest" ? (
+                {generatingPdf ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : auth === "guest" ? (
                   <Lock className="w-4 h-4" />
                 ) : (
                   <Printer className="w-4 h-4" />
                 )}
-                Print / Save as PDF
+                Print
               </button>
             </div>
           </div>
@@ -1001,30 +945,6 @@ export default function WindowStickerMaker() {
           </p>
         </div>
       </div>
-
-      {/* Print CSS — hide everything except the sticker */}
-      <style jsx global>{`
-        @media print {
-          @page {
-            size: letter portrait;
-            margin: 0.4in;
-          }
-          body * {
-            visibility: hidden !important;
-          }
-          #sticker-export,
-          #sticker-export * {
-            visibility: visible !important;
-          }
-          #sticker-export {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            box-shadow: none !important;
-          }
-        }
-      `}</style>
 
       {/* Live mini summary bar — sticks to the bottom of the screen whenever
           the full sticker is scrolled out of view (mobile + desktop), so the
