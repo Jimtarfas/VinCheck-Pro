@@ -913,12 +913,7 @@ export default function WindowStickerMaker() {
 
       {/* ── PREVIEW ── */}
       <div>
-        {/* Sticky so the sticker tracks the user while they scroll the long
-            form. The sticker is usually taller than the viewport, so we cap
-            the height to the screen and let it scroll internally — that keeps
-            the WHOLE label (incl. totals + EPA panel) reachable as it follows.
-            Scoped to lg; reset for print so the export is never clipped. */}
-        <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:px-1 lg:pb-1 print:max-h-none print:overflow-visible print:px-0">
+        <div className="lg:sticky lg:top-24">
           <div className="flex items-center justify-between mb-3 print:hidden">
             <div>
               <h2 className="text-lg font-bold text-slate-900">Live Preview</h2>
