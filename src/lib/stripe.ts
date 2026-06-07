@@ -15,11 +15,35 @@
 
 const SECRET = () => process.env.STRIPE_SECRET_KEY || "";
 const PRICE_CENTS = () => Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499");
+
 // Checkout success/cancel URLs live on the app. subdomain — that's where the
 // /order flow is publicly served. The pretty paths on app. (/, /success, /r/<id>)
 // are rewritten onto /order/* by src/proxy.ts.
-const APP_ORIGIN = () =>
-  process.env.NEXT_PUBLIC_APP_URL || "https://app.carcheckervin.com";
+const DEFAULT_APP_ORIGIN = "https://app.carcheckervin.com";
+
+/**
+ * Returns a guaranteed-valid app origin string with `https://` prefix and no
+ * trailing slash. Hardened against the common Vercel-env-var mistakes that
+ * cause Stripe to reject success/cancel URLs:
+ *   - missing protocol  ("app.carcheckervin.com")     → prepend https://
+ *   - trailing slash    ("https://app.carcheckervin.com/")  → strip it
+ *   - stray whitespace                                → trim
+ *   - empty string                                    → use the default
+ */
+function getAppOrigin(): string {
+  const raw = (process.env.NEXT_PUBLIC_APP_URL || "").trim();
+  if (!raw) return DEFAULT_APP_ORIGIN;
+  let v = raw;
+  if (!/^https?:\/\//i.test(v)) v = `https://${v}`;
+  v = v.replace(/\/+$/, "");
+  try {
+    // Validate that what we built is a real URL — fall back to default if not.
+    new URL(v);
+    return v;
+  } catch {
+    return DEFAULT_APP_ORIGIN;
+  }
+}
 
 export const stripeConfig = {
   isConfigured: () => !!SECRET(),
@@ -50,11 +74,12 @@ export interface CreatedCheckoutSession {
 export async function createCheckoutSession(
   input: CreateCheckoutSessionInput
 ): Promise<CreatedCheckoutSession> {
-  const site = APP_ORIGIN();
+  const site = getAppOrigin();
   // Pretty subdomain URLs — the proxy rewrites these onto /order/* internally.
+  // {CHECKOUT_SESSION_ID} is a Stripe-substituted placeholder, not URL syntax.
   const successUrl =
     input.successUrl ||
-    `${site}/success?session_id={CHECKOUT_SESSION_ID}&order=${input.orderId}`;
+    `${site}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURIComponent(input.orderId)}`;
   const cancelUrl =
     input.cancelUrl ||
     `${site}/?vin=${encodeURIComponent(input.vin)}&cancelled=1`;
@@ -106,9 +131,32 @@ export async function createCheckoutSession(
     },
     body,
   });
-  const data = (await res.json()) as { id?: string; url?: string; error?: { message?: string } };
+  const data = (await res.json()) as {
+    id?: string;
+    url?: string;
+    error?: { message?: string; param?: string };
+  };
   if (!res.ok || !data.id || !data.url) {
-    throw new Error(`Stripe checkout failed: ${data.error?.message || res.statusText}`);
+    // Echo back the specific URL that Stripe rejected so the user can see at
+    // a glance whether the issue is the success_url, cancel_url, or something
+    // else (e.g. price, customer_email). Logged server-side and surfaced in
+    // the API error so the UI can render it directly.
+    const param = data.error?.param;
+    const msg = data.error?.message || res.statusText;
+    let context = "";
+    if (param === "success_url") context = ` (success_url=${successUrl})`;
+    else if (param === "cancel_url") context = ` (cancel_url=${cancelUrl})`;
+    else if (param) context = ` (param=${param})`;
+    // eslint-disable-next-line no-console
+    console.error("[stripe] checkout session create failed:", {
+      status: res.status,
+      message: msg,
+      param,
+      successUrl,
+      cancelUrl,
+      site,
+    });
+    throw new Error(`Stripe checkout failed: ${msg}${context}`);
   }
   return { id: data.id, url: data.url };
 }
