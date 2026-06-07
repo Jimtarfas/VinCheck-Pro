@@ -2,8 +2,26 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
-import { fetchFullReport } from "@/lib/clearvin";
+import { fetchFullReport, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig, fetchCheckoutSession } from "@/lib/stripe";
+
+/**
+ * A stored ClearVin report is "mock" when its requestId starts with the
+ * literal "mock-" prefix produced by mockFullReport() in src/lib/clearvin.ts.
+ * This lets us auto-upgrade orders that were delivered before the real
+ * ClearVin token was wired into the environment.
+ */
+function isMockReport(report: unknown): boolean {
+  if (!report || typeof report !== "object") return false;
+  const r = report as { requestId?: unknown; html?: unknown };
+  if (typeof r.requestId === "string" && r.requestId.startsWith("mock-")) {
+    return true;
+  }
+  // Legacy fallback: very old mock objects didn't have requestId but did
+  // carry a `raw.mock` flag from the previous schema.
+  if ((r as { raw?: { mock?: unknown } }).raw?.mock === true) return true;
+  return false;
+}
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -176,7 +194,11 @@ export async function GET(
   }
 
   // ─── Deliver the report ───
-  if (order.clearvin_report) {
+  // If we have a stored report AND it's not a cached mock waiting for the
+  // real credentials, serve it. Otherwise fall through to the refetch path
+  // below — this auto-upgrades any order that was created before the
+  // ClearVin token was wired into the environment.
+  if (order.clearvin_report && !(isMockReport(order.clearvin_report) && !isUsingMockData())) {
     return NextResponse.json({
       ok: true,
       status: order.status,
@@ -191,7 +213,8 @@ export async function GET(
     });
   }
 
-  // Paid but missing report → re-attempt ClearVin fetch on demand.
+  // Either no report yet, OR a cached mock that needs to be replaced now
+  // that real credentials are available. Hit ClearVin again.
   const refetch = await fetchFullReport(order.vin, order.id);
   if (!("ok" in refetch) || refetch.ok !== true) {
     await admin
