@@ -162,6 +162,59 @@ export async function createCheckoutSession(
 }
 
 /**
+ * Look up a single Checkout Session by id. Used as a fallback when the
+ * Stripe webhook is missing/misconfigured: the report API can ask Stripe
+ * directly whether a session was paid and promote the order itself, so the
+ * buyer never gets stuck on a "Waiting for payment confirmation" spinner
+ * because of a webhook problem on the operator's end.
+ *
+ * Returns null on any failure (network, wrong key, session not found) so
+ * the caller can treat "couldn't reach Stripe" as "still pending".
+ */
+export async function fetchCheckoutSession(
+  sessionId: string
+): Promise<{
+  id: string;
+  payment_status: "paid" | "unpaid" | "no_payment_required";
+  status: "open" | "complete" | "expired";
+  payment_intent: string | null;
+  amount_total: number | null;
+  currency: string | null;
+} | null> {
+  if (!stripeConfig.isConfigured() || !sessionId) return null;
+  try {
+    const res = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${SECRET()}` },
+        signal: AbortSignal.timeout(5000),
+      }
+    );
+    if (!res.ok) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "[stripe] fetchCheckoutSession failed",
+        res.status,
+        res.statusText
+      );
+      return null;
+    }
+    const json = (await res.json()) as {
+      id: string;
+      payment_status: "paid" | "unpaid" | "no_payment_required";
+      status: "open" | "complete" | "expired";
+      payment_intent: string | null;
+      amount_total: number | null;
+      currency: string | null;
+    };
+    return json;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Verify a Stripe webhook signature. Returns the parsed event if valid,
  * or null. Implemented manually (HMAC SHA-256) so we don't have to install
  * the `stripe` SDK just for this.

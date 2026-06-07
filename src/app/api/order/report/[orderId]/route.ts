@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReport } from "@/lib/clearvin";
-import { stripeConfig } from "@/lib/stripe";
+import { stripeConfig, fetchCheckoutSession } from "@/lib/stripe";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,7 +40,7 @@ export async function GET(
   const { data: order, error } = await admin
     .from("report_orders")
     .select(
-      "id, user_id, user_email, vin, vehicle_label, status, amount_cents, currency, clearvin_report, clearvin_fetched_at, clearvin_error, paid_at, delivered_at, created_at"
+      "id, user_id, user_email, vin, vehicle_label, status, amount_cents, currency, clearvin_report, clearvin_fetched_at, clearvin_error, paid_at, delivered_at, created_at, stripe_session_id, stripe_payment_intent_id"
     )
     .eq("id", orderId)
     .single();
@@ -108,7 +108,44 @@ export async function GET(
         })
         .eq("id", order.id);
       order.status = "paid";
+    } else if (order.stripe_session_id) {
+      // ── Webhook fallback ──
+      // The order is still `pending` even though the buyer is sitting on the
+      // success page. Most common cause: the Stripe webhook endpoint is
+      // misconfigured or the signing secret is wrong, so checkout.session
+      // .completed never reached us. Rather than leave the buyer stuck on a
+      // spinner, ask Stripe directly. If Stripe says the session is paid,
+      // promote the order here and fall through to the report fetch below.
+      const sess = await fetchCheckoutSession(order.stripe_session_id);
+      if (sess && sess.payment_status === "paid" && sess.status === "complete") {
+        await admin
+          .from("report_orders")
+          .update({
+            status: "paid",
+            paid_at: new Date().toISOString(),
+            stripe_payment_intent_id: sess.payment_intent || null,
+          })
+          .eq("id", order.id);
+        order.status = "paid";
+        order.stripe_payment_intent_id = sess.payment_intent || null;
+      } else {
+        // Genuinely still pending (or Stripe unreachable) — tell the client
+        // to keep polling.
+        return NextResponse.json({
+          ok: true,
+          status: "pending",
+          message: "Payment not yet confirmed. Refresh this page shortly.",
+          order: {
+            id: order.id,
+            vin: order.vin,
+            vehicleLabel: order.vehicle_label,
+            amountCents: order.amount_cents,
+            currency: order.currency,
+          },
+        });
+      }
     } else {
+      // No session id stashed — nothing to fall back to.
       return NextResponse.json({
         ok: true,
         status: "pending",
