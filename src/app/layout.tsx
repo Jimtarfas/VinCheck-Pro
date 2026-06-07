@@ -102,6 +102,15 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const isReviewSubdomain = host === "reviews.carcheckervin.com";
   const logoHref = isReviewSubdomain ? SITE : "/";
 
+  // The app. subdomain serves the standalone ClearVin checkout flow
+  // (/order/* via proxy rewrite). It supplies its own minimal header
+  // and compliance footer (see src/app/order/layout.tsx) so we skip
+  // the marketing Header + Footer entirely on that host. usePathname()
+  // returns the original "/" URL (not the rewritten /order), which is
+  // why the client-side check alone doesn't catch it — the host check
+  // here is authoritative.
+  const isAppSubdomain = host === "app.carcheckervin.com";
+
   const organizationLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -329,9 +338,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <Header logoHref={logoHref} />
+        {!isAppSubdomain && <Header logoHref={logoHref} />}
         <main className="flex-1">{children}</main>
-        <ConditionalFooter />
+        {!isAppSubdomain && <ConditionalFooter />}
         <ChatWidgetMount />
         <SocialProofMount />
         {/*
