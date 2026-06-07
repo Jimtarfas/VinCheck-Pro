@@ -63,7 +63,15 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
   const [preview, setPreview] = useState<PreviewData | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
+  // `buyError` is shown right next to the order button so the user can't
+  // miss it (e.g. missing email). `previewError` lives further up the
+  // card and would be off-screen by the time the user clicks "Order".
+  const [buyError, setBuyError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  // Minimal RFC-5322-ish check — good enough to catch typos client-side
+  // before we waste a roundtrip to /api/order/checkout.
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   // Pre-fill VIN from `?vin=` query string (e.g. after a cancelled checkout)
   useEffect(() => {
@@ -108,6 +116,27 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
 
   async function handleBuy() {
     if (!preview) return;
+
+    // ── Client-side validation ──
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
+      setBuyError("Please enter your email so we can deliver your report.");
+      // Bring focus to the email input so the user lands directly on the
+      // field they need to fix.
+      document
+        .querySelector<HTMLInputElement>('input[type="email"]')
+        ?.focus();
+      return;
+    }
+    if (!EMAIL_RE.test(trimmedEmail)) {
+      setBuyError("That doesn't look like a valid email address.");
+      document
+        .querySelector<HTMLInputElement>('input[type="email"]')
+        ?.focus();
+      return;
+    }
+
+    setBuyError(null);
     setSubmitting(true);
     try {
       const res = await fetch("/api/order/checkout", {
@@ -115,7 +144,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           vin: preview.vin,
-          email: email.trim() || undefined,
+          email: trimmedEmail,
           vehicleLabel: [preview.year, preview.make, preview.model]
             .filter(Boolean)
             .join(" "),
@@ -128,7 +157,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
       router.push(json.url);
     } catch (e) {
       setSubmitting(false);
-      setPreviewError(e instanceof Error ? e.message : "Checkout failed.");
+      setBuyError(e instanceof Error ? e.message : "Checkout failed.");
     }
   }
 
@@ -352,20 +381,51 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
             </div>
 
             {/* Email */}
-            <label className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em] mb-1.5">
+            <label
+              htmlFor="order-email"
+              className="block text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em] mb-1.5"
+            >
               Email for receipt &amp; report
             </label>
             <div className="relative mb-3">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-outline" />
+              <Mail
+                className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${
+                  buyError ? "text-red-500" : "text-outline"
+                }`}
+              />
               <input
+                id="order-email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  // Clear the error as soon as the user starts typing again
+                  if (buyError) setBuyError(null);
+                }}
                 placeholder="you@example.com"
                 required
-                className="w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-white"
+                aria-invalid={buyError ? "true" : "false"}
+                aria-describedby={buyError ? "order-buy-error" : undefined}
+                className={`w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border outline-none bg-white transition ${
+                  buyError
+                    ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100"
+                    : "border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/15"
+                }`}
               />
             </div>
+
+            {/* Inline error — shown directly above the order button so the
+                user sees it without scrolling and knows exactly what to fix. */}
+            {buyError && (
+              <div
+                id="order-buy-error"
+                role="alert"
+                className="mb-3 flex items-start gap-2 px-3 py-2.5 rounded-lg bg-red-50 border border-red-200 text-[12px] text-red-800 leading-snug"
+              >
+                <TriangleAlert className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600" />
+                <span>{buyError}</span>
+              </div>
+            )}
 
             {/* Buy button */}
             <button
