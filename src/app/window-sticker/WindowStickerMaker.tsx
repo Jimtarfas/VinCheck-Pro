@@ -511,6 +511,12 @@ export default function WindowStickerMaker() {
 
   function doPrint() {
     const html = buildStickerHtml();
+    // Fire-and-forget: track the print action
+    fetch("/api/window-sticker/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "print" }),
+    }).catch(() => {});
     if (!html) {
       if (typeof window !== "undefined") window.print();
       return;
@@ -569,6 +575,13 @@ export default function WindowStickerMaker() {
   function doDownloadHtml() {
     const html = buildStickerHtml();
     if (!html) return;
+
+    // Fire-and-forget: track the sticker download
+    fetch("/api/window-sticker/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ vin: data.vin, make: data.make, model: data.model, year: data.year, action: "download" }),
+    }).catch(() => {});
 
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -1434,17 +1447,17 @@ function StickerPreview({
       </div>
 
       {/* Warranty + QR */}
-      <div className="grid grid-cols-[1fr_auto] gap-4 border-t border-slate-300 p-4 items-center">
+      <div className="grid grid-cols-[1fr_auto] gap-4 border-t border-slate-300 p-4 items-start">
         <div>
           <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
             WARRANTY COVERAGE
           </p>
           {warranties.length > 0 ? (
-            <dl className="text-[11px] space-y-1">
+            <dl className="text-[11px] space-y-1.5">
               {warranties.map((w) => (
-                <div key={w.k} className="flex justify-between gap-4">
-                  <dt className="text-slate-500 shrink-0">{w.k}</dt>
-                  <dd className="text-right font-medium text-slate-800">{w.v}</dd>
+                <div key={w.k} className="grid grid-cols-[76px_1fr] gap-x-3">
+                  <dt className="text-slate-500">{w.k}</dt>
+                  <dd className="font-medium text-slate-800 min-w-0 break-words">{w.v}</dd>
                 </div>
               ))}
             </dl>

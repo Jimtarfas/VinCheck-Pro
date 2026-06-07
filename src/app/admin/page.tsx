@@ -1,5 +1,5 @@
 import { createAdminClient, getAdminEmails } from "@/lib/supabase/admin";
-import { Users, Search, TrendingUp, Calendar, Download, Smartphone, Monitor, Tablet, HelpCircle } from "lucide-react";
+import { Users, Search, TrendingUp, Calendar, Download, FileDown, Smartphone, Monitor, Tablet, HelpCircle } from "lucide-react";
 import { tallyDevices, type DeviceBreakdown } from "@/lib/device-detect";
 import AutoRefresh from "./_components/AutoRefresh";
 
@@ -50,6 +50,8 @@ async function getStats() {
       lookupsWeekRows,
       downloadsAll,
       downloadsTodayRows,
+      stickerDownloadsAll,
+      stickerDownloadsTodayRows,
     ] = await Promise.all([
       admin.auth.admin.listUsers({ perPage: 1000 }),
       // Pull only the columns we need; we'll dedupe + admin-filter in JS.
@@ -68,6 +70,12 @@ async function getStats() {
       ),
       fetchAll<{ vin: string; user_email: string | null; created_at: string }>(
         () => admin.from("report_downloads").select("vin, user_email, created_at").gte("created_at", startOfDay)
+      ),
+      fetchAll<{ vin: string | null; make: string | null; model: string | null; year: number | null; action: string; user_email: string | null; created_at: string }>(
+        () => admin.from("window_sticker_downloads").select("vin, make, model, year, action, user_email, created_at")
+      ),
+      fetchAll<{ user_email: string | null; created_at: string }>(
+        () => admin.from("window_sticker_downloads").select("user_email, created_at").gte("created_at", startOfDay)
       ),
     ]);
 
@@ -106,6 +114,12 @@ async function getStats() {
       .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
       .slice(0, 10) as RecentLookup[];
 
+    const stickersPublic = filterPublic(stickerDownloadsAll);
+    const stickersToday = filterPublic(stickerDownloadsTodayRows);
+    const recentStickers = [...stickersPublic]
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .slice(0, 10);
+
     // Device breakdown — counts every lookup (not deduped by VIN), because
     // the same VIN re-viewed from desktop AND phone is still useful signal
     // about what hardware our audience is using. Admin rows already filtered.
@@ -125,6 +139,9 @@ async function getStats() {
       downloadsToday: downloadsTodayPublic.length,
       recentLookups,
       devices,
+      stickersTotal: stickersPublic.length,
+      stickersToday: stickersToday.length,
+      recentStickers,
       error: null as string | null,
     };
   } catch (e) {
@@ -138,6 +155,9 @@ async function getStats() {
       downloadsToday: 0,
       recentLookups: [] as RecentLookup[],
       devices: { mobile: 0, tablet: 0, desktop: 0, unknown: 0, total: 0 } as DeviceBreakdown,
+      stickersTotal: 0,
+      stickersToday: 0,
+      recentStickers: [] as Array<{ vin: string | null; make: string | null; model: string | null; year: number | null; action: string; user_email: string | null; created_at: string }>,
       error: e instanceof Error ? e.message : "Unknown error",
     };
   }
@@ -171,6 +191,8 @@ export default async function AdminOverviewPage() {
     { label: "Unique VINs Today", value: stats.lookupsToday, icon: Calendar, color: "bg-amber-50 text-amber-600 border-amber-100" },
     { label: "Reports Downloaded", value: stats.downloadsTotal, icon: Download, color: "bg-cyan-50 text-cyan-600 border-cyan-100" },
     { label: "Downloads Today", value: stats.downloadsToday, icon: Download, color: "bg-rose-50 text-rose-600 border-rose-100" },
+    { label: "Sticker Downloads", value: stats.stickersTotal, icon: FileDown, color: "bg-orange-50 text-orange-600 border-orange-100" },
+    { label: "Stickers Today", value: stats.stickersToday, icon: FileDown, color: "bg-pink-50 text-pink-600 border-pink-100" },
   ];
 
   return (
@@ -224,6 +246,49 @@ export default async function AdminOverviewPage() {
                     </td>
                     <td className="px-5 py-2.5 text-slate-700 text-xs">
                       {new Date(l.created_at).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <div className="px-5 py-4 border-b border-slate-100">
+          <h2 className="text-sm font-bold text-slate-900">Recent Sticker Downloads</h2>
+          <p className="text-xs text-slate-700 mt-0.5">Last 10 window sticker downloads/prints (admin excluded)</p>
+        </div>
+        {stats.recentStickers.length === 0 ? (
+          <p className="p-8 text-center text-sm text-slate-700">No sticker downloads yet.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 text-slate-600">
+                <tr>
+                  <th className="text-left px-5 py-2.5 font-medium">Vehicle</th>
+                  <th className="text-left px-5 py-2.5 font-medium">VIN</th>
+                  <th className="text-left px-5 py-2.5 font-medium">User</th>
+                  <th className="text-left px-5 py-2.5 font-medium">Action</th>
+                  <th className="text-left px-5 py-2.5 font-medium">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {stats.recentStickers.map((s, i) => (
+                  <tr key={i} className="hover:bg-slate-50">
+                    <td className="px-5 py-2.5 text-slate-900">
+                      {[s.year, s.make, s.model].filter(Boolean).join(" ") || "—"}
+                    </td>
+                    <td className="px-5 py-2.5 font-mono text-xs text-slate-700">{s.vin || "—"}</td>
+                    <td className="px-5 py-2.5 text-xs text-slate-700">{s.user_email || "guest"}</td>
+                    <td className="px-5 py-2.5">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide ${
+                        s.action === "print" ? "bg-violet-50 text-violet-700" : "bg-emerald-50 text-emerald-700"
+                      }`}>{s.action}</span>
+                    </td>
+                    <td className="px-5 py-2.5 text-xs text-slate-700">
+                      {new Date(s.created_at).toLocaleString()}
                     </td>
                   </tr>
                 ))}
