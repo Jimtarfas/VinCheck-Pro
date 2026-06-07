@@ -9,6 +9,9 @@ import SocialProofMount from "@/components/SocialProofMount";
 import "./globals.css";
 
 const GA_ID = "G-7HL13B05JH";
+// Google Tag Manager container — loads tags (GA, conversion pixels, etc.)
+// without further code changes. Hardcoded like GA_ID since it's a public id.
+const GTM_ID = "GTM-NR6PJFQQ";
 // Microsoft Clarity — free heatmaps & session replays from Microsoft.
 // Bing reportedly uses Clarity engagement signals as a ranking input.
 const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || "x3242sq7oo";
@@ -282,6 +285,19 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
         {/* Sitemap auto-discovery (in addition to robots.txt) */}
         <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+        {/* Google Tag Manager — loaded as high in <head> as the App Router
+            allows. strategy="afterInteractive" is Next.js's recommended mode
+            for GTM: it injects right after hydration without blocking FCP/LCP,
+            while still firing before user interaction so no events are missed. */}
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${GTM_ID}');`}
+        </Script>
+
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(navLd) }} />
@@ -305,6 +321,16 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-on-surface">
+        {/* Google Tag Manager (noscript) — fallback for JS-disabled clients,
+            must sit immediately after the opening <body> tag per GTM spec. */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <Header logoHref={logoHref} />
         <main className="flex-1">{children}</main>
         <ConditionalFooter />
