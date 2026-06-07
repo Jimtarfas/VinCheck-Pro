@@ -30,14 +30,14 @@ export default async function OrderSuccessPage({
 
   // No order id at all → kick back to the start
   if (!orderId) {
-    redirect("/order");
+    redirect("/");
   }
 
   // Send the buyer to the actual report view.
   // We keep this page mounted as a fallback in case JS-disabled clients
   // need a manual link.
   return (
-    <div className="bg-slate-50 min-h-[calc(100vh-200px)]">
+    <div className="bg-surface min-h-[calc(100vh-200px)]">
       <div className="max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 border border-emerald-200 mb-5">
           <CircleCheck className="w-9 h-9 text-emerald-600" />
@@ -61,8 +61,8 @@ export default async function OrderSuccessPage({
         </p>
 
         <Link
-          href={`/order/report/${orderId}`}
-          className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold rounded-xl transition"
+          href={`/r/${orderId}`}
+          className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition"
         >
           View my report
           <ArrowRight className="w-4 h-4" />
@@ -77,7 +77,7 @@ export default async function OrderSuccessPage({
         <script
           dangerouslySetInnerHTML={{
             __html: `setTimeout(function(){window.location.replace(${JSON.stringify(
-              `/order/report/${orderId}`
+              `/r/${orderId}`
             )})}, 1200);`,
           }}
         />

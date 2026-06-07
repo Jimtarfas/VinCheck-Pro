@@ -13,11 +13,11 @@ const LAST_UPDATED = "June 7, 2026";
 
 export default function OrderTermsPage() {
   return (
-    <div className="bg-slate-50 min-h-[calc(100vh-200px)]">
+    <div className="bg-surface min-h-[calc(100vh-200px)]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
         <Link
-          href="/order"
-          className="text-sm text-blue-700 hover:text-blue-900 inline-flex items-center gap-1 mb-6"
+          href="/"
+          className="text-sm text-primary hover:text-primary-700 inline-flex items-center gap-1 mb-6"
         >
           ← Back to checkout
         </Link>
@@ -40,8 +40,8 @@ export default function OrderTermsPage() {
               . By placing an order you agree to be bound by these Terms and by
               our{" "}
               <Link
-                href="/order/disclaimer"
-                className="underline text-blue-700 hover:text-blue-900"
+                href="/disclaimer"
+                className="underline text-primary hover:text-primary-700"
               >
                 NMVTIS Disclaimer
               </Link>
@@ -213,7 +213,7 @@ export default function OrderTermsPage() {
               Refund requests for any of the cases above must be sent to{" "}
               <a
                 href="mailto:contact@carcheckervin.com"
-                className="underline text-blue-700 hover:text-blue-900"
+                className="underline text-primary hover:text-primary-700"
               >
                 contact@carcheckervin.com
               </a>{" "}
@@ -265,7 +265,7 @@ export default function OrderTermsPage() {
               Questions about these Terms or a specific Report can be sent to{" "}
               <a
                 href="mailto:contact@carcheckervin.com"
-                className="underline text-blue-700 hover:text-blue-900"
+                className="underline text-primary hover:text-primary-700"
               >
                 contact@carcheckervin.com
               </a>
@@ -276,8 +276,8 @@ export default function OrderTermsPage() {
 
         <div className="mt-6 text-center">
           <Link
-            href="/order"
-            className="inline-block px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold rounded-xl transition"
+            href="/"
+            className="inline-block px-5 py-2.5 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition"
           >
             Back to checkout
           </Link>

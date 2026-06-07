@@ -8,8 +8,43 @@ const REVIEWS_HOST = "reviews.carcheckervin.com";
 // any links already shared/printed still work, but every request is 308'd
 // to the plural canonical so Google never indexes both versions.
 const LEGACY_REVIEW_HOSTS = new Set(["review.carcheckervin.com"]);
+
+// App subdomain — runs the ClearVin-powered paid-report flow. The marketing
+// site lives on www.; the buy/checkout/report experience lives on app. so the
+// two are visually and operationally isolated (different layout, different
+// auth surface, different SEO posture — app.* is noindex everywhere).
+const APP_HOST = "app.carcheckervin.com";
+
 const WWW_ORIGIN = "https://www.carcheckervin.com";
 const REVIEWS_ORIGIN = `https://${REVIEWS_HOST}`;
+const APP_ORIGIN = `https://${APP_HOST}`;
+
+// Pretty URL → internal route mapping for the app. subdomain.
+// Keys are the pathnames the buyer sees in their address bar; values are the
+// real /order/* routes under src/app/order/. Rewrites preserve the pretty URL.
+const APP_PATH_REWRITES: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
+  // /                       → /order
+  [/^\/?$/,                   () => "/order"],
+  // /terms                  → /order/terms
+  [/^\/terms\/?$/,            () => "/order/terms"],
+  // /disclaimer             → /order/disclaimer
+  [/^\/disclaimer\/?$/,       () => "/order/disclaimer"],
+  // /account                → /order/account
+  [/^\/account\/?$/,          () => "/order/account"],
+  // /success                → /order/success
+  [/^\/success\/?$/,          () => "/order/success"],
+  // /r/<uuid>               → /order/report/<uuid>   (shorter share link)
+  [/^\/r\/([^/?#]+)\/?$/,     (m) => `/order/report/${m[1]}`],
+];
+
+// Paths on the app. subdomain that should pass through unchanged (i.e. NOT
+// be rewritten or 308'd back to www.):
+//   - /api/*               (the order API routes live in the same project)
+//   - /_next/*             (build assets / chunks)
+//   - /order/*             (the real source-of-truth pages — supports deep
+//                          links during development or if a Stripe webhook
+//                          ever returns a /order URL by mistake)
+const APP_PASSTHROUGH_PREFIXES = ["/api/", "/_next/", "/order/", "/auth/"];
 
 export async function proxy(request: NextRequest) {
   const host = request.headers.get("host")?.toLowerCase() ?? "";
@@ -20,6 +55,47 @@ export async function proxy(request: NextRequest) {
   // SEO signal between two hostnames.
   if (LEGACY_REVIEW_HOSTS.has(host)) {
     return NextResponse.redirect(`${REVIEWS_ORIGIN}${pathname}${search}`, 308);
+  }
+
+  // ── App subdomain ──────────────────────────────────────────────────
+  // app.carcheckervin.com is the standalone checkout / report experience.
+  // We rewrite its pretty URLs onto /order/* internally so the buyer's
+  // address bar stays clean (no /order/ leak) while the real pages live
+  // under one folder in the repo.
+  if (host === APP_HOST) {
+    // Let API + Next internals + the canonical /order/* routes pass through
+    // untouched so they keep working from the subdomain.
+    if (APP_PASSTHROUGH_PREFIXES.some((p) => pathname.startsWith(p))) {
+      return await updateSession(request);
+    }
+
+    for (const [re, build] of APP_PATH_REWRITES) {
+      const m = pathname.match(re);
+      if (m) {
+        const url = request.nextUrl.clone();
+        url.pathname = build(m);
+        return NextResponse.rewrite(url);
+      }
+    }
+
+    // Anything else on the app. host that doesn't map → bounce to www. so
+    // we don't accidentally mirror the marketing site at app.* (duplicate
+    // content risk, plus a confusing UX).
+    return NextResponse.redirect(`${WWW_ORIGIN}${pathname}${search}`, 308);
+  }
+
+  // ── On www.: keep the marketing site clean of the app. routes ──────
+  // /order, /order/* live on app.carcheckervin.com. If a crawler or stale
+  // link hits the www. version, 308 it to the equivalent app. URL.
+  if (pathname === "/order" || pathname.startsWith("/order/")) {
+    if (process.env.NODE_ENV === "production") {
+      // Map known /order/* paths back to their pretty app. equivalents.
+      let appPath = pathname.replace(/^\/order/, "") || "/";
+      if (appPath.startsWith("/report/")) {
+        appPath = appPath.replace(/^\/report\//, "/r/");
+      }
+      return NextResponse.redirect(`${APP_ORIGIN}${appPath}${search}`, 308);
+    }
   }
 
   // ── Reviews subdomain ─────────────────────────────────────────────

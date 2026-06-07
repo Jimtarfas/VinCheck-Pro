@@ -31,15 +31,15 @@ export default async function MyReportsPage() {
   // Not logged in
   if (!user) {
     return (
-      <div className="bg-slate-50 min-h-[calc(100vh-200px)]">
+      <div className="bg-surface min-h-[calc(100vh-200px)]">
         <div className="max-w-md mx-auto px-4 sm:px-6 py-16 sm:py-20 text-center">
           <h1 className="text-2xl font-bold text-slate-900">My Reports</h1>
           <p className="mt-3 text-sm text-slate-600">
             Sign in to view reports you&rsquo;ve purchased.
           </p>
           <Link
-            href="/login?redirect=/order/account"
-            className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold rounded-xl transition"
+            href="/login?redirect=/account"
+            className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition"
           >
             Sign in
             <ArrowRight className="w-4 h-4" />
@@ -47,7 +47,7 @@ export default async function MyReportsPage() {
           <p className="mt-6 text-xs text-slate-500">
             Don&rsquo;t have an account?{" "}
             <Link
-              href="/signup?redirect=/order/account"
+              href="/signup?redirect=/account"
               className="underline text-blue-700"
             >
               Create one
@@ -74,14 +74,14 @@ export default async function MyReportsPage() {
   const list = (orders || []) as OrderRow[];
 
   return (
-    <div className="bg-slate-50 min-h-[calc(100vh-200px)]">
+    <div className="bg-surface min-h-[calc(100vh-200px)]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
             My Reports
           </h1>
           <Link
-            href="/order"
+            href="/"
             className="text-sm px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-xl transition inline-flex items-center gap-1.5"
           >
             <FileText className="w-3.5 h-3.5" />
@@ -96,8 +96,8 @@ export default async function MyReportsPage() {
               No reports yet. Order your first report to see it here.
             </p>
             <Link
-              href="/order"
-              className="mt-4 inline-block px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold rounded-xl"
+              href="/"
+              className="mt-4 inline-block px-4 py-2 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl"
             >
               Get a report
             </Link>
@@ -126,7 +126,7 @@ export default async function MyReportsPage() {
                     <StatusPill status={o.status} />
                     {(o.status === "delivered" || o.status === "paid") && (
                       <Link
-                        href={`/order/report/${o.id}`}
+                        href={`/r/${o.id}`}
                         className="text-xs px-3 py-1.5 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-lg inline-flex items-center gap-1"
                       >
                         View

@@ -15,8 +15,11 @@
 
 const SECRET = () => process.env.STRIPE_SECRET_KEY || "";
 const PRICE_CENTS = () => Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499");
-const SITE = () =>
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com";
+// Checkout success/cancel URLs live on the app. subdomain — that's where the
+// /order flow is publicly served. The pretty paths on app. (/, /success, /r/<id>)
+// are rewritten onto /order/* by src/proxy.ts.
+const APP_ORIGIN = () =>
+  process.env.NEXT_PUBLIC_APP_URL || "https://app.carcheckervin.com";
 
 export const stripeConfig = {
   isConfigured: () => !!SECRET(),
@@ -47,19 +50,20 @@ export interface CreatedCheckoutSession {
 export async function createCheckoutSession(
   input: CreateCheckoutSessionInput
 ): Promise<CreatedCheckoutSession> {
-  const site = SITE();
+  const site = APP_ORIGIN();
+  // Pretty subdomain URLs — the proxy rewrites these onto /order/* internally.
   const successUrl =
     input.successUrl ||
-    `${site}/order/success?session_id={CHECKOUT_SESSION_ID}&order=${input.orderId}`;
+    `${site}/success?session_id={CHECKOUT_SESSION_ID}&order=${input.orderId}`;
   const cancelUrl =
     input.cancelUrl ||
-    `${site}/order?vin=${encodeURIComponent(input.vin)}&cancelled=1`;
+    `${site}/?vin=${encodeURIComponent(input.vin)}&cancelled=1`;
 
   // ── MOCK PATH ──
   if (!stripeConfig.isConfigured()) {
     return {
       id: `mock_${input.orderId}`,
-      url: `${site}/order/success?mock=1&order=${input.orderId}`,
+      url: `${site}/success?mock=1&order=${input.orderId}`,
       mock: true,
     };
   }

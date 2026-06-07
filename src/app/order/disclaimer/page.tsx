@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
 export default function NmvtisDisclaimerPage() {
   return (
-    <div className="bg-slate-50 min-h-[calc(100vh-200px)]">
+    <div className="bg-surface min-h-[calc(100vh-200px)]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
         <Link
-          href="/order"
-          className="text-sm text-blue-700 hover:text-blue-900 inline-flex items-center gap-1 mb-6"
+          href="/"
+          className="text-sm text-primary hover:text-primary-700 inline-flex items-center gap-1 mb-6"
         >
           ← Back to checkout
         </Link>
@@ -115,7 +115,7 @@ export default function NmvtisDisclaimerPage() {
                 href="https://vehiclehistory.bja.ojp.gov"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline text-blue-700 hover:text-blue-900 inline-flex items-center gap-0.5"
+                className="underline text-primary hover:text-primary-700 inline-flex items-center gap-0.5"
               >
                 vehiclehistory.bja.ojp.gov
                 <ExternalLink className="w-3 h-3" />
@@ -197,7 +197,7 @@ export default function NmvtisDisclaimerPage() {
           <p className="text-xs text-slate-500 text-center">
             See also our{" "}
             <Link
-              href="/order/terms"
+              href="/terms"
               className="underline hover:text-slate-900"
             >
               Terms &amp; Conditions
@@ -208,8 +208,8 @@ export default function NmvtisDisclaimerPage() {
 
         <div className="mt-8 text-center">
           <Link
-            href="/order"
-            className="inline-block px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-bold rounded-xl transition"
+            href="/"
+            className="inline-block px-5 py-2.5 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition"
           >
             Back to checkout
           </Link>

@@ -470,7 +470,7 @@ export default function ReportView({ orderId }: Props) {
             . Data sourced from ClearVin LLC, an approved NMVTIS Data Provider, and rendered unmodified.
             For the limits of NMVTIS data and the federally-mandated consumer disclosure,
             see the{" "}
-            <Link href="/order/disclaimer" className="underline hover:text-slate-900">
+            <Link href="/disclaimer" className="underline hover:text-slate-900">
               NMVTIS Disclaimer
             </Link>
             .
