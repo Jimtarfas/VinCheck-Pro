@@ -84,19 +84,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(`${WWW_ORIGIN}${pathname}${search}`, 308);
   }
 
-  // ── On www.: keep the marketing site clean of the app. routes ──────
-  // /order, /order/* live on app.carcheckervin.com. If a crawler or stale
-  // link hits the www. version, 308 it to the equivalent app. URL.
-  if (pathname === "/order" || pathname.startsWith("/order/")) {
-    if (process.env.NODE_ENV === "production") {
-      // Map known /order/* paths back to their pretty app. equivalents.
-      let appPath = pathname.replace(/^\/order/, "") || "/";
-      if (appPath.startsWith("/report/")) {
-        appPath = appPath.replace(/^\/report\//, "/r/");
-      }
-      return NextResponse.redirect(`${APP_ORIGIN}${appPath}${search}`, 308);
-    }
-  }
+  // ── www. is intentionally untouched ──
+  // Per user requirement: app.carcheckervin.com is the *only* host where the
+  // ClearVin checkout flow is served. We deliberately do NOT redirect
+  // www.carcheckervin.com/order/* to app. — the marketing site is the
+  // long-running production property and any change to its routing carries
+  // risk that's not justified here. The /order/* pages on www. are already
+  // `noindex` (see src/app/order/layout.tsx), so SEO duplication isn't a
+  // concern, and we simply never link to them from www.
 
   // ── Reviews subdomain ─────────────────────────────────────────────
   // reviews.carcheckervin.com points at the same Vercel project but we want
