@@ -37,8 +37,12 @@ interface OrderMeta {
 interface ReportData {
   vin: string;
   html: string;
+  reportId?: string;
   requestId?: string;
+  /** False if ClearVin returned an effectively empty HTML body. */
+  hasContent?: boolean;
   generatedAt: string;
+  schemaVersion?: number;
 }
 
 interface ApiResponse {
@@ -198,6 +202,71 @@ export default function ReportView({ orderId }: Props) {
 
   if (!report || !order) return null;
 
+  // ── Empty-content fallback ──
+  // ClearVin may legitimately have no data on a given VIN — especially
+  // in test mode where many of the whitelisted VINs return an empty
+  // html_report. Render a friendly explanation instead of a blank iframe.
+  if (report.hasContent === false) {
+    return (
+      <div className="space-y-4">
+        <div className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl overflow-hidden">
+          <div className="bg-gradient-to-br from-primary via-primary-700 to-primary-800 text-white px-6 sm:px-8 py-6">
+            <p className="text-[11px] uppercase font-bold tracking-[0.16em] text-white/70">
+              Vehicle History Report
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-headline font-extrabold mt-1 tracking-tight">
+              {order.vehicleLabel || "Vehicle history report"}
+            </h1>
+            <p className="text-sm font-mono text-white/70 mt-1">{order.vin}</p>
+          </div>
+        </div>
+
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 max-w-2xl mx-auto text-center">
+          <TriangleAlert className="w-8 h-8 text-amber-700 mx-auto" />
+          <p className="mt-3 text-sm font-bold text-amber-900">
+            ClearVin has no recorded events for this VIN
+          </p>
+          <p className="mt-2 text-sm text-amber-800">
+            The vehicle has no title brands, accidents, odometer readings, or
+            service records reported to NMVTIS at this time. This is normal
+            for newer vehicles or VINs with no public reporting history.
+          </p>
+          <p className="mt-4 text-xs text-amber-700">
+            Per our{" "}
+            <Link href="/terms" className="underline">
+              Terms
+            </Link>
+            , reports returning no data qualify for a full refund — email{" "}
+            <a href="mailto:contact@carcheckervin.com" className="underline">
+              contact@carcheckervin.com
+            </a>{" "}
+            with order {order.id.slice(0, 8)}.
+          </p>
+        </div>
+
+        <div className="bg-surface-container-low border border-outline-variant/40 rounded-2xl p-5 text-xs text-on-surface-variant leading-relaxed">
+          <p className="flex items-start gap-2">
+            <Info className="w-4 h-4 text-outline mt-0.5 flex-shrink-0" />
+            <span>
+              Report generated{" "}
+              <strong>{new Date(report.generatedAt).toLocaleString()}</strong>
+              {report.reportId && (
+                <>
+                  {" · ClearVin report id "}
+                  <code className="px-1 bg-white border border-outline-variant/60 rounded">
+                    {report.reportId}
+                  </code>
+                </>
+              )}
+              . Data sourced from <strong>ClearVin LLC</strong>, an approved
+              NMVTIS Data Provider, and rendered unmodified.
+            </span>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // ── Build the iframe document.
   // We inject a tiny <script> at the end of the body that posts the
   // document height back to us — both on load and on ResizeObserver
@@ -337,7 +406,15 @@ export default function ReportView({ orderId }: Props) {
           <span>
             Report generated{" "}
             <strong>{new Date(report.generatedAt).toLocaleString()}</strong>
-            {report.requestId && (
+            {report.reportId && (
+              <>
+                {" · ClearVin report id "}
+                <code className="px-1 bg-white border border-outline-variant/60 rounded">
+                  {report.reportId}
+                </code>
+              </>
+            )}
+            {!report.reportId && report.requestId && (
               <>
                 {" · ClearVin reference "}
                 <code className="px-1 bg-white border border-outline-variant/60 rounded">

@@ -6,21 +6,46 @@ import { fetchFullReport, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig, fetchCheckoutSession } from "@/lib/stripe";
 
 /**
- * A stored ClearVin report is "mock" when its requestId starts with the
- * literal "mock-" prefix produced by mockFullReport() in src/lib/clearvin.ts.
- * This lets us auto-upgrade orders that were delivered before the real
- * ClearVin token was wired into the environment.
+ * Decides whether a cached `clearvin_report` row is good enough to serve,
+ * or whether we should re-fetch from ClearVin. We re-fetch when:
+ *   - the cache is a mock (requestId starts with "mock-"), and we now have
+ *     real ClearVin credentials available;
+ *   - the cache is from an older storage schema (no `schemaVersion`), which
+ *     captured the raw JSON-wrapped response as HTML and would render the
+ *     JSON envelope inside the iframe;
+ *   - the cache's `html` field doesn't look like HTML at all (e.g. starts
+ *     with `{` because the wrapper wasn't unwrapped).
  */
-function isMockReport(report: unknown): boolean {
+function shouldServeCachedReport(
+  report: unknown,
+  isMockMode: boolean
+): boolean {
   if (!report || typeof report !== "object") return false;
-  const r = report as { requestId?: unknown; html?: unknown };
-  if (typeof r.requestId === "string" && r.requestId.startsWith("mock-")) {
-    return true;
-  }
-  // Legacy fallback: very old mock objects didn't have requestId but did
-  // carry a `raw.mock` flag from the previous schema.
-  if ((r as { raw?: { mock?: unknown } }).raw?.mock === true) return true;
-  return false;
+  const r = report as {
+    requestId?: unknown;
+    html?: unknown;
+    schemaVersion?: unknown;
+    raw?: { mock?: unknown };
+  };
+
+  // Mock cache + real credentials available → refetch.
+  const isMock =
+    (typeof r.requestId === "string" && r.requestId.startsWith("mock-")) ||
+    r.raw?.mock === true;
+  if (isMock && !isMockMode) return false;
+
+  // Cached html exists?
+  if (typeof r.html !== "string") return false;
+  const trimmed = r.html.trim();
+
+  // Old broken cache that stored ClearVin's JSON envelope as `html`.
+  if (trimmed.startsWith("{") || trimmed.startsWith("[")) return false;
+
+  // Pre-schema-v2 records — the format predates our html-content checks,
+  // so let the new fetch path replace them with the v2 layout.
+  if (r.schemaVersion !== 2 && !isMock) return false;
+
+  return true;
 }
 
 export const runtime = "nodejs";
@@ -194,11 +219,17 @@ export async function GET(
   }
 
   // ─── Deliver the report ───
-  // If we have a stored report AND it's not a cached mock waiting for the
-  // real credentials, serve it. Otherwise fall through to the refetch path
-  // below — this auto-upgrades any order that was created before the
-  // ClearVin token was wired into the environment.
-  if (order.clearvin_report && !(isMockReport(order.clearvin_report) && !isUsingMockData())) {
+  // Serve the cached report if and only if it's healthy. Otherwise fall
+  // through to the refetch path below — this auto-upgrades:
+  //   • mocks that were stored before the real credentials landed,
+  //   • legacy schema-v1 rows that captured ClearVin's JSON envelope as
+  //     `html` (which would render the raw `{"status":"ok",...}` text
+  //     inside the iframe),
+  //   • cache rows whose `html` doesn't look like HTML.
+  if (
+    order.clearvin_report &&
+    shouldServeCachedReport(order.clearvin_report, isUsingMockData())
+  ) {
     return NextResponse.json({
       ok: true,
       status: order.status,

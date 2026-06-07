@@ -82,9 +82,18 @@ export interface ClearVinFullReport {
   vin: string;
   /** Raw HTML document as returned by ClearVin — do not mutate. */
   html: string;
+  /**
+   * ClearVin Report ID — let us re-fetch this same report later without
+   * consuming a new credit via GET /report?reportId={id}.
+   */
+  reportId?: string;
   /** ClearVin's request id when supplied (header `x-request-id`). */
   requestId?: string;
+  /** True if ClearVin returned a usable HTML document (not just whitespace). */
+  hasContent: boolean;
   generatedAt: string;
+  /** Bumped when the storage format changes so callers can invalidate cache. */
+  schemaVersion: 2;
 }
 
 export interface ClearVinError {
@@ -393,22 +402,27 @@ export async function fetchFullReport(
       method: "GET",
       headers: {
         Authorization: `Bearer ${TOKEN()}`,
-        // ClearVin returns text/html for format=html
-        Accept: "text/html, application/json",
+        // In practice ClearVin returns JSON wrapping the HTML even when we
+        // pass format=html (the doc says "plain HTML" but real responses
+        // look like {status:"ok", result:{id, vin, html_report}}). We accept
+        // both content types and handle each below.
+        Accept: "application/json, text/html",
       },
       signal: AbortSignal.timeout(45_000),
     });
     const duration = Date.now() - start;
     const requestId = res.headers.get("x-request-id") || undefined;
+    const contentType = (res.headers.get("content-type") || "").toLowerCase();
+    const bodyText = await res.text();
 
     if (!res.ok) {
-      // On error, ClearVin returns JSON even though we asked for HTML.
+      // Error responses are always JSON.
       let errMsg = res.statusText;
       try {
-        const j = (await res.json()) as { message?: string };
+        const j = JSON.parse(bodyText) as { message?: string };
         if (j.message) errMsg = j.message;
       } catch {
-        /* ignore */
+        /* not JSON — keep statusText */
       }
       const err = mapClearVinError(res.status, errMsg);
       void logCall({
@@ -423,7 +437,41 @@ export async function fetchFullReport(
       return err;
     }
 
-    const html = await res.text();
+    // Success — decide whether the body is JSON-wrapped or raw HTML.
+    let html = bodyText;
+    let reportId: string | undefined;
+    const looksLikeJson =
+      contentType.includes("application/json") || bodyText.trim().startsWith("{");
+    if (looksLikeJson) {
+      try {
+        const j = JSON.parse(bodyText) as {
+          status?: string;
+          message?: string;
+          result?: { id?: string; html_report?: string; vin?: string };
+        };
+        if (j.status === "ok" && j.result) {
+          html = j.result.html_report || "";
+          reportId = j.result.id;
+        } else if (j.status === "error") {
+          const err = mapClearVinError(res.status, j.message || "Report unavailable.");
+          void logCall({
+            endpoint: "full_report",
+            vin,
+            orderId,
+            statusCode: res.status,
+            durationMs: duration,
+            error: err.message,
+            requestId,
+          });
+          return err;
+        }
+      } catch {
+        // Wasn't actually JSON — fall through with raw text as HTML.
+      }
+    }
+
+    const hasContent = html.trim().length > 50 && /<[a-z]/i.test(html);
+
     void logCall({
       endpoint: "full_report",
       vin,
@@ -437,8 +485,11 @@ export async function fetchFullReport(
       data: {
         vin,
         html,
+        reportId,
         requestId,
+        hasContent,
         generatedAt: new Date().toISOString(),
+        schemaVersion: 2,
       },
     };
   } catch (e) {
@@ -593,7 +644,10 @@ function mockFullReport(vin: string): ClearVinFullReport {
   return {
     vin,
     html,
+    reportId: undefined,
     requestId: `mock-${vin}-${Date.now()}`,
+    hasContent: true,
     generatedAt: new Date().toISOString(),
+    schemaVersion: 2,
   };
 }
