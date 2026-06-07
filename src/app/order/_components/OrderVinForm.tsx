@@ -457,6 +457,96 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
           </div>
         </div>
       )}
+
+      {/* ── FEDERALLY-MANDATED NMVTIS DISCLOSURE ON CHECKOUT ───────
+           ClearVin's integration spec requires this disclaimer text to
+           appear *on the checkout page itself* (not just behind a link).
+           Wording mirrors the official NMVTIS consumer-access notice
+           published at clearvin.com/en/terms-and-conditions/#nmvtis-disclaimer
+           and the federal regulation at 28 CFR Part 25, Subpart C. */}
+      <div className="bg-surface-container-low border border-outline-variant/40 rounded-2xl px-5 sm:px-6 py-5">
+        <div className="flex items-start gap-3 mb-3">
+          <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center flex-shrink-0">
+            <ShieldCheck className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em]">
+              Federally Mandated Disclosure
+            </p>
+            <p className="text-sm font-bold text-on-surface mt-0.5">
+              NMVTIS Consumer Access Notice
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-3 text-[12px] text-on-surface-variant leading-relaxed">
+          <p>
+            The National Motor Vehicle Title Information System (NMVTIS) is
+            an electronic system that contains information on certain
+            automobiles titled in the United States. NMVTIS is intended to
+            serve as a reliable source of title and brand history for
+            automobiles, but it does not contain detailed information
+            regarding the vehicle&rsquo;s repair history.
+          </p>
+          <p>
+            All states, insurance carriers, and junk and salvage yards are
+            required by federal law to report information to NMVTIS.
+            However, NMVTIS data is supplied by current data providers, and
+            the data for any vehicle may not be in the system if the data
+            providers are not yet reporting.
+          </p>
+          <p>
+            While NMVTIS is designed to protect consumers from fraud and
+            unsafe vehicles, users should not solely rely on NMVTIS. NMVTIS
+            data <strong>does not include</strong> event data on vehicles
+            damaged prior to NMVTIS reporting requirements, collision damage
+            that has not been reported by a participating insurance carrier,
+            or damage to vehicles where insurance claims were not filed.
+          </p>
+          <p>
+            <strong>
+              Before purchasing a vehicle, in addition to obtaining a
+              vehicle history report, consumers should:
+            </strong>
+          </p>
+          <ul className="ml-4 list-disc space-y-1">
+            <li>
+              Obtain an independent vehicle inspection by a qualified
+              mechanic of their choosing.
+            </li>
+            <li>
+              Verify that the vehicle identification number (VIN) on the
+              vehicle matches the VIN on the title and any other vehicle
+              documents.
+            </li>
+            <li>
+              Examine the title to determine if there are any brands listed
+              (e.g., flood, salvage, junk).
+            </li>
+          </ul>
+          <p>
+            For more information about NMVTIS, the data included in the
+            system, and the definitions of the standard NMVTIS brands,
+            please visit{" "}
+            <a
+              href="https://vehiclehistory.bja.ojp.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-primary hover:text-primary-700 font-semibold"
+            >
+              vehiclehistory.bja.ojp.gov
+            </a>
+            . For the full disclosure see the{" "}
+            <Link
+              href="/disclaimer"
+              className="underline text-primary hover:text-primary-700 font-semibold"
+            >
+              NMVTIS Disclaimer page
+            </Link>
+            .
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
