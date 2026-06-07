@@ -742,44 +742,61 @@ export default function WindowStickerMaker() {
         </Section>
 
         <Section title="Optional equipment">
-          <div className="col-span-2 space-y-2">
-            {data.options.map((opt) => (
-              <div key={opt.id} className="flex gap-2">
+          <div className="col-span-2 space-y-3">
+            {data.options.map((opt, i) => (
+              <div
+                key={opt.id}
+                className="rounded-xl border border-slate-200 bg-slate-50/60 p-3"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    Option {i + 1}
+                  </span>
+                  {data.options.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeOption(opt.id)}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400 hover:text-rose-600 transition"
+                      aria-label={`Remove option ${i + 1}`}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Remove
+                    </button>
+                  )}
+                </div>
                 <input
                   value={opt.name}
                   onChange={(e) => updateOption(opt.id, "name", e.target.value)}
-                  placeholder="Option / package name"
-                  className={`${inputCls} flex-1`}
+                  placeholder="Option or package name"
+                  aria-label={`Option ${i + 1} name`}
+                  className={`${inputCls} mb-2`}
                 />
-                <input
-                  inputMode="numeric"
-                  value={opt.price}
-                  onChange={(e) =>
-                    updateOption(
-                      opt.id,
-                      "price",
-                      e.target.value.replace(/[^0-9.]/g, "")
-                    )
-                  }
-                  placeholder="Price"
-                  className={`${inputCls} w-28`}
-                />
-                <button
-                  type="button"
-                  onClick={() => removeOption(opt.id)}
-                  className="px-2 rounded-lg border border-slate-200 text-slate-500 hover:text-rose-600 hover:border-rose-300"
-                  aria-label="Remove option"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <div className="relative w-40">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-400">
+                    $
+                  </span>
+                  <input
+                    inputMode="numeric"
+                    value={opt.price}
+                    onChange={(e) =>
+                      updateOption(
+                        opt.id,
+                        "price",
+                        e.target.value.replace(/[^0-9.]/g, "")
+                      )
+                    }
+                    placeholder="Price"
+                    aria-label={`Option ${i + 1} price`}
+                    className={`${inputCls} pl-7`}
+                  />
+                </div>
               </div>
             ))}
             <button
               type="button"
               onClick={addOption}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-primary-600 hover:text-primary-700"
+              className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-primary-300 bg-primary-50/40 px-4 py-2.5 text-sm font-semibold text-primary-700 hover:bg-primary-50 hover:border-primary-400 transition"
             >
-              <Plus className="w-4 h-4" /> Add option
+              <Plus className="w-4 h-4" /> Add another option
             </button>
           </div>
         </Section>
