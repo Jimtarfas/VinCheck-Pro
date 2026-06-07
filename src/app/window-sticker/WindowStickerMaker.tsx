@@ -569,8 +569,11 @@ export default function WindowStickerMaker() {
 
   return (
     <div className="grid lg:grid-cols-2 gap-6">
-      {/* ── FORM ── */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 print:hidden">
+      {/* ── FORM ──
+          On phones (stacked layout) the preview is ordered ABOVE the form so
+          users see the sticker immediately without scrolling past the long
+          form. On lg the grid restores form-left / preview-right. */}
+      <div className="order-2 lg:order-1 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 print:hidden">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-slate-900">Vehicle Details</h2>
           <div className="flex gap-2">
@@ -912,7 +915,7 @@ export default function WindowStickerMaker() {
       </div>
 
       {/* ── PREVIEW ── */}
-      <div>
+      <div className="order-1 lg:order-2">
         <div className="lg:sticky lg:top-24">
           <div className="flex items-center justify-between mb-3 print:hidden">
             <div>
