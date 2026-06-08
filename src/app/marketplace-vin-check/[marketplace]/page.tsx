@@ -11,7 +11,12 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return marketplaces.map((m) => ({ marketplace: m.slug }));
+  // `copart` has its own dedicated, hand-authored page at
+  // /marketplace-vin-check/copart, so it must be excluded here to avoid two
+  // routes resolving to the same path.
+  return marketplaces
+    .filter((m) => m.slug !== "copart")
+    .map((m) => ({ marketplace: m.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -139,7 +144,9 @@ export default async function MarketplacePage({ params }: Props) {
             />
           </div>
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-4xl">{marketplace.icon}</span>
+            {marketplace.icon && (
+              <span className="text-4xl">{marketplace.icon}</span>
+            )}
             <h1 className="text-4xl sm:text-5xl font-bold">{marketplace.name} VIN Check</h1>
           </div>
           <p className="text-lg text-primary-100 max-w-2xl leading-relaxed mb-8">
@@ -286,7 +293,7 @@ export default async function MarketplacePage({ params }: Props) {
                   href={`/marketplace-vin-check/${m.slug}`}
                   className="px-4 py-2 bg-slate-50 text-slate-700 text-sm rounded-xl border border-slate-200 hover:border-primary-300 hover:bg-primary-50/30 hover:text-primary-700 transition-all font-medium"
                 >
-                  {m.icon} {m.name}
+                  {m.icon ? `${m.icon} ` : ""}{m.name}
                 </Link>
               ))}
           </div>

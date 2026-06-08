@@ -88,7 +88,7 @@ export const marketplaces: MarketplaceInfo[] = [
     description: "Online salvage and insurance auto auction with vehicles from insurance total-loss claims",
     longDesc:
       "Copart is one of the largest salvage vehicle auction companies in the world, selling total-loss vehicles on behalf of insurance companies, financial institutions, and fleet operators. Most vehicles sold through Copart carry a salvage, rebuilt, or similar branded title, and understanding the full damage history before bidding is critical to making an informed purchase decision.",
-    icon: "🔨",
+    icon: "",
     popular: ["Flood-Damaged Vehicles", "Collision Totals", "Theft Recoveries", "Hail-Damaged Cars"],
     riskLevel: "high",
     riskNote:
