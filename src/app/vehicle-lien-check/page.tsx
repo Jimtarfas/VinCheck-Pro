@@ -1,35 +1,41 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  Lock,
-  AlertTriangle,
-  FileWarning,
+  Check,
   Shield,
   Search,
-  CheckCircle2,
-  XCircle,
   FileText,
+  Database,
+  ChevronRight,
+  Lock,
+  Zap,
+  BadgeCheck,
+  Sparkles,
+  AlertTriangle,
   Banknote,
   Wrench,
   Warehouse,
   Landmark,
   Gavel,
   Car,
-  Flag,
   Eye,
   HandCoins,
-  ScrollText,
+  ClipboardCheck,
+  XCircle,
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import VinCheckBanner from "@/components/VinCheckBanner";
 import RelatedChecks from "@/components/RelatedChecks";
+import { ORG_AUTHOR } from "@/lib/seo/author";
+
+const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
   title:
     "Free Vehicle Lien Check — Find Hidden Loans, Liens & Repos by VIN",
   description:
-    "Check any vehicle for hidden liens, outstanding loans, repossession records, and sale history before you buy. Free VIN-based lien lookup — protect yourself from inheriting someone else's debt.",
+    "Check any vehicle for hidden liens, outstanding loans, repossession records, and sale history before you buy — free. VIN-based lien lookup that protects you from inheriting someone else's debt.",
   keywords: [
     "vehicle lien check",
     "car lien check",
@@ -69,8 +75,9 @@ export const metadata: Metadata = {
       "Free Vehicle Lien Check — Find Hidden Loans, Liens & Repos by VIN",
     description:
       "Check any vehicle for hidden liens, outstanding loans, repossession records, and sale history before you buy. Free VIN-based lien lookup.",
-    url: "https://www.carcheckervin.com/vehicle-lien-check",
+    url: `${SITE}/vehicle-lien-check`,
     type: "article",
+    siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
@@ -79,13 +86,16 @@ export const metadata: Metadata = {
     description:
       "Free VIN-based lien lookup. Find hidden loans, liens, and repo records before you buy.",
   },
+  robots: { index: true, follow: true },
 };
+
+/* ── JSON-LD schemas ───────────────────────────────────────────── */
 
 const webApplicationSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "Vehicle Lien Check",
-  url: "https://www.carcheckervin.com/vehicle-lien-check",
+  url: `${SITE}/vehicle-lien-check`,
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Any",
   description:
@@ -99,6 +109,27 @@ const webApplicationSchema = {
   // domain read worse to AI overviews than no aggregate at all. The
   // verified Trustpilot reviews on the homepage Product JSON-LD carry the
   // social proof per-row, each linked to its source URL.
+};
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Free Vehicle Lien Check by VIN",
+  description:
+    "How to check a vehicle for hidden liens by VIN, the six lien types that block a title transfer, red flags of an undisclosed lien, and how to close safely if you find one.",
+  author: ORG_AUTHOR,
+  publisher: {
+    "@type": "Organization",
+    name: "CarCheckerVIN",
+    url: SITE,
+    logo: { "@type": "ImageObject", url: `${SITE}/logo.png` },
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `${SITE}/vehicle-lien-check`,
+  },
+  datePublished: "2026-05-04",
+  dateModified: "2026-06-09",
 };
 
 const faqs = [
@@ -198,13 +229,13 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://www.carcheckervin.com/",
+      item: `${SITE}/`,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Vehicle Lien Check",
-      item: "https://www.carcheckervin.com/vehicle-lien-check",
+      item: `${SITE}/vehicle-lien-check`,
     },
   ],
 };
@@ -213,12 +244,142 @@ const speakableSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
   name: "Free Vehicle Lien Check",
-  url: "https://www.carcheckervin.com/vehicle-lien-check",
+  url: `${SITE}/vehicle-lien-check`,
   speakable: {
     "@type": "SpeakableSpecification",
-    cssSelector: ["h1", ".speakable-summary", ".speakable-faq"],
+    cssSelector: ["h1", ".speakable-intro", ".speakable-faq"],
   },
 };
+
+/* ── Static UI data ────────────────────────────────────────────── */
+
+const TRUST_STATS = [
+  { icon: Database, value: "NMVTIS", label: "+ DMV feeds" },
+  { icon: Banknote, value: "Lien holder", label: "& status" },
+  { icon: Car, value: "Repo", label: "history" },
+  { icon: Zap, value: "Free", label: "no sign-up" },
+];
+
+const HOW_STEPS = [
+  {
+    icon: Search,
+    tag: "Step 1",
+    title: "Enter the VIN",
+    body: "Type the 17-character VIN from the dashboard, door jamb, or title. A lien attaches to the VIN — not to whatever piece of paper the seller hands you.",
+  },
+  {
+    icon: Database,
+    tag: "Step 2",
+    title: "We query DMV + lender registries",
+    body: "The lookup cross-references NMVTIS, all 50 state DMV title-brand feeds, UCC-1 commercial filings, and reported lender registries into one lien picture.",
+  },
+  {
+    icon: FileText,
+    tag: "Step 3",
+    title: "See holder, type, and status",
+    body: "The report shows the lien holder, the lien type, the filing date, and whether it's active or released. An active lien blocks the title transfer until it's paid.",
+  },
+];
+
+const LIEN_TYPES = [
+  {
+    icon: Banknote,
+    title: "Auto loan liens",
+    body: "The most common. Filed by banks, credit unions, and dealer-finance arms — stay on the title until the loan is paid and a release is filed.",
+  },
+  {
+    icon: Wrench,
+    title: "Mechanic's liens",
+    body: "Filed by a repair shop when an owner refuses to pay for completed work. The shop can hold and eventually sell the car.",
+  },
+  {
+    icon: Warehouse,
+    title: "Storage liens",
+    body: "Filed by tow yards, parking facilities, or impound lots over unpaid fees — common on cars impounded after an accident or police hold.",
+  },
+  {
+    icon: Landmark,
+    title: "Tax liens",
+    body: "Filed by the IRS or a state against any property the debtor owns, including the vehicle. Federal tax liens are particularly aggressive.",
+  },
+  {
+    icon: Gavel,
+    title: "Judgment liens",
+    body: "The result of a civil lawsuit where a court orders payment. The creditor can attach the judgment to the debtor's vehicle title.",
+  },
+  {
+    icon: Car,
+    title: "Repossession records",
+    body: "Not technically a lien, but a critical companion record showing whether the car was previously repossessed and re-sold.",
+  },
+];
+
+const RED_FLAGS = [
+  "Title says \"Original\" but the seller can't produce a physical title",
+  "Title lists a lienholder — \"it's paid off\" means nothing without a release",
+  "Cash only; refuses cashier's checks, escrow, or traceable payment",
+  "Wants to \"just sign the title over\" or has only a duplicate or bill of sale",
+  "Asking price far below market with no clear, verifiable explanation",
+  "Urgent sale — \"moving overseas tomorrow,\" pressure to skip paperwork",
+];
+
+const PROTECT_OPTIONS = [
+  {
+    icon: HandCoins,
+    title: "Use an escrow service",
+    body: "Escrow holds your funds, pays the loan payoff to the lender directly, and releases the rest to the seller only after release is confirmed. Costs $50–$500 and removes almost all the risk.",
+  },
+  {
+    icon: FileText,
+    title: "Get a lien payoff letter",
+    body: "Have the seller request a 10-day payoff letter stating the exact balance. It proves the lien is real and gives you a fixed number to negotiate against.",
+  },
+  {
+    icon: Landmark,
+    title: "Close at the lender",
+    body: "Meet at the lender's office, pay the lender directly, and walk out with a lien release in hand and the title ready to sign over to you.",
+  },
+  {
+    icon: XCircle,
+    title: "Walk away",
+    body: "If the seller can't or won't cooperate with any of the above, the deal isn't worth it. There are always more cars.",
+  },
+];
+
+const INTERNAL_LINKS = [
+  {
+    href: "/stolen-vehicle-check",
+    label: "Stolen Vehicle Check",
+    desc: "A seller hiding a lien may be hiding stolen status too — verify both by VIN.",
+  },
+  {
+    href: "/salvage-title-check",
+    label: "Salvage Title Check",
+    desc: "Liens and branded titles both block a clean transfer — check the title history.",
+  },
+  {
+    href: "/total-loss-check",
+    label: "Total Loss Check",
+    desc: "An insurer write-off often travels with repo and lien complications.",
+  },
+  {
+    href: "/vin-check-vs-carfax",
+    label: "CarCheckerVIN vs Carfax",
+    desc: "See how our free lien data compares to the paid full-history bundles.",
+  },
+  {
+    href: "/vin-check",
+    label: "Full VIN History Check",
+    desc: "Liens, title brands, accidents, odometer, and theft in one complete report.",
+  },
+  {
+    href: "/vin-decoder",
+    label: "VIN Decoder",
+    desc: "Decode the 17-character VIN to specs, trim, and factory build details.",
+  },
+];
+
+/* ── Page ──────────────────────────────────────────────────────── */
 
 export default function VehicleLienCheckPage() {
   return (
@@ -226,6 +387,10 @@ export default function VehicleLienCheckPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
       <script
         type="application/ld+json"
@@ -244,576 +409,528 @@ export default function VehicleLienCheckPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
       />
 
-      <article className="pt-28 pb-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Vehicle Lien Check" },
-            ]}
-          />
+      <article className="pb-16 bg-surface">
+        {/* ── Hero ─────────────────────────────────────────── */}
+        <div className="bg-primary text-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Vehicle Lien Check" },
+              ]}
+              onDark
+            />
 
-          {/* 1. Hero */}
-          <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
-            Free Vehicle Lien Check by VIN
-          </h1>
-          <p className="speakable-summary mt-4 text-lg text-slate-700 leading-relaxed">
-            Buying a used car with an undisclosed lien means you do not own it
-            &mdash; the lender does, and they can repossess it from your
-            driveway whenever they want. A free vehicle lien check by VIN
-            surfaces hidden loans, repossession records, and sale history in
-            seconds, so you never inherit somebody else&rsquo;s debt.
-          </p>
-
-          <div
-            id="lien-search"
-            className="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-100"
-          >
-            <h2 className="text-lg font-bold text-slate-900 mb-3">
-              Run a Free Vehicle Lien Check
-            </h2>
-            <VinSearchForm size="sm" />
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs font-semibold uppercase tracking-widest text-slate-700">
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              100% Free
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              No Sign-Up
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              Instant Results
-            </span>
-          </div>
-
-          {/* Card banner near top */}
-          <div className="mt-10">
-            <VinCheckBanner variant="card" />
-          </div>
-
-          {/* 2. What is a Vehicle Lien? */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            What Is a Vehicle Lien?
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            A vehicle lien is a lender&rsquo;s legal claim against a specific
-            car, truck, or motorcycle that secures the right to repossess the
-            vehicle if a debt is not paid. Liens attach to the VIN and to the
-            title, not to the borrower personally, which means the lien
-            travels with the car through every ownership change until it is
-            formally satisfied and released.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Most vehicle liens come from auto loans, but a vehicle can also
-            carry a mechanic&rsquo;s lien for unpaid repair bills, a storage
-            lien from a tow yard, an IRS or state tax lien, or a judgment lien
-            from a court ruling. Any of these is enough to block a clean title
-            transfer at the DMV.
-          </p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            The single most important thing to understand: a lien is recorded
-            against the VIN. The seller&rsquo;s paper title may say
-            &ldquo;clean&rdquo; or be silent on the lien entirely, but the
-            underlying state DMV record still shows the encumbrance. That is
-            why a VIN-based lien check beats reading the title document.
-          </p>
-
-          {/* 3. Why a Lien Check Matters */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            Why a Lien Check Matters
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Three concrete things go wrong when a buyer skips the lien check.
-            None of them are theoretical &mdash; they happen on private-party
-            sales every week:
-          </p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-rose-100 bg-rose-50 p-5">
-              <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center mb-3">
-                <Banknote className="w-5 h-5 text-rose-600" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base">
-                You inherit the debt
-              </h3>
-              <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                You pay full price, the seller disappears, the lender repos
-                the car &mdash; and there is no refund. You are out the cash
-                and the vehicle.
-              </p>
+            <div className="mt-6 inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm font-bold mb-4">
+              <Lock className="w-4 h-4" /> Hidden-Loan Lookup
+              &nbsp;·&nbsp; NMVTIS-Backed
             </div>
-            <div className="rounded-2xl border border-amber-100 bg-amber-50 p-5">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center mb-3">
-                <FileWarning className="w-5 h-5 text-amber-600" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base">
-                You can&rsquo;t title the car
-              </h3>
-              <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                The DMV refuses transfer until the lien is released. You drive
-                home with a car you cannot register, insure, or legally
-                operate.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-rose-100 bg-rose-50 p-5">
-              <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center mb-3">
-                <AlertTriangle className="w-5 h-5 text-rose-600" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base">
-                Repo can happen years later
-              </h3>
-              <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                Even an old satisfied lien that was never formally released
-                becomes a title-transfer nightmare or worse &mdash; a
-                surprise repossession years after you bought the car.
-              </p>
-            </div>
-          </div>
 
-          {/* 4. Types of Liens We Surface */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            Types of Liens We Surface
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            A &ldquo;lien&rdquo; is not just an auto loan. Six common types
-            show up on used-vehicle titles:
-          </p>
-          <ul className="mt-4 space-y-3 text-slate-600">
-            <li className="flex gap-3 items-start">
-              <Banknote className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Auto loan liens</strong> &mdash; the most common.
-                Filed by banks, credit unions, and dealer-finance arms. Stay
-                on the title until the loan is paid off and a release is
-                filed.
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-headline font-extrabold leading-tight mb-4">
+              Free Vehicle Lien Check by VIN —{" "}
+              <span style={{ color: "var(--color-secondary-container)" }}>
+                Do You Really Own It?
               </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Wrench className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Mechanic&rsquo;s liens</strong> &mdash; filed by a
-                repair shop when a vehicle owner refuses to pay for completed
-                work. The shop can hold and eventually sell the car.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Warehouse className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Storage liens</strong> &mdash; filed by tow yards,
-                parking facilities, or impound lots when storage fees go
-                unpaid. Often surfaces on cars that were impounded after an
-                accident or police hold.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Landmark className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>IRS or state tax liens</strong> &mdash; filed by tax
-                authorities against any property the debtor owns, including
-                their vehicle. Federal tax liens are particularly aggressive.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Gavel className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Judgment liens</strong> &mdash; the result of a civil
-                lawsuit where a court has ordered a debtor to pay. The
-                creditor can then attach the judgment to the debtor&rsquo;s
-                vehicle title.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Car className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Repossession records</strong> &mdash; not technically
-                a lien, but a critical companion record. Shows whether the
-                vehicle has previously been repossessed and re-sold, which
-                often correlates with title and history complications.
-              </span>
-            </li>
-          </ul>
+            </h1>
 
-          {/* 5. How a Lien Check Works (HowTo) */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            How a Lien Check Works
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Running a free vehicle lien check on CarCheckerVIN takes about two
-            minutes. Here is what happens behind the scenes:
-          </p>
-          <ol className="mt-6 space-y-4">
-            <li className="flex gap-4 items-start rounded-2xl border border-slate-200 bg-white p-5">
-              <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold flex-shrink-0">
-                1
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900">Enter the VIN</h3>
-                <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                  Find the 17-character VIN on the dashboard, the
-                  driver-side door jamb sticker, or the title document, then
-                  paste it into the search box at the top of the page.
-                </p>
-              </div>
-            </li>
-            <li className="flex gap-4 items-start rounded-2xl border border-slate-200 bg-white p-5">
-              <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold flex-shrink-0">
-                2
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900">
-                  We query state DMV and lender registries
-                </h3>
-                <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                  Behind the scenes, we cross-reference NMVTIS, all 50 state
-                  DMV title brand feeds, UCC-1 commercial filings, and
-                  reported lender registries to compile a complete lien
-                  picture.
-                </p>
-              </div>
-            </li>
-            <li className="flex gap-4 items-start rounded-2xl border border-slate-200 bg-white p-5">
-              <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold flex-shrink-0">
-                3
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900">
-                  See lien holder and status
-                </h3>
-                <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                  The report shows you the name of the lien holder, the type
-                  of lien, the filing date, and whether it is currently
-                  active or has been released. Active liens block title
-                  transfer until paid.
-                </p>
-              </div>
-            </li>
-            <li className="flex gap-4 items-start rounded-2xl border border-slate-200 bg-white p-5">
-              <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold flex-shrink-0">
-                4
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900">
-                  Get a protection plan
-                </h3>
-                <p className="mt-1 text-sm text-slate-600 leading-relaxed">
-                  If the report shows a lien, follow our protection
-                  checklist: request a payoff letter, route the deal through
-                  escrow, close at the lender&rsquo;s office, or walk away.
-                </p>
-              </div>
-            </li>
-          </ol>
+            <p className="speakable-intro text-base sm:text-xl text-white/85 max-w-3xl mb-8 leading-relaxed">
+              Buying a used car with an undisclosed lien means you don&apos;t own
+              it — the lender does, and they can repossess it from your driveway
+              whenever they want. Enter a 17-character VIN to surface hidden
+              loans, repossession records, and sale history in seconds — free, so
+              you never inherit somebody else&apos;s debt.
+            </p>
 
-          {/* 6. Free vs Paid */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            Free vs Paid: What You Actually Need
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            For a private-party purchase, you do not need to spend $44.99. The
-            comparison below shows where each option fits:
-          </p>
-          <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 text-slate-900">
-                <tr>
-                  <th className="text-left p-4 font-bold">Source</th>
-                  <th className="text-left p-4 font-bold">Cost</th>
-                  <th className="text-left p-4 font-bold">What you get</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                <tr className="bg-emerald-50">
-                  <td className="p-4 font-semibold text-slate-900">
-                    CarCheckerVIN
-                  </td>
-                  <td className="p-4 text-slate-700">Free</td>
-                  <td className="p-4 text-slate-700">
-                    NMVTIS-fed lien status, lien holder, repossession history
-                    &mdash; instant, no sign-up.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-semibold text-slate-900">
-                    State DMV title search
-                  </td>
-                  <td className="p-4 text-slate-700">$5&ndash;$25</td>
-                  <td className="p-4 text-slate-700">
-                    Official certified record. Slow (mail-in or in-person in
-                    many states), state-by-state coverage only.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="p-4 font-semibold text-slate-900">
-                    Carfax / AutoCheck
-                  </td>
-                  <td className="p-4 text-slate-700">$24.99&ndash;$44.99</td>
-                  <td className="p-4 text-slate-700">
-                    Full vehicle history including accidents and service.
-                    Lien data is the same NMVTIS feed we use.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-4 text-slate-600 leading-relaxed">
-            For just confirming lien status before a private-party purchase,
-            our free check is enough. If you want the full history bundle,
-            see our{" "}
-            <Link
-              href="/vin-check-vs-carfax"
-              className="text-primary-600 hover:underline font-medium"
+            <div
+              id="lien-search"
+              className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl"
             >
-              CarCheckerVIN vs Carfax
-            </Link>{" "}
-            comparison.
-          </p>
+              <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">
+                Run a Free Vehicle Lien Check
+              </h2>
+              <p className="text-xs sm:text-sm text-on-surface-variant mb-4">
+                Enter any 17-character VIN — we&apos;ll surface any active or
+                historical lien and the lien holder on record
+              </p>
+              <VinSearchForm size="lg" />
+              <p className="mt-3 text-[11px] text-slate-400 flex items-center gap-1.5">
+                <Lock className="w-3 h-3" /> Free · No sign-up · Instant result
+              </p>
+            </div>
 
-          {/* 7. State-by-State Lien Disclosure Rules */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            State-by-State Lien Disclosure Rules
-          </h2>
-          <div className="mt-4 rounded-2xl border-l-4 border-amber-400 bg-amber-50 p-5">
-            <div className="flex gap-3 items-start">
-              <Flag className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-slate-700 leading-relaxed">
-                <p className="font-semibold text-slate-900">
-                  Roughly 13 states require explicit lien disclosure on a
-                  private-party vehicle sale.
+            {/* Trust stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+              {TRUST_STATS.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <div
+                    key={s.label}
+                    className="bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-center"
+                  >
+                    <Icon className="w-5 h-5 mx-auto mb-1 text-white/70" />
+                    <div className="text-xl sm:text-2xl font-headline font-black text-white">
+                      {s.value}
+                    </div>
+                    <div className="text-[11px] text-white/65 leading-tight mt-0.5">
+                      {s.label}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Main content ─────────────────────────────────── */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          {/* ── How the check works ──────────────────────────── */}
+          <section className="py-12 sm:py-16">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              How a VIN Lien Check Works
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">
+              A lien is recorded against the VIN, not the paper title. Three
+              steps turn scattered DMV and lender records into a clear answer on
+              whether the car is truly free to sell.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {HOW_STEPS.map((m) => {
+                const Icon = m.icon;
+                return (
+                  <div
+                    key={m.title}
+                    className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 sm:p-6"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="text-[11px] font-black uppercase tracking-wider text-primary/70 mb-0.5">
+                      {m.tag}
+                    </div>
+                    <h3 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1.5">
+                      {m.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      {m.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ── What is a vehicle lien ───────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              What Is a Vehicle Lien — and Why It Follows the Car
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              <div className="text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+                <p>
+                  A vehicle lien is a lender&apos;s legal claim against a
+                  specific car that secures the right to{" "}
+                  <strong className="text-on-surface">repossess</strong> it if a
+                  debt isn&apos;t paid. The lien attaches to the VIN and the
+                  title — not to the borrower personally — so it travels with the
+                  car through every ownership change until it&apos;s formally
+                  satisfied and released.
                 </p>
-                <p className="mt-2">
-                  The remaining ~37 states fall under buyer-beware rules,
-                  where the seller has no affirmative duty to mention an
-                  active lien. Even in disclosure states, the legal remedy
-                  arrives long after the damage is done. Treat every
-                  private-party sale as no-disclosure: assume nothing,
-                  verify the VIN yourself.
+                <p>
+                  Most liens come from auto loans, but a car can also carry a
+                  mechanic&apos;s lien, a storage lien, an IRS or state tax lien,
+                  or a judgment lien. Any one of them is enough to block a clean
+                  title transfer at the DMV.
+                </p>
+                <p>
+                  The key point: the seller&apos;s paper title may read
+                  &ldquo;clean&rdquo; or stay silent, but the underlying DMV
+                  record still shows the encumbrance. That&apos;s why a{" "}
+                  <strong className="text-on-surface">VIN-based</strong> lien
+                  check beats reading the title document.
+                </p>
+              </div>
+              <div className="rounded-2xl bg-primary/5 border border-primary/20 p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <AlertTriangle className="w-5 h-5 text-primary" />
+                  <h3 className="font-headline font-extrabold text-primary">
+                    Three ways skipping it goes wrong
+                  </h3>
+                </div>
+                <ul className="space-y-3 text-sm text-on-surface">
+                  <li className="flex items-start gap-2 rounded-lg bg-white px-3.5 py-2.5 border border-outline-variant/60">
+                    <Banknote className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    <span>
+                      <strong>You inherit the debt.</strong> Seller vanishes,
+                      lender repos, no refund.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2 rounded-lg bg-white px-3.5 py-2.5 border border-outline-variant/60">
+                    <FileText className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    <span>
+                      <strong>You can&apos;t title it.</strong> The DMV blocks
+                      transfer until the lien is released.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2 rounded-lg bg-white px-3.5 py-2.5 border border-outline-variant/60">
+                    <AlertTriangle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Repo years later.</strong> An old unreleased lien
+                      can surface long after you buy.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Lien types ───────────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              The Six Lien Types We Surface
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">
+              A &ldquo;lien&rdquo; is not just an auto loan. Six common types show
+              up on used-vehicle titles — any one can block your purchase.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {LIEN_TYPES.map((l) => {
+                const Icon = l.icon;
+                return (
+                  <div
+                    key={l.title}
+                    className="rounded-2xl border border-outline-variant bg-surface p-5"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <h3 className="text-base font-headline font-extrabold text-primary mb-1">
+                      {l.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      {l.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ── Mid-page CTA ───────────────────────────────── */}
+          <section className="py-10">
+            <div className="rounded-3xl bg-primary p-7 sm:p-10 text-center">
+              <Sparkles className="w-8 h-8 text-yellow-300 mx-auto mb-3" />
+              <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-white mb-2">
+                Does This Car Carry a Hidden Lien?
+              </h2>
+              <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">
+                Don&apos;t rely on the paper title — it can look clean over an
+                active loan. Run the VIN to see the lien holder and status, free,
+                in seconds.
+              </p>
+              <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
+                <VinSearchForm size="lg" />
+              </div>
+            </div>
+          </section>
+
+          {/* ── Free vs paid ─────────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Free vs. Paid — What You Actually Need
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7 max-w-3xl leading-relaxed">
+              For a private-party purchase, you don&apos;t need to spend $44.99.
+              Here&apos;s where each option fits.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:p-6">
+                <div className="text-[11px] font-black uppercase tracking-wider text-primary mb-2">
+                  CarCheckerVIN
+                </div>
+                <p className="text-lg font-headline font-extrabold text-primary mb-3">
+                  Free
+                </p>
+                <ul className="space-y-2 text-sm text-on-surface-variant">
+                  <li className="flex gap-2"><span>·</span><span>NMVTIS-fed lien status and lien holder.</span></li>
+                  <li className="flex gap-2"><span>·</span><span>Repossession history included.</span></li>
+                  <li className="flex gap-2"><span>·</span><span>Instant, no sign-up — the right first step.</span></li>
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 sm:p-6">
+                <div className="text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-2">
+                  State DMV search
+                </div>
+                <p className="text-lg font-headline font-extrabold text-on-surface mb-3">
+                  $5–$25
+                </p>
+                <ul className="space-y-2 text-sm text-on-surface-variant">
+                  <li className="flex gap-2"><span>·</span><span>Official certified record.</span></li>
+                  <li className="flex gap-2"><span>·</span><span>Often slow — mail-in or in-person.</span></li>
+                  <li className="flex gap-2"><span>·</span><span>One state's coverage at a time.</span></li>
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 sm:p-6">
+                <div className="text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-2">
+                  Carfax / AutoCheck
+                </div>
+                <p className="text-lg font-headline font-extrabold text-on-surface mb-3">
+                  $24.99–$44.99
+                </p>
+                <ul className="space-y-2 text-sm text-on-surface-variant">
+                  <li className="flex gap-2"><span>·</span><span>Full history: accidents and service.</span></li>
+                  <li className="flex gap-2"><span>·</span><span>Lien data is the same NMVTIS feed we use.</span></li>
+                  <li className="flex gap-2"><span>·</span><span>Overkill just to confirm a lien.</span></li>
+                </ul>
+              </div>
+            </div>
+            <div className="mt-6 rounded-2xl bg-secondary-container/40 border border-outline-variant p-5 sm:p-6">
+              <div className="flex items-start gap-3">
+                <BadgeCheck className="w-5 h-5 text-on-secondary-container flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-on-surface leading-relaxed">
+                  <strong className="text-on-surface">
+                    Just confirming a lien?
+                  </strong>{" "}
+                  Our free check is enough. If you want the full history bundle,
+                  see our{" "}
+                  <Link
+                    href="/vin-check-vs-carfax"
+                    className="text-primary font-semibold underline underline-offset-2 hover:text-primary/80"
+                  >
+                    CarCheckerVIN vs Carfax
+                  </Link>{" "}
+                  comparison.
                 </p>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Inline default banner */}
-          <div className="mt-10">
-            <VinCheckBanner />
-          </div>
-
-          {/* 8. Red Flags */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            Red Flags That Suggest a Hidden Lien
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            Before you even run the VIN, certain seller behaviors point
-            strongly to an undisclosed lien. Watch for any of the following:
-          </p>
-          <ul className="mt-4 space-y-2 text-slate-600">
-            <li className="flex gap-2 items-start">
-              <Eye className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                The title says &ldquo;Original&rdquo; but the seller cannot
-                actually produce a physical title document.
-              </span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Eye className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                The title plainly lists a lienholder name &mdash; the
-                seller&rsquo;s claim that &ldquo;it&rsquo;s already paid
-                off&rdquo; is meaningless without a written lien release.
-              </span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Eye className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                Seller insists on cash only and refuses cashier&rsquo;s
-                checks, escrow, or any traceable payment method.
-              </span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Eye className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                Seller wants to &ldquo;just sign the title over&rdquo; without
-                showing it &mdash; or has only a duplicate or a bill of sale.
-              </span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Eye className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                Asking price is dramatically below market value with no
-                clear, verifiable explanation.
-              </span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Eye className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                Urgent sale &mdash; &ldquo;moving overseas tomorrow,&rdquo;
-                &ldquo;need cash by tonight,&rdquo; pressure to skip
-                inspection or paperwork.
-              </span>
-            </li>
-            <li className="flex gap-2 items-start">
-              <Eye className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                Out-of-state plates with no recent transfer to the current
-                state, or a mismatch between the plate state and the
-                seller&rsquo;s ID.
-              </span>
-            </li>
-          </ul>
-
-          {/* 9. What to Do If You Find a Lien */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            What to Do If You Find a Lien
-          </h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            An active lien on a vehicle you want to buy is not automatically a
-            deal-breaker &mdash; but it absolutely changes how you close.
-            Pick the option that matches your risk tolerance:
-          </p>
-          <ul className="mt-4 space-y-3 text-slate-600">
-            <li className="flex gap-3 items-start">
-              <HandCoins className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Use an escrow service.</strong> An escrow company
-                holds your funds, sends the loan payoff to the lender
-                directly, and only releases the remainder to the seller
-                after the lender confirms release. Costs $50&ndash;$500 and
-                eliminates almost all of the risk.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <FileText className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Get a lien payoff letter.</strong> Have the seller
-                request a 10-day payoff letter from the lender stating the
-                exact balance owed. The letter doubles as proof the lien is
-                real and gives you a fixed number to negotiate against.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <Landmark className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Close simultaneously at the lender.</strong> Meet
-                the seller at the lender&rsquo;s office, hand the cashier
-                payment directly to the lender, and walk out with a lien
-                release in hand and the title in the seller&rsquo;s name
-                ready to sign over.
-              </span>
-            </li>
-            <li className="flex gap-3 items-start">
-              <XCircle className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <span>
-                <strong>Walk away.</strong> If the seller cannot or will not
-                cooperate with any of the above, the deal is not worth it.
-                There are always more cars.
-              </span>
-            </li>
-          </ul>
-
-          {/* 10. FAQ */}
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">
-            Frequently Asked Questions
-          </h2>
-          <div className="speakable-faq mt-6 space-y-4">
-            {faqs.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-2xl border border-slate-200 bg-white p-5 open:bg-slate-50"
-              >
-                <summary className="cursor-pointer list-none flex items-start justify-between gap-3">
-                  <span className="font-semibold text-slate-900">{f.q}</span>
-                  <span className="text-primary-600 font-bold flex-shrink-0 group-open:rotate-45 transition-transform">
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                  {f.a}
+          {/* ── Red flags ────────────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+              Red Flags That Suggest a Hidden Lien
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              <div className="text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+                <p>
+                  Before you even run the VIN, certain seller behaviors point
+                  strongly to an undisclosed lien. Any one of these is reason to
+                  slow down and verify the VIN yourself.
                 </p>
-              </details>
-            ))}
-          </div>
+                <p>
+                  Lien disclosure rules vary —{" "}
+                  <strong className="text-on-surface">
+                    roughly 13 states require explicit disclosure
+                  </strong>{" "}
+                  on private-party sales, and the rest are buyer-beware. Even in
+                  disclosure states, the legal remedy arrives long after the
+                  damage is done. Treat every private-party sale as
+                  no-disclosure: assume nothing, verify the VIN.
+                </p>
+                <div className="rounded-xl bg-white p-4 border border-outline-variant">
+                  <p className="text-xs font-bold text-on-surface mb-2">
+                    Run the VIN before you hand over a dollar:
+                  </p>
+                  <VinSearchForm size="sm" />
+                </div>
+              </div>
+              <div className="rounded-2xl bg-primary/5 border border-primary/20 p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <Eye className="w-5 h-5 text-primary" />
+                  <h3 className="font-headline font-extrabold text-primary">
+                    Hidden-lien warning signs
+                  </h3>
+                </div>
+                <ul className="space-y-2 text-sm text-on-surface">
+                  {RED_FLAGS.map((flag) => (
+                    <li key={flag} className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                      <span>{flag}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
 
-          {/* 11. Bottom CTA */}
-          <div className="mt-14 rounded-3xl bg-gradient-to-br from-primary-600 to-primary-800 p-8 sm:p-10 text-white text-center">
-            <Lock className="w-10 h-10 mx-auto text-primary-200" />
-            <h2 className="mt-3 text-2xl sm:text-3xl font-bold">
+          {/* ── What to do if you find a lien ────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              What to Do If You Find a Lien
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">
+              An active lien isn&apos;t automatically a deal-breaker — but it
+              absolutely changes how you close. Pick the option that matches your
+              risk tolerance.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {PROTECT_OPTIONS.map((p) => {
+                const Icon = p.icon;
+                return (
+                  <div
+                    key={p.title}
+                    className="rounded-2xl border border-outline-variant bg-surface p-5"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <h3 className="text-base font-headline font-extrabold text-primary mb-1">
+                      {p.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      {p.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ── Why it matters ───────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Why a Lien Check Matters Before You Buy
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">
+              A lien tied to the VIN decides whether you can legally own and
+              register the car at all — and whether your money is safe.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                {
+                  icon: Banknote,
+                  title: "Protect your money",
+                  body: "Buy over an active lien and the lender can repossess the car you paid for — with no refund and the seller long gone.",
+                },
+                {
+                  icon: ClipboardCheck,
+                  title: "Protect your title",
+                  body: "An unreleased lien blocks DMV transfer. Confirming release status first means you can actually register and insure the car.",
+                },
+                {
+                  icon: BadgeCheck,
+                  title: "Verify, don't trust",
+                  body: "A clean-looking paper title can hide an active loan. The VIN-tied DMV record — not the seller's word — is the only reliable proof.",
+                },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.title}
+                    className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 sm:p-6"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1.5">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      {item.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ── Internal links ─────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              More VIN Checks That Pair With a Lien Check
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7">
+              A lien is one piece of the puzzle. These checks complete the
+              pre-purchase picture before you buy.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {INTERNAL_LINKS.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="flex items-start gap-3 rounded-xl border border-outline-variant bg-surface hover:border-primary/40 hover:bg-primary/5 transition-colors p-4 group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                    <ChevronRight className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-primary group-hover:underline">
+                      {l.label}
+                    </div>
+                    <div className="text-xs text-on-surface-variant mt-0.5">
+                      {l.desc}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          {/* ── VIN check banner ───────────────────────────── */}
+          <section className="py-10">
+            <VinCheckBanner />
+          </section>
+
+          {/* ── FAQ ────────────────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Vehicle Lien Check — Frequently Asked Questions
+            </h2>
+            <p className="text-sm text-on-surface-variant mb-8">
+              The questions buyers ask most about liens, lien holders, and
+              closing safely.
+            </p>
+            <div className="speakable-faq space-y-3">
+              {faqs.map((f) => (
+                <details
+                  key={f.q}
+                  className="group rounded-2xl border border-outline-variant bg-surface p-4 sm:p-5 [&_summary::-webkit-details-marker]:hidden"
+                >
+                  <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                    <span className="text-sm sm:text-base font-headline font-extrabold text-primary pr-2">
+                      {f.q}
+                    </span>
+                    <span className="flex-shrink-0 mt-0.5 text-primary text-xl font-light group-open:rotate-45 transition-transform">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                    {f.a}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Bottom CTA ─────────────────────────────────── */}
+          <section className="py-14 sm:py-20 text-center">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-wider mb-4">
+              <Zap className="w-3.5 h-3.5" /> Free · Instant · NMVTIS-Backed
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">
               Run Your Free Lien Check Now
             </h2>
-            <p className="mt-2 text-primary-100 max-w-xl mx-auto">
-              Two minutes today saves you a lifetime of someone else&rsquo;s
-              debt. Enter the VIN and see every recorded lien instantly.
+            <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">
+              Two minutes today saves you a lifetime of someone else&apos;s debt.
+              Enter the VIN and see every recorded lien, lien holder, and repo on
+              file instantly.
             </p>
-            <div className="mt-6 flex justify-center">
-              <Link
-                href="#lien-search"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-primary-700 font-bold rounded-full hover:bg-primary-50 transition-colors"
-              >
-                <Search className="w-5 h-5" />
-                Check VIN for Liens
-              </Link>
+            <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
+              <VinSearchForm size="lg" />
             </div>
-            <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-primary-200">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-on-surface-variant">
               <span className="flex items-center gap-1.5">
-                <Shield className="w-4 h-4" />
-                NMVTIS-Backed Data
+                <Shield className="w-3.5 h-3.5 text-green-500" /> NMVTIS-backed data
               </span>
               <span className="flex items-center gap-1.5">
-                <ScrollText className="w-4 h-4" />
-                Lien Holder + Status
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4" />
-                100% Free
+                <Check className="w-3.5 h-3.5 text-green-500" strokeWidth={3} /> No
+                sign-up · Free
               </span>
             </div>
-          </div>
+          </section>
 
-          <p className="mt-8 text-sm text-slate-600 leading-relaxed">
-            Pair your lien check with a{" "}
-            <Link
-              href="/stolen-vehicle-check"
-              className="text-primary-600 hover:underline font-medium"
-            >
-              stolen vehicle check
-            </Link>
-            , a{" "}
-            <Link
-              href="/salvage-title-check"
-              className="text-primary-600 hover:underline font-medium"
-            >
-              salvage title check
-            </Link>
-            , and a full{" "}
-            <Link
-              href="/vin-check"
-              className="text-primary-600 hover:underline font-medium"
-            >
-              VIN check report
-            </Link>{" "}
-            for a complete pre-purchase picture.
-          </p>
+          <RelatedChecks exclude="/vehicle-lien-check" />
         </div>
       </article>
-
-      {/* 12. RelatedChecks */}
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
-        <RelatedChecks exclude="/vehicle-lien-check" />
-      </div>
-
-      <section className="py-14 bg-slate-50">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Check a Vehicle for Liens
-          </h2>
-          <p className="text-slate-700 mb-6">
-            Enter a 17-character VIN to instantly check NMVTIS, state DMV lien
-            records, and reported lender registries.
-          </p>
-          <VinSearchForm size="sm" />
-        </div>
-      </section>
     </>
   );
 }
