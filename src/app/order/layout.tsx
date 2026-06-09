@@ -89,6 +89,14 @@ export default function OrderLayout({ children }: { children: React.ReactNode })
                 </Link>
               </li>
               <li>
+                <Link
+                  href="/sample-report"
+                  className="hover:text-primary transition"
+                >
+                  View sample report
+                </Link>
+              </li>
+              <li>
                 <Link href="/disclaimer" className="hover:text-primary transition">
                   NMVTIS Disclaimer
                 </Link>

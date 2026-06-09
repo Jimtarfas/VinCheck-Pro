@@ -29,6 +29,8 @@ const APP_PATH_REWRITES: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   [/^\/terms\/?$/,            () => "/order/terms"],
   // /disclaimer             → /order/disclaimer
   [/^\/disclaimer\/?$/,       () => "/order/disclaimer"],
+  // /sample-report          → /order/sample-report
+  [/^\/sample-report\/?$/,    () => "/order/sample-report"],
   // /account                → /order/account
   [/^\/account\/?$/,          () => "/order/account"],
   // /success                → /order/success
