@@ -506,27 +506,30 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               )}
             </button>
 
-            {/* Consent + NMVTIS link — wording mirrors the line ClearVin
-                requires us to render on the Stripe checkout page itself
-                (set via custom_text in src/lib/stripe.ts). Keeping the two
-                identical avoids confusing the buyer with two different
-                consent strings. */}
+            {/* Consent line on app.carcheckervin.com — phrased around
+                the button label the buyer is about to click ("Order
+                Full Report"). The Stripe checkout page shows a separate
+                disclaimer phrased around "Pay" (set via custom_text in
+                src/lib/stripe.ts) — they're intentionally different
+                because the button labels differ. */}
             <div className="mt-3 px-3 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
               <p className="text-[11px] text-on-surface-variant leading-relaxed text-center">
-                By clicking <strong className="text-on-surface">Pay</strong>{" "}
-                you agree to CarCheckerVIN&rsquo;s{" "}
+                By clicking{" "}
+                <strong className="text-on-surface">Order Full Report</strong>{" "}
+                you acknowledge that this report is for your personal use
+                only and you agree to our{" "}
                 <Link
                   href="/terms"
                   className="underline text-primary hover:text-primary-700 font-semibold"
                 >
                   Terms &amp; Conditions
                 </Link>{" "}
-                and the{" "}
+                and the federally-mandated{" "}
                 <Link
                   href="/disclaimer"
                   className="underline text-primary hover:text-primary-700 font-semibold"
                 >
-                  NMVTIS disclaimer
+                  NMVTIS Consumer Disclosure
                 </Link>
                 .
               </p>
