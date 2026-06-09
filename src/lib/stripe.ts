@@ -124,25 +124,42 @@ export async function createCheckoutSession(
   body.set("automatic_tax[enabled]", "false");
 
   // ── ClearVin compliance: disclaimer ON the Stripe checkout page itself ──
-  // Stripe's `custom_text.submit.message` appears directly under the Pay
-  // button on the hosted checkout page. Mirrors the exact wording Daria
-  // (ClearVin compliance) requested.
   //
-  // Stripe enforces a 1,200-char cap on custom_text fields and the text
-  // is plain (no HTML/markdown), so we render the URLs in parentheses
-  // rather than as anchors. `site` is already in scope from the
-  // success/cancel-URL builder above.
+  // Stripe's `custom_text.submit.message` is plain text only (no HTML /
+  // markdown), so embedded URLs end up as bare parenthesized strings —
+  // ugly and not clickable in many email clients. The clean way to get
+  // a real "Terms of Service" CLICKABLE LINK on Stripe Checkout is the
+  // `consent_collection.terms_of_service` field: it renders an actual
+  // hyperlink to your ToS URL, configured at the Stripe Account level.
+  //
+  // Two pieces working together below:
+  //
+  //   1. consent_collection.terms_of_service = "required"
+  //      → Stripe shows a clickable "Terms of Service" link under the
+  //        Pay button, pulled from the URL you set in Stripe Dashboard:
+  //          Settings → Public details → Terms of Service URL
+  //        Set that to: https://app.carcheckervin.com/terms
+  //
+  //   2. custom_text.submit.message: short, plain-text NMVTIS line
+  //      → mentions "NMVTIS disclaimer at app.carcheckervin.com/disclaimer"
+  //        in plain text. Brief because it sits ABOVE the auto-rendered
+  //        Terms-of-Service consent link.
+  //
+  // Result on Stripe's page: a short disclaimer paragraph, then the Pay
+  // button, then a clickable "Terms of Service" link (rendered by Stripe).
+
+  body.set("consent_collection[terms_of_service]", "required");
+
   body.set(
     "custom_text[submit][message]",
-    `By clicking Pay you agree to CarCheckerVIN's Terms & Conditions ` +
-      `(${site}/terms) and the federally-mandated NMVTIS Consumer Disclosure ` +
-      `(${site}/disclaimer). Reports are for personal use only and may not ` +
-      `be resold or redistributed. Data sourced from ClearVin LLC, an approved ` +
-      `NMVTIS Data Provider, and rendered unmodified.`
+    `By clicking Pay you agree to CarCheckerVIN's Terms & Conditions and ` +
+      `the federally-mandated NMVTIS Consumer Disclosure ` +
+      `(${site}/disclaimer). Reports are for personal use only. Data ` +
+      `sourced from ClearVin LLC, an approved NMVTIS Data Provider, and ` +
+      `rendered unmodified.`
   );
 
-  // Also reaffirm the data-source attribution on the order-summary side
-  // of the checkout. Useful for ClearVin's compliance review.
+  // After-submit reminder of where they're going next.
   body.set(
     "custom_text[after_submit][message]",
     "After payment you'll be redirected to your full vehicle history report on app.carcheckervin.com."
