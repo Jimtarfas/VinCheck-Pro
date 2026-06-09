@@ -339,3 +339,32 @@ create index if not exists clearvin_calls_vin_idx      on public.clearvin_calls 
 
 alter table public.clearvin_calls enable row level security;
 -- No anon access; only service-role reads from /admin.
+
+-- ============================================================
+-- Blog bot run log — telemetry for the auto-publishing pipeline
+-- ============================================================
+-- One row per scheduled cron run. The bot reads this to compute the
+-- 50-post auto-pause budget (counts ok=true runs in the current cycle)
+-- and to surface a "last N runs" table on the admin dashboard.
+create table if not exists public.bot_runs (
+  id              bigserial primary key,
+  run_id          text unique not null,         -- uuid generated client-side per run
+  ok              boolean not null,
+  started_at      timestamptz not null,
+  ended_at        timestamptz not null,
+  duration_ms     integer,
+  post_slug       text,                          -- populated only when ok=true
+  topic_rationale text,
+  voice           text,
+  error           text,
+  input_tokens    integer,
+  output_tokens   integer,
+  usd_estimate    numeric(8,4),
+  created_at      timestamptz not null default now()
+);
+
+create index if not exists bot_runs_created_idx on public.bot_runs (created_at desc);
+create index if not exists bot_runs_ok_idx     on public.bot_runs (ok, created_at desc);
+
+alter table public.bot_runs enable row level security;
+-- No anon access; only service-role reads/writes.
