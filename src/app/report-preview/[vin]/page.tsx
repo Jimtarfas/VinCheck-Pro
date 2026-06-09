@@ -15,13 +15,42 @@ import {
   Car,
   DollarSign,
   ChevronRight,
-  Sparkles,
   BadgeCheck,
   RefreshCw,
   Star,
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { fetchPreview, isUsingMockData, type ClearVinPreview } from "@/lib/clearvin";
+import MarketingCard from "./MarketingCard";
+
+/* Small laurel-wreath flourish for the satisfaction-guarantee seal. */
+function Laurel({ className = "" }: { className?: string }) {
+  const leaves = Array.from({ length: 6 });
+  return (
+    <svg viewBox="0 0 40 56" className={className} fill="currentColor" aria-hidden>
+      {[1, -1].map((dir) => (
+        <g key={dir} transform={dir === -1 ? "translate(40,0) scale(-1,1)" : undefined}>
+          {leaves.map((_, i) => {
+            const t = i / 5;
+            const x = 17 - t * 9;
+            const y = 50 - t * 44;
+            const rot = -55 + t * 28;
+            return (
+              <ellipse
+                key={i}
+                cx={x}
+                cy={y}
+                rx="4.4"
+                ry="2"
+                transform={`rotate(${rot} ${x} ${y})`}
+              />
+            );
+          })}
+        </g>
+      ))}
+    </svg>
+  );
+}
 
 export const dynamic = "force-dynamic";
 
@@ -163,6 +192,7 @@ export default async function ReportPreviewPage({ params }: Props) {
   const heroImg = p.previewImageURL;
   const lockedPhotos = Math.max(0, p.imagesAmount - 1);
   const orderHref = `/order?vin=${encodeURIComponent(cleaned)}`;
+  const exampleHref = "#whats-inside";
 
   return (
     <article className="pb-24 bg-surface">
@@ -183,72 +213,126 @@ export default async function ReportPreviewPage({ params }: Props) {
             onDark
           />
 
-          <div className="mt-6 grid lg:grid-cols-[1.1fr_1fr] gap-8 items-center">
-            {/* text */}
-            <div>
-              <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1 text-xs font-bold mb-4">
-                <BadgeCheck className="w-3.5 h-3.5" /> VIN decoded · records located
-              </div>
-              <h1 className="text-2xl sm:text-4xl font-headline font-extrabold leading-tight mb-3">
-                {vehicleTitle}
-              </h1>
-              <p className="font-mono text-sm text-white/70 tracking-wider mb-5">
-                {cleaned}
-              </p>
-
-              {/* spec chips */}
-              <div className="flex flex-wrap gap-2">
-                {[
-                  s.engine && { k: "Engine", v: s.engine },
-                  s.style && { k: "Body", v: s.style },
-                  s.madeIn && { k: "Built in", v: s.madeIn },
-                  s.msrp && { k: "Original MSRP", v: s.msrp },
-                ]
-                  .filter(Boolean)
-                  .map((c) => {
-                    const chip = c as { k: string; v: string };
-                    return (
-                      <span
-                        key={chip.k}
-                        className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs"
-                      >
-                        <span className="text-white/55">{chip.k}:</span>
-                        <span className="font-semibold text-white">{chip.v}</span>
-                      </span>
-                    );
-                  })}
-              </div>
+          <div className="mt-6">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1 text-xs font-bold mb-4">
+              <BadgeCheck className="w-3.5 h-3.5" /> VIN decoded · records located
             </div>
+            <h1 className="text-2xl sm:text-4xl font-headline font-extrabold leading-tight mb-3">
+              {vehicleTitle}
+            </h1>
+            <p className="font-mono text-sm text-white/70 tracking-wider mb-5">
+              {cleaned}
+            </p>
 
-            {/* hero photo */}
-            <div className="relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-white/5 border border-white/15 relative">
-                {heroImg ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={heroImg}
-                    alt={`${vehicleTitle} on file`}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Car className="w-16 h-16 text-white/30" />
-                  </div>
-                )}
-                {p.imagesAmount > 0 && (
-                  <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 bg-black/55 backdrop-blur rounded-lg px-2.5 py-1 text-xs font-semibold">
-                    <Camera className="w-3.5 h-3.5" /> {p.imagesAmount} photos on file
-                  </div>
-                )}
-              </div>
+            {/* spec chips */}
+            <div className="flex flex-wrap gap-2">
+              {[
+                s.engine && { k: "Engine", v: s.engine },
+                s.style && { k: "Body", v: s.style },
+                s.madeIn && { k: "Built in", v: s.madeIn },
+                s.msrp && { k: "Original MSRP", v: s.msrp },
+              ]
+                .filter(Boolean)
+                .map((c) => {
+                  const chip = c as { k: string; v: string };
+                  return (
+                    <span
+                      key={chip.k}
+                      className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs"
+                    >
+                      <span className="text-white/55">{chip.k}:</span>
+                      <span className="font-semibold text-white">{chip.v}</span>
+                    </span>
+                  );
+                })}
             </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        {/* ── Photo gallery + marketing card ──────────────── */}
+        <section className="-mt-8 relative z-10 grid lg:grid-cols-[1.05fr_1fr] gap-5 sm:gap-6 items-start">
+          {/* gallery */}
+          <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-3 shadow-xl shadow-primary/5">
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-surface-container-low">
+              {heroImg ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={heroImg}
+                  alt={`${vehicleTitle} on file`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Car className="w-16 h-16 text-on-surface-variant/40" />
+                </div>
+              )}
+              {p.imagesAmount > 0 && (
+                <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 bg-black/60 backdrop-blur text-white rounded-lg px-2.5 py-1 text-xs font-semibold">
+                  <Camera className="w-3.5 h-3.5" /> {p.imagesAmount} photos on file
+                </div>
+              )}
+            </div>
+            {p.imagesAmount > 1 && (
+              <div className="grid grid-cols-4 gap-2 mt-2">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="relative aspect-square rounded-xl overflow-hidden bg-surface-container-low border border-outline-variant"
+                  >
+                    {heroImg && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={heroImg}
+                        alt=""
+                        aria-hidden
+                        className="w-full h-full object-cover"
+                        style={{ filter: "blur(8px)", transform: "scale(1.15)" }}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-primary/35 flex items-center justify-center">
+                      {i === 3 && lockedPhotos > 3 ? (
+                        <span className="text-white font-headline font-black text-xs">
+                          +{lockedPhotos - 3}
+                        </span>
+                      ) : (
+                        <Lock className="w-4 h-4 text-white drop-shadow" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* marketing card */}
+          <div>
+            <MarketingCard
+              make={s.make || ""}
+              vehicleLabel={
+                [s.year, s.make, s.model].filter(Boolean).join(" ") || cleaned
+              }
+              vin={cleaned}
+              price={SINGLE_PRICE.toFixed(2)}
+              orderHref={orderHref}
+              exampleHref={exampleHref}
+            />
+            {/* satisfaction-guarantee seal */}
+            <div className="flex items-center justify-center gap-2 mt-5 text-primary">
+              <Laurel className="w-7 h-10" />
+              <span className="text-sm font-headline font-extrabold uppercase tracking-wide leading-tight text-center">
+                Satisfaction
+                <br />
+                Guarantee
+              </span>
+              <Laurel className="w-7 h-10 -scale-x-100" />
+            </div>
+          </div>
+        </section>
+
         {/* ── Dynamic verdict banner ──────────────────────── */}
-        <section className="-mt-6 relative z-10">
+        <section className="pt-10 sm:pt-12 relative z-10">
           <div
             className={`rounded-2xl border p-5 sm:p-6 shadow-lg ${
               issueCount > 0
@@ -354,51 +438,6 @@ export default async function ReportPreviewPage({ params }: Props) {
           </div>
         </section>
 
-        {/* ── Blurred photo strip ─────────────────────────── */}
-        {p.imagesAmount > 1 && (
-          <section className="py-8 border-t border-outline-variant">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg sm:text-xl font-headline font-extrabold text-primary">
-                {p.imagesAmount} photos on file
-              </h2>
-              <span className="text-xs font-semibold text-on-surface-variant inline-flex items-center gap-1">
-                <Lock className="w-3.5 h-3.5" /> {lockedPhotos} locked
-              </span>
-            </div>
-            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
-              {Array.from({ length: Math.min(5, p.imagesAmount) }).map((_, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-square rounded-xl overflow-hidden bg-surface-container-low border border-outline-variant"
-                >
-                  {heroImg && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={heroImg}
-                      alt=""
-                      aria-hidden
-                      className="w-full h-full object-cover"
-                      style={i === 0 ? undefined : { filter: "blur(10px)", transform: "scale(1.1)" }}
-                    />
-                  )}
-                  {i !== 0 && (
-                    <div className="absolute inset-0 bg-primary/30 flex items-center justify-center">
-                      <Lock className="w-5 h-5 text-white drop-shadow" />
-                    </div>
-                  )}
-                  {i === 4 && lockedPhotos > 4 && (
-                    <div className="absolute inset-0 bg-primary/70 flex items-center justify-center">
-                      <span className="text-white font-headline font-black text-sm">
-                        +{p.imagesAmount - 5} more
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
         {/* ── Locked history timeline tease ───────────────── */}
         <section className="py-8 border-t border-outline-variant">
           <h2 className="text-lg sm:text-xl font-headline font-extrabold text-primary mb-4">
@@ -434,56 +473,6 @@ export default async function ReportPreviewPage({ params }: Props) {
                 auctions and ownership changes.
               </p>
             </div>
-          </div>
-        </section>
-
-        {/* ── Primary CTA + pricing ───────────────────────── */}
-        <section className="py-10">
-          <div className="rounded-3xl bg-primary text-white p-6 sm:p-9 text-center">
-            <Sparkles className="w-8 h-8 text-yellow-300 mx-auto mb-3" />
-            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold mb-2">
-              Unlock the full history report
-            </h2>
-            <p className="text-white/80 text-sm sm:text-base max-w-xl mx-auto mb-6">
-              Every record above — title brands, damage, odometer, auctions, all
-              {" "}{p.imagesAmount} photos and the full timeline — in one report.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-3 max-w-xl mx-auto mb-5">
-              <div className="rounded-2xl bg-white text-on-surface p-5 text-left relative">
-                <div className="text-xs font-black uppercase tracking-wider text-primary/70 mb-1">
-                  Single report
-                </div>
-                <div className="text-3xl font-headline font-black text-primary">
-                  ${SINGLE_PRICE.toFixed(2)}
-                </div>
-                <div className="text-xs text-on-surface-variant mt-1">
-                  This VIN · instant access · PDF included
-                </div>
-              </div>
-              <div className="rounded-2xl bg-white text-on-surface p-5 text-left relative ring-2 ring-yellow-300">
-                <span className="absolute -top-2.5 right-4 bg-yellow-300 text-primary text-[10px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
-                  Best value
-                </span>
-                <div className="text-xs font-black uppercase tracking-wider text-primary/70 mb-1">
-                  3-report pack
-                </div>
-                <div className="text-3xl font-headline font-black text-primary">
-                  ${(SINGLE_PRICE * 2).toFixed(2)}
-                </div>
-                <div className="text-xs text-on-surface-variant mt-1">
-                  Comparing cars? Save vs. 3 singles
-                </div>
-              </div>
-            </div>
-            <Link
-              href={orderHref}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white text-primary font-bold hover:bg-white/90 transition text-base"
-            >
-              <Lock className="w-4 h-4" /> Unlock Full Report — ${SINGLE_PRICE.toFixed(2)}
-            </Link>
-            <p className="mt-3 text-[11px] text-white/60">
-              Secure checkout · Instant delivery · Data from NHTSA, NMVTIS &amp; auction records
-            </p>
           </div>
         </section>
 
@@ -557,7 +546,7 @@ export default async function ReportPreviewPage({ params }: Props) {
         )}
 
         {/* ── What's inside the full report ───────────────── */}
-        <section className="py-8 border-t border-outline-variant">
+        <section id="whats-inside" className="scroll-mt-24 py-8 border-t border-outline-variant">
           <h2 className="text-lg sm:text-xl font-headline font-extrabold text-primary mb-4">
             What&apos;s inside the full report
           </h2>
@@ -581,6 +570,13 @@ export default async function ReportPreviewPage({ params }: Props) {
               Includes original MSRP {s.msrp ? `(${s.msrp})` : ""} & invoice pricing
             </div>
           </div>
+          <p className="mt-3 text-xs text-on-surface-variant">
+            Checking more than one car?{" "}
+            <Link href={orderHref} className="font-bold text-primary underline underline-offset-2">
+              Get a 3-report pack for ${(SINGLE_PRICE * 2).toFixed(2)}
+            </Link>{" "}
+            and save vs. three singles.
+          </p>
         </section>
       </div>
 
