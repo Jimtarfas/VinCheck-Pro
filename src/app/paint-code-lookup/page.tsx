@@ -25,6 +25,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
 import PaintCodeLocator from "./PaintCodeLocator";
+import Reveal from "@/components/Reveal";
 import { PAINT_CODE_BRANDS } from "@/lib/paint-codes";
 
 const SITE = "https://www.carcheckervin.com";
@@ -620,28 +621,27 @@ export default function PaintCodeLookupPage() {
               Six steps from &ldquo;I have no idea&rdquo; to &ldquo;I have the exact code in hand.&rdquo; Works on virtually any passenger car, truck, SUV, or motorcycle.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {HOW_TO_STEPS.map((s) => {
+              {HOW_TO_STEPS.map((s, i) => {
                 const Icon = s.icon;
                 return (
-                  <div
-                    key={s.step}
-                    className="flex gap-4 items-start rounded-2xl border border-outline-variant bg-surface p-5 sm:p-6"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-black uppercase tracking-wider text-primary/70 mb-0.5">
-                        Step {s.step}
+                  <Reveal key={s.step} index={i} className="h-full">
+                    <div className="group flex gap-4 items-start h-full rounded-2xl border border-outline-variant bg-surface p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                        <Icon className="w-5 h-5 text-white" />
                       </div>
-                      <h3 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1.5">
-                        {s.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                        {s.body}
-                      </p>
+                      <div>
+                        <div className="text-[11px] font-black uppercase tracking-wider text-primary/70 mb-0.5">
+                          Step {s.step}
+                        </div>
+                        <h3 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1.5">
+                          {s.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                          {s.body}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </Reveal>
                 );
               })}
             </div>
