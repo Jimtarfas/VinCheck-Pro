@@ -157,6 +157,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/lemon-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.
+    { url: `${baseUrl}/window-sticker-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/free-window-sticker-by-vin`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/license-plate-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Free plate lookup — keyword-targeted SEO landing page.
     { url: `${baseUrl}/look-up-car-plates-free`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
