@@ -84,12 +84,12 @@ export default async function BlogIndexPage() {
               >
                 Browse by category
               </Link>
-              <Link
-                href="/blog/feed.xml"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 text-slate-700 font-semibold hover:border-primary-300 hover:text-primary-700 transition-colors"
-              >
-                RSS feed
-              </Link>
+              {/* RSS feed is still served at /blog/feed.xml and discoverable
+                  via the <link rel="alternate" type="application/rss+xml">
+                  declared in the page's metadata above — search engines and
+                  feed readers auto-detect it. We just don't surface the
+                  button in the UI because regular visitors don't use RSS
+                  and the raw-XML view is confusing. */}
             </div>
           </div>
 
