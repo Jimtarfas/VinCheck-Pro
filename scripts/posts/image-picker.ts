@@ -228,6 +228,51 @@ export async function pickHeroImage(
 }
 
 /**
+ * Pick an INLINE image (for embedding inside a post body). Uses the same
+ * Bing pipeline + dedup set as pickHeroImage so inline shots never clash
+ * with other posts' heroes. Returns null when Bing returns nothing.
+ *
+ * cacheKeySuffix lets the caller distinguish multiple inline picks for
+ * the same query (e.g. "flood damaged car" #1 and #2) — without it both
+ * lookups would resolve to the same URL.
+ */
+export async function pickInlineImage(
+  query: string,
+  cacheKeySuffix = "inline-0"
+): Promise<PickedImage | null> {
+  const cacheKey = createHash("sha1")
+    .update(`inline:${query}|${cacheKeySuffix}`)
+    .digest("hex");
+
+  if (cache[cacheKey]) {
+    const e = cache[cacheKey];
+    return { url: e.url, alt: e.alt, query: e.query };
+  }
+
+  const candidates = await fetchBingImageUrls(query);
+  let chosen: string | undefined;
+  for (const c of candidates) {
+    if (!usedUrls.has(c)) {
+      chosen = c;
+      break;
+    }
+  }
+  if (!chosen && candidates.length > 0) chosen = candidates[0];
+  if (!chosen) return null;
+
+  usedUrls.add(chosen);
+  const alt = query;
+  cache[cacheKey] = {
+    url: chosen,
+    alt,
+    query,
+    pickedAt: new Date().toISOString(),
+  };
+  saveCache(cache);
+  return { url: chosen, alt, query };
+}
+
+/**
  * Flush the in-memory cache to disk. Called automatically on every pick,
  * but exposed for callers that want to batch-pick and then commit once.
  */

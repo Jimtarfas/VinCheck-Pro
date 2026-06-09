@@ -17,7 +17,25 @@ export type PortableTextCallout = {
   text: string;
   variant?: "info" | "tip" | "warning";
 };
-export type PortableTextNode = PortableTextBlock | PortableTextCallout;
+/**
+ * Inline image embedded in the body. The `url` is uploaded to Sanity at
+ * import time and replaced with an `asset` reference before the post is
+ * persisted; we keep the raw URL here so this file stays serialisable
+ * with no Sanity dependency.
+ */
+export type PortableTextInlineImage = {
+  _type: "image";
+  _key: string;
+  /** External URL — uploaded to Sanity at import time. */
+  url: string;
+  alt: string;
+  caption?: string;
+};
+
+export type PortableTextNode =
+  | PortableTextBlock
+  | PortableTextCallout
+  | PortableTextInlineImage;
 
 export interface PostInput {
   slug: string;                 // url slug, kebab-case

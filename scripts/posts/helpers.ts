@@ -1,4 +1,10 @@
-import type { PortableTextBlock, PortableTextCallout, PortableTextNode, PortableTextSpan } from "../types";
+import type {
+  PortableTextBlock,
+  PortableTextCallout,
+  PortableTextInlineImage,
+  PortableTextNode,
+  PortableTextSpan,
+} from "../types";
 
 let counter = 0;
 function k(): string {
@@ -59,6 +65,50 @@ export function callout(
   text: string
 ): PortableTextCallout {
   return { _type: "callout", _key: k(), variant, title, text };
+}
+
+/**
+ * Inline image embed. The `url` is uploaded to Sanity at import time;
+ * see scripts/import-blog.ts.
+ */
+export function img(
+  url: string,
+  alt: string,
+  caption?: string
+): PortableTextInlineImage {
+  return { _type: "image", _key: k(), url, alt, caption };
+}
+
+/**
+ * Build a Portable Text block that includes inline links. Pass an array
+ * of plain strings (rendered as text) or [text, href] tuples (rendered
+ * as anchor tags). External hrefs render as <a>; "/path" hrefs render
+ * as internal Next.js Links.
+ */
+export function pLink(
+  ...parts: Array<string | [text: string, href: string]>
+): PortableTextBlock {
+  const block = p() as PortableTextBlock;
+  const children: PortableTextSpan[] = [];
+  const markDefs: NonNullable<PortableTextBlock["markDefs"]> = [];
+  for (const part of parts) {
+    if (typeof part === "string") {
+      children.push({ _type: "span", _key: k(), text: part, marks: [] });
+    } else {
+      const [text, href] = part;
+      const mark = k();
+      const isInternal = href.startsWith("/");
+      markDefs.push(
+        isInternal
+          ? { _key: mark, _type: "internalLink", path: href }
+          : { _key: mark, _type: "link", href }
+      );
+      children.push({ _type: "span", _key: k(), text, marks: [mark] });
+    }
+  }
+  block.children = children;
+  block.markDefs = markDefs;
+  return block;
 }
 
 /** Helper to assemble a post body from a list of nodes (auto-flattens lists). */

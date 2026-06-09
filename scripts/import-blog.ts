@@ -19,6 +19,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { CATEGORIES, AUTHOR } from "./categories";
 import { ALL_POSTS } from "./posts";
+import { pickInlineImage } from "./posts/image-picker";
 import type { PostInput } from "./types";
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "s41e632p";
@@ -98,6 +99,55 @@ async function postExists(slug: string): Promise<boolean> {
   return !!result;
 }
 
+/**
+ * Walk the Portable Text body and, for every inline image node, upload
+ * its `url` to Sanity and rewrite the node to use an `asset` reference
+ * (the shape Sanity actually persists). Best-effort: if an upload fails
+ * we drop the image node so the post doesn't fail to import.
+ */
+async function resolveInlineImages(
+  body: PostInput["body"],
+  slug: string
+): Promise<PostInput["body"]> {
+  const out: PostInput["body"] = [];
+  let idx = 0;
+  for (const node of body) {
+    if (node._type === "image" && "url" in node && node.url) {
+      try {
+        // Resolve `bing:` URLs at import time by picking a real Bing
+        // image URL for the embedded query.
+        let realUrl = node.url;
+        if (realUrl.startsWith("bing:")) {
+          const query = realUrl.slice("bing:".length).trim();
+          const picked = await pickInlineImage(query, `${slug}-${idx}`);
+          if (!picked) {
+            console.warn(`  · no Bing image for "${query}" (${slug})`);
+            continue;
+          }
+          realUrl = picked.url;
+        }
+        const assetId = await uploadImage(realUrl, `${slug}-inline-${idx}.jpg`);
+        // Replace `url` with the asset reference Sanity expects.
+        const { url: _drop, ...rest } = node as { url: string } & Record<string, unknown>;
+        void _drop;
+        out.push({
+          ...rest,
+          _type: "image",
+          asset: { _ref: assetId, _type: "reference" },
+        } as unknown as PostInput["body"][number]);
+        idx++;
+      } catch (e) {
+        console.warn(
+          `  · skipping inline image for ${slug}: ${e instanceof Error ? e.message : e}`
+        );
+      }
+    } else {
+      out.push(node);
+    }
+  }
+  return out;
+}
+
 async function importPost(post: PostInput, authorId: string, categoryIds: Record<string, string>) {
   if (await postExists(post.slug)) {
     console.log(`  · ${post.slug} (skip — exists)`);
@@ -108,6 +158,7 @@ async function importPost(post: PostInput, authorId: string, categoryIds: Record
   if (!categoryId) throw new Error(`Unknown category: ${post.category} for post ${post.slug}`);
 
   const heroAssetId = await uploadImage(post.heroImageUrl, `${post.slug}.jpg`);
+  const body = await resolveInlineImages(post.body, post.slug);
 
   const doc = {
     _type: "post" as const,
@@ -127,7 +178,7 @@ async function importPost(post: PostInput, authorId: string, categoryIds: Record
     },
     category: { _type: "reference" as const, _ref: categoryId },
     author: { _type: "reference" as const, _ref: authorId },
-    body: post.body,
+    body,
   };
 
   await client.create(doc);

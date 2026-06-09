@@ -15,9 +15,24 @@ import { SPECS_BATCH_1A } from "./specs-batch1a";
 import { SPECS_BATCH_1B } from "./specs-batch1b";
 import { SPECS_BATCH_2 } from "./specs-batch2";
 import { SPECS_BATCH_3 } from "./specs-batch3";
+import { JUN_BATCH_1 } from "./jun-batch-1";
+import { JUN_BATCH_2 } from "./jun-batch-2";
+import { JUN_BATCH_3 } from "./jun-batch-3";
+import { JUN_BATCH_4 } from "./jun-batch-4";
 import { expandSpec, type PostSpec } from "./catalog-writer";
 import { pickHeroImage } from "./image-picker";
 import type { PostInput } from "../types";
+
+// Hand-written long-form posts (jun 2026). These have their own body,
+// publishedAt and a HERO_PLACEHOLDER heroImageUrl which is replaced by
+// pickHeroImage() inside buildAllPosts() — same picker the spec-driven
+// posts use, so the global "no duplicate hero" guarantee still holds.
+const HAND_WRITTEN_POSTS: PostInput[] = [
+  ...JUN_BATCH_1,
+  ...JUN_BATCH_2,
+  ...JUN_BATCH_3,
+  ...JUN_BATCH_4,
+];
 
 function dateFor(i: number): string {
   // Spread posts across Jan 15 → April 25 2026 (~100 posts in ~100 days).
@@ -63,6 +78,7 @@ for (const s of allSpecsRaw) {
 // Resolve hero images sequentially so the picker's "no two posts share an
 // image" guarantee holds (its used-URL set is mutated as it picks).
 async function buildAllPosts(): Promise<PostInput[]> {
+  // Spec-driven posts (the original ~100 from Jan-Apr).
   const complete: PostSpec[] = [];
   for (let i = 0; i < uniqueSpecs.length; i++) {
     const s = uniqueSpecs[i];
@@ -83,7 +99,27 @@ async function buildAllPosts(): Promise<PostInput[]> {
       heroImageAlt: picked.alt,
     });
   }
-  return complete.map(expandSpec);
+  const specPosts = complete.map(expandSpec);
+
+  // Hand-written long-form posts (jun 2026). Pick a fresh hero per post —
+  // same picker, same dedup set, so a June post won't collide with an
+  // earlier one.
+  const handWritten: PostInput[] = [];
+  for (const post of HAND_WRITTEN_POSTS) {
+    const picked = await pickHeroImage({
+      slug: post.slug,
+      title: post.title,
+      focusKeyword: post.focusKeyword,
+      tags: post.tags,
+    });
+    handWritten.push(
+      picked
+        ? { ...post, heroImageUrl: picked.url, heroImageAlt: picked.alt }
+        : post
+    );
+  }
+
+  return [...specPosts, ...handWritten];
 }
 
 // Eagerly resolve once at module load; consumers `await` it.
