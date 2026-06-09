@@ -506,13 +506,14 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               )}
             </button>
 
-            {/* Consent line — exact wording requested by ClearVin's
-                compliance reviewer (Daria). The two legal documents
-                are rendered as visible pill buttons rather than inline
-                underlined links so they're impossible to miss. */}
+            {/* Consent line — keeps the original "Order Full Report"
+                button reference, but renders the two legal documents
+                as visible pill buttons (per Daria's request to use
+                clickable buttons rather than inline underlined links). */}
             <div className="mt-3 px-3 py-3 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
               <p className="text-[12px] text-on-surface-variant leading-relaxed text-center">
-                By clicking <strong className="text-on-surface">Pay</strong>{" "}
+                By clicking{" "}
+                <strong className="text-on-surface">Order Full Report</strong>{" "}
                 you agree to CarCheckerVIN&rsquo;s T&amp;C and NMVTIS
                 disclaimer.
               </p>
