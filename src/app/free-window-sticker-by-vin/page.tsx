@@ -29,10 +29,9 @@ const PAGE_URL = `${SITE}/free-window-sticker-by-vin`;
 const OG_IMAGE = `${SITE}/opengraph-image`;
 
 export const metadata: Metadata = {
-  title:
-    "Free Window Sticker by VIN — Original Monroney Label, No Charge",
+  title: "Free Window Sticker by VIN — Monroney Label",
   description:
-    "Get a free window sticker by VIN. Enter a 17-character VIN to pull the original Monroney label — MSRP, factory options, packages, and EPA fuel economy — then print or save as PDF. Works for Toyota, Ford, Chevy, Honda, BMW, and every U.S.-market vehicle. No fee.",
+    "Get a free window sticker by VIN. Enter a 17-character VIN to pull the original Monroney label — MSRP, factory options, and EPA MPG. Print or save as PDF.",
   keywords: [
     "free window sticker by vin",
     "monroney sticker by vin",
@@ -52,7 +51,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/free-window-sticker-by-vin" },
   openGraph: {
-    title: "Free Window Sticker by VIN — Original Monroney Label, No Charge",
+    title: "Free Window Sticker by VIN — Monroney Label",
     description:
       "Pull a free Monroney window sticker straight from the VIN — MSRP, factory options, and EPA fuel economy. Print or save as PDF.",
     url: PAGE_URL,
@@ -137,6 +136,14 @@ const faqs = [
     q: "Can I get a free window sticker for an older or used car?",
     a: "Coverage is strongest for U.S.-market vehicles built from 1981 onward, when the 17-character VIN became standard. For older or specialty vehicles, you can still build the sticker for free by entering the year, make, model, options, and original MSRP manually — the Monroney layout is the same for any era.",
   },
+  {
+    q: "Why is the window sticker free here when Carfax charges for it?",
+    a: "Carfax bundles the window sticker into a paid history report priced per VIN, and the result is view-only. This tool reconstructs the same Monroney-style sticker directly from the VIN's factory data at no charge, then lets you edit and export it. The site covers its costs through optional full VIN history reports, so the sticker itself stays free.",
+  },
+  {
+    q: "Do I need to create an account to get the free window sticker?",
+    a: "No account is needed to enter a VIN, decode the data, and preview the full window sticker. A free account — email only, no credit card — is required just once, at the moment you print the sticker or save it as a PDF, so the export can be tied to your library.",
+  },
 ];
 
 const faqSchema = {
@@ -203,7 +210,7 @@ const speakableSchema = {
   url: PAGE_URL,
   speakable: {
     "@type": "SpeakableSpecification",
-    cssSelector: ["h1", ".speakable-intro"],
+    cssSelector: ["h1", ".speakable-intro", ".fast-answer"],
   },
 };
 
@@ -391,6 +398,31 @@ export default function FreeWindowStickerByVinPage() {
 
         {/* ── Main content ─────────────────────────────────── */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 print:hidden">
+          {/* ── Fast answer (AI / featured-snippet target) ──── */}
+          <section className="pt-12 sm:pt-16">
+            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 sm:p-7">
+              <div className="flex items-center gap-2 mb-2">
+                <Zap className="w-4 h-4 text-primary" />
+                <span className="text-[11px] font-black uppercase tracking-wider text-primary">
+                  Quick answer
+                </span>
+              </div>
+              <p className="fast-answer text-base sm:text-lg text-on-surface leading-relaxed">
+                <strong className="text-primary">
+                  To get a free window sticker by VIN, enter the vehicle&apos;s
+                  17-character VIN and decode it.
+                </strong>{" "}
+                You get the original Monroney label — base MSRP, factory options
+                and packages, standard equipment, and EPA fuel economy — for any
+                U.S.-market car, truck, or SUV built from 1981 onward.
+                Generating and previewing the sticker is completely free with no
+                per-VIN fee; a free email account (no credit card) is needed only
+                to print or save it as a PDF. Brands covered include Toyota, Ford,
+                Chevy, Honda, BMW, Chrysler, and Dodge.
+              </p>
+            </div>
+          </section>
+
           {/* How it works */}
           <section className="py-12 sm:py-16">
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">

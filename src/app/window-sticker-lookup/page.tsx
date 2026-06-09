@@ -28,10 +28,9 @@ const PAGE_URL = `${SITE}/window-sticker-lookup`;
 const OG_IMAGE = `${SITE}/opengraph-image`;
 
 export const metadata: Metadata = {
-  title:
-    "Window Sticker Lookup by VIN — Find the Original Monroney Label (Free)",
+  title: "Window Sticker Lookup by VIN — Free Monroney",
   description:
-    "Free window sticker lookup by VIN. Enter a 17-character VIN to pull the original Monroney label — MSRP, factory options, packages, and EPA fuel economy — for Ford, Chevy, Toyota, Honda, BMW, Chrysler, Dodge, and every U.S.-market vehicle. No Carfax fee.",
+    "Look up a window sticker by VIN free. Enter a 17-character VIN to pull the original Monroney label — MSRP, factory options, and EPA MPG. No Carfax fee.",
   keywords: [
     "window sticker lookup",
     "monroney sticker lookup",
@@ -54,7 +53,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/window-sticker-lookup" },
   openGraph: {
-    title: "Window Sticker Lookup by VIN — Find the Original Monroney Label",
+    title: "Window Sticker Lookup by VIN — Free Monroney Label",
     description:
       "Free Monroney window sticker lookup by VIN. Pull original MSRP, factory options, and EPA fuel economy for any U.S.-market vehicle.",
     url: PAGE_URL,
@@ -139,6 +138,14 @@ const faqs = [
     q: "Can I look up the window sticker for a used or older car?",
     a: "Coverage is strongest for U.S.-market vehicles built from 1981 onward, when the 17-character VIN became standard. For older or specialty vehicles with limited public records, you can still build the sticker manually by entering the year, make, model, options, and original MSRP — the Monroney layout is identical for any era.",
   },
+  {
+    q: "Can I look up a window sticker without the VIN?",
+    a: "No — the VIN is the key that pulls the exact factory build. Without it, two cars of the same year and model can have completely different options and MSRP. If you don't have the VIN, find it at the base of the windshield, on the driver-side door jamb, or on the title, registration, or insurance card, then run the lookup.",
+  },
+  {
+    q: "How accurate is a window sticker lookup by VIN?",
+    a: "A VIN window sticker lookup reflects the factory build record, so the year, make, model, trim, engine, standard equipment, and original MSRP are accurate to how the vehicle was ordered. Option pricing and EPA figures match the original model-year data. You can edit any field before printing if you need to correct dealer-added items.",
+  },
 ];
 
 const faqSchema = {
@@ -205,7 +212,7 @@ const speakableSchema = {
   url: PAGE_URL,
   speakable: {
     "@type": "SpeakableSpecification",
-    cssSelector: ["h1", ".speakable-intro"],
+    cssSelector: ["h1", ".speakable-intro", ".fast-answer"],
   },
 };
 
@@ -408,6 +415,30 @@ export default function WindowStickerLookupPage() {
 
         {/* ── Main content ─────────────────────────────────── */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 print:hidden">
+          {/* ── Fast answer (AI / featured-snippet target) ──── */}
+          <section className="pt-12 sm:pt-16">
+            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 sm:p-7">
+              <div className="flex items-center gap-2 mb-2">
+                <Zap className="w-4 h-4 text-primary" />
+                <span className="text-[11px] font-black uppercase tracking-wider text-primary">
+                  Quick answer
+                </span>
+              </div>
+              <p className="fast-answer text-base sm:text-lg text-on-surface leading-relaxed">
+                <strong className="text-primary">
+                  To look up a window sticker by VIN, enter the vehicle&apos;s
+                  17-character VIN and decode it.
+                </strong>{" "}
+                You get the original Monroney label — base MSRP, factory options and
+                packages, standard equipment, and EPA fuel economy — for any
+                U.S.-market car, truck, or SUV built from 1981 onward. The lookup is
+                free; a free account (email only) is needed only to print or save the
+                sticker as a PDF. Brands covered include Ford, Chevy, Toyota, Honda,
+                BMW, Chrysler, and Dodge.
+              </p>
+            </div>
+          </section>
+
           {/* How the lookup works */}
           <section className="py-12 sm:py-16">
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
