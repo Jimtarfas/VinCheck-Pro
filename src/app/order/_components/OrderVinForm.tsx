@@ -506,33 +506,29 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               )}
             </button>
 
-            {/* Consent line — keeps the original "Order Full Report"
-                button reference, but renders the two legal documents
-                as visible pill buttons (per Daria's request to use
-                clickable buttons rather than inline underlined links). */}
-            <div className="mt-3 px-3 py-3 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
+            {/* Consent line — "CarCheckerVIN's T&C" and "NMVTIS
+                disclaimer" are inline clickable links inside the
+                sentence itself (not separate buttons). */}
+            <div className="mt-3 px-3 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
               <p className="text-[12px] text-on-surface-variant leading-relaxed text-center">
                 By clicking{" "}
                 <strong className="text-on-surface">Order Full Report</strong>{" "}
-                you agree to CarCheckerVIN&rsquo;s T&amp;C and NMVTIS
-                disclaimer.
-              </p>
-              <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2">
+                you agree to{" "}
                 <Link
                   href="/terms"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/20 text-[11px] font-bold text-primary hover:bg-primary/15 transition"
+                  className="underline text-primary hover:text-primary-700 font-semibold"
                 >
-                  <FileText className="w-3 h-3" />
-                  CarCheckerVIN T&amp;C
-                </Link>
+                  CarCheckerVIN&rsquo;s T&amp;C
+                </Link>{" "}
+                and{" "}
                 <Link
                   href="/disclaimer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/20 text-[11px] font-bold text-primary hover:bg-primary/15 transition"
+                  className="underline text-primary hover:text-primary-700 font-semibold"
                 >
-                  <ShieldCheck className="w-3 h-3" />
                   NMVTIS disclaimer
                 </Link>
-              </div>
+                .
+              </p>
             </div>
 
             {mockMode && (
