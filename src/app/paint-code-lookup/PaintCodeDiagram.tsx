@@ -114,14 +114,14 @@ export default function PaintCodeDiagram() {
         />
 
         <div
-          className="relative grid lg:grid-cols-[1.4fr_1fr] gap-6 items-center"
+          className="relative grid lg:grid-cols-[1fr_1.15fr] gap-6 items-center"
           style={{ transform: "translateZ(40px)" }}
         >
           {/* ── Car illustration ─────────────────────────── */}
-          <div className="relative">
+          <div className="relative flex justify-center">
             <svg
               viewBox="0 0 100 60"
-              className="w-full h-auto drop-shadow-lg"
+              className="w-full h-auto max-w-[280px] sm:max-w-[320px] lg:max-w-[380px] mx-auto drop-shadow-lg"
               role="img"
               aria-label="Car diagram showing where the paint code sticker is located"
             >
