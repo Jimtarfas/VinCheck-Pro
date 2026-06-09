@@ -123,43 +123,33 @@ export async function createCheckoutSession(
   // Disable automatic tax for now — flip this on when Stripe Tax is configured
   body.set("automatic_tax[enabled]", "false");
 
-  // ── ClearVin compliance: disclaimer ON the Stripe checkout page itself ──
+  // ── ClearVin compliance disclaimer on the Stripe checkout page ──
   //
-  // Stripe's `custom_text.submit.message` is plain text only (no HTML /
-  // markdown), so embedded URLs end up as bare parenthesized strings —
-  // ugly and not clickable in many email clients. The clean way to get
-  // a real "Terms of Service" CLICKABLE LINK on Stripe Checkout is the
-  // `consent_collection.terms_of_service` field: it renders an actual
-  // hyperlink to your ToS URL, configured at the Stripe Account level.
+  // Previously we used Stripe's `consent_collection.terms_of_service`
+  // field to render a clickable "Terms of Service" link under the Pay
+  // button. That requires a Terms-of-Service URL to be set on the
+  // Stripe account (Dashboard → Settings → Public details, in BOTH
+  // Test and Live modes). When that URL is missing or set in the wrong
+  // mode, Stripe rejects the checkout session with:
   //
-  // Two pieces working together below:
+  //   "You cannot collect consent to your terms of service unless a
+  //    URL is set in the Stripe Dashboard"
   //
-  //   1. consent_collection.terms_of_service = "required"
-  //      → Stripe shows a clickable "Terms of Service" link under the
-  //        Pay button, pulled from the URL you set in Stripe Dashboard:
-  //          Settings → Public details → Terms of Service URL
-  //        Set that to: https://app.carcheckervin.com/terms
-  //
-  //   2. custom_text.submit.message: short, plain-text NMVTIS line
-  //      → mentions "NMVTIS disclaimer at app.carcheckervin.com/disclaimer"
-  //        in plain text. Brief because it sits ABOVE the auto-rendered
-  //        Terms-of-Service consent link.
-  //
-  // Result on Stripe's page: a short disclaimer paragraph, then the Pay
-  // button, then a clickable "Terms of Service" link (rendered by Stripe).
-
-  body.set("consent_collection[terms_of_service]", "required");
-
+  // The buyer-facing disclaimer + clickable T&C / NMVTIS links already
+  // live on app.carcheckervin.com/order (the consent line sits directly
+  // under the order button there), which is the page ClearVin's review
+  // requires us to display them on. To keep checkout reliable even
+  // before the dashboard ToS URL is in place, we use only plain
+  // custom_text on Stripe — the inline-clickable on-site disclaimer
+  // does the legal heavy lifting.
   body.set(
     "custom_text[submit][message]",
-    `By clicking Pay you agree to CarCheckerVIN's Terms & Conditions and ` +
-      `the federally-mandated NMVTIS Consumer Disclosure ` +
+    `By clicking Pay you agree to CarCheckerVIN's Terms & Conditions ` +
+      `(${site}/terms) and the federally-mandated NMVTIS Consumer Disclosure ` +
       `(${site}/disclaimer). Reports are for personal use only. Data ` +
       `sourced from ClearVin LLC, an approved NMVTIS Data Provider, and ` +
       `rendered unmodified.`
   );
-
-  // After-submit reminder of where they're going next.
   body.set(
     "custom_text[after_submit][message]",
     "After payment you'll be redirected to your full vehicle history report on app.carcheckervin.com."
