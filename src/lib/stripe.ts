@@ -123,6 +123,31 @@ export async function createCheckoutSession(
   // Disable automatic tax for now — flip this on when Stripe Tax is configured
   body.set("automatic_tax[enabled]", "false");
 
+  // ── ClearVin compliance: disclaimer ON the Stripe checkout page itself ──
+  // Stripe's `custom_text.submit.message` appears directly under the Pay
+  // button on the hosted checkout page. Mirrors the exact wording Daria
+  // (ClearVin compliance) requested.
+  //
+  // Stripe enforces a 1,200-char cap on custom_text fields and the text
+  // is plain (no HTML/markdown), so we render the URLs in parentheses
+  // rather than as anchors. `site` is already in scope from the
+  // success/cancel-URL builder above.
+  body.set(
+    "custom_text[submit][message]",
+    `By clicking Pay you agree to CarCheckerVIN's Terms & Conditions ` +
+      `(${site}/terms) and the federally-mandated NMVTIS Consumer Disclosure ` +
+      `(${site}/disclaimer). Reports are for personal use only and may not ` +
+      `be resold or redistributed. Data sourced from ClearVin LLC, an approved ` +
+      `NMVTIS Data Provider, and rendered unmodified.`
+  );
+
+  // Also reaffirm the data-source attribution on the order-summary side
+  // of the checkout. Useful for ClearVin's compliance review.
+  body.set(
+    "custom_text[after_submit][message]",
+    "After payment you'll be redirected to your full vehicle history report on app.carcheckervin.com."
+  );
+
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
     headers: {

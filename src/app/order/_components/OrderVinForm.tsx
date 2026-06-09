@@ -506,25 +506,27 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               )}
             </button>
 
-            {/* Consent + NMVTIS link */}
+            {/* Consent + NMVTIS link — wording mirrors the line ClearVin
+                requires us to render on the Stripe checkout page itself
+                (set via custom_text in src/lib/stripe.ts). Keeping the two
+                identical avoids confusing the buyer with two different
+                consent strings. */}
             <div className="mt-3 px-3 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
               <p className="text-[11px] text-on-surface-variant leading-relaxed text-center">
-                By clicking{" "}
-                <strong className="text-on-surface">Order Full Report</strong>{" "}
-                you acknowledge that this report is for your personal use only
-                and you agree to our{" "}
+                By clicking <strong className="text-on-surface">Pay</strong>{" "}
+                you agree to CarCheckerVIN&rsquo;s{" "}
                 <Link
                   href="/terms"
                   className="underline text-primary hover:text-primary-700 font-semibold"
                 >
                   Terms &amp; Conditions
                 </Link>{" "}
-                and the federally-mandated{" "}
+                and the{" "}
                 <Link
                   href="/disclaimer"
                   className="underline text-primary hover:text-primary-700 font-semibold"
                 >
-                  NMVTIS Consumer Disclosure
+                  NMVTIS disclaimer
                 </Link>
                 .
               </p>
