@@ -54,6 +54,13 @@ export interface ClearVinPreview {
   imagesAmount: number;
   /** Number of auction-history records on file. */
   auctionHistoryRecords: number;
+  /**
+   * Number of damage/condition records on file (auction "damage" notes).
+   * Returned by the live API as `damagesCount` — a strong paywall teaser.
+   */
+  damagesCount: number;
+  /** Number of recall records on file (mirrors recalls.length but explicit). */
+  recallsCount: number;
   /** Full recall details — ClearVin returns these in the preview itself. */
   recalls: ClearVinRecall[];
   /** Vehicle specification block. */
@@ -242,6 +249,8 @@ interface RawPreviewResponse {
     previewImageURL?: string;
     imagesAmount?: number;
     auctionHistoryRecords?: number;
+    damagesCount?: number;
+    recallsCount?: number;
     recalls?: ClearVinRecall[];
     vinSpec?: ClearVinPreview["vinSpec"];
   };
@@ -323,17 +332,23 @@ export async function fetchPreview(
       invoice: null,
     };
 
+    const auctionHistoryRecords = Number(r.auctionHistoryRecords || 0);
+    const damagesCount = Number(r.damagesCount || 0);
+    const recallsCount = Number(r.recallsCount ?? recalls.length);
+
     return {
       ok: true,
       data: {
         vin,
         previewImageURL: r.previewImageURL || null,
         imagesAmount: Number(r.imagesAmount || 0),
-        auctionHistoryRecords: Number(r.auctionHistoryRecords || 0),
+        auctionHistoryRecords,
+        damagesCount,
+        recallsCount,
         recalls,
         vinSpec: { ...vinSpec, vin },
         hasMajorIssues:
-          recalls.length > 0 || Number(r.auctionHistoryRecords || 0) > 0,
+          recalls.length > 0 || auctionHistoryRecords > 0 || damagesCount > 0,
         generatedAt: new Date().toISOString(),
       },
     };
@@ -716,11 +731,14 @@ function mockPreview(vin: string): ClearVinPreview {
     NHTSACampaignNumber: `25V${(123 + i + seed).toString().padStart(3, "0")}`,
   }));
 
+  const auctionHistoryRecords = seed % 4;
   return {
     vin,
     previewImageURL: null,
     imagesAmount: 8 + (seed % 16),
-    auctionHistoryRecords: seed % 4,
+    auctionHistoryRecords,
+    damagesCount: seed % 3,
+    recallsCount: recalls.length,
     recalls,
     vinSpec: {
       vin,
