@@ -506,33 +506,32 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               )}
             </button>
 
-            {/* Consent line on app.carcheckervin.com — phrased around
-                the button label the buyer is about to click ("Order
-                Full Report"). The Stripe checkout page shows a separate
-                disclaimer phrased around "Pay" (set via custom_text in
-                src/lib/stripe.ts) — they're intentionally different
-                because the button labels differ. */}
-            <div className="mt-3 px-3 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
-              <p className="text-[11px] text-on-surface-variant leading-relaxed text-center">
-                By clicking{" "}
-                <strong className="text-on-surface">Order Full Report</strong>{" "}
-                you acknowledge that this report is for your personal use
-                only and you agree to our{" "}
+            {/* Consent line — exact wording requested by ClearVin's
+                compliance reviewer (Daria). The two legal documents
+                are rendered as visible pill buttons rather than inline
+                underlined links so they're impossible to miss. */}
+            <div className="mt-3 px-3 py-3 rounded-lg bg-surface-container-lowest border border-outline-variant/40">
+              <p className="text-[12px] text-on-surface-variant leading-relaxed text-center">
+                By clicking <strong className="text-on-surface">Pay</strong>{" "}
+                you agree to CarCheckerVIN&rsquo;s T&amp;C and NMVTIS
+                disclaimer.
+              </p>
+              <div className="mt-2.5 flex flex-wrap items-center justify-center gap-2">
                 <Link
                   href="/terms"
-                  className="underline text-primary hover:text-primary-700 font-semibold"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/20 text-[11px] font-bold text-primary hover:bg-primary/15 transition"
                 >
-                  Terms &amp; Conditions
-                </Link>{" "}
-                and the federally-mandated{" "}
+                  <FileText className="w-3 h-3" />
+                  CarCheckerVIN T&amp;C
+                </Link>
                 <Link
                   href="/disclaimer"
-                  className="underline text-primary hover:text-primary-700 font-semibold"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/20 text-[11px] font-bold text-primary hover:bg-primary/15 transition"
                 >
-                  NMVTIS Consumer Disclosure
+                  <ShieldCheck className="w-3 h-3" />
+                  NMVTIS disclaimer
                 </Link>
-                .
-              </p>
+              </div>
             </div>
 
             {mockMode && (
