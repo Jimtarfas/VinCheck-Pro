@@ -1301,7 +1301,7 @@ function UpsellModal({
           chrome so the bottom never gets cut off. */}
       <div className="relative flex w-full max-h-[92dvh] flex-col sm:max-h-[90vh] sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
         {/* Navy header */}
-        <div className="relative flex-shrink-0 bg-primary px-6 pt-5 pb-5 sm:pt-6 sm:pb-7 text-white">
+        <div className="relative flex-shrink-0 bg-primary px-6 pt-4 pb-4 sm:pt-5 sm:pb-5 text-white">
           <button
             onClick={onClose}
             aria-label="Close"
@@ -1314,11 +1314,11 @@ function UpsellModal({
             <Lock className="w-3.5 h-3.5" />
             {COPY.eyebrow}
           </span>
-          <h2 className="mt-2 text-xl sm:text-2xl font-headline font-extrabold leading-tight tracking-tight">
+          <h2 className="mt-1.5 text-lg sm:text-2xl font-headline font-extrabold leading-tight tracking-tight">
             {COPY.title}
           </h2>
-          <p className="mt-2 text-sm text-white/70 leading-relaxed">{COPY.sub}</p>
-          <p className="mt-3 text-xs font-mono text-white/50 truncate">
+          <p className="mt-1.5 text-[13px] sm:text-sm text-white/70 leading-relaxed">{COPY.sub}</p>
+          <p className="mt-2 text-xs font-mono text-white/50 truncate">
             {fullName ? `${fullName} · ` : ""}{vin}
           </p>
         </div>
@@ -1327,31 +1327,31 @@ function UpsellModal({
             this flex child shrink so the pinned footer (Order button) always
             keeps its space within the height-capped card, even when the coupon
             field expands on short screens. */}
-        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4 sm:py-5">
-          <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider mb-3">
+        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-3 sm:py-4">
+          <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider mb-2">
             Everything you unlock
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 gap-2">
             {VALUE.map(({ Icon, label, note }) => (
               <div
                 key={label}
-                className="flex items-start gap-2.5 rounded-xl border border-outline-variant/50 bg-surface-container-lowest px-3 py-2.5"
+                className="flex items-start gap-2 rounded-xl border border-outline-variant/50 bg-surface-container-lowest px-2.5 py-2"
               >
-                <span className="mt-0.5 flex-shrink-0 w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Icon className="w-4 h-4 text-primary" />
+                <span className="mt-0.5 flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[13px] font-bold text-on-surface leading-tight">
+                  <span className="block text-[12px] sm:text-[13px] font-bold text-on-surface leading-tight">
                     {label}
                   </span>
-                  <span className="block text-[11px] text-on-surface-variant">{note}</span>
+                  <span className="block text-[11px] text-on-surface-variant leading-tight">{note}</span>
                 </span>
               </div>
             ))}
           </div>
 
           {/* Trust row */}
-          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-on-surface-variant">
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-on-surface-variant">
             <span className="inline-flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> NMVTIS-backed data
             </span>
@@ -1493,7 +1493,7 @@ function UpsellModal({
             </button>
 
             {/* Disclaimer — legal banner */}
-            <p className="mt-3 text-center text-[11px] leading-relaxed text-on-surface-variant">
+            <p className="mt-2.5 text-center text-[11px] leading-snug text-on-surface-variant">
               By clicking <span className="font-semibold">Order Full Report</span> you
               agree to{" "}
               <Link href="/terms" className="text-primary underline hover:no-underline">
