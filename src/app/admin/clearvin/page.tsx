@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchAccountStats } from "@/lib/clearvin";
+import { fetchStripeProdStats, stripeConfig } from "@/lib/stripe";
 import AutoRefresh from "../_components/AutoRefresh";
 
 export const dynamic = "force-dynamic";
@@ -93,6 +94,11 @@ async function getData() {
   ).toISOString();
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 86_400_000).toISOString();
 
+  // Stripe-mode detection — once we're on a live (sk_live_*) key, hide all
+  // mock/test orders + calls from the operator views. Sandbox traffic
+  // would only mislead the "reports left / sold / revenue" math.
+  const stripeLive = stripeConfig.isLiveMode();
+
   // Two ClearVin /stats queries: month-to-date (drives the headline credits
   // tile) and 30-day (drives the sparkline). They're free at /stats so we
   // don't bother caching.
@@ -100,38 +106,67 @@ async function getData() {
   // `soldOrdersAll` returns the most recent 200 paid/delivered orders for
   // the new "Sold Reports — History" table at the bottom. Capped so an
   // accidental high-traffic month doesn't blow the page size.
-  const [stats30d, ordersMonth, callsAll, soldOrdersAll] = await Promise.all([
-    fetchAccountStats({ granularity: "day" }),
-    admin
-      .from("report_orders")
-      .select(
-        "id, amount_cents, currency, status, paid_at, created_at, vin, user_email, vehicle_label"
-      )
-      .gte("created_at", startOfMonth)
-      .order("created_at", { ascending: false }),
-    fetchAllCalls(() =>
+  //
+  // `stripeStats` is async — pulled in parallel from Stripe's REST API.
+  // Always non-throwing; returns liveMode:false in test/sandbox mode.
+  const [stats30d, ordersMonth, callsAll, soldOrdersAll, stripeStats] =
+    await Promise.all([
+      fetchAccountStats({ granularity: "day" }),
       admin
-        .from("clearvin_calls")
+        .from("report_orders")
         .select(
-          "id, endpoint, vin, order_id, status_code, duration_ms, error, request_id, created_at"
+          "id, amount_cents, currency, status, paid_at, created_at, vin, user_email, vehicle_label, stripe_payment_intent_id, stripe_session_id"
         )
-        .gte("created_at", thirtyDaysAgo)
-        .order("created_at", { ascending: false })
-    ),
-    admin
-      .from("report_orders")
-      .select(
-        "id, amount_cents, currency, status, paid_at, delivered_at, created_at, vin, user_email, vehicle_label, clearvin_report"
-      )
-      .in("status", ["paid", "delivered"])
-      .order("paid_at", { ascending: false, nullsFirst: false })
-      .limit(200),
-  ]);
+        .gte("created_at", startOfMonth)
+        .order("created_at", { ascending: false }),
+      fetchAllCalls(() =>
+        admin
+          .from("clearvin_calls")
+          .select(
+            "id, endpoint, vin, order_id, status_code, duration_ms, error, request_id, created_at"
+          )
+          .gte("created_at", thirtyDaysAgo)
+          .order("created_at", { ascending: false })
+      ),
+      admin
+        .from("report_orders")
+        .select(
+          "id, amount_cents, currency, status, paid_at, delivered_at, created_at, vin, user_email, vehicle_label, clearvin_report, stripe_payment_intent_id, stripe_session_id"
+        )
+        .in("status", ["paid", "delivered"])
+        .order("paid_at", { ascending: false, nullsFirst: false })
+        .limit(200),
+      fetchStripeProdStats(),
+    ]);
 
-  // ── Local-side aggregates ────────────────────────────────────────
-  const todayCalls = callsAll.filter((c) => c.created_at >= startOfDay);
-  const monthCalls = callsAll.filter((c) => c.created_at >= startOfMonth);
-  const failed = callsAll.filter(
+  // ── Prod filter ─────────────────────────────────────────────────
+  // Orders coming from sandbox / mock code paths have:
+  //   stripe_payment_intent_id == 'mock_pi'        (mock-mode promotion)
+  //   stripe_session_id starts with 'mock_'        (mock checkout URL)
+  // and ClearVin calls that fell through to mock data carry
+  //   request_id starts with 'mock-<VIN>'.
+  // Filter them out as soon as we're on the live Stripe key — they were
+  // useful for dev but should never inform a live operator decision.
+  function isProdOrder(o: {
+    stripe_payment_intent_id?: string | null;
+    stripe_session_id?: string | null;
+  }): boolean {
+    if (!stripeLive) return true; // pre-live, show everything
+    if (o.stripe_payment_intent_id === "mock_pi") return false;
+    if ((o.stripe_session_id || "").startsWith("mock_")) return false;
+    return true;
+  }
+  function isProdCall(c: { request_id?: string | null }): boolean {
+    if (!stripeLive) return true;
+    if ((c.request_id || "").startsWith("mock-")) return false;
+    return true;
+  }
+
+  // ── Local-side aggregates (PROD-FILTERED) ────────────────────────
+  const callsProd = callsAll.filter(isProdCall);
+  const todayCalls = callsProd.filter((c) => c.created_at >= startOfDay);
+  const monthCalls = callsProd.filter((c) => c.created_at >= startOfMonth);
+  const failed = callsProd.filter(
     (c) => c.error || (c.status_code !== null && c.status_code >= 400)
   );
 
@@ -150,7 +185,7 @@ async function getData() {
     .slice(0, 10);
 
   // ── Stripe-side aggregates (from our orders table) ───────────────
-  const orders = (ordersMonth.data ?? []) as Array<{
+  const ordersRaw = (ordersMonth.data ?? []) as Array<{
     id: string;
     amount_cents: number;
     currency: string;
@@ -160,7 +195,10 @@ async function getData() {
     vin: string;
     user_email: string | null;
     vehicle_label: string | null;
+    stripe_payment_intent_id: string | null;
+    stripe_session_id: string | null;
   }>;
+  const orders = ordersRaw.filter(isProdOrder);
   const paidOrdersMonth = orders.filter((o) =>
     ["paid", "delivered"].includes(o.status)
   );
@@ -184,7 +222,16 @@ async function getData() {
      *  PDF would trigger a fresh ClearVin call vs serve from cache. */
     hasReport: boolean;
   };
-  const soldOrders: SoldOrder[] = (soldOrdersAll.data ?? []).map((o) => {
+  const soldOrders: SoldOrder[] = (soldOrdersAll.data ?? [])
+    .filter((row) =>
+      isProdOrder(
+        row as {
+          stripe_payment_intent_id?: string | null;
+          stripe_session_id?: string | null;
+        }
+      )
+    )
+    .map((o) => {
     const r = o as {
       id: string;
       amount_cents: number;
@@ -251,13 +298,15 @@ async function getData() {
     failedCount: failed.length,
     failedLast: failed.slice(0, 10),
     burningVins,
-    recentCalls: callsAll.slice(0, 50),
+    recentCalls: callsProd.slice(0, 50),
     revenueCents,
     paidOrdersCount: paidOrdersMonth.length,
     refundedCount,
     estCostUsd,
     grossMarginUsd,
     soldOrders,
+    stripeLive,
+    stripeStats,
   };
 }
 
@@ -407,16 +456,29 @@ export default async function AdminClearVinPage() {
               by-side. Auto-refreshes every 60 seconds.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Stripe mode badge — operator needs to see at a glance
+                whether they're looking at sandbox or production data. */}
+            {d.stripeLive ? (
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold">
+                <CheckCircle2 className="w-3 h-3" />
+                Stripe LIVE · prod-only
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold">
+                <AlertTriangle className="w-3 h-3" />
+                Stripe TEST · all data shown
+              </span>
+            )}
             {d.stats30d.live ? (
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold">
                 <Server className="w-3 h-3" />
-                Live data
+                ClearVin live
               </span>
             ) : (
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold">
                 <AlertTriangle className="w-3 h-3" />
-                Local-only{d.stats30d.error ? `: ${d.stats30d.error}` : ""}
+                ClearVin local-only{d.stats30d.error ? `: ${d.stats30d.error}` : ""}
               </span>
             )}
           </div>
@@ -564,6 +626,11 @@ export default async function AdminClearVinPage() {
             tone={d.grossMarginUsd >= 0 ? "good" : "danger"}
           />
         </div>
+
+        {/* ─── Stripe production stats ────────────────────────────
+            Pulled live from Stripe's REST API. Returns a "test mode"
+            stand-in when STRIPE_SECRET_KEY is still sk_test_*. */}
+        <StripeProdSection stats={d.stripeStats} />
 
         {/* Sparkline */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
@@ -876,5 +943,361 @@ export default async function AdminClearVinPage() {
         </div>
       </div>
     </>
+  );
+}
+
+// ── Stripe Prod section ──────────────────────────────────────────────
+
+function fmtUnix(s: number): string {
+  return new Date(s * 1000).toLocaleString();
+}
+function fmtUnixDate(s: number): string {
+  return new Date(s * 1000).toLocaleDateString();
+}
+
+/**
+ * Stripe production stats card cluster — only renders meaningfully when
+ * STRIPE_SECRET_KEY is sk_live_*. In test mode it shows a single
+ * placeholder card explaining how to switch.
+ */
+function StripeProdSection({
+  stats,
+}: {
+  stats: import("@/lib/stripe").StripeProdStats;
+}) {
+  if (!stats.liveMode) {
+    return (
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <h2 className="text-sm font-bold text-slate-900 mb-2 flex items-center gap-2">
+          <CircleDollarSign className="w-4 h-4 text-slate-500" />
+          Stripe Production
+        </h2>
+        <p className="text-xs text-slate-600 leading-relaxed">
+          You&rsquo;re on a Stripe <strong>test</strong> key
+          (<code>sk_test_*</code>) — no production data is available here.
+          Add a live key (<code>sk_live_*</code>) to{" "}
+          <code className="px-1 bg-slate-100 rounded">STRIPE_SECRET_KEY</code> in
+          Vercel and redeploy to surface live revenue, fees, payouts and
+          disputes.
+        </p>
+      </div>
+    );
+  }
+
+  const acct = stats.account;
+  const bal = stats.balance;
+  const monthVol = stats.monthVolumeCents / 100;
+  const monthNet = stats.monthNetCents / 100;
+  const monthFees = stats.monthFeesCents / 100;
+  const monthRef = stats.monthRefundedCents / 100;
+  const avail = (bal?.availableCents ?? 0) / 100;
+  const pend = (bal?.pendingCents ?? 0) / 100;
+
+  return (
+    <div className="space-y-4">
+      {/* Section header */}
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <CircleDollarSign className="w-4 h-4 text-emerald-600" />
+            Stripe Production
+          </h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            {acct?.name ? (
+              <>
+                {acct.name}
+                {acct.country && ` · ${acct.country}`}
+                {acct.email && ` · ${acct.email}`}
+              </>
+            ) : (
+              "Live account data"
+            )}
+          </p>
+        </div>
+        {stats.errors.length > 0 && (
+          <span
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold"
+            title={stats.errors.join("\n")}
+          >
+            <AlertTriangle className="w-3 h-3" />
+            {fmtInt(stats.errors.length)} partial errors
+          </span>
+        )}
+      </div>
+
+      {/* Top tiles */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard
+          icon={Wallet}
+          label="Available balance"
+          value={fmtCurrency(avail)}
+          hint={`Bank-ready · ${bal?.currency ?? "USD"}`}
+          tone="good"
+        />
+        <StatCard
+          icon={RefreshCw}
+          label="Pending balance"
+          value={fmtCurrency(pend)}
+          hint="Clearing to bank"
+          tone="default"
+        />
+        <StatCard
+          icon={TrendingUp}
+          label="Gross volume (MTD)"
+          value={fmtCurrency(monthVol)}
+          hint={`${fmtInt(stats.chargeCounts.succeeded)} succeeded charges`}
+          tone="good"
+        />
+        <StatCard
+          icon={CircleDollarSign}
+          label="Net after fees (MTD)"
+          value={fmtCurrency(monthNet)}
+          hint={`Fees ${fmtCurrency(monthFees)} · Refunded ${fmtCurrency(
+            monthRef
+          )}`}
+          tone={monthNet >= 0 ? "good" : "danger"}
+          trend={monthNet >= 0 ? "up" : "down"}
+        />
+      </div>
+
+      {/* Secondary stats row */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard
+          icon={Sparkles}
+          label="New customers (MTD)"
+          value={fmtInt(stats.newCustomersThisMonth)}
+          hint="Stripe customer records created"
+        />
+        <StatCard
+          icon={CheckCircle2}
+          label="Succeeded charges"
+          value={fmtInt(stats.chargeCounts.succeeded)}
+          hint="This month"
+          tone="good"
+        />
+        <StatCard
+          icon={RefreshCw}
+          label="Refunded charges"
+          value={fmtInt(stats.chargeCounts.refunded)}
+          hint="This month"
+          tone={stats.chargeCounts.refunded > 0 ? "warn" : "default"}
+        />
+        <StatCard
+          icon={AlertTriangle}
+          label="Disputed charges"
+          value={fmtInt(stats.chargeCounts.disputed)}
+          hint={
+            stats.chargeCounts.disputed > 0
+              ? "Action required — see below"
+              : "All clear ✓"
+          }
+          tone={
+            stats.chargeCounts.disputed > 0
+              ? "danger"
+              : "good"
+          }
+        />
+      </div>
+
+      {/* Recent charges + payouts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Recent charges */}
+        <div className="rounded-2xl border border-slate-200 bg-white p-5">
+          <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-slate-500" />
+            Recent charges (last 25)
+          </h3>
+          {stats.recentCharges.length === 0 ? (
+            <p className="text-xs text-slate-500 italic">
+              No charges yet this period.
+            </p>
+          ) : (
+            <div className="overflow-x-auto -mx-2">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="text-left text-[10px] uppercase tracking-wider text-slate-500 border-b border-slate-100">
+                    <th className="px-2 py-2 font-bold">When</th>
+                    <th className="px-2 py-2 font-bold">Email</th>
+                    <th className="px-2 py-2 font-bold">Card</th>
+                    <th className="px-2 py-2 font-bold text-right">Gross</th>
+                    <th className="px-2 py-2 font-bold text-right">Fee</th>
+                    <th className="px-2 py-2 font-bold text-right">Net</th>
+                    <th className="px-2 py-2 font-bold text-right">Receipt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.recentCharges.map((c) => (
+                    <tr
+                      key={c.id}
+                      className="border-b border-slate-50 last:border-0 hover:bg-slate-50/60"
+                    >
+                      <td className="px-2 py-2 text-slate-600 whitespace-nowrap">
+                        {fmtUnix(c.created)}
+                      </td>
+                      <td className="px-2 py-2 text-slate-900 max-w-[160px] truncate">
+                        {c.receiptEmail ? (
+                          <a
+                            href={`mailto:${c.receiptEmail}`}
+                            className="text-primary-600 hover:underline"
+                            title={c.receiptEmail}
+                          >
+                            {c.receiptEmail}
+                          </a>
+                        ) : (
+                          <span className="text-slate-400 italic">—</span>
+                        )}
+                      </td>
+                      <td className="px-2 py-2 text-slate-700">
+                        {c.paymentMethod ?? "—"}
+                        {c.last4 && (
+                          <span className="text-slate-500"> ••{c.last4}</span>
+                        )}
+                        {c.country && (
+                          <span className="ml-1 text-[10px] text-slate-400">
+                            {c.country}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-2 py-2 text-right text-slate-900 tabular-nums font-medium">
+                        {fmtCurrency(c.amountCents / 100)}
+                      </td>
+                      <td className="px-2 py-2 text-right text-slate-500 tabular-nums">
+                        {c.feeCents !== null
+                          ? fmtCurrency(c.feeCents / 100)
+                          : "—"}
+                      </td>
+                      <td
+                        className={`px-2 py-2 text-right tabular-nums font-medium ${
+                          c.refunded
+                            ? "text-rose-600 line-through"
+                            : "text-emerald-700"
+                        }`}
+                      >
+                        {c.netCents !== null
+                          ? fmtCurrency(c.netCents / 100)
+                          : "—"}
+                      </td>
+                      <td className="px-2 py-2 text-right">
+                        {c.receiptUrl ? (
+                          <a
+                            href={c.receiptUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[11px] text-primary-600 hover:underline"
+                          >
+                            View
+                          </a>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Payouts */}
+        <div className="rounded-2xl border border-slate-200 bg-white p-5">
+          <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <Wallet className="w-4 h-4 text-slate-500" />
+            Recent payouts to bank
+          </h3>
+          {stats.recentPayouts.length === 0 ? (
+            <p className="text-xs text-slate-500 italic">
+              No payouts on record yet. Stripe pays out on a rolling basis
+              once the available balance crosses the payout threshold.
+            </p>
+          ) : (
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="text-left text-[10px] uppercase tracking-wider text-slate-500 border-b border-slate-100">
+                  <th className="py-2 font-bold">Arrival</th>
+                  <th className="py-2 font-bold">Method</th>
+                  <th className="py-2 font-bold">Status</th>
+                  <th className="py-2 font-bold text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.recentPayouts.map((p) => (
+                  <tr
+                    key={p.id}
+                    className="border-b border-slate-50 last:border-0"
+                  >
+                    <td className="py-2 text-slate-600">
+                      {fmtUnixDate(p.arrivalDate)}
+                    </td>
+                    <td className="py-2 text-slate-700">{p.method}</td>
+                    <td className="py-2">
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          p.status === "paid"
+                            ? "bg-emerald-100 text-emerald-700"
+                            : p.status === "in_transit"
+                            ? "bg-blue-100 text-blue-700"
+                            : p.status === "pending"
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-slate-100 text-slate-700"
+                        }`}
+                      >
+                        {p.status}
+                      </span>
+                    </td>
+                    <td className="py-2 text-right text-slate-900 tabular-nums font-medium">
+                      {fmtCurrency(p.amountCents / 100)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </div>
+
+      {/* Disputes */}
+      {stats.recentDisputes.length > 0 && (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50/40 p-5">
+          <h3 className="text-sm font-bold text-rose-900 mb-3 flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-rose-600" />
+            Recent disputes ({fmtInt(stats.recentDisputes.length)})
+          </h3>
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-left text-[10px] uppercase tracking-wider text-rose-700 border-b border-rose-200">
+                <th className="py-2 font-bold">When</th>
+                <th className="py-2 font-bold">Reason</th>
+                <th className="py-2 font-bold">Status</th>
+                <th className="py-2 font-bold">Charge</th>
+                <th className="py-2 font-bold text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stats.recentDisputes.map((d) => (
+                <tr
+                  key={d.id}
+                  className="border-b border-rose-100 last:border-0"
+                >
+                  <td className="py-2 text-rose-800">{fmtUnixDate(d.created)}</td>
+                  <td className="py-2 text-rose-900">{d.reason}</td>
+                  <td className="py-2">
+                    <span className="px-2 py-0.5 rounded-full bg-rose-200 text-rose-800 text-[10px] font-bold">
+                      {d.status}
+                    </span>
+                  </td>
+                  <td className="py-2 font-mono text-rose-700 text-[10px]">
+                    {d.chargeId.slice(0, 12)}…
+                  </td>
+                  <td className="py-2 text-right text-rose-900 tabular-nums font-bold">
+                    {fmtCurrency(d.amountCents / 100)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
 }

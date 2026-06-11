@@ -47,6 +47,13 @@ function getAppOrigin(): string {
 
 export const stripeConfig = {
   isConfigured: () => !!SECRET(),
+  /**
+   * True when the configured secret is a live-mode key (`sk_live_*`).
+   * Used by the admin dashboard to hide test/sandbox traffic — once we go
+   * live we don't want operator decisions polluted by older test orders.
+   * `rk_live_` (restricted key) also counts as live.
+   */
+  isLiveMode: () => /^(sk|rk)_live_/.test(SECRET()),
   priceCents: PRICE_CENTS,
   priceLabel: () => `$${(PRICE_CENTS() / 100).toFixed(2)}`,
 };
@@ -326,4 +333,342 @@ export async function verifyWebhookSignature(
   } catch {
     return { valid: false, reason: "invalid JSON payload" };
   }
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Stripe production stats — admin dashboard
+// ─────────────────────────────────────────────────────────────────────
+// Pulls real-time data from Stripe's REST API for the /admin/clearvin
+// "Stripe Prod" panel. Everything is best-effort: the helper never throws
+// (caller treats a failure as "no data") so a bad credential or rate
+// limit can't take down the whole admin page.
+
+export interface StripeProdStats {
+  /** sk_live_* configured? */
+  liveMode: boolean;
+  /** Account display name + country (from /v1/account). */
+  account: { name: string | null; country: string | null; email: string | null } | null;
+  /** Available + pending balance, in USD cents. */
+  balance: { availableCents: number; pendingCents: number; currency: string } | null;
+  /** Gross volume in the current calendar month, USD cents. */
+  monthVolumeCents: number;
+  /** Net (gross − refunded − Stripe fees) for the current month, USD cents. */
+  monthNetCents: number;
+  /** Total Stripe fees for the current month, USD cents. */
+  monthFeesCents: number;
+  /** Refunded amount this month, USD cents. */
+  monthRefundedCents: number;
+  /** Charges this month: succeeded vs refunded vs disputed. */
+  chargeCounts: { succeeded: number; refunded: number; disputed: number };
+  /** Most recent successful charges (paginated, capped at 25). */
+  recentCharges: Array<{
+    id: string;
+    amountCents: number;
+    netCents: number | null;
+    feeCents: number | null;
+    currency: string;
+    created: number;
+    receiptEmail: string | null;
+    paymentMethod: string | null;
+    last4: string | null;
+    country: string | null;
+    status: string;
+    refunded: boolean;
+    disputed: boolean;
+    receiptUrl: string | null;
+    description: string | null;
+  }>;
+  /** Most recent disputes (any status). */
+  recentDisputes: Array<{
+    id: string;
+    amountCents: number;
+    currency: string;
+    reason: string;
+    status: string;
+    created: number;
+    chargeId: string;
+  }>;
+  /** Most recent payouts to the linked bank account. */
+  recentPayouts: Array<{
+    id: string;
+    amountCents: number;
+    currency: string;
+    arrivalDate: number;
+    status: string;
+    method: string;
+  }>;
+  /** New customers count, current month. */
+  newCustomersThisMonth: number;
+  /** Error string if any underlying call failed. Page still renders. */
+  errors: string[];
+}
+
+/** Convert a "yyyy-mm" + day-of-month string to a Unix timestamp (seconds). */
+function unixStartOfCurrentMonth(): number {
+  const d = new Date();
+  return Math.floor(new Date(d.getFullYear(), d.getMonth(), 1).getTime() / 1000);
+}
+
+/**
+ * Generic helper — call Stripe's REST API with the configured secret key.
+ * Returns null on any failure (network, non-2xx, parse error).
+ */
+async function stripeGet<T = unknown>(
+  path: string,
+  errors: string[]
+): Promise<T | null> {
+  if (!stripeConfig.isConfigured()) return null;
+  try {
+    const res = await fetch(`https://api.stripe.com${path}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${SECRET()}`,
+        Accept: "application/json",
+      },
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (!res.ok) {
+      errors.push(`${path} → ${res.status}`);
+      return null;
+    }
+    return (await res.json()) as T;
+  } catch (e) {
+    errors.push(`${path} → ${e instanceof Error ? e.message : "fetch failed"}`);
+    return null;
+  }
+}
+
+/**
+ * Build the production-only stats blob for the admin dashboard.
+ *
+ * Skips entirely when the configured key is a test key — returning
+ * `liveMode: false` so the UI can render an explanatory "sandbox mode"
+ * card instead of misleading numbers.
+ *
+ * Hits these Stripe REST endpoints in parallel:
+ *   GET /v1/account                — display name, country, email
+ *   GET /v1/balance                — available + pending
+ *   GET /v1/charges                — month-to-date for volume/counts
+ *   GET /v1/disputes               — most recent disputes
+ *   GET /v1/payouts                — most recent payouts
+ *   GET /v1/customers              — new customers month-to-date
+ *
+ * Total round-trip: ~600-1200ms. Cached by the admin page's
+ * `force-dynamic` revalidation — fresh every 60s with AutoRefresh.
+ */
+export async function fetchStripeProdStats(): Promise<StripeProdStats> {
+  const liveMode = stripeConfig.isLiveMode();
+  if (!liveMode) {
+    return {
+      liveMode: false,
+      account: null,
+      balance: null,
+      monthVolumeCents: 0,
+      monthNetCents: 0,
+      monthFeesCents: 0,
+      monthRefundedCents: 0,
+      chargeCounts: { succeeded: 0, refunded: 0, disputed: 0 },
+      recentCharges: [],
+      recentDisputes: [],
+      recentPayouts: [],
+      newCustomersThisMonth: 0,
+      errors: [],
+    };
+  }
+
+  const errors: string[] = [];
+  const monthStart = unixStartOfCurrentMonth();
+
+  // Stripe paginates at 100 max — for /charges we'd want to iterate, but
+  // the typical month volume here is well under 100. If/when we cross
+  // that, the iteration loop is the only change needed.
+  type StripeAccount = { business_profile?: { name?: string }; country?: string; email?: string };
+  type StripeBalance = {
+    available?: Array<{ amount?: number; currency?: string }>;
+    pending?: Array<{ amount?: number; currency?: string }>;
+  };
+  type StripeCharge = {
+    id: string;
+    amount: number;
+    amount_refunded: number;
+    currency: string;
+    created: number;
+    receipt_email: string | null;
+    receipt_url: string | null;
+    description: string | null;
+    payment_method_details?: {
+      card?: { brand?: string; last4?: string; country?: string };
+      type?: string;
+    };
+    status: string;
+    refunded: boolean;
+    disputed: boolean;
+    balance_transaction?: string | null;
+  };
+  type StripeBalanceTx = { id: string; amount: number; fee: number; net: number };
+  type StripeDispute = {
+    id: string;
+    amount: number;
+    currency: string;
+    reason: string;
+    status: string;
+    created: number;
+    charge: string;
+  };
+  type StripePayout = {
+    id: string;
+    amount: number;
+    currency: string;
+    arrival_date: number;
+    status: string;
+    method: string;
+  };
+  type StripeCustomersList = { data: unknown[] };
+  type StripeList<T> = { data: T[] };
+
+  const [account, balance, charges, disputes, payouts, customers] = await Promise.all([
+    stripeGet<StripeAccount>("/v1/account", errors),
+    stripeGet<StripeBalance>("/v1/balance", errors),
+    stripeGet<StripeList<StripeCharge>>(
+      `/v1/charges?limit=100&created[gte]=${monthStart}`,
+      errors
+    ),
+    stripeGet<StripeList<StripeDispute>>("/v1/disputes?limit=10", errors),
+    stripeGet<StripeList<StripePayout>>("/v1/payouts?limit=10", errors),
+    stripeGet<StripeCustomersList>(
+      `/v1/customers?limit=100&created[gte]=${monthStart}`,
+      errors
+    ),
+  ]);
+
+  // Available + pending — sum the USD line (or first line if no USD).
+  const availUsd =
+    balance?.available?.find((b) => b.currency === "usd") ??
+    balance?.available?.[0];
+  const pendUsd =
+    balance?.pending?.find((b) => b.currency === "usd") ?? balance?.pending?.[0];
+
+  // For each charge we want the underlying balance_transaction to compute
+  // the Stripe fee. Pull them in parallel (capped at the 20 most recent so
+  // we don't hammer the API).
+  const chargesArr: StripeCharge[] = charges?.data ?? [];
+  const topCharges = chargesArr.slice(0, 25);
+  const txIds = topCharges
+    .map((c) => c.balance_transaction)
+    .filter((x): x is string => typeof x === "string" && x.length > 0);
+  const txMap = new Map<string, StripeBalanceTx>();
+  if (txIds.length > 0) {
+    const txs = await Promise.all(
+      txIds.map((id) => stripeGet<StripeBalanceTx>(`/v1/balance_transactions/${id}`, errors))
+    );
+    for (const t of txs) if (t) txMap.set(t.id, t);
+  }
+
+  // Month aggregates from every charge in the window (not just top 25).
+  let monthVolume = 0;
+  let monthRefunded = 0;
+  let monthFees = 0;
+  let succeeded = 0;
+  let refunded = 0;
+  let disputed = 0;
+
+  // For the fee sum across ALL month charges we'd need the balance_tx for
+  // each — too many API calls. Stripe's reporting endpoint exists for this
+  // but requires Restricted API key scopes. We approximate by computing
+  // the fee % from the top 25 (where we DO have balance_tx) and applying
+  // it to the rest.
+  let sampledGross = 0;
+  let sampledFees = 0;
+
+  for (const c of chargesArr) {
+    if (c.status === "succeeded") succeeded++;
+    if (c.refunded || c.amount_refunded > 0) refunded++;
+    if (c.disputed) disputed++;
+    monthVolume += c.amount;
+    monthRefunded += c.amount_refunded;
+
+    if (c.balance_transaction && txMap.has(c.balance_transaction)) {
+      const tx = txMap.get(c.balance_transaction)!;
+      sampledGross += tx.amount;
+      sampledFees += tx.fee;
+      monthFees += tx.fee;
+    }
+  }
+
+  // Approximate fees for the unsampled portion using the sampled effective
+  // rate. ~2.9% + $0.30 is Stripe's standard so this stays close.
+  if (chargesArr.length > topCharges.length && sampledGross > 0) {
+    const sampledRate = sampledFees / sampledGross;
+    const remainderGross =
+      monthVolume - chargesArr.slice(0, topCharges.length).reduce((s, c) => s + c.amount, 0);
+    monthFees += Math.round(remainderGross * sampledRate);
+  }
+
+  const monthNet = monthVolume - monthRefunded - monthFees;
+
+  return {
+    liveMode: true,
+    account: account
+      ? {
+          name: account.business_profile?.name ?? null,
+          country: account.country ?? null,
+          email: account.email ?? null,
+        }
+      : null,
+    balance: balance
+      ? {
+          availableCents: availUsd?.amount ?? 0,
+          pendingCents: pendUsd?.amount ?? 0,
+          currency: (availUsd?.currency ?? pendUsd?.currency ?? "usd").toUpperCase(),
+        }
+      : null,
+    monthVolumeCents: monthVolume,
+    monthNetCents: monthNet,
+    monthFeesCents: monthFees,
+    monthRefundedCents: monthRefunded,
+    chargeCounts: { succeeded, refunded, disputed },
+    recentCharges: topCharges.map((c) => {
+      const tx = c.balance_transaction ? txMap.get(c.balance_transaction) : undefined;
+      const card = c.payment_method_details?.card;
+      return {
+        id: c.id,
+        amountCents: c.amount,
+        netCents: tx ? tx.net : null,
+        feeCents: tx ? tx.fee : null,
+        currency: c.currency.toUpperCase(),
+        created: c.created,
+        receiptEmail: c.receipt_email,
+        paymentMethod:
+          card?.brand ??
+          c.payment_method_details?.type ??
+          null,
+        last4: card?.last4 ?? null,
+        country: card?.country ?? null,
+        status: c.status,
+        refunded: c.refunded || c.amount_refunded > 0,
+        disputed: c.disputed,
+        receiptUrl: c.receipt_url,
+        description: c.description,
+      };
+    }),
+    recentDisputes: (disputes?.data ?? []).map((d) => ({
+      id: d.id,
+      amountCents: d.amount,
+      currency: d.currency.toUpperCase(),
+      reason: d.reason,
+      status: d.status,
+      created: d.created,
+      chargeId: d.charge,
+    })),
+    recentPayouts: (payouts?.data ?? []).map((p) => ({
+      id: p.id,
+      amountCents: p.amount,
+      currency: p.currency.toUpperCase(),
+      arrivalDate: p.arrival_date,
+      status: p.status,
+      method: p.method,
+    })),
+    newCustomersThisMonth: customers?.data?.length ?? 0,
+    errors,
+  };
 }
