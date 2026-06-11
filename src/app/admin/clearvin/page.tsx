@@ -900,14 +900,14 @@ export default async function AdminClearVinPage({
 
         {/* Sold Reports — history (the headline operational table)
             One row per Stripe order in status ∈ {paid, delivered}.
-            Each row shows the buyer's email, VIN, vehicle, amount, and
-            two action links:
-              • "View report"  → buyer-facing /order/report/[id] (HTML viewer)
-              • "Open PDF"     → /api/order/report-pdf/[id] — direct PDF
-                                  stream (admin auth ladder lets staff fetch
-                                  without consuming a fresh ClearVin credit
-                                  when the reportId is cached).
-            Cap of 200 rows is enforced server-side. */}
+            Action: "View report" opens /order/report/[id] — the SAME
+            CarCheckerVIN-branded React UI the buyer saw after their
+            purchase (not ClearVin's raw HTML/PDF).
+            The previous "Open PDF" link is intentionally gone — it
+            served ClearVin's raw PDF which is NOT what the buyer
+            downloaded; the buyer's actual PDF is generated client-side
+            from the React view, so there is no server file to re-serve.
+            Cap of 200 rows enforced server-side. */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
             <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
@@ -918,8 +918,9 @@ export default async function AdminClearVinPage({
               </span>
             </h2>
             <p className="text-[11px] text-slate-500">
-              Click <strong>Open PDF</strong> to re-deliver a buyer&rsquo;s report
-              without consuming a new ClearVin credit.
+              <strong>View report</strong> opens the exact CarCheckerVIN-
+              branded report the buyer received — no new ClearVin credit
+              consumed.
             </p>
           </div>
           {d.soldOrders.length === 0 ? (
@@ -991,30 +992,22 @@ export default async function AdminClearVinPage({
                           )}
                         </td>
                         <td className="px-2 py-2 text-right whitespace-nowrap">
+                          {/* Single link: the buyer-side React report page
+                              is what the buyer actually saw and is also
+                              where the buyer would re-download their PDF
+                              via the client-side jsPDF generator. We
+                              deliberately do NOT link to the raw ClearVin
+                              PDF endpoint — it returns ClearVin's
+                              un-branded PDF which is NOT what the buyer
+                              downloaded. */}
                           <Link
                             href={`/order/report/${o.id}`}
-                            className="text-[11px] text-primary-600 hover:text-primary-700 hover:underline mr-3"
+                            className="text-[11px] font-semibold text-primary-600 hover:text-primary-700 hover:underline"
                             target="_blank"
+                            title="Opens the exact CarCheckerVIN-branded report the buyer saw (and downloaded as PDF)"
                           >
-                            View report
+                            View buyer&rsquo;s report ↗
                           </Link>
-                          <a
-                            href={`/api/order/report-pdf/${o.id}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`text-[11px] font-semibold hover:underline ${
-                              o.hasReport
-                                ? "text-emerald-700 hover:text-emerald-800"
-                                : "text-slate-600 hover:text-slate-800"
-                            }`}
-                            title={
-                              o.hasReport
-                                ? "PDF streams from cached ClearVin payload (no credit consumed)"
-                                : "Will fetch fresh from ClearVin (consumes a credit)"
-                            }
-                          >
-                            {o.hasReport ? "Open PDF" : "Fetch PDF"}
-                          </a>
                         </td>
                       </tr>
                     );
