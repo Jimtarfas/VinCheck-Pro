@@ -3,16 +3,23 @@ import { Check, X, Trophy, ArrowRight, Sparkles } from "lucide-react";
 
 type ColVal = "check" | "cross" | "partial" | string;
 
+// Per-report price — kept in sync with the pricing section and Stripe checkout,
+// which read the same env var (defaults to 999 ¢ = $9.99).
+const PRICE_CENTS = Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999");
+const PER_REPORT = PRICE_CENTS / 100;
+const money = (n: number) => `$${n.toFixed(2)}`;
+
 const rows: { feature: string; us: ColVal; carfax: ColVal; autocheck: ColVal }[] = [
-  { feature: "Accident History & Damage",  us: "check",   carfax: "check",   autocheck: "check" },
-  { feature: "Title Records & Brands",     us: "check",   carfax: "check",   autocheck: "check" },
-  { feature: "Real Vehicle Photos",        us: "check",   carfax: "partial", autocheck: "cross" },
-  { feature: "Salvage Auction Photos",     us: "check",   carfax: "partial", autocheck: "cross" },
-  { feature: "Market Value Analysis",      us: "check",   carfax: "partial", autocheck: "partial" },
-  { feature: "Odometer Verification",      us: "check",   carfax: "check",   autocheck: "check" },
-  { feature: "Theft & Recovery Records",   us: "check",   carfax: "check",   autocheck: "check" },
-  { feature: "Full Equipment & Options",   us: "check",   carfax: "cross",   autocheck: "cross" },
-  { feature: "Pricing (Single Report)",    us: "FREE",    carfax: "$44.99",  autocheck: "$24.99" },
+  { feature: "Accident History & Damage",  us: "check",          carfax: "check",   autocheck: "check" },
+  { feature: "Title Records & Brands",     us: "check",          carfax: "check",   autocheck: "check" },
+  { feature: "Real Vehicle Photos",        us: "check",          carfax: "partial", autocheck: "cross" },
+  { feature: "Salvage Auction Photos",     us: "check",          carfax: "partial", autocheck: "cross" },
+  { feature: "Market Value Analysis",      us: "check",          carfax: "partial", autocheck: "partial" },
+  { feature: "Odometer Verification",      us: "check",          carfax: "check",   autocheck: "check" },
+  { feature: "Theft & Recovery Records",   us: "check",          carfax: "check",   autocheck: "check" },
+  { feature: "Full Equipment & Options",   us: "check",          carfax: "cross",   autocheck: "cross" },
+  { feature: "Free Preview (No Card)",     us: "check",          carfax: "cross",   autocheck: "cross" },
+  { feature: "Pricing (Single Report)",    us: money(PER_REPORT), carfax: "$44.99", autocheck: "$24.99" },
 ];
 
 function Cell({ val, highlight = false }: { val: ColVal; highlight?: boolean }) {
@@ -142,7 +149,8 @@ export default function ComparisonSection() {
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-center sm:text-left">
           <p className="text-sm sm:text-base text-on-surface-variant max-w-md">
             Get the same insights the giants charge $25–$45 for —{" "}
-            <span className="font-bold text-primary">100% free</span>, no credit card required.
+            <span className="font-bold text-primary">just {money(PER_REPORT)} per report</span>. Start
+            with a free preview, no credit card required.
           </p>
           <Link
             href="/#hero"
