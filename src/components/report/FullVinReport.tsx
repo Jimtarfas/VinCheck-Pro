@@ -835,12 +835,17 @@ export default function FullVinReport({
                   const dot = tone === "critical" ? "bg-red-500" : tone === "warning" ? "bg-amber-500" : "bg-primary dark:bg-primary-fixed";
                   return (
                     <li key={i} className="relative">
-                      <span className={`absolute -left-[27px] top-1 h-3.5 w-3.5 rounded-full ring-4 ring-white dark:ring-slate-900 ${dot}`} />
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-sm font-bold text-on-surface dark:text-slate-100">{e.title}</span>
-                        <span className="text-xs text-on-surface-variant dark:text-slate-400">{fmtDate(e.date)}</span>
-                      </div>
-                      <p className="text-sm text-on-surface-variant dark:text-slate-300">{e.detail}</p>
+                      <span className={`absolute -left-[27px] top-1.5 h-3.5 w-3.5 rounded-full ring-4 ring-white dark:ring-slate-900 ${dot}`} />
+                      {/* Title + date use inline flow (not flex) so the PDF/print
+                          capture re-wraps text without the flex line-box height
+                          miscalculation that overlapped the detail line below. */}
+                      <p className="text-sm font-bold leading-snug text-on-surface dark:text-slate-100">
+                        {e.title}
+                        <span className="ml-2 align-baseline text-xs font-normal text-on-surface-variant dark:text-slate-400">
+                          {fmtDate(e.date)}
+                        </span>
+                      </p>
+                      <p className="mt-0.5 text-sm leading-snug text-on-surface-variant dark:text-slate-300">{e.detail}</p>
                     </li>
                   );
                 })}

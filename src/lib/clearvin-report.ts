@@ -394,6 +394,13 @@ const cleanStr = (v: unknown): string => {
 };
 const orDash = (s: string): string => (s ? s : "—");
 
+// Glue a measurement's number to its trailing unit with a non-breaking space so
+// a narrow PDF/print column can't orphan the unit onto its own line (e.g.
+// "15.80\ngallon", "113.00\nin.", "$955\nUSD"). Only the last number→unit gap is
+// joined, so longer values (dimension strings, colour lists) still wrap freely.
+const keepUnit = (s: string): string =>
+  s.replace(/(\d)\s+([A-Za-z$/.×-]+)\s*$/u, "$1\u00A0$2");
+
 function numUnit(v: string): number {
   const n = parseFloat(String(v).replace(/[^0-9.]/g, ""));
   return Number.isFinite(n) ? n : NaN;
@@ -511,8 +518,8 @@ export function normalizeClearVinReport(
         { label: "Cylinders", value: orDash(vehicle.cylinders) },
         { label: "Transmission", value: orDash(vehicle.transmission) },
         { label: "Drive Type", value: orDash(vehicle.driveType) },
-        { label: "Fuel Tank", value: orDash(cleanStr(vi.fuelTank)) },
-        { label: "City / Hwy", value: orDash([cleanStr(vi.cityMileage), cleanStr(vi.highwayMileage)].filter(Boolean).join(" / ")) },
+        { label: "Fuel Tank", value: orDash(keepUnit(cleanStr(vi.fuelTank))) },
+        { label: "City / Hwy", value: orDash([cleanStr(vi.cityMileage), cleanStr(vi.highwayMileage)].map(keepUnit).filter(Boolean).join(" / ")) },
       ],
     },
     {
@@ -521,10 +528,10 @@ export function normalizeClearVinReport(
         { label: "Body Style", value: orDash(vehicle.bodyStyle) },
         { label: "Doors", value: orDash(vehicle.doors) },
         { label: "Seating Capacity", value: orDash(vehicle.seating) },
-        { label: "GVWR", value: orDash(cleanStr(vi.standardGvwr) || cleanStr(vi.maximumGvwr)) },
-        { label: "Curb Weight", value: orDash(cleanStr(vi.curbWeightAutomatic) || cleanStr(vi.curbWeightManual)) },
-        { label: "Wheelbase", value: orDash(cleanStr(vi.wheelbase)) },
-        { label: "Length × Width × Height", value: orDash([cleanStr(vi.length), cleanStr(vi.width), cleanStr(vi.height)].filter(Boolean).join(" × ")) },
+        { label: "GVWR", value: orDash(keepUnit(cleanStr(vi.standardGvwr) || cleanStr(vi.maximumGvwr))) },
+        { label: "Curb Weight", value: orDash(keepUnit(cleanStr(vi.curbWeightAutomatic) || cleanStr(vi.curbWeightManual))) },
+        { label: "Wheelbase", value: orDash(keepUnit(cleanStr(vi.wheelbase))) },
+        { label: "Length × Width × Height", value: orDash([cleanStr(vi.length), cleanStr(vi.width), cleanStr(vi.height)].map(keepUnit).filter(Boolean).join(" × ")) },
         { label: "Tires", value: orDash(cleanStr(vi.tires)) },
       ],
     },
@@ -538,9 +545,9 @@ export function normalizeClearVinReport(
     {
       title: "Original Pricing",
       rows: [
-        { label: "MSRP", value: orDash(vehicle.msrp) },
-        { label: "Invoice", value: orDash(cleanStr(vi.invoice)) },
-        { label: "Destination Charge", value: orDash(cleanStr(vi.destinationCharge)) },
+        { label: "MSRP", value: orDash(keepUnit(vehicle.msrp)) },
+        { label: "Invoice", value: orDash(keepUnit(cleanStr(vi.invoice))) },
+        { label: "Destination Charge", value: orDash(keepUnit(cleanStr(vi.destinationCharge))) },
       ],
     },
   ];
