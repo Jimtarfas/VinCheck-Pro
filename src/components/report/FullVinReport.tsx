@@ -142,6 +142,25 @@ function downscaleDataUri(
   });
 }
 
+/* Reject if `promise` hasn't settled within `ms`. Used to bound the
+   html-to-image capture, whose SVG rasteriser can occasionally hang on large
+   image-heavy reports and never resolve. */
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), ms);
+    promise.then(
+      (v) => {
+        clearTimeout(timer);
+        resolve(v);
+      },
+      (e) => {
+        clearTimeout(timer);
+        reject(e);
+      }
+    );
+  });
+}
+
 /* Replace every external <img> in `root` with an inlined, downscaled data URI.
    Returns a function that restores the original src/srcset attributes. */
 async function inlineExternalImages(root: HTMLElement): Promise<() => void> {
@@ -259,19 +278,30 @@ export default function FullVinReport({
       restoreImages = await inlineExternalImages(node);
 
       const { toCanvas } = await import("html-to-image");
-      const canvas = await toCanvas(node, {
-        // 1.5× keeps text crisp at print size (~160 DPI) while rasterising ~44%
-        // fewer pixels than 2× — the single biggest lever on capture time for a
-        // long, multi-page report.
-        pixelRatio: 1.5,
-        backgroundColor: bg,
-        // External images are already inlined as data URIs above, so cache-
-        // busting only forces needless re-fetches of same-origin assets.
-        cacheBust: false,
-        // Fonts are already loaded in-page; embedding cross-origin font files
-        // can fail, so skip it (matches the window-sticker export).
-        skipFonts: true,
-      });
+      // html-to-image rasterises the whole DOM into a single SVG <foreignObject>
+      // and hands it to the browser's image decoder. On large, image-heavy
+      // reports that SVG can balloon to several MB and the decoder occasionally
+      // never resolves — leaving the button stuck on "Generating…" forever with
+      // no error to catch. Race the capture against a hard timeout so a hung
+      // rasteriser can't strand the user; the catch below falls back to the
+      // browser's native print-to-PDF, which uses our full print stylesheet.
+      const canvas = await withTimeout(
+        toCanvas(node, {
+          // 1.5× keeps text crisp at print size (~160 DPI) while rasterising ~44%
+          // fewer pixels than 2× — the single biggest lever on capture time for a
+          // long, multi-page report.
+          pixelRatio: 1.5,
+          backgroundColor: bg,
+          // External images are already inlined as data URIs above, so cache-
+          // busting only forces needless re-fetches of same-origin assets.
+          cacheBust: false,
+          // Fonts are already loaded in-page; embedding cross-origin font files
+          // can fail, so skip it (matches the window-sticker export).
+          skipFonts: true,
+        }),
+        25_000,
+        "PDF capture timed out"
+      );
 
       const { default: jsPDF } = await import("jspdf");
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
@@ -314,9 +344,31 @@ export default function FullVinReport({
       pdf.save(`${pdfFileName()}.pdf`);
     } catch (err) {
       console.error("[FullReport] doPdf failed:", err);
-      // Fall back to ClearVin's own PDF if we have one, otherwise surface an error.
-      if (pdfUrl) window.open(pdfUrl, "_blank");
-      else setExportError("Could not generate the PDF — please try again.");
+      // Restore the live images before any fallback so the page (and the print
+      // view) shows the real artwork rather than the inlined placeholders.
+      restoreImages?.();
+      restoreImages = null;
+      if (pdfUrl) {
+        // Prefer ClearVin's own PDF if this instance was given one.
+        window.open(pdfUrl, "_blank");
+      } else {
+        // No server PDF to fall back to. Rather than strand the buyer, hand
+        // off to the browser's native print-to-PDF — the report ships a full
+        // print stylesheet, so "Save as PDF" produces a clean document.
+        setExportError(
+          "Building the download took too long — opening your browser's print dialog instead. Choose “Save as PDF.”"
+        );
+        // `finally` resets the nav/exporting state synchronously after this
+        // return; give it a beat to paint, then open the native print dialog.
+        setTimeout(() => {
+          try {
+            window.print();
+          } catch {
+            /* user can still use the Print button manually */
+          }
+        }, 400);
+        return;
+      }
     } finally {
       restoreImages?.();
       setExporting(false);
