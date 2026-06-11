@@ -82,6 +82,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const state = getStateBySlug(slug);
   if (!state) return { title: "VIN Check by State" };
 
+  // /vin-check/state/florida is permanently redirected to /florida-vin-check
+  // by next.config.ts. Despite the 308, GSC still shows ~992 stale
+  // impressions/month with 0 clicks on the redirected URL — Google is
+  // serving the old canonical from its index. A defensive noindex here
+  // tells Google to drop the URL the next time it can resolve it, which
+  // also stops it diluting the destination's CTR signal. Belt-and-
+  // suspenders alongside the redirect.
+  if (slug === "florida") {
+    return {
+      title: { absolute: "Florida VIN Check (moved)" },
+      alternates: { canonical: "https://www.carcheckervin.com/florida-vin-check" },
+      robots: { index: false, follow: true },
+    };
+  }
+
   // Title — layout's title template auto-appends "| CarCheckerVIN".
   // ≤55 chars so total stays under Bing's 70-char limit AND we still
   // have room to lead with the click-drivers ("Free", "Instant").
