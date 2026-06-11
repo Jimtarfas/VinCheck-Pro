@@ -7,6 +7,12 @@ import FullVinReport from "@/components/report/FullVinReport";
 import { getStructuredReport } from "@/lib/clearvin-report";
 import { trackVinLookup, saveVinReport } from "@/lib/tracking";
 
+// Render fresh on every request. Without this, Next caches the rendered HTML
+// per VIN in the Full Route Cache and serves a stale "old version" of the
+// report after deploys/content changes. The report pulls live data and writes
+// tracking rows, so it must always run dynamically (matches /full-report).
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ vin: string }>;
 }
