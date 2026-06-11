@@ -13,7 +13,7 @@ import {
   Zap,
 } from "lucide-react";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { fetchAccountStats } from "@/lib/clearvin";
+import { fetchAccountStats, CLEARVIN_TEST_VINS } from "@/lib/clearvin";
 import { fetchStripeProdStats, stripeConfig } from "@/lib/stripe";
 import AutoRefresh from "../_components/AutoRefresh";
 
@@ -83,7 +83,7 @@ function fmtInt(n: number): string {
   return n.toLocaleString("en-US");
 }
 
-async function getData() {
+async function getData(showAll: boolean) {
   const admin = createAdminClient();
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
@@ -139,29 +139,81 @@ async function getData() {
       fetchStripeProdStats(),
     ]);
 
-  // ── Prod filter (ALWAYS ACTIVE) ──────────────────────────────────
-  // Orders coming from sandbox / mock code paths have:
-  //   stripe_payment_intent_id == 'mock_pi'        (mock-mode promotion)
-  //   stripe_session_id starts with 'mock_'        (mock checkout URL)
-  // ClearVin calls that fell through to mock data carry
-  //   request_id starts with 'mock-<VIN>'.
+  // ── Real-sale filter ─────────────────────────────────────────────
+  // Three layers of "this is not a real customer purchase":
   //
-  // Previous version only filtered when stripeLive — but operator-side
-  // numbers should never count mock data even in test mode (it's why we
-  // were showing "13 sold reports" when only 1 had actually completed).
-  // Mocks are mocks regardless of which Stripe key happens to be active.
-  function isProdOrder(o: {
+  //   1. Mock code paths — orders that never touched real Stripe:
+  //        stripe_payment_intent_id == 'mock_pi'   (mock-mode promotion)
+  //        stripe_session_id startsWith 'mock_'    (mock checkout URL)
+  //      ClearVin calls that fell through to mock data carry
+  //        request_id startsWith 'mock-<VIN>'.
+  //
+  //   2. ClearVin sandbox VINs — the 18 VINs documented in
+  //      ClearVin_VIN_History_Report_US_API_Doc_2.0. No real buyer will
+  //      ever look up exactly these strings; if we see one, it came
+  //      from internal QA / Stripe smoke tests.
+  //
+  //   3. Test email patterns — addresses like test@test.com, foo@bar.com,
+  //      single-name @gmail.com aliases we used in QA. Conservative
+  //      regex: only catches things that clearly aren't real customer
+  //      emails. A real address like "playsalldrums@aol.com" passes.
+  //
+  // All three are always applied by default. The ?showAll=1 URL flag on
+  // /admin/clearvin disables ALL of them so the operator can audit the
+  // raw history when needed.
+  const SANDBOX_VINS = new Set<string>(CLEARVIN_TEST_VINS);
+  const TEST_EMAIL_RE =
+    /^(test|tester|demo|example|sample|qa|foo|bar|baz|admin|alex|alexander|user\d*|abc\d*)@/i;
+
+  function isMockOrder(o: {
     stripe_payment_intent_id?: string | null;
     stripe_session_id?: string | null;
   }): boolean {
-    if (o.stripe_payment_intent_id === "mock_pi") return false;
-    if ((o.stripe_session_id || "").startsWith("mock_")) return false;
+    if (o.stripe_payment_intent_id === "mock_pi") return true;
+    if ((o.stripe_session_id || "").startsWith("mock_")) return true;
+    return false;
+  }
+  function isMockCall(c: { request_id?: string | null }): boolean {
+    return (c.request_id || "").startsWith("mock-");
+  }
+  function isSandboxVin(vin?: string | null): boolean {
+    return !!vin && SANDBOX_VINS.has(vin.toUpperCase());
+  }
+  function isTestEmail(email?: string | null): boolean {
+    if (!email) return false;
+    return TEST_EMAIL_RE.test(email.trim());
+  }
+
+  /** Real-sale: NOT mock AND NOT a sandbox VIN AND NOT a test email. */
+  function isRealOrder(o: {
+    stripe_payment_intent_id?: string | null;
+    stripe_session_id?: string | null;
+    vin?: string | null;
+    user_email?: string | null;
+  }): boolean {
+    if (isMockOrder(o)) return false;
+    if (isSandboxVin(o.vin)) return false;
+    if (isTestEmail(o.user_email)) return false;
     return true;
   }
-  function isProdCall(c: { request_id?: string | null }): boolean {
-    if ((c.request_id || "").startsWith("mock-")) return false;
+
+  /** Picks the right order filter based on the showAll URL flag. */
+  const orderPasses = (o: {
+    stripe_payment_intent_id?: string | null;
+    stripe_session_id?: string | null;
+    vin?: string | null;
+    user_email?: string | null;
+  }) => (showAll ? !isMockOrder(o) : isRealOrder(o));
+
+  const callPasses = (c: { request_id?: string | null; vin?: string | null }) => {
+    if (isMockCall(c)) return false;
+    if (!showAll && isSandboxVin(c.vin)) return false;
     return true;
-  }
+  };
+  // Backwards-compat aliases so the rest of the file (which used these
+  // names before the real-sale filter was introduced) still compiles.
+  const isProdOrder = orderPasses;
+  const isProdCall = callPasses;
 
   // ── Local-side aggregates (PROD-FILTERED) ────────────────────────
   const callsProd = callsAll.filter(isProdCall);
@@ -200,6 +252,11 @@ async function getData() {
     stripe_session_id: string | null;
   }>;
   const orders = ordersRaw.filter(isProdOrder);
+  // How many orders are hidden by the real-sale filter? Surfaces in the
+  // header so the operator knows there's a "show all" toggle.
+  const ordersHiddenByFilter = showAll
+    ? 0
+    : ordersRaw.filter((o) => !isMockOrder(o) && !isRealOrder(o)).length;
   // "Sold" = report was actually delivered to the buyer. A "paid" order
   // means Stripe captured the money but our ClearVin call / report
   // generation hadn't completed yet (or got stuck) at the time of the
@@ -319,6 +376,8 @@ async function getData() {
     estCostUsd,
     grossMarginUsd,
     soldOrders,
+    ordersHiddenByFilter,
+    showAll,
     stripeLive,
     stripeStats,
   };
@@ -442,8 +501,18 @@ function Sparkline({
 
 // ── Page ──────────────────────────────────────────────────────────────
 
-export default async function AdminClearVinPage() {
-  const d = await getData();
+export default async function AdminClearVinPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ showAll?: string }>;
+}) {
+  // ?showAll=1 in the URL disables the real-sale filter entirely so the
+  // operator can audit raw history. Otherwise only real customer
+  // transactions count toward the "delivered this month" headline and
+  // sold-reports history table.
+  const sp = await searchParams;
+  const showAll = sp.showAll === "1";
+  const d = await getData(showAll);
   const bucketsLast30 = d.stats30d.buckets.slice(-30);
   const maxBucket = bucketsLast30.reduce(
     (m, b) => (b.count > m ? b.count : m),
@@ -493,6 +562,37 @@ export default async function AdminClearVinPage() {
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold">
                 <AlertTriangle className="w-3 h-3" />
                 ClearVin local-only{d.stats30d.error ? `: ${d.stats30d.error}` : ""}
+              </span>
+            )}
+            {/* Real-sales filter toggle. Default view excludes ClearVin
+                sandbox VINs + test emails + mock orders so the headline
+                only counts genuine customer purchases. ?showAll=1 reveals
+                everything for audit. */}
+            {d.showAll ? (
+              <Link
+                href="/admin/clearvin"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-800 text-xs font-bold hover:bg-amber-200 transition"
+                title="Re-enable the real-sale filter"
+              >
+                <AlertTriangle className="w-3 h-3" />
+                Showing all (incl. tests) — switch back
+              </Link>
+            ) : d.ordersHiddenByFilter > 0 ? (
+              <Link
+                href="/admin/clearvin?showAll=1"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-200 transition"
+                title="Show all orders including ClearVin sandbox VINs and test emails"
+              >
+                <Sparkles className="w-3 h-3" />
+                Real sales only · {fmtInt(d.ordersHiddenByFilter)} hidden
+              </Link>
+            ) : (
+              <span
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold"
+                title="Filter is active but no test/sandbox orders to hide"
+              >
+                <Sparkles className="w-3 h-3" />
+                Real sales only
               </span>
             )}
           </div>
