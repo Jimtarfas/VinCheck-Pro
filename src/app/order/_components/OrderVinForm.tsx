@@ -205,7 +205,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
               }}
               maxLength={17}
               placeholder="e.g. 1HGBH41JXMN109186"
-              className="w-full pl-9 pr-3 py-2.5 text-sm font-mono tracking-wider rounded-xl border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none uppercase bg-white"
+              className="w-full pl-9 pr-3 py-2.5 text-base sm:text-sm font-mono tracking-wider rounded-xl border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none uppercase bg-white"
             />
           </div>
           <button
@@ -467,7 +467,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
                 required
                 aria-invalid={buyError ? "true" : "false"}
                 aria-describedby={buyError ? "order-buy-error" : undefined}
-                className={`w-full pl-9 pr-3 py-2.5 text-sm rounded-xl border outline-none bg-white transition ${
+                className={`w-full pl-9 pr-3 py-2.5 text-base sm:text-sm rounded-xl border outline-none bg-white transition ${
                   buyError
                     ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100"
                     : "border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/15"

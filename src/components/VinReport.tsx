@@ -1487,7 +1487,10 @@ function UpsellModal({
                 }}
                 placeholder="you@example.com"
                 aria-invalid={error ? true : undefined}
-                className={`w-full rounded-xl border bg-surface-container-lowest pl-9 pr-3 py-3 text-sm text-on-surface outline-none transition focus:ring-2 ${
+                // text-base (16px) on mobile prevents iOS Safari from auto-
+                // zooming the page when the field is focused; compact 14px on
+                // desktop where zoom isn't a concern.
+                className={`w-full rounded-xl border bg-surface-container-lowest pl-9 pr-3 py-3 text-base sm:text-sm text-on-surface outline-none transition focus:ring-2 ${
                   error
                     ? "border-error focus:ring-error/30"
                     : "border-outline-variant/60 focus:border-primary focus:ring-primary/20"
@@ -1534,7 +1537,7 @@ function UpsellModal({
                   }}
                   placeholder="Coupon code"
                   aria-label="Coupon code"
-                  className="flex-1 min-w-0 rounded-xl border border-outline-variant/60 bg-surface-container-lowest px-3 py-2.5 text-sm font-mono uppercase tracking-wide text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className="flex-1 min-w-0 rounded-xl border border-outline-variant/60 bg-surface-container-lowest px-3 py-2.5 text-base sm:text-sm font-mono uppercase tracking-wide text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 />
                 <button
                   type="button"

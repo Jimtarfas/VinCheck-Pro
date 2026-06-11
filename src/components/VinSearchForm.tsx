@@ -34,7 +34,7 @@ export default function VinSearchForm({ size = "lg", onDark = false }: { size?: 
             onChange={(e) => { setVin(e.target.value.toUpperCase()); setError(""); }}
             placeholder="Enter 17-digit VIN Number"
             maxLength={17}
-            className={`w-full bg-transparent border-none outline-none text-on-surface placeholder:text-outline/50 uppercase tracking-widest font-mono font-medium ${isLg ? "text-base py-2" : "text-sm py-1.5"}`}
+            className={`w-full bg-transparent border-none outline-none text-on-surface placeholder:text-outline/50 uppercase tracking-widest font-mono font-medium ${isLg ? "text-base py-2" : "text-base sm:text-sm py-1.5"}`}
           />
         </div>
         <button

@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rebrand demo — before / after</title>
+<style>body{font-family:-apple-system,sans-serif;margin:0;background:#eceef1;color:#191c1e}
+.bar{background:#003178;color:#fff;padding:14px 22px;font-weight:700}
+.note{padding:12px 22px;background:#fff7e6;color:#8b5a00;font-size:13px;border-bottom:1px solid #ffd591}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px}
+.col h3{margin:4px 8px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#5a6472}
+iframe{width:100%;height:760px;border:1px solid #c3c6d4;border-radius:12px;background:#fff}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}</style></head>
+<body><div class="bar">CarCheckerVIN — report rebrand demo</div>
+<div class="note">Demo only. Left = a representative ClearVin report. Right = the same HTML after <code>rebrandReportHtml()</code> — logo, name, domain &amp; email swapped, vehicle data &amp; auction-photo URLs untouched. The real purchased report is served live at <code>/api/order/report-html/[orderId]</code>.</div>
+<div class="grid">
+<div class="col"><h3>Before — ClearVin original</h3><iframe srcdoc="<!DOCTYPE html><html><head><meta charset=&quot;utf-8&quot;><title>ClearVin Vehicle History Report</title>
+<style>body{font-family:-apple-system,sans-serif;background:#f7f9fc;color:#191c1e;margin:0}
+.header{background:linear-gradient(135deg,#1b3a6b,#0d2247);color:#fff;padding:24px;display:flex;align-items:center;gap:16px}
+.header .logo img{height:40px}.section{background:#fff;border:1px solid #c3c6d4;border-radius:12px;padding:20px;margin:16px}
+h2{color:#1b3a6b;margin:0 0 12px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px;border-bottom:1px solid #eceef1;font-size:14px}
+.photo{max-width:260px;border-radius:8px;margin:6px}.footer{padding:24px;color:#5a6472;font-size:13px;text-align:center}</style>
+</head><body>
+<div class=&quot;header&quot;><span class=&quot;logo&quot;><img src=&quot;https://clearvin.com/assets/logo-white.png&quot; alt=&quot;ClearVin logo&quot;/></span>
+<div><h1 style=&quot;margin:0&quot;>ClearVin Vehicle History Report</h1>
+<div style=&quot;opacity:.8;font-family:monospace&quot;>VIN: 1HGCM82633A123456</div></div></div>
+<div class=&quot;section&quot;><h2>Vehicle Specification</h2><table><tbody>
+<tr><th>Year / Make / Model</th><td>2017 Honda Accord EX-L</td></tr>
+<tr><th>Engine</th><td>3.5L V6</td></tr><tr><th>Assembled In</th><td>UNITED STATES</td></tr>
+<tr><th>Original MSRP</th><td>$34,150 USD</td></tr></tbody></table></div>
+<div class=&quot;section&quot;><h2>Title History</h2><table><tbody>
+<tr><th>2017-03-12 · CA</th><td>Clean title issued</td></tr>
+<tr><th>2021-08-04 · TX</th><td>Title transfer (private sale)</td></tr></tbody></table></div>
+<div class=&quot;section&quot;><h2>Auction Photos</h2>
+<img class=&quot;photo&quot; src=&quot;https://clearvin.com/images/auctions/2021/abc123_01.jpg&quot; alt=&quot;auction photo 1&quot;/>
+<img class=&quot;photo&quot; src=&quot;https://www.clearvin.com/images/auctions/2021/abc123_02.jpg&quot; alt=&quot;auction photo 2&quot;/></div>
+<div class=&quot;section&quot;><h2>Odometer History</h2><table><tbody>
+<tr><th>2021-08-04</th><td>62,418 mi — consistent</td></tr></tbody></table></div>
+<div class=&quot;footer&quot;>Report provided by ClearVin, an approved NMVTIS Data Provider.<br/>
+Questions? Email support@clearvin.com or visit https://www.clearvin.com.<br/>
+© 2026 ClearVin. See clearvin.com/terms for details.</div>
+</body></html>"></iframe></div>
+<div class="col"><h3>After — our rebrand</h3><iframe srcdoc="<!DOCTYPE html><html><head><meta charset=&quot;utf-8&quot;><title>CarCheckerVIN Vehicle History Report</title>
+<style>body{font-family:-apple-system,sans-serif;background:#f7f9fc;color:#191c1e;margin:0}
+.header{background:linear-gradient(135deg,#1b3a6b,#0d2247);color:#fff;padding:24px;display:flex;align-items:center;gap:16px}
+.header .logo img{height:40px}.section{background:#fff;border:1px solid #c3c6d4;border-radius:12px;padding:20px;margin:16px}
+h2{color:#1b3a6b;margin:0 0 12px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px;border-bottom:1px solid #eceef1;font-size:14px}
+.photo{max-width:260px;border-radius:8px;margin:6px}.footer{padding:24px;color:#5a6472;font-size:13px;text-align:center}</style>
+</head><body>
+<style id=&quot;ccv-rebrand&quot;>
+  .logo img, img.logo, .header .logo, a[href*=&quot;carcheckervin.com&quot;] img[alt*=&quot;logo&quot; i],
+  img[alt*=&quot;ClearVin&quot; i], img[alt*=&quot;CarCheckerVIN&quot; i].clearvin-logo { display: none !important; }
+  #ccv-brandbar { display: flex; align-items: center; gap: 10px; padding: 14px 20px; background: #003178; }
+  #ccv-brandbar img { height: 28px; width: auto; }
+</style>
+<div id=&quot;ccv-brandbar&quot;><img src=&quot;http://localhost:3000/logo.svg&quot; alt=&quot;CarCheckerVIN&quot; /></div>
+<div class=&quot;header&quot;><span class=&quot;logo&quot;><img src=&quot;https://clearvin.com/assets/logo-white.png&quot; alt=&quot;CarCheckerVIN logo&quot;/></span>
+<div><h1 style=&quot;margin:0&quot;>CarCheckerVIN Vehicle History Report</h1>
+<div style=&quot;opacity:.8;font-family:monospace&quot;>VIN: 1HGCM82633A123456</div></div></div>
+<div class=&quot;section&quot;><h2>Vehicle Specification</h2><table><tbody>
+<tr><th>Year / Make / Model</th><td>2017 Honda Accord EX-L</td></tr>
+<tr><th>Engine</th><td>3.5L V6</td></tr><tr><th>Assembled In</th><td>UNITED STATES</td></tr>
+<tr><th>Original MSRP</th><td>$34,150 USD</td></tr></tbody></table></div>
+<div class=&quot;section&quot;><h2>Title History</h2><table><tbody>
+<tr><th>2017-03-12 · CA</th><td>Clean title issued</td></tr>
+<tr><th>2021-08-04 · TX</th><td>Title transfer (private sale)</td></tr></tbody></table></div>
+<div class=&quot;section&quot;><h2>Auction Photos</h2>
+<img class=&quot;photo&quot; src=&quot;https://clearvin.com/images/auctions/2021/abc123_01.jpg&quot; alt=&quot;auction photo 1&quot;/>
+<img class=&quot;photo&quot; src=&quot;https://www.clearvin.com/images/auctions/2021/abc123_02.jpg&quot; alt=&quot;auction photo 2&quot;/></div>
+<div class=&quot;section&quot;><h2>Odometer History</h2><table><tbody>
+<tr><th>2021-08-04</th><td>62,418 mi — consistent</td></tr></tbody></table></div>
+<div class=&quot;footer&quot;>Report provided by CarCheckerVIN, an approved NMVTIS Data Provider.<br/>
+Questions? Email contact@carcheckervin.com or visit http://localhost:3000.<br/>
+© 2026 CarCheckerVIN. See carcheckervin.com/terms for details.</div>
+</body></html>"></iframe></div>
+</div></body></html>
