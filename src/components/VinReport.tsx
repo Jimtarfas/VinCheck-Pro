@@ -1575,7 +1575,13 @@ function UpsellModal({
               ) : (
                 <>
                   <Lock className="w-4 h-4" />
-                  {priceText ? `Order Full Report — ${priceText}` : "Order Full Report"}
+                  {priceText ? (
+                    <span>
+                      Order Full Report — <span className="price">{priceText}</span>
+                    </span>
+                  ) : (
+                    "Order Full Report"
+                  )}
                 </>
               )}
             </button>

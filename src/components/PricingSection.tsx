@@ -59,7 +59,7 @@ export default function PricingSection() {
             <Sparkles className="w-4 h-4" /> Simple, honest pricing
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
-            Just {money(PER_REPORT)} per report.
+            Just <span className="price">{money(PER_REPORT)}</span> per report.
           </h2>
           <p className="text-base sm:text-lg text-on-surface-variant max-w-2xl mx-auto">
             Start with a <span className="font-black text-primary">free preview</span> — see the vehicle, photos and records we already have at no cost. Unlock the complete history report for just {money(PER_REPORT)} per VIN.
@@ -95,7 +95,7 @@ export default function PricingSection() {
                 Start Here
               </p>
               <div className="flex items-baseline gap-3 mb-2 flex-wrap">
-                <h3 className="text-4xl sm:text-5xl font-headline font-black text-primary">
+                <h3 className="text-4xl sm:text-5xl price font-extrabold text-primary">
                   FREE
                 </h3>
                 <span className="text-sm font-bold text-on-surface-variant">
@@ -155,7 +155,7 @@ export default function PricingSection() {
               </p>
 
               <div className="flex items-baseline gap-2 mb-1 flex-wrap">
-                <h3 className={`text-4xl sm:text-5xl font-headline font-black ${plan.popular ? "text-white" : "text-primary"}`}>
+                <h3 className={`text-4xl sm:text-5xl price font-extrabold ${plan.popular ? "text-white" : "text-primary"}`}>
                   {money(total)}
                 </h3>
               </div>

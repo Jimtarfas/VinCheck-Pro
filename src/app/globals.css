@@ -74,6 +74,19 @@
   --font-mono:     var(--font-geist-mono);
 }
 
+/* Pricing figures — a cleaner, more professional treatment for prices.
+   Uses the neutral sans (Inter) with tabular, lining numerals and tight
+   tracking instead of the rounded display face at a synthesized "black"
+   weight. Multi-digit prices stay aligned and read like a premium SaaS
+   price rather than a chunky headline. Pair with a real weight utility
+   (font-bold / font-extrabold), not font-black. */
+.price {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: -0.025em;
+}
+
 html { scroll-behavior: smooth; }
 
 /* Prevent accidental horizontal scroll on mobile caused by rotated/blurred

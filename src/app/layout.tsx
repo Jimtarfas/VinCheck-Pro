@@ -26,7 +26,9 @@ const manrope = Manrope({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  // 700/800 added for the pricing figures (.price) — clean, professional
+  // tabular numerals instead of the synthesized Manrope "black" weight.
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
   preload: true,
   adjustFontFallback: true,

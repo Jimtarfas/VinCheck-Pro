@@ -433,7 +433,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-2xl sm:text-3xl font-headline font-extrabold text-primary leading-none">
+                <p className="text-2xl sm:text-3xl price font-extrabold text-primary leading-none">
                   {priceLabel}
                 </p>
                 <p className="text-[10px] text-on-surface-variant uppercase tracking-wider mt-1">

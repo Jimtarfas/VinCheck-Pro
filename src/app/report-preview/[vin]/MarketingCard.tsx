@@ -69,7 +69,7 @@ export default function MarketingCard({
       </ul>
 
       <div className="flex items-end gap-2 mb-1.5">
-        <span className="text-5xl font-headline font-black leading-none">${price}</span>
+        <span className="text-5xl price font-extrabold leading-none">${price}</span>
         <span className="text-xs text-white/60 pb-1.5">one-time</span>
       </div>
       <p className="text-xs text-white/70 mb-5">

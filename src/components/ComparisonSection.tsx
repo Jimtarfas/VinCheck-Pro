@@ -44,13 +44,13 @@ function Cell({ val, highlight = false }: { val: ColVal; highlight?: boolean }) 
   // Custom string (pricing)
   if (highlight) {
     return (
-      <span className="text-xl sm:text-2xl font-headline font-black text-white drop-shadow-sm">
+      <span className="text-xl sm:text-2xl price font-extrabold text-white drop-shadow-sm">
         {val}
       </span>
     );
   }
   return (
-    <span className="text-base sm:text-lg font-headline font-bold text-on-surface-variant">
+    <span className="text-base sm:text-lg price font-bold text-on-surface-variant">
       {val}
     </span>
   );
