@@ -137,14 +137,16 @@ export interface ClearVinError {
 // Production config. A static CLEARVIN_API_TOKEN (the 1-month test token, or a
 // manually-issued prod JWT) wins when present; otherwise we log in with
 // email+password and cache the resulting JWT (see loginAndCacheToken).
-const TOKEN = () => process.env.CLEARVIN_API_TOKEN || "";
-const EMAIL = () => process.env.CLEARVIN_API_EMAIL || "";
-const PASSWORD = () => process.env.CLEARVIN_API_PASSWORD || "";
+// All values are .trim()'d: a stray space/newline pasted into a host env var
+// (seen in production: CLEARVIN_API_BASE_URL came back as " https://…") would
+// otherwise corrupt the URL or the Authorization header.
+const TOKEN = () => (process.env.CLEARVIN_API_TOKEN || "").trim();
+const EMAIL = () => (process.env.CLEARVIN_API_EMAIL || "").trim();
+const PASSWORD = () => (process.env.CLEARVIN_API_PASSWORD || "").trim();
 const BASE = () =>
-  (process.env.CLEARVIN_API_BASE_URL || "https://www.clearvin.com").replace(
-    /\/+$/,
-    ""
-  );
+  (process.env.CLEARVIN_API_BASE_URL || "https://www.clearvin.com")
+    .trim()
+    .replace(/\/+$/, "");
 
 /** Do we have *some* way to authenticate against production (sync check)? */
 const HAS_PROD_CREDS = () => Boolean(TOKEN() || (EMAIL() && PASSWORD()));
@@ -153,12 +155,11 @@ const HAS_PROD_CREDS = () => Boolean(TOKEN() || (EMAIL() && PASSWORD()));
 // it never bills the paid ClearVin account. Intentionally NO fallback to the
 // production token: if the sandbox token is unset, the free report degrades to
 // mock data rather than silently spending money on the production key.
-const SANDBOX_TOKEN = () => process.env.CLEARVIN_SANDBOX_API_TOKEN || "";
+const SANDBOX_TOKEN = () => (process.env.CLEARVIN_SANDBOX_API_TOKEN || "").trim();
 const SANDBOX_BASE = () =>
-  (process.env.CLEARVIN_SANDBOX_API_BASE_URL || "https://www.clearvin.com").replace(
-    /\/+$/,
-    ""
-  );
+  (process.env.CLEARVIN_SANDBOX_API_BASE_URL || "https://www.clearvin.com")
+    .trim()
+    .replace(/\/+$/, "");
 
 // ── Production login + token cache ────────────────────────────────────
 // ClearVin production tokens last 120 minutes. We cache the JWT in module
