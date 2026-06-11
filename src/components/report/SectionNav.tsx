@@ -144,7 +144,7 @@ export default function SectionNav({
   }
 
   return (
-    <nav className="sticky top-20 flex max-h-[calc(100dvh-6rem)] flex-col rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/5 dark:bg-slate-900 dark:ring-white/10">
+    <nav className="sticky top-20 flex max-h-[calc(100dvh-11.5rem)] flex-col rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/5 dark:bg-slate-900 dark:ring-white/10">
       <div className="flex flex-shrink-0 items-center gap-2 px-2 pb-2 pt-1">
         <ListChecks className="h-5 w-5 text-on-surface dark:text-slate-100" />
         <span className="font-headline text-base font-bold text-on-surface dark:text-slate-100">
