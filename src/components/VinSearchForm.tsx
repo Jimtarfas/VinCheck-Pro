@@ -17,7 +17,7 @@ export default function VinSearchForm({ size = "lg", onDark = false }: { size?: 
     if (/[IOQ]/i.test(cleaned)) { setError("VINs cannot contain I, O, or Q characters."); return; }
     setError("");
     setLoading(true);
-    router.push(`/report-preview/${cleaned}`);
+    router.push(`/report/${cleaned}`);
   };
 
   const isLg = size === "lg";
