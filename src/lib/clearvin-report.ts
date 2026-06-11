@@ -1022,11 +1022,14 @@ export async function getStructuredReport(
   vin: string,
   orderId = "preview"
 ): Promise<StructuredReportResult> {
-  const res = await fetchFullReport(vin, orderId);
+  // The free public report ALWAYS uses the ClearVin sandbox (test) account so
+  // it never bills the paid production key. Only the post-payment "check VIN"
+  // order flow hits production.
+  const res = await fetchFullReport(vin, orderId, { sandbox: true });
   if (!res.ok) {
     // In mock mode (no token) the report HTML has no embedded data — return a
     // representative normalised report so the page is still walkable.
-    if (isUsingMockData()) {
+    if (isUsingMockData({ sandbox: true })) {
       return { ok: true, report: normalizeClearVinReport(null, { vin, isMock: true }) };
     }
     return { ok: false, status: res.status, code: res.code, message: res.message };
@@ -1037,7 +1040,7 @@ export async function getStructuredReport(
     // Token set but no embedded data (e.g. mock HTML or a layout change).
     return {
       ok: true,
-      report: normalizeClearVinReport(null, { vin, isMock: isUsingMockData() }),
+      report: normalizeClearVinReport(null, { vin, isMock: isUsingMockData({ sandbox: true }) }),
     };
   }
 

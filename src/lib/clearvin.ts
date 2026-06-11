@@ -129,6 +129,24 @@ const BASE = () =>
   );
 const USE_MOCK = () => !TOKEN();
 
+// Sandbox (test-environment) credentials — used by the FREE public report so
+// it never bills the paid ClearVin account. Intentionally NO fallback to the
+// production token: if the sandbox token is unset, the free report degrades to
+// mock data rather than silently spending money on the production key.
+const SANDBOX_TOKEN = () => process.env.CLEARVIN_SANDBOX_API_TOKEN || "";
+const SANDBOX_BASE = () =>
+  (process.env.CLEARVIN_SANDBOX_API_BASE_URL || "https://www.clearvin.com").replace(
+    /\/+$/,
+    ""
+  );
+
+/** Resolve token + base + mock flag for either the sandbox or production env. */
+function resolveEnv(sandbox: boolean): { token: string; base: string; mock: boolean } {
+  const token = sandbox ? SANDBOX_TOKEN() : TOKEN();
+  const base = sandbox ? SANDBOX_BASE() : BASE();
+  return { token, base, mock: !token };
+}
+
 const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/i;
 function normalizeVin(vin: string): string | null {
   const cleaned = vin.trim().toUpperCase();
@@ -385,7 +403,8 @@ export async function fetchPreview(
  */
 export async function fetchFullReport(
   rawVin: string,
-  orderId: string
+  orderId: string,
+  opts?: { sandbox?: boolean }
 ): Promise<{ ok: true; data: ClearVinFullReport } | ClearVinError> {
   const vin = normalizeVin(rawVin);
   if (!vin) {
@@ -397,7 +416,9 @@ export async function fetchFullReport(
     };
   }
 
-  if (USE_MOCK()) {
+  const env = resolveEnv(opts?.sandbox === true);
+
+  if (env.mock) {
     void logCall({
       endpoint: "full_report",
       vin,
@@ -409,14 +430,14 @@ export async function fetchFullReport(
   }
 
   const start = Date.now();
-  const url = `${BASE()}/rest/vendor/report?vin=${encodeURIComponent(
+  const url = `${env.base}/rest/vendor/report?vin=${encodeURIComponent(
     vin
   )}&format=html`;
   try {
     const res = await fetch(url, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${TOKEN()}`,
+        Authorization: `Bearer ${env.token}`,
         // In practice ClearVin returns JSON wrapping the HTML even when we
         // pass format=html (the doc says "plain HTML" but real responses
         // look like {status:"ok", result:{id, vin, html_report}}). We accept
@@ -531,8 +552,94 @@ export async function fetchFullReport(
 }
 
 /** UI helper: show a "sample data — credentials pending" banner when true. */
-export function isUsingMockData(): boolean {
-  return USE_MOCK();
+export function isUsingMockData(opts?: { sandbox?: boolean }): boolean {
+  return resolveEnv(opts?.sandbox === true).mock;
+}
+
+/**
+ * Re-brand ClearVin's HTML report with our logo, name and domain — WITHOUT
+ * touching any of the vehicle data inside it.
+ *
+ * We only have re-branding rights over the chrome (logo / company name /
+ * domain links). The NMVTIS-backed records — title brands, accidents,
+ * odometer, owners, auction rows, photos — are left byte-for-byte intact.
+ *
+ * SAFETY: ClearVin serves the vehicle PHOTOS from its own domain
+ * (per their API doc: https://www.clearvin.com/images/auctions/...). Those
+ * are DATA, not branding, so a blind "clearvin → carcheckervin" string
+ * replace would 404 every photo. We therefore mask all asset/photo URLs
+ * first, rebrand the text + page links, then restore the photo URLs unchanged.
+ */
+const BRAND_NAME = "CarCheckerVIN";
+const BRAND_DOMAIN = "carcheckervin.com";
+const BRAND_SLUG = "carcheckervin"; // lowercase, no TLD
+
+export function rebrandReportHtml(
+  html: string,
+  siteUrl = "https://www.carcheckervin.com"
+): string {
+  if (!html) return html;
+
+  // 1) Protect vehicle-photo / asset URLs on clearvin.com so the domain
+  //    rewrite below can't break them. These paths carry DATA (the car's
+  //    auction photos), not branding.
+  const assets: string[] = [];
+  let out = html.replace(
+    /https?:\/\/(?:www\.)?clearvin\.com\/(?:images|img|assets|static|uploads|media|photos?)\/[^\s"')<>]+/gi,
+    (m) => {
+      const tok = `@@CCVASSET${assets.length}@@`;
+      assets.push(m);
+      return tok;
+    }
+  );
+
+  // 2) Normalise any ClearVin contact email to ours FIRST — before the
+  //    generic domain rewrite below would turn "support@clearvin.com" into
+  //    "support@carcheckervin.com" (a mailbox we don't own).
+  out = out.replace(/[A-Za-z0-9._%+-]+@clearvin\.com/gi, "contact@carcheckervin.com");
+
+  // 3) Rebrand domain references in page links + visible text. (Assets are
+  //    masked, so only real navigation/brand links are affected.)
+  out = out
+    .replace(/https?:\/\/(?:www\.)?clearvin\.com/gi, siteUrl)
+    .replace(/\bclearvin\.com\b/gi, BRAND_DOMAIN);
+
+  // 4) Rebrand the company name, preserving the original letter-case style.
+  out = out
+    .replace(/ClearVin/g, BRAND_NAME)
+    .replace(/CLEARVIN/g, BRAND_NAME.toUpperCase())
+    .replace(/Clearvin/g, BRAND_NAME)
+    .replace(/clearvin/g, BRAND_SLUG);
+
+  // 5) Restore the protected photo/asset URLs unchanged.
+  assets.forEach((orig, i) => {
+    out = out.replace(`@@CCVASSET${i}@@`, orig);
+  });
+
+  // 6) Swap the logo. ClearVin's report renders its own logo near the top;
+  //    its exact markup isn't documented, so we (a) hide common logo elements
+  //    via CSS and (b) inject our own branding bar at the top of <body>. The
+  //    hide-selectors below are intentionally conservative and easy to tune
+  //    once the live ClearVin HTML is available under a real API token.
+  const brandingInjection = `
+<style id="ccv-rebrand">
+  /* Hide ClearVin's own logo so ours is the only brand mark. Tune selectors
+     against the live report HTML if any residual logo slips through. */
+  .logo img, img.logo, .header .logo, a[href*="${BRAND_DOMAIN}"] img[alt*="logo" i],
+  img[alt*="ClearVin" i], img[alt*="${BRAND_NAME}" i].clearvin-logo { display: none !important; }
+  #ccv-brandbar { display: flex; align-items: center; gap: 10px; padding: 14px 20px;
+    background: #003178; }
+  #ccv-brandbar img { height: 28px; width: auto; }
+</style>
+<div id="ccv-brandbar"><img src="${siteUrl}/logo.svg" alt="${BRAND_NAME}" /></div>`;
+
+  if (/<body[^>]*>/i.test(out)) {
+    out = out.replace(/(<body[^>]*>)/i, `$1${brandingInjection}`);
+  } else {
+    out = brandingInjection + out;
+  }
+
+  return out;
 }
 
 /**
