@@ -678,6 +678,107 @@ export function isUsingMockData(opts?: { sandbox?: boolean }): boolean {
   return !HAS_PROD_CREDS();
 }
 
+// ── Account usage (admin dashboard) ───────────────────────────────────
+// ClearVin's documented account-activity endpoint is GET /rest/vendor/stats
+// with a `granularity` query param (day | month | year) and optional
+// from/to ISO dates. Used by the /admin/clearvin page to compute how
+// many credits have been consumed (and therefore how many are left vs
+// our purchased license total in CLEARVIN_LICENSE_TOTAL).
+
+export interface ClearVinUsageBucket {
+  /** ISO date string (YYYY-MM-DD for granularity=day). */
+  date: string;
+  /** Calls in this bucket. */
+  count: number;
+}
+
+export interface ClearVinAccountStats {
+  /** Production credentials present? false → mock figures returned. */
+  live: boolean;
+  /** Total successful API calls billable to the account across the window. */
+  total: number;
+  /** Per-day breakdown (ascending by date). */
+  buckets: ClearVinUsageBucket[];
+  /** Window the stats cover. */
+  from: string;
+  to: string;
+  /** Optional error reported by ClearVin (network/auth failures, etc). */
+  error?: string;
+}
+
+/**
+ * Fetch usage stats from ClearVin's /rest/vendor/stats. Default window is
+ * the last 90 days at day granularity — enough for the admin dashboard's
+ * 30-day chart plus headroom for the headline "calls used" tile.
+ *
+ * Falls back to returning a 90-day window of zeros (with live=false) when
+ * production credentials aren't configured so the admin page still renders
+ * locally / in mock mode.
+ */
+export async function fetchAccountStats(
+  opts?: { fromIso?: string; toIso?: string; granularity?: "day" | "month" | "year" }
+): Promise<ClearVinAccountStats> {
+  const now = new Date();
+  const defaultFrom = new Date(now.getTime() - 90 * 86_400_000);
+  const fromIso = (opts?.fromIso || defaultFrom.toISOString()).slice(0, 10);
+  const toIso = (opts?.toIso || now.toISOString()).slice(0, 10);
+  const granularity = opts?.granularity || "day";
+
+  if (!HAS_PROD_CREDS()) {
+    return { live: false, total: 0, buckets: [], from: fromIso, to: toIso };
+  }
+
+  try {
+    const token = await resolveProdToken();
+    if (!token) {
+      return { live: false, total: 0, buckets: [], from: fromIso, to: toIso };
+    }
+    const url =
+      `${BASE()}/rest/vendor/stats` +
+      `?granularity=${granularity}` +
+      `&from=${encodeURIComponent(fromIso)}` +
+      `&to=${encodeURIComponent(toIso)}`;
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+      signal: AbortSignal.timeout(10_000),
+    });
+    const json = (await res.json().catch(() => ({}))) as {
+      status?: string;
+      message?: string;
+      data?: Array<{ count?: number; date?: string }>;
+    };
+    if (!res.ok || json.status !== "ok") {
+      return {
+        live: false,
+        total: 0,
+        buckets: [],
+        from: fromIso,
+        to: toIso,
+        error: json.message || `HTTP ${res.status}`,
+      };
+    }
+    const buckets: ClearVinUsageBucket[] = (json.data || [])
+      .filter((b) => typeof b.count === "number" && typeof b.date === "string")
+      .map((b) => ({ date: String(b.date), count: Number(b.count) }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+    const total = buckets.reduce((s, b) => s + b.count, 0);
+    return { live: true, total, buckets, from: fromIso, to: toIso };
+  } catch (e) {
+    return {
+      live: false,
+      total: 0,
+      buckets: [],
+      from: fromIso,
+      to: toIso,
+      error: e instanceof Error ? e.message : "stats fetch failed",
+    };
+  }
+}
+
 /**
  * Re-brand ClearVin's HTML report with our logo, name and domain — WITHOUT
  * touching any of the vehicle data inside it.
