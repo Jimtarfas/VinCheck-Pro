@@ -8,9 +8,11 @@
  *   - TEST: pre-issued JWT bearer token (1-month TTL).
  *   - PROD: email+password → JWT (120-min TTL, must refresh).
  *
- *   For now we only support the test-token flow. Production login + refresh
- *   is a follow-up — when the user wires real prod credentials we'll add a
- *   small `loginAndCacheToken()` helper.
+ *   Production login is implemented below via `loginAndCacheToken()`:
+ *   we POST credentials to /rest/vendor/login, cache the returned JWT in
+ *   module memory, and re-authenticate a few minutes before the 120-min
+ *   expiry. A statically-supplied CLEARVIN_API_TOKEN (e.g. the 1-month
+ *   test token) still takes priority when present, so dev/QA is unchanged.
  *
  * Compliance
  *   The /report endpoint returns FULLY-RENDERED HTML — that HTML is the
@@ -22,8 +24,19 @@
  *   IS customisable per ClearVin's integration spec.
  *
  * Env vars
- *   CLEARVIN_API_TOKEN      Bearer JWT (test or prod)
- *   CLEARVIN_API_BASE_URL   defaults to https://www.clearvin.com
+ *   Production (live, paid reports — billed):
+ *     CLEARVIN_API_TOKEN      Optional static JWT. If set, used as-is and
+ *                             no login happens. Leave UNSET in production so
+ *                             the email+password login flow takes over.
+ *     CLEARVIN_API_EMAIL      Production account email (login flow).
+ *     CLEARVIN_API_PASSWORD   Production account password (login flow).
+ *     CLEARVIN_API_BASE_URL   defaults to https://www.clearvin.com
+ *   Sandbox (free public report — never billed):
+ *     CLEARVIN_SANDBOX_API_TOKEN, CLEARVIN_SANDBOX_API_BASE_URL
+ *
+ *   NOTE: ClearVin requires production requests to originate from a
+ *   registered/whitelisted IP — make sure the live server's egress IP is
+ *   registered with ClearVin or every call (incl. login) will 401.
  */
 
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -121,13 +134,20 @@ export interface ClearVinError {
 
 // ── Config ────────────────────────────────────────────────────────────
 
+// Production config. A static CLEARVIN_API_TOKEN (the 1-month test token, or a
+// manually-issued prod JWT) wins when present; otherwise we log in with
+// email+password and cache the resulting JWT (see loginAndCacheToken).
 const TOKEN = () => process.env.CLEARVIN_API_TOKEN || "";
+const EMAIL = () => process.env.CLEARVIN_API_EMAIL || "";
+const PASSWORD = () => process.env.CLEARVIN_API_PASSWORD || "";
 const BASE = () =>
   (process.env.CLEARVIN_API_BASE_URL || "https://www.clearvin.com").replace(
     /\/+$/,
     ""
   );
-const USE_MOCK = () => !TOKEN();
+
+/** Do we have *some* way to authenticate against production (sync check)? */
+const HAS_PROD_CREDS = () => Boolean(TOKEN() || (EMAIL() && PASSWORD()));
 
 // Sandbox (test-environment) credentials — used by the FREE public report so
 // it never bills the paid ClearVin account. Intentionally NO fallback to the
@@ -140,11 +160,90 @@ const SANDBOX_BASE = () =>
     ""
   );
 
-/** Resolve token + base + mock flag for either the sandbox or production env. */
-function resolveEnv(sandbox: boolean): { token: string; base: string; mock: boolean } {
-  const token = sandbox ? SANDBOX_TOKEN() : TOKEN();
-  const base = sandbox ? SANDBOX_BASE() : BASE();
-  return { token, base, mock: !token };
+// ── Production login + token cache ────────────────────────────────────
+// ClearVin production tokens last 120 minutes. We cache the JWT in module
+// memory and re-authenticate ~5 minutes before expiry. Concurrent callers
+// share a single in-flight login so a burst of orders doesn't hammer /login.
+
+const TOKEN_REFRESH_MARGIN_MS = 5 * 60 * 1000;
+let prodTokenCache: { token: string; expiresAt: number } | null = null;
+let loginInFlight: Promise<string> | null = null;
+
+/** Parse ClearVin's `expiresIn` (e.g. "120m") into milliseconds. */
+function parseExpiresInMs(expiresIn: unknown): number | null {
+  if (typeof expiresIn !== "string") return null;
+  const m = expiresIn.trim().match(/^(\d+)\s*(h|m|min|s)?$/i);
+  if (!m) return null;
+  const n = Number(m[1]);
+  const unit = (m[2] || "m").toLowerCase();
+  const mult = unit.startsWith("h") ? 3_600_000 : unit.startsWith("s") ? 1_000 : 60_000;
+  return n * mult;
+}
+
+/**
+ * POST email+password to /rest/vendor/login and cache the JWT. Returns a
+ * still-valid cached token without a network round-trip. Throws on failure
+ * so callers surface a real error rather than silently falling back to mock.
+ */
+async function loginAndCacheToken(): Promise<string> {
+  if (prodTokenCache && prodTokenCache.expiresAt - Date.now() > TOKEN_REFRESH_MARGIN_MS) {
+    return prodTokenCache.token;
+  }
+  if (loginInFlight) return loginInFlight;
+
+  loginInFlight = (async () => {
+    const res = await fetch(`${BASE()}/rest/vendor/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ email: EMAIL(), password: PASSWORD() }),
+      signal: AbortSignal.timeout(15_000),
+    });
+    const json = (await res.json().catch(() => ({}))) as {
+      status?: string;
+      token?: string;
+      expiresIn?: string;
+      message?: string;
+    };
+    if (!res.ok || json.status !== "ok" || typeof json.token !== "string") {
+      prodTokenCache = null;
+      throw new Error(
+        json.message || `ClearVin login failed (HTTP ${res.status}).`
+      );
+    }
+    const ttl = parseExpiresInMs(json.expiresIn) ?? 120 * 60 * 1000;
+    prodTokenCache = { token: json.token, expiresAt: Date.now() + ttl };
+    return json.token;
+  })().finally(() => {
+    loginInFlight = null;
+  });
+
+  return loginInFlight;
+}
+
+/** Resolve the production bearer token: static token first, else login. */
+async function resolveProdToken(): Promise<string> {
+  if (TOKEN()) return TOKEN();
+  if (EMAIL() && PASSWORD()) return loginAndCacheToken();
+  return ""; // no creds → mock
+}
+
+/**
+ * Resolve token + base + mock flag for either env. The production branch may
+ * perform a network login (cached), so this is async. Throws only if a login
+ * was attempted and failed; absence of credentials yields `mock: true`.
+ */
+async function resolveEnvAsync(
+  sandbox: boolean
+): Promise<{ token: string; base: string; mock: boolean }> {
+  if (sandbox) {
+    const token = SANDBOX_TOKEN();
+    return { token, base: SANDBOX_BASE(), mock: !token };
+  }
+  if (!HAS_PROD_CREDS()) {
+    return { token: "", base: BASE(), mock: true };
+  }
+  const token = await resolveProdToken();
+  return { token, base: BASE(), mock: !token };
 }
 
 const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/i;
@@ -292,21 +391,31 @@ export async function fetchPreview(
     };
   }
 
+  // Resolve credentials (may perform a cached production login).
+  let env: { token: string; base: string; mock: boolean };
+  try {
+    env = await resolveEnvAsync(false);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "ClearVin authentication failed.";
+    void logCall({ endpoint: "preview", vin, statusCode: 401, error: msg });
+    return mapClearVinError(401, msg);
+  }
+
   // MOCK PATH (no token configured) — preserves the deterministic test data
   // so the UI is still walkable without credentials.
-  if (USE_MOCK()) {
+  if (env.mock) {
     void logCall({ endpoint: "preview", vin, statusCode: 200, durationMs: 12 });
     return { ok: true, data: mockPreview(vin) };
   }
 
   // REAL PATH ────────────────────────────────────────────────────────
   const start = Date.now();
-  const url = `${BASE()}/rest/vendor/preview?vin=${encodeURIComponent(vin)}`;
+  const url = `${env.base}/rest/vendor/preview?vin=${encodeURIComponent(vin)}`;
   try {
     const res = await fetch(url, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${TOKEN()}`,
+        Authorization: `Bearer ${env.token}`,
         Accept: "application/json",
       },
       signal: AbortSignal.timeout(10_000),
@@ -416,7 +525,14 @@ export async function fetchFullReport(
     };
   }
 
-  const env = resolveEnv(opts?.sandbox === true);
+  let env: { token: string; base: string; mock: boolean };
+  try {
+    env = await resolveEnvAsync(opts?.sandbox === true);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "ClearVin authentication failed.";
+    void logCall({ endpoint: "full_report", vin, orderId, statusCode: 401, error: msg });
+    return mapClearVinError(401, msg);
+  }
 
   if (env.mock) {
     void logCall({
@@ -551,9 +667,14 @@ export async function fetchFullReport(
   }
 }
 
-/** UI helper: show a "sample data — credentials pending" banner when true. */
+/**
+ * UI helper: show a "sample data — credentials pending" banner when true.
+ * Synchronous — keys on the *presence* of credentials, not on a live login,
+ * so it stays usable in render paths.
+ */
 export function isUsingMockData(opts?: { sandbox?: boolean }): boolean {
-  return resolveEnv(opts?.sandbox === true).mock;
+  if (opts?.sandbox === true) return !SANDBOX_TOKEN();
+  return !HAS_PROD_CREDS();
 }
 
 /**
@@ -666,7 +787,16 @@ export async function fetchFullReportPdf(
     };
   }
 
-  if (USE_MOCK()) {
+  let env: { token: string; base: string; mock: boolean };
+  try {
+    env = await resolveEnvAsync(false);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "ClearVin authentication failed.";
+    void logCall({ endpoint: "full_report", vin, orderId: opts.orderId, statusCode: 401, error: msg });
+    return mapClearVinError(401, msg);
+  }
+
+  if (env.mock) {
     // 1x1 white minimal PDF so the iframe still has a non-empty document.
     const stub = mockMinimalPdf(vin);
     void logCall({
@@ -680,17 +810,17 @@ export async function fetchFullReportPdf(
   }
 
   const url = opts.reportId
-    ? `${BASE()}/rest/vendor/report?reportId=${encodeURIComponent(
+    ? `${env.base}/rest/vendor/report?reportId=${encodeURIComponent(
         opts.reportId
       )}&format=pdf`
-    : `${BASE()}/rest/vendor/report?vin=${encodeURIComponent(vin)}&format=pdf`;
+    : `${env.base}/rest/vendor/report?vin=${encodeURIComponent(vin)}&format=pdf`;
 
   const start = Date.now();
   try {
     const res = await fetch(url, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${TOKEN()}`,
+        Authorization: `Bearer ${env.token}`,
         Accept: "application/pdf, application/json",
       },
       signal: AbortSignal.timeout(45_000),
