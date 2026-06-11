@@ -4,6 +4,8 @@ import { decodeVin } from "@/lib/api";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
 import ReportGate from "@/components/ReportGate";
+import FullVinReport from "@/components/report/FullVinReport";
+import { getStructuredReport } from "@/lib/clearvin-report";
 import { trackVinLookup, saveVinReport } from "@/lib/tracking";
 
 interface Props {
@@ -49,10 +51,50 @@ export default async function ReportPage({ params }: Props) {
     notFound();
   }
 
-  let data;
+  // The report body now uses the richer ClearVin structured report (same UI as
+  // /full-report). Kick it off first so it runs concurrently with the decode +
+  // DB writes below. It has a mock fallback, so it resolves for any valid VIN.
+  const structuredPromise = getStructuredReport(cleaned);
+
+  // Decode is now best-effort: it still powers tracking, the dashboard save and
+  // the JSON-LD, but a decode miss must NOT block the report — the structured
+  // report can stand on its own. (Previously a decode failure hard-bailed.)
+  let data: Awaited<ReturnType<typeof decodeVin>> | null = null;
   try {
     data = await decodeVin(cleaned);
   } catch {
+    data = null;
+  }
+
+  if (data) {
+    // Track every view synchronously so the insert completes before the
+    // serverless function returns — otherwise Vercel can freeze the function
+    // before the fire-and-forget promise resolves, and rows never land.
+    // This also guarantees the row shows up in the user's /dashboard.
+    await trackVinLookup({
+      vin: cleaned,
+      make: data.make?.name ?? null,
+      model: data.model?.name ?? null,
+      year: data.years?.[0]?.year ?? null,
+    });
+
+    // Persist the full decode payload to vin_reports. ReportGate ensures
+    // the user is signed in before they see the report, so the upsert lands
+    // under their user_id and the report becomes reachable from /dashboard
+    // and any other device they're signed into. No-op for unauthed.
+    await saveVinReport({
+      vin: cleaned,
+      make: data.make?.name ?? null,
+      model: data.model?.name ?? null,
+      year: data.years?.[0]?.year ?? null,
+      reportData: data,
+    });
+  }
+
+  const structured = await structuredPromise;
+
+  // Genuine miss only when BOTH the structured report and the decode failed.
+  if (!structured.ok && !data) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4 pt-16">
         <div className="text-center max-w-md">
@@ -69,68 +111,51 @@ export default async function ReportPage({ params }: Props) {
     );
   }
 
-  const makeName = data.make?.name || "Unknown Make";
-  const modelName = data.model?.name || "Unknown Model";
-
-  // Track every view synchronously so the insert completes before the
-  // serverless function returns — otherwise Vercel can freeze the function
-  // before the fire-and-forget promise resolves, and rows never land.
-  // This also guarantees the row shows up in the user's /dashboard.
-  await trackVinLookup({
-    vin: cleaned,
-    make: data.make?.name ?? null,
-    model: data.model?.name ?? null,
-    year: data.years?.[0]?.year ?? null,
-  });
-
-  // Persist the full decode payload to vin_reports. ReportGate ensures
-  // the user is signed in before they see the report, so the upsert lands
-  // under their user_id and the report becomes reachable from /dashboard
-  // and any other device they're signed into. No-op for unauthed.
-  await saveVinReport({
-    vin: cleaned,
-    make: data.make?.name ?? null,
-    model: data.model?.name ?? null,
-    year: data.years?.[0]?.year ?? null,
-    reportData: data,
-  });
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Vehicle",
-    name: `${makeName} ${modelName}`,
-    manufacturer: makeName,
-    model: modelName,
-    vehicleIdentificationNumber: cleaned,
-    ...(data.engine && {
-      vehicleEngine: {
-        "@type": "EngineSpecification",
-        engineDisplacement: {
-          "@type": "QuantitativeValue",
-          value: data.engine.displacement,
-          unitCode: "CMQ",
-        },
-        enginePower: {
-          "@type": "QuantitativeValue",
-          value: data.engine.horsepower,
-          unitCode: "BHP",
-        },
-        fuelType: data.engine.fuelType,
-      },
-    }),
-    vehicleTransmission: data.transmission?.transmissionType,
-    driveWheelConfiguration: data.drivenWheels,
-    numberOfDoors: data.numOfDoors,
-  };
+  // JSON-LD is built from decode data when we have it (richer engine specs).
+  const jsonLd = data
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Vehicle",
+        name: `${data.make?.name || "Unknown Make"} ${data.model?.name || "Unknown Model"}`,
+        manufacturer: data.make?.name || "Unknown Make",
+        model: data.model?.name || "Unknown Model",
+        vehicleIdentificationNumber: cleaned,
+        ...(data.engine && {
+          vehicleEngine: {
+            "@type": "EngineSpecification",
+            engineDisplacement: {
+              "@type": "QuantitativeValue",
+              value: data.engine.displacement,
+              unitCode: "CMQ",
+            },
+            enginePower: {
+              "@type": "QuantitativeValue",
+              value: data.engine.horsepower,
+              unitCode: "BHP",
+            },
+            fuelType: data.engine.fuelType,
+          },
+        }),
+        vehicleTransmission: data.transmission?.transmissionType,
+        driveWheelConfiguration: data.drivenWheels,
+        numberOfDoors: data.numOfDoors,
+      }
+    : null;
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <ReportGate vin={cleaned} data={data}>
-        <VinReport data={data} />
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      <ReportGate vin={cleaned} data={data ?? undefined}>
+        {structured.ok ? (
+          <FullVinReport report={structured.report} />
+        ) : data ? (
+          <VinReport data={data} />
+        ) : null}
       </ReportGate>
     </>
   );
