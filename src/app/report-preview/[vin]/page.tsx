@@ -271,7 +271,7 @@ export default async function ReportPreviewPage({ params }: Props) {
   const records = lockedRecords(preview);
 
   const orderHref = `/order?vin=${encodeURIComponent(cleaned)}`;
-  const exampleHref = "/order/sample-report";
+  const exampleHref = "/report/1C4RJEAG0JC168184";
 
   /* ── Hero primary CTA ─────────────────────────────────────────────────
      Sits first in the hero action-button row so the buy button is visible
