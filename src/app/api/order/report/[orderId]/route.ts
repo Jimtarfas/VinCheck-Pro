@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReport, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig, fetchCheckoutSession } from "@/lib/stripe";
+import { provisionAccountForOrder } from "@/lib/account-provisioning";
 import {
   extractReportData,
   normalizeClearVinReport,
@@ -192,6 +193,12 @@ export async function GET(
           .eq("id", order.id);
         order.status = "paid";
         order.stripe_payment_intent_id = sess.payment_intent || null;
+        // Webhook never reached us, so provision the buyer's account here
+        // instead. Best-effort and idempotent with the webhook path.
+        await provisionAccountForOrder(admin, {
+          orderId: order.id,
+          email: order.user_email,
+        });
       } else {
         // Genuinely still pending (or Stripe unreachable) — tell the client
         // to keep polling.

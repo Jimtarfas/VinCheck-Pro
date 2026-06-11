@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyWebhookSignature } from "@/lib/stripe";
 import { fetchFullReport } from "@/lib/clearvin";
+import { provisionAccountForOrder } from "@/lib/account-provisioning";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -65,14 +66,24 @@ export async function POST(req: Request) {
     }
 
     // 1) Mark paid
-    await admin
+    const { data: paidRow } = await admin
       .from("report_orders")
       .update({
         status: "paid",
         paid_at: new Date().toISOString(),
         stripe_payment_intent_id: session.payment_intent || null,
       })
-      .eq("id", orderId);
+      .eq("id", orderId)
+      .select("user_email")
+      .single();
+
+    // 1b) Auto-create the buyer's account (and tie this order to it) so the
+    // report shows up under "My Reports" when they sign in. Best-effort —
+    // never blocks delivery.
+    await provisionAccountForOrder(admin, {
+      orderId,
+      email: paidRow?.user_email,
+    });
 
     // 2) Fetch the full ClearVin report
     const report = await fetchFullReport(vin, orderId);
