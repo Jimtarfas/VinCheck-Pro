@@ -1278,9 +1278,13 @@ function UpsellModal({
           coupon: couponApplied && coupon.trim() ? coupon.trim() : undefined,
         }),
       });
-      const json = await res.json();
-      if (!res.ok || !json.url) {
-        throw new Error(json.error || "Could not start checkout.");
+      // A failing route may return an empty (non-JSON) body — guard so the
+      // buyer sees the real status instead of "Unexpected end of JSON input".
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.url) {
+        throw new Error(
+          json?.error || `Could not start checkout (error ${res.status}).`
+        );
       }
       // Stripe Checkout lives on an external origin — hard-navigate.
       window.location.assign(json.url);
