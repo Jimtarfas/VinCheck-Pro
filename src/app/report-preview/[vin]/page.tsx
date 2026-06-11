@@ -435,9 +435,67 @@ export default async function ReportPreviewPage({ params }: Props) {
     );
   })();
 
+  /* ── Verified vehicle specifications (free, from ClearVin's preview) ──
+     Decoded straight from the VIN. Only fields ClearVin actually returned are
+     shown; empty values (e.g. blank invoice) are dropped. Rendered only when
+     the ClearVin preview is present — never from the auto.dev fallback. */
+  const specRows: { label: string; value: string; mono?: boolean }[] = [];
+  if (preview) {
+    const sp = preview.vinSpec;
+    const push = (label: string, v?: string | null, mono?: boolean) => {
+      const val = (v || "").trim();
+      if (val) specRows.push({ label, value: val, mono });
+    };
+    push("Year", sp.year);
+    push("Make", sp.make);
+    push("Model", sp.model);
+    push("Trim", sp.trim);
+    push("Body Style", sp.style);
+    push("Engine", sp.engine);
+    push("Assembled In", sp.madeIn);
+    push("Original MSRP", sp.msrp);
+    push("Invoice Price", sp.invoice);
+    push("VIN", sp.vin, true);
+  }
+
   /* ── Premium sections injected UNDER the car info (main column) ── */
   const premiumSections = (
     <div className="space-y-12">
+      {/* Verified vehicle specifications — free identity data from ClearVin */}
+      {specRows.length > 0 && (
+        <section>
+          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-emerald-700 mb-3">
+            <Fingerprint className="w-3.5 h-3.5" /> Verified vehicle specifications
+          </div>
+          <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
+            {vehicleLabel} specifications
+          </h2>
+          <p className="text-sm text-on-surface-variant mb-5 max-w-md">
+            Decoded directly from this VIN — confirm the car matches the
+            seller&apos;s listing before you buy. These specs are free.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {specRows.map((r) => (
+              <div
+                key={r.label}
+                className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4"
+              >
+                <div className="text-[10px] font-bold uppercase tracking-wider text-outline mb-1 leading-tight">
+                  {r.label}
+                </div>
+                <div
+                  className={`text-sm font-headline font-extrabold text-on-surface leading-tight break-words ${
+                    r.mono ? "font-mono tracking-tight" : ""
+                  }`}
+                >
+                  {r.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Premium vehicle history */}
       <section>
         <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
