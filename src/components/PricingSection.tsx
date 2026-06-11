@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Check, Sparkles, Eye } from "lucide-react";
+import VinSearchForm from "@/components/VinSearchForm";
 
 // Per-report price — kept in sync with the Stripe checkout, which reads the
 // same env var (defaults to 999 ¢ = $9.99). Every paid tier is priced at this
@@ -66,6 +66,20 @@ export default function PricingSection() {
           </p>
         </div>
 
+        {/* ── Inline VIN entry ────────────────────────────────────────────
+            Users type their VIN right here and go straight to their report —
+            no need to jump to another page just to enter it. The card buttons
+            below all scroll back up to this bar. */}
+        <div
+          id="pricing-search"
+          className="max-w-2xl mx-auto mb-10 sm:mb-14 flex flex-col items-center scroll-mt-28"
+        >
+          <p className="text-sm font-bold text-on-surface-variant mb-3 uppercase tracking-widest">
+            Enter your VIN to get started
+          </p>
+          <VinSearchForm size="sm" />
+        </div>
+
         {/* ── Free preview card ───────────────────────────────────────── */}
         <div className="mb-6 sm:mb-8">
           <div className="relative rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 bg-surface-container-lowest ghost-border shadow-sm flex flex-col lg:flex-row lg:items-center gap-6">
@@ -109,12 +123,12 @@ export default function PricingSection() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href="/order"
+              <a
+                href="#pricing-search"
                 className="flex items-center justify-center gap-2 w-full text-center py-3 rounded-full font-bold bg-surface-container text-primary hover:bg-primary hover:text-white transition-all"
               >
                 <Eye className="w-4 h-4" /> Get a free preview
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -161,8 +175,8 @@ export default function PricingSection() {
                 ))}
               </ul>
 
-              <Link
-                href="/order"
+              <a
+                href="#pricing-search"
                 className={`block w-full text-center py-3 sm:py-4 rounded-full font-bold transition-all ${
                   plan.popular
                     ? "text-on-secondary-container hover:brightness-110"
@@ -171,7 +185,7 @@ export default function PricingSection() {
                 style={plan.popular ? { background: "var(--color-secondary-container)" } : {}}
               >
                 Get Report
-              </Link>
+              </a>
             </div>
             );
           })}
