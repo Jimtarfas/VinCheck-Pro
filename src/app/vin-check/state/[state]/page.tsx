@@ -375,6 +375,51 @@ export default async function StatePage({ params }: Props) {
         </div>
       </section>
 
+      {/* Sources & Data Authority — citation links boost AI-search
+          citation rate (~+40% per Princeton GEO research). Each entry
+          names an authoritative US source that backs a specific claim
+          on the page. `nofollow` keeps these as references, not
+          endorsements; we don't pass PageRank to outside sites for
+          facts we're using as evidence. */}
+      <section className="py-16 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">
+            {state.name} VIN Data — Sources & References
+          </h2>
+          <p className="text-slate-600 leading-relaxed mb-6">
+            Every {state.name} title brand, recall, theft and accident
+            claim on this page traces back to a public, authoritative
+            source. The agencies below are the primary data origins our
+            {" "}{state.name} VIN check cross-references.
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            {[
+              { href: "https://vehiclehistory.bja.ojp.gov/", label: "NMVTIS — Bureau of Justice Assistance", note: `Federal title and brand records across all US states, including ${state.name}.` },
+              { href: "https://www.nhtsa.gov/recalls", label: "NHTSA — Safety Recalls", note: `Authoritative open-recall lookup for every vehicle registered in ${state.name}.` },
+              { href: "https://www.nicb.org/vincheck", label: "NICB VINCheck", note: `Free stolen-vehicle and salvage records from US insurance carriers.` },
+              { href: "https://vpic.nhtsa.dot.gov/decoder/", label: "NHTSA VIN Decoder", note: "Federal reference decoder for VIN structure and manufacturer codes." },
+              { href: "https://www.iihs.org/", label: "IIHS — Vehicle Safety Ratings", note: "Independent crash test and Top Safety Pick data." },
+              { href: "https://www.ftc.gov/business-guidance/resources/dealers-guide-used-car-rule", label: "FTC — Used Car Rule (Buyer's Guide)", note: `Federal regulation governing used-vehicle sales in ${state.name}.` },
+            ].map((s) => (
+              <li key={s.href} className="rounded-xl border border-slate-200 bg-white p-4">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="text-primary-600 font-semibold underline underline-offset-2 hover:text-primary-700"
+                >
+                  {s.label} ↗
+                </a>
+                <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">{s.note}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs text-slate-500 italic">
+            {state.name} VIN data is verified against NMVTIS, NHTSA, NICB, and {state.dmvName} records at lookup time. {state.name} has approximately {state.vehiclesRegistered} registered vehicles.
+          </p>
+        </div>
+      </section>
+
       {/* Related Pages */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

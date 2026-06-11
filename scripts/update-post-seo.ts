@@ -62,6 +62,77 @@ const UPDATES: SeoUpdate[] = [
       "VIN year letter chart",
     ],
   },
+  {
+    // GSC (Jun 2026): 1 impression, 1 click. seoTitle "Buying a Car
+    // Online Sight Unseen — Carvana, Vroom… | CarCheckerVIN" = 70c with
+    // brand suffix appended. Google truncated the named retailers
+    // ("Carvana, Vroom…") in the snippet. New title leads with the
+    // searcher's intent verb ("Buying"), names the dominant retailer
+    // brand (Carvana), and stays under 52c so the suffix appends
+    // cleanly. Description rewritten to address the buyer's actual
+    // fear (delivery surprises) rather than describe what's in the
+    // article.
+    slug: "buying-car-online-sight-unseen",
+    seoTitle: "Buying a Car Online Sight Unseen — 2026 Guide",
+    seoDescription:
+      "Buying a car online without a test drive? Here's the 2026 playbook: 7-day return rights, what to inspect on delivery, and the Carvana / CarMax fine print.",
+    focusKeyword: "buying car online sight unseen",
+    keywords: [
+      "buying car online",
+      "car sight unseen",
+      "Carvana 7 day return",
+      "CarMax buy online",
+      "online used car delivery",
+      "remote car purchase",
+      "online car buying guide",
+    ],
+  },
+  {
+    // GSC (Jun 2026): 1 impression, 0 clicks at pos 4. Old seoTitle
+    // "Dealer Fees Explained — What's Negotiable & What's…
+    // | CarCheckerVIN" was 84c — catastrophic truncation; Google was
+    // showing only "Dealer Fees Explained: What's…" leaving the value
+    // prop ("negotiable") off-screen. New title is 47c so the suffix
+    // appends with room to spare.
+    slug: "dealer-fees-explained",
+    seoTitle: "Dealer Fees Decoded — What's Negotiable in 2026",
+    seoDescription:
+      "Doc fees, market adjustments, VIN etching, nitrogen tires — see which dealer fees are legit, which are junk, and which you can refuse outright in 2026.",
+    focusKeyword: "dealer fees",
+    keywords: [
+      "dealer fees",
+      "doc fees",
+      "junk fees car dealer",
+      "negotiable dealer fees",
+      "market adjustment fee",
+      "VIN etching fee",
+      "dealer add-ons explained",
+    ],
+  },
+  {
+    // GSC (Jun 2026): 1 impression, 0 clicks at pos 7. seoTitle
+    // "Selling a Car Without a Title: Legal Options (202… | CarCheckerVIN"
+    // = 68c; Google truncated the year + the value phrase. The
+    // searcher's question is binary ("can I?") — leading with the
+    // answer "Yes" in the title is a proven CTR lift on Q&A intent
+    // queries. Description doubles down with the state-by-state hook
+    // because the long-tail variant "selling a car without a title in
+    // [state]" dominates the click pool for this query.
+    slug: "selling-car-without-title",
+    seoTitle: "Can You Sell a Car Without a Title? Yes — Here's How",
+    seoDescription:
+      "Yes, you can legally sell a car without a title in most US states. Step-by-step: duplicate titles, bonded titles, parts-only sales — covers all 50 states.",
+    focusKeyword: "selling car without title",
+    keywords: [
+      "sell car without title",
+      "no title car sale",
+      "bonded title",
+      "duplicate title",
+      "parts only car sale",
+      "lost title sell car",
+      "selling car missing title",
+    ],
+  },
 ];
 
 async function updateOne(u: SeoUpdate) {

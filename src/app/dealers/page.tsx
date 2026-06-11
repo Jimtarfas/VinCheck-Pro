@@ -18,23 +18,30 @@ import {
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
+// Title tightened — layout appends " | CarCheckerVIN" (~17c), so the
+// raw title must stay under ~50c to avoid SERP truncation. Previous
+// "VIN Check for Dealers — Wholesale Pricing & API" was 49c by itself
+// → 66c with brand suffix → Google was hard-truncating in B2B SERPs.
+// New title leads with the value proposition ("From $1/Report") which
+// the SERP analysis showed is the click-driver for B2B vehicle-data
+// queries; the secondary phrase ("Dealer VIN API") absorbs the
+// keyword variant searchers actually type.
 export const metadata: Metadata = {
-  title: "VIN Check for Dealers — Wholesale Pricing & API",
+  title: "Dealer VIN API & Wholesale Reports — From $1",
   description:
-    "Wholesale VIN check pricing from $1/report, REST API access, bulk lookups, and white-label vehicle history reports for dealers, auto auctions, and BHPH lots.",
+    "Wholesale VIN check pricing from $1/report. REST API, bulk lookups, and white-label vehicle history reports for auto dealers, auctions, and BHPH lots.",
   keywords: [
-    "dealer vin check",
-    "wholesale vin reports",
-    "vin check api dealers",
-    "bulk vin reports",
-    "dealer carfax alternative",
-    "auto auction vin lookup",
-    "buy here pay here vin check",
-    "dealer vehicle history reports",
+    "dealer VIN check",
+    "wholesale VIN reports",
+    "VIN check API",
+    "bulk VIN reports",
+    "dealer Carfax alternative",
+    "auto auction VIN lookup",
+    "BHPH dealer reports",
   ],
   alternates: { canonical: "/dealers" },
   openGraph: {
-    title: "VIN Check for Dealers — Wholesale Pricing & API",
+    title: "Dealer VIN API & Wholesale Reports — From $1",
     description:
       "Save $20,000+/year on vehicle history reports. Wholesale VIN pricing, REST API, bulk uploads, and white-label reports for auto dealers and auctions.",
     url: "https://www.carcheckervin.com/dealers",
@@ -758,6 +765,54 @@ export default function DealersPage() {
               </details>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Compliance, Data, and Regulatory References ──
+          Dealer SEO has unusually strong E-E-A-T requirements because
+          buyers (B2B SaaS evaluators, compliance officers, GMs) are
+          actively verifying claims about NMVTIS access, DPPA compliance,
+          and FTC Buyer's Guide rules. Naming each governing source as a
+          clickable outbound citation does two things at once:
+            1. Signals expertise to Google's quality raters on a YMYL-
+               adjacent commercial query, and
+            2. Per Princeton GEO research, lifts AI-search citation rate
+               by ~40% (ChatGPT/Perplexity cite pages that themselves
+               cite primary sources). `nofollow` keeps these as
+               references, not endorsements. */}
+      <section className="py-16 bg-white border-t border-slate-200">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+            Compliance, Data, &amp; Regulatory References
+          </h2>
+          <p className="text-slate-600 leading-relaxed mb-6">
+            Dealer access to vehicle history data is governed by federal statute and a handful of approved data programs. Below are the primary references behind every dealer report we generate — each is the authoritative source you can cite to your compliance team.
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+            {[
+              { href: "https://vehiclehistory.bja.ojp.gov/", label: "NMVTIS — Bureau of Justice Assistance", note: "Federal Anti-Car Theft Act program; required data source for any dealer-grade history report." },
+              { href: "https://www.law.cornell.edu/uscode/text/18/2721", label: "18 U.S.C. § 2721 — DPPA", note: "Driver's Privacy Protection Act — what personally-identifying data may NOT be returned to dealers." },
+              { href: "https://www.ftc.gov/business-guidance/resources/dealers-guide-used-car-rule", label: "FTC Used Car Rule (16 CFR 455)", note: "Federal rule governing the dealer Buyer's Guide and disclosure obligations." },
+              { href: "https://www.nhtsa.gov/recalls", label: "NHTSA Recall Database", note: "Authoritative open-recall data dealers must surface to buyers." },
+              { href: "https://www.nicb.org/vincheck", label: "NICB VINCheck", note: "Insurance-carrier theft and salvage records used in pre-sale screening." },
+              { href: "https://www.iihs.org/", label: "IIHS — Vehicle Safety Ratings", note: "Independent crash test results referenced in trade-in valuations." },
+            ].map((s) => (
+              <li key={s.href} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="text-primary-600 font-semibold underline underline-offset-2 hover:text-primary-700"
+                >
+                  {s.label} ↗
+                </a>
+                <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">{s.note}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs text-slate-500 italic">
+            CarCheckerVIN dealer reports are sourced from NMVTIS-approved data partners and cross-referenced against NHTSA, NICB and insurance-carrier records. All access is DPPA-compliant under permissible-purpose categories applicable to motor-vehicle dealers.
+          </p>
         </div>
       </section>
 

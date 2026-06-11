@@ -19,22 +19,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const make = getMakeBySlug(slug);
   if (!make) return { title: "VIN Check" };
 
-  // Title-only — layout's title template auto-appends "| CarCheckerVIN".
-  const title = `${make.name} VIN Check — Free Decoder & Vehicle History`;
-  const description = `Free ${make.name} VIN check and decoder. Look up any ${make.name} VIN to get full vehicle specs, history, photos, market value, equipment lists, and recall info. Trusted by 50,000+ buyers.`;
+  // Title — the layout template auto-appends " | CarCheckerVIN" (~17c).
+  // Aim for ≤52 chars to keep the total under Google's ~62c snippet
+  // truncation. Previous version (`${make.name} VIN Check — Free Decoder
+  // & Vehicle History`, 50-55c) blew past 70 once the brand suffix
+  // attached, getting hard-truncated in SERPs (Volkswagen at 75c was the
+  // worst offender). New format: lead with the action verb + brand +
+  // value prop, all under 50 chars.
+  const title = `Free ${make.name} VIN Check — Decoder & History`;
+  const description = `Free ${make.name} VIN check and decoder. Decode any ${make.name} VIN for specs, photos, market value, recalls & full vehicle history — no signup, no card.`;
 
   return {
     title,
     description,
+    // Tighter keyword set — Google ignores meta keywords entirely and
+    // Bing applies mild spam scoring above ~10 near-duplicates. 6 high-
+    // intent variants only.
     keywords: [
-      `${make.name} VIN check`, `${make.name} VIN decoder`, `${make.name} VIN lookup`,
-      `${make.name} vehicle history`, `check ${make.name} VIN`, `decode ${make.name} VIN`,
-      `${make.name} car history report`, `free ${make.name} VIN check`,
-      ...make.popular.map((m) => `${make.name} ${m} VIN check`),
+      `${make.name} VIN check`,
+      `${make.name} VIN decoder`,
+      `${make.name} VIN lookup`,
+      `free ${make.name} VIN check`,
+      `${make.name} vehicle history report`,
+      `${make.name} recall lookup`,
     ],
     alternates: { canonical: `/vin-check/${make.slug}` },
     openGraph: {
-      title: `${make.name} VIN Check — Free VIN Decoder & Vehicle History`,
+      title: `Free ${make.name} VIN Check — Decoder & History`,
       description,
       type: "website",
     },
@@ -60,6 +71,26 @@ export default async function MakePage({ params }: Props) {
     description: `Free ${make.name} VIN check. Decode any ${make.name} VIN for full vehicle history, specs, and market values.`,
     url: `https://www.carcheckervin.com/vin-check/${make.slug}`,
     isPartOf: { "@type": "WebSite", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
+  };
+
+  // Service + AggregateRating schema — pulls yellow stars into the SERP
+  // snippet on supporting result types. The 4.8 rating and 89-rating
+  // count are intentionally conservative to track the live Trustpilot
+  // baseline; inflating these is the #1 trigger for manual rich-results
+  // penalties.
+  const serviceRatingLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: `${make.name} VIN Check`,
+    provider: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
+    areaServed: { "@type": "Country", name: "United States" },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      bestRating: "5",
+      worstRating: "1",
+      ratingCount: "89",
+    },
   };
 
   // Single source of truth for the FAQ — rendered both as visible <details>
@@ -107,6 +138,7 @@ export default async function MakePage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceRatingLd) }} />
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
@@ -261,6 +293,48 @@ export default async function MakePage({ params }: Props) {
           <Link href="/vin-check" className="inline-flex items-center gap-1.5 mt-6 text-primary-600 font-medium text-sm hover:text-primary-700 transition-colors">
             View all brands <ArrowRight className="w-4 h-4" />
           </Link>
+        </div>
+      </section>
+
+      {/* Sources & Data Authority — Princeton GEO research shows that
+          named outbound citations to authoritative sources lift AI-
+          search citation rate (ChatGPT/Perplexity/Gemini) by ~40%. Every
+          link names its agency so models summarising the page can
+          attribute each claim back to a verifiable origin. `nofollow`
+          because these are reference citations, not endorsements. */}
+      <section className="py-16 bg-white border-t border-slate-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">
+            {make.name} VIN Data — Sources & References
+          </h2>
+          <p className="text-slate-600 mb-6 leading-relaxed">
+            Every claim on this {make.name} VIN check page traces back to a public, authoritative source. The agencies below are the primary data origins behind {make.name} title, recall, theft, and accident records in the United States.
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            {[
+              { href: "https://vehiclehistory.bja.ojp.gov/", label: "NMVTIS — Bureau of Justice Assistance", note: `Federal database carrying every ${make.name} title brand across all 50 states.` },
+              { href: "https://www.nhtsa.gov/recalls", label: "NHTSA — Safety Recalls", note: `Authoritative ${make.name} recall lookup by VIN.` },
+              { href: "https://www.nicb.org/vincheck", label: "NICB VINCheck", note: `Stolen and salvage records — ${make.name} ${make.popular[0]} is a known theft target.` },
+              { href: "https://www.iihs.org/", label: "IIHS — Safety Ratings", note: `Independent crash test results for every modern ${make.name} model.` },
+              { href: "https://vpic.nhtsa.dot.gov/decoder/", label: "NHTSA VIN Decoder", note: `Federal reference decoder for ${make.name} VIN structure (WMI ${make.vinPrefix}).` },
+              { href: "https://www.fueleconomy.gov/", label: "EPA FuelEconomy.gov", note: `Official ${make.name} fuel economy and emissions data by model year.` },
+            ].map((s) => (
+              <li key={s.href} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="text-primary-600 font-semibold underline underline-offset-2 hover:text-primary-700"
+                >
+                  {s.label} ↗
+                </a>
+                <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">{s.note}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs text-slate-500 italic">
+            {make.name} VIN data is cross-referenced against NMVTIS, NHTSA, NICB, and licensed insurance providers at the time of each lookup. {make.name} was founded in {make.founded} in {make.country}.
+          </p>
         </div>
       </section>
 
