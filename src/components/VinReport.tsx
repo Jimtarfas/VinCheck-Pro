@@ -298,24 +298,11 @@ function PhotoGallery({
   }
 
   // When the gallery is showing real photos of the same year/make/model
-  // (rather than this exact VIN), make that crystal clear so users don't
-  // think they're seeing the actual car.
+  // (rather than this exact VIN), the photo-count badge labels them "Similar".
   const isSimilar = photoSource === "similar" || photoSource === "web";
-  const similarLabel = [year, make, model].filter(Boolean).join(" ");
 
   return (
     <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
-      {/* Similar-vehicle disclaimer — only when photos aren't of this exact VIN */}
-      {isSimilar && (
-        <div className="flex items-start gap-2 px-4 sm:px-5 py-2.5 bg-secondary-container/60 border-b border-outline-variant text-[11px] sm:text-xs text-on-secondary-container">
-          <Info className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 flex-shrink-0" />
-          <span>
-            Showing real photos of a <strong>{similarLabel}</strong> from current
-            listings — actual vehicle&apos;s color, trim, and condition may differ.
-          </span>
-        </div>
-      )}
-
       {/* Main photo — 3:2 on mobile matches real car-photo dimensions so the whole
           vehicle stays visible (2:1 was cropping off the roof and wheels), 16:9 on desktop */}
       <div className="relative aspect-[3/2] sm:aspect-[16/9] bg-surface-container overflow-hidden">

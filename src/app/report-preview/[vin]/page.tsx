@@ -257,6 +257,9 @@ export default async function ReportPreviewPage({ params }: Props) {
   const hasRealPhoto =
     Array.isArray(reportData.photos) &&
     reportData.photos.some((u) => typeof u === "string" && u.length > 0 && u !== "0");
+  // When we fall back to similar photos, how many we found — used to tease the
+  // rest as blurred, locked thumbnails (see fallbackLockedCount below).
+  let fallbackLockedCount: number | undefined;
   if (!hasRealPhoto) {
     const spec = preview?.vinSpec;
     const fbYear = Number(spec?.year ?? reportData.years?.[0]?.year) || undefined;
@@ -267,17 +270,23 @@ export default async function ReportPreviewPage({ params }: Props) {
       bodyType: spec?.style ?? undefined,
     });
     if (similarPhotos.length > 0) {
-      reportData.photos = similarPhotos;
+      // Premium preview: keep only the single best-matching photo as the hero
+      // and lock the rest as blurred duplicates behind the paywall — just like
+      // real-photo VINs. Showing the full strip of mismatched colors/trims for
+      // free both gives away the gallery and looks inconsistent.
+      reportData.photos = [similarPhotos[0]];
       reportData.photoSource = "web";
+      fallbackLockedCount = similarPhotos.length;
     }
   }
 
   // ClearVin's hero photo is already on reportData (clearVinReportData). Tease
-  // the rest of the photos on file as blurred, locked thumbnails.
+  // the rest of the photos on file as blurred, locked thumbnails. For similar-
+  // photo VINs, fall back to the count of photos we found above.
   const lockedPhotoCount =
     preview?.previewImageURL && preview.imagesAmount > 1
       ? preview.imagesAmount
-      : undefined;
+      : fallbackLockedCount;
 
   const mock = isUsingMockData();
   const s = preview?.vinSpec;
