@@ -4,7 +4,6 @@ import {
   AlertTriangle,
   CheckCircle2,
   CircleDollarSign,
-  Gauge,
   RefreshCw,
   Server,
   Sparkles,
@@ -356,39 +355,125 @@ export default async function AdminClearVinPage() {
           </div>
         </div>
 
-        {/* Top tiles */}
+        {/* ── HERO: the two numbers you actually care about ──
+            User feedback: "I'm more interested to know how much left".
+            These two tiles are >2x the size of everything else, sit
+            above the secondary metrics, and surface the answer to "how
+            many reports left vs how many have I sold" in the first
+            screen-height of the page. Everything else stays as
+            supporting detail below.
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Left hero: credits left */}
+          <div
+            className={`rounded-3xl border-2 p-6 sm:p-8 ${
+              d.licenseTotal === 0
+                ? "border-amber-200 bg-amber-50/40"
+                : usagePct >= 90
+                ? "border-rose-300 bg-rose-50/60"
+                : usagePct >= 70
+                ? "border-amber-300 bg-amber-50/60"
+                : "border-emerald-300 bg-emerald-50/60"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" />
+                Reports left
+              </span>
+              {d.licenseTotal > 0 && (
+                <span
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    usagePct >= 90
+                      ? "bg-rose-200 text-rose-800"
+                      : usagePct >= 70
+                      ? "bg-amber-200 text-amber-800"
+                      : "bg-emerald-200 text-emerald-800"
+                  }`}
+                >
+                  {usagePct}% used
+                </span>
+              )}
+            </div>
+            {d.licenseTotal > 0 ? (
+              <>
+                <div className="flex items-baseline gap-2 mt-1">
+                  <span className="text-5xl sm:text-6xl font-extrabold text-slate-900 tabular-nums leading-none">
+                    {fmtInt(d.creditsRemaining ?? 0)}
+                  </span>
+                  <span className="text-sm text-slate-500 font-medium">
+                    of {fmtInt(d.licenseTotal)} purchased
+                  </span>
+                </div>
+                <div className="mt-4 h-2 rounded-full bg-white/70 overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all ${
+                      usagePct >= 90
+                        ? "bg-rose-500"
+                        : usagePct >= 70
+                        ? "bg-amber-500"
+                        : "bg-emerald-500"
+                    }`}
+                    style={{ width: `${usagePct}%` }}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-3xl sm:text-4xl font-extrabold text-amber-700 mt-1 leading-tight">
+                  Set env var
+                </p>
+                <p className="text-xs text-amber-800 mt-2 leading-relaxed">
+                  Add <code className="px-1 bg-white rounded">CLEARVIN_LICENSE_TOTAL</code> in Vercel with the total number of reports you purchased from ClearVin (e.g. <code>500</code>), then redeploy. Until then, this tile can&rsquo;t compute &ldquo;remaining&rdquo; — ClearVin&rsquo;s API exposes <em>usage</em>, not <em>balance</em>.
+                </p>
+              </>
+            )}
+          </div>
+
+          {/* Right hero: reports sold */}
+          <div className="rounded-3xl border-2 border-primary-200 bg-primary-50/40 p-6 sm:p-8">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Wallet className="w-3.5 h-3.5" />
+                Reports sold this month
+              </span>
+              {d.refundedCount > 0 && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-200 text-rose-800">
+                  {fmtInt(d.refundedCount)} refunded
+                </span>
+              )}
+            </div>
+            <div className="flex items-baseline gap-2 mt-1">
+              <span className="text-5xl sm:text-6xl font-extrabold text-slate-900 tabular-nums leading-none">
+                {fmtInt(d.paidOrdersCount)}
+              </span>
+              <span className="text-sm text-slate-500 font-medium">
+                {fmtCurrency(d.revenueCents / 100)} revenue
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 mt-4 leading-relaxed">
+              Stripe orders marked <strong>paid</strong> or <strong>delivered</strong> in the current calendar month. One sold report ≈ one ClearVin credit consumed.
+            </p>
+          </div>
+        </div>
+
+        {/* Secondary tiles — supporting detail (the hero row above covers
+            "left" + "sold this month"; these surface the operational
+            numbers an admin scans next: API health and unit economics) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <StatCard
-            icon={Sparkles}
-            label="Credits remaining"
-            value={
-              d.licenseTotal > 0
-                ? fmtInt(d.creditsRemaining ?? 0)
-                : "Set env var"
-            }
-            hint={
-              d.licenseTotal > 0
-                ? `of ${fmtInt(d.licenseTotal)} purchased · ${usagePct}% used`
-                : "Set CLEARVIN_LICENSE_TOTAL"
-            }
-            tone={
-              d.licenseTotal === 0
-                ? "warn"
-                : usagePct >= 90
-                ? "danger"
-                : usagePct >= 70
-                ? "warn"
-                : "good"
-            }
+            icon={Activity}
+            label="API calls today"
+            value={fmtInt(d.todayCallsCount)}
+            hint={`${fmtInt(d.monthCallsCount)} this month`}
+            tone="default"
           />
           <StatCard
-            icon={Activity}
-            label="Calls this month"
-            value={fmtInt(d.monthCallsCount)}
-            hint={`${fmtInt(d.todayCallsCount)} today · ${fmtInt(
-              d.failedCount
-            )} failed (30d)`}
-            tone={d.failedCount > 0 ? "warn" : "default"}
+            icon={AlertTriangle}
+            label="Failed calls (30d)"
+            value={fmtInt(d.failedCount)}
+            hint={d.failedCount === 0 ? "All clear ✓" : "See failures below"}
+            tone={d.failedCount > 0 ? "warn" : "good"}
           />
           <StatCard
             icon={Wallet}
@@ -412,40 +497,6 @@ export default async function AdminClearVinPage() {
             tone={d.grossMarginUsd >= 0 ? "good" : "danger"}
           />
         </div>
-
-        {/* Usage bar */}
-        {d.licenseTotal > 0 && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-5">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <Gauge className="w-4 h-4 text-slate-500" />
-                <h2 className="text-sm font-bold text-slate-900">
-                  License consumption
-                </h2>
-              </div>
-              <span className="text-xs text-slate-500 tabular-nums">
-                {fmtInt(d.clearvinUsed)} / {fmtInt(d.licenseTotal)}
-              </span>
-            </div>
-            <div className="h-3 rounded-full bg-slate-100 overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all ${
-                  usagePct >= 90
-                    ? "bg-rose-500"
-                    : usagePct >= 70
-                    ? "bg-amber-500"
-                    : "bg-emerald-500"
-                }`}
-                style={{ width: `${usagePct}%` }}
-              />
-            </div>
-            <div className="flex items-center justify-between mt-2 text-xs text-slate-500">
-              <span>0</span>
-              <span>{usagePct}%</span>
-              <span>{fmtInt(d.licenseTotal)}</span>
-            </div>
-          </div>
-        )}
 
         {/* Sparkline */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
