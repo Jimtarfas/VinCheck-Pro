@@ -101,7 +101,7 @@ export default function VinCheckBanner({ variant = "default" }: { variant?: Vari
           Run Free VIN Check <ArrowRight className="w-3.5 h-3.5" />
         </Link>
         <Link
-          href="/report/1C4RJEAG0JC168184"
+          href="/full-report/1C4RJEAG0JC168184"
           className="inline-flex items-center justify-center gap-1 px-5 py-2.5 border border-primary-200 hover:bg-primary-100 text-primary-700 text-xs font-semibold rounded-xl transition-colors"
         >
           View sample report

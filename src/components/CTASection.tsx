@@ -41,7 +41,7 @@ export default function CTASection() {
             </div>
 
             <Link
-              href="/report/1C4RJEAG0JC168184"
+              href="/full-report/1C4RJEAG0JC168184"
               className="text-sm text-white/85 hover:text-white transition-colors underline underline-offset-2"
             >
               View sample report →

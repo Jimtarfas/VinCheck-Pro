@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { MessageCircle, X, Send, Loader2, CheckCircle2 } from "lucide-react";
 
 interface ChatMessage {
@@ -24,6 +25,11 @@ function uuid(): string {
 }
 
 export default function ChatWidget() {
+  const pathname = usePathname();
+  // The premium report (/full-report) renders a fixed floating action dock
+  // anchored at the bottom of the viewport. Lift the chat launcher above it so
+  // the bubble doesn't cover the dock's Download/Print buttons.
+  const liftAboveDock = pathname?.startsWith("/full-report") ?? false;
   const [open, setOpen] = useState(false);
   const [introDone, setIntroDone] = useState(false);
   const [name, setName] = useState("");
@@ -276,7 +282,7 @@ export default function ChatWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open chat"
-          className="fixed bottom-5 right-5 z-[60] w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-700 text-white shadow-2xl shadow-primary-900/30 flex items-center justify-center transition-transform hover:scale-105 active:scale-95"
+          className={`fixed right-5 z-[60] w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-700 text-white shadow-2xl shadow-primary-900/30 flex items-center justify-center transition-transform hover:scale-105 active:scale-95 ${liftAboveDock ? "bottom-24" : "bottom-5"}`}
         >
           <MessageCircle className="w-6 h-6" />
           {bumpCount > 0 && (

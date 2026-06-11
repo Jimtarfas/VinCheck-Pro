@@ -21,6 +21,9 @@ export default function ConditionalFooter() {
     pathname === "/admin" || (pathname?.startsWith("/admin/") ?? false);
   const isOrder =
     pathname === "/order" || (pathname?.startsWith("/order/") ?? false);
-  if (isAdmin || isOrder) return null;
+  // The full VIN report ships its own disclaimer footer (section 20); stacking
+  // the marketing footer below it would duplicate site chrome.
+  const isFullReport = pathname?.startsWith("/full-report/") ?? false;
+  if (isAdmin || isOrder || isFullReport) return null;
   return <Footer />;
 }
