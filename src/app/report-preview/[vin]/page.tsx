@@ -32,6 +32,7 @@ import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
 import { decodeVin, type VinData } from "@/lib/api";
 import { fetchPreview, isUsingMockData, type ClearVinPreview } from "@/lib/clearvin";
+import { fetchExternalVehiclePhotos } from "@/lib/external-photos";
 import MarketingCard from "./MarketingCard";
 import BuyReportButton from "@/components/BuyReportButton";
 
@@ -89,6 +90,9 @@ function clearVinReportData(vin: string, p: ClearVinPreview): VinData {
   const s = p.vinSpec;
   const year = s.year ? Number(s.year) : undefined;
   const bodyType = (s.style || "").trim();
+  // ClearVin returns the literal "0" (not a URL) when it has no photo on file.
+  const heroPhoto =
+    p.previewImageURL && p.previewImageURL !== "0" ? p.previewImageURL : null;
   return {
     vin,
     make: { id: 0, name: s.make || "Vehicle", niceName: "" },
@@ -108,7 +112,7 @@ function clearVinReportData(vin: string, p: ClearVinPreview): VinData {
     categories: bodyType
       ? ({ primaryBodyType: bodyType } as VinData["categories"])
       : undefined,
-    photos: p.previewImageURL ? [p.previewImageURL] : undefined,
+    photos: heroPhoto ? [heroPhoto] : undefined,
     photoSource: "vin",
   } as unknown as VinData;
 }
@@ -243,6 +247,29 @@ export default async function ReportPreviewPage({ params }: Props) {
         </div>
       </div>
     );
+  }
+
+  // Photo fallback: ClearVin only has images for vehicles with auction/salvage
+  // history, so clean cars come back with none. Rather than show an empty
+  // placeholder, fetch high-quality Bing photos of the SAME year/make/model and
+  // present them (clearly labeled "similar" in the gallery). Only runs when no
+  // real photo was attached by ClearVin or auto.dev.
+  const hasRealPhoto =
+    Array.isArray(reportData.photos) &&
+    reportData.photos.some((u) => typeof u === "string" && u.length > 0 && u !== "0");
+  if (!hasRealPhoto) {
+    const spec = preview?.vinSpec;
+    const fbYear = Number(spec?.year ?? reportData.years?.[0]?.year) || undefined;
+    const fbMake = spec?.make ?? reportData.make?.name ?? undefined;
+    const fbModel = spec?.model ?? reportData.model?.name ?? undefined;
+    const similarPhotos = await fetchExternalVehiclePhotos(fbYear, fbMake, fbModel, {
+      trim: spec?.trim ?? undefined,
+      bodyType: spec?.style ?? undefined,
+    });
+    if (similarPhotos.length > 0) {
+      reportData.photos = similarPhotos;
+      reportData.photoSource = "web";
+    }
   }
 
   // ClearVin's hero photo is already on reportData (clearVinReportData). Tease
