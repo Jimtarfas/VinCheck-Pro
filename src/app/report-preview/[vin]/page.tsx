@@ -435,65 +435,58 @@ export default async function ReportPreviewPage({ params }: Props) {
     );
   })();
 
-  /* ── Verified vehicle specifications (free, from ClearVin's preview) ──
-     Decoded straight from the VIN. Only fields ClearVin actually returned are
-     shown; empty values (e.g. blank invoice) are dropped. Rendered only when
-     the ClearVin preview is present — never from the auto.dev fallback. */
-  const specRows: { label: string; value: string; mono?: boolean }[] = [];
+  /* ── Build & pricing specs (free, from ClearVin's preview) ──
+     Only the ClearVin spec fields NOT already covered by VinReport's built-in
+     quick-specs (Year/Make/Model/Trim) and Vehicle Classification (Body Type)
+     cards — so the two never duplicate. Empty values (e.g. blank invoice) are
+     dropped. Rendered only when the ClearVin preview is present (never from the
+     auto.dev fallback). Styled to match VinReport's Card/Stat design. */
+  const buildSpecs: { label: string; value: string }[] = [];
   if (preview) {
     const sp = preview.vinSpec;
-    const push = (label: string, v?: string | null, mono?: boolean) => {
+    const push = (label: string, v?: string | null) => {
       const val = (v || "").trim();
-      if (val) specRows.push({ label, value: val, mono });
+      if (val) buildSpecs.push({ label, value: val });
     };
-    push("Year", sp.year);
-    push("Make", sp.make);
-    push("Model", sp.model);
-    push("Trim", sp.trim);
-    push("Body Style", sp.style);
     push("Engine", sp.engine);
     push("Assembled In", sp.madeIn);
     push("Original MSRP", sp.msrp);
     push("Invoice Price", sp.invoice);
-    push("VIN", sp.vin, true);
   }
 
   /* ── Premium sections injected UNDER the car info (main column) ── */
   const premiumSections = (
     <div className="space-y-12">
-      {/* Verified vehicle specifications — free identity data from ClearVin */}
-      {specRows.length > 0 && (
-        <section>
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-emerald-700 mb-3">
-            <Fingerprint className="w-3.5 h-3.5" /> Verified vehicle specifications
-          </div>
-          <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
-            {vehicleLabel} specifications
-          </h2>
-          <p className="text-sm text-on-surface-variant mb-5 max-w-md">
-            Decoded directly from this VIN — confirm the car matches the
-            seller&apos;s listing before you buy. These specs are free.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {specRows.map((r) => (
-              <div
-                key={r.label}
-                className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4"
-              >
-                <div className="text-[10px] font-bold uppercase tracking-wider text-outline mb-1 leading-tight">
-                  {r.label}
-                </div>
-                <div
-                  className={`text-sm font-headline font-extrabold text-on-surface leading-tight break-words ${
-                    r.mono ? "font-mono tracking-tight" : ""
-                  }`}
-                >
-                  {r.value}
-                </div>
+      {/* Build & pricing specs — free, complements VinReport's identity cards */}
+      {buildSpecs.length > 0 && (
+        <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden">
+          <div className="px-4 sm:px-6 py-5 border-b border-surface-container">
+            <h2 className="font-headline font-bold text-base sm:text-lg text-on-surface flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                <Fingerprint className="w-5 h-5" />
               </div>
-            ))}
+              Vehicle Specifications
+            </h2>
+            <p className="text-xs sm:text-sm text-on-surface-variant mt-1 ml-12">
+              Decoded from this VIN — free. Verify it matches the seller&apos;s listing.
+            </p>
           </div>
-        </section>
+          <div className="p-4 sm:p-6">
+            <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
+              {buildSpecs.map((s) => (
+                <div
+                  key={s.label}
+                  className="py-3 border-b border-surface-container last:border-0"
+                >
+                  <p className="text-xs text-outline uppercase tracking-wider font-semibold mb-1">
+                    {s.label}
+                  </p>
+                  <p className="font-semibold text-on-surface">{s.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Premium vehicle history */}
