@@ -176,6 +176,17 @@ async function getData(showAll: boolean) {
   function isMockCall(c: { request_id?: string | null }): boolean {
     return (c.request_id || "").startsWith("mock-");
   }
+  /**
+   * A "purchased call" is one tied to an order_id — i.e. it was made
+   * because a Stripe checkout completed, not because someone hit the
+   * public /preview endpoint anonymously. This is the single cleanest
+   * signal for separating real revenue activity from background traffic,
+   * so we apply it unconditionally to every operator view (cards,
+   * tables, sparkline, burning-VINs, recent-calls).
+   */
+  function isPurchasedCall(c: { order_id?: string | null }): boolean {
+    return typeof c.order_id === "string" && c.order_id.length > 0;
+  }
   function isSandboxVin(vin?: string | null): boolean {
     return !!vin && SANDBOX_VINS.has(vin.toUpperCase());
   }
@@ -205,9 +216,21 @@ async function getData(showAll: boolean) {
     user_email?: string | null;
   }) => (showAll ? !isMockOrder(o) : isRealOrder(o));
 
-  const callPasses = (c: { request_id?: string | null; vin?: string | null }) => {
+  const callPasses = (c: {
+    request_id?: string | null;
+    vin?: string | null;
+    order_id?: string | null;
+  }) => {
+    // Always reject explicit mock-mode rows.
     if (isMockCall(c)) return false;
-    if (!showAll && isSandboxVin(c.vin)) return false;
+    // In the default (filtered) view, only show calls tied to a real
+    // Stripe order. This is the strongest signal — preview hits,
+    // anonymous lookups, and crawler traffic all have NULL order_id and
+    // they're exactly what the operator wants to hide from these tiles.
+    if (!showAll) {
+      if (!isPurchasedCall(c)) return false;
+      if (isSandboxVin(c.vin)) return false;
+    }
     return true;
   };
   // Backwards-compat aliases so the rest of the file (which used these
@@ -222,6 +245,12 @@ async function getData(showAll: boolean) {
   const failed = callsProd.filter(
     (c) => c.error || (c.status_code !== null && c.status_code >= 400)
   );
+  // How many calls are we hiding from the operator view? Surfaces in the
+  // header chip alongside the orders-hidden count so the operator knows
+  // there's a "show all" toggle.
+  const callsHiddenByFilter = showAll
+    ? 0
+    : callsAll.filter((c) => !isMockCall(c)).length - callsProd.length;
 
   // VINs that consumed more than one call within the 30d window — refund
   // risk indicator (genuine re-fetches by id are free per ClearVin docs;
@@ -377,6 +406,7 @@ async function getData(showAll: boolean) {
     grossMarginUsd,
     soldOrders,
     ordersHiddenByFilter,
+    callsHiddenByFilter,
     showAll,
     stripeLive,
     stripeStats,
@@ -577,14 +607,16 @@ export default async function AdminClearVinPage({
                 <AlertTriangle className="w-3 h-3" />
                 Showing all (incl. tests) — switch back
               </Link>
-            ) : d.ordersHiddenByFilter > 0 ? (
+            ) : d.ordersHiddenByFilter + d.callsHiddenByFilter > 0 ? (
               <Link
                 href="/admin/clearvin?showAll=1"
                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-200 transition"
-                title="Show all orders including ClearVin sandbox VINs and test emails"
+                title="Show every row including anonymous preview hits, sandbox VINs, and test emails"
               >
                 <Sparkles className="w-3 h-3" />
-                Real sales only · {fmtInt(d.ordersHiddenByFilter)} hidden
+                Purchased only · hides{" "}
+                {fmtInt(d.ordersHiddenByFilter)} orders,{" "}
+                {fmtInt(d.callsHiddenByFilter)} calls
               </Link>
             ) : (
               <span
