@@ -6,7 +6,7 @@ import {
   TrendingUp, TrendingDown, BarChart3, MapPin, Calendar, Palette, Tag,
   Zap, Award, Info, Activity, Download, AlertTriangle, Lock,
   ShieldCheck, FileText, Camera, X, Sparkles, Star, Clock,
-  Mail, Loader2,
+  Mail, Loader2, Gavel, Users, Hammer,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +14,24 @@ import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
 import VinSearchForm from "./VinSearchForm";
 import dynamic from "next/dynamic";
+
+/**
+ * VIN-specific signals pulled from the ClearVin preview, surfaced inside the
+ * upsell modal so a buyer sees what's actually on *this* vehicle's record
+ * (open recalls, auction sales, damage, photos) before they pay — real
+ * urgency instead of a generic feature list. All counts are plain numbers so
+ * the object stays serializable across the server → client boundary.
+ */
+export interface PreviewSignals {
+  /** Open NHTSA safety recalls on file. */
+  recalls?: number;
+  /** Auction / sale history records on file. */
+  auctionRecords?: number;
+  /** Reported damage / condition records on file. */
+  damageRecords?: number;
+  /** Photos on file (auction + listing imagery). */
+  photos?: number;
+}
 
 // Lazy-load AI section — it's below the fold and only needed after initial render.
 const VinReportAI = dynamic(() => import("./VinReportAI"), {
@@ -459,6 +477,7 @@ export default function VinReport({
   sidebarBottom,
   lockActions = false,
   unlockPrice,
+  previewSignals,
 }: {
   data: VinData;
   /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
@@ -493,6 +512,9 @@ export default function VinReport({
   lockActions?: boolean;
   /** Preview: price (in dollars) shown in the upsell modal CTA, e.g. 9.99. */
   unlockPrice?: number;
+  /** Preview: VIN-specific ClearVin findings shown as urgency cards in the
+      upsell modal (open recalls, auction sales, damage, photos). */
+  previewSignals?: PreviewSignals;
 }) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Interior", "Exterior"]));
   const toggleCategory = (cat: string) => {
@@ -1162,6 +1184,7 @@ export default function VinReport({
           unlockPrice={unlockPrice}
           fullName={fullName}
           vin={data.vin}
+          signals={previewSignals}
         />
       )}
     </div>
@@ -1179,12 +1202,14 @@ function UpsellModal({
   unlockPrice,
   fullName,
   vin,
+  signals,
 }: {
   action: "download" | "print" | "share" | "buy";
   onClose: () => void;
   unlockPrice?: number;
   fullName: string;
   vin: string;
+  signals?: PreviewSignals;
 }) {
   const priceText =
     typeof unlockPrice === "number" ? `$${unlockPrice.toFixed(2)}` : null;
@@ -1218,14 +1243,53 @@ function UpsellModal({
     },
   }[action];
 
-  const VALUE = [
+  // Card model: `alert` flags a real, VIN-specific finding (amber, attention-
+  // grabbing); the rest are the generic deliverables. Counts come straight from
+  // the ClearVin preview so the buyer sees what's on *this* record before paying.
+  type ValueCard = {
+    Icon: typeof ShieldCheck;
+    label: string;
+    note: string;
+    alert?: boolean;
+  };
+  const n = (x?: number) => (typeof x === "number" && x > 0 ? x : 0);
+  const plural = (c: number) => (c === 1 ? "" : "s");
+
+  // Real findings on this VIN → lead with them as urgency cards.
+  const found: ValueCard[] = [];
+  if (n(signals?.recalls)) {
+    const c = n(signals?.recalls);
+    found.push({ Icon: AlertTriangle, label: `${c} open safety recall${plural(c)}`, note: "Unrepaired NHTSA campaigns", alert: true });
+  }
+  if (n(signals?.damageRecords)) {
+    const c = n(signals?.damageRecords);
+    found.push({ Icon: Hammer, label: `${c} damage record${plural(c)}`, note: "Reported condition & severity", alert: true });
+  }
+  if (n(signals?.auctionRecords)) {
+    const c = n(signals?.auctionRecords);
+    found.push({ Icon: Gavel, label: `${c} auction record${plural(c)}`, note: "Sale price, date & location", alert: true });
+  }
+  if (n(signals?.photos)) {
+    const c = n(signals?.photos);
+    found.push({ Icon: Camera, label: `${c} photo${plural(c)} on file`, note: "Auction & listing imagery", alert: true });
+  }
+
+  // Generic deliverables — always available, used to round the grid out to a
+  // full 6 cards (so the layout stays balanced regardless of how many findings
+  // this VIN has). Skip any whose topic a finding already covers.
+  const generic: ValueCard[] = [
     { Icon: ShieldCheck, label: "Title-brand & salvage check", note: "Junk, flood, lemon, rebuilt" },
-    { Icon: AlertTriangle, label: "Accident & damage records", note: "Reported events & severity" },
     { Icon: Gauge, label: "Odometer & rollback check", note: "Mileage consistency" },
+    { Icon: Users, label: "Ownership history", note: "Owners & registration" },
+    { Icon: AlertTriangle, label: "Accident & damage records", note: "Reported events & severity" },
     { Icon: Camera, label: "Auction & sale photos", note: "Past listing imagery" },
     { Icon: FileText, label: "Open safety recalls", note: "NHTSA campaigns" },
     { Icon: DollarSign, label: "Market value estimate", note: "What it's really worth" },
   ];
+  const usedIcons = new Set(found.map((f) => f.Icon));
+  const filler = generic.filter((g) => !usedIcons.has(g.Icon));
+  const VALUE: ValueCard[] = [...found, ...filler].slice(0, 6);
+  const hasFindings = found.length > 0;
 
   // ── In-modal checkout ──
   // Rather than bounce the buyer to /order (re-enter VIN, re-load preview), we
@@ -1328,23 +1392,47 @@ function UpsellModal({
             keeps its space within the height-capped card, even when the coupon
             field expands on short screens. */}
         <div className="min-h-0 flex-1 overflow-y-auto px-6 py-3 sm:py-4">
-          <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider mb-2">
-            Everything you unlock
+          <p className="text-[11px] font-black uppercase tracking-wider mb-2">
+            {hasFindings ? (
+              <span className="text-amber-700">
+                Found on this VIN — unlock the details
+              </span>
+            ) : (
+              <span className="text-on-surface-variant">Everything you unlock</span>
+            )}
           </p>
           <div className="grid grid-cols-2 gap-2">
-            {VALUE.map(({ Icon, label, note }) => (
+            {VALUE.map(({ Icon, label, note, alert }) => (
               <div
                 key={label}
-                className="flex items-start gap-2 rounded-xl border border-outline-variant/50 bg-surface-container-lowest px-2.5 py-2"
+                className={`flex items-start gap-2 rounded-xl border px-2.5 py-2 ${
+                  alert
+                    ? "border-amber-300 bg-amber-50"
+                    : "border-outline-variant/50 bg-surface-container-lowest"
+                }`}
               >
-                <span className="mt-0.5 flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+                <span
+                  className={`mt-0.5 flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center ${
+                    alert ? "bg-amber-200/70" : "bg-primary/10"
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${alert ? "text-amber-700" : "text-primary"}`} />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-[12px] sm:text-[13px] font-bold text-on-surface leading-tight">
+                  <span
+                    className={`block text-[12px] sm:text-[13px] font-bold leading-tight ${
+                      alert ? "text-amber-900" : "text-on-surface"
+                    }`}
+                  >
                     {label}
                   </span>
-                  <span className="block text-[11px] text-on-surface-variant leading-tight">{note}</span>
+                  <span
+                    className={`block text-[11px] leading-tight ${
+                      alert ? "text-amber-700/90" : "text-on-surface-variant"
+                    }`}
+                  >
+                    {note}
+                  </span>
                 </span>
               </div>
             ))}

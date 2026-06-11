@@ -288,6 +288,18 @@ export default async function ReportPreviewPage({ params }: Props) {
       ? preview.imagesAmount
       : fallbackLockedCount;
 
+  // VIN-specific findings teased inside the upsell modal so the buyer sees
+  // what's actually on this record (recalls, auctions, damage, photos) before
+  // paying — real urgency rather than a generic feature list.
+  const previewSignals = preview
+    ? {
+        recalls: preview.recallsCount || preview.recalls.length || 0,
+        auctionRecords: preview.auctionHistoryRecords || 0,
+        damageRecords: preview.damagesCount || 0,
+        photos: preview.imagesAmount || 0,
+      }
+    : undefined;
+
   const mock = isUsingMockData();
   const s = preview?.vinSpec;
   const make = s?.make || reportData.make?.name || "";
@@ -791,6 +803,7 @@ export default async function ReportPreviewPage({ params }: Props) {
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
         unlockPrice={SINGLE_PRICE}
+        previewSignals={previewSignals}
       />
 
       {/* ═══ Commercial footer sections ═══════════════════════════ */}
