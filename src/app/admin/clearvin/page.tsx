@@ -96,11 +96,17 @@ async function getData() {
   // Two ClearVin /stats queries: month-to-date (drives the headline credits
   // tile) and 30-day (drives the sparkline). They're free at /stats so we
   // don't bother caching.
-  const [stats30d, ordersMonth, callsAll] = await Promise.all([
+  //
+  // `soldOrdersAll` returns the most recent 200 paid/delivered orders for
+  // the new "Sold Reports — History" table at the bottom. Capped so an
+  // accidental high-traffic month doesn't blow the page size.
+  const [stats30d, ordersMonth, callsAll, soldOrdersAll] = await Promise.all([
     fetchAccountStats({ granularity: "day" }),
     admin
       .from("report_orders")
-      .select("id, amount_cents, currency, status, paid_at, created_at, vin")
+      .select(
+        "id, amount_cents, currency, status, paid_at, created_at, vin, user_email, vehicle_label"
+      )
       .gte("created_at", startOfMonth)
       .order("created_at", { ascending: false }),
     fetchAllCalls(() =>
@@ -112,6 +118,14 @@ async function getData() {
         .gte("created_at", thirtyDaysAgo)
         .order("created_at", { ascending: false })
     ),
+    admin
+      .from("report_orders")
+      .select(
+        "id, amount_cents, currency, status, paid_at, delivered_at, created_at, vin, user_email, vehicle_label, clearvin_report"
+      )
+      .in("status", ["paid", "delivered"])
+      .order("paid_at", { ascending: false, nullsFirst: false })
+      .limit(200),
   ]);
 
   // ── Local-side aggregates ────────────────────────────────────────
@@ -144,10 +158,62 @@ async function getData() {
     paid_at: string | null;
     created_at: string;
     vin: string;
+    user_email: string | null;
+    vehicle_label: string | null;
   }>;
   const paidOrdersMonth = orders.filter((o) =>
     ["paid", "delivered"].includes(o.status)
   );
+
+  // Full sold-reports history (last 200) — feeds the table at the bottom
+  // of the page. Each row links to the admin-callable PDF endpoint
+  // (/api/order/report-pdf/[orderId]) and to the buyer's report view
+  // (/order/report/[orderId]) for quick re-delivery.
+  type SoldOrder = {
+    id: string;
+    amount_cents: number;
+    currency: string;
+    status: "paid" | "delivered";
+    paid_at: string | null;
+    delivered_at: string | null;
+    created_at: string;
+    vin: string;
+    user_email: string | null;
+    vehicle_label: string | null;
+    /** Has ClearVin's HTML been cached yet? Lets us flag rows where the
+     *  PDF would trigger a fresh ClearVin call vs serve from cache. */
+    hasReport: boolean;
+  };
+  const soldOrders: SoldOrder[] = (soldOrdersAll.data ?? []).map((o) => {
+    const r = o as {
+      id: string;
+      amount_cents: number;
+      currency: string;
+      status: string;
+      paid_at: string | null;
+      delivered_at: string | null;
+      created_at: string;
+      vin: string;
+      user_email: string | null;
+      vehicle_label: string | null;
+      clearvin_report: unknown;
+    };
+    return {
+      id: r.id,
+      amount_cents: r.amount_cents,
+      currency: r.currency,
+      status: (r.status === "delivered" ? "delivered" : "paid") as
+        | "paid"
+        | "delivered",
+      paid_at: r.paid_at,
+      delivered_at: r.delivered_at,
+      created_at: r.created_at,
+      vin: r.vin,
+      user_email: r.user_email,
+      vehicle_label: r.vehicle_label,
+      hasReport: Boolean(r.clearvin_report),
+    };
+  });
   const revenueCents = paidOrdersMonth.reduce(
     (s, o) => s + (o.amount_cents || 0),
     0
@@ -191,6 +257,7 @@ async function getData() {
     refundedCount,
     estCostUsd,
     grossMarginUsd,
+    soldOrders,
   };
 }
 
@@ -583,6 +650,133 @@ export default async function AdminClearVinPage() {
               </table>
             )}
           </div>
+        </div>
+
+        {/* Sold Reports — history (the headline operational table)
+            One row per Stripe order in status ∈ {paid, delivered}.
+            Each row shows the buyer's email, VIN, vehicle, amount, and
+            two action links:
+              • "View report"  → buyer-facing /order/report/[id] (HTML viewer)
+              • "Open PDF"     → /api/order/report-pdf/[id] — direct PDF
+                                  stream (admin auth ladder lets staff fetch
+                                  without consuming a fresh ClearVin credit
+                                  when the reportId is cached).
+            Cap of 200 rows is enforced server-side. */}
+        <div className="rounded-2xl border border-slate-200 bg-white p-5">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <Wallet className="w-4 h-4 text-slate-500" />
+              Sold Reports — History
+              <span className="ml-1 px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono text-[10px]">
+                last {fmtInt(d.soldOrders.length)}
+              </span>
+            </h2>
+            <p className="text-[11px] text-slate-500">
+              Click <strong>Open PDF</strong> to re-deliver a buyer&rsquo;s report
+              without consuming a new ClearVin credit.
+            </p>
+          </div>
+          {d.soldOrders.length === 0 ? (
+            <p className="text-xs text-slate-500 italic">
+              No paid reports yet. Stripe orders move into this table as soon
+              as <code>status</code> = paid or delivered.
+            </p>
+          ) : (
+            <div className="overflow-x-auto -mx-2">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="text-left text-[10px] uppercase tracking-wider text-slate-500 border-b border-slate-100">
+                    <th className="px-2 py-2 font-bold">Paid</th>
+                    <th className="px-2 py-2 font-bold">Customer email</th>
+                    <th className="px-2 py-2 font-bold">VIN</th>
+                    <th className="px-2 py-2 font-bold">Vehicle</th>
+                    <th className="px-2 py-2 font-bold text-right">Amount</th>
+                    <th className="px-2 py-2 font-bold">Status</th>
+                    <th className="px-2 py-2 font-bold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {d.soldOrders.map((o) => {
+                    const when = o.paid_at || o.delivered_at || o.created_at;
+                    const amount = fmtCurrency(o.amount_cents / 100);
+                    return (
+                      <tr
+                        key={o.id}
+                        className="border-b border-slate-50 last:border-0 hover:bg-slate-50/60"
+                      >
+                        <td className="px-2 py-2 text-slate-600 whitespace-nowrap">
+                          {new Date(when).toLocaleString()}
+                        </td>
+                        <td className="px-2 py-2 text-slate-900 max-w-[200px] truncate">
+                          {o.user_email ? (
+                            <a
+                              href={`mailto:${o.user_email}`}
+                              className="text-primary-600 hover:text-primary-700 hover:underline"
+                              title={o.user_email}
+                            >
+                              {o.user_email}
+                            </a>
+                          ) : (
+                            <span className="text-slate-400 italic">—</span>
+                          )}
+                        </td>
+                        <td className="px-2 py-2 font-mono text-slate-900">
+                          {o.vin}
+                        </td>
+                        <td className="px-2 py-2 text-slate-700 max-w-[180px] truncate">
+                          {o.vehicle_label || (
+                            <span className="text-slate-400 italic">—</span>
+                          )}
+                        </td>
+                        <td className="px-2 py-2 text-right text-slate-900 tabular-nums font-medium">
+                          {amount}
+                        </td>
+                        <td className="px-2 py-2">
+                          {o.status === "delivered" ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">
+                              <CheckCircle2 className="w-3 h-3" />
+                              Delivered
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">
+                              <RefreshCw className="w-3 h-3" />
+                              Paid
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-2 py-2 text-right whitespace-nowrap">
+                          <Link
+                            href={`/order/report/${o.id}`}
+                            className="text-[11px] text-primary-600 hover:text-primary-700 hover:underline mr-3"
+                            target="_blank"
+                          >
+                            View report
+                          </Link>
+                          <a
+                            href={`/api/order/report-pdf/${o.id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`text-[11px] font-semibold hover:underline ${
+                              o.hasReport
+                                ? "text-emerald-700 hover:text-emerald-800"
+                                : "text-slate-600 hover:text-slate-800"
+                            }`}
+                            title={
+                              o.hasReport
+                                ? "PDF streams from cached ClearVin payload (no credit consumed)"
+                                : "Will fetch fresh from ClearVin (consumes a credit)"
+                            }
+                          >
+                            {o.hasReport ? "Open PDF" : "Fetch PDF"}
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
         {/* Recent activity */}

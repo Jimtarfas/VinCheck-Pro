@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createAdminClient, isAdminEmail } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReportPdf, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig } from "@/lib/stripe";
@@ -62,10 +62,18 @@ export async function GET(
       const { data: userData } = await supa.auth.getUser();
       const u = userData.user;
       if (u) {
-        const sameId = u.id && u.id === order.user_id;
-        const sameEmail =
-          u.email && u.email.toLowerCase() === (order.user_email || "").toLowerCase();
-        authorized = Boolean(sameId || sameEmail);
+        // Admin emails (configured via ADMIN_EMAILS env var) can view any
+        // order's PDF — required by the /admin/clearvin "Sold Reports"
+        // history table so operators can re-deliver a report to a buyer
+        // who lost their email link, without escalating ClearVin support.
+        if (isAdminEmail(u.email)) {
+          authorized = true;
+        } else {
+          const sameId = u.id && u.id === order.user_id;
+          const sameEmail =
+            u.email && u.email.toLowerCase() === (order.user_email || "").toLowerCase();
+          authorized = Boolean(sameId || sameEmail);
+        }
       }
     } catch {
       /* ignore */
