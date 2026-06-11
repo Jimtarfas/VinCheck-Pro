@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { decodeVin } from "@/lib/api";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
-import ReportGate from "@/components/ReportGate";
 import FullVinReport from "@/components/report/FullVinReport";
 import { getStructuredReport } from "@/lib/clearvin-report";
 import { trackVinLookup, saveVinReport } from "@/lib/tracking";
@@ -78,10 +77,10 @@ export default async function ReportPage({ params }: Props) {
       year: data.years?.[0]?.year ?? null,
     });
 
-    // Persist the full decode payload to vin_reports. ReportGate ensures
-    // the user is signed in before they see the report, so the upsert lands
-    // under their user_id and the report becomes reachable from /dashboard
-    // and any other device they're signed into. No-op for unauthed.
+    // Persist the full decode payload to vin_reports. The report itself is
+    // now anonymous (no signup wall), but if the visitor happens to be signed
+    // in the upsert still lands under their user_id so the report shows up on
+    // /dashboard across their devices. No-op for unauthed visitors.
     await saveVinReport({
       vin: cleaned,
       make: data.make?.name ?? null,
@@ -150,13 +149,11 @@ export default async function ReportPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <ReportGate vin={cleaned} data={data ?? undefined}>
-        {structured.ok ? (
-          <FullVinReport report={structured.report} />
-        ) : data ? (
-          <VinReport data={data} />
-        ) : null}
-      </ReportGate>
+      {structured.ok ? (
+        <FullVinReport report={structured.report} />
+      ) : data ? (
+        <VinReport data={data} />
+      ) : null}
     </>
   );
 }
