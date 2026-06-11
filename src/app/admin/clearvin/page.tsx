@@ -139,25 +139,26 @@ async function getData() {
       fetchStripeProdStats(),
     ]);
 
-  // ── Prod filter ─────────────────────────────────────────────────
+  // ── Prod filter (ALWAYS ACTIVE) ──────────────────────────────────
   // Orders coming from sandbox / mock code paths have:
   //   stripe_payment_intent_id == 'mock_pi'        (mock-mode promotion)
   //   stripe_session_id starts with 'mock_'        (mock checkout URL)
-  // and ClearVin calls that fell through to mock data carry
+  // ClearVin calls that fell through to mock data carry
   //   request_id starts with 'mock-<VIN>'.
-  // Filter them out as soon as we're on the live Stripe key — they were
-  // useful for dev but should never inform a live operator decision.
+  //
+  // Previous version only filtered when stripeLive — but operator-side
+  // numbers should never count mock data even in test mode (it's why we
+  // were showing "13 sold reports" when only 1 had actually completed).
+  // Mocks are mocks regardless of which Stripe key happens to be active.
   function isProdOrder(o: {
     stripe_payment_intent_id?: string | null;
     stripe_session_id?: string | null;
   }): boolean {
-    if (!stripeLive) return true; // pre-live, show everything
     if (o.stripe_payment_intent_id === "mock_pi") return false;
     if ((o.stripe_session_id || "").startsWith("mock_")) return false;
     return true;
   }
   function isProdCall(c: { request_id?: string | null }): boolean {
-    if (!stripeLive) return true;
     if ((c.request_id || "").startsWith("mock-")) return false;
     return true;
   }
@@ -199,9 +200,15 @@ async function getData() {
     stripe_session_id: string | null;
   }>;
   const orders = ordersRaw.filter(isProdOrder);
-  const paidOrdersMonth = orders.filter((o) =>
-    ["paid", "delivered"].includes(o.status)
-  );
+  // "Sold" = report was actually delivered to the buyer. A "paid" order
+  // means Stripe captured the money but our ClearVin call / report
+  // generation hadn't completed yet (or got stuck) at the time of the
+  // query. Counting both together was making the hero tile overcount by
+  // every stuck-paid order in history.
+  const deliveredOrdersMonth = orders.filter((o) => o.status === "delivered");
+  const stuckPaidOrdersMonth = orders.filter((o) => o.status === "paid");
+  // Kept for the secondary tiles that explicitly say "paid + delivered".
+  const paidOrdersMonth = [...deliveredOrdersMonth, ...stuckPaidOrdersMonth];
 
   // Full sold-reports history (last 200) — feeds the table at the bottom
   // of the page. Each row links to the admin-callable PDF endpoint
@@ -261,11 +268,15 @@ async function getData() {
       hasReport: Boolean(r.clearvin_report),
     };
   });
+  // Revenue uses delivered + paid (Stripe captured the money for both —
+  // a "paid but undelivered" order is still revenue we owe a report
+  // against).
   const revenueCents = paidOrdersMonth.reduce(
     (s, o) => s + (o.amount_cents || 0),
     0
   );
   const refundedCount = orders.filter((o) => o.status === "refunded").length;
+  const failedOrdersCount = orders.filter((o) => o.status === "failed").length;
 
   // ── ClearVin-side counts ─────────────────────────────────────────
   // Total purchased license count + per-call cost both come from env vars
@@ -301,7 +312,10 @@ async function getData() {
     recentCalls: callsProd.slice(0, 50),
     revenueCents,
     paidOrdersCount: paidOrdersMonth.length,
+    deliveredOrdersCount: deliveredOrdersMonth.length,
+    stuckPaidOrdersCount: stuckPaidOrdersMonth.length,
     refundedCount,
+    failedOrdersCount,
     estCostUsd,
     grossMarginUsd,
     soldOrders,
@@ -564,7 +578,7 @@ export default async function AdminClearVinPage() {
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
                 <Wallet className="w-3.5 h-3.5" />
-                Reports sold this month
+                Reports delivered this month
               </span>
               {d.refundedCount > 0 && (
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-200 text-rose-800">
@@ -574,14 +588,47 @@ export default async function AdminClearVinPage() {
             </div>
             <div className="flex items-baseline gap-2 mt-1">
               <span className="text-5xl sm:text-6xl font-extrabold text-slate-900 tabular-nums leading-none">
-                {fmtInt(d.paidOrdersCount)}
+                {fmtInt(d.deliveredOrdersCount)}
               </span>
               <span className="text-sm text-slate-500 font-medium">
                 {fmtCurrency(d.revenueCents / 100)} revenue
               </span>
             </div>
+            {/* Diagnostic line — operator needs to see when "paid" and
+                "delivered" diverge. Stuck-paid orders mean Stripe captured
+                money but our ClearVin call / webhook never closed the loop;
+                those should be investigated, not counted as sold. */}
             <p className="text-xs text-slate-500 mt-4 leading-relaxed">
-              Stripe orders marked <strong>paid</strong> or <strong>delivered</strong> in the current calendar month. One sold report ≈ one ClearVin credit consumed.
+              <strong className="text-slate-800">
+                {fmtInt(d.deliveredOrdersCount)} delivered
+              </strong>
+              {d.stuckPaidOrdersCount > 0 && (
+                <>
+                  {" · "}
+                  <strong className="text-amber-700">
+                    {fmtInt(d.stuckPaidOrdersCount)} paid-but-stuck
+                  </strong>
+                </>
+              )}
+              {d.refundedCount > 0 && (
+                <>
+                  {" · "}
+                  <strong className="text-rose-700">
+                    {fmtInt(d.refundedCount)} refunded
+                  </strong>
+                </>
+              )}
+              {d.failedOrdersCount > 0 && (
+                <>
+                  {" · "}
+                  <strong className="text-slate-600">
+                    {fmtInt(d.failedOrdersCount)} failed
+                  </strong>
+                </>
+              )}
+              . A &ldquo;delivered&rdquo; order means Stripe captured the money{" "}
+              <em>and</em> we successfully fetched the ClearVin report. Stuck-paid
+              orders should be investigated.
             </p>
           </div>
         </div>
