@@ -4,7 +4,9 @@ import {
   Car, Gauge, Settings, Fuel, Cog, DoorOpen, Check, Shield, ChevronDown,
   ChevronLeft, ChevronRight, Printer, Share2, ArrowLeft, DollarSign,
   TrendingUp, TrendingDown, BarChart3, MapPin, Calendar, Palette, Tag,
-  Zap, Award, Info, Activity, Download, AlertTriangle,
+  Zap, Award, Info, Activity, Download, AlertTriangle, Lock,
+  ShieldCheck, FileText, Camera, X, Sparkles, Star, Clock,
+  Mail, Loader2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -262,6 +264,7 @@ function PhotoGallery({
   year,
   make,
   model,
+  lockedPhotoCount,
 }: {
   photos: string[];
   photoSource?: VinData["photoSource"];
@@ -269,8 +272,14 @@ function PhotoGallery({
   year?: number;
   make?: string;
   model?: string;
+  lockedPhotoCount?: number;
 }) {
   const [current, setCurrent] = useState(0);
+
+  // Preview mode: only one real photo on file, but `lockedPhotoCount` more
+  // exist behind the paywall. We tease them as blurred, locked thumbnails
+  // derived from the single hero image.
+  const lockedMode = (lockedPhotoCount ?? 0) > 1 && photos.length <= 1;
 
   if (!photos || photos.length === 0) {
     const label = [year, make, model].filter(Boolean).join(" ");
@@ -318,7 +327,7 @@ function PhotoGallery({
 
         {/* Photo count badge */}
         <div className="absolute top-3 sm:top-4 left-3 sm:left-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/70 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-bold">
-          {photos.length} {isSimilar ? "Similar" : ""} Photos
+          {lockedMode ? lockedPhotoCount : photos.length} {isSimilar ? "Similar" : ""} Photos
         </div>
 
         {photos.length > 1 && (
@@ -338,8 +347,46 @@ function PhotoGallery({
         )}
       </div>
 
+      {/* Preview: blurred, locked thumbnails teasing the photos behind the paywall */}
+      {lockedMode && (
+        <div className="flex gap-1.5 sm:gap-2 p-2 sm:p-3 overflow-x-auto bg-surface-container-low [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {/* first thumb = the one real photo */}
+          <div className="relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden ring-2 ring-primary">
+            <div className="absolute inset-0" style={{ transform: "scale(1.08)" }}>
+              <Image src={photos[0]} alt="Photo 1" fill className="object-cover" sizes="80px" />
+            </div>
+          </div>
+          {Array.from({ length: Math.min((lockedPhotoCount ?? 1) - 1, 8) }).map((_, i, arr) => {
+            const remaining = (lockedPhotoCount ?? 1) - 1 - arr.length;
+            const isLast = i === arr.length - 1 && remaining > 0;
+            return (
+              <div
+                key={i}
+                className="relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden"
+              >
+                <div
+                  className="absolute inset-0"
+                  style={{ transform: "scale(1.2)", filter: "blur(6px)" }}
+                >
+                  <Image src={photos[0]} alt="" aria-hidden fill className="object-cover" sizes="80px" />
+                </div>
+                <div className="absolute inset-0 bg-primary/45 flex items-center justify-center">
+                  {isLast ? (
+                    <span className="text-white font-headline font-black text-[10px] sm:text-xs">
+                      +{remaining}
+                    </span>
+                  ) : (
+                    <Lock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white drop-shadow" />
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       {/* Thumbnails — smaller on mobile */}
-      {photos.length > 1 && (
+      {!lockedMode && photos.length > 1 && (
         <div className="flex gap-1.5 sm:gap-2 p-2 sm:p-3 overflow-x-auto bg-surface-container-low [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {photos.slice(0, 14).map((photo, i) => (
             <button key={i} onClick={() => setCurrent(i)}
@@ -410,7 +457,56 @@ function Card({ icon: Icon, title, subtitle, accent = "bg-primary/8 text-primary
 /* ─────────────────────────────────────────────────────────────
    Main Report Component
 ───────────────────────────────────────────────────────────── */
-export default function VinReport({ data }: { data: VinData }) {
+export default function VinReport({
+  data,
+  hideCheckAnother = false,
+  mainExtra,
+  sidebarReplaceAI,
+  lockedPhotoCount,
+  lockListing = false,
+  unlockHref,
+  summaryGroups,
+  heroAside,
+  heroCta,
+  summaryTop,
+  sidebarBottom,
+  lockActions = false,
+  unlockPrice,
+}: {
+  data: VinData;
+  /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
+  hideCheckAnother?: boolean;
+  /** Extra content appended to the end of the main column (premium sections). */
+  mainExtra?: React.ReactNode;
+  /** When provided, replaces the AI block in the sidebar (e.g. the paywall card). */
+  sidebarReplaceAI?: React.ReactNode;
+  /** Preview: total photos on file — renders blurred locked thumbnails to tease them. */
+  lockedPhotoCount?: number;
+  /** Preview: blur the "Currently Listed for Sale" banner behind a premium lock. */
+  lockListing?: boolean;
+  /** Preview: where the premium lock overlays link to. */
+  unlockHref?: string;
+  /** Preview: replaces the default Report Summary rows with grouped premium deliverables. */
+  summaryGroups?: { title: string; items: string[] }[];
+  /** Preview: server-built content rendered in the navy hero beside the vehicle
+      name (e.g. a "records found for this VIN" risk snapshot). Desktop-only. */
+  heroAside?: React.ReactNode;
+  /** Preview: primary CTA button rendered first in the hero action-button row
+      (e.g. "Get full report"). The free report never passes this prop. */
+  heroCta?: React.ReactNode;
+  /** Preview: server-built card rendered directly above the Report Summary in
+      the sidebar (e.g. the Market Analysis panel). */
+  summaryTop?: React.ReactNode;
+  /** Preview: server-built content rendered in the sidebar directly below the
+      Report Summary card (e.g. the FAQ on desktop). */
+  sidebarBottom?: React.ReactNode;
+  /** Preview: intercept the Download / Print / Share buttons and open a
+      marketing upsell modal instead of running their real action. The free
+      report never passes this, so its buttons behave normally. */
+  lockActions?: boolean;
+  /** Preview: price (in dollars) shown in the upsell modal CTA, e.g. 9.99. */
+  unlockPrice?: number;
+}) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Interior", "Exterior"]));
   const toggleCategory = (cat: string) => {
     setExpandedCategories((prev) => { const next = new Set(prev); if (next.has(cat)) next.delete(cat); else next.add(cat); return next; });
@@ -426,6 +522,11 @@ export default function VinReport({ data }: { data: VinData }) {
   const fullName  = [year, makeName, modelName, trim].filter(Boolean).join(" ");
 
   const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
+
+  // Preview-only: which action the user tried to use behind the paywall. When
+  // set, the marketing upsell modal is shown. `null` = closed.
+  const [upsellAction, setUpsellAction] =
+    useState<null | "download" | "print" | "share" | "buy">(null);
 
   // Client-side backstop for server-side tracking. The server component
   // already calls trackVinLookup + saveVinReport, but this fetch covers
@@ -492,6 +593,32 @@ export default function VinReport({ data }: { data: VinData }) {
     }
   }, [data.vin, fullName]);
 
+  // Preview-only: any "Get full report" buy button on the page (here, in the
+  // sidebar MarketingCard, or in the commercial footer rendered outside this
+  // component) opens the in-modal checkout by dispatching this window event,
+  // instead of navigating to /order. Only wired when actions are locked.
+  useEffect(() => {
+    if (!lockActions) return;
+    const open = () => setUpsellAction("buy");
+    window.addEventListener("carchecker:open-upsell", open);
+    return () => window.removeEventListener("carchecker:open-upsell", open);
+  }, [lockActions]);
+
+  // Close the upsell modal on Escape, and lock body scroll while it's open.
+  useEffect(() => {
+    if (!upsellAction) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setUpsellAction(null);
+    };
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [upsellAction]);
+
   return (
     <div className="bg-surface min-h-screen pt-16">
 
@@ -502,6 +629,7 @@ export default function VinReport({ data }: { data: VinData }) {
         {/* Subtle radial glow */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] opacity-10 pointer-events-none"
           style={{ background: "radial-gradient(circle, #0d47a1 0%, transparent 70%)", filter: "blur(40px)" }} />
+
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           {/* Back link */}
@@ -517,16 +645,30 @@ export default function VinReport({ data }: { data: VinData }) {
                   style={{ background: "var(--color-secondary-container)" }}>
                   <Shield className="w-3 h-3" /> Report Generated
                 </span>
-                {data.categories?.primaryBodyType && (
-                  <span className="px-3 py-1 bg-white/10 text-white/85 text-xs font-semibold rounded-full">
-                    {data.categories.primaryBodyType}
-                  </span>
-                )}
-                {data.categories?.vehicleSize && (
-                  <span className="px-3 py-1 bg-white/10 text-white/85 text-xs font-semibold rounded-full">
-                    {data.categories.vehicleSize}
-                  </span>
-                )}
+                {(() => {
+                  // Body-type / size chips render ONLY from real decoded data
+                  // (auto.dev categories). No example fallback here: unlike the
+                  // clearly-labelled "Example" market panel, these chips read as
+                  // factual, so a hardcoded value would mislabel the vehicle
+                  // (e.g. tagging a sedan as an "SUV"). When the data is absent
+                  // they simply don't show.
+                  const bodyType = data.categories?.primaryBodyType || "";
+                  const size = data.categories?.vehicleSize || "";
+                  return (
+                    <>
+                      {bodyType && (
+                        <span className="px-3 py-1 bg-white/10 text-white/85 text-xs font-semibold rounded-full">
+                          {bodyType}
+                        </span>
+                      )}
+                      {size && (
+                        <span className="px-3 py-1 bg-white/10 text-white/85 text-xs font-semibold rounded-full">
+                          {size}
+                        </span>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
 
               {/* Vehicle name */}
@@ -539,18 +681,23 @@ export default function VinReport({ data }: { data: VinData }) {
 
               {/* Action buttons */}
               <div className="flex flex-wrap gap-2 mt-5 sm:mt-6">
-                <button onClick={downloadReport} disabled={downloadLoading}
+                {/* Preview-only primary CTA — rendered first so the buy button
+                    sits alongside the action buttons, above the fold. */}
+                {heroCta}
+                <button
+                  onClick={lockActions ? () => setUpsellAction("download") : downloadReport}
+                  disabled={lockActions ? false : downloadLoading}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-on-secondary-container hover:brightness-110 transition cursor-pointer disabled:opacity-60"
                   style={{ background: "var(--color-secondary-container)" }}>
-                  <Download className={`w-4 h-4 ${downloadLoading ? "animate-pulse" : ""}`} />
-                  {downloadLoading ? "Preparing…" : "Download Report"}
+                  <Download className={`w-4 h-4 ${!lockActions && downloadLoading ? "animate-pulse" : ""}`} />
+                  {!lockActions && downloadLoading ? "Preparing…" : "Download Report"}
                 </button>
-                <button onClick={() => window.print()}
+                <button onClick={lockActions ? () => setUpsellAction("print") : () => window.print()}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
                   <Printer className="w-4 h-4" /> Print
                 </button>
                 <button
-                  onClick={handleShare}
+                  onClick={lockActions ? () => setUpsellAction("share") : handleShare}
                   aria-live="polite"
                   className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer ${
                     shareState === "copied"
@@ -576,14 +723,20 @@ export default function VinReport({ data }: { data: VinData }) {
                 </button>
               </div>
             </div>
+
           </div>
+
+          {/* Preview-only: server-built aside (e.g. the "records found for
+              this VIN" risk snapshot). Rendered full-width BELOW the vehicle
+              name as a horizontal strip. The free report never passes it. */}
+          {heroAside}
         </div>
       </div>
 
       {/* ══════════════════════════════════════════════════════
           BODY — Two-column layout
       ══════════════════════════════════════════════════════ */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full overflow-x-clip">
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
 
           {/* ── LEFT / MAIN COLUMN (2/3) ── */}
@@ -597,6 +750,7 @@ export default function VinReport({ data }: { data: VinData }) {
               year={year}
               make={makeName}
               model={modelName}
+              lockedPhotoCount={lockedPhotoCount}
             />
 
             {/* Currently listed banner */}
@@ -606,8 +760,34 @@ export default function VinReport({ data }: { data: VinData }) {
                 <div className="flex items-center gap-2 mb-4">
                   <Shield className="w-5 h-5 text-secondary-container" />
                   <h2 className="font-headline font-bold text-white">Currently Listed for Sale</h2>
+                  {lockListing && (
+                    <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-secondary-container">
+                      <Lock className="w-3 h-3" /> Premium
+                    </span>
+                  )}
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                <div className="relative">
+                {lockListing && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center">
+                    {unlockHref ? (
+                      <button
+                        type="button"
+                        onClick={() => setUpsellAction("buy")}
+                        className="inline-flex items-center gap-2 bg-white text-primary rounded-xl px-4 py-2.5 text-sm font-headline font-extrabold shadow-lg hover:bg-yellow-50 transition-colors cursor-pointer"
+                      >
+                        <Lock className="w-4 h-4" /> Unlock listing details
+                      </button>
+                    ) : (
+                      <span className="inline-flex items-center gap-2 bg-white/90 text-primary rounded-xl px-4 py-2.5 text-sm font-headline font-extrabold shadow-lg">
+                        <Lock className="w-4 h-4" /> Included in full report
+                      </span>
+                    )}
+                  </div>
+                )}
+                <div
+                  className={`grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 ${lockListing ? "blur-md select-none pointer-events-none" : ""}`}
+                  aria-hidden={lockListing || undefined}
+                >
                   <div className="min-w-0">
                     <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Asking Price</p>
                     <p className="text-xl sm:text-2xl font-headline font-black text-secondary-container break-words">{data.listing.price}</p>
@@ -633,6 +813,7 @@ export default function VinReport({ data }: { data: VinData }) {
                       )}
                     </div>
                   )}
+                </div>
                 </div>
               </div>
             )}
@@ -788,18 +969,25 @@ export default function VinReport({ data }: { data: VinData }) {
             )}
 
             {/* Check another VIN */}
-            <div className="bg-primary-container rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
-              <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
-              <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
-              <p className="text-sm sm:text-base text-white/85 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
-              <div className="max-w-lg mx-auto">
-                <VinSearchForm size="sm" />
+            {!hideCheckAnother && (
+              <div className="bg-primary-container rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
+                <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
+                <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
+                <p className="text-sm sm:text-base text-white/85 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
+                <div className="max-w-lg mx-auto">
+                  <VinSearchForm size="sm" />
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Preview-only: premium sections injected under the car info */}
+            {mainExtra}
           </div>
 
-          {/* ── RIGHT SIDEBAR (1/3) — scrolls naturally with the page ── */}
-          <div className="space-y-6 lg:self-start">
+          {/* ── RIGHT SIDEBAR (1/3) — scrolls naturally with the page.
+              In preview mode the column stretches to full height so the
+              paywall card (sidebarReplaceAI) can stay sticky on scroll. ── */}
+          <div className={`space-y-6 ${sidebarReplaceAI ? "" : "lg:self-start"}`}>
 
             {/* Pricing sidebar card */}
             {data.price && (
@@ -907,6 +1095,16 @@ export default function VinReport({ data }: { data: VinData }) {
               </div>
             )}
 
+            {/* Preview-only: server-built card directly above Report Summary
+                (e.g. the Market Analysis panel). */}
+            {summaryTop}
+
+            {/* Preview-only paywall / marketing card — pinned directly beneath
+                the Market Analysis panel so the offer sits with the value it
+                sells. (Free report leaves this empty; its AI sections render
+                at the bottom of the sidebar, as before.) */}
+            {sidebarReplaceAI}
+
             {/* Quick report summary sidebar */}
             <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
               <div className="px-5 py-4 border-b border-surface-container">
@@ -914,31 +1112,413 @@ export default function VinReport({ data }: { data: VinData }) {
                   <AlertTriangle className="w-5 h-5 text-secondary-container" style={{ color: "var(--color-secondary-container)" }} /> Report Summary
                 </h3>
               </div>
-              <div className="p-5 space-y-3">
-                {[
-                  { label: "VIN Verified",       ok: true },
-                  { label: "Specs Decoded",       ok: true },
-                  { label: "Photos Retrieved",    ok: (data.photos?.length ?? 0) > 0 },
-                  { label: "Market Data",         ok: !!data.marketData },
-                  { label: "Pricing Data",        ok: !!data.price },
-                  { label: "Listed for Sale",     ok: !!data.listing },
-                ].map(({ label, ok }) => (
-                  <div key={label} className="flex items-center justify-between">
-                    <span className="text-sm text-on-surface-variant">{label}</span>
-                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${ok ? "bg-green-50 text-green-700" : "bg-surface-container text-outline"}`}>
-                      {ok ? "✓ Found" : "—"}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              {summaryGroups ? (
+                <div className="p-5 space-y-4">
+                  {summaryGroups.map((group) => (
+                    <div key={group.title}>
+                      <p className="text-[11px] font-black text-primary uppercase tracking-wider mb-2">
+                        {group.title}
+                      </p>
+                      <div className="space-y-2">
+                        {group.items.map((label) => (
+                          <div key={label} className="flex items-center justify-between gap-3">
+                            <span className="text-sm text-on-surface-variant">{label}</span>
+                            <span className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full bg-green-50 text-green-700">
+                              ✓ Included
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-5 space-y-3">
+                  {[
+                    { label: "VIN Verified",       ok: true },
+                    { label: "Specs Decoded",       ok: true },
+                    { label: "Photos Retrieved",    ok: (data.photos?.length ?? 0) > 0 },
+                    { label: "Market Data",         ok: !!data.marketData },
+                    { label: "Pricing Data",        ok: !!data.price },
+                    { label: "Listed for Sale",     ok: !!data.listing },
+                  ].map(({ label, ok }) => (
+                    <div key={label} className="flex items-center justify-between">
+                      <span className="text-sm text-on-surface-variant">{label}</span>
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${ok ? "bg-green-50 text-green-700" : "bg-surface-container text-outline"}`}>
+                        {ok ? "✓ Found" : "—"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
-            {/* AI-powered report sections (Concierge, Risk Insights, Storyteller) */}
-            <VinReportAI data={data} fullName={fullName} />
+            {/* Preview: server-built content directly under Report Summary
+                (e.g. the FAQ on desktop). */}
+            {sidebarBottom}
+
+            {/* AI-powered report sections (Concierge, Risk Insights, Storyteller).
+                Free report only — in preview mode the paywall card renders above,
+                directly under the Market Analysis panel. */}
+            {!sidebarReplaceAI && <VinReportAI data={data} fullName={fullName} />}
 
           </div>{/* end sidebar */}
         </div>{/* end grid */}
       </div>{/* end body */}
+
+      {/* Preview-only marketing upsell — opened when a locked Download / Print /
+          Share button is clicked. Never rendered on the free report. */}
+      {upsellAction && (
+        <UpsellModal
+          action={upsellAction}
+          onClose={() => setUpsellAction(null)}
+          unlockPrice={unlockPrice}
+          fullName={fullName}
+          vin={data.vin}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Upsell modal (preview only) — fires when a buyer taps a locked
+   Download / Print / Share action. Copy is tailored to the action
+   they tried, then pivots to the full-report value stack + CTA.
+───────────────────────────────────────────────────────────── */
+function UpsellModal({
+  action,
+  onClose,
+  unlockPrice,
+  fullName,
+  vin,
+}: {
+  action: "download" | "print" | "share" | "buy";
+  onClose: () => void;
+  unlockPrice?: number;
+  fullName: string;
+  vin: string;
+}) {
+  const priceText =
+    typeof unlockPrice === "number" ? `$${unlockPrice.toFixed(2)}` : null;
+
+  // Headline + sub-line tailored to the exact button the buyer pressed, so the
+  // popup feels like a natural answer to their intent rather than a random ad.
+  const COPY = {
+    download: {
+      Icon: Download,
+      eyebrow: "Download the full report",
+      title: "Your complete report is one step away",
+      sub: "The downloadable PDF unlocks with the full vehicle history — title brands, accidents, odometer and auction photos included.",
+    },
+    print: {
+      Icon: Printer,
+      eyebrow: "Print the full report",
+      title: "Print the complete vehicle history",
+      sub: "Unlock the full report to print every record — a clean, dealer-ready document you can hand over with confidence.",
+    },
+    share: {
+      Icon: Share2,
+      eyebrow: "Share a verified report",
+      title: "Share the complete, verified report",
+      sub: "Buyers and sellers trust a full NMVTIS-backed report. Unlock it to share every record, not just the preview.",
+    },
+    buy: {
+      Icon: Sparkles,
+      eyebrow: "Unlock the full report",
+      title: "Get the complete vehicle history",
+      sub: "Unlock every record on file — title brands, accidents, odometer, ownership, auction photos and market value — in seconds.",
+    },
+  }[action];
+
+  const VALUE = [
+    { Icon: ShieldCheck, label: "Title-brand & salvage check", note: "Junk, flood, lemon, rebuilt" },
+    { Icon: AlertTriangle, label: "Accident & damage records", note: "Reported events & severity" },
+    { Icon: Gauge, label: "Odometer & rollback check", note: "Mileage consistency" },
+    { Icon: Camera, label: "Auction & sale photos", note: "Past listing imagery" },
+    { Icon: FileText, label: "Open safety recalls", note: "NHTSA campaigns" },
+    { Icon: DollarSign, label: "Market value estimate", note: "What it's really worth" },
+  ];
+
+  // ── In-modal checkout ──
+  // Rather than bounce the buyer to /order (re-enter VIN, re-load preview), we
+  // collect the email here and POST straight to /api/order/checkout, which
+  // sets it as the Stripe customer_email so the receipt + report delivery are
+  // pre-addressed. The modal opens directly on this checkout view (no separate
+  // value-pitch step) so any Download / Print / Buy button is one click away.
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  // Optional coupon — collected here, validated + applied by Stripe at checkout.
+  const [showCoupon, setShowCoupon] = useState(false);
+  const [coupon, setCoupon] = useState("");
+  const [couponApplied, setCouponApplied] = useState(false);
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  async function handleOrder() {
+    const e = email.trim();
+    if (!e) {
+      setError("Please enter your email so we can deliver your report.");
+      return;
+    }
+    if (!EMAIL_RE.test(e)) {
+      setError("That doesn't look like a valid email address.");
+      return;
+    }
+    setError(null);
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/order/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          vin,
+          email: e,
+          vehicleLabel: fullName,
+          coupon: couponApplied && coupon.trim() ? coupon.trim() : undefined,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.url) {
+        throw new Error(json.error || "Could not start checkout.");
+      }
+      // Stripe Checkout lives on an external origin — hard-navigate.
+      window.location.assign(json.url);
+    } catch (err) {
+      setSubmitting(false);
+      setError(err instanceof Error ? err.message : "Checkout failed.");
+    }
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Unlock the full vehicle history report"
+    >
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Card — capped to the viewport height with a pinned header and a
+          scrollable body so the whole checkout (incl. the Order button) is
+          always reachable on short/small phones. dvh tracks mobile browser
+          chrome so the bottom never gets cut off. */}
+      <div className="relative flex w-full max-h-[92dvh] flex-col sm:max-h-[90vh] sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
+        {/* Navy header */}
+        <div className="relative flex-shrink-0 bg-primary px-6 pt-5 pb-5 sm:pt-6 sm:pb-7 text-white">
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+          >
+            <X className="w-4 h-4" />
+          </button>
+
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-amber-300">
+            <Lock className="w-3.5 h-3.5" />
+            {COPY.eyebrow}
+          </span>
+          <h2 className="mt-2 text-xl sm:text-2xl font-headline font-extrabold leading-tight tracking-tight">
+            {COPY.title}
+          </h2>
+          <p className="mt-2 text-sm text-white/70 leading-relaxed">{COPY.sub}</p>
+          <p className="mt-3 text-xs font-mono text-white/50 truncate">
+            {fullName ? `${fullName} · ` : ""}{vin}
+          </p>
+        </div>
+
+        {/* Value stack — scrollable region under the pinned header. min-h-0 lets
+            this flex child shrink so the pinned footer (Order button) always
+            keeps its space within the height-capped card, even when the coupon
+            field expands on short screens. */}
+        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4 sm:py-5">
+          <p className="text-[11px] font-black text-on-surface-variant uppercase tracking-wider mb-3">
+            Everything you unlock
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {VALUE.map(({ Icon, label, note }) => (
+              <div
+                key={label}
+                className="flex items-start gap-2.5 rounded-xl border border-outline-variant/50 bg-surface-container-lowest px-3 py-2.5"
+              >
+                <span className="mt-0.5 flex-shrink-0 w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Icon className="w-4 h-4 text-primary" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[13px] font-bold text-on-surface leading-tight">
+                    {label}
+                  </span>
+                  <span className="block text-[11px] text-on-surface-variant">{note}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Trust row */}
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-on-surface-variant">
+            <span className="inline-flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> NMVTIS-backed data
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-primary" /> Instant access
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
+                ))}
+              </span>
+              <span className="font-bold text-on-surface">Trustpilot</span>
+            </span>
+          </div>
+        </div>{/* end scrollable value region */}
+
+        {/* In-modal checkout — PINNED footer so the conversion CTA (the Order
+            button) is visible the moment the modal opens, on every phone, with
+            only the value list above it scrolling. Opens directly (no value-
+            pitch step): collect email + optional coupon, POST to
+            /api/order/checkout, then hard-navigate to Stripe. */}
+        <div className="flex-shrink-0 border-t border-outline-variant/50 bg-surface px-6 pt-3 pb-4 sm:pt-4 sm:pb-5">
+            <label
+              htmlFor="upsell-email"
+              className="block text-[13px] font-bold text-on-surface mb-1.5"
+            >
+              Email for receipt &amp; report
+            </label>
+            <div className="relative">
+              <Mail className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
+              <input
+                id="upsell-email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (error) setError(null);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !submitting) handleOrder();
+                }}
+                placeholder="you@example.com"
+                aria-invalid={error ? true : undefined}
+                className={`w-full rounded-xl border bg-surface-container-lowest pl-9 pr-3 py-3 text-sm text-on-surface outline-none transition focus:ring-2 ${
+                  error
+                    ? "border-error focus:ring-error/30"
+                    : "border-outline-variant/60 focus:border-primary focus:ring-primary/20"
+                }`}
+              />
+            </div>
+            <p className="mt-1.5 text-[11px] text-on-surface-variant">
+              We&apos;ll send your full report and receipt here — it&apos;s added to
+              checkout automatically.
+            </p>
+
+            {/* Coupon — optional. The code is validated and applied by Stripe
+                at secure checkout; here we just collect it. */}
+            {couponApplied ? (
+              <div className="mt-3 flex items-center justify-between rounded-xl border border-green-300/70 bg-green-50 px-3 py-2.5 text-[12px]">
+                <span className="inline-flex items-center gap-1.5 font-bold text-green-700">
+                  <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                  Coupon <span className="font-mono uppercase">{coupon.trim()}</span> added
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCouponApplied(false);
+                    setCoupon("");
+                    setShowCoupon(false);
+                  }}
+                  aria-label="Remove coupon"
+                  className="text-green-700/60 hover:text-green-700 transition"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : showCoupon ? (
+              <div className="mt-3 flex gap-2">
+                <input
+                  type="text"
+                  value={coupon}
+                  onChange={(e) => setCoupon(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && coupon.trim()) {
+                      e.preventDefault();
+                      setCouponApplied(true);
+                    }
+                  }}
+                  placeholder="Coupon code"
+                  aria-label="Coupon code"
+                  className="flex-1 min-w-0 rounded-xl border border-outline-variant/60 bg-surface-container-lowest px-3 py-2.5 text-sm font-mono uppercase tracking-wide text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                />
+                <button
+                  type="button"
+                  onClick={() => coupon.trim() && setCouponApplied(true)}
+                  disabled={!coupon.trim()}
+                  className="flex-shrink-0 rounded-xl border border-primary/30 bg-primary/10 px-4 text-sm font-bold text-primary transition hover:bg-primary/15 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Apply
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowCoupon(true)}
+                className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
+              >
+                <Tag className="w-3.5 h-3.5" /> Have a coupon code?
+              </button>
+            )}
+
+            {error && (
+              <div className="mt-2.5 flex items-start gap-2 rounded-xl border border-error/30 bg-error-container/40 px-3 py-2 text-[12px] text-error">
+                <AlertTriangle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <button
+              onClick={handleOrder}
+              disabled={submitting}
+              className="mt-3 flex items-center justify-center gap-2 w-full px-5 py-3.5 rounded-full bg-secondary-container hover:brightness-95 text-on-secondary-container text-sm font-bold transition shadow-lg shadow-secondary-container/30 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Redirecting to secure
+                  checkout…
+                </>
+              ) : (
+                <>
+                  <Lock className="w-4 h-4" />
+                  {priceText ? `Order Full Report — ${priceText}` : "Order Full Report"}
+                </>
+              )}
+            </button>
+
+            {/* Disclaimer — legal banner */}
+            <p className="mt-3 text-center text-[11px] leading-relaxed text-on-surface-variant">
+              By clicking <span className="font-semibold">Order Full Report</span> you
+              agree to{" "}
+              <Link href="/terms" className="text-primary underline hover:no-underline">
+                CarCheckerVIN&apos;s T&amp;C
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/disclaimer"
+                className="text-primary underline hover:no-underline"
+              >
+                NMVTIS disclaimer
+              </Link>
+              .
+            </p>
+        </div>{/* end pinned checkout footer */}
+      </div>{/* end card */}
     </div>
   );
 }

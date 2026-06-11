@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { Check, Gem, Car } from "lucide-react";
+import { Check, Gem } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
+import BuyReportButton from "@/components/BuyReportButton";
 
 /* The records the paid report unlocks — mirrors the conversion card
    pattern used by driving-tests / vininspect, in our brand style. */
@@ -19,7 +21,6 @@ interface Props {
   vehicleLabel: string;
   vin: string;
   price: string;
-  orderHref: string;
   exampleHref: string;
 }
 
@@ -28,7 +29,6 @@ export default function MarketingCard({
   vehicleLabel,
   vin,
   price,
-  orderHref,
   exampleHref,
 }: Props) {
   return (
@@ -42,7 +42,7 @@ export default function MarketingCard({
       {/* make badge */}
       {make && (
         <div className="absolute top-5 right-5 inline-flex items-center gap-1.5 bg-white rounded-xl px-3 py-2 shadow-md">
-          <Car className="w-4 h-4 text-primary" />
+          <BrandLogo make={make} className="w-6 h-6" />
           <span className="text-[11px] font-black uppercase tracking-wider text-primary leading-none">
             {make}
           </span>
@@ -76,12 +76,9 @@ export default function MarketingCard({
         Verified report in seconds · No hidden fees · 30-day money-back guarantee
       </p>
 
-      <Link
-        href={orderHref}
-        className="flex items-center justify-center gap-2 w-full bg-white text-primary rounded-2xl py-4 font-headline font-extrabold text-base hover:bg-yellow-50 transition-colors shadow-lg"
-      >
+      <BuyReportButton className="flex items-center justify-center gap-2 w-full bg-white text-primary rounded-2xl py-4 font-headline font-extrabold text-base hover:bg-yellow-50 transition-colors shadow-lg cursor-pointer">
         <Gem className="w-5 h-5" /> Get full report now
-      </Link>
+      </BuyReportButton>
 
       <Link
         href={exampleHref}

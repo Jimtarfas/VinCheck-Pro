@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "auto.dev", pathname: "/images/**" },
       { protocol: "https", hostname: "api.auto.dev", pathname: "/photos/**" },
+      // ClearVin auction/vehicle hero images — shown in the paid report-preview
+      // gallery (the real photo on file for the VIN).
+      { protocol: "https", hostname: "www.clearvin.com", pathname: "/**" },
+      { protocol: "https", hostname: "clearvin.com", pathname: "/**" },
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
       { protocol: "https", hostname: "cdn.sanity.io", pathname: "/**" },
       // Bing Image Search CDN — used as an external fallback when auto.dev

@@ -12,6 +12,7 @@ interface CheckoutBody {
   vin?: string;
   email?: string;
   vehicleLabel?: string;
+  coupon?: string;
 }
 
 const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/i;
@@ -95,6 +96,7 @@ export async function POST(req: Request) {
       vin,
       vehicleLabel: body.vehicleLabel,
       customerEmail: userEmail,
+      couponCode: (body.coupon || "").trim() || undefined,
     });
 
     // Stash the session id on the order so the webhook can match it.

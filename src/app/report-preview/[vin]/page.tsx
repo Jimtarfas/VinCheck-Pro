@@ -6,22 +6,34 @@ import {
   Lock,
   ShieldCheck,
   ShieldAlert,
-  Camera,
   Gavel,
   Wrench,
   AlertTriangle,
   Gauge,
   Users,
   Car,
-  DollarSign,
+  FileText,
   ChevronRight,
   BadgeCheck,
-  RefreshCw,
   Star,
+  Crown,
+  Gem,
+  Receipt,
+  Fingerprint,
+  Flame,
+  Skull,
+  KeyRound,
+  Hammer,
+  ScrollText,
+  Banknote,
+  BarChart3,
 } from "lucide-react";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import VinReport from "@/components/VinReport";
+import VinSearchForm from "@/components/VinSearchForm";
+import { decodeVin, type VinData } from "@/lib/api";
 import { fetchPreview, isUsingMockData, type ClearVinPreview } from "@/lib/clearvin";
 import MarketingCard from "./MarketingCard";
+import BuyReportButton from "@/components/BuyReportButton";
 
 /* Small laurel-wreath flourish for the satisfaction-guarantee seal. */
 function Laurel({ className = "" }: { className?: string }) {
@@ -63,93 +75,109 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { vin } = await params;
   return {
-    title: `Vehicle History Preview — ${vin.toUpperCase()}`,
+    title: `Vehicle History Report — ${vin.toUpperCase()}`,
     description:
-      "Preview the records on file for this VIN before you unlock the full vehicle history report.",
+      "Unlock the full NMVTIS-backed vehicle history report for this VIN — title brands, accidents, odometer, ownership and more.",
     robots: { index: false, follow: false },
   };
 }
 
-/* Status-tile model: which records exist, what's free vs locked. */
-function buildTiles(p: ClearVinPreview) {
+/* Build a minimal VinData from ClearVin's spec block when the free decode
+   (auto.dev) is unavailable, so the report design still renders. */
+function fallbackVinData(vin: string, p: ClearVinPreview): VinData {
+  const s = p.vinSpec;
+  const year = s.year ? Number(s.year) : undefined;
+  return {
+    vin,
+    make: { id: 0, name: s.make || "Vehicle", niceName: "" },
+    model: { id: "0", name: s.model || "", niceName: "" },
+    drivenWheels: "",
+    numOfDoors: "",
+    options: [],
+    years: year
+      ? [
+          {
+            id: 0,
+            year,
+            styles: [{ id: 0, name: s.style || "", trim: s.trim || "" }],
+          },
+        ]
+      : undefined,
+    photos: p.previewImageURL ? [p.previewImageURL] : undefined,
+    photoSource: "vin",
+  } as unknown as VinData;
+}
+
+/* The locked records the paid report reveals — shown as a teaser list
+   under the car info. Counts come live from ClearVin when present. */
+function lockedRecords(p: ClearVinPreview | null) {
   return [
-    {
-      icon: Car,
-      label: "Vehicle specs",
-      count: null as number | null,
-      state: "open" as const,
-      note: "Year, make, model, trim, engine",
-    },
-    {
-      icon: Camera,
-      label: "Photos on file",
-      count: p.imagesAmount,
-      state: "locked" as const,
-      note: "Auction & listing images",
-    },
-    {
-      icon: Gavel,
-      label: "Auction records",
-      count: p.auctionHistoryRecords,
-      state: "locked" as const,
-      note: "Sale events & locations",
-    },
-    {
-      icon: Wrench,
-      label: "Damage records",
-      count: p.damagesCount,
-      state: "locked" as const,
-      note: "Reported condition notes",
-    },
-    {
-      icon: ShieldAlert,
-      label: "Open recalls",
-      count: p.recallsCount,
-      state: "open" as const,
-      note: "NHTSA safety recalls",
-    },
-    {
-      icon: ShieldCheck,
-      label: "Title brands",
-      count: null,
-      state: "locked" as const,
-      note: "Salvage · flood · junk · lemon",
-    },
-    {
-      icon: AlertTriangle,
-      label: "Accident history",
-      count: null,
-      state: "locked" as const,
-      note: "Reported collision events",
-    },
-    {
-      icon: Gauge,
-      label: "Odometer history",
-      count: null,
-      state: "locked" as const,
-      note: "Rollback & mileage checks",
-    },
-    {
-      icon: Users,
-      label: "Ownership history",
-      count: null,
-      state: "locked" as const,
-      note: "Owners & usage type",
-    },
+    { icon: ShieldCheck, label: "Title brands & history", note: "Salvage · flood · junk · lemon", count: null as number | null },
+    { icon: AlertTriangle, label: "Accident & damage records", note: "Reported collisions & severity", count: p?.damagesCount || null },
+    { icon: Gauge, label: "Odometer readings", note: "Rollback & mileage checks", count: null },
+    { icon: Users, label: "Ownership history", note: "Owners & usage type", count: null },
+    { icon: Gavel, label: "Auction & sale records", note: "Sale price & location", count: p?.auctionHistoryRecords || null },
+    { icon: Wrench, label: "Theft & total-loss checks", note: "Stolen / recovered / junked", count: null },
   ];
 }
 
-/* What the paid report includes — the "what $X buys" checklist. */
-const INCLUDED = [
-  "Full title history & brand checks (salvage, flood, junk, lemon)",
-  "Reported accident & damage records",
-  "Odometer readings & rollback detection",
-  "Every auction record with sale price & location",
-  "All photos on file for this VIN",
-  "Ownership timeline & usage (personal, fleet, rental)",
-  "Open safety recalls & NHTSA campaign details",
-  "Theft & total-loss checks",
-  "Downloadable PDF you can keep and share",
+/* Screen-4 "every record your report checks" grid. */
+const RECORDS_CHECKED = [
+  { icon: AlertTriangle, label: "Accident History" },
+  { icon: Banknote, label: "Liens & Loans" },
+  { icon: FileText, label: "Title History" },
+  { icon: Users, label: "Ownership Records" },
+  { icon: Gauge, label: "Odometer Records" },
+  { icon: Wrench, label: "Salvage Records" },
+  { icon: Receipt, label: "Sales History" },
+  { icon: Skull, label: "Total Loss Events" },
+  { icon: ShieldAlert, label: "Open Recalls" },
+  { icon: BadgeCheck, label: "Lemon Check" },
+];
+
+/* Screen-4 "your report may contain" 16-item green checklist. */
+const MAY_CONTAIN = [
+  { icon: AlertTriangle, label: "Major Accident" },
+  { icon: Gauge, label: "Mileage Rollback" },
+  { icon: Hammer, label: "Frame Damage" },
+  { icon: Car, label: "Lease & Taxi Use" },
+  { icon: FileText, label: "Rebuilt / Branded Title" },
+  { icon: ShieldCheck, label: "Police & Government Use" },
+  { icon: Users, label: "Owner History" },
+  { icon: Wrench, label: "Salvage History" },
+  { icon: Skull, label: "Junked" },
+  { icon: Flame, label: "Airbag Deployment" },
+  { icon: Fingerprint, label: "Vehicle Specifications" },
+  { icon: BadgeCheck, label: "Warranty Information" },
+  { icon: Receipt, label: "Sale History" },
+  { icon: ScrollText, label: "Bill of Sale Template" },
+  { icon: KeyRound, label: "Lemon Check" },
+  { icon: Banknote, label: "Theft & Recovery Check" },
+];
+
+/* Everything the buyer gets — shown as the premium Report Summary in the
+   sidebar, grouped with titles. */
+const SUMMARY_GROUPS = [
+  {
+    title: "Title & Ownership",
+    items: ["Title Brand Check", "Ownership History", "Number of Owners", "Usage Type"],
+  },
+  {
+    title: "Condition & Damage",
+    items: ["Accident & Damage Records", "Salvage / Total-Loss Check", "Airbag Deployment", "Frame Damage"],
+  },
+  {
+    title: "Mileage & Legal",
+    items: ["Odometer Readings", "Rollback Detection", "Open Liens", "Lemon Check"],
+  },
+  {
+    title: "Value & Market",
+    items: ["Market Value", "Original MSRP & Invoice", "Warranty Information"],
+  },
+  {
+    title: "Records & Media",
+    items: ["Auction Records & Prices", "All Photos on File", "Open Safety Recalls", "Downloadable PDF"],
+  },
 ];
 
 export default async function ReportPreviewPage({ params }: Props) {
@@ -157,10 +185,27 @@ export default async function ReportPreviewPage({ params }: Props) {
   const cleaned = vin.trim().toUpperCase();
   if (cleaned.length !== 17) notFound();
 
-  const result = await fetchPreview(cleaned);
-  const mock = isUsingMockData();
+  // Pull the free decoded specs (auto.dev) and the ClearVin preview in
+  // parallel; tolerate either failing so the page always renders.
+  const [decodedResult, previewResult] = await Promise.allSettled([
+    decodeVin(cleaned),
+    fetchPreview(cleaned),
+  ]);
 
-  if (!("ok" in result) || result.ok !== true) {
+  const preview =
+    previewResult.status === "fulfilled" && "ok" in previewResult.value && previewResult.value.ok
+      ? previewResult.value.data
+      : null;
+
+  // Build the data the report design renders. Prefer the rich free decode;
+  // fall back to ClearVin's spec block if auto.dev is unavailable.
+  let reportData: VinData | null =
+    decodedResult.status === "fulfilled" ? decodedResult.value : null;
+
+  if (!reportData && preview) reportData = fallbackVinData(cleaned, preview);
+
+  // Neither source returned anything usable — there is nothing to show.
+  if (!reportData) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4 pt-24 bg-surface">
         <div className="text-center max-w-md">
@@ -168,9 +213,11 @@ export default async function ReportPreviewPage({ params }: Props) {
             <AlertTriangle className="w-7 h-7 text-primary" />
           </div>
           <h1 className="text-2xl font-headline font-extrabold text-primary mb-3">
-            No preview for this VIN
+            No records for this VIN
           </h1>
-          <p className="text-on-surface-variant mb-6">{result.message}</p>
+          <p className="text-on-surface-variant mb-6">
+            We couldn&apos;t locate any records for {cleaned}. Double-check the VIN and try again.
+          </p>
           <Link
             href="/report-preview"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition"
@@ -182,413 +229,566 @@ export default async function ReportPreviewPage({ params }: Props) {
     );
   }
 
-  const p = result.data;
-  const s = p.vinSpec;
-  const tiles = buildTiles(p);
-  const vehicleTitle =
-    [s.year, s.make, s.model, s.trim].filter(Boolean).join(" ") || cleaned;
-  const issueCount =
-    p.auctionHistoryRecords + p.damagesCount + p.recallsCount;
-  const heroImg = p.previewImageURL;
-  const lockedPhotos = Math.max(0, p.imagesAmount - 1);
+  // Replace the gallery hero with ClearVin's real on-file photo when present.
+  let lockedPhotoCount: number | undefined;
+  if (preview?.previewImageURL) {
+    reportData = {
+      ...reportData,
+      photos: [preview.previewImageURL],
+      photoSource: "vin",
+    };
+    // Tease the rest of the photos on file as blurred, locked thumbnails.
+    lockedPhotoCount = preview.imagesAmount > 1 ? preview.imagesAmount : undefined;
+  }
+
+  const mock = isUsingMockData();
+  const s = preview?.vinSpec;
+  const make = s?.make || reportData.make?.name || "";
+  const aiYear = reportData.years?.[0]?.year;
+  const vehicleLabel =
+    [s?.year ?? aiYear, make, s?.model ?? reportData.model?.name].filter(Boolean).join(" ") ||
+    cleaned;
+
+  // Total "history records" on file — matches ClearVin's headline count, which
+  // rolls photos in alongside auction, damage and recall records.
+  const recordsFound = preview
+    ? preview.auctionHistoryRecords +
+      preview.damagesCount +
+      preview.recallsCount +
+      preview.imagesAmount
+    : 0;
+  const records = lockedRecords(preview);
+
   const orderHref = `/order?vin=${encodeURIComponent(cleaned)}`;
-  const exampleHref = "#whats-inside";
+  const exampleHref = "/order/sample-report";
 
-  return (
-    <article className="pb-24 bg-surface">
-      {mock && (
-        <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center py-2 px-4">
-          Sample data — set <code className="font-mono">CLEARVIN_API_TOKEN</code> to load live records for this VIN.
-        </div>
-      )}
+  /* ── Hero primary CTA ─────────────────────────────────────────────────
+     Sits first in the hero action-button row so the buy button is visible
+     above the fold, next to Download/Print/Share. Gold accent so it reads
+     as THE primary action against the navy. Preview-only. */
+  const heroCta = (
+    <BuyReportButton className="flex items-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-headline font-extrabold bg-white text-primary shadow-lg hover:bg-yellow-50 transition cursor-pointer">
+      <Lock className="w-4 h-4" /> Get full report — ${SINGLE_PRICE.toFixed(2)}
+    </BuyReportButton>
+  );
 
-      {/* ── Identity hero ─────────────────────────────────── */}
-      <div className="bg-primary text-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-12 sm:pt-28 sm:pb-14">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Report Preview" },
-            ]}
-            onDark
-          />
+  /* ── Hero risk snapshot ───────────────────────────────────────────────
+     Fills the navy hero space beside the vehicle name. Built entirely from
+     the FREE ClearVin preview signals — we surface the *counts* of records on
+     file (damage, auction, photos) and keep the details locked behind the
+     paywall, which is the strongest conversion lever for a used-car buyer:
+     it proves concerning records exist without giving them away. Recalls are
+     the one set shown free (NHTSA, also rendered below) as a trust proof.
+     Falls back to example numbers when ClearVin has no token configured. */
+  const heroAside = (() => {
+    const isExample = !preview;
+    const dmg = preview?.damagesCount ?? 2;
+    const auc = preview?.auctionHistoryRecords ?? 1;
+    const rec = preview?.recallsCount ?? 6;
+    const imgs = preview?.imagesAmount ?? 12;
 
-          <div className="mt-6">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1 text-xs font-bold mb-4">
-              <BadgeCheck className="w-3.5 h-3.5" /> VIN decoded · records located
+    // Locked teaser tiles — count shown, detail behind the paywall.
+    const tiles: { icon: typeof Lock; label: string; value: string; alert?: boolean }[] = [
+      { icon: ShieldCheck, label: "Title & odometer", value: "Check" },
+      { icon: AlertTriangle, label: "Damage records", value: String(dmg), alert: dmg > 0 },
+      { icon: Gavel, label: "Auction & sales", value: String(auc), alert: auc > 0 },
+      { icon: Car, label: "Photos on file", value: String(imgs) },
+    ];
+
+    // Trust facts — concrete identity details that prove the data is real and
+    // specific to this exact car (not a generic year/make/model lookup).
+    const facts: string[] = [];
+    if (isExample) {
+      facts.push("3.5L V6 · Assembled in USA", "Original MSRP $31,840");
+    } else {
+      const eng = preview?.vinSpec.engine?.trim();
+      const made = preview?.vinSpec.madeIn?.trim();
+      const msrp = preview?.vinSpec.msrp?.trim();
+      if (eng || made) facts.push([eng, made && `Assembled in ${made}`].filter(Boolean).join(" · "));
+      if (msrp) facts.push(`Original MSRP ${msrp}`);
+    }
+
+    return (
+      <div className="hidden lg:block mt-8 rounded-2xl bg-white/[0.07] border border-white/15 p-4">
+        <div className="flex items-center gap-2 mb-3 px-1">
+          <Fingerprint className="w-4 h-4 text-secondary-fixed-dim" />
+          <h2 className="text-xs font-headline font-extrabold uppercase tracking-wider text-white">
+            Records found for this VIN
+          </h2>
+          {isExample && (
+            <span className="text-[9px] font-bold uppercase tracking-wider text-white/45 border border-white/20 rounded-full px-2 py-0.5">
+              Example
+            </span>
+          )}
+          {/* Trust facts inline on the right of the header */}
+          {facts.length > 0 && (
+            <div className="ml-auto flex items-center gap-4">
+              {facts.map((f) => (
+                <span key={f} className="hidden xl:flex items-center gap-1.5 text-[11px] text-white/70">
+                  <BadgeCheck className="w-3.5 h-3.5 text-secondary-fixed-dim flex-shrink-0" />
+                  {f}
+                </span>
+              ))}
             </div>
-            <h1 className="text-2xl sm:text-4xl font-headline font-extrabold leading-tight mb-3">
-              {vehicleTitle}
-            </h1>
-            <p className="font-mono text-sm text-white/70 tracking-wider mb-5">
-              {cleaned}
-            </p>
+          )}
+        </div>
 
-            {/* spec chips */}
-            <div className="flex flex-wrap gap-2">
-              {[
-                s.engine && { k: "Engine", v: s.engine },
-                s.style && { k: "Body", v: s.style },
-                s.madeIn && { k: "Built in", v: s.madeIn },
-                s.msrp && { k: "Original MSRP", v: s.msrp },
-              ]
-                .filter(Boolean)
-                .map((c) => {
-                  const chip = c as { k: string; v: string };
-                  return (
-                    <span
-                      key={chip.k}
-                      className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs"
-                    >
-                      <span className="text-white/55">{chip.k}:</span>
-                      <span className="font-semibold text-white">{chip.v}</span>
-                    </span>
-                  );
-                })}
+        {/* Single horizontal row: 4 locked record tiles + the free recall tile */}
+        <div className="grid grid-cols-5 gap-2.5">
+          {tiles.map(({ icon: Icon, label, value, alert }) => (
+            <div key={label} className="rounded-xl bg-white/[0.06] border border-white/10 px-3.5 py-2.5">
+              <div className="flex items-center justify-between mb-1">
+                <Icon className={`w-4 h-4 ${alert ? "text-amber-300" : "text-secondary-fixed-dim"}`} />
+                <Lock className="w-3 h-3 text-white/40" />
+              </div>
+              <div className={`text-lg font-headline font-extrabold leading-none ${alert ? "text-amber-300" : "text-white"}`}>
+                {value}
+              </div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-white/55 mt-1 leading-tight">
+                {label}
+              </div>
+            </div>
+          ))}
+
+          {/* Recalls — the one record set shown free, as proof the data is real */}
+          <div className="rounded-xl bg-amber-400/15 border border-amber-300/25 px-3.5 py-2.5 flex flex-col justify-center">
+            <div className="flex items-center justify-between mb-1">
+              <ShieldAlert className="w-4 h-4 text-amber-300" />
+              <span className="text-[9px] font-bold uppercase tracking-wider text-amber-200">Free</span>
+            </div>
+            <div className="text-lg font-headline font-extrabold leading-none text-amber-300">{rec}</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-amber-100/80 mt-1 leading-tight">
+              Open recall{rec === 1 ? "" : "s"}
             </div>
           </div>
         </div>
       </div>
+    );
+  })();
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        {/* ── Photo gallery + marketing card ──────────────── */}
-        <section className="-mt-8 relative z-10 grid lg:grid-cols-[1.05fr_1fr] gap-5 sm:gap-6 items-start">
-          {/* gallery */}
-          <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-3 shadow-xl shadow-primary/5">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-surface-container-low">
-              {heroImg ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={heroImg}
-                  alt={`${vehicleTitle} on file`}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Car className="w-16 h-16 text-on-surface-variant/40" />
+  /* ── Market Analysis card (sidebar, above Report Summary) ──────────────
+     Built from auto.dev market/pricing data with an example fallback so the
+     panel is reviewable before AUTO_DEV_API_KEY is configured. Skipped when
+     the rich live-listings Market Analysis (inside VinReport) already renders,
+     so the two never double up. */
+  const summaryTop = reportData.marketData ? null : (() => {
+    const pr = reportData.price;
+    const cards: { label: string; value: string }[] = [];
+    if (pr) {
+      if (pr.baseMsrp > 0) cards.push({ label: "Original MSRP", value: `$${pr.baseMsrp.toLocaleString()}` });
+      if (pr.usedTmvRetail > 0) cards.push({ label: "Used Retail", value: `$${pr.usedTmvRetail.toLocaleString()}` });
+      if (pr.usedPrivateParty > 0) cards.push({ label: "Private Party", value: `$${pr.usedPrivateParty.toLocaleString()}` });
+      if (pr.usedTradeIn > 0) cards.push({ label: "Trade-In", value: `$${pr.usedTradeIn.toLocaleString()}` });
+    }
+    const isExample = cards.length === 0;
+    if (isExample) {
+      cards.push(
+        { label: "Avg. Market Price", value: "$24,850" },
+        { label: "Price Range", value: "$21,300 – $28,400" },
+        { label: "Active Listings", value: "37" },
+        { label: "Avg. Mileage", value: "92,400 mi" },
+      );
+    }
+    return (
+      <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-surface-container flex items-center justify-between gap-2">
+          <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-primary" /> Market Analysis
+          </h3>
+          {isExample && (
+            <span className="text-[9px] font-bold uppercase tracking-wider text-outline border border-outline-variant rounded-full px-2 py-0.5">
+              Example
+            </span>
+          )}
+        </div>
+        <div className="p-5">
+          <div className="grid grid-cols-2 gap-3">
+            {cards.map(({ label, value }) => (
+              <div key={label} className="rounded-xl bg-surface-container-low px-3.5 py-3">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-outline mb-1 leading-tight">
+                  {label}
                 </div>
-              )}
-              {p.imagesAmount > 0 && (
-                <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 bg-black/60 backdrop-blur text-white rounded-lg px-2.5 py-1 text-xs font-semibold">
-                  <Camera className="w-3.5 h-3.5" /> {p.imagesAmount} photos on file
+                <div className="text-base font-headline font-extrabold text-on-surface leading-none">
+                  {value}
                 </div>
-              )}
-            </div>
-            {p.imagesAmount > 1 && (
-              <div className="grid grid-cols-4 gap-2 mt-2">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="relative aspect-square rounded-xl overflow-hidden bg-surface-container-low border border-outline-variant"
-                  >
-                    {heroImg && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={heroImg}
-                        alt=""
-                        aria-hidden
-                        className="w-full h-full object-cover"
-                        style={{ filter: "blur(8px)", transform: "scale(1.15)" }}
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-primary/35 flex items-center justify-center">
-                      {i === 3 && lockedPhotos > 3 ? (
-                        <span className="text-white font-headline font-black text-xs">
-                          +{lockedPhotos - 3}
-                        </span>
-                      ) : (
-                        <Lock className="w-4 h-4 text-white drop-shadow" />
-                      )}
-                    </div>
-                  </div>
-                ))}
               </div>
-            )}
+            ))}
           </div>
-
-          {/* marketing card */}
-          <div>
-            <MarketingCard
-              make={s.make || ""}
-              vehicleLabel={
-                [s.year, s.make, s.model].filter(Boolean).join(" ") || cleaned
-              }
-              vin={cleaned}
-              price={SINGLE_PRICE.toFixed(2)}
-              orderHref={orderHref}
-              exampleHref={exampleHref}
-            />
-            {/* satisfaction-guarantee seal */}
-            <div className="flex items-center justify-center gap-2 mt-5 text-primary">
-              <Laurel className="w-7 h-10" />
-              <span className="text-sm font-headline font-extrabold uppercase tracking-wide leading-tight text-center">
-                Satisfaction
-                <br />
-                Guarantee
-              </span>
-              <Laurel className="w-7 h-10 -scale-x-100" />
-            </div>
-          </div>
-        </section>
-
-        {/* ── Dynamic verdict banner ──────────────────────── */}
-        <section className="pt-10 sm:pt-12 relative z-10">
-          <div
-            className={`rounded-2xl border p-5 sm:p-6 shadow-lg ${
-              issueCount > 0
-                ? "bg-amber-50 border-amber-200"
-                : "bg-emerald-50 border-emerald-200"
-            }`}
-          >
-            <div className="flex items-start gap-3">
-              <div
-                className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  issueCount > 0 ? "bg-amber-500" : "bg-emerald-500"
-                }`}
-              >
-                {issueCount > 0 ? (
-                  <AlertTriangle className="w-5 h-5 text-white" />
-                ) : (
-                  <ShieldCheck className="w-5 h-5 text-white" />
-                )}
-              </div>
-              <div>
-                <h2 className="text-base sm:text-lg font-headline font-extrabold text-on-surface mb-1">
-                  {issueCount > 0
-                    ? `We found ${issueCount} record${issueCount === 1 ? "" : "s"} on file for this ${s.make || "vehicle"}.`
-                    : "No major signals in the free preview — confirm the full history before you buy."}
-                </h2>
-                <p className="text-sm text-on-surface-variant">
-                  {issueCount > 0
-                    ? "Unlock the full report to see exactly what each record says — title brands, damage, sale prices and photos."
-                    : "Title brands, accidents and odometer checks are only revealed in the full report. Don't assume clean."}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Records-found grid ──────────────────────────── */}
-        <section className="py-10 sm:py-14">
-          <h2 className="text-xl sm:text-2xl font-headline font-extrabold text-primary mb-2">
-            What we found for this VIN
-          </h2>
-          <p className="text-sm text-on-surface-variant mb-6 max-w-2xl">
-            Records exist in the sources below. Specs and recalls are shown free —
-            the rest unlock with the full report.
+          <p className="mt-4 text-[11px] text-outline leading-snug">
+            {pr
+              ? "Manufacturer & guide pricing for this year, make & model."
+              : "Example figures — live pricing loads from auto.dev once configured."}
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {tiles.map((t) => {
-              const Icon = t.icon;
-              const isLocked = t.state === "locked";
-              const hasCount = typeof t.count === "number";
-              const flagged = hasCount && (t.count as number) > 0;
+        </div>
+      </div>
+    );
+  })();
+
+  /* ── Premium sections injected UNDER the car info (main column) ── */
+  const premiumSections = (
+    <div className="space-y-12">
+      {/* Premium vehicle history */}
+      <section>
+        <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
+          <Crown className="w-3.5 h-3.5" /> Premium vehicle history
+        </div>
+        <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
+          {recordsFound > 0
+            ? `${recordsFound} history record${recordsFound === 1 ? "" : "s"} on file for this ${make || "vehicle"}`
+            : "Unlock the full vehicle history"}
+        </h2>
+        <p className="text-sm text-on-surface-variant mb-5 max-w-md">
+          The specs above are free. Title brands, accidents, odometer and
+          ownership records are revealed in the full report.
+        </p>
+        <div className="relative rounded-3xl border border-outline-variant bg-surface-container-lowest overflow-hidden">
+          <div className="divide-y divide-outline-variant/60">
+            {records.map((r) => {
+              const Icon = r.icon;
               return (
-                <div
-                  key={t.label}
-                  className={`relative rounded-2xl border p-4 ${
-                    isLocked
-                      ? "border-outline-variant bg-surface-container-lowest"
-                      : "border-emerald-200 bg-emerald-50/50"
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div
-                      className={`w-9 h-9 rounded-lg flex items-center justify-center ${
-                        isLocked ? "bg-primary/10" : "bg-emerald-500/15"
-                      }`}
-                    >
-                      <Icon
-                        className={`w-4.5 h-4.5 ${
-                          isLocked ? "text-primary" : "text-emerald-600"
-                        }`}
-                      />
-                    </div>
-                    {isLocked ? (
-                      <Lock className="w-3.5 h-3.5 text-on-surface-variant/60" />
-                    ) : (
-                      <Check className="w-4 h-4 text-emerald-600" strokeWidth={3} />
-                    )}
+                <div key={r.label} className="flex items-center gap-4 p-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5 text-primary" />
                   </div>
-                  <div className="flex items-baseline gap-1.5">
-                    {hasCount ? (
-                      <span
-                        className={`text-lg font-headline font-black ${
-                          flagged ? "text-amber-600" : "text-on-surface"
-                        }`}
-                      >
-                        {t.count}
-                      </span>
-                    ) : null}
-                    <span className="text-sm font-bold text-on-surface leading-tight">
-                      {t.label}
-                    </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-bold text-on-surface">{r.label}</div>
+                    <div className="text-xs text-on-surface-variant">{r.note}</div>
                   </div>
-                  <p className="text-[11px] text-on-surface-variant mt-0.5 leading-snug">
-                    {t.note}
-                  </p>
-                  {flagged && (
-                    <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full shadow">
-                      found
+                  {typeof r.count === "number" ? (
+                    <span className="flex-shrink-0 bg-amber-500 text-white text-[10px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full">
+                      {r.count} found
                     </span>
+                  ) : (
+                    <Lock className="w-4 h-4 text-on-surface-variant/60 flex-shrink-0" />
                   )}
                 </div>
               );
             })}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ── Locked history timeline tease ───────────────── */}
-        <section className="py-8 border-t border-outline-variant">
-          <h2 className="text-lg sm:text-xl font-headline font-extrabold text-primary mb-4">
-            History timeline
-          </h2>
-          <div className="relative rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden">
-            <div className="divide-y divide-outline-variant/60" aria-hidden>
-              {["Title issued", "Odometer reading", "Auction record", "Ownership change"].map(
-                (row, i) => (
-                  <div key={i} className="flex items-center gap-4 p-4">
-                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex-shrink-0" />
-                    <div className="flex-1">
-                      <div className="h-3 w-28 rounded bg-on-surface/15 mb-2" />
-                      <div className="h-2.5 w-44 rounded bg-on-surface/10" />
+      {/* Free recalls — right after the "records on file" section */}
+      {preview && preview.recalls.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-2">
+            <ShieldAlert className="w-5 h-5 text-amber-600" />
+            <h2 className="text-xl font-headline font-extrabold text-primary">
+              {preview.recalls.length} open safety recall{preview.recalls.length === 1 ? "" : "s"} — shown free
+            </h2>
+          </div>
+          <p className="text-sm text-on-surface-variant mb-4 max-w-2xl">
+            Pulled live from NHTSA — the same official records included in your
+            full report, proof the data behind this VIN is real and current.
+          </p>
+          <div className="space-y-2">
+            {preview.recalls.map((r, i) => (
+              <details
+                key={`${r.NHTSACampaignNumber}-${i}`}
+                className="group rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <div>
+                    <div className="text-[11px] font-black uppercase tracking-wider text-amber-600 mb-0.5">
+                      {r.Component}
                     </div>
-                    <div className="h-6 w-16 rounded bg-on-surface/10 blur-[2px]" />
+                    <div className="text-sm font-bold text-on-surface">
+                      Campaign {r.NHTSACampaignNumber} · {r.ReportReceivedDate}
+                    </div>
                   </div>
-                ),
-              )}
-            </div>
-            {/* lock overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-surface/40 to-surface/85 backdrop-blur-[2px] flex flex-col items-center justify-center text-center px-6">
-              <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center mb-3 shadow-lg">
-                <Lock className="w-6 h-6 text-white" />
-              </div>
-              <p className="font-headline font-extrabold text-primary mb-1">
-                {issueCount > 0
-                  ? `${issueCount} timeline events recorded`
-                  : "Full timeline locked"}
-              </p>
-              <p className="text-xs text-on-surface-variant max-w-xs">
-                Unlock to reveal every dated event — titles, odometer readings,
-                auctions and ownership changes.
-              </p>
-            </div>
+                  <span className="flex-shrink-0 text-primary text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <div className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed space-y-2">
+                  <p><strong className="text-on-surface">Summary:</strong> {r.Summary}</p>
+                  {r.Consequence && (
+                    <p><strong className="text-on-surface">Risk:</strong> {r.Consequence}</p>
+                  )}
+                  {r.Remedy && (
+                    <p><strong className="text-on-surface">Remedy:</strong> {r.Remedy}</p>
+                  )}
+                </div>
+              </details>
+            ))}
           </div>
         </section>
+      )}
 
-        {/* ── Trust strip ─────────────────────────────────── */}
-        <section className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-6">
-          {[
-            { icon: ShieldCheck, t: "NMVTIS-backed", d: "Official title data" },
-            { icon: RefreshCw, t: "Instant access", d: "Report in seconds" },
-            { icon: BadgeCheck, t: "Money-back", d: "If no records found" },
-            { icon: Star, t: "Trusted", d: "Thousands run monthly" },
-          ].map((x) => {
-            const Icon = x.icon;
+      {/* Mobile-only purchase card — surfaced right after the recalls so phone
+          users see the offer without scrolling past the whole report. The
+          desktop copy lives in the sticky sidebar (hidden on mobile). */}
+      <div className="lg:hidden">
+        <MarketingCard
+          make={make}
+          vehicleLabel={vehicleLabel}
+          vin={cleaned}
+          price={SINGLE_PRICE.toFixed(2)}
+          exampleHref={exampleHref}
+        />
+      </div>
+
+      {/* Your report contains */}
+      <section className="rounded-3xl bg-surface-container-lowest border border-outline-variant p-6">
+        <h2 className="text-xl font-headline font-extrabold text-primary mb-2">
+          Your report contains
+        </h2>
+        <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
+          Here&apos;s everything you could uncover about this {make || "vehicle"} before you buy.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3">
+          {MAY_CONTAIN.map((item) => {
+            const Icon = item.icon;
             return (
-              <div
-                key={x.t}
-                className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center"
-              >
-                <Icon className="w-5 h-5 text-primary mx-auto mb-1.5" />
-                <div className="text-sm font-bold text-on-surface">{x.t}</div>
-                <div className="text-[11px] text-on-surface-variant">{x.d}</div>
+              <div key={item.label} className="flex items-center gap-2.5">
+                <span className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-3.5 h-3.5 text-emerald-600" />
+                </span>
+                <span className="text-sm font-semibold text-on-surface leading-tight">{item.label}</span>
+                <Check className="w-4 h-4 text-emerald-600 ml-auto flex-shrink-0" strokeWidth={3} />
               </div>
             );
           })}
-        </section>
+        </div>
+      </section>
 
-        {/* ── Free recalls (credibility) ──────────────────── */}
-        {p.recalls.length > 0 && (
-          <section className="py-8 border-t border-outline-variant">
-            <div className="flex items-center gap-2 mb-2">
-              <ShieldAlert className="w-5 h-5 text-amber-600" />
-              <h2 className="text-lg sm:text-xl font-headline font-extrabold text-primary">
-                {p.recalls.length} open safety recall{p.recalls.length === 1 ? "" : "s"} — shown free
-              </h2>
-            </div>
-            <p className="text-sm text-on-surface-variant mb-4 max-w-2xl">
-              Pulled live from NHTSA. These are the same official records included
-              in your full report — proof the data behind this VIN is real and current.
+      {/* Every record your report checks */}
+      <section>
+        <h2 className="text-xl font-headline font-extrabold text-primary mb-2">
+          Every record your report checks
+        </h2>
+        <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
+          Your {make || "vehicle"} report is cross-checked against billions of
+          records from thousands of trusted sources nationwide.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {RECORDS_CHECKED.map((r) => {
+            const Icon = r.icon;
+            return (
+              <div
+                key={r.label}
+                className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center"
+              >
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2">
+                  <Icon className="w-5 h-5 text-primary" />
+                </div>
+                <div className="text-xs font-bold text-on-surface leading-tight">{r.label}</div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </div>
+  );
+
+  /* ── Paywall card that replaces the AI block in the sidebar ──
+     Desktop-only: on mobile the sidebar renders far below the whole main
+     column, so an inline copy is shown right after the recalls section
+     instead (see premiumSections). Sits in normal flow directly beneath the
+     Market Analysis panel — not sticky, so it never overlaps the Report
+     Summary that follows it in the sidebar. */
+  const sidebarCard = (
+    <div className="hidden lg:block">
+      <MarketingCard
+        make={make}
+        vehicleLabel={vehicleLabel}
+        vin={cleaned}
+        price={SINGLE_PRICE.toFixed(2)}
+        exampleHref={exampleHref}
+      />
+      <div className="flex items-center justify-center gap-2 mt-5 text-primary">
+        <Laurel className="w-7 h-10" />
+        <span className="text-sm font-headline font-extrabold uppercase tracking-wide leading-tight text-center">
+          Satisfaction
+          <br />
+          Guarantee
+        </span>
+        <Laurel className="w-7 h-10 -scale-x-100" />
+      </div>
+    </div>
+  );
+
+  /* Purchase & report FAQ. Rendered in two places: under the Report Summary in
+     the sidebar on desktop (via VinReport's sidebarBottom), and in the footer
+     on mobile. */
+  const faqSection = (
+    <section>
+      <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-5">
+        FAQ
+      </h2>
+
+      <div className="space-y-3">
+        {[
+          {
+            q: "What's included in the full report?",
+            a: `Your ${vehicleLabel} report compiles every record on file: title brands (salvage, junk, flood, lemon), reported accidents and damage, the odometer timeline with rollback checks, ownership history and number of owners, open liens, theft and total-loss records, market values, warranty status, auction sale history and all photos on file — plus a downloadable PDF you can keep.`,
+          },
+          {
+            q: "Will I be billed monthly?",
+            a: `No. CarCheckerVin does not offer monthly recurring subscriptions and does not use automated recurring billing. You pay a single one-time fee of $${SINGLE_PRICE.toFixed(2)} for this report — your access simply ends when your access pass expires, with nothing further to cancel.`,
+          },
+          {
+            q: "Why do you charge for this data?",
+            a: "Pulling a complete history means querying official NMVTIS-backed title databases, auction houses, insurance total-loss records and NHTSA recall data — each of which carries a real cost per lookup. The one-time fee covers that direct access so you get verified, current records instead of guesswork.",
+          },
+          {
+            q: "What vehicles can I search for?",
+            a: "Almost any car, truck, SUV, van or motorcycle sold in the US with a standard 17-character VIN. Just enter the VIN and we'll pull the records on file for that exact vehicle.",
+          },
+          {
+            q: "Will I receive an email notifying me of the purchase?",
+            a: "Yes. A confirmation and receipt are emailed to you right after checkout, and your full report — including the downloadable PDF — is available instantly on-screen so you never have to wait.",
+          },
+          {
+            q: "What if the report doesn't help — can I get a refund?",
+            a: "You're covered by a 30-day money-back guarantee. If the report doesn't meet your expectations, reach out within 30 days of purchase and we'll issue a full refund — no complicated forms.",
+          },
+        ].map(({ q, a }, i) => (
+          <details
+            key={i}
+            open={i === 0}
+            className="group rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 open:shadow-sm [&_summary::-webkit-details-marker]:hidden"
+          >
+            <summary className="flex items-center justify-between gap-4 cursor-pointer list-none">
+              <span className="text-sm sm:text-base font-bold text-on-surface group-open:text-primary transition-colors">
+                {q}
+              </span>
+              <span className="flex-shrink-0 text-2xl font-light leading-none text-on-surface-variant group-open:text-primary">
+                <span className="group-open:hidden">+</span>
+                <span className="hidden group-open:inline">−</span>
+              </span>
+            </summary>
+            <p className="mt-3 text-sm text-on-surface-variant leading-relaxed">
+              {a}
             </p>
-            <div className="space-y-2">
-              {p.recalls.map((r, i) => (
-                <details
-                  key={`${r.NHTSACampaignNumber}-${i}`}
-                  className="group rounded-2xl border border-outline-variant bg-surface p-4 [&_summary::-webkit-details-marker]:hidden"
-                >
-                  <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
-                    <div>
-                      <div className="text-[11px] font-black uppercase tracking-wider text-amber-600 mb-0.5">
-                        {r.Component}
-                      </div>
-                      <div className="text-sm font-bold text-on-surface">
-                        Campaign {r.NHTSACampaignNumber} · {r.ReportReceivedDate}
-                      </div>
-                    </div>
-                    <span className="flex-shrink-0 text-primary text-xl font-light group-open:rotate-45 transition-transform">
-                      +
-                    </span>
-                  </summary>
-                  <div className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed space-y-2">
-                    <p><strong className="text-on-surface">Summary:</strong> {r.Summary}</p>
-                    {r.Consequence && (
-                      <p><strong className="text-on-surface">Risk:</strong> {r.Consequence}</p>
-                    )}
-                    {r.Remedy && (
-                      <p><strong className="text-on-surface">Remedy:</strong> {r.Remedy}</p>
-                    )}
-                  </div>
-                </details>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+
+  return (
+    <div className="bg-surface">
+      {mock && (
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center py-2 px-4 pt-16">
+          Sample data — set <code className="font-mono">CLEARVIN_API_TOKEN</code> to load live records for this VIN.
+        </div>
+      )}
+
+      {/* The free-report design, reused — with the premium sections under the
+          car info, the paywall card in the sidebar, locked gallery & listing,
+          and the full deliverables list as the Report Summary. */}
+      <VinReport
+        data={reportData}
+        hideCheckAnother
+        mainExtra={premiumSections}
+        sidebarReplaceAI={sidebarCard}
+        lockedPhotoCount={lockedPhotoCount}
+        lockListing={!!reportData.listing}
+        unlockHref={orderHref}
+        summaryGroups={SUMMARY_GROUPS}
+        heroAside={heroAside}
+        heroCta={heroCta}
+        summaryTop={summaryTop}
+        sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
+        lockActions
+        unlockPrice={SINGLE_PRICE}
+      />
+
+      {/* ═══ Commercial footer sections ═══════════════════════════ */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-28 lg:pb-16 space-y-10">
+        {/* Trust band */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
+            <ShieldCheck className="w-6 h-6 text-primary mx-auto mb-1.5" />
+            <div className="text-sm font-bold text-on-surface">NHTSA recall data</div>
+            <div className="text-[11px] text-on-surface-variant">Official safety source</div>
+          </div>
+          <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
+            <BadgeCheck className="w-6 h-6 text-primary mx-auto mb-1.5" />
+            <div className="text-sm font-bold text-on-surface">NMVTIS-backed</div>
+            <div className="text-[11px] text-on-surface-variant">Federal title records</div>
+          </div>
+          <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
+            <div className="flex items-center justify-center gap-0.5 mb-1.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="w-4 h-4 text-emerald-500 fill-emerald-500" />
               ))}
             </div>
-          </section>
-        )}
+            <div className="text-sm font-bold text-on-surface">Rated Excellent</div>
+            <div className="text-[11px] text-on-surface-variant">on Trustpilot</div>
+          </div>
+          <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
+            <Crown className="w-6 h-6 text-primary mx-auto mb-1.5" />
+            <div className="text-sm font-bold text-on-surface">30-day money-back</div>
+            <div className="text-[11px] text-on-surface-variant">Full refund guarantee</div>
+          </div>
+        </section>
 
-        {/* ── What's inside the full report ───────────────── */}
-        <section id="whats-inside" className="scroll-mt-24 py-8 border-t border-outline-variant">
-          <h2 className="text-lg sm:text-xl font-headline font-extrabold text-primary mb-4">
-            What&apos;s inside the full report
+        {/* What you get the moment you pay */}
+        <section className="rounded-3xl bg-primary text-white p-6 sm:p-10 text-center relative overflow-hidden">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full bg-white/5 blur-2xl"
+          />
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-3 py-1 text-[11px] font-black uppercase tracking-wider mb-4">
+            <Crown className="w-3.5 h-3.5" /> What you get the moment you pay
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold mb-3">
+            Full {vehicleLabel} history report — unlocked instantly
           </h2>
-          <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
-            {INCLUDED.map((item) => (
-              <div key={item} className="flex items-start gap-2.5">
-                <Check className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" strokeWidth={3} />
-                <span className="text-sm text-on-surface">{item}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <Link
-              href={orderHref}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition"
-            >
-              <Lock className="w-4 h-4" /> Get the Full Report — ${SINGLE_PRICE.toFixed(2)}
-            </Link>
-            <div className="inline-flex items-center gap-1.5 text-xs text-on-surface-variant">
-              <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
-              Includes original MSRP {s.msrp ? `(${s.msrp})` : ""} & invoice pricing
-            </div>
-          </div>
-          <p className="mt-3 text-xs text-on-surface-variant">
-            Checking more than one car?{" "}
-            <Link href={orderHref} className="font-bold text-primary underline underline-offset-2">
-              Get a 3-report pack for ${(SINGLE_PRICE * 2).toFixed(2)}
-            </Link>{" "}
-            and save vs. three singles.
+          <p className="text-sm text-white/75 max-w-xl mx-auto mb-7">
+            Your complete NMVTIS-backed report renders in seconds: title brands,
+            accident & damage records, odometer timeline, ownership history,
+            auction photos and a downloadable PDF you can keep.
           </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <BuyReportButton className="inline-flex items-center justify-center gap-2 bg-white text-primary rounded-2xl px-7 py-4 font-headline font-extrabold text-base hover:bg-yellow-50 transition-colors shadow-lg cursor-pointer">
+              <Lock className="w-5 h-5" /> Get full report — ${SINGLE_PRICE.toFixed(2)}
+            </BuyReportButton>
+            <Link
+              href={exampleHref}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-4 font-bold text-white/90 border border-white/25 hover:bg-white/10 transition-colors"
+            >
+              <FileText className="w-5 h-5" /> View sample report
+            </Link>
+          </div>
+          <p className="text-xs text-white/60 mt-4">
+            One-time payment · No subscription · 30-day money-back guarantee
+          </p>
+        </section>
+
+        {/* Purchase & report FAQ — mobile only; on desktop it renders under the
+            Report Summary in the sidebar (VinReport sidebarBottom). */}
+        <div className="lg:hidden">{faqSection}</div>
+
+        {/* Check Another Vehicle — moved here, under the final CTA */}
+        <section className="bg-primary-container rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
+          <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
+          <p className="text-sm sm:text-base text-white/85 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
+          <div className="max-w-lg mx-auto">
+            <VinSearchForm size="sm" />
+          </div>
         </section>
       </div>
 
-      {/* ── Sticky mobile CTA ─────────────────────────────── */}
-      <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden bg-surface/95 backdrop-blur border-t border-outline-variant p-3">
+      {/* Sticky mobile CTA */}
+      <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-surface/95 backdrop-blur border-t border-outline-variant px-4 pt-2.5 pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+        <p className="flex items-center justify-center gap-1.5 text-[11px] text-on-surface-variant text-center mb-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+          100% Satisfaction Guarantee · Full refund if you&apos;re not satisfied
+        </p>
+        <BuyReportButton className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-primary text-white font-headline font-extrabold text-base shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors cursor-pointer">
+          <Gem className="w-5 h-5" /> Get full report — ${SINGLE_PRICE.toFixed(2)}
+        </BuyReportButton>
         <Link
-          href={orderHref}
-          className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-primary text-white font-bold"
+          href={exampleHref}
+          className="block text-center mt-2 text-sm font-bold text-primary underline underline-offset-4"
         >
-          <Lock className="w-4 h-4" /> Unlock Full Report — ${SINGLE_PRICE.toFixed(2)}
+          View sample report first
         </Link>
       </div>
-    </article>
+    </div>
   );
 }

@@ -56,6 +56,7 @@ export interface CreateCheckoutSessionInput {
   vin: string;
   vehicleLabel?: string;     // shows on Stripe page, e.g. "2021 Toyota Camry"
   customerEmail?: string;
+  couponCode?: string;       // buyer-entered promotion code, e.g. "SAVE10"
   successUrl?: string;       // overrides default
   cancelUrl?: string;
 }
@@ -122,6 +123,36 @@ export async function createCheckoutSession(
 
   // Disable automatic tax for now — flip this on when Stripe Tax is configured
   body.set("automatic_tax[enabled]", "false");
+
+  // ── Coupon / promotion code ──
+  // A buyer-entered code (e.g. "SAVE10") is a human-readable *promotion code*,
+  // not a Stripe coupon id. Resolve it to its promotion_code id and pre-apply
+  // it as a discount. `discounts` and `allow_promotion_codes` are mutually
+  // exclusive, so only when we DON'T pre-apply a code do we let the buyer type
+  // one in on Stripe's page instead. An unrecognised code is ignored (the
+  // order proceeds at full price) rather than failing the whole checkout.
+  let appliedDiscount = false;
+  const code = (input.couponCode || "").trim();
+  if (code) {
+    try {
+      const lookup = await fetch(
+        `https://api.stripe.com/v1/promotion_codes?code=${encodeURIComponent(code)}&active=true&limit=1`,
+        {
+          headers: { Authorization: `Bearer ${SECRET()}` },
+          signal: AbortSignal.timeout(5000),
+        }
+      );
+      const lj = (await lookup.json()) as { data?: { id?: string }[] };
+      const promoId = lj.data?.[0]?.id;
+      if (promoId) {
+        body.set("discounts[0][promotion_code]", promoId);
+        appliedDiscount = true;
+      }
+    } catch {
+      // Resolution failed (network/timeout) — proceed without a discount.
+    }
+  }
+  if (!appliedDiscount) body.set("allow_promotion_codes", "true");
 
   // ── ClearVin compliance disclaimer on the Stripe checkout page ──
   //

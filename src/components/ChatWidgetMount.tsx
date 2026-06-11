@@ -5,7 +5,10 @@ import { usePathname } from "next/navigation";
 
 const ChatWidget = dynamic(() => import("./ChatWidget"), { ssr: false });
 
-const HIDDEN_PREFIXES = ["/admin", "/studio", "/embed", "/login", "/signup"];
+// /report-preview is the paid conversion page — its sticky mobile "Get full
+// report" CTA sits in the bottom-right, exactly where the chat bubble docks,
+// so we suppress the widget there to keep the buy button unobstructed.
+const HIDDEN_PREFIXES = ["/admin", "/studio", "/embed", "/login", "/signup", "/report-preview"];
 
 export default function ChatWidgetMount() {
   const pathname = usePathname();
