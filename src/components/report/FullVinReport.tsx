@@ -260,9 +260,14 @@ export default function FullVinReport({
 
       const { toCanvas } = await import("html-to-image");
       const canvas = await toCanvas(node, {
-        pixelRatio: 2,
+        // 1.5× keeps text crisp at print size (~160 DPI) while rasterising ~44%
+        // fewer pixels than 2× — the single biggest lever on capture time for a
+        // long, multi-page report.
+        pixelRatio: 1.5,
         backgroundColor: bg,
-        cacheBust: true,
+        // External images are already inlined as data URIs above, so cache-
+        // busting only forces needless re-fetches of same-origin assets.
+        cacheBust: false,
         // Fonts are already loaded in-page; embedding cross-origin font files
         // can fail, so skip it (matches the window-sticker export).
         skipFonts: true,
@@ -294,10 +299,14 @@ export default function FullVinReport({
             0, 0, canvas.width, slicePx
           );
         }
-        const img = slice.toDataURL("image/png");
+        // JPEG (not PNG): the band is an opaque, photo-heavy snapshot, so JPEG
+        // encodes several times faster and produces ~5–8× less data — which in
+        // turn makes jsPDF's addImage/save dramatically quicker. The background
+        // is already painted above, so there's no transparency to lose.
+        const img = slice.toDataURL("image/jpeg", 0.9);
         const sliceMm = slicePx / pxPerMm;
         if (page > 0) pdf.addPage();
-        pdf.addImage(img, "PNG", margin, margin, printW, sliceMm);
+        pdf.addImage(img, "JPEG", margin, margin, printW, sliceMm);
         offset += slicePx;
         page++;
       }
