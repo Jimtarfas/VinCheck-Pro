@@ -82,11 +82,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-/* Build a minimal VinData from ClearVin's spec block when the free decode
-   (auto.dev) is unavailable, so the report design still renders. */
-function fallbackVinData(vin: string, p: ClearVinPreview): VinData {
+/* Build the report's VinData straight from ClearVin's production preview —
+   the authoritative source for vehicle identity + photos. auto.dev's pricing
+   is attached separately (Market Analysis only). */
+function clearVinReportData(vin: string, p: ClearVinPreview): VinData {
   const s = p.vinSpec;
   const year = s.year ? Number(s.year) : undefined;
+  const bodyType = (s.style || "").trim();
   return {
     vin,
     make: { id: 0, name: s.make || "Vehicle", niceName: "" },
@@ -102,6 +104,9 @@ function fallbackVinData(vin: string, p: ClearVinPreview): VinData {
             styles: [{ id: 0, name: s.style || "", trim: s.trim || "" }],
           },
         ]
+      : undefined,
+    categories: bodyType
+      ? ({ primaryBodyType: bodyType } as VinData["categories"])
       : undefined,
     photos: p.previewImageURL ? [p.previewImageURL] : undefined,
     photoSource: "vin",
@@ -185,8 +190,9 @@ export default async function ReportPreviewPage({ params }: Props) {
   const cleaned = vin.trim().toUpperCase();
   if (cleaned.length !== 17) notFound();
 
-  // Pull the free decoded specs (auto.dev) and the ClearVin preview in
-  // parallel; tolerate either failing so the page always renders.
+  // Pull the production ClearVin preview (vehicle identity + photos — the
+  // source of truth for this preview) and auto.dev's decode (used ONLY for the
+  // Market Analysis pricing) in parallel; tolerate either failing.
   const [decodedResult, previewResult] = await Promise.allSettled([
     decodeVin(cleaned),
     fetchPreview(cleaned),
@@ -196,13 +202,23 @@ export default async function ReportPreviewPage({ params }: Props) {
     previewResult.status === "fulfilled" && "ok" in previewResult.value && previewResult.value.ok
       ? previewResult.value.data
       : null;
-
-  // Build the data the report design renders. Prefer the rich free decode;
-  // fall back to ClearVin's spec block if auto.dev is unavailable.
-  let reportData: VinData | null =
+  const decoded =
     decodedResult.status === "fulfilled" ? decodedResult.value : null;
 
-  if (!reportData && preview) reportData = fallbackVinData(cleaned, preview);
+  // Build the data the report design renders. ClearVin is authoritative for
+  // identity + photos; auto.dev contributes only price + marketData (Market
+  // Analysis). When ClearVin is unavailable we fall back to the full auto.dev
+  // decode so dev/QA can still see the layout.
+  let reportData: VinData | null = null;
+  if (preview) {
+    reportData = clearVinReportData(cleaned, preview);
+    if (decoded) {
+      reportData.price = decoded.price;
+      reportData.marketData = decoded.marketData;
+    }
+  } else if (decoded) {
+    reportData = decoded;
+  }
 
   // Neither source returned anything usable — there is nothing to show.
   if (!reportData) {
@@ -229,17 +245,12 @@ export default async function ReportPreviewPage({ params }: Props) {
     );
   }
 
-  // Replace the gallery hero with ClearVin's real on-file photo when present.
-  let lockedPhotoCount: number | undefined;
-  if (preview?.previewImageURL) {
-    reportData = {
-      ...reportData,
-      photos: [preview.previewImageURL],
-      photoSource: "vin",
-    };
-    // Tease the rest of the photos on file as blurred, locked thumbnails.
-    lockedPhotoCount = preview.imagesAmount > 1 ? preview.imagesAmount : undefined;
-  }
+  // ClearVin's hero photo is already on reportData (clearVinReportData). Tease
+  // the rest of the photos on file as blurred, locked thumbnails.
+  const lockedPhotoCount =
+    preview?.previewImageURL && preview.imagesAmount > 1
+      ? preview.imagesAmount
+      : undefined;
 
   const mock = isUsingMockData();
   const s = preview?.vinSpec;
@@ -671,7 +682,7 @@ export default async function ReportPreviewPage({ params }: Props) {
     <div className="bg-surface">
       {mock && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center py-2 px-4 pt-16">
-          Sample data — set <code className="font-mono">CLEARVIN_API_TOKEN</code> to load live records for this VIN.
+          Sample data — set the <code className="font-mono">CLEARVIN_API_EMAIL</code> / <code className="font-mono">CLEARVIN_API_PASSWORD</code> production credentials to load live records for this VIN.
         </div>
       )}
 
