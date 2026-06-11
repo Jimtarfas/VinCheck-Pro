@@ -375,7 +375,7 @@ export default function FullVinReport({
         <div className="mx-auto max-w-6xl px-4 pb-6 pt-24 sm:px-6 print:pt-6">
           {meta.isMock && (
             <div className="mb-5 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
-              Sample data shown — set <code className="font-mono">CLEARVIN_API_TOKEN</code> to fetch live records for this VIN.
+              Sample data shown — set <code className="font-mono">CLEARVIN_SANDBOX_API_TOKEN</code> to fetch live records for this VIN.
             </div>
           )}
 
