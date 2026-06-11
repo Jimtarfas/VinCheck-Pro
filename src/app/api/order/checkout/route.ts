@@ -91,12 +91,26 @@ export async function POST(req: Request) {
 
   // Create the Stripe Checkout session (or mock URL if Stripe isn't configured)
   try {
+    // Keep checkout on the buyer's own origin so the success/report pages —
+    // and the order_<id> cookie set below — all live on the same host. The
+    // same-origin POST always carries an Origin header; fall back to the
+    // forwarded host if it's ever absent.
+    const origin =
+      req.headers.get("origin") ||
+      (() => {
+        const host = req.headers.get("host");
+        if (!host) return undefined;
+        const proto = req.headers.get("x-forwarded-proto") || "https";
+        return `${proto}://${host}`;
+      })();
+
     const session = await createCheckoutSession({
       orderId: orderRow.id,
       vin,
       vehicleLabel: body.vehicleLabel,
       customerEmail: userEmail,
       couponCode: (body.coupon || "").trim() || undefined,
+      origin,
     });
 
     // Stash the session id on the order so the webhook can match it.

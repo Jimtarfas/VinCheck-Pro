@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import ReportView from "./_components/ReportView";
 
 export const metadata: Metadata = {
@@ -15,26 +14,9 @@ export default async function OrderReportPage({
 }) {
   const { orderId } = await params;
 
-  return (
-    <div className="bg-surface min-h-[calc(100vh-200px)]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-        <div className="flex items-center justify-between mb-5 print:hidden">
-          <Link
-            href="/account"
-            className="text-sm text-primary hover:text-primary-700"
-          >
-            ← My reports
-          </Link>
-          <Link
-            href="/"
-            className="text-sm text-primary hover:text-primary-700"
-          >
-            Order another VIN
-          </Link>
-        </div>
-
-        <ReportView orderId={orderId} />
-      </div>
-    </div>
-  );
+  // Render unconstrained — FullVinReport (via ReportView) is fully
+  // self-contained (own full-width centering, pt-24 to clear the /order
+  // layout's sticky header, and bottom Download-PDF dock), matching the
+  // free report page exactly.
+  return <ReportView orderId={orderId} />;
 }

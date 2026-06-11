@@ -33,9 +33,10 @@ export default async function OrderSuccessPage({
     redirect("/");
   }
 
-  // Send the buyer to the actual report view.
-  // We keep this page mounted as a fallback in case JS-disabled clients
-  // need a manual link.
+  // Send the buyer to the actual report view on this same host (no app.
+  // subdomain, no proxy rewrite). We keep this page mounted as a fallback in
+  // case JS-disabled clients need a manual link.
+  const reportHref = `/order/report/${orderId}`;
   return (
     <div className="bg-surface min-h-[calc(100vh-200px)]">
       <div className="max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
@@ -61,7 +62,7 @@ export default async function OrderSuccessPage({
         </p>
 
         <Link
-          href={`/r/${orderId}`}
+          href={reportHref}
           className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition"
         >
           View my report
@@ -77,7 +78,7 @@ export default async function OrderSuccessPage({
         <script
           dangerouslySetInnerHTML={{
             __html: `setTimeout(function(){window.location.replace(${JSON.stringify(
-              `/r/${orderId}`
+              reportHref
             )})}, 1200);`,
           }}
         />

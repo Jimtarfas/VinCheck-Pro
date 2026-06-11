@@ -4,6 +4,27 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReport, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig, fetchCheckoutSession } from "@/lib/stripe";
+import {
+  extractReportData,
+  normalizeClearVinReport,
+  type NormalizedReport,
+} from "@/lib/clearvin-report";
+
+/**
+ * Turn a persisted/refetched ClearVin payload into the normalized structured
+ * report our ClearVin-UI component (FullVinReport) consumes. The raw payload
+ * carries the report HTML; the embedded JSON is extracted and normalized.
+ * A mock / empty payload yields a representative report so the page still
+ * renders rather than erroring.
+ */
+function toStructured(raw: unknown, vin: string): NormalizedReport {
+  const html =
+    raw && typeof raw === "object" && typeof (raw as { html?: unknown }).html === "string"
+      ? (raw as { html: string }).html
+      : "";
+  const envelope = extractReportData(html);
+  return normalizeClearVinReport(envelope, { vin, isMock: isUsingMockData() });
+}
 
 /**
  * Decides whether a cached `clearvin_report` row is good enough to serve,
@@ -241,6 +262,7 @@ export async function GET(
         deliveredAt: order.delivered_at,
       },
       report: order.clearvin_report,
+      structured: toStructured(order.clearvin_report, order.vin),
     });
   }
 
@@ -278,5 +300,6 @@ export async function GET(
       deliveredAt: new Date().toISOString(),
     },
     report: refetch.data,
+    structured: toStructured(refetch.data, order.vin),
   });
 }

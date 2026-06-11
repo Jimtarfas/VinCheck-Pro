@@ -57,6 +57,7 @@ export interface CreateCheckoutSessionInput {
   vehicleLabel?: string;     // shows on Stripe page, e.g. "2021 Toyota Camry"
   customerEmail?: string;
   couponCode?: string;       // buyer-entered promotion code, e.g. "SAVE10"
+  origin?: string;           // buyer's own origin — keeps the flow on this site
   successUrl?: string;       // overrides default
   cancelUrl?: string;
 }
@@ -75,12 +76,15 @@ export interface CreatedCheckoutSession {
 export async function createCheckoutSession(
   input: CreateCheckoutSessionInput
 ): Promise<CreatedCheckoutSession> {
-  const site = getAppOrigin();
-  // Pretty subdomain URLs — the proxy rewrites these onto /order/* internally.
+  // Keep the whole flow on the buyer's own origin (carcheckervin.com). We
+  // hit the canonical /order/* routes directly so no host-specific proxy
+  // rewrite is needed — they resolve on any host. Falls back to the configured
+  // app origin only if the caller didn't pass the request origin.
+  const site = (input.origin || "").trim().replace(/\/+$/, "") || getAppOrigin();
   // {CHECKOUT_SESSION_ID} is a Stripe-substituted placeholder, not URL syntax.
   const successUrl =
     input.successUrl ||
-    `${site}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURIComponent(input.orderId)}`;
+    `${site}/order/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURIComponent(input.orderId)}`;
   const cancelUrl =
     input.cancelUrl ||
     `${site}/?vin=${encodeURIComponent(input.vin)}&cancelled=1`;
@@ -89,7 +93,7 @@ export async function createCheckoutSession(
   if (!stripeConfig.isConfigured()) {
     return {
       id: `mock_${input.orderId}`,
-      url: `${site}/success?mock=1&order=${input.orderId}`,
+      url: `${site}/order/success?mock=1&order=${input.orderId}`,
       mock: true,
     };
   }
