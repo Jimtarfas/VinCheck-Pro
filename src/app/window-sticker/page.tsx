@@ -13,6 +13,7 @@ import {
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import VinSearchForm from "@/components/VinSearchForm";
 import WindowStickerMaker from "./WindowStickerMaker";
 
 const PAGE_URL = "https://www.carcheckervin.com/window-sticker";
@@ -461,6 +462,19 @@ export default function WindowStickerMakerPage() {
             MSRP and factory options, then download or print. A free account is required only at
             the download step.
           </p>
+
+          {/* Prompting VIN check — placed high in the hero so every visitor
+              faces it first. Routes the VIN into a free history-report preview
+              (the biggest conversion lever on this free tool). */}
+          <div className="mt-7 rounded-2xl bg-white/10 border border-white/20 p-4 sm:p-5 backdrop-blur-sm max-w-2xl">
+            <div className="flex items-center gap-2 mb-3">
+              <ScanLine className="w-4 h-4 text-amber-300 flex-shrink-0" />
+              <p className="text-sm sm:text-base font-bold">
+                Have a VIN? Preview the vehicle&rsquo;s full history — free in seconds
+              </p>
+            </div>
+            <VinSearchForm size="sm" onDark />
+          </div>
 
           {/* Inline TOC */}
           <nav
