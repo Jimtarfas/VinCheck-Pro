@@ -38,6 +38,16 @@ import {
   Lock,
   ArrowRight,
   Star,
+  Bot,
+  Radar,
+  BookOpen,
+  Compass,
+  Trophy,
+  Sparkles,
+  Check,
+  X,
+  TrendingUp,
+  Users,
 } from "lucide-react";
 import { t } from "@/i18n";
 import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
@@ -358,6 +368,28 @@ export default function SpanishHomePage() {
         </div>
       </main>
 
+      {/* ── Trust bar (full-width stats on primary) ──────────────── */}
+      <section className="bg-primary-container py-10 sm:py-12 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+          {[
+            { value: "50K+", label: "Reportes descargados" },
+            { value: "4.9", label: "Calificación promedio" },
+            { value: "<60s", label: "Tiempo promedio de entrega" },
+            { value: "24/7", label: "Datos disponibles" },
+          ].map(({ value, label }, i) => (
+            <div
+              key={label}
+              className={`text-center text-white ${i > 0 ? "md:border-l md:border-white/10" : ""} ${i === 2 ? "md:border-l" : ""} ${i % 2 === 1 ? "border-l border-white/10 md:border-l" : ""}`}
+            >
+              <p className="text-3xl sm:text-4xl font-headline font-black mb-1">{value}</p>
+              <p className="text-[11px] sm:text-sm text-white/85 uppercase tracking-widest font-semibold">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── How it works ─────────────────────────────────────────── */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -463,6 +495,223 @@ export default function SpanishHomePage() {
         </div>
       </section>
 
+      {/* ── AI Features ──────────────────────────────────────────── */}
+      <section className="py-16 sm:py-24 bg-surface">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+          <span className="text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4 block">
+            Impulsado por IA avanzada
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-5 sm:mb-6 leading-tight">
+            No solo leas datos.
+            <br className="hidden sm:block" />{" "}
+            <span className="text-on-surface">Deja que la IA los entienda por ti.</span>
+          </h2>
+          <p className="text-base sm:text-lg text-on-surface-variant max-w-2xl mx-auto mb-12 sm:mb-20 px-2">
+            Somos el primer proveedor de historial vehicular en integrar arquitectura
+            de IA avanzada directamente en cada reporte — convirtiendo datos VIN
+            crudos en respuestas claras, historias y advertencias que puedes usar.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            {[
+              {
+                icon: Bot,
+                title: "Asistente VIN con IA",
+                desc:
+                  "Haz preguntas en español natural sobre cualquier reporte VIN. Nuestro asistente cruza datos del motor, retiros, valor de mercado y equipamiento para darte una respuesta clara y honesta en segundos.",
+                accent: "border-primary",
+                iconBg: "bg-primary/10 text-primary",
+              },
+              {
+                icon: Radar,
+                title: "Análisis de riesgo con IA",
+                desc:
+                  "Puntuación automática de severidad de accidentes, anomalías del odómetro, marcas de título y patrones de propiedad — señalados como alertas antes de que abras tu billetera.",
+                accent: "border-secondary",
+                iconBg: "bg-secondary-container/20 text-secondary",
+              },
+              {
+                icon: BookOpen,
+                title: "Narrador de historia con IA",
+                desc:
+                  "Convierte registros técnicos densos en una biografía legible del auto — cuándo y dónde fue construido, cómo fue equipado y cómo ha sido manejado y servido.",
+                accent: "border-green-500",
+                iconBg: "bg-green-500/10 text-green-600",
+              },
+              {
+                icon: Compass,
+                title: "Buscador de vehículos con IA",
+                desc:
+                  "Describe el auto que quieres en lenguaje cotidiano. Nuestro buscador compara tus necesidades con anuncios activos, datos MSRP y confiabilidad real para encontrar el VIN correcto.",
+                accent: "border-purple-500",
+                iconBg: "bg-purple-500/10 text-purple-600",
+              },
+            ].map((card) => {
+              const Icon = card.icon;
+              return (
+                <div
+                  key={card.title}
+                  className={`bg-surface-container-low p-6 sm:p-8 rounded-3xl sm:rounded-[2rem] text-left border-t-4 ${card.accent} shadow-sm hover:shadow-md transition-shadow`}
+                >
+                  <div
+                    className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${card.iconBg} flex items-center justify-center mb-4 sm:mb-5`}
+                  >
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-on-surface mb-2 sm:mb-3">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
+                    {card.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Comparison vs Carfax / AutoCheck ─────────────────────── */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10 sm:mb-14">
+            <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4">
+              <Sparkles className="w-3.5 h-3.5" />
+              Comparación del mercado
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-3 sm:mb-4">
+              Cómo nos comparamos con los gigantes
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto">
+              No te conformes con menos datos a mayor precio. Damos más
+              información por una fracción del costo.
+            </p>
+          </div>
+          <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse min-w-[640px]">
+                <thead>
+                  <tr className="bg-surface-container-low">
+                    <th className="p-4 sm:p-6 text-left font-headline text-sm sm:text-base text-primary font-extrabold align-bottom">
+                      Comparación de funciones
+                    </th>
+                    <th className="p-0 align-bottom">
+                      <div className="relative bg-primary text-white px-3 sm:px-6 pt-7 sm:pt-9 pb-4 sm:pb-5 mx-1.5 sm:mx-2 rounded-t-2xl">
+                        <div
+                          className="absolute -top-0.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider whitespace-nowrap text-on-secondary-container shadow-md"
+                          style={{ background: "var(--color-secondary-container)" }}
+                        >
+                          Mejor valor
+                        </div>
+                        <div className="flex items-center justify-center gap-1.5 font-headline text-base sm:text-xl font-black">
+                          <Trophy
+                            className="w-4 h-4 sm:w-5 sm:h-5"
+                            style={{ color: "var(--color-secondary-container)" }}
+                          />
+                          CarCheckerVIN
+                        </div>
+                      </div>
+                    </th>
+                    <th className="p-4 sm:p-6 text-center font-headline text-sm sm:text-base text-on-surface-variant font-bold align-bottom">
+                      Carfax
+                    </th>
+                    <th className="p-4 sm:p-6 text-center font-headline text-sm sm:text-base text-on-surface-variant font-bold align-bottom">
+                      AutoCheck
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { f: "Historial de accidentes y daños", us: "check", c: "check", a: "check" },
+                    { f: "Registros y marcas de título", us: "check", c: "check", a: "check" },
+                    { f: "Fotos reales del vehículo", us: "check", c: "partial", a: "cross" },
+                    { f: "Fotos de subastas salvage", us: "check", c: "partial", a: "cross" },
+                    { f: "Análisis de valor de mercado", us: "check", c: "partial", a: "partial" },
+                    { f: "Verificación del odómetro", us: "check", c: "check", a: "check" },
+                    { f: "Registros de robo y recuperación", us: "check", c: "check", a: "check" },
+                    { f: "Equipamiento y opciones completas", us: "check", c: "cross", a: "cross" },
+                    { f: "Vista previa gratis (sin tarjeta)", us: "check", c: "cross", a: "cross" },
+                    { f: "Precio (un solo reporte)", us: "$9.99", c: "$44.99", a: "$24.99" },
+                  ].map((row, idx, arr) => {
+                    const isLast = idx === arr.length - 1;
+                    const renderCell = (val: string, highlight: boolean) => {
+                      if (val === "check") {
+                        return (
+                          <Check
+                            className={`w-5 h-5 mx-auto ${highlight ? "text-white" : "text-green-500"}`}
+                            strokeWidth={3}
+                          />
+                        );
+                      }
+                      if (val === "cross") {
+                        return <X className="w-5 h-5 text-error/70 mx-auto" strokeWidth={2.5} />;
+                      }
+                      if (val === "partial") {
+                        return (
+                          <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-secondary/15 text-secondary font-bold text-[11px] sm:text-xs uppercase tracking-wide">
+                            Parcial
+                          </span>
+                        );
+                      }
+                      return highlight ? (
+                        <span className="text-xl sm:text-2xl font-extrabold text-white drop-shadow-sm">
+                          {val}
+                        </span>
+                      ) : (
+                        <span className="text-base sm:text-lg font-bold text-on-surface-variant">
+                          {val}
+                        </span>
+                      );
+                    };
+                    return (
+                      <tr
+                        key={row.f}
+                        className={`border-t border-outline-variant/60 ${isLast ? "bg-primary/[0.02]" : ""}`}
+                      >
+                        <td
+                          className={`p-3 sm:p-5 text-xs sm:text-sm bg-surface-container-low ${
+                            isLast
+                              ? "font-headline font-extrabold text-primary text-sm sm:text-base"
+                              : "font-semibold text-on-surface"
+                          }`}
+                        >
+                          {row.f}
+                        </td>
+                        <td className="p-0 text-center">
+                          <div
+                            className={`mx-1.5 sm:mx-2 py-3 sm:py-4 bg-primary border-x border-primary ${
+                              isLast ? "rounded-b-2xl" : ""
+                            }`}
+                          >
+                            {renderCell(row.us, true)}
+                          </div>
+                        </td>
+                        <td className="p-3 sm:p-5 text-center">{renderCell(row.c, false)}</td>
+                        <td className="p-3 sm:p-5 text-center">{renderCell(row.a, false)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-center sm:text-left">
+            <p className="text-sm sm:text-base text-on-surface-variant max-w-md">
+              Obtén los mismos datos que los gigantes cobran a $25–$45 —{" "}
+              <span className="font-bold text-primary">solo $9.99 por reporte</span>.
+              Comienza con una vista previa gratis, sin tarjeta de crédito.
+            </p>
+            <Link
+              href="/es/revision-vin"
+              className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-bold text-sm sm:text-base text-on-secondary-container hover:brightness-110 hover:shadow-lg active:scale-[0.98] transition-all whitespace-nowrap shadow-md"
+              style={{ background: "var(--color-secondary-container)" }}
+            >
+              Revisión VIN gratis
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── Pricing teaser ───────────────────────────────────────── */}
       <section className="py-16 sm:py-20 bg-surface-container-low">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
@@ -523,6 +772,73 @@ export default function SpanishHomePage() {
                 <p className="text-xs font-bold text-on-surface">{r.name}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Seller ───────────────────────────────────────────────── */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 bg-surface">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 sm:gap-16 items-center">
+          <div className="hidden lg:block">
+            <div className="text-center px-8">
+              <div className="inline-flex w-24 h-24 rounded-full bg-primary/10 items-center justify-center mb-6">
+                <Car className="w-12 h-12 text-primary" />
+              </div>
+              <p className="font-headline font-black text-5xl text-primary mb-2">3 días</p>
+              <p className="text-sm text-on-surface-variant">
+                Promedio de venta de autos con reporte VIN incluido
+              </p>
+            </div>
+          </div>
+          <div>
+            <span className="text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-3 sm:mb-4 block">
+              Para vendedores
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-primary mb-4 sm:mb-5">
+              ¿Vendes tu vehículo?
+            </h2>
+            <p className="text-base sm:text-lg text-on-surface-variant mb-8 sm:mb-10">
+              Un reporte CarCheckerVIN te ayuda a vender más rápido y a mejor precio.
+              Dale al comprador la transparencia que necesita para decir sí con confianza.
+            </p>
+            <div className="space-y-3 sm:space-y-4">
+              {[
+                {
+                  icon: TrendingUp,
+                  title: "Obtén el mejor precio",
+                  desc: "Los vehículos con reportes limpios reciben 10–15% más de precio.",
+                  accent: "bg-emerald-50 text-emerald-600",
+                },
+                {
+                  icon: Users,
+                  title: "Atrae más compradores",
+                  desc: "Los anuncios con reporte VIN reciben 3× más consultas serias.",
+                  accent: "bg-primary/8 text-primary",
+                },
+                {
+                  icon: Shield,
+                  title: "Reduce tu responsabilidad",
+                  desc:
+                    "Documenta la condición del vehículo desde el inicio y genera confianza.",
+                  accent: "bg-violet-50 text-violet-600",
+                },
+              ].map(({ icon: Icon, title, desc, accent }) => (
+                <div
+                  key={title}
+                  className="flex gap-4 sm:gap-5 p-4 sm:p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 hover:shadow-lg hover:shadow-outline/5 transition-all duration-300"
+                >
+                  <div
+                    className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl ${accent} flex items-center justify-center flex-shrink-0`}
+                  >
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-headline font-bold text-on-surface mb-1">{title}</h3>
+                    <p className="text-sm text-on-surface-variant">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
