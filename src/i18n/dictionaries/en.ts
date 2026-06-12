@@ -233,6 +233,25 @@ export const en = {
     ctaSub: "Free instant lookup — no signup, no card.",
   },
 
+  // ── State pages (shared chrome) ─────────────────────────────────
+  // Generic strings reused across all 50 state landing pages — see
+  // florida.* above for the original (Florida is the only hand-written
+  // English state page; CA/TX/NY/IL/PA serve from the dynamic
+  // template). The Spanish state pages each pull a per-state hook
+  // from STATE_HOOKS_ES in src/app/es/_state-shared/strings.ts.
+  state: {
+    sectionWhy: "Why this state matters before you buy",
+    sectionWhatIncluded: "What the report includes",
+    sectionSources: "Sources & data authority",
+    sectionCta: "Protect yourself before you buy",
+    sectionCtaSub:
+      "A free VIN check takes 5 seconds and could save you thousands.",
+    searchHeading: "Run a free VIN check for this state",
+    searchSub:
+      "Enter any 17-character VIN — passenger cars, trucks, motorcycles, RVs",
+    badgeFree: "Free · Instant · No signup",
+  },
+
   // ── /license-plate-lookup ───────────────────────────────────────
   licensePlate: {
     metaTitle: "License Plate to VIN Lookup — Free, All 50 States",

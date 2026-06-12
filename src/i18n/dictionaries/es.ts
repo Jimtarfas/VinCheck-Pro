@@ -232,6 +232,20 @@ export const es: Dictionary = {
     ctaSub: "Búsqueda gratis al instante — sin registro, sin tarjeta.",
   },
 
+  // ── State pages (shared chrome) ─────────────────────────────────
+  state: {
+    sectionWhy: "Por qué este estado importa antes de comprar",
+    sectionWhatIncluded: "Qué incluye el reporte",
+    sectionSources: "Fuentes y autoridad de los datos",
+    sectionCta: "Protégete antes de comprar",
+    sectionCtaSub:
+      "Una revisión VIN gratis toma 5 segundos y podría ahorrarte miles.",
+    searchHeading: "Ejecuta una revisión VIN gratis para este estado",
+    searchSub:
+      "Ingresa cualquier VIN de 17 caracteres — autos, camionetas, motos, RVs",
+    badgeFree: "Gratis · Al instante · Sin registro",
+  },
+
   // ── /license-plate-lookup ───────────────────────────────────────
   licensePlate: {
     metaTitle: "Buscar VIN por placa — Gratis, los 50 estados",

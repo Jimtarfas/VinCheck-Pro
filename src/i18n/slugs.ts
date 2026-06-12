@@ -48,6 +48,25 @@ const ENGLISH_TO_LOCALE: Record<string, Partial<Record<Locale, string>>> = {
   "/pricing": {
     es: "/precios",
   },
+  // Wave 2: Big-5 state pages. The English source pages are the dynamic
+  // /vin-check/state/[state] template; the Spanish slugs use the
+  // dedicated /es/<state>-revision-vin pattern (matching Florida) so they
+  // can rank for state+VIN Spanish queries on their own.
+  "/vin-check/state/california": {
+    es: "/california-revision-vin",
+  },
+  "/vin-check/state/texas": {
+    es: "/texas-revision-vin",
+  },
+  "/vin-check/state/new-york": {
+    es: "/nueva-york-revision-vin",
+  },
+  "/vin-check/state/illinois": {
+    es: "/illinois-revision-vin",
+  },
+  "/vin-check/state/pennsylvania": {
+    es: "/pensilvania-revision-vin",
+  },
 };
 
 /** Lookup: given an English path, return the path for the given locale. */
