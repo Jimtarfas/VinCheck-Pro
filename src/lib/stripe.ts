@@ -67,6 +67,11 @@ export interface CreateCheckoutSessionInput {
   origin?: string;           // buyer's own origin — keeps the flow on this site
   successUrl?: string;       // overrides default
   cancelUrl?: string;
+  // Wave 10: pass-through to Stripe's `locale` parameter (Stripe
+  // localises the entire Checkout UI — labels, error messages, country
+  // names, card brand strings). Also drives the language of our
+  // custom_text and the product name / description below.
+  locale?: "en" | "es";
 }
 
 export interface CreatedCheckoutSession {
@@ -114,16 +119,31 @@ export async function createCheckoutSession(
   body.set("cancel_url", cancelUrl);
   if (input.customerEmail) body.set("customer_email", input.customerEmail);
 
+  // Wave 10: Stripe will localise its entire UI when `locale` is set.
+  // Valid values include "auto" (Accept-Language sniff) and explicit
+  // language tags — "es" covers the LATAM + US Hispanic market.
+  if (input.locale === "es") body.set("locale", "es");
+
+  const isEs = input.locale === "es";
+
   body.set("line_items[0][quantity]", "1");
   body.set("line_items[0][price_data][currency]", "usd");
   body.set("line_items[0][price_data][unit_amount]", String(PRICE_CENTS()));
   body.set(
     "line_items[0][price_data][product_data][name]",
-    input.vehicleLabel ? `Vehicle History Report — ${input.vehicleLabel}` : "Vehicle History Report"
+    isEs
+      ? input.vehicleLabel
+        ? `Reporte de historial vehicular — ${input.vehicleLabel}`
+        : "Reporte de historial vehicular"
+      : input.vehicleLabel
+      ? `Vehicle History Report — ${input.vehicleLabel}`
+      : "Vehicle History Report"
   );
   body.set(
     "line_items[0][price_data][product_data][description]",
-    `Full NMVTIS-backed history report for VIN ${input.vin}.`
+    isEs
+      ? `Reporte completo respaldado por NMVTIS para el VIN ${input.vin}.`
+      : `Full NMVTIS-backed history report for VIN ${input.vin}.`
   );
 
   // Metadata we'll need in the webhook
@@ -186,15 +206,23 @@ export async function createCheckoutSession(
   // does the legal heavy lifting.
   body.set(
     "custom_text[submit][message]",
-    `By clicking Pay you agree to CarCheckerVIN's Terms & Conditions ` +
-      `(${site}/terms) and the federally-mandated NMVTIS Consumer Disclosure ` +
-      `(${site}/disclaimer). Reports are for personal use only. Data ` +
-      `sourced from ClearVin LLC, an approved NMVTIS Data Provider, and ` +
-      `rendered unmodified.`
+    isEs
+      ? `Al hacer clic en Pagar aceptas los Términos y Condiciones de CarCheckerVIN ` +
+          `(${site}/terms) y la Divulgación NMVTIS al Consumidor exigida por la ley ` +
+          `federal (${site}/disclaimer). Los reportes son solo para uso personal. ` +
+          `Datos provistos por ClearVin LLC, un proveedor de datos NMVTIS aprobado, ` +
+          `y mostrados sin modificación.`
+      : `By clicking Pay you agree to CarCheckerVIN's Terms & Conditions ` +
+          `(${site}/terms) and the federally-mandated NMVTIS Consumer Disclosure ` +
+          `(${site}/disclaimer). Reports are for personal use only. Data ` +
+          `sourced from ClearVin LLC, an approved NMVTIS Data Provider, and ` +
+          `rendered unmodified.`
   );
   body.set(
     "custom_text[after_submit][message]",
-    "After payment you'll be redirected to your full vehicle history report on app.carcheckervin.com."
+    isEs
+      ? "Tras el pago serás redirigido al reporte completo del historial del vehículo en app.carcheckervin.com."
+      : "After payment you'll be redirected to your full vehicle history report on app.carcheckervin.com."
   );
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {

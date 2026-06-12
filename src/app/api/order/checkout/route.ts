@@ -17,6 +17,8 @@ interface CheckoutBody {
       Used as the Stripe cancel_url so a failed/cancelled payment returns them
       exactly where they were rather than the generic homepage. */
   returnTo?: string;
+  /** Wave 10: locale for Stripe Checkout UI + custom_text + product copy. */
+  locale?: "en" | "es";
 }
 
 const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/i;
@@ -149,6 +151,7 @@ export async function POST(req: Request) {
       couponCode: (body.coupon || "").trim() || undefined,
       origin,
       cancelUrl,
+      locale: body.locale === "es" ? "es" : "en",
     });
 
     // Stash the session id on the order so the webhook can match it.

@@ -62,9 +62,55 @@ interface Props {
   priceCents: number;
   /** When true, payment is bypassed and we land on /order/success?mock=1. */
   mockMode: boolean;
+  /** Wave 10: passed to /api/order/checkout → Stripe `locale` + custom_text. */
+  locale?: "en" | "es";
 }
 
-export default function OrderVinForm({ priceCents, mockMode }: Props) {
+// Wave 10: every user-visible string the form renders, keyed by locale.
+// Drives the buttons, placeholders, errors, and CTA labels.
+const COPY = {
+  en: {
+    placeholder: "Enter 17-character VIN",
+    submitPreview: "Get free preview",
+    loading: "Loading…",
+    fee: "Decoder fee",
+    discount: "Discount",
+    total: "Total",
+    emailLabel: "Email for the report",
+    emailPlaceholder: "you@email.com",
+    couponLabel: "Promo code (optional)",
+    couponPlaceholder: "SAVE10",
+    payButton: "Order full report",
+    payLoading: "Redirecting to checkout…",
+    consent:
+      "By clicking Order Full Report you agree to CarCheckerVIN's T&C and the NMVTIS disclaimer.",
+    errorVin: "Enter a valid 17-character VIN.",
+    errorEmail: "Enter a valid email address.",
+    errorGeneric: "Something went wrong. Try again in a moment.",
+  },
+  es: {
+    placeholder: "Ingresa un VIN de 17 caracteres",
+    submitPreview: "Ver vista previa gratis",
+    loading: "Cargando…",
+    fee: "Tarifa del decodificador",
+    discount: "Descuento",
+    total: "Total",
+    emailLabel: "Email para recibir el reporte",
+    emailPlaceholder: "tu@email.com",
+    couponLabel: "Código promocional (opcional)",
+    couponPlaceholder: "SAVE10",
+    payButton: "Pedir reporte completo",
+    payLoading: "Redirigiendo al pago…",
+    consent:
+      "Al hacer clic en Pedir reporte completo aceptas los T&C de CarCheckerVIN y la divulgación NMVTIS.",
+    errorVin: "Ingresa un VIN válido de 17 caracteres.",
+    errorEmail: "Ingresa un email válido.",
+    errorGeneric: "Algo salió mal. Intenta nuevamente en un momento.",
+  },
+} as const;
+
+export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Props) {
+  const copy = COPY[locale];
   const router = useRouter();
   const search = useSearchParams();
 
@@ -165,6 +211,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
           vin: preview.vin,
           email: trimmedEmail,
           vehicleLabel,
+          locale,
           // Return a cancelled/failed payment to this page WITH the VIN in the
           // query string so it re-renders the preview of the VIN they entered
           // rather than an empty form.
@@ -224,7 +271,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
                 if (preview) setPreview(null);
               }}
               maxLength={17}
-              placeholder="e.g. 1HGBH41JXMN109186"
+              placeholder={copy.placeholder}
               className="w-full pl-9 pr-3 py-2.5 text-base sm:text-sm font-mono tracking-wider rounded-xl border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none uppercase bg-white"
             />
           </div>
@@ -483,7 +530,7 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
                   setEmail(e.target.value);
                   if (buyError) setBuyError(null);
                 }}
-                placeholder="you@example.com"
+                placeholder={copy.emailPlaceholder}
                 required
                 aria-invalid={buyError ? "true" : "false"}
                 aria-describedby={buyError ? "order-buy-error" : undefined}

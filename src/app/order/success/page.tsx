@@ -14,7 +14,34 @@ interface SearchParams {
   order?: string;
   session_id?: string;
   mock?: string;
+  lang?: string;
 }
+
+// Wave 10: Spanish copy for the post-Stripe success screen.
+const SUCCESS_COPY = {
+  en: {
+    h1Real: "Payment received",
+    h1Mock: "Sample order confirmed",
+    bodyReal:
+      "Thank you. We're now pulling the full vehicle history report from our NMVTIS-certified data provider. This usually takes a few seconds.",
+    bodyMock:
+      "Stripe is not yet configured — this is a sample order so the end-to-end flow can be reviewed. Your report will load on the next screen.",
+    orderRef: "Order reference",
+    viewReport: "View my report",
+    autoRedirect: "Auto-redirecting…",
+  },
+  es: {
+    h1Real: "Pago recibido",
+    h1Mock: "Orden de muestra confirmada",
+    bodyReal:
+      "Gracias. Estamos obteniendo el reporte completo del historial del vehículo desde nuestro proveedor de datos certificado por NMVTIS. Esto suele tomar unos segundos.",
+    bodyMock:
+      "Stripe aún no está configurado — esta es una orden de muestra para revisar el flujo de extremo a extremo. Tu reporte se cargará en la siguiente pantalla.",
+    orderRef: "Referencia de orden",
+    viewReport: "Ver mi reporte",
+    autoRedirect: "Redirigiendo automáticamente…",
+  },
+} as const;
 
 /**
  * Stripe redirect target. Stripe replaces `{CHECKOUT_SESSION_ID}` in the
@@ -34,10 +61,13 @@ export default async function OrderSuccessPage({
     redirect("/");
   }
 
+  const locale: "en" | "es" = sp.lang === "es" ? "es" : "en";
+  const copy = SUCCESS_COPY[locale];
+
   // Send the buyer to the actual report view on this same host (no app.
   // subdomain, no proxy rewrite). We keep this page mounted as a fallback in
   // case JS-disabled clients need a manual link.
-  const reportHref = `/order/report/${orderId}`;
+  const reportHref = `/order/report/${orderId}${locale === "es" ? "?lang=es" : ""}`;
   return (
     <div className="bg-surface min-h-[calc(100vh-200px)]">
       {/* Fire the Reddit Purchase conversion only for real (non-mock) orders. */}
@@ -48,17 +78,15 @@ export default async function OrderSuccessPage({
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">
-          {sp.mock === "1" ? "Sample order confirmed" : "Payment received"}
+          {sp.mock === "1" ? copy.h1Mock : copy.h1Real}
         </h1>
 
         <p className="mt-3 text-slate-600">
-          {sp.mock === "1"
-            ? "Stripe is not yet configured — this is a sample order so the end-to-end flow can be reviewed. Your report will load on the next screen."
-            : "Thank you. We're now pulling the full vehicle history report from our NMVTIS-certified data provider. This usually takes a few seconds."}
+          {sp.mock === "1" ? copy.bodyMock : copy.bodyReal}
         </p>
 
         <p className="mt-6 text-sm text-slate-500">
-          Order reference{" "}
+          {copy.orderRef}{" "}
           <code className="px-1.5 py-0.5 bg-slate-100 rounded text-xs">
             {orderId}
           </code>
@@ -68,13 +96,13 @@ export default async function OrderSuccessPage({
           href={reportHref}
           className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition"
         >
-          View my report
+          {copy.viewReport}
           <ArrowRight className="w-4 h-4" />
         </Link>
 
         <p className="mt-6 text-xs text-slate-400 inline-flex items-center gap-1.5">
           <LoaderCircle className="w-3 h-3 animate-spin" />
-          Auto-redirecting…
+          {copy.autoRedirect}
         </p>
 
         {/* JS redirect — runs immediately on browsers with JS. */}
