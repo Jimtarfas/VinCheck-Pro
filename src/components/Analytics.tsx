@@ -59,10 +59,12 @@ export default function Analytics() {
       </Script>
 
       {/* Reddit Pixel — marketing conversion pixel (NOT session replay, no DOM
-          capture). lazyOnload keeps it off the critical path. Inherits the
-          BLOCKED_PREFIXES gate above, so it never fires on operator/auth pages. */}
+          capture). afterInteractive (not lazyOnload) so rdt/pixel.js is present
+          soon after hydration — Reddit's Event Setup Tool probes for it early
+          and times out if it loads too late. Inherits the BLOCKED_PREFIXES gate
+          above, so it never fires on operator/auth pages. */}
       {REDDIT_PIXEL_ID && (
-        <Script id="reddit-pixel-init" strategy="lazyOnload">
+        <Script id="reddit-pixel-init" strategy="afterInteractive">
           {`!function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js?pixel_id=${REDDIT_PIXEL_ID}",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
           rdt('init','${REDDIT_PIXEL_ID}');
           rdt('track','PageVisit');`}
