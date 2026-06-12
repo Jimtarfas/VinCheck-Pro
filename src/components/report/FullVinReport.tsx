@@ -183,22 +183,46 @@ function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promi
   });
 }
 
-/* Neutralise scrollbars inside `root` for the duration of a capture.
-   Any descendant whose computed overflow is `auto`/`scroll` (e.g. the wide
-   data tables that wrap in `overflow-x-auto`) would otherwise render a real
-   scrollbar track straight into the rasterised PDF. Forcing `overflow:visible`
-   removes the track without clipping content. Returns a restore function. */
+/* Prepare `root` for a clean capture by neutralising horizontal scroll
+   containers — and, crucially, the wide tables inside them.
+
+   Our data tables wrap in `overflow-x-auto` around an inner `min-w-[480px]`
+   table so they scroll on narrow screens. During capture two things go wrong:
+     1. the `auto` overflow renders a real scrollbar track into the PDF, and
+     2. when the report column is narrower than the table's 480px min-width,
+        forcing `overflow:visible` lets the table spill past the captured
+        node's right edge, where it gets clipped — that's the "Title Brand
+        Information" text being cut off horizontally.
+
+   So for every scroll container we (a) set `overflow:visible` to drop the
+   track, and (b) collapse the `min-width` on its descendant tables to `0`,
+   letting them reflow and wrap within the page width. Returns a restore fn. */
 function freezeScrollbars(root: HTMLElement): () => void {
-  const changed: Array<[HTMLElement, string]> = [];
+  const restores: Array<() => void> = [];
   root.querySelectorAll<HTMLElement>("*").forEach((el) => {
     const cs = getComputedStyle(el);
     if (/(auto|scroll)/.test(`${cs.overflow}${cs.overflowX}${cs.overflowY}`)) {
-      changed.push([el, el.style.overflow]);
+      const prevOverflow = el.style.overflow;
       el.style.overflow = "visible";
+      restores.push(() => {
+        el.style.overflow = prevOverflow;
+      });
+      // Collapse the min-width on any table inside this scroll box so it fits
+      // the page instead of overflowing (and getting clipped) on capture.
+      el.querySelectorAll<HTMLElement>("table").forEach((tbl) => {
+        const prevMin = tbl.style.minWidth;
+        const prevWidth = tbl.style.width;
+        tbl.style.minWidth = "0";
+        tbl.style.width = "100%";
+        restores.push(() => {
+          tbl.style.minWidth = prevMin;
+          tbl.style.width = prevWidth;
+        });
+      });
     }
   });
   return () => {
-    for (const [el, prev] of changed) el.style.overflow = prev;
+    for (const restore of restores) restore();
   };
 }
 
@@ -332,10 +356,11 @@ export default function FullVinReport({
       // browser's native print-to-PDF, which uses our full print stylesheet.
       const canvas = await withTimeout(
         toCanvas(node, {
-          // 1.5× keeps text crisp at print size (~160 DPI) while rasterising ~44%
-          // fewer pixels than 2× — the single biggest lever on capture time for a
-          // long, multi-page report.
-          pixelRatio: 1.5,
+          // 2× (~210 DPI at print width) keeps body text and table labels sharp
+          // rather than pixelated. The image-heavy cost of the higher resolution
+          // is offset by the aggressive image downscaling above (every photo is
+          // re-encoded ≤720px before capture), so the SVG stays rasterisable.
+          pixelRatio: 2,
           backgroundColor: bg,
           // External images are already inlined as data URIs above, so cache-
           // busting only forces needless re-fetches of same-origin assets.
@@ -374,16 +399,27 @@ export default function FullVinReport({
         const b = toCanvasY(child.getBoundingClientRect().bottom);
         if (b > 0) sectionBreaks.push(b);
       }
-      // Image guard-rails: [top, bottom] of every image, so that when a single
-      // section is taller than a full page we still avoid cutting through a
-      // photo.
-      const imgZones: Array<[number, number]> = [];
-      node.querySelectorAll("img").forEach((im) => {
-        const r = im.getBoundingClientRect();
+      // Guard-rails: [top, bottom] of every atomic block we must never slice
+      // through when a single section is taller than a page. Images (so a photo
+      // isn't cut in half) plus row-level content — timeline items, table rows,
+      // key/value grid rows, recall/damage cards — so a line of text never gets
+      // bisected across the page fold (the "Safety recall reported" row that was
+      // splitting between pages).
+      const forbiddenZones: Array<[number, number]> = [];
+      const addZone = (r: DOMRect) => {
         const top = toCanvasY(r.top);
         const bot = toCanvasY(r.bottom);
-        if (bot - top > 4) imgZones.push([top, bot]);
-      });
+        // Only guard rows shorter than a page; a taller-than-page block can't be
+        // protected and must be allowed to split.
+        if (bot - top > 4 && bot - top < slicePxMax) {
+          forbiddenZones.push([top, bot]);
+        }
+      };
+      node
+        .querySelectorAll(
+          "img, li, tr, dl > div, details, .rounded-xl"
+        )
+        .forEach((el) => addZone(el.getBoundingClientRect()));
 
       let offset = 0;
       let page = 0;
@@ -402,12 +438,20 @@ export default function FullVinReport({
             cut = best;
           } else {
             // A single section is taller than one page — hard-cut at the page
-            // height, but pull the cut above any image it would slice through.
+            // height, but pull the cut above any atomic block (image or text
+            // row) it would slice through, so nothing is bisected on the fold.
+            // Iterate to a fixed point: pulling the cut up can expose a higher
+            // (e.g. nested or parent-card) block that now straddles the fold.
             cut = maxCut;
-            for (const [top, bot] of imgZones) {
-              if (top > offset + 1 && top < cut && bot > cut) cut = top;
+            for (let guard = 0; guard < 200; guard++) {
+              let lifted = cut;
+              for (const [top, bot] of forbiddenZones) {
+                if (top > offset + 1 && top < lifted && bot > cut) lifted = top;
+              }
+              if (lifted === cut) break;
+              cut = lifted;
             }
-            // Image taller than a whole page: nothing we can do but cut it.
+            // Block taller than a whole page: nothing we can do but cut it.
             if (cut <= offset + 1) cut = maxCut;
           }
         }
