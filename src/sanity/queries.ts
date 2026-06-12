@@ -3,6 +3,7 @@ import { groq } from "next-sanity";
 const POST_FIELDS = `
   _id,
   title,
+  titleEs,
   "slug": slug.current,
   excerpt,
   heroImage,
@@ -27,6 +28,74 @@ export const allPostsQuery = groq`
   | order(publishedAt desc) {
     ${POST_FIELDS}
   }
+`;
+
+// ── Wave 8 — Spanish blog queries ─────────────────────────────────
+// POST_FIELDS_ES projects the Spanish variants alongside the canonical
+// English fields so the page can render Spanish content with English
+// fallback. A post is "Spanish" iff titleEs is non-empty.
+const POST_FIELDS_ES = `
+  _id,
+  title,
+  titleEs,
+  "slug": slug.current,
+  excerpt,
+  excerptEs,
+  heroImage,
+  publishedAt,
+  _updatedAt,
+  tags,
+  noIndex,
+  canonicalUrl,
+  seoTitle,
+  seoTitleEs,
+  seoDescription,
+  seoDescriptionEs,
+  focusKeyword,
+  focusKeywordEs,
+  keywords,
+  ogImage,
+  "wordCount": length(pt::text(coalesce(bodyEs, body))),
+  "readMinutes": round(length(pt::text(coalesce(bodyEs, body))) / 200),
+  category->{ _id, title, "slug": slug.current, color },
+  author->{ _id, name, "slug": slug.current, role, bio, avatar }
+`;
+
+export const allPostsEsQuery = groq`
+  *[_type == "post"
+    && !(_id in path("drafts.**"))
+    && (!defined(noIndex) || noIndex == false)
+    && defined(titleEs) && titleEs != ""]
+  | order(publishedAt desc) {
+    ${POST_FIELDS_ES}
+  }
+`;
+
+export const postBySlugEsQuery = groq`
+  *[_type == "post" && slug.current == $slug][0] {
+    ${POST_FIELDS_ES},
+    body,
+    bodyEs,
+    relatedPosts[]->{
+      _id,
+      title,
+      titleEs,
+      "slug": slug.current,
+      excerpt,
+      excerptEs,
+      heroImage,
+      publishedAt,
+      "readMinutes": round(length(pt::text(coalesce(bodyEs, body))) / 200),
+      category->{ title, "slug": slug.current, color }
+    }
+  }
+`;
+
+export const postSlugsEsQuery = groq`
+  *[_type == "post"
+    && defined(slug.current)
+    && (!defined(noIndex) || noIndex == false)
+    && defined(titleEs) && titleEs != ""][].slug.current
 `;
 
 export const postBySlugQuery = groq`

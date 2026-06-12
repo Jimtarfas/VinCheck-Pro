@@ -41,7 +41,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: safeTitle,
     description: post.seoDescription || post.excerpt,
     keywords: post.keywords,
-    alternates: { canonical: post.canonicalUrl || `/blog/${post.slug}` },
+    // Wave 8: declare the Spanish twin only if the post has been
+    // translated (titleEs present). Untranslated posts emit canonical
+    // only — no broken hreflang to a 404.
+    alternates: {
+      canonical: post.canonicalUrl || `/blog/${post.slug}`,
+      languages: post.titleEs
+        ? {
+            en: `https://www.carcheckervin.com/blog/${post.slug}`,
+            es: `https://www.carcheckervin.com/es/blog/${post.slug}`,
+            "x-default": `https://www.carcheckervin.com/blog/${post.slug}`,
+          }
+        : undefined,
+    },
     robots: post.noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
       title: post.seoTitle || post.title,

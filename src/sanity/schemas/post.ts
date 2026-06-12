@@ -6,6 +6,7 @@ export const post = defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
+    { name: "spanish", title: "Español" },
     { name: "seo", title: "SEO" },
     { name: "settings", title: "Settings" },
   ],
@@ -87,6 +88,60 @@ export const post = defineType({
       group: "content",
       of: [{ type: "reference", to: [{ type: "post" }] }],
       validation: (r) => r.max(3),
+    }),
+
+    // ── Spanish translation (Wave 8) ──
+    // Every field below mirrors a field above; when populated, the
+    // /es/blog/<slug> page renders the Spanish variant and falls back
+    // to the English source when blank. Slug stays shared — same
+    // canonical identifier across locales, only content differs.
+    defineField({
+      name: "titleEs",
+      title: "Título (ES)",
+      type: "string",
+      group: "spanish",
+      description: "Spanish title. Leave blank to exclude this post from /es/blog.",
+      validation: (r) => r.max(120),
+    }),
+    defineField({
+      name: "excerptEs",
+      title: "Extracto (ES)",
+      type: "text",
+      rows: 3,
+      group: "spanish",
+      description: "1–2 sentence Spanish teaser shown on /es/blog and social shares.",
+      validation: (r) => r.max(220),
+    }),
+    defineField({
+      name: "bodyEs",
+      title: "Contenido (ES)",
+      type: "blockContent",
+      group: "spanish",
+      description: "Spanish body. If empty, /es/blog/<slug> still shows the English body so the post stays reachable.",
+    }),
+    defineField({
+      name: "seoTitleEs",
+      title: "SEO Title (ES)",
+      type: "string",
+      group: "spanish",
+      description: "Spanish override for the <title>. 50–60 chars.",
+      validation: (r) => r.max(70),
+    }),
+    defineField({
+      name: "seoDescriptionEs",
+      title: "Meta Description (ES)",
+      type: "text",
+      rows: 3,
+      group: "spanish",
+      description: "Spanish meta description. 140–160 chars.",
+      validation: (r) => r.max(170),
+    }),
+    defineField({
+      name: "focusKeywordEs",
+      title: "Focus Keyword (ES)",
+      type: "string",
+      group: "spanish",
+      description: "Primary Spanish keyword this post targets.",
     }),
 
     // SEO group

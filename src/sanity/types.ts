@@ -49,4 +49,15 @@ export interface SanityPost {
   author?: SanityAuthor;
   body?: PortableTextBlock[];
   relatedPosts?: SanityPost[];
+
+  // ── Wave 8 — Spanish variants (optional per post) ──
+  // Same field semantics as their English siblings; when populated the
+  // /es/blog page renders these, falling back to the English fields
+  // when blank. Slug stays shared across locales.
+  titleEs?: string;
+  excerptEs?: string;
+  bodyEs?: PortableTextBlock[];
+  seoTitleEs?: string;
+  seoDescriptionEs?: string;
+  focusKeywordEs?: string;
 }
