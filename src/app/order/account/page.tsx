@@ -61,6 +61,13 @@ export default async function MyReportsPage() {
 
   // Pull orders matched by user_id OR email — buyers may have ordered
   // anonymously and signed up later.
+  //
+  // Only surface orders that represent a *completed purchase* (paid or
+  // delivered). A `pending` order is created the moment checkout starts and a
+  // `failed` order is left behind when a payment doesn't go through — neither
+  // is a report the buyer actually owns, so showing them here makes an
+  // unpaid VIN look like a free report sitting in the account. We never sell
+  // free reports, so those statuses must never appear in "My Reports".
   const admin = createAdminClient();
   const { data: orders } = await admin
     .from("report_orders")
@@ -68,6 +75,7 @@ export default async function MyReportsPage() {
       "id, vin, vehicle_label, status, amount_cents, currency, created_at, delivered_at"
     )
     .or(`user_id.eq.${user.id},user_email.eq.${user.email?.toLowerCase() || ""}`)
+    .in("status", ["paid", "delivered"])
     .order("created_at", { ascending: false })
     .limit(50);
 
