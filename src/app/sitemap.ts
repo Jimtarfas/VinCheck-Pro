@@ -202,6 +202,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/market-value`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/warranty-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/build-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    // Make-specific build-sheet siblings to /build-sheet — Ford door data plate / Marti Report,
+    // GM RPO / SPID label, and Mopar fender tag / broadcast sheet. Self-canonical, differentiated.
+    { url: `${baseUrl}/ford-build-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/gm-build-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/mopar-broadcast-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/paint-code-lookup`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     // Paint Code Finder — color-name + brand directory sibling to /paint-code-lookup.
     { url: `${baseUrl}/paint-code-finder`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
