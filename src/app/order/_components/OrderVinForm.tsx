@@ -70,9 +70,11 @@ interface Props {
 // Drives the buttons, placeholders, errors, and CTA labels.
 const COPY = {
   en: {
+    vinLabel: "Enter the 17-character VIN",
     placeholder: "Enter 17-character VIN",
-    submitPreview: "Get free preview",
-    loading: "Loading…",
+    submitPreview: "Get Free Preview",
+    loading: "Loading\u2026",
+    freePreviewHint: "Free preview \u00b7 No card required to see the basics",
     fee: "Decoder fee",
     discount: "Discount",
     total: "Total",
@@ -89,9 +91,11 @@ const COPY = {
     errorGeneric: "Something went wrong. Try again in a moment.",
   },
   es: {
+    vinLabel: "Ingresa el VIN de 17 caracteres",
     placeholder: "Ingresa un VIN de 17 caracteres",
     submitPreview: "Ver vista previa gratis",
-    loading: "Cargando…",
+    loading: "Cargando\u2026",
+    freePreviewHint: "Vista previa gratis \u00b7 Sin tarjeta para ver lo b\u00e1sico",
     fee: "Tarifa del decodificador",
     discount: "Descuento",
     total: "Total",
@@ -257,7 +261,7 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
         className="bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-5 sm:p-7 shadow-xl shadow-primary/5"
       >
         <label className="block text-sm font-bold text-on-surface mb-2">
-          Enter the 17-character VIN
+          {copy.vinLabel}
         </label>
         <div className="flex flex-col sm:flex-row gap-2">
           <div className="relative flex-1">
@@ -283,10 +287,10 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
             {loadingPreview ? (
               <>
                 <LoaderCircle className="w-4 h-4 animate-spin" />
-                Loading…
+                {copy.loading}
               </>
             ) : (
-              "Get Free Preview"
+              copy.submitPreview
             )}
           </button>
         </div>
@@ -298,7 +302,7 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
         )}
         <p className="mt-3 text-[11px] text-on-surface-variant flex items-center gap-1.5">
           <Lock className="w-3 h-3" />
-          Free preview · No card required to see the basics
+          {copy.freePreviewHint}
         </p>
       </form>
 
