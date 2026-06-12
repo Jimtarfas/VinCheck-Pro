@@ -420,7 +420,7 @@ export default async function ReportPreviewPage({ params }: Props) {
     }
 
     return (
-      <div className="hidden lg:block mt-8 rounded-2xl bg-white/[0.07] border border-white/15 p-4">
+      <div className="mt-6 lg:mt-8 rounded-2xl bg-white/[0.07] border border-white/15 p-4">
         <div className="flex items-center gap-2 mb-3 px-1">
           <Fingerprint className="w-4 h-4 text-secondary-fixed-dim" />
           <h2 className="text-xs font-headline font-extrabold uppercase tracking-wider text-white">
@@ -444,8 +444,9 @@ export default async function ReportPreviewPage({ params }: Props) {
           )}
         </div>
 
-        {/* Single horizontal row: 4 locked record tiles + the free recall tile */}
-        <div className="grid grid-cols-5 gap-2.5">
+        {/* 4 locked record tiles + the free recall tile. Wraps to a 2-up grid
+            on phones, then a single row from the small breakpoint up. */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
           {tiles.map(({ icon: Icon, label, value, alert }) => (
             <div key={label} className="rounded-xl bg-white/[0.06] border border-white/10 px-3.5 py-2.5">
               <div className="flex items-center justify-between mb-1">
@@ -461,8 +462,9 @@ export default async function ReportPreviewPage({ params }: Props) {
             </div>
           ))}
 
-          {/* Recalls — the one record set shown free, as proof the data is real */}
-          <div className="rounded-xl bg-amber-400/15 border border-amber-300/25 px-3.5 py-2.5 flex flex-col justify-center">
+          {/* Recalls — the one record set shown free, as proof the data is real.
+              Spans the full width on phones so it doesn't leave a lone gap. */}
+          <div className="col-span-2 sm:col-span-1 rounded-xl bg-amber-400/15 border border-amber-300/25 px-3.5 py-2.5 flex flex-col justify-center">
             <div className="flex items-center justify-between mb-1">
               <ShieldAlert className="w-4 h-4 text-amber-300" />
               <span className="text-[9px] font-bold uppercase tracking-wider text-amber-200">Free</span>
