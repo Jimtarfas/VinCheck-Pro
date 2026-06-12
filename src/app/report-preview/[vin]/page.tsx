@@ -27,6 +27,8 @@ import {
   ScrollText,
   Banknote,
   BarChart3,
+  Sparkles,
+  Gift,
 } from "lucide-react";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -329,6 +331,51 @@ export default async function ReportPreviewPage({ params }: Props) {
     <BuyReportButton className="flex items-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-headline font-extrabold bg-white text-primary shadow-lg hover:bg-yellow-50 transition cursor-pointer">
       <Lock className="w-4 h-4" /> Get full report — ${SINGLE_PRICE.toFixed(2)}
     </BuyReportButton>
+  );
+
+  /* ── Hero promo: free window-sticker bonus ────────────────────────────
+     Fills the empty navy space on the right of the hero with a "scratch-off
+     coupon" styled banner. The window-sticker generator is a flagship free
+     tool on the site, so bundling it as a first-purchase gift is a creative,
+     no-cost conversion sweetener. Desktop-only, preview-only. */
+  const heroPromo = (
+    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-secondary-fixed to-amber-200 text-primary shadow-xl shadow-black/25 ring-1 ring-white/40">
+        {/* ticket perforation notches */}
+        <span aria-hidden className="absolute -left-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-primary" />
+        <span aria-hidden className="absolute -right-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-primary" />
+        {/* soft sheen */}
+        <span aria-hidden className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-white/30 blur-2xl" />
+
+        <div className="flex items-stretch">
+          {/* Left stub — the "gift" face of the coupon */}
+          <div className="flex flex-col items-center justify-center gap-1 border-r-2 border-dashed border-primary/25 px-5 py-5">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-secondary-fixed shadow-md">
+              <Receipt className="h-6 w-6" />
+            </div>
+            <span className="font-headline text-2xl font-black leading-none tracking-tight">FREE</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-primary/65">Bonus</span>
+          </div>
+
+          {/* Right body — the offer */}
+          <div className="relative flex-1 px-4 py-3.5">
+            <div className="inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-secondary-fixed">
+              <Sparkles className="h-3 w-3" /> First-order gift
+            </div>
+            <h3 className="mt-2 flex items-center gap-1.5 font-headline text-[19px] font-extrabold leading-tight">
+              <Gift className="h-4 w-4 flex-shrink-0" /> Free Window Sticker
+            </h3>
+            <p className="mt-1 text-[12px] font-semibold leading-snug text-primary/80">
+              Buy your first report and we&apos;ll throw in a factory-style window
+              sticker — Original MSRP, factory options &amp; EPA fuel economy — on us.
+            </p>
+            <p className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary/60">
+              <BadgeCheck className="h-3 w-3" /> Auto-applied at checkout
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 
   /* ── Hero risk snapshot ───────────────────────────────────────────────
@@ -799,6 +846,7 @@ export default async function ReportPreviewPage({ params }: Props) {
         summaryGroups={SUMMARY_GROUPS}
         heroAside={heroAside}
         heroCta={heroCta}
+        heroPromo={heroPromo}
         summaryTop={summaryTop}
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions

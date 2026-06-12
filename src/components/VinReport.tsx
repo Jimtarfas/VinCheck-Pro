@@ -473,6 +473,7 @@ export default function VinReport({
   summaryGroups,
   heroAside,
   heroCta,
+  heroPromo,
   summaryTop,
   sidebarBottom,
   lockActions = false,
@@ -500,6 +501,10 @@ export default function VinReport({
   /** Preview: primary CTA button rendered first in the hero action-button row
       (e.g. "Get full report"). The free report never passes this prop. */
   heroCta?: React.ReactNode;
+  /** Preview: promotional card rendered in the empty navy space on the right of
+      the hero, beside the vehicle name/action row (e.g. the free-window-sticker
+      offer). Desktop-only; the free report never passes this prop. */
+  heroPromo?: React.ReactNode;
   /** Preview: server-built card rendered directly above the Report Summary in
       the sidebar (e.g. the Market Analysis panel). */
   summaryTop?: React.ReactNode;
@@ -732,6 +737,11 @@ export default function VinReport({
                 </button>
               </div>
             </div>
+
+            {/* Preview-only: promotional card that fills the otherwise-empty
+                navy space to the right of the vehicle name / action buttons.
+                Desktop-only — on smaller screens it would crowd the hero. */}
+            {heroPromo}
 
           </div>
 
