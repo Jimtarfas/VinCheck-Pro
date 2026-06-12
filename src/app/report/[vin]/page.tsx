@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { decodeVin } from "@/lib/api";
-import VinReport from "@/components/VinReport";
-import VinSearchForm from "@/components/VinSearchForm";
-import FullVinReport from "@/components/report/FullVinReport";
-import { getStructuredReport } from "@/lib/clearvin-report";
+import ReportPreviewPage from "@/app/report-preview/[vin]/page";
 import { trackVinLookup, saveVinReport } from "@/lib/tracking";
 
 // Render fresh on every request. Without this, Next caches the rendered HTML
@@ -56,14 +53,9 @@ export default async function ReportPage({ params }: Props) {
     notFound();
   }
 
-  // The report body now uses the richer ClearVin structured report (same UI as
-  // /full-report). Kick it off first so it runs concurrently with the decode +
-  // DB writes below. It has a mock fallback, so it resolves for any valid VIN.
-  const structuredPromise = getStructuredReport(cleaned);
-
-  // Decode is now best-effort: it still powers tracking, the dashboard save and
-  // the JSON-LD, but a decode miss must NOT block the report — the structured
-  // report can stand on its own. (Previously a decode failure hard-bailed.)
+  // Decode is best-effort: it powers tracking, the dashboard save and the
+  // JSON-LD, but a decode miss must NOT block the report — the ClearVin
+  // preview below stands on its own.
   let data: Awaited<ReturnType<typeof decodeVin>> | null = null;
   try {
     data = await decodeVin(cleaned);
@@ -94,26 +86,6 @@ export default async function ReportPage({ params }: Props) {
       year: data.years?.[0]?.year ?? null,
       reportData: data,
     });
-  }
-
-  const structured = await structuredPromise;
-
-  // Genuine miss only when BOTH the structured report and the decode failed.
-  if (!structured.ok && !data) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center px-4 pt-16">
-        <div className="text-center max-w-md">
-          <h1 className="text-2xl font-bold text-slate-900 mb-4">
-            VIN Not Found
-          </h1>
-          <p className="text-slate-700 mb-8">
-            We couldn&apos;t find data for VIN <code className="font-mono bg-slate-100 text-primary-600 px-2 py-1 rounded">{cleaned}</code>.
-            Please double-check and try again.
-          </p>
-          <VinSearchForm size="sm" />
-        </div>
-      </div>
-    );
   }
 
   // JSON-LD is built from decode data when we have it (richer engine specs).
@@ -155,11 +127,10 @@ export default async function ReportPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      {structured.ok ? (
-        <FullVinReport report={structured.report} />
-      ) : data ? (
-        <VinReport data={data} />
-      ) : null}
+      {/* Render the ClearVin preview (vehicle identity, photos, recall/auction/
+          damage record counts) rather than the auto.dev decode — same upsell
+          experience as /report-preview. */}
+      <ReportPreviewPage params={params} />
     </>
   );
 }
