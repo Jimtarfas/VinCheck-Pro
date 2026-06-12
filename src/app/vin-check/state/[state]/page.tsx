@@ -11,16 +11,6 @@ interface Props {
   params: Promise<{ state: string }>;
 }
 
-// Wave 2: states with dedicated /es/<state>-revision-vin landing pages.
-// Drives the hreflang emit gate in generateMetadata below.
-const STATES_WITH_ES = new Set([
-  "california",
-  "texas",
-  "new-york",
-  "illinois",
-  "pennsylvania",
-]);
-
 export async function generateStaticParams() {
   return states.map((s) => ({ state: s.slug }));
 }
@@ -132,13 +122,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${state.name} ${state.abbr} vin check`,
       `free vin check ${state.name}`,
     ],
-    // The Big-5 (CA/TX/NY/IL/PA) now have dedicated Spanish landing
-    // pages at /es/<state>-revision-vin. For those, emit the symmetric
-    // hreflang chain. Other states stay English-only with a plain
-    // canonical (no `es` link — those pages don't exist yet).
-    alternates: STATES_WITH_ES.has(state.slug)
-      ? hreflangAlternates(`/vin-check/state/${state.slug}`)
-      : { canonical: `/vin-check/state/${state.slug}` },
+    // Wave 4: every state now has a Spanish twin. Big-5 (CA/TX/NY/IL/PA)
+    // and Florida have dedicated /es/<state>-revision-vin slugs in
+    // slugs.ts; the other 44 use the identity fallback inside
+    // translateSlug, which emits /es/vin-check/state/<state> — the
+    // dynamic Spanish template at src/app/es/vin-check/state/[state].
+    alternates: hreflangAlternates(`/vin-check/state/${state.slug}`),
     openGraph: {
       title: `Free ${state.name} VIN Check — Instant ${state.abbr} History`,
       description,

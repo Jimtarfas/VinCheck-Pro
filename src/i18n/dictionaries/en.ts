@@ -252,6 +252,40 @@ export const en = {
     badgeFree: "Free · Instant · No signup",
   },
 
+  // ── Dynamic state template (shared chrome) ──────────────────────
+  // Used by /es/vin-check/state/[state]/page.tsx for the 45 non-Big-5
+  // states. Big-5 (CA/TX/NY/IL/PA) and Florida have hand-written
+  // dedicated Spanish pages — those don't use this namespace.
+  stateTemplate: {
+    breadcrumbHome: "Home",
+    breadcrumbVinCheck: "VIN Check",
+    breadcrumbByState: "By State",
+    heroHeadlineSuffix: "VIN Check",
+    heroSubTemplate:
+      "Free VIN check for vehicles registered in {state}. Get a complete vehicle history report — including title brands recorded by the {dmv}, accident history, salvage records, and recall data — instantly.",
+    whyHeading: "Why {state} Drivers Need a VIN Check",
+    whyP1Template:
+      "With approximately {vehicles} vehicles registered across {state}'s population of {population}, the used car market here is large and active. The {dmv} maintains title and registration records, but those records may not travel with a vehicle that has been bought, sold, or moved across state lines.",
+    whyP2:
+      "A VIN check pulls together title history, odometer readings, salvage and total-loss events, theft records, open recalls, and accident reports from across the country \u2014 giving you a complete picture before you buy a used vehicle in {state}.",
+    whyP3:
+      "Whether you're purchasing from a private seller, a dealer, or an online marketplace, a VIN lookup is the single most important step you can take to avoid title washing, hidden flood damage, or undisclosed salvage history.",
+    brandsHeading: "Title Brands Recognized in {state}",
+    brandsSubTemplate:
+      "The {dmv} uses the following brands to flag vehicles with significant history.",
+    lemonLawHeading: "{state} Lemon Law Overview",
+    sourcesHeading: "Sources & Data Authority",
+    sourcesIntro:
+      "Every claim on this {state} VIN check page traces back to a public, authoritative source.",
+    sourcesFootnote:
+      "{state} VIN data is cross-referenced against NMVTIS, NHTSA, NICB, and the {dmv} records at the time of each lookup. {state} has approximately {population} residents and {vehicles} registered vehicles.",
+    faqHeading: "{state} VIN Check \u2014 Frequently Asked Questions",
+    ctaHeading: "Run a Free VIN Check for a {state} Vehicle",
+    ctaSub:
+      "A free VIN check takes 5 seconds and could save you thousands.",
+    badgeFree: "Free \u00b7 Instant \u00b7 No signup",
+  },
+
   // ── Make pages (shared chrome) ──────────────────────────────────
   // Used by both English /vin-check/<make> and Spanish
   // /es/revision-vin/<make>. The per-make text (description, vinNote,
