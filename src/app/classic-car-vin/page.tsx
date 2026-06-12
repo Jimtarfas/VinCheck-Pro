@@ -1,21 +1,40 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check, Shield, Clock, Wrench, Search, FileText, AlertCircle } from "lucide-react";
+import {
+  Check,
+  Shield,
+  Search,
+  FileText,
+  CalendarClock,
+  ChevronRight,
+  Lock,
+  Zap,
+  BadgeCheck,
+  Sparkles,
+  Cog,
+  Wrench,
+  Gauge,
+  ClipboardCheck,
+  Factory,
+  Hash,
+  ScrollText,
+  BookOpen,
+  History,
+} from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import VinCheckBanner from "@/components/VinCheckBanner";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Classic Car VIN Decoder — Pre-1981 Vehicle Lookup",
+    absolute: "Classic Car VIN Decoder — Pre-1981 Vehicle Lookup (Free)",
   },
   description:
-    "Decode pre-1981 classic and vintage car VINs. Understand GM, Ford, Chrysler, and AMC VIN formats, verify numbers-matching, and document factory specs.",
-  // Keyword list trimmed to high-intent variants only. Google ignores meta
-  // keywords; Bing/Yandex apply mild spam scoring when the field is stuffed.
+    "Decode pre-1981 classic and vintage car VINs free. Understand GM, Ford, Chrysler, and AMC VIN formats, verify numbers-matching, and document factory specs before you buy.",
   keywords: [
     "classic car VIN decoder",
     "vintage car VIN",
@@ -26,7 +45,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/classic-car-vin" },
   openGraph: {
-    title: "Classic Car VIN Decoder — Pre-1981 Vehicle Lookup",
+    title: "Classic Car VIN Decoder — Pre-1981 Vehicle Lookup (Free)",
     description:
       "Decode pre-1981 classic and vintage car VINs. Understand GM, Ford, Chrysler, and AMC formats and verify numbers-matching authenticity.",
     url: `${SITE}/classic-car-vin`,
@@ -35,27 +54,39 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Classic Car VIN Decoder — Pre-1981 Vehicle Lookup",
+    title: "Classic Car VIN Decoder — Pre-1981 Vehicle Lookup (Free)",
     description:
       "Decode pre-1981 classic and vintage car VINs. Understand GM, Ford, Chrysler, and AMC formats and verify numbers-matching.",
   },
-  robots: {
-    index: true,
-    follow: true,
-    "max-snippet": -1,
-    "max-image-preview": "large",
-    "max-video-preview": -1,
-  },
+  robots: { index: true, follow: true },
 };
 
-/* ─── JSON-LD Schemas ─────────────────────────────────────── */
+/* ── JSON-LD schemas ───────────────────────────────────────────── */
+
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Classic Car VIN Decoder",
+  url: `${SITE}/classic-car-vin`,
+  applicationCategory: "AutomotiveApplication",
+  operatingSystem: "All",
+  description:
+    "Decode a classic or vintage vehicle by its VIN. Understand pre-1981 manufacturer formats from GM, Ford, Chrysler, and AMC, and verify numbers-matching authenticity.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  publisher: {
+    "@type": "Organization",
+    name: "CarCheckerVIN",
+    url: SITE,
+    logo: { "@type": "ImageObject", url: `${SITE}/logo.png` },
+  },
+};
 
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: "Classic Car VIN Decoder",
+  headline: "Classic Car VIN Decoder — Pre-1981 Vehicle Identification",
   description:
-    "Learn how to decode pre-1981 classic and vintage car VINs, including manufacturer-specific formats from GM, Ford, Chrysler, and AMC.",
+    "How to decode pre-1981 classic and vintage car VINs, including manufacturer-specific formats from GM, Ford, Chrysler, and AMC, and how to verify numbers-matching authenticity.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -169,332 +200,630 @@ const faqSchema = {
   ],
 };
 
+const FAQS = faqSchema.mainEntity.map((q) => ({
+  question: q.name,
+  answer: q.acceptedAnswer.text,
+}));
+
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: SITE },
-    { "@type": "ListItem", position: 2, name: "Classic Car VIN Decoder", item: `${SITE}/classic-car-vin` },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Classic Car VIN Decoder",
+      item: `${SITE}/classic-car-vin`,
+    },
   ],
 };
 
 const speakableSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Classic Car VIN Decoder",
   speakable: {
     "@type": "SpeakableSpecification",
-    cssSelector: ["h1", "#what-you-learn", "#how-it-works"],
+    cssSelector: ["h1", ".speakable-intro"],
   },
   url: `${SITE}/classic-car-vin`,
 };
 
-// Service + AggregateRating block — renders yellow stars next to the SERP
-// snippet on supporting result types. The rating tracks the live Trustpilot
-// baseline so it doesn't trip Google's manual rich-results review.
-const serviceRatingSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  serviceType: "Classic Car VIN Decoder",
-  provider: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
-  areaServed: { "@type": "Country", name: "United States" },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    bestRating: "5",
-    worstRating: "1",
-    ratingCount: "104",
-  },
-};
+/* ── Static UI data ────────────────────────────────────────────── */
 
-const FAQS = faqSchema.mainEntity.map((q) => ({
-  question: q.name,
-  answer: q.acceptedAnswer.text,
-}));
+const TRUST_STATS = [
+  { icon: CalendarClock, value: "Pre-1981", label: "format experts" },
+  { icon: Factory, value: "GM · Ford", label: "Mopar + AMC" },
+  { icon: Hash, value: "Numbers", label: "matching checks" },
+  { icon: Zap, value: "Free", label: "instant decode" },
+];
 
-/* ─── Manufacturer format data ───────────────────────────── */
-const MANUFACTURERS = [
+const HOW_STEPS = [
   {
-    name: "General Motors",
-    years: "1968–1980",
-    detail: "13-character format: division code, model year, body series, body style, engine, assembly plant, and sequence number. The VIN directly encodes the engine code — critical for matching-numbers verification.",
+    icon: CalendarClock,
+    tag: "Step 1",
+    title: "Identify make & model year",
+    body: "Pre-1981 VINs had no universal standard, so the decode depends entirely on the manufacturer and year. A 1969 and a 1975 of the same model use different keys — confirm both first.",
   },
   {
-    name: "Ford Motor Company",
-    years: "1970–1980",
-    detail: "Variable-length format encoding model, engine, assembly plant, and sequential number. Engine-code positions confirm families like the 428 Cobra Jet or Boss 302.",
+    icon: Search,
+    tag: "Step 2",
+    title: "Locate the VIN & trim tag",
+    body: "Find the VIN on the door post, firewall, frame, or dash-base plate. Note any separate cowl or trim tag near the firewall — it carries paint, body, and interior build codes.",
   },
   {
-    name: "Chrysler Corporation",
-    years: "1968–1980",
-    detail: "13-character format with a distinct structure encoding car line, price class, body type, engine, transmission, and plant — decodes the exact drivetrain on a 1970 Cuda or Challenger.",
-  },
-  {
-    name: "American Motors (AMC)",
-    years: "1968–1980",
-    detail: "13-character system encoding model year, series, body type, engine, transmission, assembly plant, and sequence.",
+    icon: ScrollText,
+    tag: "Step 3",
+    title: "Apply the manufacturer key",
+    body: "Use the year-specific reference table for that make to decode division, body series, engine, assembly plant, and sequence. These codes change annually, so the year-matched table is essential.",
   },
 ];
+
+const MANUFACTURERS = [
+  {
+    icon: Factory,
+    title: "General Motors",
+    years: "1968–1980",
+    body: "13-character format: division code, model year, body series, body style, engine, assembly plant, and sequence. The VIN directly encodes the engine code — critical for matching-numbers verification.",
+  },
+  {
+    icon: Factory,
+    title: "Ford Motor Company",
+    years: "1970–1980",
+    body: "Variable-length format encoding model, engine, assembly plant, and sequential number. Engine-code positions confirm families like the 428 Cobra Jet or Boss 302.",
+  },
+  {
+    icon: Factory,
+    title: "Chrysler Corporation",
+    years: "1968–1980",
+    body: "13-character format with a distinct structure encoding car line, price class, body type, engine, transmission, and plant — decodes the exact drivetrain on a 1970 Cuda or Challenger.",
+  },
+  {
+    icon: Factory,
+    title: "American Motors (AMC)",
+    years: "1968–1980",
+    body: "13-character system encoding model year, series, body type, engine, transmission, assembly plant, and sequence.",
+  },
+];
+
+const LEARN = [
+  {
+    icon: Cog,
+    title: "Factory engine code",
+    body: "For GM cars the VIN encodes the engine directly — a Z/28 with a DZ 302 should show a specific code, exposing a swapped engine if it doesn't.",
+  },
+  {
+    icon: FileText,
+    title: "Body style & series",
+    body: "Confirms the original body line, two- vs four-door, hardtop vs convertible against the seller's description.",
+  },
+  {
+    icon: Factory,
+    title: "Assembly plant & sequence",
+    body: "Identifies where and roughly when the car was built, useful for cross-referencing production records.",
+  },
+  {
+    icon: CalendarClock,
+    title: "True model year",
+    body: "Confirms the real model year — distinct from the year the car was sold or later titled.",
+  },
+  {
+    icon: Gauge,
+    title: "Drivetrain configuration",
+    body: "On Mopar VINs, decodes the exact engine, transmission, and body style of a car like a 1970 Cuda or Challenger.",
+  },
+  {
+    icon: BadgeCheck,
+    title: "Numbers-matching baseline",
+    body: "Provides the reference the physical casting and stamping numbers must match for a verified matching-numbers car.",
+  },
+];
+
+const MATCHING_CHECKLIST = [
+  "Decode the VIN for the original factory engine and body codes",
+  "Read the cowl / trim tag for paint, interior, and body data",
+  "Cross-check the engine-block casting and stamping numbers",
+  "Verify the transmission and rear-axle codes against the build",
+  "Confirm casting dates fall before the car's assembly date",
+  "Validate against a marque registry or reproduction build sheet",
+];
+
+const SOURCES = [
+  {
+    href: "https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-565",
+    label: "49 CFR Part 565 — VIN Requirements",
+    note: "Federal rule that established the standardized 17-character VIN for model year 1981.",
+  },
+  {
+    href: "https://www.nhtsa.gov/",
+    label: "NHTSA",
+    note: "Agency that mandated and administers the modern VIN standard.",
+  },
+  {
+    href: "https://vpic.nhtsa.dot.gov/decoder/",
+    label: "NHTSA vPIC VIN Decoder",
+    note: "Federal reference decoder; coverage is strongest for 1981-and-newer standardized VINs.",
+  },
+  {
+    href: "https://www.phs-online.com/",
+    label: "Pontiac Historic Services (PHS)",
+    note: "Marque registry providing factory build documentation tied to Pontiac VINs.",
+  },
+  {
+    href: "https://www.martiauto.com/",
+    label: "Marti Auto Works",
+    note: "Ford-authorized production records and build sheets for 1967-onward Ford vehicles.",
+  },
+  {
+    href: "https://vehiclehistory.bja.ojp.gov/",
+    label: "NMVTIS — Bureau of Justice Assistance",
+    note: "Federal title and brand system; useful mainly for post-1981 standardized VINs.",
+  },
+];
+
+const INTERNAL_LINKS = [
+  {
+    href: "/vin-check",
+    label: "Full VIN History Check",
+    desc: "Title, accident, odometer, and recall records in one report for post-1981 VINs.",
+  },
+  {
+    href: "/vin-decoder",
+    label: "VIN Decoder",
+    desc: "Decode the 17-character VIN to specs, trim, and factory options.",
+  },
+  {
+    href: "/accident-history-check",
+    label: "Accident History Check",
+    desc: "Document any recorded collision or damage events alongside the factory build.",
+  },
+  {
+    href: "/stolen-vehicle-check",
+    label: "Stolen Vehicle Check",
+    desc: "Confirm the car isn't flagged as stolen before money changes hands.",
+  },
+  {
+    href: "/salvage-title-check",
+    label: "Salvage Title Check",
+    desc: "Catch branded-title damage that undermines a restoration's value.",
+  },
+  {
+    href: "/odometer-check",
+    label: "Odometer Check",
+    desc: "Verify mileage history where modern records exist for the vehicle.",
+  },
+];
+
+/* ── Page ──────────────────────────────────────────────────────── */
 
 export default function ClassicCarVinPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceRatingSchema) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
+      />
 
-      <main className="pt-28 pb-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Classic Car VIN" },
-            ]}
-          />
+      <article className="pb-16 bg-surface">
+        {/* ── Hero ─────────────────────────────────────────── */}
+        <div className="bg-primary text-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Classic Car VIN" },
+              ]}
+              onDark
+            />
 
-          <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
-            Classic Car VIN Decoder
-          </h1>
-          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
-            Decoding a classic or vintage car VIN takes a different approach than modern vehicles.
-            Before 1981 there was no standardized 17-character VIN — each manufacturer used its own
-            system, and those systems changed year to year. Knowing the right key for a specific make
-            and model year unlocks production data, option codes, and the authenticity information that
-            drives collector value.
-          </p>
-
-          {/* Trust badges */}
-          <div className="mt-5 flex flex-wrap gap-3 text-xs font-semibold text-slate-600">
-            {[
-              { icon: Clock, text: "Pre-1981 Formats" },
-              { icon: Wrench, text: "Numbers-Matching" },
-              { icon: Shield, text: "Marque Registries" },
-              { icon: Search, text: "Instant Decode" },
-            ].map(({ icon: Icon, text }) => (
-              <span key={text} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-full">
-                <Icon className="w-3.5 h-3.5 text-primary-600" />
-                {text}
-              </span>
-            ))}
-          </div>
-
-          {/* ── Search tool ── */}
-          <div className="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-100" id="tool">
-            <h2 className="text-lg font-bold text-slate-900 mb-3">
-              Decode a Classic Car VIN
-            </h2>
-            <VinSearchForm size="sm" />
-          </div>
-
-          {/* ── History ── */}
-          <section className="mt-14">
-            <h2 className="text-2xl font-bold text-slate-900">
-              History of the VIN Before Standardization
-            </h2>
-            <p className="mt-3 text-slate-600 leading-relaxed">
-              The modern 17-character standardized VIN was mandated by NHTSA and implemented for all
-              vehicles sold in the United States starting with model year 1981. Before that date there
-              was no federal requirement for a standardized identification number format. Manufacturers
-              were free to use whatever system they chose, resulting in a patchwork of different
-              formats, lengths, and encoding schemes across makes and model years.
-            </p>
-            <p className="mt-3 text-slate-600 leading-relaxed">
-              In the 1950s and early 1960s, many manufacturers used simple sequential serial numbers
-              with a model prefix — not much more than a production counter. Through the 1960s and
-              1970s, manufacturers developed increasingly sophisticated encoding systems that embedded
-              model, engine, and assembly plant information, but each manufacturer&rsquo;s scheme was
-              proprietary and often changed annually.
-            </p>
-            <p className="mt-3 text-slate-600 leading-relaxed">
-              The length of pre-1981 VINs also varied considerably. GM used 13-character VINs through
-              most of the 1970s. Ford used varying lengths from 11 to 17 characters depending on the
-              year. Chrysler transitioned through several different formats. Import manufacturers had
-              their own distinct systems as well.
-            </p>
-          </section>
-
-          {/* ── Manufacturer formats ── */}
-          <section className="mt-14">
-            <h2 className="text-2xl font-bold text-slate-900 mb-3">
-              Manufacturer-Specific Pre-1981 VIN Formats
-            </h2>
-            <p className="text-slate-600 leading-relaxed mb-6">
-              Each major manufacturer developed its own VIN encoding logic, and decoding a classic VIN
-              correctly requires knowing the right key for the specific make and year. The information
-              encoded includes the model line, body style, engine, model year, assembly plant, and
-              sequential production number — but the position and coding of each element differs by
-              manufacturer.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {MANUFACTURERS.map(({ name, years, detail }) => (
-                <div key={name} className="bg-white border border-slate-200 rounded-xl p-5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="font-bold text-slate-900">{name}</h3>
-                    <span className="text-xs font-mono font-semibold text-primary-600">{years}</span>
-                  </div>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">{detail}</p>
-                </div>
-              ))}
+            <div className="mt-6 inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm font-bold mb-4">
+              <History className="w-4 h-4" /> Classic &amp; Vintage
+              &nbsp;·&nbsp; Pre-1981 Formats
             </div>
-            <p className="mt-4 text-slate-600 leading-relaxed">
-              Because these formats change by year, decoding a 1969 Camaro VIN requires different
-              reference tables than a 1975 Camaro VIN, even though both are pre-standardization GM
-              vehicles.
-            </p>
-          </section>
 
-          {/* ── How it works ── */}
-          <section id="how-it-works" className="mt-14">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-headline font-extrabold leading-tight mb-4">
+              Classic Car VIN Decoder —{" "}
+              <span style={{ color: "var(--color-secondary-container)" }}>
+                Decode Any Vintage Vehicle
+              </span>
+            </h1>
+
+            <p className="speakable-intro text-base sm:text-xl text-white/85 max-w-3xl mb-8 leading-relaxed">
+              Before 1981 there was no standardized 17-character VIN — every
+              manufacturer used its own system, and those systems changed year to
+              year. Knowing the right key for a specific make and model year
+              unlocks the engine code, body style, assembly plant, and the
+              numbers-matching data that drives a classic&apos;s collector value.
+            </p>
+
+            <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl">
+              <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">
+                Decode a Classic Car VIN
+              </h2>
+              <p className="text-xs sm:text-sm text-on-surface-variant mb-4">
+                Enter a pre-1981 or modern VIN — we&apos;ll decode the factory
+                configuration so you can verify authenticity
+              </p>
+              <VinSearchForm size="lg" />
+              <p className="mt-3 text-[11px] text-slate-400 flex items-center gap-1.5">
+                <Lock className="w-3 h-3" /> Free · No sign-up · Instant result
+              </p>
+            </div>
+
+            {/* Trust stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+              {TRUST_STATS.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <div
+                    key={s.label}
+                    className="bg-white/10 border border-white/15 rounded-xl px-4 py-3 text-center"
+                  >
+                    <Icon className="w-5 h-5 mx-auto mb-1 text-white/70" />
+                    <div className="text-xl sm:text-2xl font-headline font-black text-white">
+                      {s.value}
+                    </div>
+                    <div className="text-[11px] text-white/65 leading-tight mt-0.5">
+                      {s.label}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Main content ─────────────────────────────────── */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          {/* ── How the decode works ─────────────────────────── */}
+          <section className="py-12 sm:py-16">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
               How to Decode a Classic VIN
             </h2>
-            <ol className="space-y-6">
-              {[
-                {
-                  n: 1,
-                  title: "Identify the exact make and model year",
-                  body: "Pre-1981 VINs had no universal standard, so the decode depends entirely on the manufacturer and year. Confirm both before reading any positions — a 1969 and a 1975 of the same model use different keys.",
-                },
-                {
-                  n: 2,
-                  title: "Locate the VIN and trim tag",
-                  body: "Find the VIN on the door post, firewall, frame, or dash-base plate. Note any separate cowl or trim tag near the firewall — it carries additional build codes like paint, body style, and interior trim.",
-                },
-                {
-                  n: 3,
-                  title: "Apply the correct manufacturer key",
-                  body: "Use the year-specific reference table for that make to decode division, body series, engine, assembly plant, and sequence. These codes change annually, so the year-matched table is essential.",
-                },
-                {
-                  n: 4,
-                  title: "Cross-check for numbers-matching",
-                  body: "Compare the VIN-encoded engine code against the casting and stamping numbers on the block, transmission, and rear axle to confirm the original factory drivetrain — the core of collector-car value.",
-                },
-              ].map(({ n, title, body }) => (
-                <li key={n} className="flex gap-4">
-                  <span className="flex-shrink-0 w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-bold text-sm">
-                    {n}
-                  </span>
-                  <div>
-                    <h3 className="font-bold text-slate-900">{title}</h3>
-                    <p className="mt-1 text-slate-600 leading-relaxed">{body}</p>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">
+              Pre-1981 VIN decoding is a manufacturer-and-year exercise, not a
+              database lookup. Three steps turn a vintage VIN into a clear factory
+              configuration you can verify against the car.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {HOW_STEPS.map((m) => {
+                const Icon = m.icon;
+                return (
+                  <div
+                    key={m.title}
+                    className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 sm:p-6"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="text-[11px] font-black uppercase tracking-wider text-primary/70 mb-0.5">
+                      {m.tag}
+                    </div>
+                    <h3 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1.5">
+                      {m.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      {m.body}
+                    </p>
                   </div>
-                </li>
-              ))}
-            </ol>
+                );
+              })}
+            </div>
+            <div className="mt-6 rounded-2xl bg-secondary-container/40 border border-outline-variant p-5 sm:p-6">
+              <div className="flex items-start gap-3">
+                <Hash className="w-5 h-5 text-on-secondary-container flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-on-surface leading-relaxed">
+                  <strong className="text-on-surface">
+                    The fourth step is numbers-matching
+                  </strong>{" "}
+                  — cross-check the VIN-encoded engine code against the casting and
+                  stamping numbers on the block, transmission, and rear axle to
+                  confirm the original factory drivetrain.
+                </p>
+              </div>
+            </div>
           </section>
 
-          {/* ── What you learn ── */}
-          <section id="what-you-learn" className="mt-14">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+          {/* ── Manufacturer formats ─────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Manufacturer-Specific Pre-1981 VIN Formats
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">
+              Each major manufacturer developed its own VIN encoding logic.
+              Decoding a classic VIN correctly means knowing the right key for the
+              specific make and year — the position and coding of each element
+              differs by manufacturer.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {MANUFACTURERS.map((c) => {
+                const Icon = c.icon;
+                return (
+                  <div
+                    key={c.title}
+                    className="rounded-2xl border border-outline-variant bg-surface p-5"
+                  >
+                    <div className="flex items-center justify-between gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="text-xs font-mono font-black text-primary/70">
+                        {c.years}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-headline font-extrabold text-primary mb-1">
+                      {c.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      {c.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-6 rounded-2xl bg-secondary-container/40 border border-outline-variant p-5 sm:p-6">
+              <div className="flex items-start gap-3">
+                <CalendarClock className="w-5 h-5 text-on-secondary-container flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-on-surface leading-relaxed">
+                  <strong className="text-on-surface">
+                    The codes change every year
+                  </strong>{" "}
+                  — decoding a 1969 Camaro VIN requires different reference tables
+                  than a 1975 Camaro VIN, even though both are pre-standardization
+                  GM vehicles.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* ── What you learn ───────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
               What You Can Learn from a Classic VIN
             </h2>
-            <p className="text-slate-600 leading-relaxed mb-6">
-              Despite the lack of standardization, pre-1981 VINs carry rich data for those who know how
-              to read them. The VIN is the anchor every authenticity claim is checked against.
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">
+              Despite the lack of standardization, pre-1981 VINs carry rich data
+              for those who know how to read them. The VIN is the anchor every
+              authenticity claim is checked against.
             </p>
-            <ul className="space-y-3">
-              {[
-                { title: "Factory engine code", detail: "For GM cars the VIN encodes the engine directly — a Z/28 with a DZ 302 should show a specific code, exposing a swapped engine if it doesn't." },
-                { title: "Body style & series", detail: "Confirms the original body line, two- vs four-door, hardtop vs convertible against the seller's description." },
-                { title: "Assembly plant & sequence", detail: "Identifies where and roughly when the car was built, useful for cross-referencing production records." },
-                { title: "Model-year verification", detail: "Confirms the true model year — distinct from the year the car was sold or titled." },
-                { title: "Drivetrain configuration", detail: "On Mopar VINs, decodes the exact engine, transmission, and body style of a car like a 1970 Cuda or Challenger." },
-                { title: "Numbers-matching baseline", detail: "Provides the reference the physical casting and stamping numbers must match for a verified matching-numbers car." },
-              ].map(({ title, detail }) => (
-                <li key={title} className="flex gap-3 items-start">
-                  <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-slate-700">
-                    <strong className="text-slate-900">{title}</strong> — {detail}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {LEARN.map((c) => {
+                const Icon = c.icon;
+                return (
+                  <div
+                    key={c.title}
+                    className="rounded-2xl border border-outline-variant bg-surface p-5"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <h3 className="text-base font-headline font-extrabold text-primary mb-1">
+                      {c.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                      {c.body}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </section>
 
-          {/* ── Numbers-matching: VIN vs full check ── */}
-          <section id="numbers-matching" className="mt-14">
-            <h2 className="text-2xl font-bold text-slate-900 mb-3">
+          {/* ── Numbers-matching ─────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
               VIN Decode vs. Full Numbers-Matching Verification
             </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
-                <h3 className="font-bold text-amber-900 mb-3 flex items-center gap-2">
-                  <Search className="w-4 h-4" /> VIN Decode Alone
-                </h3>
-                <ul className="space-y-2 text-sm text-amber-800">
-                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> Reveals the original factory engine, body, and trim codes</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> Fast first-pass check against a seller&rsquo;s claims</li>
-                  <li className="flex gap-2"><AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> Cannot prove the parts on the car are the originals</li>
-                  <li className="flex gap-2"><AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-600" /> Requires the year-correct manufacturer key</li>
-                </ul>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7 max-w-3xl leading-relaxed">
+              The VIN decode is one layer. A complete numbers-matching check
+              crosses that data against the physical stamps and castings on the
+              car — the standard for any high-value collector transaction.
+            </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              <div className="text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+                <p>
+                  Start by decoding the{" "}
+                  <strong className="text-on-surface">factory configuration</strong>{" "}
+                  from the VIN — engine, body, and trim codes. On many GM and Mopar
+                  classics the VIN-stamped engine code is the reference every
+                  physical part must match.
+                </p>
+                <p>
+                  Then confirm the actual stamped and cast numbers on the engine
+                  block, transmission, and rear axle, and check each casting date
+                  falls before the car&apos;s assembly date. A mismatch means a
+                  replaced component — and a false numbers-matching claim.
+                </p>
+                <p>
+                  For the strongest provenance, validate against a marque registry
+                  or reproduction build sheet, and pair the decode with a full{" "}
+                  <Link
+                    href="/vin-check"
+                    className="text-primary font-semibold underline underline-offset-2 hover:text-primary/80"
+                  >
+                    VIN history report
+                  </Link>{" "}
+                  and an{" "}
+                  <Link
+                    href="/accident-history-check"
+                    className="text-primary font-semibold underline underline-offset-2 hover:text-primary/80"
+                  >
+                    accident history check
+                  </Link>
+                  .
+                </p>
               </div>
-              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5">
-                <h3 className="font-bold text-emerald-900 mb-3 flex items-center gap-2">
-                  <FileText className="w-4 h-4" /> Full Numbers-Matching Check
-                </h3>
-                <ul className="space-y-2 text-sm text-emerald-800">
-                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> Crosses VIN data against physical casting &amp; stamping numbers</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> Confirms engine, transmission, and axle are original</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> Backed by marque registry and build-sheet documentation</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-600" /> The standard for high-value collector transactions</li>
+              <div className="rounded-2xl bg-primary/5 border border-primary/20 p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <ClipboardCheck className="w-5 h-5 text-primary" />
+                  <h3 className="font-headline font-extrabold text-primary">
+                    Numbers-matching checklist
+                  </h3>
+                </div>
+                <ul className="space-y-2 text-sm text-on-surface">
+                  {MATCHING_CHECKLIST.map((tip) => (
+                    <li key={tip} className="flex items-start gap-2">
+                      <Check
+                        className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5"
+                        strokeWidth={3}
+                      />
+                      <span>{tip}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-5 rounded-xl bg-white p-4 border border-outline-variant">
+                  <p className="text-xs font-bold text-on-surface mb-2">
+                    Decode the factory configuration by VIN first:
+                  </p>
+                  <VinSearchForm size="sm" />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Mid-page CTA ───────────────────────────────── */}
+          <section className="py-10">
+            <div className="rounded-3xl bg-primary p-7 sm:p-10 text-center">
+              <Sparkles className="w-8 h-8 text-yellow-300 mx-auto mb-3" />
+              <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-white mb-2">
+                Verify a Classic Before You Buy
+              </h2>
+              <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">
+                Don&apos;t take the seller&apos;s word for a numbers-matching claim.
+                Decode the VIN to reveal the original factory configuration — free,
+                in seconds.
+              </p>
+              <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
+                <VinSearchForm size="lg" />
+              </div>
+            </div>
+          </section>
+
+          {/* ── History before standardization ───────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+              The VIN Before Standardization
+            </h2>
+            <div className="text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4 max-w-3xl">
+              <p>
+                The modern 17-character standardized VIN was mandated by NHTSA and
+                implemented for all vehicles sold in the United States starting
+                with model year 1981. Before that date there was no federal
+                requirement for a standardized format, so manufacturers used
+                whatever system they chose — a patchwork of different formats,
+                lengths, and encoding schemes across makes and years.
+              </p>
+              <p>
+                In the 1950s and early 1960s, many manufacturers used simple
+                sequential serial numbers with a model prefix — not much more than
+                a production counter. Through the 1960s and 1970s they developed
+                increasingly sophisticated systems that embedded model, engine, and
+                assembly-plant data, but each scheme was proprietary and often
+                changed annually.
+              </p>
+              <p>
+                Length varied considerably too. GM used 13-character VINs through
+                most of the 1970s, Ford used varying lengths from 11 to 17
+                characters depending on the year, and Chrysler transitioned through
+                several different formats. Import manufacturers had their own
+                distinct systems as well.
+              </p>
+            </div>
+          </section>
+
+          {/* ── Resources ────────────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+              Resources for Classic Car Owners
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+              <div className="text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+                <p>
+                  Classic car owners have access to specialized resources beyond
+                  general VIN check services. Marque-specific registries — like{" "}
+                  <strong className="text-on-surface">
+                    Pontiac Historic Services (PHS)
+                  </strong>{" "}
+                  for Pontiac vehicles, <strong className="text-on-surface">Marti
+                  Auto Works</strong> for Ford Mustangs, and Chrysler
+                  broadcast-sheet data services — provide manufacturer-generated
+                  documentation tied to individual VINs that goes beyond what
+                  general databases contain.
+                </p>
+                <p>
+                  These registry services often supply reproduction build sheets,
+                  window-sticker data, and factory documentation that can accompany
+                  a vehicle through transactions and auctions. For high-value
+                  collector cars, this manufacturer-sourced documentation can add
+                  thousands of dollars to a vehicle&apos;s market value by providing
+                  indisputable provenance.
+                </p>
+                <p>
+                  For complete due diligence on any classic car purchase, also run
+                  a{" "}
+                  <Link
+                    href="/stolen-vehicle-check"
+                    className="text-primary font-semibold underline underline-offset-2 hover:text-primary/80"
+                  >
+                    stolen vehicle check
+                  </Link>{" "}
+                  and a{" "}
+                  <Link
+                    href="/salvage-title-check"
+                    className="text-primary font-semibold underline underline-offset-2 hover:text-primary/80"
+                  >
+                    salvage title check
+                  </Link>{" "}
+                  to verify clean ownership and title history.
+                </p>
+              </div>
+              <div className="rounded-2xl bg-surface-container-lowest border border-outline-variant p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <Shield className="w-5 h-5 text-primary" />
+                  <h3 className="font-headline font-extrabold text-primary">
+                    Why classic coverage is limited
+                  </h3>
+                </div>
+                <ul className="space-y-3 text-sm text-on-surface-variant">
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={3} />
+                    <span>NMVTIS and history reports were built around the 17-character VIN.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={3} />
+                    <span>Shorter pre-1981 VINs often return little or no title or odometer data.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={3} />
+                    <span>Verification leans on build sheets, registries, and trim tags instead.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={3} />
+                    <span>A history report is most useful for any post-1981 retitling events.</span>
+                  </li>
                 </ul>
               </div>
             </div>
-            <p className="mt-4 text-slate-600 leading-relaxed">
-              The VIN decode is one layer. A complete numbers-matching verification crosses the VIN data
-              against the actual stamped and cast numbers on the components, and confirms each casting&rsquo;s
-              production date and plant for the model year. Pair your decode with our full{" "}
-              <Link href="/vin-check" className="text-primary-600 hover:underline font-medium">VIN history report</Link>{" "}
-              and an{" "}
-              <Link href="/accident-history-check" className="text-primary-600 hover:underline font-medium">accident history check</Link>{" "}
-              to document the vehicle&rsquo;s known history alongside its factory configuration.
-            </p>
-          </section>
-
-          {/* ── Resources ── */}
-          <section className="mt-14">
-            <h2 className="text-2xl font-bold text-slate-900">
-              Resources for Classic Car Owners
-            </h2>
-            <p className="mt-3 text-slate-600 leading-relaxed">
-              Classic car owners have access to specialized resources beyond general VIN check services.
-              Marque-specific registries — like Pontiac Historic Services (PHS) for Pontiac vehicles,
-              Marti Auto Works for Ford Mustangs, and Chrysler broadcast-sheet data services — provide
-              manufacturer-generated documentation tied to individual VINs that goes beyond what general
-              databases contain.
-            </p>
-            <p className="mt-3 text-slate-600 leading-relaxed">
-              These registry services often supply reproduction build sheets, window-sticker data, and
-              factory documentation that can accompany a vehicle through transactions and auctions. For
-              high-value collector cars, this manufacturer-sourced documentation can add thousands of
-              dollars to a vehicle&rsquo;s market value by providing indisputable provenance.
-            </p>
-            <p className="mt-3 text-slate-600 leading-relaxed">
-              For complete due diligence on any classic car purchase, also run a{" "}
-              <Link href="/stolen-vehicle-check" className="text-primary-600 hover:underline font-medium">stolen vehicle check</Link>{" "}
-              and a{" "}
-              <Link href="/salvage-title-check" className="text-primary-600 hover:underline font-medium">salvage title check</Link>{" "}
-              to verify clean ownership and title history.
-            </p>
-          </section>
-
-          {/* ── FAQ ── */}
-          <section id="faq" className="mt-14">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">
-              Frequently Asked Questions
-            </h2>
-            <dl className="space-y-6">
-              {FAQS.map((faq) => (
-                <div key={faq.question}>
-                  <dt className="font-bold text-slate-900">{faq.question}</dt>
-                  <dd className="mt-1.5 text-slate-600 leading-relaxed">{faq.answer}</dd>
-                </div>
-              ))}
-            </dl>
           </section>
 
           {/* ── Sources & References ──
@@ -503,64 +832,136 @@ export default function ClassicCarVinPage() {
               an outbound citation block boosts AI-search citation rate (~40% per
               Princeton GEO research) and signals E-E-A-T topical authority.
               `nofollow` on all links — evidence citations, not endorsements. */}
-          <section className="mt-14 py-8 px-6 sm:px-8 bg-slate-50 border border-slate-200 rounded-2xl">
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">
-              Classic Car VIN — Sources &amp; References
-            </h2>
-            <p className="text-slate-600 leading-relaxed mb-6">
-              The standardized VIN, its pre-1981 history, and classic-car authenticity verification draw
-              on federal regulation and manufacturer-specific registries. The references below are the
-              authoritative origins behind the claims on this page.
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <div className="flex items-center gap-2 mb-2">
+              <BookOpen className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary">
+                Sources &amp; References
+              </h2>
+            </div>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">
+              The standardized VIN, its pre-1981 history, and classic-car
+              authenticity verification draw on federal regulation and
+              manufacturer-specific registries. These are the authoritative origins
+              behind the claims on this page.
             </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-              {[
-                { href: "https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-565", label: "49 CFR Part 565 — Vehicle Identification Number Requirements", note: "Federal rule that established the standardized 17-character VIN for model year 1981." },
-                { href: "https://www.nhtsa.gov/", label: "NHTSA — National Highway Traffic Safety Administration", note: "Agency that mandated and administers the modern VIN standard." },
-                { href: "https://vpic.nhtsa.dot.gov/decoder/", label: "NHTSA vPIC VIN Decoder", note: "Federal reference decoder; coverage is strongest for standardized 1981-and-newer VINs." },
-                { href: "https://www.phs-online.com/", label: "Pontiac Historic Services (PHS)", note: "Marque registry providing factory build documentation tied to Pontiac VINs." },
-                { href: "https://www.martiauto.com/", label: "Marti Auto Works", note: "Ford-authorized production records and build sheets for 1967-onward Ford vehicles." },
-                { href: "https://vehiclehistory.bja.ojp.gov/", label: "NMVTIS — Bureau of Justice Assistance", note: "Federal title and brand system; useful mainly for post-1981 standardized VINs." },
-              ].map((s) => (
-                <li key={s.href} className="rounded-xl border border-slate-200 bg-white p-4">
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    className="text-primary-600 font-semibold underline underline-offset-2 hover:text-primary-700"
-                  >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {SOURCES.map((s) => (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="rounded-2xl border border-outline-variant bg-surface p-4 hover:border-primary/40 hover:bg-primary/5 transition-colors"
+                >
+                  <span className="text-sm font-bold text-primary underline underline-offset-2">
                     {s.label} ↗
-                  </a>
-                  <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">{s.note}</p>
-                </li>
+                  </span>
+                  <p className="mt-1.5 text-xs text-on-surface-variant leading-relaxed">
+                    {s.note}
+                  </p>
+                </a>
               ))}
-            </ul>
-            <p className="mt-5 text-xs text-slate-500 italic">
-              Pre-1981 VIN decoding depends on year-specific manufacturer keys; modern database coverage
-              (NMVTIS, history reports) is built around the standardized 17-character VIN and is limited
-              for older vehicles.
+            </div>
+            <p className="mt-5 text-xs text-on-surface-variant italic">
+              Pre-1981 VIN decoding depends on year-specific manufacturer keys;
+              modern database coverage (NMVTIS, history reports) is built around the
+              standardized 17-character VIN and is limited for older vehicles.
             </p>
           </section>
 
-          {/* ── Related tools ── */}
-          <div className="mt-14">
-            <RelatedChecks exclude="/classic-car-vin" />
-          </div>
-        </div>
-      </main>
+          {/* ── Internal links ─────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              More VIN Checks for Classic Buyers
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7">
+              A factory decode is one piece. These checks complete the picture
+              before you commit to a vintage purchase.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {INTERNAL_LINKS.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="flex items-start gap-3 rounded-xl border border-outline-variant bg-surface hover:border-primary/40 hover:bg-primary/5 transition-colors p-4 group"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                    <ChevronRight className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-primary group-hover:underline">
+                      {l.label}
+                    </div>
+                    <div className="text-xs text-on-surface-variant mt-0.5">
+                      {l.desc}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
 
-      {/* ── Bottom CTA ── */}
-      <section className="py-14 bg-slate-50 border-t border-slate-200">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Decode Any Classic Car VIN
-          </h2>
-          <p className="text-slate-700 mb-6">
-            Enter a pre-1981 or modern VIN to decode factory specifications, engine codes, and
-            production data for any vintage vehicle.
-          </p>
-          <VinSearchForm size="sm" />
+          {/* ── VIN check banner ───────────────────────────── */}
+          <section className="py-10">
+            <VinCheckBanner />
+          </section>
+
+          {/* ── FAQ ────────────────────────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Classic Car VIN — Frequently Asked Questions
+            </h2>
+            <p className="text-sm text-on-surface-variant mb-8">
+              The questions collectors and restorers ask most when decoding a
+              vintage VIN.
+            </p>
+            <div className="space-y-3">
+              {FAQS.map((f) => (
+                <details
+                  key={f.question}
+                  className="group rounded-2xl border border-outline-variant bg-surface p-4 sm:p-5 [&_summary::-webkit-details-marker]:hidden"
+                >
+                  <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                    <span className="text-sm sm:text-base font-headline font-extrabold text-primary pr-2">
+                      {f.question}
+                    </span>
+                    <span className="flex-shrink-0 mt-0.5 text-primary text-xl font-light group-open:rotate-45 transition-transform">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                    {f.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Bottom CTA ─────────────────────────────────── */}
+          <section className="py-14 sm:py-20 text-center">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-wider mb-4">
+              <Zap className="w-3.5 h-3.5" /> Free · Instant · VIN-Based
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">
+              Decode Any Classic Car VIN
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">
+              Enter a pre-1981 or modern VIN to decode factory specifications,
+              engine codes, and production data for any vintage vehicle.
+            </p>
+            <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
+              <VinSearchForm size="lg" />
+            </div>
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs text-on-surface-variant">
+              <Check className="w-3.5 h-3.5 text-green-500" strokeWidth={3} />
+              No credit card · No sign-up · Free
+            </div>
+          </section>
+
+          <RelatedChecks exclude="/classic-car-vin" />
         </div>
-      </section>
+      </article>
     </>
   );
 }
