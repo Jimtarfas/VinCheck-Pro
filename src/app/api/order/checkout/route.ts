@@ -13,9 +13,41 @@ interface CheckoutBody {
   email?: string;
   vehicleLabel?: string;
   coupon?: string;
+  /** The page the buyer launched checkout from (e.g. their report preview).
+      Used as the Stripe cancel_url so a failed/cancelled payment returns them
+      exactly where they were rather than the generic homepage. */
+  returnTo?: string;
 }
 
 const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/i;
+
+/**
+ * Sanitise a buyer-supplied return URL into a safe cancel_url.
+ *
+ * `returnTo` comes from the client (window.location.href), so it's untrusted.
+ * To prevent an open-redirect we only honour it when it resolves to the SAME
+ * origin as the checkout request; anything cross-origin (or unparseable) is
+ * rejected and we fall back to the default cancel URL. We also strip any
+ * existing `cancelled`/`session_id` params and tag `cancelled=1` so the
+ * destination page can surface a "payment cancelled" notice.
+ */
+function safeCancelUrl(
+  returnTo: string | undefined,
+  origin: string | undefined
+): string | undefined {
+  if (!returnTo || !origin) return undefined;
+  try {
+    const url = new URL(returnTo, origin);
+    const base = new URL(origin);
+    if (url.origin !== base.origin) return undefined; // reject cross-origin
+    if (url.protocol !== "http:" && url.protocol !== "https:") return undefined;
+    url.searchParams.delete("session_id");
+    url.searchParams.set("cancelled", "1");
+    return url.toString();
+  } catch {
+    return undefined;
+  }
+}
 
 export async function POST(req: Request) {
   let body: CheckoutBody;
@@ -104,6 +136,11 @@ export async function POST(req: Request) {
         return `${proto}://${host}`;
       })();
 
+    // If the buyer cancels/fails payment, send them back to the exact page
+    // they launched checkout from (e.g. their report preview) instead of the
+    // generic app homepage. Validated same-origin to avoid an open redirect.
+    const cancelUrl = safeCancelUrl(body.returnTo, origin);
+
     const session = await createCheckoutSession({
       orderId: orderRow.id,
       vin,
@@ -111,6 +148,7 @@ export async function POST(req: Request) {
       customerEmail: userEmail,
       couponCode: (body.coupon || "").trim() || undefined,
       origin,
+      cancelUrl,
     });
 
     // Stash the session id on the order so the webhook can match it.

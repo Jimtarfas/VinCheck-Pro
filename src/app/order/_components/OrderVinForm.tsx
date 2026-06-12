@@ -156,6 +156,10 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
           vin: preview.vin,
           email: trimmedEmail,
           vehicleLabel,
+          // Return a cancelled/failed payment to this page rather than the
+          // generic homepage.
+          returnTo:
+            typeof window !== "undefined" ? window.location.href : undefined,
         }),
       });
       const json = await res.json();

@@ -40,7 +40,7 @@ export default function HeroSection() {
           <div className="animate-fade-in-up">
             <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/8 border border-primary/10 text-xs sm:text-sm font-semibold text-primary mb-5 sm:mb-6">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Free Vehicle Reports — Instant Results
+              Free Preview Reports — Instant Results
             </span>
           </div>
 

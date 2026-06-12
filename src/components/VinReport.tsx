@@ -1337,6 +1337,10 @@ function UpsellModal({
           email: e,
           vehicleLabel: fullName,
           coupon: couponApplied && coupon.trim() ? coupon.trim() : undefined,
+          // So a cancelled/failed Stripe payment returns the buyer to this
+          // exact page (e.g. their report preview) rather than the homepage.
+          returnTo:
+            typeof window !== "undefined" ? window.location.href : undefined,
         }),
       });
       // A failing route may return an empty (non-JSON) body — guard so the
