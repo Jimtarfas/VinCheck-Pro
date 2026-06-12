@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   Shield,
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     "commercial truck vin lookup",
     "18 wheeler vin lookup",
   ],
-  alternates: { canonical: "/semi-truck-vin-lookup" },
+  alternates: hreflangAlternates("/semi-truck-vin-lookup"),
   openGraph: {
     title:
       "Semi Truck VIN Lookup — Free Freightliner, Peterbilt & Trailer Decoder",

@@ -90,6 +90,19 @@ for (const m of MAKE_SLUGS) {
   ENGLISH_TO_LOCALE[`/vin-check/${m}`] = { es: `/revision-vin/${m}` };
 }
 
+// Wave 5 — specialty tools. Spanish slugs translate the keyword stem
+// (camion-pesado, etiqueta-monroney, etc.) so each ranks for its
+// native-language buyer query while linking back to the English
+// interactive widget for the actual decode.
+ENGLISH_TO_LOCALE["/semi-truck-vin-lookup"] = { es: "/vin-camion-pesado" };
+ENGLISH_TO_LOCALE["/golf-cart-vin-lookup"] = { es: "/vin-carrito-de-golf" };
+ENGLISH_TO_LOCALE["/paint-code-finder"] = { es: "/buscar-codigo-pintura" };
+ENGLISH_TO_LOCALE["/window-sticker-lookup"] = { es: "/etiqueta-monroney" };
+ENGLISH_TO_LOCALE["/motorcycle-vin-check"] = { es: "/vin-motocicleta" };
+ENGLISH_TO_LOCALE["/rv-vin-check"] = { es: "/vin-rv" };
+ENGLISH_TO_LOCALE["/classic-car-vin"] = { es: "/vin-auto-clasico" };
+ENGLISH_TO_LOCALE["/jdm-import-check"] = { es: "/vin-importacion-jdm" };
+
 /** Lookup: given an English path, return the path for the given locale. */
 export function translateSlug(englishPath: string, locale: Locale): string {
   if (locale === "en") return englishPath;

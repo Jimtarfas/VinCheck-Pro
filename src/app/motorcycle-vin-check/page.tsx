@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     "motorcycle title check",
     "motorcycle theft check",
   ],
-  alternates: { canonical: "/motorcycle-vin-check" },
+  alternates: hreflangAlternates("/motorcycle-vin-check"),
   openGraph: {
     title: "Motorcycle VIN Check — Free Bike VIN Decoder & History Report",
     description:

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   Caravan,
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     "fifth wheel VIN check",
     "RV salvage title check",
   ],
-  alternates: { canonical: "/rv-vin-check" },
+  alternates: hreflangAlternates("/rv-vin-check"),
   openGraph: {
     title: "RV & Motorhome VIN Check — Free History",
     description:

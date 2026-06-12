@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   Search,
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     "how to tell what year a golf cart is",
     "golf cart model year lookup",
   ],
-  alternates: { canonical: "/golf-cart-vin-lookup" },
+  alternates: hreflangAlternates("/golf-cart-vin-lookup"),
   openGraph: {
     title:
       "Golf Cart VIN Lookup — Free Serial Decoder (Club Car, EZGO, Yamaha)",

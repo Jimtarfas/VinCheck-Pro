@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   Search,
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
     "mopar window sticker lookup",
     "monroney window sticker lookup",
   ],
-  alternates: { canonical: "/window-sticker-lookup" },
+  alternates: hreflangAlternates("/window-sticker-lookup"),
   openGraph: {
     title: "Window Sticker Lookup by VIN — Free Monroney Label",
     description:

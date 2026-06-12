@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   Shield,
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     "Ford paint color finder",
     "Chevy color code finder",
   ],
-  alternates: { canonical: "/paint-code-finder" },
+  alternates: hreflangAlternates("/paint-code-finder"),
   openGraph: {
     title: "Paint Code Finder — Find Any Car's Factory Color Code Free",
     description:

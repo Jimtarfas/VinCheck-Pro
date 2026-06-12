@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   Shield,
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     "antique vehicle VIN",
     "numbers matching VIN check",
   ],
-  alternates: { canonical: "/classic-car-vin" },
+  alternates: hreflangAlternates("/classic-car-vin"),
   openGraph: {
     title: "Classic Car VIN Decoder — Pre-1981 Vehicle Lookup (Free)",
     description:
