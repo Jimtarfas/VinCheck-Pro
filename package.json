@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "import:blog": "tsx scripts/import-blog.ts",
-    "refresh:blog-images": "tsx scripts/refresh-blog-images.ts"
+    "refresh:blog-images": "tsx scripts/refresh-blog-images.ts",
+    "translate:blog": "tsx scripts/translate-blog.ts"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.3",
