@@ -107,7 +107,7 @@ export function Badge({
     info: "bg-primary/10 text-primary dark:bg-primary-fixed/15 dark:text-primary-fixed",
   } as const;
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold ${map[tone]}`}>
+    <span className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-bold ${map[tone]}`}>
       {children}
     </span>
   );

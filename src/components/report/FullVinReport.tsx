@@ -92,12 +92,24 @@ async function proxyToDataUris(urls: string[]): Promise<string[]> {
   for (let i = 0; i < urls.length; i += 15) {
     const chunk = urls.slice(i, i + 15);
     try {
-      const res = await fetch("/api/images", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ urls: chunk }),
-      });
-      const j = (await res.json()) as { images?: string[] };
+      // Hard cap each proxy round-trip. /api/images fetches the source CDN
+      // server-side; if a CDN stalls, an un-aborted fetch would hang the whole
+      // PDF export forever (the request never rejects on its own). Abort after
+      // 8s and fall back to blank cells so the report still downloads.
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 8000);
+      let j: { images?: string[] };
+      try {
+        const res = await fetch("/api/images", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ urls: chunk }),
+          signal: ctrl.signal,
+        });
+        j = (await res.json()) as { images?: string[] };
+      } finally {
+        clearTimeout(timer);
+      }
       const imgs = Array.isArray(j.images) ? j.images : [];
       for (let k = 0; k < chunk.length; k++) out.push(imgs[k] || "");
     } catch {
@@ -121,6 +133,16 @@ function downscaleDataUri(
   return new Promise((resolve) => {
     if (!src || !src.startsWith("data:")) return resolve(src);
     const img = new window.Image();
+    let settled = false;
+    const done = (v: string) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve(v);
+    };
+    // Belt-and-suspenders: if the decode never fires onload/onerror (corrupt
+    // data URI), don't hang the export — fall back to the original after 5s.
+    const timer = setTimeout(() => done(src), 5000);
     img.onload = () => {
       const scale = img.naturalWidth > maxW ? maxW / img.naturalWidth : 1;
       const w = Math.max(1, Math.round(img.naturalWidth * scale));
@@ -129,15 +151,15 @@ function downscaleDataUri(
       c.width = w;
       c.height = h;
       const ctx = c.getContext("2d");
-      if (!ctx) return resolve(src);
+      if (!ctx) return done(src);
       ctx.drawImage(img, 0, 0, w, h);
       try {
-        resolve(c.toDataURL("image/jpeg", quality));
+        done(c.toDataURL("image/jpeg", quality));
       } catch {
-        resolve(src);
+        done(src);
       }
     };
-    img.onerror = () => resolve(src);
+    img.onerror = () => done(src);
     img.src = src;
   });
 }
@@ -159,6 +181,25 @@ function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promi
       }
     );
   });
+}
+
+/* Neutralise scrollbars inside `root` for the duration of a capture.
+   Any descendant whose computed overflow is `auto`/`scroll` (e.g. the wide
+   data tables that wrap in `overflow-x-auto`) would otherwise render a real
+   scrollbar track straight into the rasterised PDF. Forcing `overflow:visible`
+   removes the track without clipping content. Returns a restore function. */
+function freezeScrollbars(root: HTMLElement): () => void {
+  const changed: Array<[HTMLElement, string]> = [];
+  root.querySelectorAll<HTMLElement>("*").forEach((el) => {
+    const cs = getComputedStyle(el);
+    if (/(auto|scroll)/.test(`${cs.overflow}${cs.overflowX}${cs.overflowY}`)) {
+      changed.push([el, el.style.overflow]);
+      el.style.overflow = "visible";
+    }
+  });
+  return () => {
+    for (const [el, prev] of changed) el.style.overflow = prev;
+  };
 }
 
 /* Replace every external <img> in `root` with an inlined, downscaled data URI.
@@ -267,12 +308,16 @@ export default function FullVinReport({
 
     const bg = dark ? "#020617" : "#ffffff";
     let restoreImages: (() => void) | null = null;
+    let restoreScroll: (() => void) | null = null;
     try {
       const node = document.getElementById("report-export");
       if (!node) {
         setExportError("Report content not found. Please try again.");
         return;
       }
+
+      // Hide scroll tracks so they don't get rasterised into the PDF.
+      restoreScroll = freezeScrollbars(node);
 
       // Inline cross-origin images so the export canvas isn't tainted.
       restoreImages = await inlineExternalImages(node);
@@ -312,10 +357,64 @@ export default function FullVinReport({
       const pxPerMm = canvas.width / printW;
       const slicePxMax = Math.floor((pageH - margin * 2) * pxPerMm);
 
+      // ── Smart page breaks ──────────────────────────────────────────────
+      // Naive fixed-height bands slice straight through whatever happens to
+      // sit on the fold — most visibly the auction photo grids, which ended
+      // up cut in half across two pages. Instead, prefer to break the page at
+      // a *section* boundary so each card stays whole. We measure the bottom
+      // edge of every top-level block in the report (and every image, as a
+      // fallback) in canvas pixels, then pack as many whole sections onto a
+      // page as fit.
+      const rootRect = node.getBoundingClientRect();
+      const scaleY = canvas.height / rootRect.height;
+      const toCanvasY = (clientY: number) => (clientY - rootRect.top) * scaleY;
+
+      const sectionBreaks: number[] = [];
+      for (const child of Array.from(node.children) as HTMLElement[]) {
+        const b = toCanvasY(child.getBoundingClientRect().bottom);
+        if (b > 0) sectionBreaks.push(b);
+      }
+      // Image guard-rails: [top, bottom] of every image, so that when a single
+      // section is taller than a full page we still avoid cutting through a
+      // photo.
+      const imgZones: Array<[number, number]> = [];
+      node.querySelectorAll("img").forEach((im) => {
+        const r = im.getBoundingClientRect();
+        const top = toCanvasY(r.top);
+        const bot = toCanvasY(r.bottom);
+        if (bot - top > 4) imgZones.push([top, bot]);
+      });
+
       let offset = 0;
       let page = 0;
-      while (offset < canvas.height) {
-        const slicePx = Math.min(slicePxMax, canvas.height - offset);
+      while (offset < canvas.height - 1) {
+        const maxCut = offset + slicePxMax;
+        let cut: number;
+        if (maxCut >= canvas.height) {
+          cut = canvas.height;
+        } else {
+          // Prefer the furthest section boundary that still fits on this page.
+          let best = -1;
+          for (const b of sectionBreaks) {
+            if (b > offset + 1 && b <= maxCut && b > best) best = b;
+          }
+          if (best > offset + 1) {
+            cut = best;
+          } else {
+            // A single section is taller than one page — hard-cut at the page
+            // height, but pull the cut above any image it would slice through.
+            cut = maxCut;
+            for (const [top, bot] of imgZones) {
+              if (top > offset + 1 && top < cut && bot > cut) cut = top;
+            }
+            // Image taller than a whole page: nothing we can do but cut it.
+            if (cut <= offset + 1) cut = maxCut;
+          }
+        }
+
+        const slicePx = Math.round(cut - offset);
+        if (slicePx <= 0) break;
+
         const slice = document.createElement("canvas");
         slice.width = canvas.width;
         slice.height = slicePx;
@@ -344,10 +443,13 @@ export default function FullVinReport({
       pdf.save(`${pdfFileName()}.pdf`);
     } catch (err) {
       console.error("[FullReport] doPdf failed:", err);
-      // Restore the live images before any fallback so the page (and the print
-      // view) shows the real artwork rather than the inlined placeholders.
+      // Restore the live images/scrollbars before any fallback so the page
+      // (and the print view) shows the real artwork rather than the inlined
+      // placeholders.
       restoreImages?.();
       restoreImages = null;
+      restoreScroll?.();
+      restoreScroll = null;
       if (pdfUrl) {
         // Prefer ClearVin's own PDF if this instance was given one.
         window.open(pdfUrl, "_blank");
@@ -371,6 +473,7 @@ export default function FullVinReport({
       }
     } finally {
       restoreImages?.();
+      restoreScroll?.();
       setExporting(false);
       setGenerating(false);
     }
