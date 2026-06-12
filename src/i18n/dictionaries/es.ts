@@ -253,17 +253,17 @@ export const es: Dictionary = {
     breadcrumbByState: "Por estado",
     heroHeadlineSuffix: "Revisi\u00f3n VIN",
     heroSubTemplate:
-      "Revisi\u00f3n VIN gratis para veh\u00edculos registrados en {state}. Obt\u00e9n un reporte completo del historial del veh\u00edculo \u2014 incluyendo marcas de t\u00edtulo registradas por el {dmv}, historial de accidentes, registros de salvage y datos de retiros \u2014 al instante.",
+      "Revisi\u00f3n VIN gratis para veh\u00edculos registrados en {state}. Obt\u00e9n un reporte completo del historial del veh\u00edculo \u2014 incluyendo marcas de t\u00edtulo registradas por {dmv}, historial de accidentes, registros de salvage y datos de retiros \u2014 al instante.",
     whyHeading: "Por qu\u00e9 los conductores de {state} necesitan una revisi\u00f3n VIN",
     whyP1Template:
-      "Con aproximadamente {vehicles} veh\u00edculos registrados sobre una poblaci\u00f3n de {population}, el mercado de usados de {state} es grande y activo. El {dmv} mantiene los registros de t\u00edtulo y registraci\u00f3n, pero esos datos no siempre viajan con un veh\u00edculo que se compr\u00f3, vendi\u00f3 o mud\u00f3 entre estados.",
+      "Con aproximadamente {vehicles} veh\u00edculos registrados sobre una poblaci\u00f3n de {population}, el mercado de usados de {state} es grande y activo. {dmv} mantiene los registros de t\u00edtulo y registraci\u00f3n, pero esos datos no siempre viajan con un veh\u00edculo que se compr\u00f3, vendi\u00f3 o mud\u00f3 entre estados.",
     whyP2:
       "Una revisi\u00f3n VIN cruza historial de t\u00edtulo, lecturas del od\u00f3metro, eventos de salvage y p\u00e9rdida total, registros de robo, retiros abiertos y reportes de accidentes de todo el pa\u00eds \u2014 para que tengas la foto completa antes de comprar un usado en {state}.",
     whyP3:
       "Sea que est\u00e9s comprando a un vendedor privado, un concesionario o un marketplace en l\u00ednea, la b\u00fasqueda por VIN es el paso m\u00e1s importante que puedes tomar para evitar lavado de t\u00edtulo, da\u00f1o por inundaci\u00f3n oculto o historial de salvage no divulgado.",
     brandsHeading: "Marcas de t\u00edtulo reconocidas en {state}",
     brandsSubTemplate:
-      "El {dmv} usa las siguientes marcas para se\u00f1alar veh\u00edculos con historial significativo.",
+      "{dmv} usa las siguientes marcas para se\u00f1alar veh\u00edculos con historial significativo.",
     lemonLawHeading: "Resumen de la Lemon Law de {state}",
     sourcesHeading: "Fuentes y autoridad de los datos",
     sourcesIntro:
