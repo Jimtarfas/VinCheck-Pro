@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 import Logo from "./Logo";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const checkLinks = [
   { href: "/vin-check",              label: "VIN Check" },
@@ -197,6 +198,17 @@ export default function Footer() {
             <Link href="/vin-check" className="font-bold hover:text-white transition-colors" style={{ color: "var(--color-secondary-container)" }}>
               View all 33 brands →
             </Link>
+          </div>
+        </div>
+
+        {/* Language picker — surface in the footer in addition to the
+            Header so it's reachable from the bottom of long landing
+            pages without scrolling back up. Inline list (no dropdown)
+            so the alternate-language URL is a direct anchor — gives
+            Google a third internal link signal between locales. */}
+        <div className="border-t border-white/5 pt-6 pb-4 flex justify-center sm:justify-start">
+          <div className="rounded-lg bg-white/[0.03] px-3 py-2 [&_a]:text-inverse-on-surface [&_span]:text-inverse-on-surface">
+            <LanguageSwitcher variant="footer" />
           </div>
         </div>
 

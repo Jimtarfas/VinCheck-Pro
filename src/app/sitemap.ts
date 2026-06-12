@@ -4,6 +4,8 @@ import { states } from "@/lib/states";
 import { marketplaces } from "@/lib/marketplaces";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
+import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { pagesWithLocaleVersion, translateSlug } from "@/i18n/slugs";
 
 interface SanityPostStub {
   slug: string;
@@ -260,5 +262,44 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${baseUrl}/refund-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    // ── Localised pages (Spanish + future locales) ──
+    // Every page that has a translated version gets its own sitemap
+    // entry so Google can discover the localised URL directly. The
+    // hreflang chain on each page tells Google which URLs are
+    // equivalents — we don't try to encode that in the sitemap (Next's
+    // MetadataRoute.Sitemap type doesn't expose xhtml:link), it
+    // happens via <link rel="alternate"> in the page <head>.
+    ...localisedPages(baseUrl, now),
   ];
+}
+
+/**
+ * Emit one entry per (non-default-locale × page-with-translated-slug).
+ * The English page is already in the main list above; this just adds
+ * the Spanish (and any future) counterparts so they're crawled.
+ */
+function localisedPages(
+  baseUrl: string,
+  now: Date
+): MetadataRoute.Sitemap {
+  const entries: MetadataRoute.Sitemap = [];
+  for (const locale of LOCALES) {
+    if (locale === DEFAULT_LOCALE) continue;
+    for (const { englishPath } of pagesWithLocaleVersion(locale as Locale)) {
+      const localised = translateSlug(englishPath, locale as Locale);
+      const url =
+        localised === "/"
+          ? `${baseUrl}/${locale}`
+          : `${baseUrl}/${locale}${localised}`;
+      entries.push({
+        url,
+        lastModified: now,
+        changeFrequency: "weekly",
+        // Same priority signal as the English equivalents — we want
+        // Google to crawl them at the same cadence.
+        priority: englishPath === "/" ? 1.0 : 0.85,
+      });
+    }
+  }
+  return entries;
 }

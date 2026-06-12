@@ -52,7 +52,19 @@ export const metadata: Metadata = {
     "Florida salvage title check",
     "Florida flood damage check",
   ],
-  alternates: { canonical: "/florida-vin-check" },
+  // hreflang chain — declare every locale equivalent so Google
+  // identifies the Spanish version (/es/florida-revision-vin) as an
+  // alternate rather than thin duplicate content. Symmetric with the
+  // chain emitted on the Spanish page. x-default → English per
+  // Google's recommendation for sites that don't auto-redirect by IP.
+  alternates: {
+    canonical: "/florida-vin-check",
+    languages: {
+      en: "https://www.carcheckervin.com/florida-vin-check",
+      es: "https://www.carcheckervin.com/es/florida-revision-vin",
+      "x-default": "https://www.carcheckervin.com/florida-vin-check",
+    },
+  },
   openGraph: {
     title: "Free Florida VIN Check — Instant FL Title & History",
     description:

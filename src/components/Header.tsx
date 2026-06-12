@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Menu, X, ChevronRight, User, LogOut, FileText } from "lucide-react";
 import Logo from "./Logo";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
@@ -166,6 +167,11 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
 
         {/* ── Desktop auth ── */}
         <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+          {/* Language switcher sits next to the user menu — the most
+              consistent placement across i18n sites (Airbnb, Stripe,
+              GitHub all put it here). Mobile menu gets the footer
+              variant rendered inside it. */}
+          <LanguageSwitcher variant="header" />
           {user ? (
             <div className="relative">
               <button

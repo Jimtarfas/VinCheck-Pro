@@ -83,7 +83,18 @@ export const metadata: Metadata = {
     index: true, follow: true,
     googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
-  alternates: { canonical: "/" },
+  // Global hreflang chain on the root metadata. Every English page
+  // inherits this unless it overrides `alternates`. Spanish pages emit
+  // their own per-page chain via hreflangAlternatesForLocale() so the
+  // canonical points to the Spanish URL (not back to English).
+  alternates: {
+    canonical: "/",
+    languages: {
+      en: "https://www.carcheckervin.com/",
+      es: "https://www.carcheckervin.com/es",
+      "x-default": "https://www.carcheckervin.com/",
+    },
+  },
   verification: {
     yandex: "7131d6ab57cf4219",
     google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,

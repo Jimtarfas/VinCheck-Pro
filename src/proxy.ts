@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
+import { NON_DEFAULT_LOCALES, isLocale, type Locale } from "@/i18n/config";
+import { untranslateSlug } from "@/i18n/slugs";
 
 // Canonical reviews host (plural — matches user search intent and industry
 // convention for review-section subdomains like reviews.apple.com).
@@ -117,6 +119,32 @@ export async function proxy(request: NextRequest) {
   if (pathname === "/reviews" && process.env.NODE_ENV === "production") {
     return NextResponse.redirect(`${REVIEWS_ORIGIN}/`, 308);
   }
+
+  // ── Locale slug translation (Spanish + future locales) ────────────
+  // Spanish URLs use translated slugs ("/es/florida-revision-vin")
+  // because translating the slug itself dramatically lifts native-
+  // language SEO. Internally, however, Next.js routes match the
+  // English slug ("/es/florida-vin-check"), so the proxy rewrites the
+  // translated slug back to its canonical form before the page
+  // component runs. The buyer's address bar still shows the translated
+  // slug; only Next sees the rewritten internal path.
+  //
+  // No-op for pages that don't have a translated slug yet — the
+  // fallback in untranslateSlug() returns the input unchanged.
+  const firstSegment = pathname.split("/")[1] ?? "";
+  if (firstSegment && isLocale(firstSegment) && firstSegment !== "en") {
+    const localePrefix = `/${firstSegment}` as const;
+    const localisedPath = pathname.slice(localePrefix.length) || "/";
+    const canonical = untranslateSlug(localisedPath, firstSegment as Locale);
+    if (canonical !== localisedPath) {
+      const url = request.nextUrl.clone();
+      url.pathname = `${localePrefix}${canonical === "/" ? "" : canonical}`;
+      return NextResponse.rewrite(url);
+    }
+  }
+  // `NON_DEFAULT_LOCALES` is referenced for type-clarity so future
+  // additions (fr, pt, de) automatically participate in the loop above.
+  void NON_DEFAULT_LOCALES;
 
   return await updateSession(request);
 }
