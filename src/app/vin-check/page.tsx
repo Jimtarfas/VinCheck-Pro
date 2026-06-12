@@ -16,7 +16,14 @@ export const metadata: Metadata = {
     "car VIN check", "check VIN number", "VIN number lookup", "decode VIN",
     "vehicle identification number", "car history check",
   ],
-  alternates: { canonical: "/vin-check" },
+  alternates: {
+    canonical: "/vin-check",
+    languages: {
+      en: "https://www.carcheckervin.com/vin-check",
+      es: "https://www.carcheckervin.com/es/revision-vin",
+      "x-default": "https://www.carcheckervin.com/vin-check",
+    },
+  },
   openGraph: {
     title: "Free VIN Check by Make — Every Brand Covered",
     description: "Free VIN check and decoder for every car brand. Look up any make and model and get instant vehicle history, specs, recalls, and market data.",

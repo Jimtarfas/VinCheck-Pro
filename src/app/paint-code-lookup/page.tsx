@@ -67,7 +67,14 @@ export const metadata: Metadata = {
     "OEM color code finder",
     "factory color name lookup",
   ],
-  alternates: { canonical: "/paint-code-lookup" },
+  alternates: {
+    canonical: "/paint-code-lookup",
+    languages: {
+      en: "https://www.carcheckervin.com/paint-code-lookup",
+      es: "https://www.carcheckervin.com/es/codigo-de-pintura",
+      "x-default": "https://www.carcheckervin.com/paint-code-lookup",
+    },
+  },
   openGraph: {
     title: "Paint Code Lookup by VIN — Free OEM Color Code Finder",
     description:

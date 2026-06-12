@@ -25,7 +25,14 @@ export const metadata: Metadata = {
     "VIN check bundle",
     "dealer VIN check pricing",
   ],
-  alternates: { canonical: "/pricing" },
+  alternates: {
+    canonical: "/pricing",
+    languages: {
+      en: "https://www.carcheckervin.com/pricing",
+      es: "https://www.carcheckervin.com/es/precios",
+      "x-default": "https://www.carcheckervin.com/pricing",
+    },
+  },
   openGraph: {
     title: "VIN Check Pricing — Free Reports, Single & Bundle Plans",
     description:

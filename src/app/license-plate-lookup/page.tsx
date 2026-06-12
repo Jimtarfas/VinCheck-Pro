@@ -28,7 +28,14 @@ export const metadata: Metadata = {
     "reverse license plate lookup",
     "DPPA plate lookup",
   ],
-  alternates: { canonical: "/license-plate-lookup" },
+  alternates: {
+    canonical: "/license-plate-lookup",
+    languages: {
+      en: "https://www.carcheckervin.com/license-plate-lookup",
+      es: "https://www.carcheckervin.com/es/buscar-por-placa",
+      "x-default": "https://www.carcheckervin.com/license-plate-lookup",
+    },
+  },
   openGraph: {
     title: "License Plate to VIN Lookup — Free, All 50 States",
     description:

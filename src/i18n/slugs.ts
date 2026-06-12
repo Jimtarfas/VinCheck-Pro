@@ -31,8 +31,22 @@ const ENGLISH_TO_LOCALE: Record<string, Partial<Record<Locale, string>>> = {
   "/": {
     es: "/",
   },
+  // Wave 1 (highest traffic): florida + the top tool pages.
+  // Slugs use the keyword variant that maxes Spanish-language SERP fit.
   "/florida-vin-check": {
     es: "/florida-revision-vin",
+  },
+  "/vin-check": {
+    es: "/revision-vin",
+  },
+  "/paint-code-lookup": {
+    es: "/codigo-de-pintura",
+  },
+  "/license-plate-lookup": {
+    es: "/buscar-por-placa",
+  },
+  "/pricing": {
+    es: "/precios",
   },
 };
 
