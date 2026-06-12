@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   PiggyBank,
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     "apr vs total cost",
     "used car down payment",
   ],
-  alternates: { canonical: "/guides/used-car-financing-guide" },
+  alternates: hreflangAlternates("/guides/used-car-financing-guide"),
   openGraph: {
     title: "Used Car Financing: The Complete 2026 Guide",
     description:

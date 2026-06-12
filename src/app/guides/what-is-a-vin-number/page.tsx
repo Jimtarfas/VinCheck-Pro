@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import { ORG_AUTHOR } from "@/lib/seo/author";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     "where to find VIN",
     "VIN number location",
   ],
-  alternates: { canonical: "/guides/what-is-a-vin-number" },
+  alternates: hreflangAlternates("/guides/what-is-a-vin-number"),
   openGraph: {
     title:
       "What is a VIN Number? Complete Guide to Vehicle Identification Numbers",

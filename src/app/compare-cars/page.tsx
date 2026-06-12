@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   ArrowRight,
   CircleDollarSign,
@@ -52,7 +53,7 @@ export const metadata: Metadata = {
     "compare new cars",
     "compare used cars",
   ],
-  alternates: { canonical: "/compare-cars" },
+  alternates: hreflangAlternates("/compare-cars"),
   openGraph: {
     title: "Free Car Comparison Tool — Compare Any Two Vehicles Side-by-Side",
     description:

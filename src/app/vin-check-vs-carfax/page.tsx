@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check, X } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
     "best carfax alternative 2026",
     "vin report comparison",
   ],
-  alternates: { canonical: "/vin-check-vs-carfax" },
+  alternates: hreflangAlternates("/vin-check-vs-carfax"),
   openGraph: {
     title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative",
     description:

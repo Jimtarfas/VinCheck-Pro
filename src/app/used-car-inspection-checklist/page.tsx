@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     "car body inspection checklist",
     "engine inspection checklist",
   ],
-  alternates: { canonical: "/used-car-inspection-checklist" },
+  alternates: hreflangAlternates("/used-car-inspection-checklist"),
   openGraph: {
     title: "Free Used Car Inspection Checklist — 60+ Point DIY Pre-Purchase Inspection",
     description:

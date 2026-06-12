@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     "10th digit VIN year",
     "VIN year code chart",
   ],
-  alternates: { canonical: "/guides/how-to-read-a-vin" },
+  alternates: hreflangAlternates("/guides/how-to-read-a-vin"),
   openGraph: {
     title: "How to Read a VIN Number — Complete VIN Breakdown Guide",
     description:

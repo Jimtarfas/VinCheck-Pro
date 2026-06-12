@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   ShieldAlert,
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     "stolen car check",
     "how to avoid car fraud",
   ],
-  alternates: { canonical: "/guides/vehicle-fraud-prevention" },
+  alternates: hreflangAlternates("/guides/vehicle-fraud-prevention"),
   openGraph: {
     title: "Vehicle Fraud Prevention: The Definitive 2026 Guide",
     description:

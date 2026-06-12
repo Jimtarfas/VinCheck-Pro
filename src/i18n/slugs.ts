@@ -116,6 +116,27 @@ ENGLISH_TO_LOCALE["/diminished-value-calculator"] = { es: "/calculadora-valor-di
 ENGLISH_TO_LOCALE["/total-cost-of-ownership-calculator"] = { es: "/calculadora-costo-total-propiedad" };
 ENGLISH_TO_LOCALE["/lease-vs-buy-calculator"] = { es: "/calculadora-arrendar-vs-comprar" };
 
+// Wave 7 — competitor comparison + guides + tools.
+// Comparison pages (5): high commercial intent — capture queries like
+// "Carfax alternativa barata" with native Spanish slugs.
+ENGLISH_TO_LOCALE["/vin-check-vs-carfax"] = { es: "/carcheckervin-vs-carfax" };
+ENGLISH_TO_LOCALE["/vin-check-vs-autocheck"] = { es: "/carcheckervin-vs-autocheck" };
+ENGLISH_TO_LOCALE["/vin-check-vs-bumper"] = { es: "/carcheckervin-vs-bumper" };
+ENGLISH_TO_LOCALE["/vin-check-vs-clearvin"] = { es: "/carcheckervin-vs-clearvin" };
+ENGLISH_TO_LOCALE["/vin-check-vs-vinaudit"] = { es: "/carcheckervin-vs-vinaudit" };
+
+// Guides (7) + checklist + compare-cars tool.
+ENGLISH_TO_LOCALE["/guides/what-is-a-vin-number"] = { es: "/guias/que-es-un-numero-vin" };
+ENGLISH_TO_LOCALE["/guides/how-to-read-a-vin"] = { es: "/guias/como-leer-un-vin" };
+ENGLISH_TO_LOCALE["/guides/free-vin-check"] = { es: "/guias/revision-vin-gratis" };
+ENGLISH_TO_LOCALE["/guides/vin-decoding-master-guide"] = { es: "/guias/guia-maestra-decodificacion-vin" };
+ENGLISH_TO_LOCALE["/guides/car-history-report-guide"] = { es: "/guias/guia-reporte-historial-auto" };
+ENGLISH_TO_LOCALE["/guides/used-car-buying-complete-guide"] = { es: "/guias/guia-completa-compra-auto-usado" };
+ENGLISH_TO_LOCALE["/guides/used-car-financing-guide"] = { es: "/guias/guia-financiamiento-auto-usado" };
+ENGLISH_TO_LOCALE["/guides/vehicle-fraud-prevention"] = { es: "/guias/prevencion-fraude-vehicular" };
+ENGLISH_TO_LOCALE["/used-car-inspection-checklist"] = { es: "/checklist-inspeccion-auto-usado" };
+ENGLISH_TO_LOCALE["/compare-cars"] = { es: "/comparar-autos" };
+
 /** Lookup: given an English path, return the path for the given locale. */
 export function translateSlug(englishPath: string, locale: Locale): string {
   if (locale === "en") return englishPath;

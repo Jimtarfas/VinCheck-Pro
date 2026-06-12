@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check, X } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     "free car check",
     "VIN report free",
   ],
-  alternates: { canonical: "/guides/free-vin-check" },
+  alternates: hreflangAlternates("/guides/free-vin-check"),
   openGraph: {
     title: "Free VIN Check — Decode Any VIN Number for Free",
     description:

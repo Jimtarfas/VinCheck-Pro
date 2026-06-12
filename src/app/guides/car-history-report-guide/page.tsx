@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   FileSearch,
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     "best vehicle history report 2026",
     "car history report comparison",
   ],
-  alternates: { canonical: "/guides/car-history-report-guide" },
+  alternates: hreflangAlternates("/guides/car-history-report-guide"),
   openGraph: {
     title: "Vehicle History Reports: Everything You Need to Know",
     description:

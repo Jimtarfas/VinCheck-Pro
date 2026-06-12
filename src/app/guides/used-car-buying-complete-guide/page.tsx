@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   Wallet,
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     "what to know before buying a used car",
     "used car buyer guide 2026",
   ],
-  alternates: { canonical: "/guides/used-car-buying-complete-guide" },
+  alternates: hreflangAlternates("/guides/used-car-buying-complete-guide"),
   openGraph: {
     title: "The Complete Used Car Buying Guide (2026 Edition)",
     description:

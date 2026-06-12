@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check, X } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     "autocheck score explained",
     "autocheck unlimited reports",
   ],
-  alternates: { canonical: "/vin-check-vs-autocheck" },
+  alternates: hreflangAlternates("/vin-check-vs-autocheck"),
   openGraph: {
     title: "CarCheckerVIN vs AutoCheck: 2026 Comparison",
     description:

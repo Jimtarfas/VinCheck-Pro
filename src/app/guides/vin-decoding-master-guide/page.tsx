@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   Hash,
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     "vin plant code",
     "vin serial number",
   ],
-  alternates: { canonical: "/guides/vin-decoding-master-guide" },
+  alternates: hreflangAlternates("/guides/vin-decoding-master-guide"),
   openGraph: {
     title: "VIN Decoding: The Master Guide to All 17 Characters",
     description:
