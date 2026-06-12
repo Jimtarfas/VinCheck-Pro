@@ -5,6 +5,7 @@ import { Shield, Search, FileText, Clock, CheckCircle, ArrowRight, ScanLine, Wre
 import { makes, getMakeBySlug } from "@/lib/makes";
 import VinSearchForm from "@/components/VinSearchForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 
 interface Props {
   params: Promise<{ make: string }>;
@@ -43,7 +44,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${make.name} vehicle history report`,
       `${make.name} recall lookup`,
     ],
-    alternates: { canonical: `/vin-check/${make.slug}` },
+    // Wave 3: every make page now has a Spanish twin at
+    // /es/revision-vin/<make>. hreflangAlternates() reads the slug map
+    // and emits the symmetric en/es/x-default chain.
+    alternates: hreflangAlternates(`/vin-check/${make.slug}`),
     openGraph: {
       title: `Free ${make.name} VIN Check — Decoder & History`,
       description,

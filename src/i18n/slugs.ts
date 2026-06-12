@@ -69,6 +69,27 @@ const ENGLISH_TO_LOCALE: Record<string, Partial<Record<Locale, string>>> = {
   },
 };
 
+/**
+ * Wave 3: every make-page is automatically registered as
+ *   /vin-check/<make>  →  /revision-vin/<make>
+ * so we don't hand-maintain 37 entries. The Spanish slug shape mirrors
+ * the English shape (just the hub slug is translated), which still moves
+ * the needle on Spanish SERPs because "revisión VIN" is the high-volume
+ * native-language head term searchers use. Per-make brand names
+ * (toyota, ford, etc.) are proper nouns we deliberately leave English.
+ */
+const MAKE_SLUGS: ReadonlyArray<string> = [
+  "toyota", "ford", "chevrolet", "honda", "nissan", "hyundai", "kia",
+  "bmw", "mercedes-benz", "audi", "volkswagen", "subaru", "mazda",
+  "jeep", "ram", "gmc", "dodge", "lexus", "acura", "infiniti", "tesla",
+  "volvo", "porsche", "cadillac", "buick", "chrysler", "lincoln",
+  "genesis", "land-rover", "jaguar", "mini", "mitsubishi", "alfa-romeo",
+  "suzuki", "freightliner",
+];
+for (const m of MAKE_SLUGS) {
+  ENGLISH_TO_LOCALE[`/vin-check/${m}`] = { es: `/revision-vin/${m}` };
+}
+
 /** Lookup: given an English path, return the path for the given locale. */
 export function translateSlug(englishPath: string, locale: Locale): string {
   if (locale === "en") return englishPath;

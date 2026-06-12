@@ -252,6 +252,66 @@ export const en = {
     badgeFree: "Free · Instant · No signup",
   },
 
+  // ── Make pages (shared chrome) ──────────────────────────────────
+  // Used by both English /vin-check/<make> and Spanish
+  // /es/revision-vin/<make>. The per-make text (description, vinNote,
+  // commonIssues, recallContext, buyingTip) lives in lib/makes.ts
+  // (English) and lib/makes-es.ts (Spanish). Only the section labels
+  // and FAQ templates live here.
+  make: {
+    breadcrumbHome: "Home",
+    breadcrumbVinCheck: "VIN Check",
+    heroHeadlineSuffix: "VIN Check & Decoder",
+    heroSubTemplate:
+      "Look up any {make} VIN number to get a complete vehicle history report, full specifications, real photos, market values, and equipment details — instantly.",
+    aboutHeading: "About {make} VIN Numbers",
+    aboutP1Template:
+      "{make} is {description}, founded in {founded} in {country}. Every {make} vehicle manufactured since 1981 has a unique 17-character Vehicle Identification Number (VIN) that contains detailed information about the vehicle's specifications, manufacturing details, and history.",
+    aboutP2Template:
+      "{make} VINs typically begin with the characters \u201C{vinPrefix}\u201D, which identify the manufacturer and country of origin. By decoding a {make} VIN through our free tool, you can instantly access complete vehicle specifications, factory-installed equipment, recall information, market valuations, and real photos.",
+    aboutP3Template:
+      "Whether you're buying a used {make} {model1}, selling your {make} {model2}, or verifying the specs on a {make} {model3}, our VIN decoder provides all the information you need to make an informed decision.",
+    whatToCheckHeading: "What to Check on a Used {make}",
+    whatToCheckSub:
+      "{make}-specific VIN details, known model issues, and recall history every buyer should verify.",
+    cardDecoding: "Decoding a {make} VIN",
+    cardCommonIssues: "Common {make} Issues to Verify",
+    cardRecallHistory: "{make} Recall History",
+    cardBuyingTip: "Buying a Used {make}",
+    reportIncludedHeading: "What's Included in a {make} VIN Report",
+    reportIncludedSub: "Everything you need to know about any {make} vehicle",
+    feature1Title: "Instant VIN Decoding",
+    feature1Desc: "Decode any VIN in under 60 seconds",
+    feature2Title: "Full Specifications",
+    feature2Desc: "Engine, transmission, drivetrain & more",
+    feature3Title: "Vehicle History",
+    feature3Desc: "Ownership, accidents & title records",
+    feature4Title: "Recall Alerts",
+    feature4Desc: "Open recalls & safety campaigns",
+    popularHeading: "Popular {make} Models to VIN Check",
+    popularSub: "Run a VIN check on any of these popular {make} models",
+    howToHeading: "How to Check a {make} VIN Number",
+    step1Title: "Find the VIN",
+    step1Desc:
+      "Locate the 17-character VIN on your {make}. Check the driver-side dashboard, door jamb sticker, registration, or title.",
+    step2Title: "Enter the VIN Above",
+    step2Desc:
+      "Type or paste the VIN into the search box above. Make sure all 17 characters are entered correctly.",
+    step3Title: "Get Your Report",
+    step3Desc:
+      "View your complete {make} vehicle report instantly \u2014 including specs, photos, market values, and history.",
+    otherBrandsHeading: "Check Other Vehicle Brands",
+    otherBrandsCta: "View all brands",
+    sourcesHeading: "{make} VIN Data \u2014 Sources & References",
+    sourcesIntro:
+      "Every claim on this {make} VIN check page traces back to a public, authoritative source. The agencies below are the primary data origins behind {make} title, recall, theft, and accident records in the United States.",
+    sourcesFootnote:
+      "{make} VIN data is cross-referenced against NMVTIS, NHTSA, NICB, and licensed insurance providers at the time of each lookup. {make} was founded in {founded} in {country}.",
+    faqHeading: "{make} VIN Check \u2014 Frequently Asked Questions",
+    ctaHeading: "Ready to Check Your {make} VIN?",
+    ctaSub: "Get instant access to your complete vehicle report",
+  },
+
   // ── /license-plate-lookup ───────────────────────────────────────
   licensePlate: {
     metaTitle: "License Plate to VIN Lookup — Free, All 50 States",

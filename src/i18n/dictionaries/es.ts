@@ -246,6 +246,61 @@ export const es: Dictionary = {
     badgeFree: "Gratis · Al instante · Sin registro",
   },
 
+  // ── Make pages (shared chrome) ──────────────────────────────────
+  make: {
+    breadcrumbHome: "Inicio",
+    breadcrumbVinCheck: "Revisi\u00f3n VIN",
+    heroHeadlineSuffix: "Revisi\u00f3n y decodificador VIN",
+    heroSubTemplate:
+      "Busca cualquier n\u00famero VIN {make} para obtener un reporte completo del historial del veh\u00edculo, especificaciones completas, fotos reales, valores de mercado y detalles del equipamiento \u2014 al instante.",
+    aboutHeading: "Acerca de los n\u00fameros VIN de {make}",
+    aboutP1Template:
+      "{make} es {description}, fundado en {founded} en {country}. Todo veh\u00edculo {make} fabricado desde 1981 tiene un N\u00famero de Identificaci\u00f3n Vehicular (VIN) \u00fanico de 17 caracteres que contiene informaci\u00f3n detallada sobre las especificaciones, detalles de fabricaci\u00f3n e historia del veh\u00edculo.",
+    aboutP2Template:
+      "Los VIN de {make} normalmente comienzan con los caracteres \u201C{vinPrefix}\u201D, que identifican al fabricante y el pa\u00eds de origen. Al decodificar un VIN {make} con nuestra herramienta gratis, accedes al instante a especificaciones completas del veh\u00edculo, equipamiento instalado de f\u00e1brica, informaci\u00f3n de retiros, valoraciones de mercado y fotos reales.",
+    aboutP3Template:
+      "Ya sea que est\u00e9s comprando un {make} {model1} usado, vendiendo tu {make} {model2} o verificando las especificaciones de un {make} {model3}, nuestro decodificador VIN te da toda la informaci\u00f3n que necesitas para tomar una decisi\u00f3n informada.",
+    whatToCheckHeading: "Qu\u00e9 revisar en un {make} usado",
+    whatToCheckSub:
+      "Detalles VIN espec\u00edficos de {make}, problemas de modelo conocidos e historial de retiros que todo comprador deber\u00eda verificar.",
+    cardDecoding: "Decodificar un VIN {make}",
+    cardCommonIssues: "Problemas comunes de {make} a verificar",
+    cardRecallHistory: "Historial de retiros {make}",
+    cardBuyingTip: "Comprar un {make} usado",
+    reportIncludedHeading: "Qu\u00e9 incluye un reporte VIN de {make}",
+    reportIncludedSub: "Todo lo que necesitas saber sobre cualquier veh\u00edculo {make}",
+    feature1Title: "Decodificaci\u00f3n VIN al instante",
+    feature1Desc: "Decodifica cualquier VIN en menos de 60 segundos",
+    feature2Title: "Especificaciones completas",
+    feature2Desc: "Motor, transmisi\u00f3n, tren motriz y m\u00e1s",
+    feature3Title: "Historial del veh\u00edculo",
+    feature3Desc: "Propiedad, accidentes y registros de t\u00edtulo",
+    feature4Title: "Alertas de retiros",
+    feature4Desc: "Retiros abiertos y campa\u00f1as de seguridad",
+    popularHeading: "Modelos populares de {make} para revisar por VIN",
+    popularSub: "Ejecuta una revisi\u00f3n VIN en cualquiera de estos modelos populares de {make}",
+    howToHeading: "C\u00f3mo revisar un n\u00famero VIN de {make}",
+    step1Title: "Encuentra el VIN",
+    step1Desc:
+      "Localiza el VIN de 17 caracteres en tu {make}. Rev\u00edsalo en el tablero del lado del conductor, la calcoman\u00eda del marco de la puerta, el registro o el t\u00edtulo.",
+    step2Title: "Ingresa el VIN arriba",
+    step2Desc:
+      "Escribe o pega el VIN en el cuadro de b\u00fasqueda arriba. Aseg\u00farate de ingresar correctamente los 17 caracteres.",
+    step3Title: "Recibe tu reporte",
+    step3Desc:
+      "Visualiza tu reporte completo del veh\u00edculo {make} al instante \u2014 incluyendo especificaciones, fotos, valores de mercado e historial.",
+    otherBrandsHeading: "Revisa otras marcas de veh\u00edculos",
+    otherBrandsCta: "Ver todas las marcas",
+    sourcesHeading: "Datos VIN de {make} \u2014 Fuentes y referencias",
+    sourcesIntro:
+      "Cada afirmaci\u00f3n en esta p\u00e1gina de revisi\u00f3n VIN de {make} se remonta a una fuente p\u00fablica y autorizada. Las agencias listadas abajo son los or\u00edgenes primarios de datos detr\u00e1s de los registros de t\u00edtulo, retiros, robos y accidentes de {make} en Estados Unidos.",
+    sourcesFootnote:
+      "Los datos VIN de {make} se cruzan contra NMVTIS, NHTSA, NICB y aseguradoras licenciadas en el momento de cada b\u00fasqueda. {make} fue fundado en {founded} en {country}.",
+    faqHeading: "Revisi\u00f3n VIN de {make} \u2014 Preguntas frecuentes",
+    ctaHeading: "\u00bfListo para revisar tu VIN de {make}?",
+    ctaSub: "Obt\u00e9n acceso instant\u00e1neo a tu reporte completo del veh\u00edculo",
+  },
+
   // ── /license-plate-lookup ───────────────────────────────────────
   licensePlate: {
     metaTitle: "Buscar VIN por placa — Gratis, los 50 estados",
