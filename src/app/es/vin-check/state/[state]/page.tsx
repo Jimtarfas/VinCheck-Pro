@@ -39,8 +39,25 @@ interface Props {
   params: Promise<{ state: string }>;
 }
 
+// Big-5 + Florida have dedicated static pages in this folder
+// (Wave 1/2). Static pages take precedence over the dynamic [state]
+// route at request time, but listing those slugs in
+// generateStaticParams ALSO asks Next.js to prerender them through this
+// dynamic file at build time, which collides with the static files and
+// breaks Vercel's prerender step. Exclude them here.
+const STATES_WITH_DEDICATED_ES_PAGE = new Set([
+  "california",
+  "texas",
+  "new-york",
+  "illinois",
+  "pennsylvania",
+  "florida",
+]);
+
 export async function generateStaticParams() {
-  return states.map((s) => ({ state: s.slug }));
+  return states
+    .filter((s) => !STATES_WITH_DEDICATED_ES_PAGE.has(s.slug))
+    .map((s) => ({ state: s.slug }));
 }
 
 function fill(template: string, vars: Record<string, string>): string {
