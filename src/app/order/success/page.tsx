@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CircleCheck, ArrowRight, LoaderCircle } from "lucide-react";
+import PurchasePixel from "./_components/PurchasePixel";
 
 export const metadata: Metadata = {
   title: "Order Confirmed",
@@ -39,6 +40,8 @@ export default async function OrderSuccessPage({
   const reportHref = `/order/report/${orderId}`;
   return (
     <div className="bg-surface min-h-[calc(100vh-200px)]">
+      {/* Fire the Reddit Purchase conversion only for real (non-mock) orders. */}
+      {sp.mock !== "1" && <PurchasePixel orderId={orderId} />}
       <div className="max-w-xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 border border-emerald-200 mb-5">
           <CircleCheck className="w-9 h-9 text-emerald-600" />
