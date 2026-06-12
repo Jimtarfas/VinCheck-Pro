@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -84,12 +84,6 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
   // before we waste a roundtrip to /api/order/checkout.
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-  // Pre-fill VIN from `?vin=` query string (e.g. after a cancelled checkout)
-  useEffect(() => {
-    const v = search.get("vin");
-    if (v && !vin) setVin(v.toUpperCase());
-  }, [search, vin]);
-
   const fetchPreview = useCallback(async (rawVin: string) => {
     setLoadingPreview(true);
     setPreviewError(null);
@@ -108,6 +102,21 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
       setLoadingPreview(false);
     }
   }, []);
+
+  // Pre-fill the VIN from `?vin=` (a cancelled/failed checkout returns the buyer
+  // here with ?vin=...&cancelled=1) and immediately re-render its free preview,
+  // so they land back on the preview of the VIN they entered rather than an
+  // empty form. Runs once on mount.
+  const autofilledFromQuery = useRef(false);
+  useEffect(() => {
+    if (autofilledFromQuery.current) return;
+    const raw = search.get("vin");
+    if (!raw) return;
+    autofilledFromQuery.current = true;
+    const v = raw.trim().toUpperCase();
+    setVin(v);
+    if (v.length === 17 && !/[IOQ]/.test(v)) void fetchPreview(v);
+  }, [search, fetchPreview]);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -156,10 +165,17 @@ export default function OrderVinForm({ priceCents, mockMode }: Props) {
           vin: preview.vin,
           email: trimmedEmail,
           vehicleLabel,
-          // Return a cancelled/failed payment to this page rather than the
-          // generic homepage.
+          // Return a cancelled/failed payment to this page WITH the VIN in the
+          // query string so it re-renders the preview of the VIN they entered
+          // rather than an empty form.
           returnTo:
-            typeof window !== "undefined" ? window.location.href : undefined,
+            typeof window !== "undefined"
+              ? (() => {
+                  const u = new URL(window.location.href);
+                  u.searchParams.set("vin", preview.vin);
+                  return u.toString();
+                })()
+              : undefined,
         }),
       });
       const json = await res.json();
