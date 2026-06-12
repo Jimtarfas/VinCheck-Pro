@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check, AlertTriangle } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     "affordable car payment",
     "car loan qualification calculator",
   ],
-  alternates: { canonical: "/car-affordability-calculator" },
+  alternates: hreflangAlternates("/car-affordability-calculator"),
   openGraph: {
     title: "Car Affordability Calculator — How Much Car Can I Afford?",
     description:

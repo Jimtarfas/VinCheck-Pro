@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check, Fuel, TrendingDown } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     "gas budget calculator",
     "cost of driving calculator",
   ],
-  alternates: { canonical: "/gas-mileage-calculator" },
+  alternates: hreflangAlternates("/gas-mileage-calculator"),
   openGraph: {
     title: "Gas Mileage Cost Calculator — Fuel Cost Per Mile, Month & Year",
     description:

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   TrendingDown,
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     "complete car cost calculator",
     "car cost over time",
   ],
-  alternates: { canonical: "/total-cost-of-ownership-calculator" },
+  alternates: hreflangAlternates("/total-cost-of-ownership-calculator"),
   openGraph: {
     title: "Free Total Cost of Ownership Calculator — True 5-Year Car Cost",
     description:

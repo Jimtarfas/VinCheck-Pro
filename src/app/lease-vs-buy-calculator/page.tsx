@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   X,
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     "car payment comparison",
     "should i finance or lease",
   ],
-  alternates: { canonical: "/lease-vs-buy-calculator" },
+  alternates: hreflangAlternates("/lease-vs-buy-calculator"),
   openGraph: {
     title: "Lease vs Buy Calculator — Should I Lease or Buy a Car?",
     description:

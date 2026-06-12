@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import {
   Check,
   TrendingDown,
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     "car value drop after accident",
     "free diminished value calculator",
   ],
-  alternates: { canonical: "/diminished-value-calculator" },
+  alternates: hreflangAlternates("/diminished-value-calculator"),
   openGraph: {
     title: "Free Diminished Value Calculator — 17c Formula & Real Market Loss",
     description:

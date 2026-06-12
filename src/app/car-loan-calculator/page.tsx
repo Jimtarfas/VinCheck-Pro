@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check, TrendingUp, AlertCircle, DollarSign, Percent, Calendar } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     "84 month car loan calculator",
     "car loan with taxes and fees",
   ],
-  alternates: { canonical: "/car-loan-calculator" },
+  alternates: hreflangAlternates("/car-loan-calculator"),
   openGraph: {
     title: "Car Loan Calculator — Monthly Payment & Amortization (Free)",
     description:

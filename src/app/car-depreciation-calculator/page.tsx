@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { hreflangAlternates } from "@/lib/seo/hreflang";
 import { Check, TrendingDown, TrendingUp, Wrench } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     "car aging calculator",
     "auto resale calculator",
   ],
-  alternates: { canonical: "/car-depreciation-calculator" },
+  alternates: hreflangAlternates("/car-depreciation-calculator"),
   openGraph: {
     title: "Car Depreciation Calculator — How Much Will My Car Be Worth?",
     description:

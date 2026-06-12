@@ -103,6 +103,19 @@ ENGLISH_TO_LOCALE["/rv-vin-check"] = { es: "/vin-rv" };
 ENGLISH_TO_LOCALE["/classic-car-vin"] = { es: "/vin-auto-clasico" };
 ENGLISH_TO_LOCALE["/jdm-import-check"] = { es: "/vin-importacion-jdm" };
 
+// Wave 6 — calculator landing pages. Native Spanish slugs targeting
+// high-volume buyer queries ("calculadora préstamo auto",
+// "depreciación auto", etc.). Interactive widgets stay on the English
+// page; the Spanish landing handles the SEO + pre-tool briefing.
+ENGLISH_TO_LOCALE["/car-loan-calculator"] = { es: "/calculadora-prestamo-auto" };
+ENGLISH_TO_LOCALE["/car-affordability-calculator"] = { es: "/calculadora-cuanto-puedo-pagar-auto" };
+ENGLISH_TO_LOCALE["/car-depreciation-calculator"] = { es: "/calculadora-depreciacion-auto" };
+ENGLISH_TO_LOCALE["/gas-mileage-calculator"] = { es: "/calculadora-gasto-gasolina" };
+ENGLISH_TO_LOCALE["/trade-in-value-estimator"] = { es: "/estimador-valor-trade-in" };
+ENGLISH_TO_LOCALE["/diminished-value-calculator"] = { es: "/calculadora-valor-disminuido" };
+ENGLISH_TO_LOCALE["/total-cost-of-ownership-calculator"] = { es: "/calculadora-costo-total-propiedad" };
+ENGLISH_TO_LOCALE["/lease-vs-buy-calculator"] = { es: "/calculadora-arrendar-vs-comprar" };
+
 /** Lookup: given an English path, return the path for the given locale. */
 export function translateSlug(englishPath: string, locale: Locale): string {
   if (locale === "en") return englishPath;
