@@ -1373,7 +1373,7 @@ function UpsellModal({
           scrollable body so the whole checkout (incl. the Order button) is
           always reachable on short/small phones. dvh tracks mobile browser
           chrome so the bottom never gets cut off. */}
-      <div className="relative flex w-full max-h-[92dvh] flex-col sm:max-h-[90vh] sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
+      <div className="relative flex w-full max-h-[96dvh] flex-col sm:max-h-[90vh] sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
         {/* Navy header */}
         <div className="relative flex-shrink-0 bg-primary px-6 pt-4 pb-4 sm:pt-5 sm:pb-5 text-white">
           <button
