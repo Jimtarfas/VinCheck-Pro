@@ -6,43 +6,81 @@ import { useEffect } from "react";
 const REPORT_VALUE =
   Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999") / 100;
 
+// Google Ads conversion action ("Purchase") send-to label. Overridable via env.
+const GOOGLE_ADS_PURCHASE_SEND_TO =
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_PURCHASE_SEND_TO ||
+  "AW-18237007044/yWuCCPKCpr4cEMTJivhD";
+
 type Rdt = (...args: unknown[]) => void;
+type Gtag = (...args: unknown[]) => void;
 
 /**
- * Fires the Reddit "Purchase" conversion event once a real order is confirmed.
+ * Best-effort, per-order dedup so a refresh on the success screen doesn't
+ * double-count. Returns true if this key already fired.
+ */
+function alreadyFired(key: string): boolean {
+  try {
+    return sessionStorage.getItem(key) !== null;
+  } catch {
+    // sessionStorage may be unavailable (private mode) — treat as not-fired.
+    return false;
+  }
+}
+
+function markFired(key: string): void {
+  try {
+    sessionStorage.setItem(key, "1");
+  } catch {
+    // ignore — best-effort dedup only
+  }
+}
+
+/**
+ * Fires marketing "Purchase" conversions once a real order is confirmed:
+ *   • Reddit Ads  → rdt('track','Purchase')
+ *   • Google Ads  → gtag('event','conversion', { send_to: <purchase label> })
  *
  * Rendered ONLY for non-mock orders (see order/success/page.tsx), so sample
- * orders never report a fake conversion. The Reddit pixel itself is installed
- * site-wide in src/components/Analytics.tsx; here we just push the track call.
+ * orders never report a fake conversion. Both pixels are installed site-wide
+ * in src/components/Analytics.tsx; here we just push the conversion calls.
  *
- * Dedup: keyed in sessionStorage by orderId so a page refresh on the success
- * screen doesn't double-count the same purchase. `conversion_id` (the orderId)
- * is also sent so the event stays deduplicable if server-side CAPI is added
- * later.
+ * Each network is deduped independently in sessionStorage by orderId so that,
+ * if one tag hasn't loaded yet on first render, the other still fires. The
+ * orderId is sent as the dedup id (Reddit `conversion_id`, Google
+ * `transaction_id`) so the events stay deduplicable server-side later.
+ *
+ * Value/currency use the site's single price source (REPORT_VALUE in USD),
+ * not the placeholder value/currency from the provider's copy-paste snippet.
  */
 export default function PurchasePixel({ orderId }: { orderId: string }) {
   useEffect(() => {
-    const key = `rdt_purchase_${orderId}`;
-    try {
-      if (sessionStorage.getItem(key)) return;
-    } catch {
-      // sessionStorage may be unavailable (private mode); fall through and
-      // rely on the rdt callQueue being a no-op-safe single fire.
+    // ── Reddit Ads ──────────────────────────────────────────────
+    const rdtKey = `rdt_purchase_${orderId}`;
+    if (!alreadyFired(rdtKey)) {
+      const rdt = (window as unknown as { rdt?: Rdt }).rdt;
+      if (typeof rdt === "function") {
+        rdt("track", "Purchase", {
+          value: REPORT_VALUE,
+          currency: "USD",
+          conversion_id: orderId,
+        });
+        markFired(rdtKey);
+      }
     }
 
-    const rdt = (window as unknown as { rdt?: Rdt }).rdt;
-    if (typeof rdt !== "function") return;
-
-    rdt("track", "Purchase", {
-      value: REPORT_VALUE,
-      currency: "USD",
-      conversion_id: orderId,
-    });
-
-    try {
-      sessionStorage.setItem(key, "1");
-    } catch {
-      // ignore — best-effort dedup only
+    // ── Google Ads ──────────────────────────────────────────────
+    const gaKey = `gads_purchase_${orderId}`;
+    if (!alreadyFired(gaKey)) {
+      const gtag = (window as unknown as { gtag?: Gtag }).gtag;
+      if (typeof gtag === "function") {
+        gtag("event", "conversion", {
+          send_to: GOOGLE_ADS_PURCHASE_SEND_TO,
+          value: REPORT_VALUE,
+          currency: "USD",
+          transaction_id: orderId,
+        });
+        markFired(gaKey);
+      }
     }
   }, [orderId]);
 
