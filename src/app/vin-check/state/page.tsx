@@ -325,18 +325,20 @@ export default function StateIndexPage() {
               Title rules and brands change at every state line. Find your state below for its local DMV rules, then run any 17-character VIN for an instant nationwide history report. Free, no credit card, results in under 5 seconds.
             </p>
 
-            {/* Interactive state finder */}
-            <StateFinder />
-
             {/* Run a VIN directly */}
-            <div className="mt-6 bg-white/10 border border-white/15 rounded-2xl p-5 sm:p-6">
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-5 sm:p-6">
               <h2 className="text-sm sm:text-base font-headline font-extrabold text-white mb-3">
                 Already have the VIN? Run it now
               </h2>
-              <VinSearchForm size="lg" />
+              <VinSearchForm size="lg" onDark />
               <p className="mt-3 text-[11px] text-white/60 flex items-center gap-1.5">
                 <Lock className="w-3 h-3" /> 256-bit encrypted · DPPA compliant · No personal data stored
               </p>
+            </div>
+
+            {/* Interactive state finder */}
+            <div className="mt-6">
+              <StateFinder />
             </div>
 
             {/* Trust stats */}
