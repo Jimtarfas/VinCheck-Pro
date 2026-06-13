@@ -14,6 +14,15 @@ const REDDIT_PIXEL_ID =
 // Google Ads (gtag.js) — public conversion/remarketing tag id.
 const GOOGLE_ADS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18237007044";
+// Google Ads "Page view" conversion action — fires once per full page load to
+// measure ad-driven landing-page views. Unlike the Purchase conversion (in
+// order/success/PurchasePixel.tsx) it carries no monetary value, so we send
+// only the conversion label and skip the value/currency from the snippet — a
+// page view isn't worth a real dollar amount and the placeholder 1.0 EUR would
+// pollute the account's conversion-value reporting.
+const GOOGLE_ADS_PAGEVIEW_SEND_TO =
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_PAGEVIEW_SEND_TO ||
+  "AW-18237007044/xgbcCL_ewb4cEMTJivhD";
 
 /**
  * Holds the SESSION-REPLAY analytics tools (PostHog + Clarity). Unlike GA4/GTM
@@ -89,7 +98,8 @@ export default function Analytics() {
             {`window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GOOGLE_ADS_ID}');`}
+            gtag('config', '${GOOGLE_ADS_ID}');
+            gtag('event', 'conversion', { 'send_to': '${GOOGLE_ADS_PAGEVIEW_SEND_TO}' });`}
           </Script>
         </>
       )}
