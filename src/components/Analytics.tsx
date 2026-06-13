@@ -11,6 +11,9 @@ const POSTHOG_HOST = "https://us.i.posthog.com";
 // Reddit Ads conversion pixel — public advertiser id for ad attribution.
 const REDDIT_PIXEL_ID =
   process.env.NEXT_PUBLIC_REDDIT_PIXEL_ID || "a2_ixshjzc8ty4p";
+// Google Ads (gtag.js) — public conversion/remarketing tag id.
+const GOOGLE_ADS_ID =
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18237007044";
 
 /**
  * Holds the SESSION-REPLAY analytics tools (PostHog + Clarity). Unlike GA4/GTM
@@ -69,6 +72,26 @@ export default function Analytics() {
           rdt('init','${REDDIT_PIXEL_ID}');
           rdt('track','PageVisit');`}
         </Script>
+      )}
+
+      {/* Google Ads (gtag.js) — conversion + remarketing tag. Like Reddit,
+          this only logs URLs/events (no DOM capture), so it sits with the
+          marketing tags and inherits the BLOCKED_PREFIXES gate above. The
+          external loader uses next/script's `src`; the config runs inline. */}
+      {GOOGLE_ADS_ID && (
+        <>
+          <Script
+            id="google-ads-loader"
+            src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="google-ads-init" strategy="afterInteractive">
+            {`window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ADS_ID}');`}
+          </Script>
+        </>
       )}
     </>
   );
