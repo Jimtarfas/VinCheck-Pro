@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileText, ShieldAlert, Copyright, Scale, RefreshCw, Mail } from "lucide-react";
+import { FileText, ShieldAlert, Copyright, Scale, RefreshCw, Mail, TriangleAlert } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
@@ -11,21 +11,79 @@ export const metadata: Metadata = {
 
 const LAST_UPDATED = "June 7, 2026";
 
-export default function OrderTermsPage() {
+interface PageProps {
+  searchParams: Promise<{ lang?: string }>;
+}
+
+export default async function OrderTermsPage({ searchParams }: PageProps) {
+  const sp = await searchParams;
+  const isEs = sp.lang === "es";
   return (
     <div className="bg-surface min-h-[calc(100vh-200px)]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
         <Link
-          href="/"
+          href={isEs ? "/?lang=es" : "/"}
           className="text-sm text-primary hover:text-primary-700 inline-flex items-center gap-1 mb-6"
         >
-          ← Back to checkout
+          {isEs ? "← Volver al pago" : "← Back to checkout"}
         </Link>
 
         <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">
-          Terms &amp; Conditions
+          {isEs ? "Términos y Condiciones" : "Terms & Conditions"}
         </h1>
-        <p className="mt-2 text-sm text-slate-500">Last updated: {LAST_UPDATED}</p>
+        <p className="mt-2 text-sm text-slate-500">
+          {isEs ? "Última actualización: " : "Last updated: "}
+          {LAST_UPDATED}
+        </p>
+
+        {/* Wave 11: Spanish review banner. The full T&C below remain
+            English because that is the legally binding version in US
+            jurisdictions. The banner makes that explicit + links to a
+            short Spanish summary the buyer can read for context. */}
+        {isEs && (
+          <div className="mt-6 p-4 rounded-2xl bg-amber-50 border border-amber-200">
+            <div className="flex items-start gap-3">
+              <TriangleAlert className="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-bold text-amber-900">
+                  La versión en inglés de estos T&amp;C es la canónica
+                </p>
+                <p className="mt-1 text-xs text-amber-900 leading-relaxed">
+                  Estos Términos y Condiciones rigen tu compra y uso de los reportes de
+                  historial vehicular de CarCheckerVIN. La versión en inglés que aparece
+                  abajo es la legalmente vinculante en jurisdicciones de EE. UU. A
+                  continuación te damos un resumen en español de las cláusulas más
+                  importantes; en caso de discrepancia, prevalece el texto en inglés.
+                </p>
+                <ul className="mt-2 ml-4 list-disc text-xs text-amber-900 leading-relaxed space-y-1">
+                  <li>
+                    <strong>Uso personal solamente.</strong> Los reportes se venden para tu
+                    uso personal, no comercial, al evaluar un solo vehículo. La reventa o
+                    redistribución está prohibida.
+                  </li>
+                  <li>
+                    <strong>Sin garantía sobre exactitud.</strong> Los datos provienen de
+                    NMVTIS, NICB, NHTSA y proveedores comerciales; CarCheckerVIN no
+                    garantiza que estén completos o libres de error. Antes de comprar el
+                    vehículo, debes obtener también una inspección presencial por un
+                    mecánico calificado.
+                  </li>
+                  <li>
+                    <strong>Propiedad intelectual.</strong> Los datos son propiedad de
+                    ClearVin LLC y sus socios; el formato y la marca CarCheckerVIN son
+                    propiedad de CarCheckerVIN. No copies, redistribuyas ni publiques los
+                    reportes.
+                  </li>
+                  <li>
+                    <strong>Reembolso.</strong> Si el reporte no contiene información usable
+                    debido a falta de datos NMVTIS, ofrecemos reembolso completo. Contáctanos
+                    en support@carcheckervin.com.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="mt-8 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-8 text-sm text-slate-700 leading-relaxed">
           {/* Intro */}

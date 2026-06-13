@@ -75,6 +75,25 @@ const COPY = {
     submitPreview: "Get Free Preview",
     loading: "Loading\u2026",
     freePreviewHint: "Free preview \u00b7 No card required to see the basics",
+    // NMVTIS federally-mandated disclosure block.
+    nmvtisEyebrow: "Federally Mandated Disclosure",
+    nmvtisTitle: "NMVTIS Consumer Access Notice",
+    nmvtisP1:
+      "The National Motor Vehicle Title Information System (NMVTIS) is an electronic system that contains information on certain automobiles titled in the United States. NMVTIS is intended to serve as a reliable source of title and brand history for automobiles, but it does not contain detailed information regarding the vehicle's repair history.",
+    nmvtisP2:
+      "All states, insurance carriers, and junk and salvage yards are required by federal law to report information to NMVTIS. However, NMVTIS data is supplied by current data providers, and the data for any vehicle may not be in the system if the data providers are not yet reporting.",
+    nmvtisP3Prefix: "While NMVTIS is designed to protect consumers from fraud and unsafe vehicles, users should not solely rely on NMVTIS. NMVTIS data ",
+    nmvtisP3Strong: "does not include",
+    nmvtisP3Suffix: " event data on vehicles damaged prior to NMVTIS reporting requirements, collision damage that has not been reported by a participating insurance carrier, or damage to vehicles where insurance claims were not filed.",
+    nmvtisP4Strong:
+      "Before purchasing a vehicle, in addition to obtaining a vehicle history report, consumers should:",
+    nmvtisBullet1: "Obtain an independent vehicle inspection by a qualified mechanic of their choosing.",
+    nmvtisBullet2: "Verify that the vehicle identification number (VIN) on the vehicle matches the VIN on the title and any other vehicle documents.",
+    nmvtisBullet3: "Examine the title to determine if there are any brands listed (e.g., flood, salvage, junk).",
+    nmvtisP5Before: "For more information about NMVTIS, the data included in the system, and the definitions of the standard NMVTIS brands, please visit ",
+    nmvtisP5Mid: ". For the full disclosure see the ",
+    nmvtisP5LinkLabel: "NMVTIS Disclaimer page",
+    nmvtisP5After: ".",
     fee: "Decoder fee",
     discount: "Discount",
     total: "Total",
@@ -96,6 +115,36 @@ const COPY = {
     submitPreview: "Ver vista previa gratis",
     loading: "Cargando\u2026",
     freePreviewHint: "Vista previa gratis \u00b7 Sin tarjeta para ver lo b\u00e1sico",
+    // ── Wave 11: Spanish NMVTIS disclosure (pending ClearVin sign-off) ──
+    // English is the federal canonical (49 U.S.C. § 30502; 28 C.F.R.
+    // Part 25, Subpart C). This Spanish rendering follows the official
+    // BJA/NMVTIS consumer-notice text closely and goes live only after
+    // ClearVin's compliance team signs off. Until then the page also
+    // surfaces a banner inviting buyers to read the English canonical.
+    nmvtisEyebrow: "Divulgaci\u00f3n exigida por ley federal",
+    nmvtisTitle: "Aviso de acceso al consumidor NMVTIS",
+    nmvtisP1:
+      "El National Motor Vehicle Title Information System (NMVTIS) es un sistema electr\u00f3nico que contiene informaci\u00f3n sobre ciertos veh\u00edculos titulados en Estados Unidos. NMVTIS est\u00e1 dise\u00f1ado para ser una fuente confiable del historial de t\u00edtulo y marcas de los veh\u00edculos, pero no contiene informaci\u00f3n detallada sobre el historial de reparaciones del veh\u00edculo.",
+    nmvtisP2:
+      "La ley federal exige que todos los estados, aseguradoras y desguazadores de chatarra y salvage reporten informaci\u00f3n al NMVTIS. Sin embargo, los datos NMVTIS los proveen los proveedores actuales, y los datos de cualquier veh\u00edculo pueden no estar en el sistema si los proveedores a\u00fan no est\u00e1n reportando.",
+    nmvtisP3Prefix:
+      "Aunque NMVTIS est\u00e1 dise\u00f1ado para proteger al consumidor del fraude y de veh\u00edculos inseguros, los usuarios no deben depender \u00fanicamente del NMVTIS. Los datos NMVTIS ",
+    nmvtisP3Strong: "no incluyen",
+    nmvtisP3Suffix:
+      " datos de eventos de veh\u00edculos da\u00f1ados antes de los requisitos de reporte del NMVTIS, da\u00f1os por colisi\u00f3n que no han sido reportados por una aseguradora participante, ni da\u00f1os a veh\u00edculos en los que no se present\u00f3 un reclamo de seguro.",
+    nmvtisP4Strong:
+      "Antes de comprar un veh\u00edculo, adem\u00e1s de obtener un reporte de historial vehicular, los consumidores deben:",
+    nmvtisBullet1:
+      "Obtener una inspecci\u00f3n independiente del veh\u00edculo por un mec\u00e1nico calificado de su elecci\u00f3n.",
+    nmvtisBullet2:
+      "Verificar que el n\u00famero de identificaci\u00f3n vehicular (VIN) del veh\u00edculo coincida con el VIN del t\u00edtulo y de cualquier otro documento del veh\u00edculo.",
+    nmvtisBullet3:
+      "Examinar el t\u00edtulo para determinar si hay marcas registradas (p. ej., inundaci\u00f3n, salvage, junk).",
+    nmvtisP5Before:
+      "Para m\u00e1s informaci\u00f3n sobre NMVTIS, los datos incluidos en el sistema y las definiciones de las marcas NMVTIS est\u00e1ndar, visita ",
+    nmvtisP5Mid: ". Para la divulgaci\u00f3n completa, consulta la ",
+    nmvtisP5LinkLabel: "p\u00e1gina de divulgaci\u00f3n NMVTIS",
+    nmvtisP5After: ".",
     fee: "Tarifa del decodificador",
     discount: "Descuento",
     total: "Total",
@@ -655,62 +704,32 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
           </div>
           <div>
             <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em]">
-              Federally Mandated Disclosure
+              {copy.nmvtisEyebrow}
             </p>
             <p className="text-sm font-bold text-on-surface mt-0.5">
-              NMVTIS Consumer Access Notice
+              {copy.nmvtisTitle}
             </p>
           </div>
         </div>
 
         <div className="space-y-3 text-[12px] text-on-surface-variant leading-relaxed">
+          <p>{copy.nmvtisP1}</p>
+          <p>{copy.nmvtisP2}</p>
           <p>
-            The National Motor Vehicle Title Information System (NMVTIS) is an
-            electronic system that contains information on certain automobiles
-            titled in the United States. NMVTIS is intended to serve as a
-            reliable source of title and brand history for automobiles, but it
-            does not contain detailed information regarding the vehicle&rsquo;s
-            repair history.
+            {copy.nmvtisP3Prefix}
+            <strong>{copy.nmvtisP3Strong}</strong>
+            {copy.nmvtisP3Suffix}
           </p>
           <p>
-            All states, insurance carriers, and junk and salvage yards are
-            required by federal law to report information to NMVTIS. However,
-            NMVTIS data is supplied by current data providers, and the data
-            for any vehicle may not be in the system if the data providers are
-            not yet reporting.
-          </p>
-          <p>
-            While NMVTIS is designed to protect consumers from fraud and
-            unsafe vehicles, users should not solely rely on NMVTIS. NMVTIS
-            data <strong>does not include</strong> event data on vehicles
-            damaged prior to NMVTIS reporting requirements, collision damage
-            that has not been reported by a participating insurance carrier,
-            or damage to vehicles where insurance claims were not filed.
-          </p>
-          <p>
-            <strong>
-              Before purchasing a vehicle, in addition to obtaining a vehicle
-              history report, consumers should:
-            </strong>
+            <strong>{copy.nmvtisP4Strong}</strong>
           </p>
           <ul className="ml-4 list-disc space-y-1">
-            <li>
-              Obtain an independent vehicle inspection by a qualified mechanic
-              of their choosing.
-            </li>
-            <li>
-              Verify that the vehicle identification number (VIN) on the
-              vehicle matches the VIN on the title and any other vehicle
-              documents.
-            </li>
-            <li>
-              Examine the title to determine if there are any brands listed
-              (e.g., flood, salvage, junk).
-            </li>
+            <li>{copy.nmvtisBullet1}</li>
+            <li>{copy.nmvtisBullet2}</li>
+            <li>{copy.nmvtisBullet3}</li>
           </ul>
           <p>
-            For more information about NMVTIS, the data included in the system,
-            and the definitions of the standard NMVTIS brands, please visit{" "}
+            {copy.nmvtisP5Before}
             <a
               href="https://vehiclehistory.bja.ojp.gov"
               target="_blank"
@@ -719,14 +738,14 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
             >
               vehiclehistory.bja.ojp.gov
             </a>
-            . For the full disclosure see the{" "}
+            {copy.nmvtisP5Mid}
             <Link
-              href="/disclaimer"
+              href={locale === "es" ? "/disclaimer?lang=es" : "/disclaimer"}
               className="underline text-primary hover:text-primary-700 font-semibold"
             >
-              NMVTIS Disclaimer page
+              {copy.nmvtisP5LinkLabel}
             </Link>
-            .
+            {copy.nmvtisP5After}
           </p>
         </div>
       </div>
