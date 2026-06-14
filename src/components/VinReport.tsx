@@ -15,6 +15,17 @@ import type { VinData } from "@/lib/api";
 import VinSearchForm from "./VinSearchForm";
 import dynamic from "next/dynamic";
 
+// Google Ads "Begin checkout" conversion label, fired once when the in-page
+// checkout popup (UpsellModal) opens. Overridable via env. Value/currency use
+// the site's real report price in USD (single source: NEXT_PUBLIC_REPORT_PRICE_CENTS),
+// not the placeholder 1.0 EUR from the provider's copy-paste snippet.
+const GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO =
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO ||
+  "AW-18237007044/3x3_CJ6q_b4cEMTJivhD";
+
+const REPORT_VALUE_USD =
+  Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999") / 100;
+
 /**
  * VIN-specific signals pulled from the ClearVin preview, surfaced inside the
  * upsell modal so a buyer sees what's actually on *this* vehicle's record
@@ -1223,6 +1234,18 @@ function UpsellModal({
 }) {
   const priceText =
     typeof unlockPrice === "number" ? `$${unlockPrice.toFixed(2)}` : null;
+
+  // Google Ads "Begin checkout" conversion: fires once when this checkout popup
+  // opens (the modal only mounts when a buy/download/print/share CTA is tapped).
+  useEffect(() => {
+    const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
+    if (typeof gtag !== "function") return;
+    gtag("event", "conversion", {
+      send_to: GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO,
+      value: typeof unlockPrice === "number" ? unlockPrice : REPORT_VALUE_USD,
+      currency: "USD",
+    });
+  }, [unlockPrice]);
 
   // Headline + sub-line tailored to the exact button the buyer pressed, so the
   // popup feels like a natural answer to their intent rather than a random ad.
