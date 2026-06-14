@@ -874,7 +874,7 @@ export function rebrandReportHtml(
  */
 export async function fetchFullReportPdf(
   rawVin: string,
-  opts: { reportId?: string; orderId?: string } = {}
+  opts: { reportId?: string; orderId?: string; sandbox?: boolean } = {}
 ): Promise<
   | { ok: true; pdf: Uint8Array; requestId?: string }
   | ClearVinError
@@ -891,7 +891,7 @@ export async function fetchFullReportPdf(
 
   let env: { token: string; base: string; mock: boolean };
   try {
-    env = await resolveEnvAsync(false);
+    env = await resolveEnvAsync(opts.sandbox === true);
   } catch (e) {
     const msg = e instanceof Error ? e.message : "ClearVin authentication failed.";
     void logCall({ endpoint: "full_report", vin, orderId: opts.orderId, statusCode: 401, error: msg });

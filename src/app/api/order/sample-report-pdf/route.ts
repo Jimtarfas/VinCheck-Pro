@@ -10,8 +10,13 @@ export const dynamic = "force-dynamic";
  * Public, unauthenticated PDF stream for the single hard-coded sample
  * VIN. Exists so prospective buyers (and ClearVin compliance reviewers)
  * can preview the exact report format before paying. No order, no
- * cookie, no payment check — this VIN is the one ClearVin themselves
- * documented as a sandbox test VIN.
+ * cookie, no payment check.
+ *
+ * This is a PUBLIC marketing surface, so it must NEVER touch the paid
+ * production quota. We force the SANDBOX environment here: the sample VIN
+ * is ClearVin's documented test VIN, and `sandbox: true` resolves the
+ * sandbox token/base. If the sandbox token is unset, the call degrades to
+ * mock data rather than spending a production credit.
  *
  * Mirrors /api/order/report-pdf/[orderId] for output shape so the
  * iframe player on /order/sample-report can stay generic.
@@ -21,6 +26,7 @@ const SAMPLE_VIN = "5TDYK3DC8DS290235";
 export async function GET() {
   const result = await fetchFullReportPdf(SAMPLE_VIN, {
     orderId: "sample-report",
+    sandbox: true,
   });
   if (!("ok" in result) || result.ok !== true) {
     return NextResponse.json(
