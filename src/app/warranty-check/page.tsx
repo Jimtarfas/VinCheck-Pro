@@ -31,9 +31,9 @@ const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
   title:
-    "Warranty Check by VIN — Is This Car Still Under Warranty? (Free Coverage Lookup)",
+    "Warranty Check by VIN — Is This Car Still Under Warranty? (Free Preview Coverage Lookup)",
   description:
-    "Check if a car is still under warranty by VIN — free. Find the in-service date and see remaining bumper-to-bumper, powertrain, corrosion, emissions, EV-battery, and CPO coverage before you buy. Confirm exact limits with the manufacturer.",
+    "Check if a car is still under warranty by VIN with a free preview. Find the in-service date and see remaining bumper-to-bumper, powertrain, corrosion, emissions, EV-battery, and CPO coverage before you buy. Confirm exact limits with the manufacturer.",
   keywords: [
     "warranty check by VIN",
     "is my car still under warranty",
@@ -48,22 +48,22 @@ export const metadata: Metadata = {
     "in-service date lookup",
     "EV battery warranty check",
     "extended warranty vs factory",
-    "free warranty check",
+    "free warranty check preview",
   ],
   alternates: { canonical: "/warranty-check" },
   openGraph: {
-    title: "Warranty Check by VIN — Is This Car Still Under Warranty? (Free)",
+    title: "Warranty Check by VIN — Is This Car Still Under Warranty? (Free Preview)",
     description:
-      "Free VIN-based warranty lookup. Find the in-service date and remaining factory, powertrain, corrosion, emissions, EV-battery, and CPO coverage.",
+      "Free preview of a VIN-based warranty lookup. Find the in-service date and remaining factory, powertrain, corrosion, emissions, EV-battery, and CPO coverage.",
     url: `${SITE}/warranty-check`,
     type: "article",
     siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Warranty Check by VIN — Is This Car Still Under Warranty? (Free)",
+    title: "Warranty Check by VIN — Is This Car Still Under Warranty? (Free Preview)",
     description:
-      "Free VIN warranty lookup: in-service date, remaining factory/powertrain coverage, CPO status, and transfer rules.",
+      "Free preview VIN warranty lookup: in-service date, remaining factory/powertrain coverage, CPO status, and transfer rules.",
   },
   robots: { index: true, follow: true },
 };
@@ -242,7 +242,7 @@ const TRUST_STATS = [
   { icon: CalendarClock, value: "In-service", label: "date-based" },
   { icon: Shield, value: "6 coverages", label: "factory + CPO" },
   { icon: BadgeCheck, value: "Transfers", label: "with the VIN" },
-  { icon: Zap, value: "Free", label: "no sign-up" },
+  { icon: Zap, value: "Free preview", label: "no sign-up" },
 ];
 
 const HOW_STEPS = [
@@ -423,7 +423,7 @@ export default function WarrantyCheckPage() {
               misrepresented — selling points on a used car. Enter a 17-character
               VIN to find the in-service date and estimate the bumper-to-bumper,
               powertrain, corrosion, emissions, EV-battery, and CPO coverage
-              that&apos;s likely still active — free, before you buy.
+              that&apos;s likely still active — free preview, before you buy.
             </p>
 
             <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl">
@@ -436,7 +436,7 @@ export default function WarrantyCheckPage() {
               </p>
               <VinSearchForm size="lg" />
               <p className="mt-3 text-[11px] text-slate-400 flex items-center gap-1.5">
-                <Lock className="w-3 h-3" /> Free · No sign-up · Instant result
+                <Lock className="w-3 h-3" /> Free preview · No sign-up · Instant result
               </p>
             </div>
 
@@ -638,7 +638,7 @@ export default function WarrantyCheckPage() {
               <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">
                 Don&apos;t take the seller&apos;s word for it. Run the VIN to find
                 the in-service date and estimate the coverage that&apos;s likely
-                still active — free, in seconds.
+                still active — free preview, in seconds.
               </p>
               <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
                 <VinSearchForm size="lg" />
@@ -939,7 +939,7 @@ export default function WarrantyCheckPage() {
           {/* ── Bottom CTA ─────────────────────────────────── */}
           <section className="py-14 sm:py-20 text-center">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-wider mb-4">
-              <Zap className="w-3.5 h-3.5" /> Free · Instant · VIN-Based
+              <Zap className="w-3.5 h-3.5" /> Free preview · Instant · VIN-Based
             </div>
             <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">
               Is This Car Still Under Warranty? Find Out Now.
@@ -954,7 +954,7 @@ export default function WarrantyCheckPage() {
             </div>
             <div className="mt-3 flex items-center justify-center gap-2 text-xs text-on-surface-variant">
               <Check className="w-3.5 h-3.5 text-green-500" strokeWidth={3} />
-              No credit card · No sign-up · Free
+              No credit card · No sign-up · Free preview
             </div>
           </section>
 
