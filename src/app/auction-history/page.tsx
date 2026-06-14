@@ -231,7 +231,7 @@ const TRUST_STATS = [
   { icon: Gavel,      value: "Salvage", label: "+ dealer auction records" },
   { icon: Camera,     value: "Photos",  label: "pre-repair, when available" },
   { icon: Clock,      value: "< 5 sec", label: "average report time" },
-  { icon: BadgeCheck, value: "Free",    label: "no credit card needed" },
+  { icon: BadgeCheck, value: "Free preview", label: "no credit card needed" },
 ];
 
 const RECORD_FIELDS = [
@@ -301,7 +301,7 @@ export default function AuctionHistoryPage() {
             </h1>
 
             <p className="speakable-intro text-base sm:text-xl text-white/85 max-w-3xl mb-8 leading-relaxed">
-              Find out if a vehicle passed through a salvage or dealer auction. See sale dates, damage codes, odometer at sale, run-and-drive status, and the original pre-repair auction photos for any VIN. Free, no credit card, results in under 5 seconds.
+              Find out if a vehicle passed through a salvage or dealer auction. See sale dates, damage codes, odometer at sale, run-and-drive status, and the original pre-repair auction photos for any VIN. Free preview, no credit card, results in under 5 seconds.
             </p>
 
             {/* VIN Search */}
@@ -353,10 +353,10 @@ export default function AuctionHistoryPage() {
                   className="rounded-2xl bg-primary-container px-4 py-4 sm:py-5"
                 >
                   <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-headline font-bold text-2xl sm:text-3xl text-on-primary-container leading-none mb-2">
+                  <dd className="font-headline font-bold text-2xl sm:text-3xl text-white leading-none mb-2">
                     {s.value}
                   </dd>
-                  <p className="text-xs sm:text-sm text-on-surface-variant leading-snug">
+                  <p className="text-xs sm:text-sm text-on-primary-container leading-snug">
                     {s.label}
                   </p>
                 </div>
@@ -520,7 +520,7 @@ export default function AuctionHistoryPage() {
                 Check a VIN&apos;s Auction History Now
               </h2>
               <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">
-                Free, instant, no credit card. See salvage and dealer auction records, damage codes, and pre-repair photos in under 5 seconds.
+                Free preview, instant, no credit card. See salvage and dealer auction records, damage codes, and pre-repair photos in under 5 seconds.
               </p>
               <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
                 <VinSearchForm size="lg" />
@@ -587,13 +587,13 @@ export default function AuctionHistoryPage() {
           {/* Bottom CTA */}
           <section className="py-14 sm:py-20 text-center">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-wider mb-4">
-              <Zap className="w-3.5 h-3.5" /> Free · Instant · No Sign-Up
+              <Zap className="w-3.5 h-3.5" /> Free preview · Instant · No Sign-Up
             </div>
             <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">
               See the History Behind the Listing
             </h2>
             <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">
-              A clean-looking car can hide a salvage-auction past. One VIN check brings the auction records and pre-repair photos back into view, in 5 seconds, for free.
+              A clean-looking car can hide a salvage-auction past. One VIN check brings the auction records and pre-repair photos back into view, in 5 seconds, with a free preview.
             </p>
             <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
               <VinSearchForm size="lg" />
