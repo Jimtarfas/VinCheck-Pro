@@ -376,10 +376,10 @@ export default function StateIndexPage() {
                   className="rounded-2xl bg-primary-container px-4 py-4 sm:py-5"
                 >
                   <dt className="sr-only">{s.label}</dt>
-                  <dd className="font-headline font-bold text-3xl sm:text-4xl text-on-primary-container leading-none mb-2">
+                  <dd className="font-headline font-bold text-3xl sm:text-4xl text-white leading-none mb-2">
                     {s.value}
                   </dd>
-                  <p className="text-xs sm:text-sm text-on-surface-variant leading-snug">
+                  <p className="text-xs sm:text-sm text-on-primary-container leading-snug">
                     {s.label}
                   </p>
                 </div>
