@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { fetchPreview, isUsingMockData } from "@/lib/clearvin";
+import { fetchPreview, fetchAccountStats, isUsingMockData } from "@/lib/clearvin";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 /**
  * GET /api/clearvin-health?token=SECRET[&vin=...]
@@ -9,7 +10,10 @@ import { fetchPreview, isUsingMockData } from "@/lib/clearvin";
  *   • which CLEARVIN_* env vars are present (booleans only — never values),
  *   • the function's outbound egress IP (what ClearVin's whitelist sees),
  *   • the raw HTTP status of a vendor LOGIN probe (401 ⇒ creds/IP rejected),
- *   • the result of the real fetchPreview() code path for a test VIN.
+ *   • the result of the real fetchPreview() code path for a test VIN,
+ *   • the billable usage ("paid reports used") — ClearVin counts every
+ *     SUCCESSFUL full-report call as a paid call, so this is the real number
+ *     of reports consumed, not just our delivered-orders count.
  *
  * This is the fastest way to tell *why* production falls back to auto.dev:
  *   - isUsingMockData=true ⇒ email/password (or token) not set on this host;
@@ -18,8 +22,9 @@ import { fetchPreview, isUsingMockData } from "@/lib/clearvin";
  *   - login.httpStatus=200 but preview not ok ⇒ a per-VIN/API issue.
  *
  * Gated by a secret: set CLEARVIN_HEALTH_TOKEN and pass it as ?token=.
- * Only safe (free) endpoints are touched — vendor login + preview. The billed
- * full-report endpoint is never called.
+ * Only safe (free) endpoints are touched — vendor login + preview + the
+ * non-billable /rest/vendor/stats usage query. The billed full-report
+ * endpoint is never called.
  */
 
 export const runtime = "nodejs";
@@ -85,6 +90,52 @@ async function loginProbe(): Promise<{
   }
 }
 
+/**
+ * "Paid reports used" — two independent tallies of SUCCESSFUL full-report
+ * calls (the unit ClearVin bills on):
+ *   • clearVinSide: ClearVin's own /rest/vendor/stats over a wide window
+ *     (authoritative — this is exactly what they invoice against).
+ *   • ourSide: our `clearvin_calls` log, counting endpoint=full_report rows
+ *     with no error (a cross-check that should track ClearVin closely).
+ * Both calls are free (no report credit spent).
+ */
+async function usageSummary(): Promise<{
+  clearVinSide: { live: boolean; total: number; from: string; to: string; error?: string };
+  ourSide: { successfulFullReportCalls: number | null; error?: string };
+}> {
+  const wideFrom = "2020-01-01";
+  const [stats, ourSide] = await Promise.all([
+    fetchAccountStats({ fromIso: wideFrom, granularity: "month" }),
+    (async () => {
+      try {
+        const admin = createAdminClient();
+        const { count, error } = await admin
+          .from("clearvin_calls")
+          .select("*", { count: "exact", head: true })
+          .eq("endpoint", "full_report")
+          .is("error", null);
+        if (error) return { successfulFullReportCalls: null, error: error.message };
+        return { successfulFullReportCalls: count ?? 0 };
+      } catch (e) {
+        return {
+          successfulFullReportCalls: null,
+          error: e instanceof Error ? e.message : "clearvin_calls query failed",
+        };
+      }
+    })(),
+  ]);
+  return {
+    clearVinSide: {
+      live: stats.live,
+      total: stats.total,
+      from: stats.from,
+      to: stats.to,
+      ...(stats.error ? { error: stats.error } : {}),
+    },
+    ourSide,
+  };
+}
+
 export async function GET(req: NextRequest) {
   const secret = process.env.CLEARVIN_HEALTH_TOKEN || "";
   if (!secret) {
@@ -100,10 +151,11 @@ export async function GET(req: NextRequest) {
 
   const vin = (req.nextUrl.searchParams.get("vin") || TEST_VIN).toUpperCase();
 
-  const [ip, login, previewRes] = await Promise.all([
+  const [ip, login, previewRes, usage] = await Promise.all([
     egressIp(),
     loginProbe(),
     fetchPreview(vin),
+    usageSummary(),
   ]);
 
   const preview =
@@ -136,5 +188,6 @@ export async function GET(req: NextRequest) {
     egressIp: ip,
     login,
     preview: { vin, ...preview },
+    paidReportsUsed: usage,
   });
 }
