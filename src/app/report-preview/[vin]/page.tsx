@@ -125,11 +125,18 @@ function clearVinReportData(vin: string, p: ClearVinPreview): VinData {
    render auto.dev's complete spec sheet (engine, transmission, fuel economy,
    colors, every option) unlocked — making the free preview look like a full
    report. Price/marketData/listing are re-attached separately so Market
-   Analysis still works and the listing stays locked behind the paywall. */
+   Analysis still works and the listing stays locked behind the paywall.
+   Only the FIRST photo is kept (like ClearVin's single preview image) so the
+   gallery shows one hero photo with the rest teased as blurred locked
+   thumbnails — never the full carousel. The total count is teased separately
+   via lockedPhotoCount. */
 function minimalReportData(vin: string, d: VinData): VinData {
   const year = d.years?.[0]?.year;
   const style = d.years?.[0]?.styles?.[0];
   const bodyType = (d.categories?.primaryBodyType || "").trim();
+  const realPhotos = Array.isArray(d.photos)
+    ? d.photos.filter((u) => typeof u === "string" && u.length > 0 && u !== "0")
+    : [];
   return {
     vin,
     make: d.make || { id: 0, name: "Vehicle", niceName: "" },
@@ -149,7 +156,7 @@ function minimalReportData(vin: string, d: VinData): VinData {
     categories: bodyType
       ? ({ primaryBodyType: bodyType } as VinData["categories"])
       : undefined,
-    photos: d.photos,
+    photos: realPhotos.length > 0 ? [realPhotos[0]] : undefined,
     photoSource: d.photoSource ?? "vin",
   } as unknown as VinData;
 }
@@ -251,6 +258,9 @@ export default async function ReportPreviewPage({ params }: Props) {
   // Analysis). When ClearVin is unavailable we fall back to the full auto.dev
   // decode so dev/QA can still see the layout.
   let reportData: VinData | null = null;
+  // When we fall back to the auto.dev decode, how many photos it had — used to
+  // tease the rest as blurred locked thumbnails after we keep only the first.
+  let decodeFallbackPhotoCount: number | undefined;
   if (preview) {
     reportData = clearVinReportData(cleaned, preview);
     if (decoded) {
@@ -266,6 +276,9 @@ export default async function ReportPreviewPage({ params }: Props) {
     reportData.price = decoded.price;
     reportData.marketData = decoded.marketData;
     reportData.listing = decoded.listing;
+    decodeFallbackPhotoCount = Array.isArray(decoded.photos)
+      ? decoded.photos.filter((u) => typeof u === "string" && u.length > 0 && u !== "0").length
+      : undefined;
   }
 
   // Neither source returned anything usable — there is nothing to show.
@@ -330,7 +343,10 @@ export default async function ReportPreviewPage({ params }: Props) {
   const lockedPhotoCount =
     preview?.previewImageURL && preview.imagesAmount > 1
       ? preview.imagesAmount
-      : fallbackLockedCount;
+      : fallbackLockedCount ??
+        (decodeFallbackPhotoCount && decodeFallbackPhotoCount > 1
+          ? decodeFallbackPhotoCount
+          : undefined);
 
   // VIN-specific findings teased inside the upsell modal so the buyer sees
   // what's actually on this record (recalls, auctions, damage, photos) before
