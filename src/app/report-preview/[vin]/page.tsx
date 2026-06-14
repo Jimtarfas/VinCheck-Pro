@@ -119,6 +119,41 @@ function clearVinReportData(vin: string, p: ClearVinPreview): VinData {
   } as unknown as VinData;
 }
 
+/* Reduce a full auto.dev decode down to the SAME minimal preview shape that
+   ClearVin supplies (identity + body type + photos only). This is the fallback
+   used when ClearVin has no preview for the VIN. Without it, the page would
+   render auto.dev's complete spec sheet (engine, transmission, fuel economy,
+   colors, every option) unlocked — making the free preview look like a full
+   report. Price/marketData/listing are re-attached separately so Market
+   Analysis still works and the listing stays locked behind the paywall. */
+function minimalReportData(vin: string, d: VinData): VinData {
+  const year = d.years?.[0]?.year;
+  const style = d.years?.[0]?.styles?.[0];
+  const bodyType = (d.categories?.primaryBodyType || "").trim();
+  return {
+    vin,
+    make: d.make || { id: 0, name: "Vehicle", niceName: "" },
+    model: d.model || { id: "0", name: "", niceName: "" },
+    drivenWheels: "",
+    numOfDoors: "",
+    options: [],
+    years: year
+      ? [
+          {
+            id: 0,
+            year,
+            styles: [{ id: 0, name: style?.name || "", trim: style?.trim || "" }],
+          },
+        ]
+      : undefined,
+    categories: bodyType
+      ? ({ primaryBodyType: bodyType } as VinData["categories"])
+      : undefined,
+    photos: d.photos,
+    photoSource: d.photoSource ?? "vin",
+  } as unknown as VinData;
+}
+
 /* The locked records the paid report reveals — shown as a teaser list
    under the car info. Counts come live from ClearVin when present. */
 function lockedRecords(p: ClearVinPreview | null) {
@@ -223,7 +258,14 @@ export default async function ReportPreviewPage({ params }: Props) {
       reportData.marketData = decoded.marketData;
     }
   } else if (decoded) {
-    reportData = decoded;
+    // No ClearVin preview for this VIN. Fall back to auto.dev, but reduce it to
+    // the minimal preview shape so the spec sheet stays locked like every other
+    // preview. Re-attach price/marketData/listing for Market Analysis (the
+    // listing renders blurred behind the paywall via lockListing).
+    reportData = minimalReportData(cleaned, decoded);
+    reportData.price = decoded.price;
+    reportData.marketData = decoded.marketData;
+    reportData.listing = decoded.listing;
   }
 
   // Neither source returned anything usable — there is nothing to show.
