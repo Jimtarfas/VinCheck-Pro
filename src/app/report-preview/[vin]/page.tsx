@@ -748,7 +748,7 @@ export default async function ReportPreviewPage({ params }: Props) {
           the top of the sidebar (hidden on mobile, where the sidebar stacks far
           below the whole report). Surfaced here so phone buyers can pick a pack
           and check out straight to Stripe without scrolling to the bottom. */}
-      <div className="lg:hidden" data-buybar-hide>
+      <div className="lg:hidden" data-buybar-hide data-bundle-target>
         <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
       </div>
 
@@ -934,7 +934,7 @@ export default async function ReportPreviewPage({ params }: Props) {
         heroPromo={heroPromo}
         summaryTop={summaryTop}
         sidebarTop={
-          <div className="hidden lg:block">
+          <div className="hidden lg:block" data-bundle-target>
             <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
           </div>
         }

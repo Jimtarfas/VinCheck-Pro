@@ -4,27 +4,15 @@ import {
   Car, Gauge, Settings, Fuel, Cog, DoorOpen, Check, Shield, ChevronDown,
   ChevronLeft, ChevronRight, Printer, Share2, ArrowLeft, DollarSign,
   TrendingUp, TrendingDown, BarChart3, MapPin, Calendar, Palette, Tag,
-  Zap, Award, Info, Activity, Download, AlertTriangle, Lock,
-  ShieldCheck, FileText, Camera, X, Sparkles, Star, Clock,
-  Mail, Loader2, Gavel, Users, Hammer,
+  Zap, Award, Info, Download, AlertTriangle, Lock,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
 import VinSearchForm from "./VinSearchForm";
+import { scrollToBundle } from "@/lib/scroll-to-bundle";
 import dynamic from "next/dynamic";
-
-// Google Ads "Begin checkout" conversion label, fired once when the in-page
-// checkout popup (UpsellModal) opens. Overridable via env. Value/currency use
-// the site's real report price in USD (single source: NEXT_PUBLIC_REPORT_PRICE_CENTS),
-// not the placeholder 1.0 EUR from the provider's copy-paste snippet.
-const GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO =
-  process.env.NEXT_PUBLIC_GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO ||
-  "AW-18237007044/3x3_CJ6q_b4cEMTJivhD";
-
-const REPORT_VALUE_USD =
-  Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999") / 100;
 
 /**
  * VIN-specific signals pulled from the ClearVin preview, surfaced inside the
@@ -552,11 +540,6 @@ export default function VinReport({
 
   const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
 
-  // Preview-only: which action the user tried to use behind the paywall. When
-  // set, the marketing upsell modal is shown. `null` = closed.
-  const [upsellAction, setUpsellAction] =
-    useState<null | "download" | "print" | "share" | "buy">(null);
-
   // Client-side backstop for server-side tracking. The server component
   // already calls trackVinLookup + saveVinReport, but this fetch covers
   // the edge case where the serverless function froze before the inserts
@@ -621,32 +604,6 @@ export default function VinReport({
       setTimeout(() => setShareState("idle"), 2500);
     }
   }, [data.vin, fullName]);
-
-  // Preview-only: any "Get full report" buy button on the page (here, in the
-  // sidebar MarketingCard, or in the commercial footer rendered outside this
-  // component) opens the in-modal checkout by dispatching this window event,
-  // instead of navigating to /order. Only wired when actions are locked.
-  useEffect(() => {
-    if (!lockActions) return;
-    const open = () => setUpsellAction("buy");
-    window.addEventListener("carchecker:open-upsell", open);
-    return () => window.removeEventListener("carchecker:open-upsell", open);
-  }, [lockActions]);
-
-  // Close the upsell modal on Escape, and lock body scroll while it's open.
-  useEffect(() => {
-    if (!upsellAction) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setUpsellAction(null);
-    };
-    window.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [upsellAction]);
 
   return (
     <div className="bg-surface min-h-screen pt-16">
@@ -714,19 +671,19 @@ export default function VinReport({
                     sits alongside the action buttons, above the fold. */}
                 {heroCta}
                 <button
-                  onClick={lockActions ? () => setUpsellAction("download") : downloadReport}
+                  onClick={lockActions ? scrollToBundle : downloadReport}
                   disabled={lockActions ? false : downloadLoading}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-on-secondary-container hover:brightness-110 transition cursor-pointer disabled:opacity-60"
                   style={{ background: "var(--color-secondary-container)" }}>
                   <Download className={`w-4 h-4 ${!lockActions && downloadLoading ? "animate-pulse" : ""}`} />
                   {!lockActions && downloadLoading ? "Preparing…" : "Download Report"}
                 </button>
-                <button onClick={lockActions ? () => setUpsellAction("print") : () => window.print()}
+                <button onClick={lockActions ? scrollToBundle : () => window.print()}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
                   <Printer className="w-4 h-4" /> Print
                 </button>
                 <button
-                  onClick={lockActions ? () => setUpsellAction("share") : handleShare}
+                  onClick={lockActions ? scrollToBundle : handleShare}
                   aria-live="polite"
                   className={`flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer ${
                     shareState === "copied"
@@ -806,7 +763,7 @@ export default function VinReport({
                     {unlockHref ? (
                       <button
                         type="button"
-                        onClick={() => setUpsellAction("buy")}
+                        onClick={scrollToBundle}
                         className="inline-flex items-center gap-2 bg-white text-primary rounded-xl px-4 py-2.5 text-sm font-headline font-extrabold shadow-lg hover:bg-yellow-50 transition-colors cursor-pointer"
                       >
                         <Lock className="w-4 h-4" /> Unlock listing details
@@ -1202,455 +1159,6 @@ export default function VinReport({
           </div>{/* end sidebar */}
         </div>{/* end grid */}
       </div>{/* end body */}
-
-      {/* Preview-only marketing upsell — opened when a locked Download / Print /
-          Share button is clicked. Never rendered on the free report. */}
-      {upsellAction && (
-        <UpsellModal
-          action={upsellAction}
-          onClose={() => setUpsellAction(null)}
-          unlockPrice={unlockPrice}
-          fullName={fullName}
-          vin={data.vin}
-          signals={previewSignals}
-        />
-      )}
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Upsell modal (preview only) — fires when a buyer taps a locked
-   Download / Print / Share action. Copy is tailored to the action
-   they tried, then pivots to the full-report value stack + CTA.
-───────────────────────────────────────────────────────────── */
-function UpsellModal({
-  action,
-  onClose,
-  unlockPrice,
-  fullName,
-  vin,
-  signals,
-}: {
-  action: "download" | "print" | "share" | "buy";
-  onClose: () => void;
-  unlockPrice?: number;
-  fullName: string;
-  vin: string;
-  signals?: PreviewSignals;
-}) {
-  const priceText =
-    typeof unlockPrice === "number" ? `$${unlockPrice.toFixed(2)}` : null;
-
-  // Google Ads "Begin checkout" conversion: fires once when this checkout popup
-  // opens (the modal only mounts when a buy/download/print/share CTA is tapped).
-  useEffect(() => {
-    const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
-    if (typeof gtag !== "function") return;
-    gtag("event", "conversion", {
-      send_to: GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO,
-      value: typeof unlockPrice === "number" ? unlockPrice : REPORT_VALUE_USD,
-      currency: "USD",
-    });
-  }, [unlockPrice]);
-
-  // Headline + sub-line tailored to the exact button the buyer pressed, so the
-  // popup feels like a natural answer to their intent rather than a random ad.
-  const COPY = {
-    download: {
-      Icon: Download,
-      eyebrow: "Download the full report",
-      title: "Your complete report is one step away",
-      sub: "The downloadable PDF unlocks with the full vehicle history — title brands, accidents, odometer and auction photos included.",
-    },
-    print: {
-      Icon: Printer,
-      eyebrow: "Print the full report",
-      title: "Print the complete vehicle history",
-      sub: "Unlock the full report to print every record — a clean, dealer-ready document you can hand over with confidence.",
-    },
-    share: {
-      Icon: Share2,
-      eyebrow: "Share a verified report",
-      title: "Share the complete, verified report",
-      sub: "Buyers and sellers trust a full NMVTIS-backed report. Unlock it to share every record, not just the preview.",
-    },
-    buy: {
-      Icon: Sparkles,
-      eyebrow: "Unlock the full report",
-      title: "Get the complete vehicle history",
-      sub: "Unlock every record on file — title brands, accidents, odometer, ownership, auction photos and market value — in seconds.",
-    },
-  }[action];
-
-  // Card model: `alert` flags a real, VIN-specific finding (amber, attention-
-  // grabbing); the rest are the generic deliverables. Counts come straight from
-  // the ClearVin preview so the buyer sees what's on *this* record before paying.
-  type ValueCard = {
-    Icon: typeof ShieldCheck;
-    label: string;
-    note: string;
-    alert?: boolean;
-  };
-  const n = (x?: number) => (typeof x === "number" && x > 0 ? x : 0);
-  const plural = (c: number) => (c === 1 ? "" : "s");
-
-  // Real findings on this VIN → lead with them as urgency cards.
-  const found: ValueCard[] = [];
-  if (n(signals?.recalls)) {
-    const c = n(signals?.recalls);
-    found.push({ Icon: AlertTriangle, label: `${c} open safety recall${plural(c)}`, note: "Unrepaired NHTSA campaigns", alert: true });
-  }
-  if (n(signals?.damageRecords)) {
-    const c = n(signals?.damageRecords);
-    found.push({ Icon: Hammer, label: `${c} damage record${plural(c)}`, note: "Reported condition & severity", alert: true });
-  }
-  if (n(signals?.auctionRecords)) {
-    const c = n(signals?.auctionRecords);
-    found.push({ Icon: Gavel, label: `${c} auction record${plural(c)}`, note: "Sale price, date & location", alert: true });
-  }
-  if (n(signals?.photos)) {
-    const c = n(signals?.photos);
-    found.push({ Icon: Camera, label: `${c} photo${plural(c)} on file`, note: "Auction & listing imagery", alert: true });
-  }
-
-  // Generic deliverables — always available, used to round the grid out to a
-  // full 6 cards (so the layout stays balanced regardless of how many findings
-  // this VIN has). Skip any whose topic a finding already covers.
-  const generic: ValueCard[] = [
-    { Icon: ShieldCheck, label: "Title-brand & salvage check", note: "Junk, flood, lemon, rebuilt" },
-    { Icon: Gauge, label: "Odometer & rollback check", note: "Mileage consistency" },
-    { Icon: Users, label: "Ownership history", note: "Owners & registration" },
-    { Icon: AlertTriangle, label: "Accident & damage records", note: "Reported events & severity" },
-    { Icon: Camera, label: "Auction & sale photos", note: "Past listing imagery" },
-    { Icon: FileText, label: "Open safety recalls", note: "NHTSA campaigns" },
-    { Icon: DollarSign, label: "Market value estimate", note: "What it's really worth" },
-  ];
-  const usedIcons = new Set(found.map((f) => f.Icon));
-  const filler = generic.filter((g) => !usedIcons.has(g.Icon));
-  const VALUE: ValueCard[] = [...found, ...filler].slice(0, 6);
-  const hasFindings = found.length > 0;
-
-  // ── In-modal checkout ──
-  // Rather than bounce the buyer to /order (re-enter VIN, re-load preview), we
-  // collect the email here and POST straight to /api/order/checkout, which
-  // sets it as the Stripe customer_email so the receipt + report delivery are
-  // pre-addressed. The modal opens directly on this checkout view (no separate
-  // value-pitch step) so any Download / Print / Buy button is one click away.
-  const [email, setEmail] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  // Optional coupon — collected here, validated + applied by Stripe at checkout.
-  const [showCoupon, setShowCoupon] = useState(false);
-  const [coupon, setCoupon] = useState("");
-  const [couponApplied, setCouponApplied] = useState(false);
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-  async function handleOrder() {
-    const e = email.trim();
-    if (!e) {
-      setError("Please enter your email so we can deliver your report.");
-      return;
-    }
-    if (!EMAIL_RE.test(e)) {
-      setError("That doesn't look like a valid email address.");
-      return;
-    }
-    setError(null);
-    setSubmitting(true);
-    try {
-      const res = await fetch("/api/order/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          vin,
-          email: e,
-          vehicleLabel: fullName,
-          coupon: couponApplied && coupon.trim() ? coupon.trim() : undefined,
-          // So a cancelled/failed Stripe payment returns the buyer to this
-          // exact page (e.g. their report preview) rather than the homepage.
-          returnTo:
-            typeof window !== "undefined" ? window.location.href : undefined,
-        }),
-      });
-      // A failing route may return an empty (non-JSON) body — guard so the
-      // buyer sees the real status instead of "Unexpected end of JSON input".
-      const json = await res.json().catch(() => null);
-      if (!res.ok || !json?.url) {
-        throw new Error(
-          json?.error || `Could not start checkout (error ${res.status}).`
-        );
-      }
-      // Stripe Checkout lives on an external origin — hard-navigate.
-      window.location.assign(json.url);
-    } catch (err) {
-      setSubmitting(false);
-      setError(err instanceof Error ? err.message : "Checkout failed.");
-    }
-  }
-
-  return (
-    <div
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Unlock the full vehicle history report"
-    >
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Card — capped to the viewport height with a pinned header and a
-          scrollable body so the whole checkout (incl. the Order button) is
-          always reachable on short/small phones. dvh tracks mobile browser
-          chrome so the bottom never gets cut off. */}
-      <div className="relative flex w-full max-h-[96dvh] flex-col sm:max-h-[90vh] sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
-        {/* Navy header */}
-        <div className="relative flex-shrink-0 bg-primary px-6 pt-4 pb-4 sm:pt-5 sm:pb-5 text-white">
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
-          >
-            <X className="w-4 h-4" />
-          </button>
-
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-amber-300">
-            <Lock className="w-3.5 h-3.5" />
-            {COPY.eyebrow}
-          </span>
-          <h2 className="mt-1.5 text-lg sm:text-2xl font-headline font-extrabold leading-tight tracking-tight">
-            {COPY.title}
-          </h2>
-          <p className="mt-1.5 text-[13px] sm:text-sm text-white/70 leading-relaxed">{COPY.sub}</p>
-          <p className="mt-2 text-xs font-mono text-white/50 truncate">
-            {fullName ? `${fullName} · ` : ""}{vin}
-          </p>
-        </div>
-
-        {/* Value stack — scrollable region under the pinned header. min-h-0 lets
-            this flex child shrink so the pinned footer (Order button) always
-            keeps its space within the height-capped card, even when the coupon
-            field expands on short screens. */}
-        <div className="min-h-0 flex-1 overflow-y-auto px-6 py-3 sm:py-4">
-          <p className="text-[11px] font-black uppercase tracking-wider mb-2">
-            {hasFindings ? (
-              <span className="text-amber-700">
-                Found on this VIN — unlock the details
-              </span>
-            ) : (
-              <span className="text-on-surface-variant">Everything you unlock</span>
-            )}
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            {VALUE.map(({ Icon, label, note, alert }) => (
-              <div
-                key={label}
-                className={`flex items-start gap-2 rounded-xl border px-2.5 py-2 ${
-                  alert
-                    ? "border-amber-300 bg-amber-50"
-                    : "border-outline-variant/50 bg-surface-container-lowest"
-                }`}
-              >
-                <span
-                  className={`mt-0.5 flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center ${
-                    alert ? "bg-amber-200/70" : "bg-primary/10"
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${alert ? "text-amber-700" : "text-primary"}`} />
-                </span>
-                <span className="min-w-0">
-                  <span
-                    className={`block text-[12px] sm:text-[13px] font-bold leading-tight ${
-                      alert ? "text-amber-900" : "text-on-surface"
-                    }`}
-                  >
-                    {label}
-                  </span>
-                  <span
-                    className={`block text-[11px] leading-tight ${
-                      alert ? "text-amber-700/90" : "text-on-surface-variant"
-                    }`}
-                  >
-                    {note}
-                  </span>
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Trust row */}
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-on-surface-variant">
-            <span className="inline-flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> NMVTIS-backed data
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-primary" /> Instant access
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="inline-flex items-center gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
-                ))}
-              </span>
-              <span className="font-bold text-on-surface">Trustpilot</span>
-            </span>
-          </div>
-        </div>{/* end scrollable value region */}
-
-        {/* In-modal checkout — PINNED footer so the conversion CTA (the Order
-            button) is visible the moment the modal opens, on every phone, with
-            only the value list above it scrolling. Opens directly (no value-
-            pitch step): collect email + optional coupon, POST to
-            /api/order/checkout, then hard-navigate to Stripe. */}
-        <div className="flex-shrink-0 border-t border-outline-variant/50 bg-surface px-6 pt-3 pb-4 sm:pt-4 sm:pb-5">
-            <label
-              htmlFor="upsell-email"
-              className="block text-[13px] font-bold text-on-surface mb-1.5"
-            >
-              Email for receipt &amp; report
-            </label>
-            <div className="relative">
-              <Mail className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
-              <input
-                id="upsell-email"
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                autoFocus
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (error) setError(null);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !submitting) handleOrder();
-                }}
-                placeholder="you@example.com"
-                aria-invalid={error ? true : undefined}
-                // text-base (16px) on mobile prevents iOS Safari from auto-
-                // zooming the page when the field is focused; compact 14px on
-                // desktop where zoom isn't a concern.
-                className={`w-full rounded-xl border bg-surface-container-lowest pl-9 pr-3 py-3 text-base sm:text-sm text-on-surface outline-none transition focus:ring-2 ${
-                  error
-                    ? "border-error focus:ring-error/30"
-                    : "border-outline-variant/60 focus:border-primary focus:ring-primary/20"
-                }`}
-              />
-            </div>
-            <p className="mt-1.5 text-[11px] text-on-surface-variant">
-              We&apos;ll send your full report and receipt here — it&apos;s added to
-              checkout automatically.
-            </p>
-
-            {/* Coupon — optional. The code is validated and applied by Stripe
-                at secure checkout; here we just collect it. */}
-            {couponApplied ? (
-              <div className="mt-3 flex items-center justify-between rounded-xl border border-green-300/70 bg-green-50 px-3 py-2.5 text-[12px]">
-                <span className="inline-flex items-center gap-1.5 font-bold text-green-700">
-                  <Check className="w-3.5 h-3.5" strokeWidth={3} />
-                  Coupon <span className="font-mono uppercase">{coupon.trim()}</span> added
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCouponApplied(false);
-                    setCoupon("");
-                    setShowCoupon(false);
-                  }}
-                  aria-label="Remove coupon"
-                  className="text-green-700/60 hover:text-green-700 transition"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ) : showCoupon ? (
-              <div className="mt-3 flex gap-2">
-                <input
-                  type="text"
-                  value={coupon}
-                  onChange={(e) => setCoupon(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && coupon.trim()) {
-                      e.preventDefault();
-                      setCouponApplied(true);
-                    }
-                  }}
-                  placeholder="Coupon code"
-                  aria-label="Coupon code"
-                  className="flex-1 min-w-0 rounded-xl border border-outline-variant/60 bg-surface-container-lowest px-3 py-2.5 text-base sm:text-sm font-mono uppercase tracking-wide text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-                />
-                <button
-                  type="button"
-                  onClick={() => coupon.trim() && setCouponApplied(true)}
-                  disabled={!coupon.trim()}
-                  className="flex-shrink-0 rounded-xl border border-primary/30 bg-primary/10 px-4 text-sm font-bold text-primary transition hover:bg-primary/15 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Apply
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setShowCoupon(true)}
-                className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
-              >
-                <Tag className="w-3.5 h-3.5" /> Have a coupon code?
-              </button>
-            )}
-
-            {error && (
-              <div className="mt-2.5 flex items-start gap-2 rounded-xl border border-error/30 bg-error-container/40 px-3 py-2 text-[12px] text-error">
-                <AlertTriangle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            <button
-              onClick={handleOrder}
-              disabled={submitting}
-              className="mt-3 flex items-center justify-center gap-2 w-full px-5 py-3.5 rounded-full bg-secondary-container hover:brightness-95 text-on-secondary-container text-sm font-bold transition shadow-lg shadow-secondary-container/30 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {submitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Redirecting to secure
-                  checkout…
-                </>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4" />
-                  {priceText ? (
-                    <span>
-                      Order Full Report — <span className="price">{priceText}</span>
-                    </span>
-                  ) : (
-                    "Order Full Report"
-                  )}
-                </>
-              )}
-            </button>
-
-            {/* Disclaimer — legal banner */}
-            <p className="mt-2.5 text-center text-[11px] leading-snug text-on-surface-variant">
-              By clicking <span className="font-semibold">Order Full Report</span> you
-              agree to{" "}
-              <Link href="/terms" className="text-primary underline hover:no-underline">
-                CarCheckerVIN&apos;s T&amp;C
-              </Link>{" "}
-              and{" "}
-              <Link
-                href="/disclaimer"
-                className="text-primary underline hover:no-underline"
-              >
-                NMVTIS disclaimer
-              </Link>
-              .
-            </p>
-        </div>{/* end pinned checkout footer */}
-      </div>{/* end card */}
     </div>
   );
 }

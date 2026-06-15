@@ -1,10 +1,12 @@
 "use client";
 
+import { scrollToBundle } from "@/lib/scroll-to-bundle";
+
 /**
- * Preview-only "Get full report" button. Instead of navigating to /order, it
- * opens the in-page checkout popup (UpsellModal inside VinReport) by dispatching
- * a window event the report listens for. Styling is fully controlled by the
- * caller via `className` so it can stand in for any of the buy CTAs.
+ * Preview-only "Get full report" button. Instead of navigating to /order or
+ * opening a popup, it smooth-scrolls the reader down to the in-page "Buy more,
+ * pay less" bundle checkout card. Styling is fully controlled by the caller via
+ * `className` so it can stand in for any of the buy CTAs.
  */
 export default function BuyReportButton({
   className,
@@ -19,7 +21,7 @@ export default function BuyReportButton({
     <button
       type="button"
       aria-label={ariaLabel}
-      onClick={() => window.dispatchEvent(new Event("carchecker:open-upsell"))}
+      onClick={scrollToBundle}
       className={className}
     >
       {children}
