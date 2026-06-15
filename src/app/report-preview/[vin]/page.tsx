@@ -553,6 +553,11 @@ export default async function ReportPreviewPage({ params }: Props) {
       if (pr.usedTradeIn > 0) cards.push({ label: "Trade-In", value: `$${pr.usedTradeIn.toLocaleString()}` });
     }
     const isExample = cards.length === 0;
+    // On a live report with no auto.dev pricing, omit the card entirely rather
+    // than showing fabricated "Example" figures. The example fallback only
+    // renders in sample/dev mode (no ClearVin creds) so the panel stays
+    // reviewable before AUTO_DEV_API_KEY is configured.
+    if (isExample && !mock) return null;
     if (isExample) {
       cards.push(
         { label: "Avg. Market Price", value: "$24,850" },
@@ -738,6 +743,14 @@ export default async function ReportPreviewPage({ params }: Props) {
         </section>
       )}
 
+      {/* Mobile-only bundle/prepaid-pack checkout — the desktop copy lives at
+          the top of the sidebar (hidden on mobile, where the sidebar stacks far
+          below the whole report). Surfaced here so phone buyers can pick a pack
+          and check out straight to Stripe without scrolling to the bottom. */}
+      <div className="lg:hidden">
+        <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
+      </div>
+
       {/* Mobile-only purchase card — surfaced right after the recalls so phone
           users see the offer without scrolling past the whole report. The
           desktop copy lives in the sticky sidebar (hidden on mobile). */}
@@ -919,7 +932,11 @@ export default async function ReportPreviewPage({ params }: Props) {
         heroCta={heroCta}
         heroPromo={heroPromo}
         summaryTop={summaryTop}
-        sidebarTop={<BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />}
+        sidebarTop={
+          <div className="hidden lg:block">
+            <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
+          </div>
+        }
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
         unlockPrice={SINGLE_PRICE}
