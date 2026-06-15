@@ -8,7 +8,7 @@
  * design system. Self-contained dark mode + print/PDF support.
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Car, FileText, Gauge, ShieldCheck, ShieldAlert, AlertTriangle, Wrench,
@@ -16,6 +16,7 @@ import {
   Camera, ListChecks, Printer, Download, Moon, Sun, Fingerprint, Award,
   CalendarClock, ScrollText, Building2, Truck, ClipboardCheck, Siren,
   CircleDollarSign, MapPin, CheckCircle2, XCircle, Info, Loader2,
+  X, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import type { NormalizedReport } from "@/lib/clearvin-report";
 import {
@@ -276,6 +277,9 @@ export default function FullVinReport({
   const [generating, setGenerating] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [exportError, setExportError] = useState<string | null>(null);
+  // Photo lightbox: index of the open photo, or null when closed. Buyers can
+  // click any thumbnail to open it full-size and arrow between all photos.
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const { vehicle: v, meta } = report;
   const fullName = [v.year, v.make, v.model, v.trim].filter(Boolean).join(" ") || "Vehicle";
 
@@ -304,6 +308,20 @@ export default function FullVinReport({
     { id: "photos",   label: "Vehicle Photos",       icon: Camera,           count: report.photos.length },
     { id: "summary",  label: "Report Summary",       icon: ListChecks },
   ];
+
+  // Lightbox keyboard control: Esc closes, ←/→ step through photos. Bound only
+  // while the lightbox is open so it never interferes with the rest of the page.
+  const photoCount = report.photos.length;
+  useEffect(() => {
+    if (lightbox === null) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightbox(null);
+      else if (e.key === "ArrowRight") setLightbox((i) => (i === null ? i : (i + 1) % photoCount));
+      else if (e.key === "ArrowLeft") setLightbox((i) => (i === null ? i : (i - 1 + photoCount) % photoCount));
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightbox, photoCount]);
 
   function pdfFileName(): string {
     return (
@@ -1066,10 +1084,16 @@ export default function FullVinReport({
             {report.photos.length ? (
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                 {report.photos.map((p, i) => (
-                  <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-container">
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setLightbox(i)}
+                    className="group relative aspect-[4/3] cursor-zoom-in overflow-hidden rounded-xl bg-surface-container outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    aria-label={`View photo ${i + 1} of ${report.photos.length}`}
+                  >
                     <Image src={p.url} alt={p.alt} fill className="object-cover transition group-hover:scale-105" unoptimized />
                     <span className="absolute bottom-1.5 left-1.5 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-semibold capitalize text-white">{p.type}</span>
-                  </div>
+                  </button>
                 ))}
               </div>
             ) : <EmptyState title="No photos on file" hint="No manufacturer or auction images were available for this VIN." />}
@@ -1127,6 +1151,72 @@ export default function FullVinReport({
           </div>
         </div>
       </div>
+
+      {/* ── Photo lightbox ────────────────────────────────────────────
+         Full-screen viewer opened by clicking any photo. Click the backdrop
+         or the ✕ to close; arrows (on-screen or keyboard) step through every
+         photo. Hidden from print/PDF. */}
+      {lightbox !== null && report.photos[lightbox] && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4 print:hidden"
+          onClick={() => setLightbox(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Vehicle photo viewer"
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+            className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          {photoCount > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i - 1 + photoCount) % photoCount)); }}
+                aria-label="Previous photo"
+                className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i + 1) % photoCount)); }}
+                aria-label="Next photo"
+                className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </>
+          )}
+
+          <div
+            className="relative flex max-h-[88vh] w-full max-w-5xl flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative h-[78vh] w-full">
+              <Image
+                src={report.photos[lightbox].url}
+                alt={report.photos[lightbox].alt}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                unoptimized
+              />
+            </div>
+            <div className="mt-3 flex items-center gap-3 text-sm font-medium text-white/80">
+              <span className="rounded-full bg-white/10 px-3 py-1 capitalize">
+                {report.photos[lightbox].type}
+              </span>
+              <span>{lightbox + 1} / {photoCount}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

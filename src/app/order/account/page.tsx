@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileText, CircleAlert, ArrowRight } from "lucide-react";
+import { FileText, CircleAlert, ArrowRight, Ticket, FileCheck2, CalendarClock } from "lucide-react";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import RedeemCredit from "../_components/RedeemCredit";
@@ -111,6 +111,42 @@ export default async function MyReportsPage() {
             <FileText className="w-3.5 h-3.5" />
             Order another
           </Link>
+        </div>
+
+        {/* Account summary — reports owned + live prepaid credit balance.
+            Both numbers are read from the database on every load (this page is
+            force-dynamic), never from browser storage, so the balance is always
+            authoritative. The credit count mirrors what consume_report_credit
+            will let the buyer spend. */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+          <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
+            <div className="flex items-center gap-2 text-slate-500 mb-1.5">
+              <FileCheck2 className="w-4 h-4" />
+              <span className="text-[11px] font-bold uppercase tracking-wider">
+                Reports owned
+              </span>
+            </div>
+            <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-none">
+              {list.length}
+            </p>
+          </div>
+          <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5">
+            <div className="flex items-center gap-2 text-slate-500 mb-1.5">
+              <Ticket className="w-4 h-4" />
+              <span className="text-[11px] font-bold uppercase tracking-wider">
+                Credits left
+              </span>
+            </div>
+            <p className="text-2xl sm:text-3xl font-extrabold text-primary leading-none">
+              {creditsRemaining}
+            </p>
+            {creditsRemaining > 0 && soonestExpiry && (
+              <p className="mt-1.5 flex items-center gap-1 text-[11px] text-slate-500">
+                <CalendarClock className="w-3 h-3" />
+                Next expires {new Date(soonestExpiry).toLocaleDateString()}
+              </p>
+            )}
+          </div>
         </div>
 
         {creditsRemaining > 0 && (
