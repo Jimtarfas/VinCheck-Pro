@@ -1020,8 +1020,12 @@ export default async function ReportPreviewPage({ params }: Props) {
         </section>
       </div>
 
-      {/* Sticky mobile CTA */}
-      <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-surface/95 backdrop-blur border-t border-outline-variant px-4 pt-2.5 pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+      {/* Sticky mobile CTA — solid (no backdrop-blur) and forced onto its own
+          GPU layer (transform-gpu + isolate). A translucent `backdrop-filter`
+          bar is the classic trigger for iOS Safari dropping `position: fixed`
+          elements mid-scroll (it vanished when the bundle card's form scrolled
+          into view); an opaque, isolated layer paints reliably. */}
+      <div className="fixed bottom-0 inset-x-0 z-40 lg:hidden isolate transform-gpu bg-surface border-t border-outline-variant px-4 pt-2.5 pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
         <p className="flex items-center justify-center gap-1.5 text-[11px] text-on-surface-variant text-center mb-2">
           <ShieldCheck className="w-3.5 h-3.5 text-primary flex-shrink-0" />
           100% Satisfaction Guarantee · Full refund if you&apos;re not satisfied
