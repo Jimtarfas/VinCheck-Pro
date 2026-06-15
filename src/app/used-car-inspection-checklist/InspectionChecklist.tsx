@@ -336,9 +336,9 @@ export default function InspectionChecklist() {
         </div>
       </div>
 
-      {/* ── Sticky progress bar ── */}
-      <div className="sticky top-20 z-20 -mx-1 print:hidden">
-        <div className="rounded-2xl border border-slate-200 bg-white/95 backdrop-blur p-4 shadow-sm mx-1">
+      {/* ── Progress bar ── */}
+      <div className="print:hidden">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="font-bold text-slate-900">
               {stats.answered} / {TOTAL_ITEMS} items reviewed
