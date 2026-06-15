@@ -240,7 +240,7 @@ const TRUST_STATS = [
   { icon: Factory, value: "OEM", label: "factory build data" },
   { icon: Layers, value: "Component", label: "level detail" },
   { icon: Database, value: "1980s+", label: "digital coverage" },
-  { icon: BadgeCheck, value: "Free", label: "no sign-up" },
+  { icon: BadgeCheck, value: "Free preview", label: "no sign-up" },
 ];
 
 const HOW_STEPS = [

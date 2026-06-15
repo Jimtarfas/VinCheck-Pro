@@ -324,7 +324,7 @@ const TRUST_STATS = [
   { icon: Palette, value: "30+", label: "brands covered" },
   { icon: Shield, value: "OEM", label: "factory paint codes" },
   { icon: Zap, value: "Instant", label: "no sign-up needed" },
-  { icon: BadgeCheck, value: "Free", label: "no credit card" },
+  { icon: BadgeCheck, value: "Free preview", label: "no credit card" },
 ];
 
 const HOW_TO_STEPS = [
