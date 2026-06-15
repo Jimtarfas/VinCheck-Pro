@@ -1,11 +1,11 @@
 import { Check, Sparkles, Eye } from "lucide-react";
 import VinSearchForm from "@/components/VinSearchForm";
+import { pricingOptions, formatUsd, SINGLE_PRICE_CENTS } from "@/lib/pricing";
 
-// Per-report price — kept in sync with the Stripe checkout, which reads the
-// same env var (defaults to 999 ¢ = $9.99). Every paid tier is priced at this
-// rate per report, so a pack total is simply rate × number of reports.
-const PRICE_CENTS = Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999");
-const PER_REPORT = PRICE_CENTS / 100;
+// The home pricing mirrors the authoritative pack prices from the pricing lib
+// (single report + the discounted 3 / 5 / 10 prepaid packs) so the marketing
+// page can never drift from what checkout actually charges.
+const PER_REPORT = SINGLE_PRICE_CENTS / 100;
 const money = (n: number) => `$${n.toFixed(2)}`;
 
 const features = [
@@ -18,36 +18,21 @@ const features = [
   "Ownership cost data",
 ];
 
-const plans = [
-  {
-    name: "Single",
-    label: "The Starter",
-    reports: 1,
-    desc: "Perfect for a single car purchase",
-    popular: false,
-  },
-  {
-    name: "Standard",
-    label: "Most Popular",
-    reports: 3,
-    desc: "Great for comparing a few options",
-    popular: false,
-  },
-  {
-    name: "Value",
-    label: "Best Value",
-    reports: 5,
-    desc: "Best value for serious car shoppers",
-    popular: true,
-  },
-  {
-    name: "Pro",
-    label: "The Pro",
-    reports: 10,
-    desc: "For dealers and fleet buyers",
-    popular: false,
-  },
-];
+// Per-size marketing copy; price/per-report/savings all come from the pricing
+// lib so this stays display-only metadata.
+const PLAN_META: Record<number, { label: string; desc: string }> = {
+  1: { label: "The Starter", desc: "Perfect for a single car purchase" },
+  3: { label: "Most Popular", desc: "Great for comparing a few options" },
+  5: { label: "Best Value", desc: "Best value for serious car shoppers" },
+  10: { label: "The Pro", desc: "For dealers and fleet buyers" },
+};
+
+const plans = pricingOptions().map((o) => ({
+  ...o,
+  label: PLAN_META[o.size]?.label ?? `${o.size} Reports`,
+  desc: PLAN_META[o.size]?.desc ?? "",
+  popular: o.bestValue,
+}));
 
 export default function PricingSection() {
   return (
@@ -135,10 +120,9 @@ export default function PricingSection() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {plans.map((plan) => {
-            const total = PER_REPORT * plan.reports;
             return (
             <div
-              key={plan.name}
+              key={plan.size}
               className={`relative rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 flex flex-col transition-all duration-300 hover:scale-[1.02] ${
                 plan.popular
                   ? "bg-primary text-white shadow-2xl shadow-primary/20"
@@ -156,15 +140,21 @@ export default function PricingSection() {
 
               <div className="flex items-baseline gap-2 mb-1 flex-wrap">
                 <h3 className={`text-4xl sm:text-5xl price font-extrabold ${plan.popular ? "text-white" : "text-primary"}`}>
-                  {money(total)}
+                  {formatUsd(plan.priceCents)}
                 </h3>
               </div>
               <p className={`text-sm font-bold mb-1 ${plan.popular ? "text-white" : "text-on-surface-variant"}`}>
-                {plan.reports} {plan.reports === 1 ? "Report" : "Reports"} · {money(PER_REPORT)} each
+                {plan.size} {plan.size === 1 ? "Report" : "Reports"} · {formatUsd(plan.perReportCents)} each
               </p>
-              <p className={`text-xs mb-8 ${plan.popular ? "text-white/85" : "text-outline"}`}>
-                {plan.desc}
-              </p>
+              {plan.savingsCents > 0 ? (
+                <p className={`text-xs font-bold mb-8 ${plan.popular ? "text-secondary-fixed-dim" : "text-green-600"}`}>
+                  Save {formatUsd(plan.savingsCents)} · {plan.desc}
+                </p>
+              ) : (
+                <p className={`text-xs mb-8 ${plan.popular ? "text-white/85" : "text-outline"}`}>
+                  {plan.desc}
+                </p>
+              )}
 
               <ul className="space-y-3 mb-8 sm:mb-10 flex-1">
                 {features.map((f) => (

@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createCheckoutSession, stripeConfig } from "@/lib/stripe";
+import { getBundle } from "@/lib/pricing";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,6 +20,9 @@ interface CheckoutBody {
   returnTo?: string;
   /** Wave 10: locale for Stripe Checkout UI + custom_text + product copy. */
   locale?: "en" | "es";
+  /** Prepaid bundle size (3 / 5 / 10). Absent/1 = a single report. The price
+      is re-derived server-side from this size — the client never sets it. */
+  bundleSize?: number;
 }
 
 const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/i;
@@ -98,6 +102,12 @@ export async function POST(req: Request) {
     ? createHash("sha256").update(ip).digest("hex").slice(0, 32)
     : null;
 
+  // Resolve the requested pack server-side. The client only sends a SIZE;
+  // we look up the authoritative price/size here so a tampered request can't
+  // change what Stripe charges. Unknown/absent size ⇒ a single report.
+  const bundle = getBundle(body.bundleSize);
+  const amountCents = bundle ? bundle.priceCents : stripeConfig.priceCents();
+
   // Insert the pending order
   const admin = createAdminClient();
   const { data: orderRow, error: orderErr } = await admin
@@ -107,9 +117,10 @@ export async function POST(req: Request) {
       user_email: userEmail,
       vin,
       vehicle_label: body.vehicleLabel || null,
-      amount_cents: stripeConfig.priceCents(),
+      amount_cents: amountCents,
       currency: "usd",
       status: "pending",
+      bundle_size: bundle ? bundle.size : null,
       ip_hash: ipHash,
       user_agent: userAgent.slice(0, 500),
     })
@@ -152,6 +163,7 @@ export async function POST(req: Request) {
       origin,
       cancelUrl,
       locale: body.locale === "es" ? "es" : "en",
+      bundleSize: bundle ? bundle.size : undefined,
     });
 
     // Stash the session id on the order so the webhook can match it.

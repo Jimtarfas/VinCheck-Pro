@@ -13,6 +13,8 @@
  *   NEXT_PUBLIC_SITE_URL          — for redirect URLs
  */
 
+import { getBundle } from "./pricing";
+
 const SECRET = () => process.env.STRIPE_SECRET_KEY || "";
 const PRICE_CENTS = () => Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999");
 
@@ -72,6 +74,11 @@ export interface CreateCheckoutSessionInput {
   // names, card brand strings). Also drives the language of our
   // custom_text and the product name / description below.
   locale?: "en" | "es";
+  // Prepaid bundle size (3 / 5 / 10). When set to a valid bundle, the line
+  // item is charged at the bundle's server-authoritative total instead of
+  // the single-report price, and `metadata[bundle_size]` is set so the
+  // webhook can grant the remaining reports as account credits.
+  bundleSize?: number;
 }
 
 export interface CreatedCheckoutSession {
@@ -126,12 +133,22 @@ export async function createCheckoutSession(
 
   const isEs = input.locale === "es";
 
+  // Server-authoritative pricing. The client only sends a bundle SIZE; we
+  // look up the real total here so a tampered request can't change what
+  // Stripe charges. An unknown/absent size falls back to the single report.
+  const bundle = getBundle(input.bundleSize);
+  const unitAmount = bundle ? bundle.priceCents : PRICE_CENTS();
+
   body.set("line_items[0][quantity]", "1");
   body.set("line_items[0][price_data][currency]", "usd");
-  body.set("line_items[0][price_data][unit_amount]", String(PRICE_CENTS()));
+  body.set("line_items[0][price_data][unit_amount]", String(unitAmount));
   body.set(
     "line_items[0][price_data][product_data][name]",
-    isEs
+    bundle
+      ? isEs
+        ? `Paquete de ${bundle.size} reportes de historial vehicular`
+        : `${bundle.size}-Report Vehicle History Pack`
+      : isEs
       ? input.vehicleLabel
         ? `Reporte de historial vehicular — ${input.vehicleLabel}`
         : "Reporte de historial vehicular"
@@ -141,7 +158,11 @@ export async function createCheckoutSession(
   );
   body.set(
     "line_items[0][price_data][product_data][description]",
-    isEs
+    bundle
+      ? isEs
+        ? `Reporte del VIN ${input.vin} ahora + ${bundle.size - 1} créditos para cualquier VIN (válidos 12 meses).`
+        : `VIN ${input.vin} report now + ${bundle.size - 1} credits for any VIN (valid 12 months).`
+      : isEs
       ? `Reporte completo respaldado por NMVTIS para el VIN ${input.vin}.`
       : `Full NMVTIS-backed history report for VIN ${input.vin}.`
   );
@@ -151,6 +172,10 @@ export async function createCheckoutSession(
   body.set("metadata[vin]", input.vin);
   body.set("payment_intent_data[metadata][order_id]", input.orderId);
   body.set("payment_intent_data[metadata][vin]", input.vin);
+  if (bundle) {
+    body.set("metadata[bundle_size]", String(bundle.size));
+    body.set("payment_intent_data[metadata][bundle_size]", String(bundle.size));
+  }
 
   // Disable automatic tax for now — flip this on when Stripe Tax is configured
   body.set("automatic_tax[enabled]", "false");

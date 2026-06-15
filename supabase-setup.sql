@@ -368,3 +368,102 @@ create index if not exists bot_runs_ok_idx     on public.bot_runs (ok, created_a
 
 alter table public.bot_runs enable row level security;
 -- No anon access; only service-role reads/writes.
+
+-- ============================================================
+-- Report credits — prepaid bundle balance (3/5/10 packs)
+-- ============================================================
+-- A bundle purchase delivers one report immediately (for the previewed VIN)
+-- and grants the remaining N-1 as account credits the buyer can redeem on
+-- other VINs for up to 12 months. Credits are keyed on BOTH user_id and
+-- user_email: a freshly auto-provisioned account may not have user_id stamped
+-- on the source order yet, so redemption matches by either (mirrors the
+-- report_orders read policy).
+create table if not exists public.report_credits (
+  id              uuid primary key default gen_random_uuid(),
+  user_id         uuid references auth.users(id) on delete cascade,
+  user_email      text not null,
+  source_order_id uuid references public.report_orders(id) on delete set null,
+  bundle_size     integer not null,        -- 3 | 5 | 10 (count purchased)
+  remaining       integer not null,        -- decremented on each redemption
+  expires_at      timestamptz not null,    -- purchase + 12 months
+  created_at      timestamptz not null default now(),
+  constraint report_credits_remaining_nonneg check (remaining >= 0)
+);
+
+create index if not exists report_credits_user_idx    on public.report_credits (user_id);
+create index if not exists report_credits_email_idx    on public.report_credits (lower(user_email));
+create index if not exists report_credits_expires_idx  on public.report_credits (expires_at);
+
+alter table public.report_credits enable row level security;
+
+-- A signed-in user can read their own credit rows (by id OR email), so the
+-- account page can show "X credits remaining". All writes go through
+-- service-role server routes (webhook grant + redeem spend).
+drop policy if exists "users read own credits" on public.report_credits;
+create policy "users read own credits"
+  on public.report_credits for select
+  to authenticated
+  using (
+    auth.uid() = user_id
+    OR auth.jwt() ->> 'email' = user_email
+  );
+
+-- New columns on report_orders to mark credit-funded redemptions and tag the
+-- bundle "anchor" order. Safe to re-run.
+alter table public.report_orders add column if not exists paid_via_credit boolean not null default false;
+alter table public.report_orders add column if not exists credit_id       uuid references public.report_credits(id) on delete set null;
+alter table public.report_orders add column if not exists bundle_size     integer;
+
+-- Atomically consume one credit for a user. Picks the soonest-to-expire
+-- non-empty, unexpired credit, decrements `remaining`, and returns its id.
+-- Returns NULL when the user has no spendable credit. SECURITY DEFINER so it
+-- runs with the table owner's rights; callers are service-role server routes.
+-- The `for update skip locked` makes concurrent redemptions safe (two tabs
+-- can't double-spend the same credit row).
+create or replace function public.consume_report_credit(p_user uuid, p_email text)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_id uuid;
+begin
+  select id into v_id
+    from public.report_credits
+   where remaining > 0
+     and expires_at > now()
+     and (
+       (p_user is not null and user_id = p_user)
+       or lower(user_email) = lower(p_email)
+     )
+   order by expires_at asc
+   for update skip locked
+   limit 1;
+
+  if v_id is null then
+    return null;
+  end if;
+
+  update public.report_credits
+     set remaining = remaining - 1
+   where id = v_id;
+
+  return v_id;
+end;
+$$;
+
+-- Refund one credit back to a specific credit row (used when a credit-funded
+-- ClearVin fetch fails, so the buyer never loses a credit to an API error).
+create or replace function public.refund_report_credit(p_credit_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  update public.report_credits
+     set remaining = remaining + 1
+   where id = p_credit_id;
+end;
+$$;

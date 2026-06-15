@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyWebhookSignature } from "@/lib/stripe";
 import { fetchFullReport } from "@/lib/clearvin";
 import { provisionAccountForOrder } from "@/lib/account-provisioning";
+import { getBundle, CREDIT_VALIDITY_MONTHS } from "@/lib/pricing";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,7 +30,7 @@ interface StripeSession {
   id: string;
   payment_status?: string;
   payment_intent?: string;
-  metadata?: { order_id?: string; vin?: string };
+  metadata?: { order_id?: string; vin?: string; bundle_size?: string };
 }
 
 interface StripeEvent {
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
         stripe_payment_intent_id: session.payment_intent || null,
       })
       .eq("id", orderId)
-      .select("user_email")
+      .select("user_id, user_email, bundle_size")
       .single();
 
     // 1b) Auto-create the buyer's account (and tie this order to it) so the
@@ -84,6 +85,39 @@ export async function POST(req: Request) {
       orderId,
       email: paidRow?.user_email,
     });
+
+    // 1c) Bundle purchase ⇒ grant the extra reports as account credits. The
+    // bundle delivers ONE report now (this VIN), so the buyer banks
+    // bundle_size − 1 credits, redeemable on any VIN for the next 12 months.
+    // We trust the order's own bundle_size column (set server-side at
+    // checkout), validated again through getBundle so a bad value can't grant
+    // arbitrary credits. Best-effort and idempotent: source_order_id is unique
+    // per order, so a Stripe retry won't double-grant.
+    const bundle = getBundle(paidRow?.bundle_size);
+    if (bundle && bundle.size > 1) {
+      try {
+        const { data: existing } = await admin
+          .from("report_credits")
+          .select("id")
+          .eq("source_order_id", orderId)
+          .maybeSingle();
+        if (!existing) {
+          const expiresAt = new Date();
+          expiresAt.setMonth(expiresAt.getMonth() + CREDIT_VALIDITY_MONTHS);
+          await admin.from("report_credits").insert({
+            user_id: paidRow?.user_id ?? null,
+            user_email: paidRow?.user_email ?? "",
+            source_order_id: orderId,
+            bundle_size: bundle.size,
+            remaining: bundle.size - 1,
+            expires_at: expiresAt.toISOString(),
+          });
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("[webhook] credit grant failed for order", orderId, e);
+      }
+    }
 
     // 2) Fetch the full ClearVin report
     const report = await fetchFullReport(vin, orderId);

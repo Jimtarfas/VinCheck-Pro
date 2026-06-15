@@ -37,6 +37,7 @@ import { fetchPreview, isUsingMockData, type ClearVinPreview } from "@/lib/clear
 import { fetchExternalVehiclePhotos } from "@/lib/external-photos";
 import MarketingCard from "./MarketingCard";
 import BuyReportButton from "@/components/BuyReportButton";
+import BundleUpsellCard from "./BundleUpsellCard";
 
 /* Small laurel-wreath flourish for the satisfaction-guarantee seal. */
 function Laurel({ className = "" }: { className?: string }) {
@@ -918,6 +919,7 @@ export default async function ReportPreviewPage({ params }: Props) {
         heroCta={heroCta}
         heroPromo={heroPromo}
         summaryTop={summaryTop}
+        sidebarTop={<BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />}
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
         unlockPrice={SINGLE_PRICE}

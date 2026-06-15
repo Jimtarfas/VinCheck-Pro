@@ -486,6 +486,7 @@ export default function VinReport({
   heroCta,
   heroPromo,
   summaryTop,
+  sidebarTop,
   sidebarBottom,
   lockActions = false,
   unlockPrice,
@@ -519,6 +520,9 @@ export default function VinReport({
   /** Preview: server-built card rendered directly above the Report Summary in
       the sidebar (e.g. the Market Analysis panel). */
   summaryTop?: React.ReactNode;
+  /** Preview: card rendered at the very top of the sidebar, above the
+      Valuation card (e.g. the bundle/prepaid-pack upsell). */
+  sidebarTop?: React.ReactNode;
   /** Preview: server-built content rendered in the sidebar directly below the
       Report Summary card (e.g. the FAQ on desktop). */
   sidebarBottom?: React.ReactNode;
@@ -1018,6 +1022,9 @@ export default function VinReport({
               In preview mode the column stretches to full height so the
               paywall card (sidebarReplaceAI) can stay sticky on scroll. ── */}
           <div className={`space-y-6 ${sidebarReplaceAI ? "" : "lg:self-start"}`}>
+
+            {/* Preview-only: bundle/prepaid-pack upsell, above Valuation. */}
+            {sidebarTop}
 
             {/* Pricing sidebar card */}
             {data.price && (

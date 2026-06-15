@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FileText, CircleAlert, ArrowRight } from "lucide-react";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import RedeemCredit from "../_components/RedeemCredit";
 
 export const metadata: Metadata = {
   title: "My Reports",
@@ -81,6 +82,21 @@ export default async function MyReportsPage() {
 
   const list = (orders || []) as OrderRow[];
 
+  // Live prepaid bundle credits for this account (by id or bundle email).
+  // Sum what's still redeemable and note the soonest expiry for the widget.
+  const nowIso = new Date().toISOString();
+  const { data: creditRows } = await admin
+    .from("report_credits")
+    .select("remaining, expires_at")
+    .or(`user_id.eq.${user.id},user_email.eq.${user.email?.toLowerCase() || ""}`)
+    .gt("remaining", 0)
+    .gt("expires_at", nowIso)
+    .order("expires_at", { ascending: true });
+
+  const credits = (creditRows || []) as { remaining: number; expires_at: string }[];
+  const creditsRemaining = credits.reduce((s, c) => s + (c.remaining || 0), 0);
+  const soonestExpiry = credits[0]?.expires_at ?? null;
+
   return (
     <div className="bg-surface min-h-[calc(100vh-200px)]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
@@ -96,6 +112,13 @@ export default async function MyReportsPage() {
             Order another
           </Link>
         </div>
+
+        {creditsRemaining > 0 && (
+          <RedeemCredit
+            remaining={creditsRemaining}
+            soonestExpiry={soonestExpiry}
+          />
+        )}
 
         {list.length === 0 ? (
           <div className="bg-white border border-slate-200 rounded-2xl px-6 py-12 text-center">

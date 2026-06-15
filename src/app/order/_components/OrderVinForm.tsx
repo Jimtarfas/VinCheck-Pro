@@ -19,6 +19,8 @@ import {
   Gavel,
   OctagonAlert,
 } from "lucide-react";
+import BundleSelect from "./BundleSelect";
+import { pricingOptions, formatUsd, type PricingOption } from "@/lib/pricing";
 
 // ── Type mirrors src/lib/clearvin.ts ─────────────────────────────────
 
@@ -173,6 +175,11 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
   const [preview, setPreview] = useState<PreviewData | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
+  // Selected pack size: 1 = single report (default), 3/5/10 = prepaid bundle.
+  // A bundle delivers this VIN's report now and grants the rest as account
+  // credits. The server re-derives the price from this size so the client
+  // can never set what Stripe charges.
+  const [bundleSize, setBundleSize] = useState(1);
   // `buyError` is shown right next to the order button so the user can't
   // miss it (e.g. missing email). `previewError` lives further up the
   // card and would be off-screen by the time the user clicks "Order".
@@ -205,16 +212,27 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
   // Pre-fill the VIN from `?vin=` (a cancelled/failed checkout returns the buyer
   // here with ?vin=...&cancelled=1) and immediately re-render its free preview,
   // so they land back on the preview of the VIN they entered rather than an
-  // empty form. Runs once on mount.
+  // empty form. Also honor `?bundle=N` so a buyer who picked a prepaid pack on
+  // the report-preview upsell lands here with that pack preselected. Runs once
+  // on mount.
   const autofilledFromQuery = useRef(false);
   useEffect(() => {
     if (autofilledFromQuery.current) return;
     const raw = search.get("vin");
-    if (!raw) return;
+    const bundleRaw = search.get("bundle");
+    if (!raw && !bundleRaw) return;
     autofilledFromQuery.current = true;
-    const v = raw.trim().toUpperCase();
-    setVin(v);
-    if (v.length === 17 && !/[IOQ]/.test(v)) void fetchPreview(v);
+    if (bundleRaw) {
+      const size = Number(bundleRaw);
+      if (pricingOptions().some((o) => o.isBundle && o.size === size)) {
+        setBundleSize(size);
+      }
+    }
+    if (raw) {
+      const v = raw.trim().toUpperCase();
+      setVin(v);
+      if (v.length === 17 && !/[IOQ]/.test(v)) void fetchPreview(v);
+    }
   }, [search, fetchPreview]);
 
   function handleSearch(e: React.FormEvent) {
@@ -265,6 +283,9 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
           email: trimmedEmail,
           vehicleLabel,
           locale,
+          // Only send a bundle size for multi-report packs. The server looks
+          // up the authoritative price from this size (single is the default).
+          bundleSize: bundleSize > 1 ? bundleSize : undefined,
           // Return a cancelled/failed payment to this page WITH the VIN in the
           // query string so it re-renders the preview of the VIN they entered
           // rather than an empty form.
@@ -289,7 +310,13 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
     }
   }
 
-  const priceLabel = `$${(priceCents / 100).toFixed(2)}`;
+  // The full pack list (single + bundles) and the currently selected option.
+  // `priceCents` (server prop) is the single-report price; pricingOptions()
+  // derives from the same env var so the single option always matches it.
+  const options: PricingOption[] = pricingOptions();
+  const selectedOption =
+    options.find((o) => o.size === bundleSize) ?? options[0];
+  const priceLabel = formatUsd(selectedOption.priceCents);
   const vehicleTitle =
     preview &&
     ([
@@ -542,14 +569,55 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
 
           {/* ── Buy section ──────────────────────────────────────── */}
           <div className="px-6 sm:px-8 py-6 bg-surface-container/40 border-t border-outline-variant/40">
+            {/* Pack selector — single report or a discounted prepaid bundle.
+                Picking a bundle delivers this VIN's report now and banks the
+                rest as account credits, usable on any VIN within 12 months. */}
+            <div className="mb-5">
+              <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em] mb-2.5">
+                {locale === "es" ? "Elige tu paquete" : "Choose your pack"}
+              </p>
+              <BundleSelect
+                options={options}
+                selected={bundleSize}
+                onSelect={setBundleSize}
+                locale={locale}
+              />
+              {selectedOption.isBundle && (
+                <p className="mt-2.5 text-[11px] text-on-surface-variant leading-relaxed flex items-start gap-1.5">
+                  <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-primary" />
+                  <span>
+                    {locale === "es"
+                      ? `Recibes el reporte de este VIN ahora; los ${
+                          selectedOption.size - 1
+                        } restantes quedan como créditos en tu cuenta, válidos 12 meses para cualquier VIN.`
+                      : `You get this VIN's report now; the other ${
+                          selectedOption.size - 1
+                        } become account credits, good for 12 months on any VIN.`}
+                  </span>
+                </p>
+              )}
+            </div>
+
             {/* Price summary */}
             <div className="flex items-end justify-between mb-5 pb-5 border-b border-outline-variant/40">
               <div>
                 <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.16em]">
-                  Vehicle History Report
+                  {selectedOption.isBundle
+                    ? locale === "es"
+                      ? `Paquete de ${selectedOption.size} reportes`
+                      : `${selectedOption.size}-report pack`
+                    : locale === "es"
+                      ? "Reporte de historial vehicular"
+                      : "Vehicle History Report"}
                 </p>
                 <p className="text-xs text-on-surface-variant mt-0.5">
-                  One-time payment · Instant delivery
+                  {selectedOption.isBundle
+                    ? locale === "es"
+                      ? `${formatUsd(selectedOption.perReportCents)} por reporte · pago único`
+                      : `${formatUsd(selectedOption.perReportCents)} per report · one-time payment`
+                    : locale === "es"
+                      ? "Pago único · Entrega instantánea"
+                      : "One-time payment · Instant delivery"}
                 </p>
               </div>
               <div className="text-right">
@@ -620,7 +688,13 @@ export default function OrderVinForm({ priceCents, mockMode, locale = "en" }: Pr
               ) : (
                 <>
                   <FileText className="w-5 h-5" />
-                  Order Full Report — {priceLabel}
+                  {selectedOption.isBundle
+                    ? locale === "es"
+                      ? `Comprar ${selectedOption.size} reportes — ${priceLabel}`
+                      : `Get ${selectedOption.size} reports — ${priceLabel}`
+                    : locale === "es"
+                      ? `Pedir reporte completo — ${priceLabel}`
+                      : `Order Full Report — ${priceLabel}`}
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
