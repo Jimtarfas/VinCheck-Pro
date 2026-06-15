@@ -1012,9 +1012,9 @@ export default async function ReportPreviewPage({ params }: Props) {
         <div className="lg:hidden">{faqSection}</div>
 
         {/* Check Another Vehicle — moved here, under the final CTA */}
-        <section className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
-          <h2 className="font-headline font-extrabold text-lg sm:text-xl text-on-surface mb-2">Check Another Vehicle</h2>
-          <p className="text-sm sm:text-base text-on-surface-variant mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
+        <section className="bg-primary text-white rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
+          <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
+          <p className="text-sm sm:text-base text-white/75 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
           <div className="max-w-lg mx-auto">
             <VinSearchForm size="sm" />
           </div>
