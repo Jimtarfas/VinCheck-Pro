@@ -14,12 +14,16 @@ const REDDIT_PIXEL_ID =
 // Google Ads (gtag.js) — public conversion/remarketing tag id.
 const GOOGLE_ADS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18237007044";
-// Google Ads "Page view" conversion action — fires once per full page load to
-// measure ad-driven landing-page views. Unlike the Purchase conversion (in
-// order/success/PurchasePixel.tsx) it carries no monetary value, so we send
-// only the conversion label and skip the value/currency from the snippet — a
-// page view isn't worth a real dollar amount and the placeholder 1.0 EUR would
-// pollute the account's conversion-value reporting.
+// Google Ads "Page view" conversion action — fires once per full page load on
+// the HOME PAGE ONLY, to measure ad-driven landing-page views. Ads point at the
+// homepage, so firing this on every page across the site (specs, blog, order,
+// etc.) would massively over-count the conversion and pollute Smart Bidding.
+// Scoping it to "/" makes the in-page event the authoritative source for this
+// conversion (what Google Ads' "implement in-page code" recommendation wants).
+// Unlike the Purchase conversion (in order/success/PurchasePixel.tsx) it carries
+// no monetary value, so we send only the conversion label and skip the
+// value/currency — a page view isn't worth a real dollar amount and a
+// placeholder would pollute the account's conversion-value reporting.
 const GOOGLE_ADS_PAGEVIEW_SEND_TO =
   process.env.NEXT_PUBLIC_GOOGLE_ADS_PAGEVIEW_SEND_TO ||
   "AW-18237007044/xgbcCL_ewb4cEMTJivhD";
@@ -49,6 +53,11 @@ export default function Analytics() {
     (p) => pathname === p || pathname.startsWith(p + "/")
   );
   if (blocked) return null;
+
+  // The "Page view" conversion belongs on the ad landing page only. Ads send
+  // traffic to the homepage, so fire it on "/" exclusively. (usePathname()
+  // strips the query string, so "/?gclid=…" still matches.)
+  const isHome = pathname === "/";
 
   return (
     <>
@@ -98,8 +107,12 @@ export default function Analytics() {
             {`window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GOOGLE_ADS_ID}');
-            gtag('event', 'conversion', { 'send_to': '${GOOGLE_ADS_PAGEVIEW_SEND_TO}' });`}
+            gtag('config', '${GOOGLE_ADS_ID}');${
+              isHome
+                ? `
+            gtag('event', 'conversion', { 'send_to': '${GOOGLE_ADS_PAGEVIEW_SEND_TO}' });`
+                : ""
+            }`}
           </Script>
         </>
       )}
