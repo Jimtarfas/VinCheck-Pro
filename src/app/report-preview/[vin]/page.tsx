@@ -30,12 +30,16 @@ import {
   Sparkles,
   Gift,
   Globe2,
+  Palette,
+  MapPin,
 } from "lucide-react";
+import { headers } from "next/headers";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
 import { decodeVin, type VinData } from "@/lib/api";
 import { fetchPreview, isUsingMockData, type ClearVinPreview } from "@/lib/clearvin";
 import { fetchExternalVehiclePhotos } from "@/lib/external-photos";
+import { findBrand } from "@/lib/paint-codes";
 import MarketingCard from "./MarketingCard";
 import BuyReportButton from "@/components/BuyReportButton";
 import BundleUpsellCard from "./BundleUpsellCard";
@@ -176,6 +180,42 @@ function lockedRecords(p: ClearVinPreview | null) {
     { icon: Gavel, label: "Auction & sale records", note: "Sale price & location", count: p?.auctionHistoryRecords || null },
     { icon: Wrench, label: "Theft & total-loss checks", note: "Stolen / recovered / junked", count: null },
   ];
+}
+
+/* Best-effort paint-code estimate (Option 3).
+ *
+ * Paint codes are NOT encoded in the VIN and no integrated data source returns
+ * a per-VIN factory paint code — only a color NAME (from a listing) or a
+ * brand's catalog. So this is a *heuristic*: take the report's exterior color
+ * name and fuzzy-match it against the known example colors for the make in our
+ * paint-code reference. A hit gives a *likely* code to look for on the car; it
+ * is explicitly labeled as an estimate, never presented as confirmed fact. */
+function normalizeColor(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/metallic|pearl|mica|clearcoat|tri-coat|tricoat|effect/g, "")
+    .replace(/[^a-z]/g, "");
+}
+
+function likelyPaintCode(
+  make: string | undefined,
+  colorName: string | undefined
+): { code: string; matchedName: string } | null {
+  if (!make || !colorName) return null;
+  const brand = findBrand(make.toLowerCase().trim().replace(/\s+/g, "-"));
+  if (!brand) return null;
+  const target = normalizeColor(colorName);
+  if (!target) return null;
+  for (const ex of brand.examples) {
+    const candidate = normalizeColor(ex.colorName);
+    if (!candidate) continue;
+    // Match when either name contains the other (handles "Shadow Black" vs
+    // "Tuxedo Black / Shadow Black", "White" vs "Oxford White", etc.).
+    if (candidate.includes(target) || target.includes(candidate)) {
+      return { code: ex.code, matchedName: ex.colorName };
+    }
+  }
+  return null;
 }
 
 /* Screen-4 "every record your report checks" grid. */
@@ -410,6 +450,19 @@ export default async function ReportPreviewPage({ params }: Props) {
       preview.imagesAmount
     : 0;
   const records = lockedRecords(preview);
+
+  // Paint-code section (Option 3) — only shown when the buyer arrived from the
+  // paint-code lookup/finder tools, so it answers the intent they came with
+  // without cluttering the report for everyone else.
+  const referer = (await headers()).get("referer") || "";
+  const cameFromPaint = /\/paint-code-(lookup|finder)/.test(referer);
+  const paintBrand = cameFromPaint
+    ? findBrand(make.toLowerCase().trim().replace(/\s+/g, "-"))
+    : undefined;
+  const paintColorName = decoded?.listing?.displayColor;
+  const likelyPaint = cameFromPaint
+    ? likelyPaintCode(make, paintColorName)
+    : null;
 
   const orderHref = `/order?vin=${encodeURIComponent(cleaned)}`;
   const exampleHref = "/full-report/1C4RJEAG0JC168184";
@@ -892,6 +945,130 @@ export default async function ReportPreviewPage({ params }: Props) {
           })}
         </div>
       </section>
+
+      {/* Paint code (estimated) — only when the buyer arrived from the
+          paint-code lookup/finder tools. Paint codes are never encoded in the
+          VIN, so this is a best-effort estimate clearly labeled as such. */}
+      {cameFromPaint && (
+        <section>
+          <div className="flex items-center gap-2 mb-2">
+            <Palette className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-headline font-extrabold text-primary">
+              Paint code{make ? ` for your ${make}` : ""}{" "}
+              <span className="text-secondary-container">(estimated)</span>
+            </h2>
+          </div>
+          <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
+            A factory paint code is <strong>not</strong> stored in the VIN, so
+            it can&apos;t be decoded from the 17 characters alone. The exact code
+            lives on a sticker on the car. Based on this vehicle&apos;s details,
+            here&apos;s our best estimate of what it <em>may</em> be and exactly
+            where to find the real one.
+          </p>
+
+          <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 sm:p-6 space-y-5">
+            {/* Likely code — only when we could match the color name */}
+            {likelyPaint ? (
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-1">
+                  Likely paint code (estimate — verify on the car)
+                </p>
+                <div className="flex items-baseline gap-3 flex-wrap">
+                  <span className="font-mono font-extrabold text-2xl text-amber-900">
+                    {likelyPaint.code}
+                  </span>
+                  <span className="text-sm font-semibold text-amber-900">
+                    {likelyPaint.matchedName}
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-amber-900 leading-relaxed">
+                  This is matched from the color on file
+                  {paintColorName ? ` (“${paintColorName}”)` : ""} and may not be
+                  exact — color names map to several codes across model years.
+                  Always confirm against the sticker before ordering paint.
+                </p>
+              </div>
+            ) : (
+              <div className="rounded-xl border border-outline-variant bg-surface-container p-4">
+                <p className="text-sm text-on-surface-variant leading-relaxed">
+                  We couldn&apos;t confidently estimate a code for this VIN
+                  {paintColorName ? ` (color on file: “${paintColorName}”)` : ""}.
+                  The surest way is to read it directly off the car — here&apos;s
+                  where to look.
+                </p>
+              </div>
+            )}
+
+            {/* Where to find the real code — brand-specific when known */}
+            {paintBrand ? (
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <MapPin className="w-4 h-4 text-primary" />
+                    <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                      Where to find it
+                    </p>
+                  </div>
+                  <p className="text-sm font-semibold text-on-surface">
+                    {paintBrand.primaryLocation}
+                  </p>
+                  {paintBrand.secondaryLocations.length > 0 && (
+                    <ul className="mt-2 space-y-1">
+                      {paintBrand.secondaryLocations.map((loc) => (
+                        <li
+                          key={loc}
+                          className="text-xs text-on-surface-variant flex items-start gap-1.5"
+                        >
+                          <ChevronRight className="w-3.5 h-3.5 text-outline flex-shrink-0 mt-0.5" />
+                          {loc}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <FileText className="w-4 h-4 text-primary" />
+                    <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                      What it looks like
+                    </p>
+                  </div>
+                  <p className="text-sm font-semibold text-on-surface">
+                    {paintBrand.stickerLabel}
+                  </p>
+                  <p className="mt-1 text-xs text-on-surface-variant leading-relaxed">
+                    {paintBrand.codeFormat}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-on-surface-variant leading-relaxed">
+                On most vehicles the paint code is on a sticker in the
+                driver-side door jamb, the spare-tire well, or under the hood —
+                look for a row labeled “Color,” “Paint,” or “EXT.”
+              </p>
+            )}
+
+            {/* CTAs back to the dedicated tools */}
+            <div className="flex flex-wrap gap-3 pt-1">
+              <Link
+                href="/paint-code-lookup"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:opacity-90 transition"
+              >
+                <Palette className="w-4 h-4" />
+                Full paint-code guide
+              </Link>
+              <Link
+                href="/paint-code-finder"
+                className="inline-flex items-center gap-1.5 rounded-full border border-outline-variant px-4 py-2 text-sm font-bold text-on-surface hover:bg-surface-container transition"
+              >
+                Find by make &amp; model
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 
