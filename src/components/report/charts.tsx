@@ -8,8 +8,29 @@
  * responsive through a viewBox + width:100%.
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { OdometerReading, MarketValueBand } from "@/lib/clearvin-report";
+
+/**
+ * The wide charts use a `viewBox` + `width:100%`, so the SVG scales to its
+ * container. On a phone that container is narrow, which scales the whole 720-wide
+ * viewBox *down* — shrinking the line, dots, and (worst of all) the axis labels
+ * to ~5px. To fix legibility on phones we swap in a smaller, taller viewBox: a
+ * smaller width scales the chart *up* (bigger lines + readable labels) and the
+ * taller aspect ratio gives the data room to breathe on a portrait screen.
+ * Desktop is left exactly as-is.
+ */
+function useNarrowViewport(): boolean {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const update = () => setNarrow(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return narrow;
+}
 
 const fmt = (n: number) => n.toLocaleString();
 const fmtDate = (iso: string) => {
@@ -24,10 +45,11 @@ const fmtDate = (iso: string) => {
 export function OdometerChart({ readings }: { readings: OdometerReading[] }) {
   const pts = readings.filter((r) => r.date);
   const [hover, setHover] = useState<number | null>(null);
+  const narrow = useNarrowViewport();
   if (pts.length < 2) return null;
 
-  const W = 720;
-  const H = 240;
+  const W = narrow ? 380 : 720;
+  const H = narrow ? 300 : 240;
   const padL = 56;
   const padR = 16;
   const padT = 16;
@@ -137,12 +159,13 @@ export function ValueBars({ retail, tradeIn, currency }: { retail: MarketValueBa
     { label: "Rough", retail: retail.rough, trade: tradeIn.rough },
   ];
   const max = Math.max(1, ...groups.flatMap((g) => [g.retail, g.trade])) * 1.15;
-  const W = 720;
-  const H = 240;
+  const narrow = useNarrowViewport();
+  const W = narrow ? 380 : 720;
+  const H = narrow ? 300 : 240;
   const padB = 42;
   const padT = 12;
   const groupW = W / groups.length;
-  const barW = 54;
+  const barW = narrow ? 44 : 54;
   const cur = (n: number) => `${currency === "USD" ? "$" : ""}${fmt(n)}`;
 
   // hover = "<groupIndex>-<retail|trade>"
