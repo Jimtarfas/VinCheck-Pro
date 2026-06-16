@@ -199,3 +199,66 @@ export const relatedPostsQuery = groq`
     ${POST_FIELDS}
   }
 `;
+
+// ── Blog-bot admin queries (Wave 13) ──────────────────────────────
+//
+// Posts produced by /api/cron/blog-bot have three lifecycle states the
+// admin dashboard cares about:
+//
+//   PUBLISHED  — noIndex was flipped to false by the unindex sweep, so
+//                the post is live at /blog. Sorted newest first by
+//                publishedAt (the moment the bot wrote it, not when it
+//                flipped public — those are typically 24h apart).
+//   UPCOMING   — written by the bot but still inside the 24h quality
+//                hold (noIndex=true, indexAt > now()). Sorted by the
+//                soonest to flip live first.
+//   STUCK      — defensive: noIndex=true AND indexAt is already in the
+//                past. Shouldn't happen if the daily unindex cron runs,
+//                but surfaces stale rows so an operator can see the
+//                cron isn't running.
+//
+// All three queries project a narrow field set — no body, no related
+// posts — because the admin table only needs title/slug/timestamps/
+// category. Cheaper to fetch, easier to render.
+
+const BOT_LIST_FIELDS = `
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  indexAt,
+  noIndex,
+  botRunId,
+  category->{ title, "slug": slug.current, color }
+`;
+
+export const botPublishedPostsQuery = groq`
+  *[_type == "post"
+    && botGenerated == true
+    && noIndex == false]
+  | order(publishedAt desc)[0...50] {
+    ${BOT_LIST_FIELDS}
+  }
+`;
+
+export const botUpcomingPostsQuery = groq`
+  *[_type == "post"
+    && botGenerated == true
+    && noIndex == true
+    && defined(indexAt)
+    && indexAt > now()]
+  | order(indexAt asc)[0...50] {
+    ${BOT_LIST_FIELDS}
+  }
+`;
+
+export const botStuckPostsQuery = groq`
+  *[_type == "post"
+    && botGenerated == true
+    && noIndex == true
+    && defined(indexAt)
+    && indexAt <= now()]
+  | order(indexAt asc)[0...50] {
+    ${BOT_LIST_FIELDS}
+  }
+`;

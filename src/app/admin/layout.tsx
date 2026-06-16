@@ -19,6 +19,7 @@ const navItems = [
   { href: "/admin/signups", label: "Signup Sources" },
   { href: "/admin/lookups", label: "VIN Lookups" },
   { href: "/admin/clearvin", label: "ClearVin" },
+  { href: "/admin/blog-bot", label: "Blog Bot" },
   { href: "/admin/contact", label: "Contact Forms" },
 ];
 
