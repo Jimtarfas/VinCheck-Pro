@@ -30,6 +30,29 @@ const BING_USER_AGENT =
 // near-lossless). This is what turns a blurry placeholder into a usable hero.
 const HQ_THUMB_PARAMS = "&w=960&h=600&c=7&rs=1&qlt=95&o=7&pid=Api";
 
+// Tokens that mark an image as a bare/incomplete-vehicle studio shot rather
+// than a finished, on-the-road vehicle. "Incomplete" VINs (motorhome, cab, and
+// stripped chassis — e.g. Ford F53/F59) only ever leave the factory as a bare
+// frame, so Bing's best "same make/model" matches are alarming chassis photos
+// that look like a vehicle mid-assembly. We exclude them both from the search
+// query and from the results, falling through to the clean "No Photos"
+// placeholder instead of presenting a frame as the hero image.
+const CHASSIS_TOKENS = [
+  "chassis",
+  "cutaway",
+  "stripped",
+  "incomplete",
+  "bare frame",
+  "rolling frame",
+  "frame rail",
+];
+
+function isChassisLike(s: string | undefined): boolean {
+  if (!s) return false;
+  const lower = s.toLowerCase();
+  return CHASSIS_TOKENS.some((t) => lower.includes(t));
+}
+
 function decodeEntities(s: string): string {
   return s
     .replace(/&quot;/g, '"')
@@ -60,7 +83,11 @@ export async function fetchExternalVehiclePhotos(
   // year rather than drifting to nearby generations, then bias toward clean
   // exterior studio shots with the trailing keywords.
   const core = `"${year} ${make} ${model}"`;
-  const refine = [extras?.trim, extras?.color, extras?.bodyType, "exterior"]
+  // Drop a chassis-like body style from the query — feeding "chassis"/"cutaway"
+  // to Bing pulls bare-frame factory shots to the top. Bias toward a finished
+  // exterior instead.
+  const safeBodyType = isChassisLike(extras?.bodyType) ? undefined : extras?.bodyType;
+  const refine = [extras?.trim, extras?.color, safeBodyType, "exterior"]
     .filter(Boolean)
     .join(" ");
   const query = `${core} ${refine}`.trim();
@@ -118,6 +145,13 @@ export async function fetchExternalVehiclePhotos(
       // (the cause of the food-photo bug) fail this and are dropped.
       const haystack = `${meta.t ?? ""} ${meta.desc ?? ""} ${meta.purl ?? ""}`.toLowerCase();
       if (!haystack.includes(makeToken) || !haystack.includes(modelToken)) {
+        continue;
+      }
+
+      // Drop bare-chassis / cutaway / stripped-frame studio shots. For
+      // incomplete-vehicle VINs these are the literal make/model but look like a
+      // vehicle mid-build — better to show nothing than a frame as the hero.
+      if (isChassisLike(haystack)) {
         continue;
       }
 
