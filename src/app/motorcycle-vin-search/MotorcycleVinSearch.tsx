@@ -459,7 +459,7 @@ export default function MotorcycleVinSearch() {
           {/* CTAs */}
           <div className="grid sm:grid-cols-2 gap-3">
             <Link
-              href={`/report/${parsed.vin}`}
+              href={`/report/${parsed.vin}?from=motorcycle-vin-search`}
               className="group flex items-center justify-between gap-3 p-5 rounded-2xl bg-primary-600 text-white hover:bg-primary-700 transition"
             >
               <div>

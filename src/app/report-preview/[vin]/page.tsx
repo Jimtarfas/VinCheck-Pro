@@ -33,6 +33,8 @@ import {
   Palette,
   MapPin,
   Waves,
+  Bike,
+  Citrus,
 } from "lucide-react";
 import { headers } from "next/headers";
 import { getReportContext, type ReportContext } from "@/lib/report-context";
@@ -465,6 +467,10 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     Fingerprint,
     Skull,
     Waves,
+    Bike,
+    Car,
+    Citrus,
+    ScrollText,
   };
   const contextBanner = reportContext
     ? (() => {

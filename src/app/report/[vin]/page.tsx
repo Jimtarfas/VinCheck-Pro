@@ -12,6 +12,9 @@ export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ vin: string }>;
+  // Forwarded to ReportPreviewPage for the source-page "message match" banner
+  // (e.g. the motorcycle-vin-search CTA links here with ?from=…).
+  searchParams?: Promise<{ from?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -45,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ReportPage({ params }: Props) {
+export default async function ReportPage({ params, searchParams }: Props) {
   const { vin } = await params;
   const cleaned = vin.trim().toUpperCase();
 
@@ -130,7 +133,7 @@ export default async function ReportPage({ params }: Props) {
       {/* Render the ClearVin preview (vehicle identity, photos, recall/auction/
           damage record counts) rather than the auto.dev decode — same upsell
           experience as /report-preview. */}
-      <ReportPreviewPage params={params} />
+      <ReportPreviewPage params={params} searchParams={searchParams} />
     </>
   );
 }
