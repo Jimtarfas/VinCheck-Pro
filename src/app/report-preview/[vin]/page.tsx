@@ -32,8 +32,10 @@ import {
   Globe2,
   Palette,
   MapPin,
+  Waves,
 } from "lucide-react";
 import { headers } from "next/headers";
+import { getReportContext, type ReportContext } from "@/lib/report-context";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
 import { decodeVin, type VinData } from "@/lib/api";
@@ -81,6 +83,10 @@ const SINGLE_PRICE = Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999")
 
 interface Props {
   params: Promise<{ vin: string }>;
+  // `from` carries the source-page slug for the contextual "message match"
+  // banner (see src/lib/report-context.ts). Optional — the report is fully
+  // functional without it, and generateMetadata ignores it.
+  searchParams?: Promise<{ from?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -277,10 +283,15 @@ const SUMMARY_GROUPS = [
   },
 ];
 
-export default async function ReportPreviewPage({ params }: Props) {
+export default async function ReportPreviewPage({ params, searchParams }: Props) {
   const { vin } = await params;
   const cleaned = vin.trim().toUpperCase();
   if (cleaned.length !== 17) notFound();
+
+  // Source-page "message match" context — drives the optional banner that
+  // echoes the check the visitor came from (e.g. arriving from /warranty-check
+  // shows a warranty-framed intro). null for direct/organic/unknown sources.
+  const reportContext = getReportContext((await searchParams)?.from);
 
   // Pull the production ClearVin preview (vehicle identity + photos — the
   // source of truth for this preview) and auto.dev's decode (used ONLY for the
@@ -440,6 +451,47 @@ export default async function ReportPreviewPage({ params }: Props) {
   const vehicleLabel =
     [s?.year ?? aiYear, make, s?.model ?? reportData.model?.name].filter(Boolean).join(" ") ||
     cleaned;
+
+  // ── Source-page "message match" banner ──────────────────────────────────
+  // Additive only: rendered at the top of the main report column when the
+  // visitor arrived from a focused check tool (reportContext != null). The
+  // baseline report is unchanged for everyone else.
+  const CONTEXT_ICONS: Record<ReportContext["icon"], typeof ShieldCheck> = {
+    BadgeCheck,
+    Banknote,
+    AlertTriangle,
+    Gauge,
+    ShieldAlert,
+    Fingerprint,
+    Skull,
+    Waves,
+  };
+  const contextBanner = reportContext
+    ? (() => {
+        const Icon = CONTEXT_ICONS[reportContext.icon];
+        const fill = (t: string) => t.replace(/\{vehicle\}/g, vehicleLabel);
+        return (
+          <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.07] to-surface-container-lowest p-5 sm:p-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-primary/10">
+                <Icon className="h-5 w-5 text-primary" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-primary">
+                  {reportContext.eyebrow}
+                </p>
+                <h2 className="mt-1 font-headline text-lg font-extrabold leading-tight text-on-surface sm:text-xl">
+                  {fill(reportContext.headline)}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-on-surface-variant">
+                  {fill(reportContext.body)}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })()
+    : null;
 
   // Total "history records" on file — matches ClearVin's headline count, which
   // rolls photos in alongside auction, damage and recall records.
@@ -738,6 +790,8 @@ export default async function ReportPreviewPage({ params }: Props) {
   /* ── Premium sections injected UNDER the car info (main column) ── */
   const premiumSections = (
     <div className="space-y-12">
+      {/* Source-page message-match banner (additive; null for direct visits) */}
+      {contextBanner}
       {/* Build & pricing specs — free, complements VinReport's identity cards */}
       {buildSpecs.length > 0 && (
         <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden">

@@ -1,14 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Search, Loader2 } from "lucide-react";
+import { contextSlugForPath } from "@/lib/report-context";
 
 export default function VinSearchForm({ size = "lg", onDark = false }: { size?: "lg" | "sm"; onDark?: boolean }) {
   const [vin, setVin] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  // When this form lives on a focused check page (e.g. /warranty-check), carry
+  // that context into the report URL so the report can echo what the visitor
+  // came to check. Returns null on pages with no tailored variant.
+  const pathname = usePathname() ?? "";
+  const fromSlug = contextSlugForPath(pathname);
 
   // A correct VIN is exactly 17 characters and contains no I, O, or Q.
   const isValidVin = (v: string) => v.length === 17 && !/[IOQ]/.test(v);
@@ -19,7 +25,8 @@ export default function VinSearchForm({ size = "lg", onDark = false }: { size?: 
     if (/[IOQ]/.test(cleaned)) { setError("VINs cannot contain I, O, or Q characters."); return; }
     setError("");
     setLoading(true);
-    router.push(`/report-preview/${cleaned}`);
+    const query = fromSlug ? `?from=${fromSlug}` : "";
+    router.push(`/report-preview/${cleaned}${query}`);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
