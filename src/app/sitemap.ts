@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { makes } from "@/lib/makes";
 import { states } from "@/lib/states";
+import { LEMON_LAWS } from "@/lib/lemon-laws";
 import { marketplaces } from "@/lib/marketplaces";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
@@ -86,6 +87,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
+  // Per-state lemon law check pages (/lemon-check/[state]) — one for each
+  // state that has both DMV data and a lemon-law reference entry.
+  const lemonStatePages: MetadataRoute.Sitemap = states
+    .filter((s) => LEMON_LAWS.some((l) => l.abbr === s.abbr))
+    .map((s) => ({
+      url: `${baseUrl}/lemon-check/${s.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -157,6 +169,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/accident-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/odometer-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/lemon-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...lemonStatePages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.

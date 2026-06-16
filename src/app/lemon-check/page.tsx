@@ -31,6 +31,15 @@ import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
 import StateLemonLawTable from "./StateLemonLawTable";
 import { ORG_AUTHOR } from "@/lib/seo/author";
+import { states } from "@/lib/states";
+import { LEMON_LAWS } from "@/lib/lemon-laws";
+
+// States that have a dedicated /lemon-check/[state] page (those present in
+// both the DMV dataset and the legal reference). Used for the internal-link
+// grid below so every state guide is crawlable from the hub.
+const STATE_LINKS = states
+  .filter((s) => LEMON_LAWS.some((l) => l.abbr === s.abbr))
+  .map((s) => ({ slug: s.slug, name: s.name }));
 
 const SITE = "https://www.carcheckervin.com";
 
@@ -811,6 +820,33 @@ export default function LemonCheckPage() {
           {/* Interactive 50-state table */}
           <section className="py-12 sm:py-16 border-b border-outline-variant">
             <StateLemonLawTable />
+          </section>
+
+          {/* Per-state lemon law guides */}
+          <section className="py-12 sm:py-16 border-b border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Lemon Law Check by State
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7 max-w-3xl">
+              Lemon laws are written state by state, and the coverage window,
+              repair-attempt threshold, and buyback title brand all differ.
+              Open your state&apos;s guide for the exact rules and a free
+              VIN-based buyback check.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+              {STATE_LINKS.map((st) => (
+                <Link
+                  key={st.slug}
+                  href={`/lemon-check/${st.slug}`}
+                  className="flex items-center gap-2 rounded-xl border border-outline-variant bg-surface-container-lowest hover:border-primary/40 hover:bg-primary/5 transition-colors px-3.5 py-2.5 group"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-bold text-on-surface group-hover:text-primary truncate">
+                    {st.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </section>
 
           {/* How a lemon ends up on a used lot */}
