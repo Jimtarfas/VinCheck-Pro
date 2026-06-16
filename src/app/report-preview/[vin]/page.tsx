@@ -40,6 +40,7 @@ import MarketingCard from "./MarketingCard";
 import BuyReportButton from "@/components/BuyReportButton";
 import BundleUpsellCard from "./BundleUpsellCard";
 import StickyBuyBar from "./StickyBuyBar";
+import ReportColumnFiller from "./ReportColumnFiller";
 
 /* Small laurel-wreath flourish for the satisfaction-guarantee seal. */
 function Laurel({ className = "" }: { className?: string }) {
@@ -1004,6 +1005,25 @@ export default async function ReportPreviewPage({ params }: Props) {
         data={reportData}
         hideCheckAnother
         mainExtra={premiumSections}
+        mainFiller={
+          <ReportColumnFiller>
+            <div className="h-full rounded-3xl border border-outline-variant bg-gradient-to-br from-primary/[0.06] to-surface-container-lowest p-6 flex flex-col items-center justify-center text-center">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-3">
+                <ShieldCheck className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="font-headline font-extrabold text-lg text-on-surface mb-1.5">
+                No surprises before you buy
+              </h3>
+              <p className="text-sm text-on-surface-variant max-w-xs mb-4">
+                Unlock the full NMVTIS title history, accident, odometer and
+                ownership records for this {vehicleLabel}.
+              </p>
+              <BuyReportButton className="inline-flex items-center justify-center gap-2 bg-primary text-white rounded-2xl px-6 py-3 font-headline font-extrabold text-sm shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors cursor-pointer">
+                <Lock className="w-4 h-4" /> See the full report — ${SINGLE_PRICE.toFixed(2)}
+              </BuyReportButton>
+            </div>
+          </ReportColumnFiller>
+        }
         sidebarReplaceAI={sidebarCard}
         lockedPhotoCount={lockedPhotoCount}
         lockListing={!!reportData.listing}

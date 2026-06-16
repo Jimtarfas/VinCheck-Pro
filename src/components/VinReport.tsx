@@ -465,6 +465,7 @@ export default function VinReport({
   data,
   hideCheckAnother = false,
   mainExtra,
+  mainFiller,
   sidebarReplaceAI,
   lockedPhotoCount,
   lockListing = false,
@@ -485,6 +486,9 @@ export default function VinReport({
   hideCheckAnother?: boolean;
   /** Extra content appended to the end of the main column (premium sections). */
   mainExtra?: React.ReactNode;
+  /** Desktop-only filler rendered as the last main-column child; balances the
+   *  column height against the taller sidebar when the report is data-sparse. */
+  mainFiller?: React.ReactNode;
   /** When provided, replaces the AI block in the sidebar (e.g. the paywall card). */
   sidebarReplaceAI?: React.ReactNode;
   /** Preview: total photos on file — renders blurred locked thumbnails to tease them. */
@@ -973,6 +977,10 @@ export default function VinReport({
 
             {/* Preview-only: premium sections injected under the car info */}
             {mainExtra}
+
+            {/* Preview-only: balances the column height on desktop when the
+                report is sparse, so the main column never ends in a blank gap. */}
+            {mainFiller}
           </div>
 
           {/* ── RIGHT SIDEBAR (1/3) — scrolls naturally with the page.
