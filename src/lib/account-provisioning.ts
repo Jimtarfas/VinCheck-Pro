@@ -1,5 +1,12 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+interface GenerateLinkResponse {
+  data: {
+    properties?: { action_link?: string | null } | null;
+  } | null;
+  error: { message: string } | null;
+}
+
 /**
  * Auto-provision a buyer account the moment a purchase is confirmed.
  *
@@ -63,4 +70,42 @@ export async function provisionAccountForOrder(
   }
 
   return result;
+}
+
+/**
+ * Generate a one-click magic-link URL the buyer can use to sign in
+ * without a password. Used by the order-confirmation email so the
+ * buyer can reach their account dashboard from inbox.
+ *
+ *   - Works for both newly-provisioned accounts AND accounts that
+ *     already existed (e.g. the buyer signed up earlier with a
+ *     password and now bought from a different browser).
+ *   - Returns null on any failure so the caller can fall back to the
+ *     direct report link silently. Never throws — this lives in the
+ *     critical webhook path.
+ *   - `redirectTo` is where Supabase sends the buyer after the token
+ *     is verified; our existing /auth/callback route exchanges the
+ *     code and forwards to ?next=. Pass the full absolute URL.
+ */
+export async function generateBuyerMagicLink(
+  admin: SupabaseClient,
+  params: { email: string | null | undefined; redirectTo: string }
+): Promise<string | null> {
+  const email = (params.email || "").trim().toLowerCase();
+  if (!email) return null;
+
+  try {
+    // generateLink is typed as `any` in some supabase-js versions, so we
+    // shape the response locally rather than relying on the SDK types.
+    const res = (await admin.auth.admin.generateLink({
+      type: "magiclink",
+      email,
+      options: { redirectTo: params.redirectTo },
+    })) as GenerateLinkResponse;
+    if (res.error) return null;
+    const link = res.data?.properties?.action_link || null;
+    return link || null;
+  } catch {
+    return null;
+  }
 }

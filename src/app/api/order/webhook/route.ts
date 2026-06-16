@@ -2,8 +2,27 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyWebhookSignature } from "@/lib/stripe";
 import { fetchFullReport } from "@/lib/clearvin";
-import { provisionAccountForOrder } from "@/lib/account-provisioning";
+import {
+  provisionAccountForOrder,
+  generateBuyerMagicLink,
+} from "@/lib/account-provisioning";
 import { getBundle, CREDIT_VALIDITY_MONTHS } from "@/lib/pricing";
+import { sendEmail, isResendConfigured } from "@/lib/email/resend";
+import { renderOrderConfirmation } from "@/lib/email/order-confirmation";
+
+/**
+ * Public origin used for links inside the confirmation email. The buyer
+ * flow is canonical on app.carcheckervin.com; pretty paths there are
+ * rewritten by the proxy onto /order/* internally. NEXT_PUBLIC_APP_URL
+ * lets local dev / preview deploys override.
+ */
+const PUBLIC_APP_ORIGIN = (
+  process.env.NEXT_PUBLIC_APP_URL ||
+  "https://app.carcheckervin.com"
+).replace(/\/+$/, "");
+
+const SUPPORT_EMAIL =
+  process.env.SUPPORT_EMAIL || "support@carcheckervin.com";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -75,7 +94,9 @@ export async function POST(req: Request) {
         stripe_payment_intent_id: session.payment_intent || null,
       })
       .eq("id", orderId)
-      .select("user_id, user_email, bundle_size")
+      .select(
+        "user_id, user_email, bundle_size, vehicle_label, amount_cents, currency"
+      )
       .single();
 
     // 1b) Auto-create the buyer's account (and tie this order to it) so the
@@ -94,24 +115,30 @@ export async function POST(req: Request) {
     // arbitrary credits. Best-effort and idempotent: source_order_id is unique
     // per order, so a Stripe retry won't double-grant.
     const bundle = getBundle(paidRow?.bundle_size);
+    // Hoisted so the confirmation email can display the bundle expiry
+    // alongside the credit count, instead of just "credits added".
+    let bundleExpiresAt: string | null = null;
     if (bundle && bundle.size > 1) {
       try {
         const { data: existing } = await admin
           .from("report_credits")
-          .select("id")
+          .select("id, expires_at")
           .eq("source_order_id", orderId)
           .maybeSingle();
         if (!existing) {
           const expiresAt = new Date();
           expiresAt.setMonth(expiresAt.getMonth() + CREDIT_VALIDITY_MONTHS);
+          bundleExpiresAt = expiresAt.toISOString();
           await admin.from("report_credits").insert({
             user_id: paidRow?.user_id ?? null,
             user_email: paidRow?.user_email ?? "",
             source_order_id: orderId,
             bundle_size: bundle.size,
             remaining: bundle.size - 1,
-            expires_at: expiresAt.toISOString(),
+            expires_at: bundleExpiresAt,
           });
+        } else {
+          bundleExpiresAt = existing.expires_at ?? null;
         }
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -141,6 +168,74 @@ export async function POST(req: Request) {
         delivered_at: new Date().toISOString(),
       })
       .eq("id", orderId);
+
+    // 4) Order-confirmation email.
+    //
+    // Best-effort: any failure here (Resend down, no magic link granted,
+    // template render hiccup) must NEVER mark the webhook as failed,
+    // because that would make Stripe retry the whole event and we'd
+    // re-trigger the ClearVin fetch + bundle credit grant on the
+    // retried call. The credit-grant insert is idempotent on
+    // source_order_id, so a duplicate wouldn't double-grant — but the
+    // ClearVin call costs money, so we explicitly swallow email errors.
+    //
+    // Email is skipped silently when:
+    //   - RESEND_API_KEY isn't set (preview / local dev)
+    //   - The order has no email on file (shouldn't happen — the
+    //     checkout API rejects orders without an email — but guard
+    //     anyway).
+    if (isResendConfigured() && paidRow?.user_email) {
+      try {
+        // Magic link is optional — when it fails (e.g. the email
+        // already belongs to an account with a strict redirect policy)
+        // the email still ships with the direct report button, which
+        // works via the order_<id> cookie set at checkout.
+        const signInUrl =
+          (await generateBuyerMagicLink(admin, {
+            email: paidRow.user_email,
+            redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account`,
+          })) || undefined;
+
+        const reportUrl = `${PUBLIC_APP_ORIGIN}/order/report/${orderId}`;
+
+        const rendered = renderOrderConfirmation({
+          orderId,
+          vin,
+          vehicleLabel: paidRow.vehicle_label ?? null,
+          amountCents: paidRow.amount_cents ?? 0,
+          currency: paidRow.currency || "usd",
+          bundleSize: paidRow.bundle_size ?? null,
+          bundleExpiresAt,
+          reportUrl,
+          signInUrl,
+          siteOrigin: PUBLIC_APP_ORIGIN.replace(/^https?:\/\//, ""),
+          supportEmail: SUPPORT_EMAIL,
+        });
+
+        const sendResult = await sendEmail({
+          to: paidRow.user_email,
+          subject: rendered.subject,
+          html: rendered.html,
+          text: rendered.text,
+          replyTo: SUPPORT_EMAIL,
+        });
+        if (!sendResult.ok && !sendResult.skipped) {
+          // eslint-disable-next-line no-console
+          console.error(
+            "[webhook] confirmation email failed for order",
+            orderId,
+            sendResult.error
+          );
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(
+          "[webhook] confirmation email threw for order",
+          orderId,
+          e
+        );
+      }
+    }
 
     return NextResponse.json({ received: true, delivered: true });
   }
