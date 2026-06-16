@@ -72,6 +72,14 @@ const nextConfig: NextConfig = {
         destination: "/recall-check",
         permanent: true,
       },
+      // `/lien-check` is cited externally (e.g. Microsoft Copilot) but only
+      // `/vehicle-lien-check` exists, so the short alias 404s. 301 it to the
+      // canonical page to recover the citation and clear the crawler 404.
+      {
+        source: "/lien-check",
+        destination: "/vehicle-lien-check",
+        permanent: true,
+      },
     ];
   },
 
