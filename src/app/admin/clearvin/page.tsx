@@ -18,6 +18,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { fetchAccountStats, CLEARVIN_TEST_VINS } from "@/lib/clearvin";
 import { fetchStripeProdStats, stripeConfig } from "@/lib/stripe";
 import AutoRefresh from "../_components/AutoRefresh";
+import ResendEmailButton from "./_components/ResendEmailButton";
 
 export const dynamic = "force-dynamic";
 
@@ -1079,14 +1080,27 @@ export default async function AdminClearVinPage({
                               PDF endpoint — it returns ClearVin's
                               un-branded PDF which is NOT what the buyer
                               downloaded. */}
-                          <Link
-                            href={`/order/report/${o.id}`}
-                            className="text-[11px] font-semibold text-primary-600 hover:text-primary-700 hover:underline"
-                            target="_blank"
-                            title="Opens the exact CarCheckerVIN-branded report the buyer saw (and downloaded as PDF)"
-                          >
-                            View buyer&rsquo;s report ↗
-                          </Link>
+                          <div className="inline-flex items-center gap-2 flex-wrap justify-end">
+                            <Link
+                              href={`/order/report/${o.id}`}
+                              className="text-[11px] font-semibold text-primary-600 hover:text-primary-700 hover:underline"
+                              target="_blank"
+                              title="Opens the exact CarCheckerVIN-branded report the buyer saw (and downloaded as PDF)"
+                            >
+                              View buyer&rsquo;s report ↗
+                            </Link>
+                            {/* Operator-fired confirmation-email re-send.
+                                Useful when the original send was skipped
+                                (Resend wasn't configured at delivery time,
+                                schema migration hadn't run, buyer says the
+                                email got lost in spam). Right-clicking the
+                                button lets the operator send to a different
+                                inbox without leaving the row. */}
+                            <ResendEmailButton
+                              orderId={o.id}
+                              buyerEmail={o.user_email}
+                            />
+                          </div>
                         </td>
                       </tr>
                     );

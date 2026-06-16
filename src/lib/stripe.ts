@@ -546,6 +546,11 @@ export async function fetchStripeProdStats(): Promise<StripeProdStats> {
     amount_refunded: number;
     currency: string;
     created: number;
+    // Stripe doesn't auto-populate receipt_email from the Checkout
+    // Session's customer_email anymore. We expand payment_intent to
+    // recover it from there (see expand[] below). billing_details.email
+    // is the third source — set when the buyer typed an email into
+    // Stripe's link/card form even when no Checkout was used.
     receipt_email: string | null;
     receipt_url: string | null;
     description: string | null;
@@ -553,6 +558,11 @@ export async function fetchStripeProdStats(): Promise<StripeProdStats> {
       card?: { brand?: string; last4?: string; country?: string };
       type?: string;
     };
+    billing_details?: { email?: string | null } | null;
+    payment_intent?:
+      | string
+      | null
+      | { id?: string; receipt_email?: string | null };
     status: string;
     refunded: boolean;
     disputed: boolean;
@@ -582,8 +592,12 @@ export async function fetchStripeProdStats(): Promise<StripeProdStats> {
   const [account, balance, charges, disputes, payouts, customers] = await Promise.all([
     stripeGet<StripeAccount>("/v1/account", errors),
     stripeGet<StripeBalance>("/v1/balance", errors),
+    // expand[] payment_intent so we can recover the buyer's email even
+    // when Stripe doesn't mirror Checkout Session.customer_email down
+    // to Charge.receipt_email (current Stripe behaviour).
     stripeGet<StripeList<StripeCharge>>(
-      `/v1/charges?limit=100&created[gte]=${monthStart}`,
+      `/v1/charges?limit=100&created[gte]=${monthStart}` +
+        `&expand[]=data.payment_intent`,
       errors
     ),
     stripeGet<StripeList<StripeDispute>>("/v1/disputes?limit=10", errors),
@@ -683,6 +697,25 @@ export async function fetchStripeProdStats(): Promise<StripeProdStats> {
     recentCharges: topCharges.map((c) => {
       const tx = c.balance_transaction ? txMap.get(c.balance_transaction) : undefined;
       const card = c.payment_method_details?.card;
+      // Email-resolution chain — Stripe stopped mirroring the Checkout
+      // Session's customer_email onto Charge.receipt_email some time
+      // ago, so we have to chase it across the related objects:
+      //   1. Charge.receipt_email          — the legacy field, mostly null now
+      //   2. Charge.payment_intent.receipt_email — expanded above, the
+      //      authoritative source for orders that came from a Checkout
+      //      Session with customer_email set
+      //   3. Charge.billing_details.email  — set when the buyer typed
+      //      an email into the link/card form
+      // Falling through these three keeps the EMAIL column populated
+      // across every order shape we issue.
+      const piEmail =
+        typeof c.payment_intent === "object" &&
+        c.payment_intent !== null &&
+        c.payment_intent.receipt_email
+          ? c.payment_intent.receipt_email
+          : null;
+      const resolvedEmail =
+        c.receipt_email ?? piEmail ?? c.billing_details?.email ?? null;
       return {
         id: c.id,
         amountCents: c.amount,
@@ -690,7 +723,7 @@ export async function fetchStripeProdStats(): Promise<StripeProdStats> {
         feeCents: tx ? tx.fee : null,
         currency: c.currency.toUpperCase(),
         created: c.created,
-        receiptEmail: c.receipt_email,
+        receiptEmail: resolvedEmail,
         paymentMethod:
           card?.brand ??
           c.payment_method_details?.type ??
