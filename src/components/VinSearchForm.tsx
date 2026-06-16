@@ -10,14 +10,29 @@ export default function VinSearchForm({ size = "lg", onDark = false }: { size?: 
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const cleaned = vin.trim().toUpperCase();
+  // A correct VIN is exactly 17 characters and contains no I, O, or Q.
+  const isValidVin = (v: string) => v.length === 17 && !/[IOQ]/.test(v);
+
+  const go = (raw: string) => {
+    const cleaned = raw.trim().toUpperCase();
     if (cleaned.length !== 17) { setError("A valid VIN must be exactly 17 characters."); return; }
-    if (/[IOQ]/i.test(cleaned)) { setError("VINs cannot contain I, O, or Q characters."); return; }
+    if (/[IOQ]/.test(cleaned)) { setError("VINs cannot contain I, O, or Q characters."); return; }
     setError("");
     setLoading(true);
     router.push(`/report-preview/${cleaned}`);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    go(vin);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const next = e.target.value.toUpperCase();
+    setVin(next);
+    setError("");
+    // Auto-submit the moment a complete, correct VIN is entered.
+    if (!loading && isValidVin(next.trim())) go(next);
   };
 
   const isLg = size === "lg";
@@ -31,7 +46,7 @@ export default function VinSearchForm({ size = "lg", onDark = false }: { size?: 
           <input
             type="text"
             value={vin}
-            onChange={(e) => { setVin(e.target.value.toUpperCase()); setError(""); }}
+            onChange={handleChange}
             placeholder="Enter 17-digit VIN Number"
             maxLength={17}
             className={`w-full bg-transparent border-none outline-none text-on-surface placeholder:text-outline/50 uppercase tracking-widest font-mono font-medium ${isLg ? "text-base py-2" : "text-base sm:text-sm py-1.5"}`}
