@@ -5,12 +5,18 @@
  * less-listed, or off-market VINs. When that happens we still want to show
  * real photos of the same year/make/model rather than an empty placeholder.
  *
- * Strategy: scrape Bing Image Search results and extract the thumbnail URLs
- * (`turl`), which are always served from Bing's own CDN (tse*.mm.bing.net).
- * That CDN is stable, hotlink-friendly, and we only need to whitelist a single
- * pattern in next.config.ts to render through next/image.
+ * Strategy: scrape Bing Image Search and read the per-result metadata blob Bing
+ * embeds on every thumbnail (`<a class="iusc" m="{...}">`). That JSON carries
+ * the image's thumbnail URL (`turl`), title (`t`) and source page (`purl`), so
+ * we can KEEP ONLY results whose title/source actually mention the make and
+ * model. This is the critical guard: a bare regex over every `bing.net`
+ * thumbnail on the page also scoops up Bing's "related"/"trending" rail, which
+ * for weak queries returns completely unrelated pictures (e.g. food) — those
+ * then surfaced as the vehicle's hero photo. Filtering by title kills that.
  *
- * No API key is required.
+ * Thumbnails are served from Bing's CDN (ts1-4.mm.bing.net), which is stable,
+ * hotlink-friendly, and whitelisted in next.config.ts so next/image renders
+ * them. No API key is required.
  */
 
 const BING_USER_AGENT =
@@ -24,10 +30,20 @@ const BING_USER_AGENT =
 // near-lossless). This is what turns a blurry placeholder into a usable hero.
 const HQ_THUMB_PARAMS = "&w=960&h=600&c=7&rs=1&qlt=95&o=7&pid=Api";
 
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+}
+
 /**
  * Fetch real, high-quality photos of the *same year/make/model* from Bing
- * Image Search. Returns an empty array on any failure — callers should fall
- * through to showing the "No Photos" placeholder.
+ * Image Search. Returns an empty array on any failure OR when nothing matches
+ * the vehicle — callers should fall through to the "No Photos" placeholder
+ * rather than show an unrelated image.
  */
 export async function fetchExternalVehiclePhotos(
   year: number | undefined,
@@ -48,6 +64,13 @@ export async function fetchExternalVehiclePhotos(
     .filter(Boolean)
     .join(" ");
   const query = `${core} ${refine}`.trim();
+
+  // Relevance tokens: every kept image's title/source must contain BOTH the
+  // primary make word and the primary model word. Using the first token keeps
+  // hyphenated/multi-word makes (e.g. "Mercedes-Benz") and models matching.
+  const makeToken = make.toLowerCase().split(/[\s-]+/)[0];
+  const modelToken = model.toLowerCase().split(/[\s-]+/)[0];
+  if (!makeToken || !modelToken) return [];
 
   try {
     const res = await fetch(
@@ -70,25 +93,47 @@ export async function fetchExternalVehiclePhotos(
 
     const html = await res.text();
 
-    // Bing image search results contain direct thumbnail URLs from its CDN
-    // (ts1-ts4.mm.bing.net). We grep for those URLs directly to avoid pulling
-    // in an HTML parser. The CDN is hotlink-friendly and whitelisted in
-    // next.config.ts so they render through next/image.
-    const matches = html.matchAll(/https:\/\/ts[1-4]\.mm\.bing\.net\/th\?id=[^"<>&\s)]+/g);
+    // Each image result carries a JSON metadata blob in its `m="{...}"`
+    // attribute (HTML-entity encoded). Parse those instead of grepping raw
+    // thumbnail URLs so we can read each image's title/source and discard
+    // anything that isn't actually this vehicle.
+    const metaMatches = html.matchAll(/m="(\{[^"]+\})"/g);
 
-    // Dedupe by the image id (the same picture appears many times in Bing's
-    // HTML), then request each at high quality via HQ_THUMB_PARAMS.
     const seen = new Set<string>();
     const urls: string[] = [];
-    for (const m of matches) {
-      const base = m[0];
-      const id = base.split("id=")[1] ?? base;
-      if (seen.has(id)) continue;
+
+    for (const m of metaMatches) {
+      let meta: { turl?: string; t?: string; desc?: string; purl?: string };
+      try {
+        meta = JSON.parse(decodeEntities(m[1]));
+      } catch {
+        continue;
+      }
+
+      const turl = meta.turl;
+      if (!turl) continue;
+
+      // Relevance gate: the image's title/description/source page must mention
+      // both the make and the model. Unrelated "related search" rail images
+      // (the cause of the food-photo bug) fail this and are dropped.
+      const haystack = `${meta.t ?? ""} ${meta.desc ?? ""} ${meta.purl ?? ""}`.toLowerCase();
+      if (!haystack.includes(makeToken) || !haystack.includes(modelToken)) {
+        continue;
+      }
+
+      // Pull the image id and rebuild a clean, whitelisted CDN URL at high
+      // quality. (turl hosts vary — ts*/tse* — but the `id` is the stable
+      // content key; ts1.mm.bing.net serves it and is whitelisted.)
+      const idMatch = turl.match(/[?&]id=([^&]+)/);
+      const id = idMatch?.[1];
+      if (!id || seen.has(id)) continue;
       seen.add(id);
-      urls.push(base + HQ_THUMB_PARAMS);
+
+      urls.push(`https://ts1.mm.bing.net/th?id=${id}${HQ_THUMB_PARAMS}`);
+      if (urls.length >= 12) break;
     }
 
-    return urls.slice(0, 12);
+    return urls;
   } catch {
     return [];
   }
