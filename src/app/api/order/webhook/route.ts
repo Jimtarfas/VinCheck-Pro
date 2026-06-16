@@ -184,7 +184,19 @@ export async function POST(req: Request) {
     //   - The order has no email on file (shouldn't happen — the
     //     checkout API rejects orders without an email — but guard
     //     anyway).
-    if (isResendConfigured() && paidRow?.user_email) {
+    //
+    // Result is persisted to report_orders.{email_status, email_sent_at,
+    // email_error} so the admin panel can show delivery state at a
+    // glance. The persist call is itself wrapped in try/catch so a DB
+    // hiccup on the audit log can't fail the webhook either.
+    let emailStatus: "sent" | "failed" | "skipped" = "skipped";
+    let emailError: string | null = null;
+
+    if (!isResendConfigured()) {
+      emailError = "RESEND_API_KEY not configured";
+    } else if (!paidRow?.user_email) {
+      emailError = "no buyer email on order";
+    } else {
       try {
         // Magic link is optional — when it fails (e.g. the email
         // already belongs to an account with a strict redirect policy)
@@ -219,7 +231,15 @@ export async function POST(req: Request) {
           text: rendered.text,
           replyTo: SUPPORT_EMAIL,
         });
-        if (!sendResult.ok && !sendResult.skipped) {
+
+        if (sendResult.ok) {
+          emailStatus = "sent";
+        } else if (sendResult.skipped) {
+          // Resend wasn't configured at sendEmail time — extra-defensive.
+          emailError = "send skipped (no api key at send time)";
+        } else {
+          emailStatus = "failed";
+          emailError = sendResult.error ?? "unknown error";
           // eslint-disable-next-line no-console
           console.error(
             "[webhook] confirmation email failed for order",
@@ -228,6 +248,8 @@ export async function POST(req: Request) {
           );
         }
       } catch (e) {
+        emailStatus = "failed";
+        emailError = e instanceof Error ? e.message : String(e);
         // eslint-disable-next-line no-console
         console.error(
           "[webhook] confirmation email threw for order",
@@ -235,6 +257,30 @@ export async function POST(req: Request) {
           e
         );
       }
+    }
+
+    // Persist the audit row. Don't await error handling — even if this
+    // write fails, the buyer got their report and the email was already
+    // sent (or skipped) so the webhook is still successful overall.
+    try {
+      await admin
+        .from("report_orders")
+        .update({
+          email_status: emailStatus,
+          email_sent_at: new Date().toISOString(),
+          // Truncate to keep a single rogue HTML error from blowing up
+          // the column. 500 chars is enough to identify the failure
+          // class while keeping the row compact.
+          email_error: emailError ? emailError.slice(0, 500) : null,
+        })
+        .eq("id", orderId);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "[webhook] email-status persist failed for order",
+        orderId,
+        e
+      );
     }
 
     return NextResponse.json({ received: true, delivered: true });

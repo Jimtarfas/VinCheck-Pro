@@ -4,6 +4,8 @@ import {
   AlertTriangle,
   CheckCircle2,
   CircleDollarSign,
+  Mail,
+  MailX,
   RefreshCw,
   Server,
   Sparkles,
@@ -131,7 +133,7 @@ async function getData(showAll: boolean) {
       admin
         .from("report_orders")
         .select(
-          "id, amount_cents, currency, status, paid_at, delivered_at, created_at, vin, user_email, vehicle_label, clearvin_report, stripe_payment_intent_id, stripe_session_id"
+          "id, amount_cents, currency, status, paid_at, delivered_at, created_at, vin, user_email, vehicle_label, clearvin_report, stripe_payment_intent_id, stripe_session_id, email_status, email_sent_at, email_error"
         )
         .in("status", ["paid", "delivered"])
         .order("paid_at", { ascending: false, nullsFirst: false })
@@ -314,6 +316,15 @@ async function getData(showAll: boolean) {
     /** Has ClearVin's HTML been cached yet? Lets us flag rows where the
      *  PDF would trigger a fresh ClearVin call vs serve from cache. */
     hasReport: boolean;
+    /** Confirmation-email delivery state.
+     *  - "sent" / "failed" / "skipped": webhook attempted Resend
+     *  - null: pre-email orders (predate v5 migration) — show as "—"
+     */
+    emailStatus: "sent" | "failed" | "skipped" | null;
+    emailSentAt: string | null;
+    /** Failure reason from Resend or the send helper (truncated to 500 chars
+     *  server-side). Tooltipped from the status badge on failures. */
+    emailError: string | null;
   };
   const soldOrders: SoldOrder[] = (soldOrdersAll.data ?? [])
     .filter((row) =>
@@ -337,7 +348,15 @@ async function getData(showAll: boolean) {
       user_email: string | null;
       vehicle_label: string | null;
       clearvin_report: unknown;
+      email_status?: string | null;
+      email_sent_at?: string | null;
+      email_error?: string | null;
     };
+    const rawStatus = r.email_status;
+    const normalisedStatus: SoldOrder["emailStatus"] =
+      rawStatus === "sent" || rawStatus === "failed" || rawStatus === "skipped"
+        ? rawStatus
+        : null;
     return {
       id: r.id,
       amount_cents: r.amount_cents,
@@ -352,6 +371,9 @@ async function getData(showAll: boolean) {
       user_email: r.user_email,
       vehicle_label: r.vehicle_label,
       hasReport: Boolean(r.clearvin_report),
+      emailStatus: normalisedStatus,
+      emailSentAt: r.email_sent_at ?? null,
+      emailError: r.email_error ?? null,
     };
   });
   // Revenue uses delivered + paid (Stripe captured the money for both —
@@ -939,6 +961,9 @@ export default async function AdminClearVinPage({
                     <th className="px-2 py-2 font-bold">Vehicle</th>
                     <th className="px-2 py-2 font-bold text-right">Amount</th>
                     <th className="px-2 py-2 font-bold">Status</th>
+                    {/* Wave 12 — confirmation-email delivery state.
+                        See report_orders.email_status (v5 migration). */}
+                    <th className="px-2 py-2 font-bold">Email</th>
                     <th className="px-2 py-2 font-bold text-right">Actions</th>
                   </tr>
                 </thead>
@@ -988,6 +1013,60 @@ export default async function AdminClearVinPage({
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">
                               <RefreshCw className="w-3 h-3" />
                               Paid
+                            </span>
+                          )}
+                        </td>
+                        {/* Email-delivery state.
+                            - sent     → green badge + "X ago" tooltip
+                            - failed   → red badge with the error message
+                                          shown on hover (truncated to 500
+                                          chars by the webhook persist)
+                            - skipped  → amber badge (Resend not configured
+                                          at send time, or no buyer email)
+                            - null     → "—" for orders predating v5 */}
+                        <td className="px-2 py-2">
+                          {o.emailStatus === "sent" ? (
+                            <span
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold"
+                              title={
+                                o.emailSentAt
+                                  ? `Sent ${new Date(o.emailSentAt).toLocaleString()}`
+                                  : "Sent"
+                              }
+                            >
+                              <Mail className="w-3 h-3" />
+                              Sent
+                            </span>
+                          ) : o.emailStatus === "failed" ? (
+                            <span
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-bold"
+                              title={
+                                o.emailError
+                                  ? `Failed: ${o.emailError}`
+                                  : "Failed"
+                              }
+                            >
+                              <MailX className="w-3 h-3" />
+                              Failed
+                            </span>
+                          ) : o.emailStatus === "skipped" ? (
+                            <span
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold"
+                              title={
+                                o.emailError
+                                  ? `Skipped: ${o.emailError}`
+                                  : "Skipped"
+                              }
+                            >
+                              <AlertTriangle className="w-3 h-3" />
+                              Skipped
+                            </span>
+                          ) : (
+                            <span
+                              className="text-slate-400 italic"
+                              title="Order predates email tracking"
+                            >
+                              —
                             </span>
                           )}
                         </td>

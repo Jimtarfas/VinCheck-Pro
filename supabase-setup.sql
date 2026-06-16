@@ -467,3 +467,42 @@ begin
    where id = p_credit_id;
 end;
 $$;
+
+-- ─────────────────────────────────────────────────────────────────────
+-- v5 schema additions — order-confirmation email tracking
+-- ─────────────────────────────────────────────────────────────────────
+-- The Stripe webhook sends a confirmation email (via Resend) after a
+-- successful purchase. These three columns let the admin panel see at
+-- a glance which orders received their email, when, and why a failure
+-- happened. All optional — orders predating this migration stay NULL
+-- and surface as "—" in the admin UI.
+--
+-- email_status enum:
+--   NULL     — email never attempted (e.g. RESEND_API_KEY missing, or
+--              order predates Wave 12).
+--   'sent'   — Resend accepted the message (returned 200 + a message id).
+--   'failed' — Resend rejected the message OR the send threw. The
+--              reason is stored in email_error.
+--   'skipped' — Send was intentionally bypassed (e.g. no buyer email
+--              on the order row — shouldn't happen but defensive).
+--
+-- email_sent_at is set on every terminal status (sent / failed /
+-- skipped) so we can show "attempted X ago" even on failures.
+alter table public.report_orders add column if not exists email_status   text;
+alter table public.report_orders add column if not exists email_sent_at  timestamptz;
+alter table public.report_orders add column if not exists email_error    text;
+
+-- Filter constraint kept loose so we never block a webhook on a typo.
+-- The admin UI only renders the three documented states; anything else
+-- prints as "—".
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'report_orders_email_status_check'
+  ) then
+    alter table public.report_orders
+      add constraint report_orders_email_status_check
+      check (email_status is null or email_status in ('sent','failed','skipped'));
+  end if;
+end;
+$$;
