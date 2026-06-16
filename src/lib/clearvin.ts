@@ -92,6 +92,70 @@ export interface ClearVinPreview {
   /** Derived: true if this preview surfaces any concerning signal. */
   hasMajorIssues: boolean;
   generatedAt: string;
+  /**
+   * Derived: true when ClearVin returned HTTP 200 but the spec is so
+   * empty that a paid report would not have meaningful data. This is
+   * the "non-US / non-supported VIN" case — see isUnsupportedVinSpec()
+   * below for the exact heuristic. Surfaced as a single boolean so
+   * UI guards (hide the buy CTA, hide upsells) and server-side guards
+   * (block /api/order/checkout) read the same answer.
+   */
+  unsupported: boolean;
+}
+
+/**
+ * "ClearVin doesn't know this VIN" detection.
+ *
+ * Background: ClearVin's preview endpoint sometimes returns HTTP 200
+ * with status: "ok" for a VIN it doesn't actually have data on. The
+ * response carries an empty-ish vinSpec ({ year: null, make: null,
+ * model: null, ... }) and zero signals (no recalls, no auction
+ * records, no damage, no photos). A paid full report for that VIN is
+ * effectively useless because the upstream data simply isn't there.
+ *
+ * This helper centralises the decision so every call site —
+ *   - the report-preview page (hides the buy CTA),
+ *   - /api/order/checkout (refuses to create a Stripe session),
+ *   - any future flow that needs to gate on "is this VIN actually
+ *     covered by our paid pipeline"
+ * — arrives at the same answer.
+ *
+ * Heuristic (intentionally conservative — false negatives are
+ * acceptable, false positives would cost us legitimate revenue):
+ *
+ *   The VIN is treated as UNSUPPORTED only when ALL of the following
+ *   are true at the same time:
+ *     • vinSpec.make is missing/blank, AND
+ *     • vinSpec.model is missing/blank, AND
+ *     • there are zero signals across recalls / auction / damage / photos.
+ *
+ *   Even one filled signal (e.g. ClearVin found a recall but couldn't
+ *   decode the make) is enough to treat the VIN as supported — the
+ *   buyer has something concrete to pay for.
+ */
+function isBlank(s: string | null | undefined): boolean {
+  return !s || s.trim() === "";
+}
+
+export function isUnsupportedVinSpec(
+  spec: ClearVinPreview["vinSpec"] | null | undefined,
+  signals?: {
+    recallsCount?: number;
+    auctionHistoryRecords?: number;
+    damagesCount?: number;
+    imagesAmount?: number;
+  }
+): boolean {
+  if (!spec) return true;
+  const noIdentity = isBlank(spec.make) && isBlank(spec.model);
+  if (!noIdentity) return false;
+  const r = signals?.recallsCount ?? 0;
+  const a = signals?.auctionHistoryRecords ?? 0;
+  const d = signals?.damagesCount ?? 0;
+  const p = signals?.imagesAmount ?? 0;
+  // Treat as unsupported only when there is literally nothing to pay
+  // for: no identity AND no signals.
+  return r === 0 && a === 0 && d === 0 && p === 0;
 }
 
 /**
@@ -463,13 +527,14 @@ export async function fetchPreview(
     const auctionHistoryRecords = Number(r.auctionHistoryRecords || 0);
     const damagesCount = Number(r.damagesCount || 0);
     const recallsCount = Number(r.recallsCount ?? recalls.length);
+    const imagesAmount = Number(r.imagesAmount || 0);
 
     return {
       ok: true,
       data: {
         vin,
         previewImageURL: r.previewImageURL || null,
-        imagesAmount: Number(r.imagesAmount || 0),
+        imagesAmount,
         auctionHistoryRecords,
         damagesCount,
         recallsCount,
@@ -477,6 +542,12 @@ export async function fetchPreview(
         vinSpec: { ...vinSpec, vin },
         hasMajorIssues:
           recalls.length > 0 || auctionHistoryRecords > 0 || damagesCount > 0,
+        // Single canonical "ClearVin doesn't know this VIN" flag. Computed
+        // from the same projection every caller would otherwise duplicate.
+        unsupported: isUnsupportedVinSpec(
+          { ...vinSpec, vin },
+          { recallsCount, auctionHistoryRecords, damagesCount, imagesAmount }
+        ),
         generatedAt: new Date().toISOString(),
       },
     };
@@ -1092,6 +1163,10 @@ function mockPreview(vin: string): ClearVinPreview {
       invoice: `$${(20000 + ((seed * 137) % 27000)).toLocaleString()} USD`,
     },
     hasMajorIssues: recalls.length > 0 || seed % 4 === 0,
+    // Mock previews are always fully populated (make/model/year), so
+    // they are by definition supported. Stamping the flag explicitly
+    // keeps the type happy and matches production semantics.
+    unsupported: false,
     generatedAt: new Date().toISOString(),
   };
 }

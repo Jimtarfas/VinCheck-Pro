@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createCheckoutSession, stripeConfig } from "@/lib/stripe";
 import { getBundle } from "@/lib/pricing";
+import { fetchPreview } from "@/lib/clearvin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -69,6 +70,44 @@ export async function POST(req: Request) {
       { error: "A valid 17-character VIN is required." },
       { status: 400 }
     );
+  }
+
+  // Hard server-side guard against "ClearVin doesn't know this VIN" —
+  // mirrors the UI guard on the report-preview page so a determined or
+  // unlucky buyer (devtools, stale cached page, direct API call) can't
+  // still get charged for a VIN we know we can't deliver a useful
+  // report for.
+  //
+  // The check is best-effort: if ClearVin is unreachable or returns an
+  // error we let the order through, since blocking on a transient
+  // upstream failure would cost us legitimate revenue. Callers see a
+  // 422 with a buyer-friendly message when the VIN is positively
+  // confirmed unsupported.
+  //
+  // Skipped when Stripe isn't configured (mock mode) so local dev /
+  // preview flows still work end-to-end against arbitrary VINs.
+  if (stripeConfig.isConfigured()) {
+    try {
+      const previewResult = await fetchPreview(vin);
+      if (
+        "ok" in previewResult &&
+        previewResult.ok &&
+        previewResult.data.unsupported
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "Our paid history report doesn't cover this VIN yet. It looks like a non-US vehicle or one our data provider hasn't added. No charge was made.",
+            code: "VIN_UNSUPPORTED",
+          },
+          { status: 422 }
+        );
+      }
+    } catch {
+      // ClearVin call failed — let the order through. The webhook will
+      // still try to fetch the full report; if it comes back empty the
+      // existing refund process handles it.
+    }
   }
 
   // Pull the logged-in user (if any) — so the order can be tied to them later.
