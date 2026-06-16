@@ -192,6 +192,24 @@ const RECORDS_CHECKED = [
   { icon: BadgeCheck, label: "Lemon Check" },
 ];
 
+/* Real verified Trustpilot reviews shown in the desktop sparse-report filler
+   panel (see mainFiller). Same source data as the reviews subdomain — text is
+   preserved verbatim. Kept short so the panel reads cleanly even in a small gap. */
+const BUYER_REVIEWS = [
+  {
+    name: "regano jerom",
+    text: "the report has complete information and the pricing was reasonable",
+  },
+  {
+    name: "Carmen Liam",
+    text: "i compared my report with the dealer report , i got the same informations , everything was perfect",
+  },
+  {
+    name: "David Franz Friedhof",
+    text: "saved me from buying a car with hidden flood damage , the report showed everything needed",
+  },
+];
+
 /* Screen-4 "your report may contain" 16-item green checklist. */
 const MAY_CONTAIN = [
   { icon: AlertTriangle, label: "Major Accident" },
@@ -1007,20 +1025,63 @@ export default async function ReportPreviewPage({ params }: Props) {
         mainExtra={premiumSections}
         mainFiller={
           <ReportColumnFiller>
-            <div className="h-full rounded-3xl border border-outline-variant bg-gradient-to-br from-primary/[0.06] to-surface-container-lowest p-6 flex flex-col items-center justify-center text-center">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-3">
-                <ShieldCheck className="w-6 h-6 text-primary" />
+            <div className="h-full rounded-3xl border border-outline-variant bg-gradient-to-br from-primary/[0.06] to-surface-container-lowest p-5 flex flex-col">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex gap-0.5">
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <Star key={n} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <div className="leading-tight">
+                  <p className="font-headline font-extrabold text-on-surface text-sm">
+                    4.9 from real buyers
+                  </p>
+                  <p className="text-xs text-on-surface-variant">
+                    What customers say after their report
+                  </p>
+                </div>
               </div>
-              <h3 className="font-headline font-extrabold text-lg text-on-surface mb-1.5">
-                No surprises before you buy
-              </h3>
-              <p className="text-sm text-on-surface-variant max-w-xs mb-4">
-                Unlock the full NMVTIS title history, accident, odometer and
-                ownership records for this {vehicleLabel}.
-              </p>
-              <BuyReportButton className="inline-flex items-center justify-center gap-2 bg-primary text-white rounded-2xl px-6 py-3 font-headline font-extrabold text-sm shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors cursor-pointer">
-                <Lock className="w-4 h-4" /> See the full report — ${SINGLE_PRICE.toFixed(2)}
-              </BuyReportButton>
+
+              <div
+                className="flex-1 space-y-3 overflow-hidden"
+                style={{
+                  maskImage:
+                    "linear-gradient(to bottom, #000 calc(100% - 28px), transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, #000 calc(100% - 28px), transparent)",
+                }}
+              >
+                {BUYER_REVIEWS.map((r) => (
+                  <figure
+                    key={r.name}
+                    className="rounded-2xl bg-surface-container-lowest border border-outline-variant/40 p-3.5"
+                  >
+                    <blockquote className="text-[13px] text-on-surface-variant leading-relaxed italic">
+                      &ldquo;{r.text}&rdquo;
+                    </blockquote>
+                    <figcaption className="mt-2 flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-[11px] font-headline font-black flex-shrink-0">
+                        {r.name[0]}
+                      </span>
+                      <span className="text-xs font-bold text-on-surface">
+                        {r.name}
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
+                        <BadgeCheck className="w-3 h-3" /> Verified buyer
+                      </span>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+
+              <a
+                href="https://reviews.carcheckervin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center justify-center gap-1.5 text-sm font-headline font-bold text-primary hover:underline"
+              >
+                Read all reviews <ChevronRight className="w-4 h-4" />
+              </a>
             </div>
           </ReportColumnFiller>
         }
