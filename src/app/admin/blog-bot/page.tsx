@@ -142,7 +142,18 @@ const CATEGORY_BADGE: Record<string, string> = {
 
 // ── Data load ──────────────────────────────────────────────────────
 async function getData() {
-  const admin = createAdminClient();
+  // createAdminClient() throws when the Supabase service role envs are
+  // missing — fine in production where they're guaranteed, but it'd
+  // kill the dashboard on a preview/local environment that's missing
+  // the key. Guard so the Sanity half of the page still renders.
+  let admin: ReturnType<typeof createAdminClient> | null = null;
+  let supabaseInitError: string | null = null;
+  try {
+    admin = createAdminClient();
+  } catch (e) {
+    supabaseInitError =
+      e instanceof Error ? e.message : "Supabase admin client unavailable";
+  }
   const sanity = sanityRead();
 
   // Run all I/O in parallel. Each branch is fault-tolerant: a Sanity
@@ -159,16 +170,20 @@ async function getData() {
     sanity.fetch<BotPostRow[]>(botUpcomingPostsQuery),
     sanity.fetch<BotPostRow[]>(botStuckPostsQuery),
     admin
-      .from("bot_runs")
-      .select("id", { count: "exact", head: true })
-      .eq("ok", true),
+      ? admin
+          .from("bot_runs")
+          .select("id", { count: "exact", head: true })
+          .eq("ok", true)
+      : Promise.reject(new Error(supabaseInitError || "supabase unavailable")),
     admin
-      .from("bot_runs")
-      .select(
-        "id, run_id, ok, started_at, ended_at, duration_ms, post_slug, voice, error, input_tokens, output_tokens, usd_estimate"
-      )
-      .order("started_at", { ascending: false })
-      .limit(20),
+      ? admin
+          .from("bot_runs")
+          .select(
+            "id, run_id, ok, started_at, ended_at, duration_ms, post_slug, voice, error, input_tokens, output_tokens, usd_estimate"
+          )
+          .order("started_at", { ascending: false })
+          .limit(20)
+      : Promise.reject(new Error(supabaseInitError || "supabase unavailable")),
   ]);
 
   const settled = <T,>(
@@ -209,7 +224,12 @@ async function getData() {
 
   // Aggregate error banners so the operator sees at most one banner
   // per failing subsystem instead of three identical "Sanity down" lines.
-  const errors = [published.error, upcoming.error, stuck.error]
+  const errors = [
+    supabaseInitError ? `supabase.init: ${supabaseInitError}` : null,
+    published.error,
+    upcoming.error,
+    stuck.error,
+  ]
     .filter((e): e is string => Boolean(e))
     .filter((e, i, arr) => arr.indexOf(e) === i);
 
