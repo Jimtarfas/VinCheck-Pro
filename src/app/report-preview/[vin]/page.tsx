@@ -1071,6 +1071,16 @@ export default async function ReportPreviewPage({ params }: Props) {
             </div>
             <div className="text-sm font-bold text-on-surface">Rated Excellent</div>
             <div className="text-[11px] text-on-surface-variant">on Trustpilot</div>
+            <a
+              href="https://www.trustpilot.com/review/www.carcheckervin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="See CarCheckerVIN reviews on Trustpilot (opens in a new tab)"
+              className="mt-2 inline-flex items-center justify-center gap-1 rounded-full border border-[#00B67A] px-3 py-1 text-[11px] font-bold text-[#00B67A] hover:bg-[#00B67A] hover:text-white transition-colors"
+            >
+              See reviews
+              <ChevronRight className="w-3 h-3" />
+            </a>
           </div>
           <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
             <Crown className="w-6 h-6 text-primary mx-auto mb-1.5" />
