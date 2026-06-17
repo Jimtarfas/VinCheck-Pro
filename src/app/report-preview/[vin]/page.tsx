@@ -796,8 +796,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   /* ── Premium sections injected UNDER the car info (main column) ── */
   const premiumSections = (
     <div className="space-y-12">
-      {/* Source-page message-match banner (additive; null for direct visits) */}
-      {contextBanner}
       {/* Build & pricing specs — free, complements VinReport's identity cards */}
       {buildSpecs.length > 0 && (
         <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden">
@@ -1241,6 +1239,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       <VinReport
         data={reportData}
         hideCheckAnother
+        mainTop={contextBanner}
         mainExtra={premiumSections}
         mainFiller={
           <ReportColumnFiller>

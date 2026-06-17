@@ -464,6 +464,7 @@ function Card({ icon: Icon, title, subtitle, accent = "bg-primary/8 text-primary
 export default function VinReport({
   data,
   hideCheckAnother = false,
+  mainTop,
   mainExtra,
   mainFiller,
   sidebarReplaceAI,
@@ -484,6 +485,9 @@ export default function VinReport({
   data: VinData;
   /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
   hideCheckAnother?: boolean;
+  /** Content rendered at the very top of the main column, above the photo
+   *  gallery (e.g. a source-page message-match banner). */
+  mainTop?: React.ReactNode;
   /** Extra content appended to the end of the main column (premium sections). */
   mainExtra?: React.ReactNode;
   /** Desktop-only filler rendered as the last main-column child; balances the
@@ -736,6 +740,10 @@ export default function VinReport({
 
           {/* ── LEFT / MAIN COLUMN (2/3) ── */}
           <div className="lg:col-span-2 space-y-6 min-w-0">
+
+            {/* Source-page message-match banner — above the photo gallery so a
+                visitor coming from a check tool sees the matched copy first. */}
+            {mainTop}
 
             {/* Photo gallery */}
             <PhotoGallery
