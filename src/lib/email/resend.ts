@@ -62,10 +62,13 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { ok: false, skipped: true };
 
-  const from =
+  // Trim defensively — Vercel sometimes pastes env-var values with
+  // trailing newlines / spaces which Resend rejects as malformed.
+  const fromRaw =
     input.from ||
     process.env.RESEND_FROM ||
     "CarCheckerVIN <reports@carcheckervin.com>";
+  const from = fromRaw.trim();
 
   try {
     const res = await fetch(RESEND_ENDPOINT, {
