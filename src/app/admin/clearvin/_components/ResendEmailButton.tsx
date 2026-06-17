@@ -128,10 +128,18 @@ export default function ResendEmailButton({
 
   function handleTestClick() {
     if (state.kind === "sending") return;
-    if (!adminTestEmail) return;
+    // Always prompt — operators want to type any inbox they have
+    // handy (their phone, a teammate's, a Mailtrap address) without
+    // having to push a new env var. ADMIN_TEST_EMAIL only seeds the
+    // prompt's default value so the common case is a single Enter.
+    const next = window.prompt(
+      "Send a TEST copy of this confirmation to which email?",
+      adminTestEmail || ""
+    );
+    if (!next || !next.trim()) return;
     void fire({
       tone: "test",
-      overrideEmail: adminTestEmail,
+      overrideEmail: next.trim(),
       dryRun: true,
     });
   }
@@ -163,32 +171,32 @@ export default function ResendEmailButton({
         )}
       </button>
 
-      {/* "Test to me" — only rendered when ADMIN_TEST_EMAIL is set on
-          the server. dryRun=true tells the API not to persist
-          email_status so the operator can preview deliverability
-          without falsely marking the buyer as having received the
-          email. */}
-      {adminTestEmail && (
-        <button
-          type="button"
-          onClick={handleTestClick}
-          disabled={state.kind === "sending"}
-          title={`Send a copy of this confirmation to ${adminTestEmail} without affecting the buyer's audit row.`}
-          className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-slate-200 bg-slate-50 text-[11px] font-semibold text-slate-600 hover:bg-slate-100 hover:border-slate-300 disabled:opacity-60 disabled:cursor-not-allowed transition"
-        >
-          {state.kind === "sending" && state.tone === "test" ? (
-            <>
-              <LoaderCircle className="w-3 h-3 animate-spin" />
-              Sending…
-            </>
-          ) : (
-            <>
-              <Send className="w-3 h-3" />
-              Test to me
-            </>
-          )}
-        </button>
-      )}
+      {/* "Send test" — opens a prompt so the operator can type any
+          inbox they have access to. Defaults to ADMIN_TEST_EMAIL if
+          that env var is set. dryRun=true tells the API not to
+          persist email_status so the operator can preview
+          deliverability without falsely marking the buyer as having
+          received the email. Always rendered — the prompt itself
+          handles the empty-default case. */}
+      <button
+        type="button"
+        onClick={handleTestClick}
+        disabled={state.kind === "sending"}
+        title="Send a test copy of this confirmation. You'll be asked which email to send it to. Buyer's audit row is not affected."
+        className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-slate-200 bg-slate-50 text-[11px] font-semibold text-slate-600 hover:bg-slate-100 hover:border-slate-300 disabled:opacity-60 disabled:cursor-not-allowed transition"
+      >
+        {state.kind === "sending" && state.tone === "test" ? (
+          <>
+            <LoaderCircle className="w-3 h-3 animate-spin" />
+            Sending…
+          </>
+        ) : (
+          <>
+            <Send className="w-3 h-3" />
+            Send test
+          </>
+        )}
+      </button>
 
       {/* Inline status next to the buttons. We label which path
           completed so the operator isn't confused when both buttons
