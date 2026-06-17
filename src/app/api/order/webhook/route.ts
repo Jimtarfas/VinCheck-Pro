@@ -202,10 +202,15 @@ export async function POST(req: Request) {
         // already belongs to an account with a strict redirect policy)
         // the email still ships with the direct report button, which
         // works via the order_<id> cookie set at checkout.
+        // First-purchase magic link points at /account/set-password
+        // so the buyer's first click both signs them in AND lands on
+        // the "set a password" onboarding form. The form has a
+        // "Skip — take me to my reports" link for buyers who just
+        // want to view the report and not bother with a password.
         const signInUrl =
           (await generateBuyerMagicLink(admin, {
             email: paidRow.user_email,
-            redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account`,
+            redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account/set-password`,
           })) || undefined;
 
         const reportUrl = `${PUBLIC_APP_ORIGIN}/order/report/${orderId}`;

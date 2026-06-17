@@ -144,10 +144,13 @@ export async function POST(req: Request) {
   // ── Build a fresh magic link ─────────────────────────────────
   // The link in the original email may have expired (Supabase magic
   // links have a TTL). Generating a new one keeps "Sign in" clickable.
+  // Same destination as the webhook: first click lands on the
+  // set-password onboarding form. Buyers who've already set a
+  // password and don't need this can use the form's "Skip" link.
   const signInUrl =
     (await generateBuyerMagicLink(admin, {
       email: destination,
-      redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account`,
+      redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account/set-password`,
     })) || undefined;
 
   const reportUrl = `${PUBLIC_APP_ORIGIN}/order/report/${order.id}`;

@@ -35,6 +35,12 @@ const APP_PATH_REWRITES: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   [/^\/sample-report\/?$/,    () => "/order/sample-report"],
   // /account                → /order/account
   [/^\/account\/?$/,          () => "/order/account"],
+  // /account/set-password    → /order/account/set-password
+  //   First-time onboarding from the order-confirmation email's magic
+  //   link. The buyer's account was auto-provisioned at webhook time;
+  //   this page lets them set a password so they can sign in later
+  //   without going through email.
+  [/^\/account\/set-password\/?$/, () => "/order/account/set-password"],
   // /success                → /order/success
   [/^\/success\/?$/,          () => "/order/success"],
   // /r/<uuid>               → /order/report/<uuid>   (shorter share link)

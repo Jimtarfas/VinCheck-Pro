@@ -119,7 +119,8 @@ export function renderOrderConfirmation(
     ? `
     <p style="margin:16px 0 0 0;font-family:Arial,sans-serif;
               color:${MUTED};font-size:13px;line-height:1.5;">
-      Or sign in to your account to see all your reports:
+      Your account is ready. Set a password so you can sign in any
+      time without an email link:
     </p>
     <p style="margin:8px 0 0 0;">
       <a href="${escapeHtml(input.signInUrl)}"
@@ -127,7 +128,7 @@ export function renderOrderConfirmation(
                 display:inline-block;padding:11px 22px;border-radius:10px;
                 font-weight:700;font-size:14px;font-family:Arial,sans-serif;
                 border:1.5px solid ${PRIMARY};line-height:1;">
-        Sign in to my account
+        Set your password
       </a>
     </p>`
     : "";
@@ -184,7 +185,7 @@ export function renderOrderConfirmation(
     `Your CarCheckerVIN report for ${labelOrVin} is ready.`,
     ``,
     `View it: ${input.reportUrl}`,
-    input.signInUrl ? `Sign in: ${input.signInUrl}` : "",
+    input.signInUrl ? `Set your password: ${input.signInUrl}` : "",
     ``,
     `Order ID: ${input.orderId}`,
     `VIN: ${input.vin}`,
