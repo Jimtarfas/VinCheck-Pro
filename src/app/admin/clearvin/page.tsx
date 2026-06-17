@@ -393,6 +393,12 @@ async function getData(showAll: boolean) {
   // when either is unset — the tile shows "Set CLEARVIN_LICENSE_TOTAL".
   const licenseTotal = Number(process.env.CLEARVIN_LICENSE_TOTAL || "0");
   const perCallUsd = Number(process.env.CLEARVIN_COST_PER_CALL || "0");
+  // Operator's own inbox for the "Test to me" button. When unset, the
+  // button is hidden so a fresh deploy can't accidentally fire test
+  // sends. Defaults to nouhebelgium@gmail.com when no env var present
+  // so the existing local/preview flow keeps working out of the box.
+  const adminTestEmail =
+    (process.env.ADMIN_TEST_EMAIL || "nouhebelgium@gmail.com").trim() || null;
 
   const clearvinUsed = stats30d.live
     ? stats30d.total
@@ -433,6 +439,7 @@ async function getData(showAll: boolean) {
     showAll,
     stripeLive,
     stripeStats,
+    adminTestEmail,
   };
 }
 
@@ -1099,6 +1106,7 @@ export default async function AdminClearVinPage({
                             <ResendEmailButton
                               orderId={o.id}
                               buyerEmail={o.user_email}
+                              adminTestEmail={d.adminTestEmail}
                             />
                           </div>
                         </td>

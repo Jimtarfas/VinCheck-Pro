@@ -51,6 +51,14 @@ interface Body {
    * empty we use the email on the order row.
    */
   to?: string;
+  /**
+   * When true, the email is sent normally but the audit columns on
+   * the order row (email_status / email_sent_at / email_error) are
+   * NOT touched. Used by the "Test to me" admin button so the
+   * operator can preview deliverability without falsely marking the
+   * real buyer's order as "Sent".
+   */
+  dryRun?: boolean;
 }
 
 export async function POST(req: Request) {
@@ -182,23 +190,28 @@ export async function POST(req: Request) {
     nextError = sendResult.error ?? "unknown";
   }
 
-  try {
-    await admin
-      .from("report_orders")
-      .update({
-        email_status: nextStatus,
-        email_sent_at: persistTimestamp,
-        email_error: nextError ? nextError.slice(0, 500) : null,
-      })
-      .eq("id", order.id);
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(
-      "[admin/resend-confirmation] audit persist failed:",
-      e instanceof Error ? e.message : String(e)
-    );
-    // Don't bubble this up — the email send is the important half;
-    // a missing audit row is recoverable.
+  // Skip the audit write for dry-run / "Test to me" sends — the email
+  // went to the operator's own inbox, not the buyer's, so falsely
+  // recording the order as "Sent" would lie to the admin panel.
+  if (!body.dryRun) {
+    try {
+      await admin
+        .from("report_orders")
+        .update({
+          email_status: nextStatus,
+          email_sent_at: persistTimestamp,
+          email_error: nextError ? nextError.slice(0, 500) : null,
+        })
+        .eq("id", order.id);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "[admin/resend-confirmation] audit persist failed:",
+        e instanceof Error ? e.message : String(e)
+      );
+      // Don't bubble this up — the email send is the important half;
+      // a missing audit row is recoverable.
+    }
   }
 
   if (!sendResult.ok) {
