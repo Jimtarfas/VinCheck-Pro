@@ -102,13 +102,6 @@ function formatExpiry(iso: string | null | undefined): string {
   }
 }
 
-function absoluteAsset(origin: string, path: string): string {
-  // origin comes in as "app.carcheckervin.com" — strip any accidental
-  // protocol, then rebuild with https.
-  const clean = origin.replace(/^https?:\/\//, "").replace(/\/+$/, "");
-  return `https://${clean}${path.startsWith("/") ? path : `/${path}`}`;
-}
-
 /**
  * Strip the "app." subdomain so the human-friendly brand domain
  * (carcheckervin.com) is what shows in the footer, not the internal
@@ -134,39 +127,34 @@ export function renderOrderConfirmation(
   const hasBundle = input.bundleSize && input.bundleSize > 1;
   const credits = hasBundle ? input.bundleSize! - 1 : 0;
   const expiresLabel = formatExpiry(input.bundleExpiresAt);
-  const logoIconUrl = absoluteAsset(input.siteOrigin, "/email/icon.png");
   // Brand-facing domain (carcheckervin.com) — what we show to the
   // buyer, even though the email links technically resolve through
   // the app. subdomain.
   const publicDomain = brandDomain(input.siteOrigin);
 
-  // ── Brand bar (gradient navy with icon + wordmark) ──
+  // ── Brand bar (gradient navy with text wordmark) ──
   // Outlook ignores CSS gradients entirely; we paint the solid navy
   // as a fallback and the gradient on top via -webkit-/inline only.
   // bgcolor= on the <td> guarantees the fallback shows in MSO.
+  // The wordmark is text-only — no image asset to break.
   const brandBar = `
     <tr>
       <td bgcolor="${NAVY}"
           style="background:${NAVY};
                  background-image:linear-gradient(135deg,${NAVY} 0%,${NAVY_DARK} 100%);
-                 padding:20px 28px;">
+                 padding:22px 28px;">
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
           <tr>
-            <td style="vertical-align:middle;">
-              <img src="${escapeHtml(logoIconUrl)}"
-                   width="32" height="32" alt="CarCheckerVIN"
-                   style="display:inline-block;vertical-align:middle;
-                          border-radius:6px;border:0;outline:none;
-                          margin-right:10px;"/>
-              <span style="display:inline-block;vertical-align:middle;
-                           font-family:Arial,Helvetica,sans-serif;
-                           color:#ffffff;font-size:18px;font-weight:800;
-                           letter-spacing:0.3px;">CarChecker<span style="color:${ORANGE};">VIN</span></span>
+            <td style="vertical-align:middle;
+                       font-family:Arial,Helvetica,sans-serif;
+                       color:#ffffff;font-size:20px;font-weight:800;
+                       letter-spacing:0.3px;line-height:1;">
+              CarChecker<span style="color:${ORANGE};">VIN</span>
             </td>
             <td style="text-align:right;vertical-align:middle;
                        font-family:Arial,Helvetica,sans-serif;
                        color:#ffffff;font-size:10px;font-weight:700;
-                       letter-spacing:1.6px;opacity:0.85;">
+                       letter-spacing:1.6px;opacity:0.85;line-height:1;">
               ORDER CONFIRMATION
             </td>
           </tr>
@@ -197,10 +185,10 @@ export function renderOrderConfirmation(
             </td>
           </tr>
         </table>
-        <h1 style="margin:0 0 10px 0;font-size:28px;line-height:1.2;
+        <h1 style="margin:0 0 10px 0;font-size:24px;line-height:1.25;
                    color:${TEXT};font-weight:800;
-                   font-family:Georgia,'Times New Roman',serif;
-                   letter-spacing:-0.3px;">
+                   font-family:Arial,Helvetica,sans-serif;
+                   letter-spacing:-0.2px;">
           Your report is ready.
         </h1>
         <p style="margin:0 0 28px 0;font-size:15px;line-height:1.6;
