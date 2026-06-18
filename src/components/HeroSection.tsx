@@ -57,7 +57,7 @@ export default function HeroSection() {
 
           {/* VIN Search */}
           <div className="animate-fade-in-up-delay-3">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg" withPlateToggle />
             <VinLocatorHint />
           </div>
 
