@@ -615,102 +615,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{stickerCoupon}</div>
   );
 
-  /* ── Hero risk snapshot ───────────────────────────────────────────────
-     Fills the navy hero space beside the vehicle name. Built entirely from
-     the FREE ClearVin preview signals — we surface the *counts* of records on
-     file (damage, auction, photos) and keep the details locked behind the
-     paywall, which is the strongest conversion lever for a used-car buyer:
-     it proves concerning records exist without giving them away. Recalls are
-     the one set shown free (NHTSA, also rendered below) as a trust proof.
-     Falls back to example numbers when ClearVin has no token configured. */
-  const heroAside = (() => {
-    const isExample = !preview;
-    const dmg = preview?.damagesCount ?? 2;
-    const auc = preview?.auctionHistoryRecords ?? 1;
-    const rec = preview?.recallsCount ?? 6;
-    const imgs = preview?.imagesAmount ?? 12;
-
-    // Locked teaser tiles — count shown, detail behind the paywall.
-    const tiles: { icon: typeof Lock; label: string; value: string; alert?: boolean }[] = [
-      { icon: ShieldCheck, label: "Title & odometer", value: "Check" },
-      { icon: AlertTriangle, label: "Damage records", value: String(dmg), alert: dmg > 0 },
-      { icon: Gavel, label: "Auction & sales", value: String(auc), alert: auc > 0 },
-      { icon: Car, label: "Photos on file", value: String(imgs) },
-    ];
-
-    // Trust facts — concrete identity details that prove the data is real and
-    // specific to this exact car (not a generic year/make/model lookup).
-    const facts: string[] = [];
-    if (isExample) {
-      facts.push("3.5L V6 · Assembled in USA", "Original MSRP $31,840");
-    } else {
-      const eng = preview?.vinSpec.engine?.trim();
-      const made = preview?.vinSpec.madeIn?.trim();
-      const msrp = preview?.vinSpec.msrp?.trim();
-      if (eng || made) facts.push([eng, made && `Assembled in ${made}`].filter(Boolean).join(" · "));
-      if (msrp) facts.push(`Original MSRP ${msrp}`);
-    }
-
-    return (
-      <div className="mt-6 lg:mt-8 rounded-2xl bg-white/[0.07] border border-white/15 p-4">
-        <div className="flex items-center gap-2 mb-3 px-1">
-          <Fingerprint className="w-4 h-4 text-secondary-fixed-dim" />
-          <h2 className="text-xs font-headline font-extrabold uppercase tracking-wider text-white">
-            Records found for this VIN
-          </h2>
-          {isExample && (
-            <span className="text-[9px] font-bold uppercase tracking-wider text-white/45 border border-white/20 rounded-full px-2 py-0.5">
-              Example
-            </span>
-          )}
-          {/* Trust facts inline on the right of the header */}
-          {facts.length > 0 && (
-            <div className="ml-auto flex items-center gap-4">
-              {facts.map((f) => (
-                <span key={f} className="hidden xl:flex items-center gap-1.5 text-[11px] text-white/70">
-                  <BadgeCheck className="w-3.5 h-3.5 text-secondary-fixed-dim flex-shrink-0" />
-                  {f}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* 4 locked record tiles + the free recall tile. Wraps to a 2-up grid
-            on phones, then a single row from the small breakpoint up. */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-          {tiles.map(({ icon: Icon, label, value, alert }) => (
-            <div key={label} className="rounded-xl bg-white/[0.06] border border-white/10 px-3.5 py-2.5">
-              <div className="flex items-center justify-between mb-1">
-                <Icon className={`w-4 h-4 ${alert ? "text-amber-300" : "text-secondary-fixed-dim"}`} />
-                <Lock className="w-3 h-3 text-white/40" />
-              </div>
-              <div className={`text-lg font-headline font-extrabold leading-none ${alert ? "text-amber-300" : "text-white"}`}>
-                {value}
-              </div>
-              <div className="text-[10px] font-bold uppercase tracking-wider text-white/55 mt-1 leading-tight">
-                {label}
-              </div>
-            </div>
-          ))}
-
-          {/* Recalls — the one record set shown free, as proof the data is real.
-              Spans the full width on phones so it doesn't leave a lone gap. */}
-          <div className="col-span-2 sm:col-span-1 rounded-xl bg-amber-400/15 border border-amber-300/25 px-3.5 py-2.5 flex flex-col justify-center">
-            <div className="flex items-center justify-between mb-1">
-              <ShieldAlert className="w-4 h-4 text-amber-300" />
-              <span className="text-[9px] font-bold uppercase tracking-wider text-amber-200">Free</span>
-            </div>
-            <div className="text-lg font-headline font-extrabold leading-none text-amber-300">{rec}</div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-amber-100/80 mt-1 leading-tight">
-              Open recall{rec === 1 ? "" : "s"}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  })();
-
   /* ── Market Analysis card (sidebar, above Report Summary) ──────────────
      Built from auto.dev market/pricing data with an example fallback so the
      panel is reviewable before AUTO_DEV_API_KEY is configured. Skipped when
@@ -1265,7 +1169,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         lockListing={!!reportData.listing}
         unlockHref={orderHref}
         summaryGroups={SUMMARY_GROUPS}
-        heroAside={heroAside}
         heroCta={heroCta}
         heroPromo={heroPromo}
         summaryTop={summaryTop}
