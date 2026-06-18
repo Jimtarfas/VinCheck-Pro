@@ -19,6 +19,8 @@ const checkLinks = [
 const moreChecksCol1 = [
   { href: "/window-sticker",               label: "Window Sticker Maker" },
   { href: "/license-plate-lookup",         label: "Plate to VIN Lookup" },
+  { href: "/plate-to-vin",                 label: "Plate to VIN" },
+  { href: "/state-to-vin",                 label: "State to VIN" },
   { href: "/look-up-car-plates-free",      label: "Look Up Car Plates Free" },
   { href: "/vin-decoder",                  label: "VIN Decoder" },
   { href: "/compare-cars",                 label: "Compare Vehicles" },

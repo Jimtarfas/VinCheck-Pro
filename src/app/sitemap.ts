@@ -176,6 +176,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/window-sticker-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/free-window-sticker-by-vin`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/license-plate-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    // Plate → VIN and State → VIN — keyword-targeted plate-lookup landing pages.
+    { url: `${baseUrl}/plate-to-vin`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${baseUrl}/state-to-vin`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Free plate lookup — keyword-targeted SEO landing page.
     { url: `${baseUrl}/look-up-car-plates-free`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Car Loan Calculator — high-traffic finance tool for organic SEO.

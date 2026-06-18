@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search, Hash, TrendingDown, Anchor, Truck, Car } from "lucide-react";
+import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search, Hash, TrendingDown, Anchor, Truck, Car, ScanLine, MapPin } from "lucide-react";
 
 const allChecks = [
+  { href: "/plate-to-vin", icon: ScanLine, title: "Plate to VIN", desc: "Find a VIN from any license plate" },
+  { href: "/state-to-vin", icon: MapPin, title: "State to VIN", desc: "Get a VIN by plate and state" },
   { href: "/stolen-vehicle-check", icon: Shield, title: "Stolen Vehicle Check", desc: "Verify against NICB theft database" },
   { href: "/chassis-number-lookup", icon: Hash, title: "Chassis Number Lookup", desc: "Decode any chassis number (VIN) free" },
   { href: "/salvage-title-check", icon: FileText, title: "Salvage Title Check", desc: "Detect rebuilt and branded titles" },
