@@ -207,6 +207,10 @@ export interface ClearVinError {
 const TOKEN = () => (process.env.CLEARVIN_API_TOKEN || "").trim();
 const EMAIL = () => (process.env.CLEARVIN_API_EMAIL || "").trim();
 const PASSWORD = () => (process.env.CLEARVIN_API_PASSWORD || "").trim();
+// Dedicated static bearer token for the License Plate → VIN endpoint. ClearVin
+// issues this separately from the report account, so when present it takes
+// priority for vinByPlate() over the email+password login flow.
+const PLATE_TOKEN = () => (process.env.CLEARVIN_PLATE_API_TOKEN || "").trim();
 const BASE = () =>
   (process.env.CLEARVIN_API_BASE_URL || "https://www.clearvin.com")
     .trim()
@@ -622,14 +626,21 @@ export async function vinByPlate(
     };
   }
 
-  // Resolve credentials (may perform a cached production login).
+  // Resolve credentials. A dedicated CLEARVIN_PLATE_API_TOKEN wins when set
+  // (ClearVin issues the plate endpoint as its own token); otherwise we fall
+  // back to the shared production login flow (email+password / CLEARVIN_API_TOKEN).
   let env: { token: string; base: string; mock: boolean };
-  try {
-    env = await resolveEnvAsync(false);
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : "ClearVin authentication failed.";
-    void logCall({ endpoint: "plate_lookup", vin: `${plate}:${state}`, statusCode: 401, error: msg });
-    return mapClearVinError(401, msg);
+  const plateToken = PLATE_TOKEN();
+  if (plateToken) {
+    env = { token: plateToken, base: BASE(), mock: false };
+  } else {
+    try {
+      env = await resolveEnvAsync(false);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "ClearVin authentication failed.";
+      void logCall({ endpoint: "plate_lookup", vin: `${plate}:${state}`, statusCode: 401, error: msg });
+      return mapClearVinError(401, msg);
+    }
   }
 
   // MOCK PATH — deterministic test VIN so the UI works without credentials.
