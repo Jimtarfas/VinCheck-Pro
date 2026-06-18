@@ -364,9 +364,12 @@ function PhotoGallery({
             const remaining = (lockedPhotoCount ?? 1) - 1 - arr.length;
             const isLast = i === arr.length - 1 && remaining > 0;
             return (
-              <div
+              <button
                 key={i}
-                className="relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden"
+                type="button"
+                onClick={scrollToBundle}
+                aria-label="Unlock all photos in the full report"
+                className="relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden cursor-pointer"
               >
                 <div
                   className="absolute inset-0"
@@ -374,7 +377,7 @@ function PhotoGallery({
                 >
                   <Image src={photos[0]} alt="" aria-hidden fill className="object-cover" sizes="80px" />
                 </div>
-                <div className="absolute inset-0 bg-primary/45 flex items-center justify-center">
+                <div className="absolute inset-0 bg-primary/45 hover:bg-primary/60 transition-colors flex items-center justify-center">
                   {isLast ? (
                     <span className="text-white font-headline font-black text-[10px] sm:text-xs">
                       +{remaining}
@@ -383,7 +386,7 @@ function PhotoGallery({
                     <Lock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white drop-shadow" />
                   )}
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

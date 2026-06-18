@@ -746,7 +746,10 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           The specs above are free. Title brands, accidents, odometer and
           ownership records are revealed in the full report.
         </p>
-        <div className="relative rounded-3xl border border-outline-variant bg-surface-container-lowest overflow-hidden">
+        <BuyReportButton
+          ariaLabel="Unlock the full vehicle history report"
+          className="group block w-full text-left relative rounded-3xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
+        >
           <div className="divide-y divide-outline-variant/60">
             {records.map((r) => {
               const Icon = r.icon;
@@ -764,13 +767,16 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                       {r.count} found
                     </span>
                   ) : (
-                    <Lock className="w-4 h-4 text-on-surface-variant/60 flex-shrink-0" />
+                    <Lock className="w-4 h-4 text-on-surface-variant/60 group-hover:text-primary transition-colors flex-shrink-0" />
                   )}
                 </div>
               );
             })}
           </div>
-        </div>
+          <div className="flex items-center justify-center gap-1.5 border-t border-outline-variant/60 bg-primary/5 px-4 py-3 text-xs font-bold text-primary">
+            <Lock className="w-3.5 h-3.5" /> Tap to unlock the full report
+          </div>
+        </BuyReportButton>
       </section>
 
       {/* Free recalls — right after the "records on file" section */}
