@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { fetchPreview, fetchAccountStats, isUsingMockData } from "@/lib/clearvin";
+import { fetchPreview, fetchAccountStats, isUsingMockData, vinByPlate } from "@/lib/clearvin";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 /**
@@ -151,12 +151,34 @@ export async function GET(req: NextRequest) {
 
   const vin = (req.nextUrl.searchParams.get("vin") || TEST_VIN).toUpperCase();
 
-  const [ip, login, previewRes, usage] = await Promise.all([
+  // Opt-in live plate probe: pass &plate=ABC123&state=FL to actually hit
+  // ClearVin's vinByPlate endpoint and surface the exact result/error code.
+  // Skipped by default since a real lookup may count against the plate quota.
+  const probePlate = (req.nextUrl.searchParams.get("plate") || "").trim();
+  const probeState = (req.nextUrl.searchParams.get("state") || "").trim();
+
+  const [ip, login, previewRes, usage, plateRes] = await Promise.all([
     egressIp(),
     loginProbe(),
     fetchPreview(vin),
     usageSummary(),
+    probePlate && probeState
+      ? vinByPlate(probePlate, probeState)
+      : Promise.resolve(null),
   ]);
+
+  const plate =
+    plateRes === null
+      ? { attempted: false as const }
+      : plateRes.ok
+        ? { attempted: true as const, ok: true as const, vin: plateRes.vin }
+        : {
+            attempted: true as const,
+            ok: false as const,
+            status: plateRes.status,
+            code: plateRes.code,
+            message: plateRes.message,
+          };
 
   const preview =
     "ok" in previewRes && previewRes.ok
@@ -182,12 +204,14 @@ export async function GET(req: NextRequest) {
       hasEmail: Boolean(process.env.CLEARVIN_API_EMAIL),
       hasPassword: Boolean(process.env.CLEARVIN_API_PASSWORD),
       hasSandboxToken: Boolean(process.env.CLEARVIN_SANDBOX_API_TOKEN),
+      hasPlateToken: Boolean(process.env.CLEARVIN_PLATE_API_TOKEN),
       base: (process.env.CLEARVIN_API_BASE_URL || "https://www.clearvin.com").replace(/\/+$/, ""),
     },
     isUsingMockData: isUsingMockData(),
     egressIp: ip,
     login,
     preview: { vin, ...preview },
+    plate,
     paidReportsUsed: usage,
   });
 }
