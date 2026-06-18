@@ -1,28 +1,21 @@
 /**
  * License-plate → VIN lookup endpoint.
  *
- * Many vendors expose this. The default contract here matches
- * PlateToVIN.com (the most common indie-friendly provider):
- *   POST https://platetovin.com/api/convert
- *   Headers: { Authorization: "<key>" }
- *   Body:    { state, plate }
- *   Returns: { success: true, vin: "..." } or { success: false, message }
+ * Backed by ClearVin's vinByPlate endpoint (see src/lib/clearvin.ts →
+ * `vinByPlate`), which reuses the same production JWT auth/token cache as
+ * our preview + report calls. The client sends { plate, state }; we
+ * validate, resolve the VIN, and return the LookupResult the UI expects.
+ * The UI then decodes the VIN's specs via /api/vin/<vin>.
  *
- * To switch providers, override:
- *   PLATE_TO_VIN_API_URL    — provider endpoint
- *   PLATE_TO_VIN_API_KEY    — API key (sent as Authorization header)
- *   PLATE_TO_VIN_AUTH_STYLE — "raw" (default) | "bearer" | "apikey-query"
- *
- * If no key is configured we return a clear `service-unavailable`
- * response so the UI can show a graceful fallback instead of erroring.
+ * Auth-gated to a signed-in user — matches our other paid-feel tools and
+ * protects the upstream ClearVin quota from abuse.
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient as createServerClient } from "@/lib/supabase/server";
+import { vinByPlate } from "@/lib/clearvin";
 
-const PROVIDER_URL =
-  process.env.PLATE_TO_VIN_API_URL || "https://platetovin.com/api/convert";
-const API_KEY = process.env.PLATE_TO_VIN_API_KEY || "";
-const AUTH_STYLE = (process.env.PLATE_TO_VIN_AUTH_STYLE || "raw").toLowerCase();
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 // US states + DC + territories — keep in sync with the client form.
 const VALID_STATES = new Set([
@@ -34,17 +27,8 @@ const VALID_STATES = new Set([
 
 function sanitizePlate(raw: string): string {
   // Plates are uppercase alphanumerics, sometimes with dashes/spaces. Strip
-  // anything else so we don't pass injection chars to the provider.
+  // anything else so we don't pass injection chars upstream.
   return raw.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 10);
-}
-
-interface ProviderResponse {
-  success?: boolean;
-  vin?: string;
-  message?: string;
-  error?: string;
-  // Some vendors return decoded vehicle info inline.
-  data?: { vin?: string; year?: number; make?: string; model?: string };
 }
 
 export async function POST(req: NextRequest) {
@@ -87,91 +71,57 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (!API_KEY) {
-    // Friendly response so the UI can show a "coming soon / search by VIN"
-    // path instead of a 500. Operators wire a key in env to enable.
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "service-unavailable",
-        message:
-          "Plate lookup is being onboarded. Please search by VIN for now.",
-      },
-      { status: 503 }
-    );
+  const result = await vinByPlate(plate, state);
+
+  if (result.ok) {
+    return NextResponse.json({ ok: true, vin: result.vin });
   }
 
-  // Build provider request
-  let endpoint = PROVIDER_URL;
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  };
-  if (AUTH_STYLE === "bearer") {
-    headers["Authorization"] = `Bearer ${API_KEY}`;
-  } else if (AUTH_STYLE === "apikey-query") {
-    const sep = endpoint.includes("?") ? "&" : "?";
-    endpoint = `${endpoint}${sep}apikey=${encodeURIComponent(API_KEY)}`;
-  } else {
-    headers["Authorization"] = API_KEY;
-  }
-
-  try {
-    const upstream = await fetch(endpoint, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ state, plate }),
-      // Plate-to-VIN providers can be slow; cap at 12s.
-      signal: AbortSignal.timeout(12_000),
-    });
-
-    if (!upstream.ok) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: "upstream-error",
-          status: upstream.status,
-          message:
-            upstream.status === 404
-              ? "We couldn't find a vehicle for that plate and state."
-              : "The plate lookup service is temporarily unavailable.",
-        },
-        { status: upstream.status === 404 ? 404 : 502 }
-      );
-    }
-
-    const data = (await upstream.json()) as ProviderResponse;
-    const vin = (data.vin || data.data?.vin || "").toUpperCase().trim();
-
-    if (!vin || vin.length !== 17) {
+  // Map the typed ClearVin error onto the UI's LookupResult contract.
+  switch (result.code) {
+    case "VIN_NOT_FOUND":
       return NextResponse.json(
         {
           ok: false,
           error: "no-match",
           message:
-            data.message ||
-            data.error ||
-            "No VIN was returned for that plate and state. Double-check the plate or try a different state.",
+            "We couldn't find a vehicle for that plate and state. Double-check the plate or try a different state.",
         },
         { status: 404 }
       );
-    }
-
-    return NextResponse.json({
-      ok: true,
-      vin,
-      year: data.data?.year,
-      make: data.data?.make,
-      model: data.data?.model,
-    });
-  } catch (e) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "fetch-failed",
-        message: e instanceof Error ? e.message : "Plate lookup failed.",
-      },
-      { status: 502 }
-    );
+    case "TOKEN_MISSING":
+    case "ENDPOINT_DISABLED":
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "service-unavailable",
+          message: "Plate lookup is being onboarded. Please search by VIN for now.",
+        },
+        { status: 503 }
+      );
+    case "RATE_LIMITED":
+    case "MONTHLY_LIMIT":
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "rate-limited",
+          message: "Too many lookups right now — please try again in a minute.",
+        },
+        { status: 429 }
+      );
+    case "VIN_INVALID":
+      return NextResponse.json(
+        { ok: false, error: "invalid-plate", message: result.message },
+        { status: 400 }
+      );
+    default:
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "upstream-error",
+          message: "The plate lookup service is temporarily unavailable.",
+        },
+        { status: 502 }
+      );
   }
 }

@@ -321,7 +321,7 @@ function normalizeVin(vin: string): string | null {
 // ── Telemetry ────────────────────────────────────────────────────────
 
 async function logCall(opts: {
-  endpoint: "preview" | "full_report";
+  endpoint: "preview" | "full_report" | "plate_lookup";
   vin: string;
   orderId?: string;
   statusCode?: number;
@@ -557,6 +557,139 @@ export async function fetchPreview(
     void logCall({
       endpoint: "preview",
       vin,
+      statusCode: 0,
+      durationMs: duration,
+      error: msg,
+    });
+    if (e instanceof Error && e.name === "TimeoutError") {
+      return {
+        ok: false,
+        status: 504,
+        code: "TIMEOUT",
+        message: "ClearVin took too long to respond.",
+      };
+    }
+    return { ok: false, status: 500, code: "UNKNOWN", message: msg };
+  }
+}
+
+// ── LICENSE PLATE → VIN ──────────────────────────────────────────────
+// ClearVin's plate-decode endpoint:
+//   GET /rest/vendor/vinByPlate?licensePlate={PLATE}:{STATE}
+// Bearer-authed with the same production JWT as preview/report. Success:
+//   { status: "ok", result: { vin: "..." } }
+// Errors come back as { status: "error", message } with 401 (auth),
+// 404 (plate not found) or 403 (limit). Rate limited to ~25/min upstream.
+
+const PLATE_RE = /^[A-Z0-9]{1,10}$/;
+const STATE_RE = /^[A-Z]{2}$/;
+
+interface RawVinByPlateResponse {
+  status: "ok" | "error";
+  message?: string;
+  result?: { vin?: string };
+}
+
+/**
+ * Resolve a US license plate + state to a VIN via ClearVin's vinByPlate
+ * endpoint. Validates inputs, reuses the production auth/token cache, maps
+ * upstream errors to our typed ClearVinError, and logs telemetry.
+ *
+ * In mock mode (no production credentials) returns a deterministic test VIN
+ * so the plate-lookup UI stays walkable locally.
+ */
+export async function vinByPlate(
+  rawPlate: string,
+  rawState: string
+): Promise<{ ok: true; vin: string } | ClearVinError> {
+  const plate = (rawPlate || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+  const state = (rawState || "").trim().toUpperCase();
+
+  if (!PLATE_RE.test(plate)) {
+    return {
+      ok: false,
+      status: 400,
+      code: "VIN_INVALID",
+      message: "Plate must be 1–10 alphanumeric characters.",
+    };
+  }
+  if (!STATE_RE.test(state)) {
+    return {
+      ok: false,
+      status: 400,
+      code: "VIN_INVALID",
+      message: "State must be a 2-letter US state code.",
+    };
+  }
+
+  // Resolve credentials (may perform a cached production login).
+  let env: { token: string; base: string; mock: boolean };
+  try {
+    env = await resolveEnvAsync(false);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "ClearVin authentication failed.";
+    void logCall({ endpoint: "plate_lookup", vin: `${plate}:${state}`, statusCode: 401, error: msg });
+    return mapClearVinError(401, msg);
+  }
+
+  // MOCK PATH — deterministic test VIN so the UI works without credentials.
+  if (env.mock) {
+    const seed = [...`${plate}${state}`].reduce((a, c) => a + c.charCodeAt(0), 0);
+    const vin = CLEARVIN_TEST_VINS[seed % CLEARVIN_TEST_VINS.length];
+    void logCall({ endpoint: "plate_lookup", vin: `${plate}:${state}`, statusCode: 200, durationMs: 10 });
+    return { ok: true, vin };
+  }
+
+  // REAL PATH ────────────────────────────────────────────────────────
+  const start = Date.now();
+  const url = `${env.base}/rest/vendor/vinByPlate?licensePlate=${encodeURIComponent(
+    `${plate}:${state}`
+  )}`;
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${env.token}`,
+        Accept: "application/json",
+      },
+      signal: AbortSignal.timeout(15_000),
+    });
+    const duration = Date.now() - start;
+    const requestId = res.headers.get("x-request-id") || undefined;
+    const json = (await res.json().catch(() => ({}))) as RawVinByPlateResponse;
+
+    const vin = (json.result?.vin || "").trim().toUpperCase();
+    if (!res.ok || json.status !== "ok" || !normalizeVin(vin)) {
+      // 404 with status ok but no VIN ⇒ plate genuinely not matched.
+      const err =
+        res.ok && json.status === "ok"
+          ? mapClearVinError(404, "Vin not found")
+          : mapClearVinError(res.status, json.message || res.statusText);
+      void logCall({
+        endpoint: "plate_lookup",
+        vin: `${plate}:${state}`,
+        statusCode: res.status,
+        durationMs: duration,
+        error: err.message,
+        requestId,
+      });
+      return err;
+    }
+
+    void logCall({
+      endpoint: "plate_lookup",
+      vin: `${plate}:${state}`,
+      statusCode: 200,
+      durationMs: duration,
+      requestId,
+    });
+    return { ok: true, vin };
+  } catch (e) {
+    const duration = Date.now() - start;
+    const msg = e instanceof Error ? e.message : "unknown";
+    void logCall({
+      endpoint: "plate_lookup",
+      vin: `${plate}:${state}`,
       statusCode: 0,
       durationMs: duration,
       error: msg,

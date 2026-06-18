@@ -4,7 +4,7 @@ import {
   Car, Gauge, Settings, Fuel, Cog, DoorOpen, Check, Shield, ChevronDown,
   ChevronLeft, ChevronRight, Printer, Share2, ArrowLeft, DollarSign,
   TrendingUp, TrendingDown, BarChart3, MapPin, Calendar, Palette, Tag,
-  Zap, Award, Info, Download, AlertTriangle, Lock,
+  Zap, Award, Info, Download, AlertTriangle, Lock, CircleAlert,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -408,6 +408,15 @@ function PhotoGallery({
               +{photos.length - 14}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Similar-photo disclaimer — only when the gallery is showing stock
+          imagery of the same year/make/model rather than this exact VIN. */}
+      {isSimilar && (
+        <div className="flex items-center gap-2 px-3 sm:px-4 py-3 border-t border-surface-container text-xs sm:text-sm text-on-surface-variant">
+          <CircleAlert className="w-4 h-4 flex-shrink-0 text-outline" />
+          <span>Example image of a similar vehicle. The photo does not depict the inspected car.</span>
         </div>
       )}
     </div>
