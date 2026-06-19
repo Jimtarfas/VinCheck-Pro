@@ -33,6 +33,7 @@ import StateLemonLawTable from "./StateLemonLawTable";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 import { states } from "@/lib/states";
 import { LEMON_LAWS } from "@/lib/lemon-laws";
+import { LEMON_BRANDS } from "@/lib/lemon-brands";
 
 // States that have a dedicated /lemon-check/[state] page (those present in
 // both the DMV dataset and the legal reference). Used for the internal-link
@@ -847,6 +848,40 @@ export default function LemonCheckPage() {
                 </Link>
               ))}
             </div>
+          </section>
+
+          {/* Per-brand lemon check guides */}
+          <section className="py-12 sm:py-16 border-b border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Lemon Check by Brand
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7 max-w-3xl">
+              Each manufacturer&apos;s warranty length sets the window in which a
+              recurring defect can qualify under a state lemon law. Open a
+              brand&apos;s guide for its coverage terms and a free VIN-based
+              buyback check.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+              {LEMON_BRANDS.map((br) => (
+                <Link
+                  key={br.slug}
+                  href={`/lemon-check/brand/${br.slug}`}
+                  className="flex items-center gap-2 rounded-xl border border-outline-variant bg-surface-container-lowest hover:border-primary/40 hover:bg-primary/5 transition-colors px-3.5 py-2.5 group"
+                >
+                  <Tag className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-bold text-on-surface group-hover:text-primary truncate">
+                    {br.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <Link
+              href="/lemon-check/brand"
+              className="inline-flex items-center gap-2 mt-5 text-sm font-bold text-primary hover:underline"
+            >
+              Browse all brands
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </section>
 
           {/* How a lemon ends up on a used lot */}

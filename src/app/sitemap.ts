@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { makes } from "@/lib/makes";
 import { states } from "@/lib/states";
 import { LEMON_LAWS } from "@/lib/lemon-laws";
+import { LEMON_BRANDS } from "@/lib/lemon-brands";
 import { marketplaces } from "@/lib/marketplaces";
 import { PAINT_CODE_BRANDS } from "@/lib/paint-codes";
 import { BUILD_SHEET_BRANDS } from "@/lib/build-sheets";
@@ -121,6 +122,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
+  // Per-brand lemon check pages (/lemon-check/brand/[make]).
+  const lemonBrandPages: MetadataRoute.Sitemap = LEMON_BRANDS.map((b) => ({
+    url: `${baseUrl}/lemon-check/brand/${b.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.75,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -193,6 +202,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/odometer-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/lemon-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...lemonStatePages,
+    { url: `${baseUrl}/lemon-check/brand`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    ...lemonBrandPages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.
