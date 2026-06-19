@@ -721,59 +721,14 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   }
 
   /* ── Free teasers surfaced directly under the photo gallery ──
-     The free NHTSA recalls and the "records on file" card sit right beneath
-     the vehicle image — above the spec cards — so the strongest free proof and
-     the upsell are seen first, then the full vehicle information follows. */
+     The "records on file" upsell card comes FIRST — it's the conversion
+     driver. The free NHTSA recalls follow as trust proof; recalls are public
+     data anyone can look up, so on their own they don't motivate a purchase.
+     We reframe them as proof + a bridge to the non-public records (accidents,
+     title brands, odometer, ownership) that only the paid report reveals. */
   const afterPhotos = (
     <div className="space-y-12">
-      {/* Free recalls */}
-      {preview && preview.recalls.length > 0 && (
-        <section>
-          <div className="flex items-center gap-2 mb-2">
-            <ShieldAlert className="w-5 h-5 text-amber-600" />
-            <h2 className="text-xl font-headline font-extrabold text-primary">
-              {preview.recalls.length} open safety recall{preview.recalls.length === 1 ? "" : "s"} — shown free
-            </h2>
-          </div>
-          <p className="text-sm text-on-surface-variant mb-4 max-w-2xl">
-            Pulled live from NHTSA — the same official records included in your
-            full report, proof the data behind this VIN is real and current.
-          </p>
-          <div className="space-y-2">
-            {preview.recalls.map((r, i) => (
-              <details
-                key={`${r.NHTSACampaignNumber}-${i}`}
-                className="group rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 [&_summary::-webkit-details-marker]:hidden"
-              >
-                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
-                  <div>
-                    <div className="text-[11px] font-black uppercase tracking-wider text-amber-600 mb-0.5">
-                      {r.Component}
-                    </div>
-                    <div className="text-sm font-bold text-on-surface">
-                      Campaign {r.NHTSACampaignNumber} · {r.ReportReceivedDate}
-                    </div>
-                  </div>
-                  <span className="flex-shrink-0 text-primary text-xl font-light group-open:rotate-45 transition-transform">
-                    +
-                  </span>
-                </summary>
-                <div className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed space-y-2">
-                  <p><strong className="text-on-surface">Summary:</strong> {r.Summary}</p>
-                  {r.Consequence && (
-                    <p><strong className="text-on-surface">Risk:</strong> {r.Consequence}</p>
-                  )}
-                  {r.Remedy && (
-                    <p><strong className="text-on-surface">Remedy:</strong> {r.Remedy}</p>
-                  )}
-                </div>
-              </details>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Premium vehicle history — records on file */}
+      {/* Premium vehicle history — records on file (conversion driver, first) */}
       <section>
         <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
           <Crown className="w-3.5 h-3.5" /> Premium vehicle history
@@ -826,6 +781,76 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           </div>
         </BuyReportButton>
       </section>
+
+      {/* Free recalls — public NHTSA data, framed as proof + a bridge to the
+          non-public records the paid report adds. Recalls alone don't drive a
+          purchase, so we contrast them with what stays locked. */}
+      {preview && preview.recalls.length > 0 && (
+        <section>
+          <div className="flex items-center gap-2 mb-2">
+            <ShieldAlert className="w-5 h-5 text-amber-600" />
+            <h2 className="text-xl font-headline font-extrabold text-primary">
+              {preview.recalls.length} open safety recall{preview.recalls.length === 1 ? "" : "s"} — shown free
+            </h2>
+          </div>
+          <p className="text-sm text-on-surface-variant mb-4 max-w-2xl">
+            Recalls are public NHTSA safety notices anyone can look up for free —
+            shown here as proof this VIN&apos;s data is real and current. On their
+            own they don&apos;t reveal reported accidents, title brands, odometer
+            fraud or who owned the car.
+          </p>
+          <div className="space-y-2">
+            {preview.recalls.map((r, i) => (
+              <details
+                key={`${r.NHTSACampaignNumber}-${i}`}
+                className="group rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <div>
+                    <div className="text-[11px] font-black uppercase tracking-wider text-amber-600 mb-0.5">
+                      {r.Component}
+                    </div>
+                    <div className="text-sm font-bold text-on-surface">
+                      Campaign {r.NHTSACampaignNumber} · {r.ReportReceivedDate}
+                    </div>
+                  </div>
+                  <span className="flex-shrink-0 text-primary text-xl font-light group-open:rotate-45 transition-transform">
+                    +
+                  </span>
+                </summary>
+                <div className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed space-y-2">
+                  <p><strong className="text-on-surface">Summary:</strong> {r.Summary}</p>
+                  {r.Consequence && (
+                    <p><strong className="text-on-surface">Risk:</strong> {r.Consequence}</p>
+                  )}
+                  {r.Remedy && (
+                    <p><strong className="text-on-surface">Remedy:</strong> {r.Remedy}</p>
+                  )}
+                </div>
+              </details>
+            ))}
+          </div>
+
+          {/* Bridge: pivot from free public recalls to the locked records */}
+          <BuyReportButton
+            ariaLabel="Unlock accident, title and ownership records"
+            className="group mt-4 flex w-full items-center gap-3 rounded-2xl border border-primary/20 bg-primary/[0.04] p-4 text-left cursor-pointer transition-colors hover:border-primary/40 hover:bg-primary/[0.07]"
+          >
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
+              <Lock className="w-5 h-5 text-primary" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-bold text-on-surface">
+                Recalls are only the public layer
+              </div>
+              <div className="text-xs text-on-surface-variant">
+                Accidents, title brands, odometer history, owners &amp; liens are in your full report.
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 flex-shrink-0 text-primary transition-transform group-hover:translate-x-0.5" />
+          </BuyReportButton>
+        </section>
+      )}
     </div>
   );
 
