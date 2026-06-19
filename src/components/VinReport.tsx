@@ -4,7 +4,7 @@ import {
   Car, Gauge, Settings, Fuel, Cog, DoorOpen, Check, Shield, ChevronDown,
   ChevronLeft, ChevronRight, Printer, Share2, ArrowLeft, DollarSign,
   TrendingUp, TrendingDown, BarChart3, MapPin, Calendar, Palette, Tag,
-  Zap, Award, Info, Download, AlertTriangle, Lock, CircleAlert,
+  Zap, Award, Info, Download, AlertTriangle, Lock, CircleAlert, Gavel,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -477,6 +477,7 @@ export default function VinReport({
   data,
   hideCheckAnother = false,
   mainTop,
+  afterPhotos,
   mainExtra,
   mainFiller,
   sidebarReplaceAI,
@@ -500,6 +501,9 @@ export default function VinReport({
   /** Content rendered at the very top of the main column, above the photo
    *  gallery (e.g. a source-page message-match banner). */
   mainTop?: React.ReactNode;
+  /** Content rendered directly under the photo gallery, above the spec cards
+   *  (e.g. the preview's free recalls + records-on-file teasers). */
+  afterPhotos?: React.ReactNode;
   /** Extra content appended to the end of the main column (premium sections). */
   mainExtra?: React.ReactNode;
   /** Desktop-only filler rendered as the last main-column child; balances the
@@ -741,6 +745,61 @@ export default function VinReport({
               this VIN" risk snapshot). Rendered full-width BELOW the vehicle
               name as a horizontal strip. The free report never passes it. */}
           {heroAside}
+
+          {/* Preview-only: per-VIN risk signals pulled from the ClearVin
+              preview, shown as the first thing under the vehicle name so the
+              buyer sees what's actually on THIS record before anything else.
+              Cards with findings (count > 0) sort ahead of clean ones —
+              urgency first. A "0" reads as medium-urgency reassurance
+              ("None reported") rather than an empty slot. */}
+          {previewSignals && (() => {
+            const cards = [
+              { key: "damage", label: "Damage records", value: previewSignals.damageRecords ?? 0, Icon: AlertTriangle },
+              { key: "auction", label: "Auction sales", value: previewSignals.auctionRecords ?? 0, Icon: Gavel },
+              { key: "recalls", label: "Open recalls", value: previewSignals.recalls ?? 0, Icon: CircleAlert },
+            ].sort((a, b) => (b.value > 0 ? 1 : 0) - (a.value > 0 ? 1 : 0));
+            return (
+              <div className="mt-7 border-t border-white/10 pt-6">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-white/60 mb-3">
+                  On this VIN&apos;s record
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {cards.map(({ key, label, value, Icon }) => {
+                    const found = value > 0;
+                    return (
+                      <div
+                        key={key}
+                        className={`flex items-center gap-3 rounded-2xl border p-4 ${
+                          found ? "border-amber-400/40 bg-amber-400/10" : "border-white/10 bg-white/5"
+                        }`}
+                      >
+                        <div
+                          className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${
+                            found ? "bg-amber-400/20 text-amber-300" : "bg-white/5 text-white/50"
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-baseline gap-2">
+                            <span className="font-headline text-2xl font-black leading-none text-white">{value}</span>
+                            <span
+                              className={`text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full ${
+                                found ? "bg-amber-400 text-primary" : "bg-emerald-400/15 text-emerald-300"
+                              }`}
+                            >
+                              {found ? "Found" : "None reported"}
+                            </span>
+                          </div>
+                          <div className="mt-1 text-xs text-white/70">{label}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
 
@@ -767,6 +826,10 @@ export default function VinReport({
               model={modelName}
               lockedPhotoCount={lockedPhotoCount}
             />
+
+            {/* Slot directly under the gallery (preview: free recalls +
+                records-on-file teasers, surfaced before the spec cards). */}
+            {afterPhotos}
 
             {/* Currently listed banner */}
             {data.listing && (

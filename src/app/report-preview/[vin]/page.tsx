@@ -178,14 +178,19 @@ function minimalReportData(vin: string, d: VinData): VinData {
 }
 
 /* The locked records the paid report reveals — shown as a teaser list
-   under the car info. Counts come live from ClearVin when present. */
+   under the car info. Counts come live from ClearVin when present.
+   Damage & auction counts are the two signals ClearVin returns in the free
+   preview, so we keep an explicit 0 (rather than collapsing to null) — a real
+   "0 found" lets the card show a reassuring "None reported" badge for clean
+   cars instead of a bare lock. The other four stay null (genuinely unknown
+   until unlocked). */
 function lockedRecords(p: ClearVinPreview | null) {
   return [
     { icon: ShieldCheck, label: "Title brands & history", note: "Salvage · flood · junk · lemon", count: null as number | null },
-    { icon: AlertTriangle, label: "Accident & damage records", note: "Reported collisions & severity", count: p?.damagesCount || null },
+    { icon: AlertTriangle, label: "Accident & damage records", note: "Reported collisions & severity", count: p ? p.damagesCount : null },
     { icon: Gauge, label: "Odometer readings", note: "Rollback & mileage checks", count: null },
     { icon: Users, label: "Ownership history", note: "Owners & usage type", count: null },
-    { icon: Gavel, label: "Auction & sale records", note: "Sale price & location", count: p?.auctionHistoryRecords || null },
+    { icon: Gavel, label: "Auction & sale records", note: "Sale price & location", count: p ? p.auctionHistoryRecords : null },
     { icon: Wrench, label: "Theft & total-loss checks", note: "Stolen / recovered / junked", count: null },
   ];
 }
@@ -507,7 +512,25 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       preview.recallsCount +
       preview.imagesAmount
     : 0;
-  const records = lockedRecords(preview);
+  // A VIN with no reported damage and no auction/salvage activity *looks*
+  // clean. But title brands, liens, odometer rollbacks and ownership records
+  // are NOT surfaced in the free preview, so "looks clean" is not "is clean".
+  // When true we swap the section's high-urgency "X problems found" framing for
+  // medium-urgency "looks clean — confirm before you buy" copy, which still
+  // gives the buyer a concrete reason to unlock rather than an empty section.
+  const looksClean =
+    !!preview &&
+    (preview.damagesCount || 0) === 0 &&
+    (preview.auctionHistoryRecords || 0) === 0;
+  // Order records by urgency so the buyer sees what matters first:
+  //   1. found problems (live count > 0)  — highest urgency
+  //   2. locked / unknown (count === null) — still a reason to unlock
+  //   3. clean / none reported (count === 0) — reassurance, lowest urgency
+  // A stable sort keeps the original list order within each tier.
+  const urgencyRank = (c: number | null) => (c && c > 0 ? 0 : c === null ? 1 : 2);
+  const records = lockedRecords(preview).sort(
+    (a, b) => urgencyRank(a.count) - urgencyRank(b.count)
+  );
 
   // Paint-code section (Option 3) — only shown when the buyer arrived from the
   // paint-code lookup/finder tools, so it answers the intent they came with
@@ -697,89 +720,13 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     push("Invoice Price", sp.invoice);
   }
 
-  /* ── Premium sections injected UNDER the car info (main column) ── */
-  const premiumSections = (
+  /* ── Free teasers surfaced directly under the photo gallery ──
+     The free NHTSA recalls and the "records on file" card sit right beneath
+     the vehicle image — above the spec cards — so the strongest free proof and
+     the upsell are seen first, then the full vehicle information follows. */
+  const afterPhotos = (
     <div className="space-y-12">
-      {/* Build & pricing specs — free, complements VinReport's identity cards */}
-      {buildSpecs.length > 0 && (
-        <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden">
-          <div className="px-4 sm:px-6 py-5 border-b border-surface-container">
-            <h2 className="font-headline font-bold text-base sm:text-lg text-on-surface flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
-                <Fingerprint className="w-5 h-5" />
-              </div>
-              Vehicle Specifications
-            </h2>
-            <p className="text-xs sm:text-sm text-on-surface-variant mt-1 ml-12">
-              Decoded from this VIN — free. Verify it matches the seller&apos;s listing.
-            </p>
-          </div>
-          <div className="p-4 sm:p-6">
-            <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-              {buildSpecs.map((s) => (
-                <div
-                  key={s.label}
-                  className="py-3 border-b border-surface-container last:border-0"
-                >
-                  <p className="text-xs text-outline uppercase tracking-wider font-semibold mb-1">
-                    {s.label}
-                  </p>
-                  <p className="font-semibold text-on-surface">{s.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Premium vehicle history */}
-      <section>
-        <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
-          <Crown className="w-3.5 h-3.5" /> Premium vehicle history
-        </div>
-        <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
-          {recordsFound > 0
-            ? `${recordsFound} history record${recordsFound === 1 ? "" : "s"} on file for this ${make || "vehicle"}`
-            : "Unlock the full vehicle history"}
-        </h2>
-        <p className="text-sm text-on-surface-variant mb-5 max-w-md">
-          The specs above are free. Title brands, accidents, odometer and
-          ownership records are revealed in the full report.
-        </p>
-        <BuyReportButton
-          ariaLabel="Unlock the full vehicle history report"
-          className="group block w-full text-left relative rounded-3xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
-        >
-          <div className="divide-y divide-outline-variant/60">
-            {records.map((r) => {
-              const Icon = r.icon;
-              return (
-                <div key={r.label} className="flex items-center gap-4 p-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-bold text-on-surface">{r.label}</div>
-                    <div className="text-xs text-on-surface-variant">{r.note}</div>
-                  </div>
-                  {typeof r.count === "number" ? (
-                    <span className="flex-shrink-0 bg-amber-500 text-white text-[10px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full">
-                      {r.count} found
-                    </span>
-                  ) : (
-                    <Lock className="w-4 h-4 text-on-surface-variant/60 group-hover:text-primary transition-colors flex-shrink-0" />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex items-center justify-center gap-1.5 border-t border-outline-variant/60 bg-primary/5 px-4 py-3 text-xs font-bold text-primary">
-            <Lock className="w-3.5 h-3.5" /> Tap to unlock the full report
-          </div>
-        </BuyReportButton>
-      </section>
-
-      {/* Free recalls — right after the "records on file" section */}
+      {/* Free recalls */}
       {preview && preview.recalls.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-2">
@@ -824,6 +771,97 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             ))}
           </div>
         </section>
+      )}
+
+      {/* Premium vehicle history — records on file */}
+      <section>
+        <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
+          <Crown className="w-3.5 h-3.5" /> Premium vehicle history
+        </div>
+        <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
+          {looksClean
+            ? `No accident or auction records reported for this ${make || "vehicle"}`
+            : recordsFound > 0
+            ? `${recordsFound} history record${recordsFound === 1 ? "" : "s"} on file for this ${make || "vehicle"}`
+            : "Unlock the full vehicle history"}
+        </h2>
+        <p className="text-sm text-on-surface-variant mb-5 max-w-md">
+          {looksClean
+            ? `A good sign — but title brands, liens, odometer rollbacks and ownership records aren't shown here. Confirm this ${make || "vehicle"} is genuinely clean, in writing, before you pay the seller's price.`
+            : "The specs below are free. Title brands, accidents, odometer and ownership records are revealed in the full report."}
+        </p>
+        <BuyReportButton
+          ariaLabel="Unlock the full vehicle history report"
+          className="group block w-full text-left relative rounded-3xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
+        >
+          <div className="divide-y divide-outline-variant/60">
+            {records.map((r) => {
+              const Icon = r.icon;
+              return (
+                <div key={r.label} className="flex items-center gap-4 p-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-bold text-on-surface">{r.label}</div>
+                    <div className="text-xs text-on-surface-variant">{r.note}</div>
+                  </div>
+                  {typeof r.count === "number" && r.count > 0 ? (
+                    <span className="flex-shrink-0 bg-amber-500 text-white text-[10px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full">
+                      {r.count} found
+                    </span>
+                  ) : r.count === 0 ? (
+                    <span className="flex-shrink-0 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full">
+                      <Check className="w-3 h-3" strokeWidth={3} /> None reported
+                    </span>
+                  ) : (
+                    <Lock className="w-4 h-4 text-on-surface-variant/60 group-hover:text-primary transition-colors flex-shrink-0" />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex items-center justify-center gap-1.5 border-t border-outline-variant/60 bg-primary/5 px-4 py-3 text-xs font-bold text-primary">
+            <Lock className="w-3.5 h-3.5" /> Tap to unlock the full report
+          </div>
+        </BuyReportButton>
+      </section>
+    </div>
+  );
+
+  /* ── Premium sections injected UNDER the car info (main column) ── */
+  const premiumSections = (
+    <div className="space-y-12">
+      {/* Build & pricing specs — free, complements VinReport's identity cards */}
+      {buildSpecs.length > 0 && (
+        <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden">
+          <div className="px-4 sm:px-6 py-5 border-b border-surface-container">
+            <h2 className="font-headline font-bold text-base sm:text-lg text-on-surface flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                <Fingerprint className="w-5 h-5" />
+              </div>
+              Vehicle Specifications
+            </h2>
+            <p className="text-xs sm:text-sm text-on-surface-variant mt-1 ml-12">
+              Decoded from this VIN — free. Verify it matches the seller&apos;s listing.
+            </p>
+          </div>
+          <div className="p-4 sm:p-6">
+            <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
+              {buildSpecs.map((s) => (
+                <div
+                  key={s.label}
+                  className="py-3 border-b border-surface-container last:border-0"
+                >
+                  <p className="text-xs text-outline uppercase tracking-wider font-semibold mb-1">
+                    {s.label}
+                  </p>
+                  <p className="font-semibold text-on-surface">{s.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Mobile-only bundle/prepaid-pack checkout — the desktop copy lives at
@@ -1150,6 +1188,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         data={reportData}
         hideCheckAnother
         mainTop={contextBanner}
+        afterPhotos={afterPhotos}
         mainExtra={premiumSections}
         mainFiller={
           <ReportColumnFiller>
