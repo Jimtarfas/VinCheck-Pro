@@ -3,6 +3,8 @@ import { makes } from "@/lib/makes";
 import { states } from "@/lib/states";
 import { LEMON_LAWS } from "@/lib/lemon-laws";
 import { marketplaces } from "@/lib/marketplaces";
+import { PAINT_CODE_BRANDS } from "@/lib/paint-codes";
+import { BUILD_SHEET_BRANDS } from "@/lib/build-sheets";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -79,6 +81,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     })),
   ];
+
+  // Per-brand paint code pages (/paint-code-lookup/[brand]) — one per brand
+  // in the paint-code dataset, targeting "{brand} paint code" / "where is the
+  // {brand} paint code" queries that the hub page can't rank for on its own.
+  const paintCodeBrandPages: MetadataRoute.Sitemap = PAINT_CODE_BRANDS.map((b) => ({
+    url: `${baseUrl}/paint-code-lookup/${b.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.75,
+  }));
+
+  // Per-brand build-sheet pages (/build-sheet/[brand]) — one per brand with a
+  // documented factory build-record system (Mercedes Datenkarte, Audi/VW PR
+  // codes, Porsche M-codes, BMW option list, etc.), excluding the brands
+  // already served by the standalone Ford/GM/Mopar build-sheet pages.
+  const buildSheetBrandPages: MetadataRoute.Sitemap = BUILD_SHEET_BRANDS.map((b) => ({
+    url: `${baseUrl}/build-sheet/${b.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.75,
+  }));
 
   const buyingGuideStatePages: MetadataRoute.Sitemap = states.map((s) => ({
     url: `${baseUrl}/guides/buying-used-car-in/${s.slug}`,
@@ -225,9 +248,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/ford-build-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/gm-build-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/mopar-broadcast-sheet`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    // Per-brand build-sheet pages (Mercedes, BMW, Audi, VW, Porsche, Toyota, …).
+    ...buildSheetBrandPages,
     { url: `${baseUrl}/paint-code-lookup`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     // Paint Code Finder — color-name + brand directory sibling to /paint-code-lookup.
     { url: `${baseUrl}/paint-code-finder`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    // Per-brand paint code pages (Toyota, Honda, Ford, BMW, …).
+    ...paintCodeBrandPages,
     { url: `${baseUrl}/flood-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/rental-car-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/fleet-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },

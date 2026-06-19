@@ -24,6 +24,7 @@ import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
 import { ORG_AUTHOR } from "@/lib/seo/author";
+import { BUILD_SHEET_BRANDS } from "@/lib/build-sheets";
 
 const SITE = "https://www.carcheckervin.com";
 
@@ -805,6 +806,56 @@ export default function BuildSheetPage() {
                 </p>
               </div>
             </div>
+          </section>
+
+          {/* ── Build sheets by brand ──────────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Build Sheets by Brand
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7">
+              Each manufacturer stores its factory build record differently — from
+              the Mercedes Datenkarte to BMW option lists and Porsche M-codes.
+              Pick your brand for a decoder built around its exact document.
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {BUILD_SHEET_BRANDS.map((b) => (
+                <Link
+                  key={b.slug}
+                  href={`/build-sheet/${b.slug}`}
+                  className="flex items-center gap-2 rounded-xl border border-outline-variant bg-surface hover:border-primary/40 hover:bg-primary/5 transition-colors px-4 py-3 group"
+                >
+                  <Factory className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-sm font-semibold text-primary group-hover:underline">
+                    {b.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+            <p className="mt-5 text-sm text-on-surface-variant">
+              Domestic brands have dedicated guides:{" "}
+              <Link
+                href="/ford-build-sheet"
+                className="text-primary font-semibold hover:underline"
+              >
+                Ford
+              </Link>
+              ,{" "}
+              <Link
+                href="/gm-build-sheet"
+                className="text-primary font-semibold hover:underline"
+              >
+                GM
+              </Link>
+              , and{" "}
+              <Link
+                href="/mopar-broadcast-sheet"
+                className="text-primary font-semibold hover:underline"
+              >
+                Mopar
+              </Link>
+              .
+            </p>
           </section>
 
           {/* ── Internal links ─────────────────────────────── */}

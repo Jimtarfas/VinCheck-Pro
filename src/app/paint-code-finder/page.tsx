@@ -508,7 +508,7 @@ export default function PaintCodeFinderPage() {
                       ))}
                     </ul>
                     <Link
-                      href={`/paint-code-lookup?brand=${brand.slug}`}
+                      href={`/paint-code-lookup/${brand.slug}`}
                       className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
                     >
                       See the full {brand.name} sticker locator

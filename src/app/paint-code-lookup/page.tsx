@@ -876,6 +876,27 @@ export default function PaintCodeLookupPage() {
             </div>
           </section>
 
+          {/* ── Per-brand paint code pages ─────────────────── */}
+          <section className="py-12 sm:py-16 border-t border-outline-variant">
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+              Paint Code Location by Brand
+            </h2>
+            <p className="text-sm sm:text-base text-on-surface-variant mb-7 max-w-3xl">
+              Jump straight to the exact sticker location, label wording, code format, and example color codes for your make.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {PAINT_CODE_BRANDS.map((b) => (
+                <Link
+                  key={b.slug}
+                  href={`/paint-code-lookup/${b.slug}`}
+                  className="px-4 py-2 bg-surface text-on-surface text-sm rounded-xl border border-outline-variant hover:border-primary/40 hover:bg-primary/5 hover:text-primary transition-all font-medium"
+                >
+                  {b.name} paint code
+                </Link>
+              ))}
+            </div>
+          </section>
+
           {/* ── Internal links ─────────────────────────────── */}
           <section className="py-12 sm:py-16 border-t border-outline-variant">
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
