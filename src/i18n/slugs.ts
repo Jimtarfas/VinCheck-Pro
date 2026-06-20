@@ -214,3 +214,89 @@ export function pagesWithLocaleVersion(locale: Locale): Array<{
   }
   return out;
 }
+
+/**
+ * Top-level segments under src/app/es/ that have a real page.tsx (or
+ * a directory tree containing one). Used by the proxy to decide
+ * whether a /es/<slug> URL has a Spanish version or should fall
+ * back to the English page.
+ *
+ * Keep in sync with `ls src/app/es/` — each shipped translation wave
+ * adds one or more entries here. The list is intentionally a static
+ * snapshot rather than runtime introspection because the proxy runs
+ * at the edge with no filesystem.
+ */
+const TRANSLATED_ES_TOP_SEGMENTS: ReadonlySet<string> = new Set([
+  // Root (/es itself)
+  "",
+  // Wave 1 — top-traffic
+  "florida-vin-check",
+  "license-plate-lookup",
+  "paint-code-lookup",
+  "pricing",
+  "vin-check", // contains dynamic [make] + state/[state] subroutes (Wave 2–4)
+  // Wave 5 — specialty tools
+  "classic-car-vin",
+  "golf-cart-vin-lookup",
+  "jdm-import-check",
+  "motorcycle-vin-check",
+  "paint-code-finder",
+  "rv-vin-check",
+  "semi-truck-vin-lookup",
+  "window-sticker-lookup",
+  // Wave 6 — calculators
+  "car-affordability-calculator",
+  "car-depreciation-calculator",
+  "car-loan-calculator",
+  "diminished-value-calculator",
+  "gas-mileage-calculator",
+  "lease-vs-buy-calculator",
+  "total-cost-of-ownership-calculator",
+  "trade-in-value-estimator",
+  // Wave 7 — comparisons + guides + checklist + compare
+  "compare-cars",
+  "guides", // contains nested /guides/<slug>
+  "used-car-inspection-checklist",
+  "vin-check-vs-autocheck",
+  "vin-check-vs-bumper",
+  "vin-check-vs-carfax",
+  "vin-check-vs-clearvin",
+  "vin-check-vs-vinaudit",
+  // Wave 8 — blog (Sanity-backed, dynamic [slug])
+  "blog",
+  // Wave 12 — 15 high-intent check pages
+  "accident-history-check",
+  "airbag-check",
+  "auction-history",
+  "best-vin-decoder",
+  "flood-check",
+  "hail-damage-check",
+  "lemon-check",
+  "market-value",
+  "odometer-check",
+  "recall-check",
+  "salvage-title-check",
+  "stolen-vehicle-check",
+  "total-loss-check",
+  "vehicle-lien-check",
+  "vin-decoder",
+]);
+
+/**
+ * Does `/es/<canonicalEnglishPath>` resolve to a real Spanish page?
+ *
+ * Checks the top-level segment only — that's enough to cover both
+ * static pages (`/es/airbag-check`) and dynamic templates
+ * (`/es/vin-check/<make>`, `/es/blog/<slug>`). Anything deeper
+ * inside a known top segment is delegated to Next.js's own router
+ * (it will 404 if the nested page doesn't exist, which is correct).
+ *
+ * Used by proxy.ts to fall back to the English page when a /es URL
+ * has no Spanish translation yet — better UX than a 404 while we
+ * roll out the remaining waves.
+ */
+export function hasEsRoute(canonicalEnglishPath: string): boolean {
+  if (canonicalEnglishPath === "/") return true;
+  const topSegment = canonicalEnglishPath.split("/")[1] ?? "";
+  return TRANSLATED_ES_TOP_SEGMENTS.has(topSegment);
+}

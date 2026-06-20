@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 import { NON_DEFAULT_LOCALES, isLocale, type Locale } from "@/i18n/config";
-import { untranslateSlug } from "@/i18n/slugs";
+import { untranslateSlug, hasEsRoute } from "@/i18n/slugs";
 
 // Canonical reviews host (plural — matches user search intent and industry
 // convention for review-section subdomains like reviews.apple.com).
@@ -126,7 +126,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(`${REVIEWS_ORIGIN}/`, 308);
   }
 
-  // ── Locale slug translation (Spanish + future locales) ────────────
+  // ── Locale slug translation + missing-page fallback ──────────────
   // Spanish URLs use translated slugs ("/es/florida-revision-vin")
   // because translating the slug itself dramatically lifts native-
   // language SEO. Internally, however, Next.js routes match the
@@ -135,17 +135,41 @@ export async function proxy(request: NextRequest) {
   // component runs. The buyer's address bar still shows the translated
   // slug; only Next sees the rewritten internal path.
   //
-  // No-op for pages that don't have a translated slug yet — the
-  // fallback in untranslateSlug() returns the input unchanged.
+  // Wave 13b — if the requested /es/<slug> has no Spanish translation
+  // at all (no entry in ENGLISH_TO_LOCALE AND no /es/<slug>/page.tsx
+  // directory), fall back to serving the English page from /<slug>.
+  // The URL bar stays on /es/<slug> so the language pill keeps
+  // showing Spanish; the visitor sees English content instead of a
+  // 404. Better UX while we ship the remaining translations. Google
+  // sees the English page's own canonical → no duplicate-content risk.
   const firstSegment = pathname.split("/")[1] ?? "";
   if (firstSegment && isLocale(firstSegment) && firstSegment !== "en") {
     const localePrefix = `/${firstSegment}` as const;
     const localisedPath = pathname.slice(localePrefix.length) || "/";
     const canonical = untranslateSlug(localisedPath, firstSegment as Locale);
-    if (canonical !== localisedPath) {
-      const url = request.nextUrl.clone();
-      url.pathname = `${localePrefix}${canonical === "/" ? "" : canonical}`;
-      return NextResponse.rewrite(url);
+
+    if (canonical === "/" || hasEsRoute(canonical)) {
+      // The page IS translated (or it's the /es root). If the URL uses
+      // the localised slug, rewrite it to the canonical English-named
+      // directory under /es/ so Next.js can find page.tsx.
+      if (canonical !== localisedPath) {
+        const url = request.nextUrl.clone();
+        url.pathname = `${localePrefix}${canonical === "/" ? "" : canonical}`;
+        return NextResponse.rewrite(url);
+      }
+    } else {
+      // No Spanish version yet — serve the English page from /<slug>.
+      // Rewrite (not redirect) keeps the URL on /es so the visitor's
+      // language context is preserved. Skips API routes and Next
+      // internals defensively.
+      if (
+        !canonical.startsWith("/api/") &&
+        !canonical.startsWith("/_next/")
+      ) {
+        const url = request.nextUrl.clone();
+        url.pathname = canonical;
+        return NextResponse.rewrite(url);
+      }
     }
   }
   // `NON_DEFAULT_LOCALES` is referenced for type-clarity so future
