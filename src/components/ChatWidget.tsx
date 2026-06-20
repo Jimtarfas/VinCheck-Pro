@@ -2,13 +2,23 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { MessageCircle, X, Send, Loader2, CheckCircle2 } from "lucide-react";
+import {
+  MessageCircle,
+  X,
+  Send,
+  Loader2,
+  CheckCircle2,
+  ArrowRight,
+} from "lucide-react";
 
 interface ChatMessage {
   id: number | string;
-  sender: "visitor" | "admin";
+  sender: "visitor" | "admin" | "system";
   body: string;
   created_at: string;
+  // System messages may carry a single call-to-action button (e.g. a link
+  // to the buyer's My Reports page). Ignored for visitor/admin messages.
+  cta?: { href: string; label: string };
 }
 
 const POLL_INTERVAL = 4000; // 4s — gentle on the API
@@ -16,6 +26,9 @@ const STORAGE_VISITOR_ID = "ccv_chat_visitor_id";
 const STORAGE_CONVERSATION = "ccv_chat_conversation_id";
 const STORAGE_NAME = "ccv_chat_visitor_name";
 const STORAGE_EMAIL = "ccv_chat_visitor_email";
+// Set by the order success page right after Stripe redirects. Triggers the
+// one-time post-payment "set your password / My Reports" notice below.
+const STORAGE_PAID_FLAG = "ccv_order_paid";
 
 function uuid(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -139,6 +152,44 @@ export default function ChatWidget() {
   useEffect(() => {
     if (open) setBumpCount(0);
   }, [open]);
+
+  // ── post-payment notice ──────────────────────────────────────────────
+  // The order success page sets a localStorage flag right after Stripe
+  // redirects, then bounces to /order/report/[orderId] in ~1.2s. We skip the
+  // fleeting success screen and fire this one-time notice on the report page
+  // the buyer actually lands on, pointing them at the "set password" email
+  // and their My Reports page. Cleared immediately so it shows only once.
+  useEffect(() => {
+    if (pathname?.startsWith("/order/success")) return;
+    let paid = false;
+    try {
+      paid = localStorage.getItem(STORAGE_PAID_FLAG) === "1";
+      if (paid) localStorage.removeItem(STORAGE_PAID_FLAG);
+    } catch {
+      return;
+    }
+    if (!paid) return;
+    addMessage({
+      id: `system-paid-${Date.now()}`,
+      sender: "system",
+      body:
+        "🎉 Payment received — thank you! We've just emailed you a secure link with a \u201cCreate password\u201d button. Click it to set your password, then you can log in to your account any time and find all your reports under My Reports.",
+      created_at: new Date().toISOString(),
+      cta: { href: "/account", label: "Open My Reports" },
+    });
+    // The open panel is a near-fullscreen sheet on phones, so auto-opening
+    // there would bury the report the buyer just paid for. On phones we only
+    // light up the unread badge on the bubble; on wider screens the panel is
+    // a small corner widget, so we open it for visibility.
+    const wideScreen =
+      typeof window !== "undefined" &&
+      window.matchMedia("(min-width: 640px)").matches;
+    if (wideScreen) {
+      setOpen(true);
+    } else {
+      setBumpCount((c) => c + 1);
+    }
+  }, [pathname, addMessage]);
 
   // ── send first message (creates conversation) ────────────────────────
   async function startConversation(message: string) {
@@ -335,22 +386,39 @@ export default function ChatWidget() {
               </div>
             )}
 
-            {messages.map((m) => (
-              <div
-                key={m.id}
-                className={`flex ${m.sender === "visitor" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed whitespace-pre-wrap break-words ${
-                    m.sender === "visitor"
-                      ? "bg-primary-600 text-white rounded-br-md"
-                      : "bg-white text-slate-800 border border-slate-200 rounded-bl-md"
-                  }`}
-                >
-                  {m.body}
+            {messages.map((m) =>
+              m.sender === "system" ? (
+                <div key={m.id} className="flex justify-start">
+                  <div className="max-w-[85%] rounded-2xl rounded-bl-md border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm leading-relaxed text-slate-700">
+                    <p className="whitespace-pre-wrap break-words">{m.body}</p>
+                    {m.cta && (
+                      <a
+                        href={m.cta.href}
+                        className="mt-2.5 inline-flex items-center gap-1.5 rounded-lg bg-primary-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-primary-700"
+                      >
+                        {m.cta.label}
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ) : (
+                <div
+                  key={m.id}
+                  className={`flex ${m.sender === "visitor" ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed whitespace-pre-wrap break-words ${
+                      m.sender === "visitor"
+                        ? "bg-primary-600 text-white rounded-br-md"
+                        : "bg-white text-slate-800 border border-slate-200 rounded-bl-md"
+                    }`}
+                  >
+                    {m.body}
+                  </div>
+                </div>
+              )
+            )}
 
             {error && (
               <div className="bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl px-3 py-2">

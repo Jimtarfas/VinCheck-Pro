@@ -105,6 +105,18 @@ export default async function OrderSuccessPage({
           {copy.autoRedirect}
         </p>
 
+        {/* Flag this browser as a just-paid buyer so the chat widget can
+            surface a one-time "set your password / My Reports" notice on the
+            report screen we redirect to next. Real orders only — sample/mock
+            orders don't send a confirmation email. */}
+        {sp.mock !== "1" && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `try{localStorage.setItem('ccv_order_paid','1')}catch(e){}`,
+            }}
+          />
+        )}
+
         {/* JS redirect — runs immediately on browsers with JS. */}
         <script
           dangerouslySetInnerHTML={{
