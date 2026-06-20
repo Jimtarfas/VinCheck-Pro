@@ -159,6 +159,56 @@ ENGLISH_TO_LOCALE["/vehicle-lien-check"] = { es: "/verificacion-gravamen" };
 ENGLISH_TO_LOCALE["/vin-decoder"] = { es: "/decodificador-vin" };
 ENGLISH_TO_LOCALE["/best-vin-decoder"] = { es: "/mejor-decodificador-vin" };
 
+// Wave 14 — close every remaining /es 404 gap. 35 pages split into:
+//   18 tool/specialty-check pages → SPECIALTY_HOOKS_ES template
+//   17 marketing/legal/info pages  → INFO_HOOKS_ES template
+// Each slug entry must be matched by:
+//   1. A page.tsx file under src/app/es/<english-slug>/
+//   2. A top-segment entry in TRANSLATED_ES_TOP_SEGMENTS below
+//   3. A hook in the appropriate strings.ts file
+
+// Tool variants
+ENGLISH_TO_LOCALE["/window-sticker"] = { es: "/creador-etiqueta-monroney" };
+ENGLISH_TO_LOCALE["/free-window-sticker-by-vin"] = { es: "/etiqueta-monroney-gratis-por-vin" };
+ENGLISH_TO_LOCALE["/build-sheet"] = { es: "/hoja-fabrica" };
+ENGLISH_TO_LOCALE["/ford-build-sheet"] = { es: "/hoja-fabrica-ford" };
+ENGLISH_TO_LOCALE["/gm-build-sheet"] = { es: "/hoja-fabrica-gm" };
+ENGLISH_TO_LOCALE["/mopar-broadcast-sheet"] = { es: "/hoja-broadcast-mopar" };
+ENGLISH_TO_LOCALE["/chassis-number-lookup"] = { es: "/buscar-numero-chasis" };
+ENGLISH_TO_LOCALE["/hin-lookup"] = { es: "/buscar-hin-embarcacion" };
+ENGLISH_TO_LOCALE["/motorcycle-vin-search"] = { es: "/buscar-vin-motocicleta" };
+ENGLISH_TO_LOCALE["/plate-to-vin"] = { es: "/placa-a-vin" };
+ENGLISH_TO_LOCALE["/state-to-vin"] = { es: "/estado-a-vin" };
+ENGLISH_TO_LOCALE["/look-up-car-plates-free"] = { es: "/consultar-placas-gratis" };
+
+// Specialty checks
+ENGLISH_TO_LOCALE["/dealer-check"] = { es: "/verificacion-concesionario" };
+ENGLISH_TO_LOCALE["/fleet-check"] = { es: "/verificacion-flota" };
+ENGLISH_TO_LOCALE["/marketplace-vin-check"] = { es: "/verificacion-vin-marketplace" };
+ENGLISH_TO_LOCALE["/rental-car-check"] = { es: "/verificacion-auto-renta" };
+ENGLISH_TO_LOCALE["/rideshare-check"] = { es: "/verificacion-rideshare" };
+ENGLISH_TO_LOCALE["/impound-check"] = { es: "/verificacion-corralon" };
+ENGLISH_TO_LOCALE["/warranty-check"] = { es: "/verificacion-garantia" };
+
+// Marketing / brand
+ENGLISH_TO_LOCALE["/about"] = { es: "/acerca-de" };
+ENGLISH_TO_LOCALE["/contact"] = { es: "/contacto" };
+ENGLISH_TO_LOCALE["/help"] = { es: "/ayuda" };
+ENGLISH_TO_LOCALE["/press"] = { es: "/prensa" };
+ENGLISH_TO_LOCALE["/dealers"] = { es: "/para-concesionarios" };
+ENGLISH_TO_LOCALE["/trust"] = { es: "/confianza-y-seguridad" };
+ENGLISH_TO_LOCALE["/glossary"] = { es: "/glosario" };
+ENGLISH_TO_LOCALE["/obd2-codes"] = { es: "/codigos-obd2" };
+ENGLISH_TO_LOCALE["/tools"] = { es: "/herramientas" };
+ENGLISH_TO_LOCALE["/reviews"] = { es: "/resenas" };
+
+// Legal (Spanish summary + link to canonical English; matches Wave 11 pattern)
+ENGLISH_TO_LOCALE["/disclaimer"] = { es: "/aviso-legal" };
+ENGLISH_TO_LOCALE["/privacy"] = { es: "/privacidad" };
+ENGLISH_TO_LOCALE["/terms"] = { es: "/terminos" };
+ENGLISH_TO_LOCALE["/refund-policy"] = { es: "/politica-de-reembolso" };
+ENGLISH_TO_LOCALE["/research"] = { es: "/investigacion" };
+
 /** Lookup: given an English path, return the path for the given locale. */
 export function translateSlug(englishPath: string, locale: Locale): string {
   if (locale === "en") return englishPath;
@@ -280,6 +330,44 @@ const TRANSLATED_ES_TOP_SEGMENTS: ReadonlySet<string> = new Set([
   "total-loss-check",
   "vehicle-lien-check",
   "vin-decoder",
+  // Wave 14 — tool variants (12)
+  "window-sticker",
+  "free-window-sticker-by-vin",
+  "build-sheet",
+  "ford-build-sheet",
+  "gm-build-sheet",
+  "mopar-broadcast-sheet",
+  "chassis-number-lookup",
+  "hin-lookup",
+  "motorcycle-vin-search",
+  "plate-to-vin",
+  "state-to-vin",
+  "look-up-car-plates-free",
+  // Wave 14 — specialty checks (7)
+  "dealer-check",
+  "fleet-check",
+  "marketplace-vin-check",
+  "rental-car-check",
+  "rideshare-check",
+  "impound-check",
+  "warranty-check",
+  // Wave 14 — marketing/info pages (10)
+  "about",
+  "contact",
+  "help",
+  "press",
+  "dealers",
+  "trust",
+  "glossary",
+  "obd2-codes",
+  "tools",
+  "reviews",
+  // Wave 14 — legal pages (5; Spanish summary + canonical English link)
+  "disclaimer",
+  "privacy",
+  "terms",
+  "refund-policy",
+  "research",
 ]);
 
 /**

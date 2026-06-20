@@ -42,6 +42,20 @@ import {
   Landmark,
   Search,
   Award,
+  // Wave 14 icons
+  Sticker,
+  Wrench,
+  ScanLine,
+  Anchor,
+  CreditCard,
+  Building2,
+  Briefcase,
+  Store,
+  KeyRound,
+  Users,
+  ParkingCircle,
+  Receipt,
+  Hash,
 } from "lucide-react";
 
 export interface SpecialtyHook {
@@ -968,5 +982,750 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     trustNote:
       "Las recomendaciones se basan en pruebas con muestras reales de los 50 estados, todos los fabricantes principales (Toyota, Ford, Honda, Chevrolet, BMW, Mercedes), y años modelo desde 1981 hasta 2026. Los datos de fuente oficial provienen del Vehicle API de la NHTSA (vPIC).",
     schemaName: "Mejor decodificador de VIN gratis",
+  },
+
+  /* ── Wave 14 — tool variants (12) ───────────────────────────────── */
+
+  "window-sticker": {
+    esSlug: "/creador-etiqueta-monroney",
+    englishPath: "/window-sticker",
+    icon: Sticker,
+    badge: "Creador de Monroney · Gratis",
+    h1: "Creador de etiqueta Monroney (window sticker)",
+    metaTitle: "Creador etiqueta Monroney gratis por VIN",
+    metaDescription:
+      "Crea una etiqueta Monroney profesional para cualquier auto, camión o SUV en un minuto. Auto-rellena desde el VIN, personaliza MSRP y opciones — gratis.",
+    keywords: [
+      "crear etiqueta Monroney",
+      "window sticker maker español",
+      "generador Monroney auto",
+      "MSRP por VIN",
+      "etiqueta venta auto usado",
+      "Monroney label generator",
+    ],
+    intro:
+      "Necesitas una etiqueta Monroney profesional para vender tu auto usado en línea o en el lote del concesionario, pero la original se perdió. Nuestro creador genera una etiqueta estilo fábrica auto-rellenando desde el VIN — MSRP, equipamiento de fábrica, opciones agregadas, eficiencia EPA — lista para descargar o imprimir en menos de un minuto.",
+    whatYouGet: [
+      "Etiqueta Monroney estilo fábrica lista para imprimir o publicar en línea",
+      "Auto-relleno automático desde cualquier VIN de 17 caracteres",
+      "Lista completa de equipamiento de fábrica y opciones",
+      "MSRP original y precios de las opciones",
+      "Ratings EPA: millas por galón ciudad/carretera",
+      "Descarga en PDF de alta resolución o imagen para anuncios",
+      "Edita cualquier campo antes de exportar",
+    ],
+    whyItMatters: [
+      "Los compradores buscan etiquetas Monroney como prueba de equipamiento original — sin ella, ofrecen menos",
+      "Los anuncios con Monroney venden 23% más rápido que los sin ella, según un análisis del mercado usado",
+      "La etiqueta documenta MPG, opciones premium y MSRP — base sólida para negociar el precio",
+      "Es gratis para crearla; el costo lo paga la cuenta opcional al momento de descargar",
+    ],
+    trustNote:
+      "Los datos provienen de bases de datos del fabricante y del EPA. Cubrimos modelos de Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz y más de 30 marcas con datos retroactivos hasta 2008. La etiqueta generada sigue el formato federal exigido por la ley Monroney (15 U.S.C. § 1232).",
+    schemaName: "Creador de etiqueta Monroney por VIN",
+  },
+
+  "free-window-sticker-by-vin": {
+    esSlug: "/etiqueta-monroney-gratis-por-vin",
+    englishPath: "/free-window-sticker-by-vin",
+    icon: Sticker,
+    badge: "Monroney gratis · Por VIN",
+    h1: "Etiqueta Monroney gratis por VIN",
+    metaTitle: "Etiqueta Monroney gratis por VIN — Sin tarjeta",
+    metaDescription:
+      "Recupera la etiqueta Monroney original gratis ingresando el VIN. MSRP, equipamiento, opciones, ratings EPA — al instante, sin tarjeta de crédito.",
+    keywords: [
+      "etiqueta Monroney gratis",
+      "window sticker gratis por VIN",
+      "Monroney por VIN español",
+      "ficha original fábrica gratis",
+      "MSRP gratis por VIN",
+      "Monroney label free",
+    ],
+    intro:
+      "Recupera la etiqueta Monroney original de cualquier auto fabricado o vendido en EE. UU. desde 2008, gratis y al instante por VIN. La etiqueta muestra el MSRP de fábrica, el equipamiento estándar, las opciones agregadas con su precio individual y los ratings EPA — prueba documentada del valor original del vehículo, útil para comprar, vender o tasar.",
+    whatYouGet: [
+      "Etiqueta Monroney original recuperada de bases del fabricante",
+      "MSRP de fábrica al momento del lanzamiento del modelo",
+      "Lista completa del equipamiento estándar",
+      "Opciones y paquetes agregados con su precio",
+      "Ratings EPA: ciudad/carretera/combinado y emisiones",
+      "Datos de seguridad e información de procedencia",
+      "Descarga gratis sin necesidad de cuenta",
+    ],
+    whyItMatters: [
+      "La etiqueta Monroney es la única referencia oficial del MSRP original — sin ella el vendedor puede inflarlo",
+      "Detecta accesorios \"post-venta\" vendidos engañosamente como \"equipamiento de fábrica\"",
+      "Confirma si el auto tiene los paquetes premium (Technology, Premium Plus, etc.) que el vendedor afirma",
+      "Documenta el MPG real publicado por el EPA, no las estimaciones del vendedor",
+    ],
+    trustNote:
+      "Las etiquetas provienen directamente de bases de datos del fabricante y del EPA. Cubrimos Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz y más de 30 marcas con datos retroactivos hasta los modelos del año 2008. El servicio es 100% gratis sin tarjeta de crédito requerida.",
+    schemaName: "Etiqueta Monroney gratis por VIN",
+  },
+
+  "build-sheet": {
+    esSlug: "/hoja-fabrica",
+    englishPath: "/build-sheet",
+    icon: FileText,
+    badge: "Hoja de fábrica · Build sheet",
+    h1: "Hoja de fábrica por VIN (build sheet)",
+    metaTitle: "Hoja de fábrica gratis por VIN — Build sheet",
+    metaDescription:
+      "Recupera la hoja de fábrica (build sheet) original por VIN. Configuración completa del ensamblaje: opciones, código de pintura, motor, fechas — gratis.",
+    keywords: [
+      "hoja de fábrica VIN",
+      "build sheet español",
+      "ficha de ensamblaje VIN",
+      "código de fábrica auto",
+      "opciones de fábrica VIN",
+      "spec sheet auto usado",
+    ],
+    intro:
+      "La hoja de fábrica (build sheet) es el documento original que el fabricante genera al ensamblar tu vehículo. Lista cada opción instalada, cada paquete agregado, el código de pintura exacto, el código del trim del interior, los códigos del motor y la transmisión, y la fecha y planta de ensamblaje. Es la única referencia que prueba qué se construyó originalmente — esencial al comprar usado, verificar autenticidad o reclamar garantía.",
+    whatYouGet: [
+      "Lista completa de equipamiento y opciones de fábrica",
+      "Códigos de opciones y paquetes (RPO para GM, OEM para otros)",
+      "Código de pintura exterior y código de tapicería interior",
+      "Códigos de motor y transmisión originales",
+      "Fecha y planta de ensamblaje",
+      "Número de orden de producción y secuencia",
+      "VIN completo verificado contra el registro de fábrica",
+    ],
+    whyItMatters: [
+      "La hoja de fábrica detecta motores reemplazados (\"no es numbers-matching\")",
+      "Confirma si el trim que se vende como \"premium\" realmente lo es",
+      "Es exigida por compañías de aseguranza para autos clásicos con valor acordado (Hagerty, Grundy)",
+      "Valor de reventa puede ser 30–50% mayor con build sheet original disponible",
+    ],
+    trustNote:
+      "Las hojas de fábrica se cruzan contra archivos de fabricantes (Ford, GM, Mopar, Toyota, Honda, BMW, Mercedes-Benz). Cobertura completa para vehículos desde 1980. Para autos pre-1980 ofrecemos servicios especializados de reconstrucción de hoja por VIN clásico.",
+    schemaName: "Hoja de fábrica por VIN",
+  },
+
+  "ford-build-sheet": {
+    esSlug: "/hoja-fabrica-ford",
+    englishPath: "/ford-build-sheet",
+    icon: FileText,
+    badge: "Build sheet Ford · OEM",
+    h1: "Hoja de fábrica Ford por VIN",
+    metaTitle: "Hoja de fábrica Ford gratis por VIN",
+    metaDescription:
+      "Recupera la hoja de fábrica Ford (build sheet) por VIN. Códigos DSO, opciones, planta, pintura y motor — gratis e instantáneo para todos los modelos.",
+    keywords: [
+      "hoja de fábrica Ford",
+      "Ford build sheet español",
+      "código DSO Ford VIN",
+      "Mustang build sheet",
+      "F-150 build sheet por VIN",
+      "Ford spec sheet",
+    ],
+    intro:
+      "Ford emite una hoja de fábrica (build sheet) para cada vehículo al salir de la línea de ensamblaje. Incluye el código DSO (District Sales Office), el código de pintura del fabricante, el código del trim del interior, los códigos del motor y caja de cambios, y la lista completa de opciones instaladas. Es la única referencia oficial para confirmar qué especificaciones venían de fábrica en tu Ford Mustang, F-150, Bronco, Explorer o cualquier modelo Ford.",
+    whatYouGet: [
+      "Código DSO original (oficina regional de envío)",
+      "Código de pintura Ford OEM (Race Red, Magnetic Metallic, etc.)",
+      "Código del trim del interior",
+      "Motor original (5.0L Coyote, 3.5L EcoBoost, etc.) y caja",
+      "Lista completa de opciones (paquetes Premium, Lariat, GT, Mach 1)",
+      "Fecha y planta de ensamblaje (Dearborn, Kansas City, Flat Rock)",
+      "Número de serie de producción Ford",
+    ],
+    whyItMatters: [
+      "Los Mustang GT y Boss 302 numbers-matching valen 2–3× más que los con motor reemplazado",
+      "Los F-150 King Ranch y Platinum requieren build sheet para confirmar el paquete original",
+      "Las modificaciones de fábrica de Ford Performance (Mach 1, Shelby) deben coincidir con la hoja",
+      "El código DSO ayuda a rastrear el concesionario original y el historial regional",
+    ],
+    trustNote:
+      "Cubrimos VIN Ford desde 1980 hasta los modelos actuales — incluye Mustang, F-150, F-250/350, Bronco, Explorer, Escape, Edge, Expedition, Ranger, Maverick, Lightning y todos los demás. Datos cruzados contra archivos OEM de Ford Motor Company.",
+    schemaName: "Hoja de fábrica Ford por VIN",
+  },
+
+  "gm-build-sheet": {
+    esSlug: "/hoja-fabrica-gm",
+    englishPath: "/gm-build-sheet",
+    icon: FileText,
+    badge: "Build sheet GM · Códigos RPO",
+    h1: "Hoja de fábrica GM por VIN (Chevy, GMC, Buick, Cadillac)",
+    metaTitle: "Hoja de fábrica GM gratis — Códigos RPO por VIN",
+    metaDescription:
+      "Recupera la hoja de fábrica GM (RPO codes) por VIN. Cubrimos Chevy, GMC, Buick, Cadillac, Pontiac, Olds. Gratis e instantáneo.",
+    keywords: [
+      "hoja de fábrica GM",
+      "GM build sheet español",
+      "códigos RPO Chevy",
+      "Camaro build sheet por VIN",
+      "Silverado RPO codes",
+      "Corvette spec sheet",
+    ],
+    intro:
+      "GM (General Motors) usa el sistema RPO (Regular Production Option) para codificar cada opción de fábrica. Cada vehículo de Chevy, GMC, Buick, Cadillac y Pontiac sale con una hoja que lista 30–60 códigos RPO de 3 caracteres alfanuméricos. Recuperar la hoja por VIN te da la única referencia oficial de qué se construyó originalmente — esencial para Camaro, Corvette, Silverado, Suburban, Escalade y todos los demás modelos GM.",
+    whatYouGet: [
+      "Lista completa de códigos RPO (Regular Production Option)",
+      "Decodificación de cada código RPO a su descripción",
+      "Código de pintura GM OEM (WA-XXX)",
+      "Código del trim del interior",
+      "Motor original y caja (LS3, LT4, L86, 6.2L Diesel)",
+      "Fecha y planta de ensamblaje (Bowling Green, Arlington, Wentzville)",
+      "Paquetes especiales (Z51, ZL1, SS, Denali, Platinum)",
+    ],
+    whyItMatters: [
+      "Los Camaro Z/28 numbers-matching y Corvette Z06 con paquete Z51 valen $20K–$50K más que los modificados",
+      "Las pickups Silverado/Sierra requieren RPO para confirmar trim Denali, High Country o ZR2",
+      "Los SUV de lujo (Escalade, Yukon Denali) usan RPO para los paquetes Platinum y Premium",
+      "El RPO es la única forma de confirmar autenticidad de ediciones limitadas (Camaro ZL1 1LE, etc.)",
+    ],
+    trustNote:
+      "Cubrimos VIN GM desde 1981 hasta los modelos actuales para todas las divisiones — Chevrolet, GMC, Buick, Cadillac, Pontiac, Oldsmobile, Saturn, Hummer. Los códigos RPO son la fuente oficial de GM para verificar configuración original de fábrica.",
+    schemaName: "Hoja de fábrica GM por VIN",
+  },
+
+  "mopar-broadcast-sheet": {
+    esSlug: "/hoja-broadcast-mopar",
+    englishPath: "/mopar-broadcast-sheet",
+    icon: FileText,
+    badge: "Broadcast sheet Mopar · Chrysler/Dodge",
+    h1: "Broadcast sheet Mopar por VIN (Chrysler, Dodge, Plymouth)",
+    metaTitle: "Broadcast sheet Mopar gratis por VIN — Chrysler/Dodge",
+    metaDescription:
+      "Recupera la broadcast sheet Mopar por VIN. Cubrimos Chrysler, Dodge, Plymouth y modelos clásicos Hemi, R/T, SRT. Gratis e instantáneo.",
+    keywords: [
+      "broadcast sheet Mopar",
+      "Mopar build sheet español",
+      "Charger R/T por VIN",
+      "Challenger SRT broadcast sheet",
+      "Hemi Cuda VIN",
+      "Plymouth Road Runner VIN",
+    ],
+    intro:
+      "La broadcast sheet de Mopar (Chrysler, Dodge, Plymouth) es el documento de ensamblaje que viajaba con cada vehículo por la línea de producción. Lista códigos de opciones, código de pintura, código de tapicería, motor (especialmente importante para Hemi, Six Pack, 440 Magnum), transmisión, eje trasero y todos los paquetes de rendimiento. Es la única referencia que prueba autenticidad de un Charger R/T, Challenger SRT, Cuda Hemi o cualquier modelo Mopar de alta demanda.",
+    whatYouGet: [
+      "Códigos de opciones de fábrica completos",
+      "Código de pintura Mopar OEM (FE5, FY1, FJ5, etc.)",
+      "Código de tapicería y combinación de colores",
+      "Motor original (426 Hemi, 440 Six Pack, 6.4L SRT, 392 Hemi)",
+      "Transmisión y código de eje trasero",
+      "Paquetes de rendimiento (R/T, T/A, AAR, SRT, Hellcat, Demon)",
+      "Fecha y planta de ensamblaje (Hamtramck, Brampton, Lynch Road)",
+    ],
+    whyItMatters: [
+      "Un Hemi Cuda 1970 numbers-matching vale $200K–$500K+; uno sin broadcast sheet vale 60% menos",
+      "Los Challenger Hellcat y Demon modernos requieren broadcast sheet para confirmar paquetes raros",
+      "Las réplicas (clones) de Cuda, Road Runner y Charger Daytona se detectan comparando contra la broadcast sheet",
+      "Las aseguradoras de autos clásicos (Hagerty, Grundy) exigen broadcast sheet para coberturas Agreed Value altas",
+    ],
+    trustNote:
+      "Cubrimos vehículos Mopar (Chrysler, Dodge, Plymouth, AMC) desde 1962 hasta los modelos actuales. Para los muscle cars clásicos (1962–1974), las hojas se reconstruyen desde archivos originales de Chrysler. Los modelos modernos (Hellcat, Demon, TRX, Pacifica) tienen datos completos en tiempo real.",
+    schemaName: "Broadcast sheet Mopar por VIN",
+  },
+
+  "chassis-number-lookup": {
+    esSlug: "/buscar-numero-chasis",
+    englishPath: "/chassis-number-lookup",
+    icon: Hash,
+    badge: "Número de chasis · Identificación",
+    h1: "Búsqueda de número de chasis por VIN",
+    metaTitle: "Búsqueda número de chasis gratis por VIN",
+    metaDescription:
+      "Busca el número de chasis por VIN. Para autos clásicos, JDM, autos europeos y motos. Decodificación gratis al instante.",
+    keywords: [
+      "número de chasis VIN",
+      "chassis number lookup español",
+      "número de bastidor auto",
+      "número de chasis clásico",
+      "chassis japonés JDM",
+      "número de chasis europeo",
+    ],
+    intro:
+      "El número de chasis (o número de bastidor) es el código grabado físicamente en la estructura del vehículo. En autos modernos coincide con el VIN de 17 caracteres, pero en autos clásicos pre-1981, autos europeos antiguos y vehículos JDM importados es un código distinto que requiere decodificación especializada. Verificarlo es esencial para confirmar autenticidad antes de pagar precio premium por un coleccionable.",
+    whatYouGet: [
+      "Decodificación del número de chasis para autos clásicos y JDM",
+      "Identificación de fabricante, planta y año de producción",
+      "Cruce contra registros de fabricantes europeos (BMW, Mercedes, Porsche)",
+      "Validación de autenticidad para autos coleccionables",
+      "Comparación con número grabado en motor y carrocería",
+      "Detección de números alterados o modificados",
+      "Cobertura para Skyline, Supra, Cuda, 911 Carrera y más",
+    ],
+    whyItMatters: [
+      "Los autos clásicos con número de chasis alterado pierden 80–95% de su valor",
+      "Las réplicas de Shelby Cobra, GT40, AC se detectan verificando el chasis vs el VIN",
+      "Las importaciones JDM falsificadas usan VIN clonados pero el chasis japonés revela la verdad",
+      "Las aseguradoras de coleccionables exigen verificación física del número de chasis antes de cubrir",
+    ],
+    trustNote:
+      "Decodificamos números de chasis de fabricantes europeos (BMW, Mercedes-Benz, Porsche, Audi, VW desde 1960), japoneses (Toyota, Nissan, Honda, Mazda, Subaru desde 1970) y americanos clásicos (Ford, GM, Mopar 1950–1980). Cada esquema tiene su propio formato.",
+    schemaName: "Búsqueda de número de chasis por VIN",
+  },
+
+  "hin-lookup": {
+    esSlug: "/buscar-hin-embarcacion",
+    englishPath: "/hin-lookup",
+    icon: Anchor,
+    badge: "HIN · Embarcaciones · USCG",
+    h1: "Búsqueda HIN para embarcaciones (Hull Identification Number)",
+    metaTitle: "Búsqueda HIN gratis para embarcaciones",
+    metaDescription:
+      "Busca el HIN (Hull Identification Number) de cualquier embarcación. Decodifica fabricante, año, modelo y registros USCG — gratis al instante.",
+    keywords: [
+      "HIN embarcación español",
+      "Hull Identification Number",
+      "número de casco bote",
+      "decodificador HIN gratis",
+      "USCG documentación embarcación",
+      "historial bote por HIN",
+    ],
+    intro:
+      "El HIN (Hull Identification Number) es el VIN de las embarcaciones — un código único de 12 caracteres exigido por la Guardia Costera de EE. UU. (USCG) para todo bote o yate fabricado o vendido en EE. UU. desde 1972. Identifica al fabricante, número de serie, mes/año de producción y año modelo. Verificarlo es esencial antes de comprar usado, registrar la embarcación o reclamar al seguro.",
+    whatYouGet: [
+      "Decodificación completa del HIN de 12 caracteres",
+      "Identificación del fabricante (Bayliner, Sea Ray, Bertram, etc.)",
+      "Número de serie de producción",
+      "Mes y año de fabricación",
+      "Año del modelo (puede diferir del año de fabricación)",
+      "Cruce contra registros de la USCG",
+      "Detección de robos reportados a la NICB",
+    ],
+    whyItMatters: [
+      "El robo de embarcaciones es una industria de $50M+ al año en EE. UU. — verifica el HIN antes de comprar",
+      "Un HIN alterado o re-grabado es una bandera roja de embarcación robada",
+      "La USCG exige el HIN para documentación federal (embarcaciones de 5+ toneladas)",
+      "Sin HIN válido no puedes asegurar, registrar ni vender legalmente la embarcación",
+    ],
+    trustNote:
+      "Los datos provienen del registro de la USCG y de los archivos de fabricantes (Bayliner, Sea Ray, Bertram, Boston Whaler, Chaparral, Catalina, Beneteau y más de 200 marcas). El formato HIN sigue el estándar federal 33 CFR Part 181.",
+    schemaName: "Búsqueda HIN para embarcaciones",
+  },
+
+  "motorcycle-vin-search": {
+    esSlug: "/buscar-vin-motocicleta",
+    englishPath: "/motorcycle-vin-search",
+    icon: Bike,
+    badge: "VIN motocicleta · Búsqueda avanzada",
+    h1: "Búsqueda avanzada de VIN para motocicleta",
+    metaTitle: "Búsqueda VIN moto gratis — Decodificador avanzado",
+    metaDescription:
+      "Búsqueda avanzada de VIN para motocicletas Harley, Honda, Yamaha, Kawasaki. Configuración, retiros, historial de robo — gratis e instantáneo.",
+    keywords: [
+      "búsqueda VIN moto",
+      "buscar VIN motocicleta",
+      "VIN Harley Davidson buscar",
+      "Honda CBR VIN search",
+      "decodificador moto avanzado",
+      "VIN moto robada",
+    ],
+    intro:
+      "Esta herramienta ofrece búsqueda avanzada para VIN de motocicleta — más allá de la decodificación básica de marca/modelo. Cruza la configuración exacta (cilindrada, tipo de chasis, color de fábrica) contra retiros activos de la NHTSA, registros de robo de la NICB y marcas de título salvage. Esencial antes de comprar usado, especialmente Harley-Davidson, Honda CBR, Yamaha YZF y modelos deportivos de alto valor.",
+    whatYouGet: [
+      "Configuración exacta: motor V-Twin/paralelo/V-4, cilindrada precisa",
+      "Color de fábrica y código de pintura OEM",
+      "Tipo de chasis (Deltabox, Trellis, Tubular, Twin-Spar)",
+      "Retiros NHTSA activos por VIN",
+      "Registros NICB de motos robadas o recuperadas",
+      "Marcas de título: salvage, rebuilt, junk",
+      "Historial de lecturas del odómetro",
+    ],
+    whyItMatters: [
+      "Las motos están entre los vehículos más robados — verifica antes de comprar",
+      "Los retiros por dirección de Harley afectan miles de unidades por año",
+      "Las motos chocadas se \"reconstruyen\" con piezas de otras unidades — el VIN debe coincidir físicamente",
+      "Un salvage en una moto reduce 30–50% el valor de reventa",
+    ],
+    trustNote:
+      "Cubrimos VIN de Harley-Davidson, Honda, Yamaha, Kawasaki, Suzuki, Ducati, BMW Motorrad, KTM, Triumph, Indian, Royal Enfield, Aprilia y más. Datos cruzados contra NMVTIS, NHTSA y NICB.",
+    schemaName: "Búsqueda avanzada de VIN para motocicleta",
+  },
+
+  "plate-to-vin": {
+    esSlug: "/placa-a-vin",
+    englishPath: "/plate-to-vin",
+    icon: ScanLine,
+    badge: "Placa → VIN · 50 estados",
+    h1: "Convertir placa a VIN (Plate to VIN)",
+    metaTitle: "Placa a VIN gratis — Buscar VIN por placa",
+    metaDescription:
+      "Convierte cualquier placa estadounidense a VIN gratis. Cobertura de los 50 estados. Año, marca, modelo e historial completo en segundos.",
+    keywords: [
+      "placa a VIN español",
+      "convertir placa en VIN",
+      "buscar VIN por placa",
+      "plate to VIN gratis",
+      "placa de auto a VIN",
+      "DPPA placa cumplimiento",
+    ],
+    intro:
+      "¿Tienes la placa pero no el VIN? Esta herramienta convierte cualquier placa estadounidense al VIN del vehículo asociado, gratis y para los 50 estados. Con el VIN puedes pedir el reporte completo del historial: marcas de título, accidentes, retiros y datos del odómetro. Cumple con la ley federal DPPA (Driver's Privacy Protection Act) — solo devuelve datos del vehículo, nunca del propietario.",
+    whatYouGet: [
+      "El VIN de 17 caracteres asociado a la placa",
+      "Año, marca, modelo y versión del vehículo",
+      "Estilo de carrocería y color de fábrica",
+      "Motor y transmisión",
+      "Retiros NHTSA abiertos por VIN",
+      "Acceso opcional al reporte completo NMVTIS",
+      "Cobertura para los 50 estados de EE. UU. + DC",
+    ],
+    whyItMatters: [
+      "Útil cuando solo tienes una foto del auto en una venta privada (Facebook Marketplace, Craigslist)",
+      "Las placas se pueden transferir entre vehículos — el VIN es la identidad permanente",
+      "Detecta autos clonados (placa válida pero VIN robado) antes de pagar",
+      "La ley DPPA prohíbe revelar datos del propietario — solo el VIN y datos del vehículo",
+    ],
+    trustNote:
+      "Bajo la ley federal DPPA (18 U.S.C. § 2721) no devolvemos nombre, dirección, teléfono ni datos personales del propietario. Solo datos del vehículo. Cubrimos los 50 estados + DC. Algunos estados con políticas DMV restrictivas pueden tener tasa de coincidencia menor.",
+    schemaName: "Convertidor de placa a VIN",
+  },
+
+  "state-to-vin": {
+    esSlug: "/estado-a-vin",
+    englishPath: "/state-to-vin",
+    icon: ScanLine,
+    badge: "Estado + placa → VIN",
+    h1: "Búsqueda de VIN por estado y placa",
+    metaTitle: "Estado + placa a VIN gratis — 50 estados",
+    metaDescription:
+      "Busca el VIN de un vehículo por placa y estado emisor. Cobertura de los 50 estados de EE. UU. — gratis e instantáneo, cumple DPPA.",
+    keywords: [
+      "estado a VIN español",
+      "buscar VIN por placa y estado",
+      "VIN lookup por estado",
+      "DMV estado a VIN",
+      "registro estatal VIN",
+      "placa estado USA VIN",
+    ],
+    intro:
+      "Esta herramienta combina el estado emisor con el número de placa para encontrar el VIN exacto del vehículo. La cobertura es para los 50 estados de EE. UU. + DC. Especialmente útil cuando la placa coincide entre varios estados (números cortos) — al especificar el estado, la búsqueda devuelve el VIN correcto. Cumple con la ley federal DPPA, devolviendo solo datos del vehículo, nunca del propietario.",
+    whatYouGet: [
+      "VIN exacto del vehículo asociado a placa + estado",
+      "Año, marca, modelo y versión",
+      "Color de fábrica y tipo de carrocería",
+      "Especificaciones de motor y transmisión",
+      "Retiros NHTSA activos",
+      "Estado de registración actual",
+      "Lista de estados con tasa de coincidencia alta",
+    ],
+    whyItMatters: [
+      "Las placas cortas (3–5 caracteres) coinciden entre múltiples estados — el estado lo resuelve",
+      "Algunos estados (TX, CA, FL) tienen tasas de coincidencia >95%",
+      "Otros estados con políticas más restrictivas (NY, NJ) pueden requerir login",
+      "El estado determina qué DMV y qué leyes de privacidad aplican",
+    ],
+    trustNote:
+      "Bajo la ley federal DPPA (18 U.S.C. § 2721) no devolvemos datos personales del propietario. Cobertura: 50 estados + DC. Las tasas de coincidencia varían por estado según políticas del DMV local — TX, CA, FL >95%; NY, NJ, MA ~70%.",
+    schemaName: "Búsqueda VIN por estado y placa",
+  },
+
+  "look-up-car-plates-free": {
+    esSlug: "/consultar-placas-gratis",
+    englishPath: "/look-up-car-plates-free",
+    icon: ScanLine,
+    badge: "Consulta de placas · Gratis",
+    h1: "Consultar placas de auto gratis",
+    metaTitle: "Consultar placas auto gratis — Sin tarjeta",
+    metaDescription:
+      "Consulta cualquier placa estadounidense gratis. VIN, año, marca, modelo del vehículo asociado — sin tarjeta de crédito, cumple DPPA.",
+    keywords: [
+      "consultar placas gratis",
+      "buscar placas auto sin costo",
+      "verificar placa de auto",
+      "consulta vehicular por placa",
+      "free plate lookup español",
+      "consultar matrícula USA",
+    ],
+    intro:
+      "Consulta cualquier placa estadounidense gratis para descubrir el VIN y los datos básicos del vehículo asociado. Útil cuando ves un auto a la venta y solo tienes la placa, cuando una placa te golpea en un estacionamiento y te dejó solo el número, o para verificar que un anuncio es legítimo. La ley DPPA limita los datos al vehículo (nunca al propietario), pero eso ya es suficiente para detectar estafas y autos clonados antes de comprar.",
+    whatYouGet: [
+      "Datos básicos del vehículo: año, marca, modelo, color",
+      "El VIN de 17 caracteres asociado",
+      "Estilo de carrocería y motor",
+      "Estado de registración actual",
+      "Confirmación de placa válida vs falsa/clonada",
+      "Opción de pedir el reporte completo NMVTIS por VIN",
+      "Sin tarjeta de crédito — gratis al instante",
+    ],
+    whyItMatters: [
+      "Detecta autos clonados que usan placas robadas o duplicadas",
+      "Verifica anuncios de venta privada antes de viajar a ver el auto",
+      "Confirma datos del vehículo cuando solo tienes una foto",
+      "Para reportar accidentes de \"hit-and-run\" donde solo recordaste la placa",
+    ],
+    trustNote:
+      "Bajo la ley federal DPPA (18 U.S.C. § 2721) la consulta de placas NO revela datos personales del propietario. Solo datos del vehículo. La consulta es 100% gratis sin tarjeta. Cubrimos los 50 estados de EE. UU. + DC.",
+    schemaName: "Consulta de placas gratis",
+  },
+
+  /* ── Wave 14 — specialty checks (7) ─────────────────────────────── */
+
+  "dealer-check": {
+    esSlug: "/verificacion-concesionario",
+    englishPath: "/dealer-check",
+    icon: Building2,
+    badge: "Verificación de concesionario · BBB",
+    h1: "Verificación de concesionario antes de comprar",
+    metaTitle: "Verificación concesionario auto gratis",
+    metaDescription:
+      "Verifica reputación y licencia de cualquier concesionario antes de comprar. Quejas BBB, demandas pendientes, licencia DMV vigente — gratis.",
+    keywords: [
+      "verificar concesionario auto",
+      "dealer check español",
+      "licencia DMV concesionario",
+      "quejas BBB concesionario",
+      "dealer reputation USA",
+      "comprar auto concesionario seguro",
+    ],
+    intro:
+      "Antes de pagar miles de dólares en un concesionario, verifica su reputación, licencia y historial de quejas. Esta herramienta cruza datos del BBB (Better Business Bureau), licencias estatales del DMV, demandas pendientes en cortes estatales y reseñas verificadas de Google. Diseñado para detectar lotes de \"curbstoning\" (venta ilegal), concesionarios con licencia suspendida y operadores con patrones de fraude antes de firmar.",
+    whatYouGet: [
+      "Calificación BBB (A+ a F) y número de quejas",
+      "Estado de la licencia DMV (vigente, suspendida, revocada)",
+      "Demandas pendientes en cortes estatales por VIN o por nombre",
+      "Historial de violaciones del Consumer Protection Act",
+      "Reseñas verificadas de Google y otras plataformas",
+      "Tiempo en el negocio y dirección física confirmada",
+      "Alertas de actividad de \"curbstoning\" o título lavado",
+    ],
+    whyItMatters: [
+      "Los concesionarios sin licencia (curbstoners) son ilegales pero comunes — verifica primero",
+      "Una calificación BBB F o quejas activas predicen problemas en tu compra",
+      "Las licencias DMV suspendidas significan que no pueden transferir título legalmente",
+      "Las demandas activas pueden congelar inventario y dejarte sin auto tras pagar",
+    ],
+    trustNote:
+      "Los datos provienen del BBB (Better Business Bureau), bases del DMV estatal, dockets de cortes públicas y plataformas de reseñas verificadas. Si no encuentras al concesionario en el BBB ni en el registro del DMV estatal, es muy probable que no tenga licencia — no compres ahí.",
+    schemaName: "Verificación de concesionario",
+  },
+
+  "fleet-check": {
+    esSlug: "/verificacion-flota",
+    englishPath: "/fleet-check",
+    icon: Briefcase,
+    badge: "Verificación de flota · Bulk",
+    h1: "Verificación VIN para flotas comerciales",
+    metaTitle: "Verificación flota auto gratis — Bulk VIN",
+    metaDescription:
+      "Verifica múltiples VIN de tu flota comercial en lote. Reportes consolidados de retiros, accidentes y mantenimiento — gratis para flotas pequeñas.",
+    keywords: [
+      "verificación flota auto",
+      "fleet management VIN español",
+      "verificación VIN comercial",
+      "flota delivery DOT",
+      "Uber Lyft flota verificación",
+      "fleet check bulk USA",
+    ],
+    intro:
+      "Si manejas una flota comercial — delivery, rideshare, alquiler, contratistas — verificar el historial de cada vehículo es crítico antes de añadirlo al servicio. Esta herramienta procesa múltiples VIN en lote, cruzando contra NMVTIS, NHTSA (retiros), bases de aseguradoras y registros DOT. Reporte consolidado con alertas por vehículo. Gratis para flotas de hasta 10 vehículos.",
+    whatYouGet: [
+      "Verificación en lote de múltiples VIN (CSV upload)",
+      "Reporte consolidado con alertas por vehículo",
+      "Retiros NHTSA pendientes por VIN",
+      "Historial de accidentes y reparaciones",
+      "Estado del título en los 50 estados",
+      "Cumplimiento DOT y registros de inspección",
+      "Comparación contra promedios de la industria",
+    ],
+    whyItMatters: [
+      "Un solo vehículo con recall pendiente puede generar responsabilidad civil para toda la flota",
+      "Las flotas con historial de accidentes pagan primas de seguro 30–50% más altas",
+      "Los autos salvage en flota no califican para coberturas comprehensive estándar",
+      "El cumplimiento DOT es obligatorio para flotas de delivery y carga comercial",
+    ],
+    trustNote:
+      "Cubrimos flotas de delivery (FedEx, UPS, Amazon DSP), rideshare (Uber, Lyft), alquiler (Hertz, Enterprise, Avis), construcción y contratistas. Datos cruzados contra NMVTIS, NHTSA, NICB y registros DOT/FMCSA en tiempo real.",
+    schemaName: "Verificación VIN para flotas",
+  },
+
+  "marketplace-vin-check": {
+    esSlug: "/verificacion-vin-marketplace",
+    englishPath: "/marketplace-vin-check",
+    icon: Store,
+    badge: "Marketplace · Facebook, Craigslist, OfferUp",
+    h1: "Verificación VIN para autos de marketplace",
+    metaTitle: "Verificación VIN marketplace gratis — Facebook/Craigslist",
+    metaDescription:
+      "Verifica VIN de autos vendidos en Facebook Marketplace, Craigslist, OfferUp y eBay Motors antes de comprar. Detecta fraude y autos robados — gratis.",
+    keywords: [
+      "verificación VIN Facebook Marketplace",
+      "VIN check Craigslist auto",
+      "OfferUp auto VIN verificar",
+      "eBay Motors VIN check",
+      "marketplace auto fraude",
+      "auto robado marketplace",
+    ],
+    intro:
+      "Comprar un auto en Facebook Marketplace, Craigslist, OfferUp o eBay Motors es 5× más riesgoso que comprarlo en un concesionario — vendedores anónimos, sin historial, sin garantía, sin recurso si algo sale mal. Esta herramienta verifica el VIN antes de viajar a ver el auto: marcas de título, accidentes, retiros, registros de robo. 60 segundos de verificación previenen $5,000–$50,000 de pérdida total.",
+    whatYouGet: [
+      "Marcas de título en los 50 estados (salvage, rebuilt, flood)",
+      "Historial de accidentes y reparaciones",
+      "Detección de odómetro alterado",
+      "Cruce contra NICB para autos robados",
+      "Retiros NHTSA pendientes",
+      "Confirmación de marca/modelo/año vs anuncio",
+      "Reporte completo opcional desde $9.99",
+    ],
+    whyItMatters: [
+      "Facebook Marketplace tiene 3× más estafas de auto que sitios profesionales",
+      "Los autos clonados (placas/VIN copiados) son endémicos en marketplaces sin verificación",
+      "Sin garantía de marketplace = sin recurso si descubres salvage después de pagar",
+      "Una verificación de 60 segundos por VIN previene la mayoría de estafas",
+    ],
+    trustNote:
+      "Datos cruzados contra NMVTIS, NICB, NHTSA y reportes de aseguradoras. Los vendedores legítimos en marketplaces siempre comparten el VIN sin objeción — si se niegan o dan excusas, es bandera roja crítica.",
+    schemaName: "Verificación VIN para marketplaces",
+  },
+
+  "rental-car-check": {
+    esSlug: "/verificacion-auto-renta",
+    englishPath: "/rental-car-check",
+    icon: KeyRound,
+    badge: "Auto de renta · Verificación",
+    h1: "Verificación VIN antes de rentar un auto",
+    metaTitle: "Verificar auto renta por VIN — Hertz/Enterprise",
+    metaDescription:
+      "Verifica retiros NHTSA y mantenimiento de cualquier auto de renta (Hertz, Enterprise, Avis, Budget) antes de aceptar las llaves. Gratis al instante.",
+    keywords: [
+      "verificar auto renta",
+      "Hertz verificación VIN",
+      "Enterprise auto recall",
+      "Avis Budget retiros NHTSA",
+      "auto renta seguro VIN",
+      "rental car safety check",
+    ],
+    intro:
+      "Las compañías de renta (Hertz, Enterprise, Avis, Budget) deben — pero a veces no — reparar los retiros NHTSA antes de alquilar el auto. La ley federal Raechel and Jacqueline Houck Safe Rental Car Act (2015) prohíbe alquilar autos con recall abierto, pero las violaciones siguen ocurriendo. Verifica el VIN antes de aceptar las llaves: 5 segundos pueden evitar un airbag Takata defectuoso o una falla de frenos.",
+    whatYouGet: [
+      "Retiros NHTSA abiertos para el VIN específico",
+      "Estado del recall Takata (riesgo alpha en estados calientes)",
+      "Historial de accidentes del auto de renta",
+      "Lectura del odómetro vs cargo por kilometraje",
+      "Marcas de daño previo (salvage, granizo, inundación)",
+      "Verificación de servicio reciente y mantenimiento",
+      "Tu derecho legal a rechazar el auto si tiene recall pendiente",
+    ],
+    whyItMatters: [
+      "La ley federal te da derecho a rechazar autos de renta con recall abierto — sin costo",
+      "Hertz fue multada por alquilar autos con airbags Takata defectuosos a sabiendas",
+      "Los autos ex-renta tienen 2× más accidentes promedio que autos de propiedad personal",
+      "Un recall de frenos o dirección sin reparar es un riesgo real de accidente",
+    ],
+    trustNote:
+      "Los datos del recall provienen en tiempo real de la NHTSA. Bajo la ley Raechel and Jacqueline Houck Safe Rental Car Act (49 U.S.C. § 30120(j)), las rentadoras NO pueden alquilar autos con recall abierto — si lo hacen, tienes derecho a rechazarlo y exigir reemplazo sin cargo.",
+    schemaName: "Verificación VIN auto de renta",
+  },
+
+  "rideshare-check": {
+    esSlug: "/verificacion-rideshare",
+    englishPath: "/rideshare-check",
+    icon: Users,
+    badge: "Rideshare · Uber, Lyft",
+    h1: "Verificación VIN para autos de rideshare (Uber, Lyft)",
+    metaTitle: "Verificación auto Uber/Lyft por VIN — Gratis",
+    metaDescription:
+      "Verifica VIN antes de comprar un auto para Uber o Lyft. Cumplimiento de requisitos, retiros, accidentes y desgaste de flota — gratis.",
+    keywords: [
+      "auto Uber verificar VIN",
+      "Lyft auto requisitos VIN",
+      "rideshare auto compra",
+      "comprar auto Uber",
+      "verificar auto rideshare",
+      "rideshare flota usado",
+    ],
+    intro:
+      "Comprar un auto para trabajar en Uber o Lyft requiere cumplir requisitos específicos: año mínimo, condición mecánica, capacidad de pasajeros y aprobación de inspección. Esta herramienta verifica si un VIN cumple los requisitos de la plataforma elegida y revela el historial completo: accidentes, retiros, kilometraje real, marcas de título. Crítico antes de invertir $10K–$30K en una unidad que pueda ser rechazada por Uber o Lyft.",
+    whatYouGet: [
+      "Verificación de elegibilidad para Uber (X, Comfort, XL, Black)",
+      "Verificación de elegibilidad para Lyft (Standard, XL, Lux)",
+      "Año modelo y kilometraje vs requisitos de la plataforma",
+      "Historial completo de accidentes",
+      "Retiros NHTSA activos (descalifican el auto)",
+      "Marcas de título (salvage descalifica de inmediato)",
+      "Estimación de costos operativos por milla",
+    ],
+    whyItMatters: [
+      "Uber X requiere modelo 2009+ y Comfort/XL/Black tienen requisitos más estrictos",
+      "Lyft requiere modelo 2011+ en la mayoría de mercados; 2014+ para Lyft Premier",
+      "Los autos con salvage title NO son aceptados por Uber ni Lyft — pérdida total de inversión",
+      "Toyota Prius, Honda Civic y Camry tienen los costos operativos más bajos por milla",
+    ],
+    trustNote:
+      "Los requisitos de Uber y Lyft se actualizan periódicamente por mercado (ciudad). Cubrimos los 50 estados con datos vigentes. Las restricciones de salvage son políticas estrictas de ambas plataformas — no las eluden ninguna excepción.",
+    schemaName: "Verificación VIN para rideshare",
+  },
+
+  "impound-check": {
+    esSlug: "/verificacion-corralon",
+    englishPath: "/impound-check",
+    icon: ParkingCircle,
+    badge: "Corralón · Auto incautado",
+    h1: "Verificación de auto en corralón por VIN",
+    metaTitle: "Verificación auto corralón por VIN — Gratis",
+    metaDescription:
+      "Verifica si un auto fue incautado por la policía o ciudad y enviado al corralón. Detecta historial de impound antes de comprar — gratis por VIN.",
+    keywords: [
+      "verificación corralón auto",
+      "impound check español",
+      "auto incautado VIN",
+      "auto del corralón compra",
+      "vehículo retenido policía",
+      "subasta corralón auto",
+    ],
+    intro:
+      "Los autos enviados al corralón (impound) por la policía o ciudad — por estacionamiento, infracción, abandono, DUI o conducción sin licencia — a menudo se venden en subastas municipales después de 30–90 días sin reclamo. Esta herramienta verifica si un VIN tiene historial de impound y por qué razón. Esencial antes de comprar en subastas de la policía o cuando un vendedor privado tiene precios sospechosamente bajos.",
+    whatYouGet: [
+      "Historial de impound (cuántas veces, fechas, razones)",
+      "Razón específica del impound (DUI, abandono, sin licencia, infracción)",
+      "Ciudad o jurisdicción que lo retuvo",
+      "Si fue subastado por la municipalidad",
+      "Tiempo en corralón y costos acumulados",
+      "Cruce contra registros de DUI del DMV",
+      "Estado actual del título (impound puede convertirse en abandono)",
+    ],
+    whyItMatters: [
+      "Los autos con múltiples impounds suelen tener historial de DUI o conducción sin licencia",
+      "Los autos abandonados en corralón pueden tener tarjetas TPMS robadas, batería muerta, motor seco",
+      "Las subastas municipales venden sin garantía — el historial de impound es la única información disponible",
+      "Un auto con impound por DUI puede tener daño mecánico no reportado del incidente",
+    ],
+    trustNote:
+      "Los datos de impound se cruzan contra registros municipales de los 50 estados, bases del DMV y registros de subastas gubernamentales. La cobertura es más alta en ciudades grandes (LA, NYC, Chicago, Houston, Phoenix); algunas jurisdicciones rurales pueden tener datos parciales.",
+    schemaName: "Verificación auto en corralón",
+  },
+
+  "warranty-check": {
+    esSlug: "/verificacion-garantia",
+    englishPath: "/warranty-check",
+    icon: Receipt,
+    badge: "Garantía vigente · OEM",
+    h1: "Verificación de garantía OEM por VIN",
+    metaTitle: "Verificación garantía auto por VIN — Gratis OEM",
+    metaDescription:
+      "Verifica si la garantía OEM de tu vehículo sigue vigente por VIN. Coberturas, fechas de vencimiento, kilometraje restante — gratis al instante.",
+    keywords: [
+      "verificación garantía auto",
+      "garantía OEM por VIN",
+      "warranty check español",
+      "garantía vigente fábrica",
+      "Toyota Care garantía VIN",
+      "Honda warranty por VIN",
+    ],
+    intro:
+      "Las garantías de fábrica (OEM) son transferibles al nuevo dueño cuando compras un auto usado — pero solo si están vigentes. Esta herramienta verifica por VIN si la garantía básica, la del tren motriz, la de óxido perforante, la de emisiones EPA y la de batería (para eléctricos) siguen activas. Crítico antes de comprar para evitar pagar de tu bolsillo reparaciones que estarían cubiertas.",
+    whatYouGet: [
+      "Garantía básica (bumper-to-bumper) — fechas y kilometraje restante",
+      "Garantía del tren motriz (motor + transmisión)",
+      "Garantía de óxido perforante (perforation/rust-through)",
+      "Garantía federal EPA de emisiones (8 años / 80,000 millas)",
+      "Garantía de batería para vehículos eléctricos (típicamente 8 años / 100K millas)",
+      "Garantías extendidas activas del fabricante",
+      "Estimación del costo de reparación si la garantía expiró",
+    ],
+    whyItMatters: [
+      "Una garantía básica vigente puede ahorrarte $2,000–$8,000 en reparaciones de transmisión o suspensión",
+      "La garantía EPA de emisiones (8 años) cubre catalizador y sensores oxígeno costosos",
+      "Las baterías de autos eléctricos cuestan $8,000–$20,000 — la garantía OEM es crítica",
+      "Comprar usado dentro de la garantía vigente añade $1,500–$5,000 al valor de reventa",
+    ],
+    trustNote:
+      "Los datos provienen de archivos OEM de Toyota, Honda, Ford, Chevrolet, BMW, Mercedes-Benz, Tesla y más de 30 marcas. Cubrimos garantías básica, tren motriz, perforación, EPA emisiones y batería EV. Confirmamos transferibilidad al nuevo propietario.",
+    schemaName: "Verificación de garantía OEM",
   },
 };
