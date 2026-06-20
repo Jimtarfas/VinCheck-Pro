@@ -1,0 +1,395 @@
+/**
+ * Shared body for /glossary and /es/glossary.
+ * Wave 16d — identical JSX, locale-driven copy.
+ *
+ * Terms stay in English (industry/legal acronyms like NMVTIS, NICB,
+ * WMI, VIN don't translate); definitions translate to Spanish.
+ * Each definition is full Spanish so the entry is actually useful
+ * to a Spanish-speaking buyer.
+ */
+
+import Link from "next/link";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import VinSearchForm from "@/components/VinSearchForm";
+import type { Locale } from "@/i18n/config";
+
+type Term = { term: string; definition: string; href?: string };
+
+const COPY = {
+  en: {
+    breadcrumbHome: "Home",
+    breadcrumbCurrent: "Glossary",
+    h1: "VIN & Vehicle History Glossary",
+    heroLead:
+      "Buying a used car involves a lot of paperwork, acronyms, and title-brand jargon. This glossary defines more than 60 of the most important VIN, title, valuation, and vehicle history terms you will encounter, so you can shop with confidence and spot trouble before it costs you.",
+    lettersAria: "Glossary letters",
+    faqHeading: "Frequently Asked Questions",
+    faqIntro:
+      "Quick, plain-English answers to the most common questions about VINs, title brands, and vehicle history terminology.",
+    quickHeading: "Quick Tools",
+    quickIntro:
+      "Put what you just learned to work. Run a free VIN check or jump straight to a focused history lookup.",
+    quickToolSubTemplate: "Run a focused {label} by VIN.",
+    ctaHeading: "Ready to Decode a VIN?",
+    ctaBody: "Enter any 17-character VIN to see specs, title brands, and history in seconds.",
+    quickTools: [
+      { label: "Free VIN Check" },
+      { label: "Stolen Vehicle Check" },
+      { label: "Salvage Title Check" },
+      { label: "Accident History Check" },
+      { label: "Odometer Check" },
+      { label: "Lemon Check" },
+    ],
+    faqs: [
+      { q: "What is a VIN?", a: "A VIN (Vehicle Identification Number) is a 17-character alphanumeric code that uniquely identifies every modern vehicle. It encodes the manufacturer, brand, vehicle type, model year, assembly plant, and a unique production serial number. The VIN appears on the dashboard, driver-side doorjamb, engine block, title, registration, and insurance documents, and is the key used to pull a vehicle's full title and history records." },
+      { q: "What does NMVTIS stand for?", a: "NMVTIS stands for the National Motor Vehicle Title Information System. It is a federally mandated database, administered by the U.S. Department of Justice, that aggregates title, brand, junk, and salvage records from state motor vehicle agencies, insurance carriers, junkyards, and salvage auctions across U.S. jurisdictions. Because it consolidates data nationwide, NMVTIS is the most authoritative source for catching cross-state title brand history and title washing." },
+      { q: "What is a salvage title?", a: "A salvage title is a title brand applied when an insurer declares a vehicle a total loss, typically after damage exceeds a state-defined threshold of roughly 70 to 90 percent of the vehicle's pre-loss value. A salvage-titled vehicle cannot legally be driven on public roads until it is repaired, passes a state safety inspection, and is re-titled as rebuilt. The salvage brand is permanent and follows the VIN across state lines." },
+      { q: "What is a title brand?", a: "A title brand is a permanent notation on a vehicle's title indicating significant damage, theft recovery, or other adverse history. Common brands include salvage, rebuilt, flood, junk, non-repairable, and lemon (manufacturer buyback). A title brand follows the VIN across state lines for the life of the vehicle, generally reduces resale value, and can make the vehicle harder to insure or finance." },
+      { q: "What is the difference between a salvage title and a rebuilt title?", a: "A salvage title marks a vehicle that an insurer declared a total loss; it cannot legally be driven until repaired and re-inspected. A rebuilt title is issued to a previously salvaged vehicle that has been repaired and has passed a state safety inspection, making it road-legal again. Rebuilt vehicles are road-legal but typically worth 20 to 40 percent less than a comparable clean-title vehicle, and both insurance and financing options remain limited." },
+      { q: "What is odometer rollback?", a: "Odometer rollback is a form of odometer fraud in which a vehicle's displayed mileage is illegally reduced to make the car appear less used and worth more. Modern digital instrument clusters can be rolled back with service tools, leaving few visible signs. Federal law requires odometer disclosure on title transfers and bans rollback. The best defense is comparing the displayed mileage against the most recent state inspection, oil-change, or service records." },
+      { q: "What is title washing?", a: "Title washing is the fraudulent practice of moving a branded vehicle through one or more states to remove or hide an adverse title brand, then re-titling it as clean. NMVTIS, which consolidates brand records nationwide, makes title washing much harder, but it still occurs in gaps between state reporting systems. Running a multi-source VIN history check before buying is the most reliable way to surface a brand that was washed off the paper title." },
+      { q: "What is a lemon buyback?", a: "A lemon buyback is a vehicle that the manufacturer repurchased from its original owner under a state lemon law because a substantial defect could not be repaired within a reasonable number of attempts. Lemon buybacks must generally be disclosed and typically carry a permanent title brand such as 'Lemon Law Buyback' or 'Manufacturer Buyback.' These vehicles often return to the used market after repairs, usually at a steep discount." },
+    ],
+    terms: [
+      { term: "ACV (Actual Cash Value)", definition: "The fair market value of a vehicle immediately before a loss, used by insurers to settle total-loss claims. ACV factors in age, mileage, condition, and local demand. It is typically lower than retail replacement cost." },
+      { term: "Airbag history", definition: "A record showing whether a vehicle's airbags have ever deployed and whether replacements were properly installed. Missing or improperly reset airbags are a major safety red flag. Airbag history sometimes appears on vehicle history reports and inspection records." },
+      { term: "As-is sale", definition: "A used-car sale in which the buyer accepts the vehicle in its current condition with no implied warranty. Once you sign, repairs are your responsibility unless fraud is proven. Always run a VIN check and pre-purchase inspection before agreeing to as-is terms." },
+      { term: "Assembly plant", definition: "The factory where a vehicle was built, encoded in the 11th character of the VIN. Knowing the plant can help diagnose recall scope or production-run issues. Manufacturers may use multiple plants for the same model." },
+      { term: "Auction record", definition: "A historical entry showing a vehicle was sold or offered at a wholesale, salvage, or insurance auction. Frequent auction appearances often signal damage, total loss, or lemon buyback history. Auction photos can reveal damage hidden by later cosmetic repairs." },
+      { term: "AutoCheck", definition: "A vehicle history report service owned by Experian, often used by dealers and at auctions. It scores vehicles on a numeric scale based on title, accident, and ownership history. AutoCheck and Carfax sometimes show different records, so cross-checking is wise." },
+      { term: "Bill of sale", definition: "A written document recording the transfer of a vehicle from seller to buyer, including price, VIN, and parties' details. Many states require a notarized bill of sale to register the vehicle. Keep your copy for tax and warranty purposes." },
+      { term: "Bonded title", definition: "A title issued when ownership documentation is missing, backed by a surety bond that protects future claimants. The bond typically remains in force for three to five years. Bonded titles can usually be converted to standard titles after the bond period expires without claims." },
+      { term: "Branded title", definition: "Any title carrying a permanent designation such as salvage, rebuilt, flood, junk, or lemon. Branded vehicles are worth substantially less and may be harder to insure or finance. The brand follows the VIN across state lines for the life of the vehicle." },
+      { term: "Bumper-to-bumper warranty", definition: "A comprehensive manufacturer warranty covering most vehicle components except wear items and routine maintenance. Coverage typically lasts three years or 36,000 miles, whichever comes first. It usually transfers with the VIN to subsequent owners until expiration." },
+      { term: "Carfax", definition: "A widely recognized vehicle history report provider that aggregates title, accident, service, and ownership records. Reports include a Buyback Guarantee on covered title issues. Carfax pricing is significantly higher than alternatives like CarCheckerVIN." },
+      { term: "Certificate of title", definition: "The official state-issued legal document proving ownership of a vehicle. It lists the VIN, owner, lienholders, and any title brands. You generally cannot transfer or register a vehicle without it." },
+      { term: "Certified pre-owned (CPO)", definition: "A used vehicle that has passed a manufacturer-backed inspection and qualifies for an extended warranty. CPO programs vary widely between brands, so always read the contract. Expect to pay a premium versus a non-certified equivalent." },
+      { term: "Check digit", definition: "The 9th character of the VIN, calculated from the other 16 characters using a weighted formula. It allows software to detect typos and counterfeit VINs. A failing check digit is a strong indicator of fraud or VIN cloning." },
+      { term: "Chop shop", definition: "An illegal operation that disassembles stolen vehicles to sell parts on the black market. Parts from chop shops sometimes appear on legitimate marketplaces with mismatched VINs. Buying chop-shop parts can lead to seizure and criminal exposure." },
+      { term: "Clean title", definition: "A title with no damage, salvage, flood, or other adverse brands recorded against the VIN. Clean does not necessarily mean the vehicle has never been damaged, only that no brand was reported. Always pair a clean title with an independent inspection." },
+      { term: "Clear title", definition: "A title that is free of liens or other ownership encumbrances, ready for transfer. Clear refers to ownership status, while clean refers to damage history. A title can be clean and still not clear if a lender holds a lien." },
+      { term: "Cloned VIN", definition: "A VIN copied from a legitimate vehicle and applied to a stolen or salvaged one to disguise its identity. Cloned VINs often pair with forged titles and altered registration documents. A physical VIN inspection can reveal mismatches between stamped and visible plates." },
+      { term: "Dealer markup", definition: "An amount added above the manufacturer's suggested retail price, common for in-demand models. Markups are negotiable in soft markets but rigid during shortages. Always compare the out-the-door price across multiple dealers." },
+      { term: "Depreciation", definition: "The decline in a vehicle's value over time due to age, mileage, and wear. Most cars lose 20 to 30 percent of value in the first year and roughly 60 percent over five years. Buying lightly used can sidestep the steepest depreciation curve." },
+      { term: "DMV", definition: "The Department of Motor Vehicles, the state agency that issues titles, registrations, and driver licenses. Some states use alternate names such as DOT, MVD, or BMV. The DMV is the authoritative source for state-level title and registration data." },
+      { term: "Documentation fee", definition: "A dealer charge for preparing and filing the paperwork associated with a vehicle sale. Doc fees vary widely by state and are sometimes capped by law. They are negotiable in some markets but rarely waived entirely." },
+      { term: "Duplicate title", definition: "A replacement certificate of title issued when the original is lost, stolen, or damaged. Most states require an affidavit and a small fee. Duplicate titles may be marked as such on their face." },
+      { term: "Edmunds TMV", definition: "Edmunds True Market Value, an estimated transaction price based on recent sales in your area. TMV adjusts for trim, mileage, options, and regional demand. Use it alongside Kelley Blue Book to triangulate fair pricing." },
+      { term: "Emissions inspection", definition: "A state-mandated test that measures a vehicle's exhaust pollutants. Many urban counties require passing emissions before registration renewal. Failing vehicles must be repaired or, in limited cases, granted a waiver." },
+      { term: "Encumbered title", definition: "A title showing one or more active liens, meaning a lender has a financial interest in the vehicle. Encumbered vehicles cannot be transferred free and clear until the lien is satisfied. Always confirm lien release before paying a private seller." },
+      { term: "Extended warranty", definition: "An optional service contract that prolongs coverage beyond the original manufacturer warranty. Costs, exclusions, and claim processes vary widely between providers. Read the fine print on pre-existing condition and modification clauses." },
+      { term: "Fleet vehicle", definition: "A vehicle previously owned and operated by a company, government agency, or rental fleet. Fleet vehicles often have higher mileage but stricter maintenance schedules. Fleet history may affect resale value and warranty eligibility." },
+      { term: "Flood title", definition: "A title brand applied when a vehicle has sustained damage from being submerged in water above sensitive components. Flood vehicles can suffer corrosion and electrical failures for years after the loss. Some states mark these as Flood, others fold them into the salvage brand." },
+      { term: "Frame damage", definition: "Bending, cracking, or compromise of a vehicle's structural frame or unibody. Even after professional repair, frame damage can affect crash performance and resale value. Many lenders and CPO programs reject vehicles with documented frame damage." },
+      { term: "GAP coverage", definition: "Guaranteed Asset Protection insurance that pays the difference between a vehicle's ACV and the remaining loan balance after a total loss. GAP is most valuable on long-term loans with low down payments. It usually does not cover deductibles, late fees, or extended warranties." },
+      { term: "Hail damage", definition: "Cosmetic or structural denting caused by large hailstones striking the vehicle. Severe hail damage can lead to a salvage or hail-specific title brand. Many hail-damaged cars are sold at insurance auctions and resold without proper disclosure." },
+      { term: "Junk title", definition: "A title indicating a vehicle is fit only for parts or scrap and cannot legally be re-titled or driven. Junk-titled vehicles occasionally resurface through fraud and title washing. Always cross-check a VIN against NMVTIS for junk records." },
+      { term: "Kelley Blue Book", definition: "A long-standing automotive valuation source publishing trade-in, private-party, and retail values. KBB pricing is widely accepted by dealers, lenders, and insurers. Use the same condition tier across providers when comparing estimates." },
+      { term: "Lemon buyback", definition: "A vehicle repurchased by the manufacturer under a state lemon law because it could not be repaired. Lemon buybacks must be disclosed and typically carry a permanent title brand. They sometimes return to market after repairs at a steep discount." },
+      { term: "Lemon law", definition: "State and federal statutes that protect buyers of new and sometimes used vehicles with chronic defects. Qualifying vehicles may be eligible for replacement, refund, or cash settlement. Lemon law thresholds vary, so consult your state attorney general's office for specifics." },
+      { term: "Lien", definition: "A legal claim against a vehicle securing payment of a debt, most often a car loan. The lienholder is listed on the title until the debt is satisfied and the lien is released. You cannot transfer clear ownership while a lien remains active." },
+      { term: "Lienholder", definition: "The party, usually a bank or credit union, that holds a lien on the vehicle. The lienholder physically holds or electronically controls the title in many states. Always verify a lien release letter before paying off a private seller." },
+      { term: "Manufacturer buyback", definition: "A broader category that includes lemon buybacks plus voluntary repurchases by automakers for goodwill or recall reasons. Most carry a permanent title brand. Disclosure requirements vary by state and circumstance." },
+      { term: "Model year digit", definition: "The 10th character of the VIN, encoding the model year of the vehicle. The character cycles through letters and numbers on a 30-year rotation. Pairing it with the assembly plant character helps confirm authenticity." },
+      { term: "NICB", definition: "The National Insurance Crime Bureau, a non-profit that maintains databases of stolen and salvage vehicles reported by member insurers. Its free VINCheck tool flags stolen and total-loss records. Coverage is limited to participating insurers, so it should not be your only check." },
+      { term: "NMVTIS", definition: "The National Motor Vehicle Title Information System, a federally mandated database tracking titles, brands, junk, and salvage records across U.S. jurisdictions. NMVTIS is the most authoritative source for cross-state title brand history. Most reputable VIN check services pull from NMVTIS." },
+      { term: "Non-repairable title", definition: "A title brand indicating a vehicle is so severely damaged it can only be dismantled for parts or sold for scrap. Non-repairable vehicles cannot be re-titled for road use. The brand permanently follows the VIN." },
+      { term: "Odometer fraud", definition: "Illegally tampering with a vehicle's odometer to misrepresent its true mileage. Federal law requires odometer disclosure on title transfers and bans rollback. Suspicious mileage gaps in service or registration records often expose fraud." },
+      { term: "Odometer rollback", definition: "A specific form of odometer fraud where the displayed mileage is reduced. Modern digital clusters can be rolled back via service tools, leaving few visible signs. Always compare the displayed mileage to the most recent state inspection or oil-change records." },
+      { term: "Open title", definition: "A title signed by the previous owner but not yet transferred into a new owner's name. Open titles are illegal in most states and frequently associated with curbstoning and title skipping. Avoid any deal involving an open title." },
+      { term: "Parts-only title", definition: "A title designation similar to junk or non-repairable, indicating the vehicle may be sold only for components. Parts-only vehicles cannot be returned to road use. Some states use parts-only and non-repairable interchangeably." },
+      { term: "Phantom vehicle", definition: "A fictitious vehicle created in registration or insurance records, often using a fake or cloned VIN. Phantom vehicles surface in fraud schemes targeting financing or insurance payouts. A failed VIN decode is a classic warning sign." },
+      { term: "Powertrain warranty", definition: "Coverage focused on the engine, transmission, and drivetrain components. Powertrain warranties usually last longer than bumper-to-bumper coverage, often five to ten years. They typically transfer to subsequent owners with restrictions." },
+      { term: "Pre-purchase inspection (PPI)", definition: "An independent inspection performed by a qualified mechanic before you buy a used vehicle. A good PPI uncovers hidden damage, deferred maintenance, and red flags missed on a test drive. Expect to pay 100 to 250 dollars, well worth the peace of mind." },
+      { term: "Private-party sale", definition: "A vehicle sale directly between two individuals, with no dealer in the middle. Private-party prices are typically lower than dealer retail but offer no warranty protection. A VIN check is essential before transferring any money." },
+      { term: "Private-party value", definition: "An estimated price reflecting what a private buyer would reasonably pay a private seller. It generally falls between trade-in and retail values. Use it to anchor negotiations on Craigslist, Facebook Marketplace, and similar platforms." },
+      { term: "Rebuilt title", definition: "A title issued to a previously salvaged vehicle that has been repaired and passed a state safety inspection. Rebuilt vehicles are road-legal but worth 20 to 40 percent less than clean equivalents. Insurance and financing options are limited." },
+      { term: "Recall", definition: "A manufacturer or NHTSA-mandated repair program addressing safety defects. Recall repairs are free regardless of vehicle age or ownership. Always check open recalls by VIN before purchase and have them completed at an authorized dealer." },
+      { term: "Reconstructed", definition: "A title brand used in some states for vehicles substantially rebuilt from major component assemblies. Reconstructed vehicles must usually pass a structural and safety inspection. The brand follows the VIN and affects resale value." },
+      { term: "Registration", definition: "The state-issued credential allowing a titled vehicle to be operated on public roads. Registration must be renewed periodically and may require emissions or safety inspections. Registration is separate from the title and must be updated when ownership changes." },
+      { term: "Retail value", definition: "The price a dealer typically asks on the lot, reflecting reconditioning, marketing, warranty coverage, and overhead. Retail value is the highest of the standard valuations. Negotiate from documented private-party value when possible." },
+      { term: "Safety inspection", definition: "A periodic state inspection verifying brakes, lights, tires, and other safety systems meet minimum standards. Required intervals and scope vary by state. Failed vehicles must be repaired before they can be re-registered." },
+      { term: "Salvage title", definition: "A title brand applied when an insurer declares a vehicle a total loss, usually after damage exceeds 70 to 90 percent of its value. Salvage vehicles cannot legally be driven until rebuilt and re-titled. Always avoid salvage vehicles unless you are an experienced rebuilder." },
+      { term: "Structural damage", definition: "Damage affecting load-bearing components such as the frame, unibody, or pillars. Structural damage compromises crash performance even after professional repair. It is one of the strongest signals to walk away from a deal." },
+      { term: "Title brand", definition: "A permanent notation on a vehicle title indicating significant damage, theft recovery, or other adverse history. Brands follow the VIN across state lines for the life of the vehicle. Common brands include salvage, rebuilt, flood, junk, and lemon." },
+      { term: "Title transfer", definition: "The legal process of moving ownership from seller to buyer through the state DMV. Most states impose strict deadlines, often 10 to 30 days from sale. Failing to transfer on time can trigger penalties and registration issues." },
+      { term: "Title washing", definition: "The fraudulent practice of moving a branded vehicle through multiple states to remove or hide adverse title brands. NMVTIS makes title washing harder but it still occurs. Always run a multi-source VIN history check before buying." },
+      { term: "Total loss", definition: "An insurance designation for a vehicle whose repair cost exceeds a state-defined percentage of its pre-loss value. Total losses usually receive a salvage or junk title brand. Even repaired total-loss vehicles can carry hidden long-term issues." },
+      { term: "Trade-in value", definition: "The amount a dealer offers to credit you for your current vehicle when buying another. Trade-in value is typically the lowest of the standard valuations because dealers must recondition and resell. In many states, the trade-in reduces sales tax on the new vehicle." },
+      { term: "TSB (Technical Service Bulletin)", definition: "A manufacturer-issued advisory describing a known issue and recommended fix. Unlike recalls, TSB repairs are usually performed at the owner's expense. Searching TSBs by VIN can reveal common problems before purchase." },
+      { term: "VDS (Vehicle Descriptor Section)", definition: "Characters 4 through 9 of the VIN, describing the vehicle's model, body, engine, and restraint system. The VDS structure is defined by each manufacturer within ISO standards. Decoding the VDS reveals trim and powertrain details." },
+      { term: "VIN", definition: "The Vehicle Identification Number, a 17-character alphanumeric code that uniquely identifies every modern vehicle. The VIN encodes manufacturer, model, year, plant, and serial information. It appears on the dash, doorjamb, title, and registration." },
+      { term: "VIS (Vehicle Identifier Section)", definition: "Characters 10 through 17 of the VIN, including model year, assembly plant, and a unique production sequence number. The VIS makes each vehicle individually identifiable. It is what makes VIN-based history reporting possible." },
+      { term: "WMI (World Manufacturer Identifier)", definition: "The first three characters of the VIN, identifying the country, manufacturer, and vehicle type. Codes are assigned globally by SAE International. The WMI is your first clue to where and by whom a vehicle was built." },
+    ],
+  },
+  es: {
+    breadcrumbHome: "Inicio",
+    breadcrumbCurrent: "Glosario",
+    h1: "Glosario de VIN e historial vehicular",
+    heroLead:
+      "Comprar un auto usado implica mucha documentación, acrónimos y jerga de marcas de título. Este glosario define más de 60 de los términos más importantes de VIN, título, valoración e historial vehicular que encontrarás, para que puedas comprar con confianza y detectar problemas antes de que te cuesten.",
+    lettersAria: "Letras del glosario",
+    faqHeading: "Preguntas frecuentes",
+    faqIntro:
+      "Respuestas rápidas y claras a las preguntas más comunes sobre VINs, marcas de título y terminología del historial vehicular.",
+    quickHeading: "Herramientas rápidas",
+    quickIntro:
+      "Pon en práctica lo que acabas de aprender. Ejecuta una revisión VIN gratis o salta directo a una búsqueda enfocada de historial.",
+    quickToolSubTemplate: "Ejecuta una {label} enfocada por VIN.",
+    ctaHeading: "¿Listo para decodificar un VIN?",
+    ctaBody: "Ingresa cualquier VIN de 17 caracteres para ver especificaciones, marcas de título e historial en segundos.",
+    quickTools: [
+      { label: "Revisión VIN gratis" },
+      { label: "Verificación de vehículo robado" },
+      { label: "Verificación de título de salvamento" },
+      { label: "Verificación de historial de accidentes" },
+      { label: "Verificación de odómetro" },
+      { label: "Verificación de Ley Limón" },
+    ],
+    faqs: [
+      { q: "¿Qué es un VIN?", a: "Un VIN (Número de Identificación Vehicular) es un código alfanumérico de 17 caracteres que identifica de forma única cada vehículo moderno. Codifica el fabricante, marca, tipo de vehículo, año modelo, planta de ensamblaje y un número de serie único de producción. El VIN aparece en el tablero, en el marco de la puerta del conductor, en el bloque del motor, en el título, registro y documentos del seguro, y es la clave usada para obtener el título completo y los registros de historial de un vehículo." },
+      { q: "¿Qué significa NMVTIS?", a: "NMVTIS significa Sistema Nacional del Título de Vehículos. Es una base de datos federalmente obligatoria, administrada por el Departamento de Justicia de EE. UU., que agrega registros de título, marcas, chatarra y salvamento de agencias estatales de vehículos, aseguradoras, deshuesaderos y subastas de salvamento en las jurisdicciones de EE. UU. Como consolida datos a nivel nacional, NMVTIS es la fuente más autoritativa para detectar historial de marcas de título entre estados y lavado de títulos." },
+      { q: "¿Qué es un título de salvamento?", a: "Un título de salvamento es una marca de título aplicada cuando una aseguradora declara un vehículo como pérdida total, típicamente después de que el daño excede un umbral definido por el estado de aproximadamente 70 a 90 por ciento del valor del vehículo antes de la pérdida. Un vehículo con título de salvamento no puede ser conducido legalmente en vías públicas hasta que se repare, pase una inspección estatal de seguridad y se vuelva a titular como reconstruido. La marca de salvamento es permanente y sigue al VIN entre estados." },
+      { q: "¿Qué es una marca de título?", a: "Una marca de título es una notación permanente en el título de un vehículo que indica daño significativo, recuperación de robo u otro historial adverso. Las marcas comunes incluyen salvamento, reconstruido, inundación, chatarra, no reparable y limón (recompra del fabricante). Una marca de título sigue al VIN entre estados durante toda la vida del vehículo, generalmente reduce el valor de reventa y puede dificultar el aseguramiento o financiamiento." },
+      { q: "¿Cuál es la diferencia entre un título de salvamento y un título reconstruido?", a: "Un título de salvamento marca un vehículo que una aseguradora declaró como pérdida total; no puede ser conducido legalmente hasta que se repare e inspeccione nuevamente. Un título reconstruido se emite a un vehículo previamente salvado que ha sido reparado y ha pasado una inspección estatal de seguridad, haciéndolo legal para la vía nuevamente. Los vehículos reconstruidos son legales para la vía pero típicamente valen 20 a 40 por ciento menos que un vehículo comparable con título limpio, y tanto las opciones de seguro como financiamiento permanecen limitadas." },
+      { q: "¿Qué es el retroceso de odómetro?", a: "El retroceso de odómetro es una forma de fraude de odómetro en la que el kilometraje mostrado de un vehículo se reduce ilegalmente para hacer que el auto parezca menos usado y valga más. Los clústeres digitales modernos pueden retroceder con herramientas de servicio, dejando pocos signos visibles. La ley federal requiere divulgación del odómetro en transferencias de título y prohíbe el retroceso. La mejor defensa es comparar el kilometraje mostrado contra los registros más recientes de inspección estatal, cambio de aceite o servicio." },
+      { q: "¿Qué es el lavado de títulos?", a: "El lavado de títulos es la práctica fraudulenta de mover un vehículo con marca a través de uno o más estados para remover u ocultar una marca de título adversa, luego volver a titularlo como limpio. NMVTIS, que consolida registros de marcas a nivel nacional, dificulta mucho el lavado de títulos, pero todavía ocurre en brechas entre sistemas estatales de reportes. Ejecutar una verificación de historial VIN de múltiples fuentes antes de comprar es la forma más confiable de surgir una marca que fue lavada del título de papel." },
+      { q: "¿Qué es una recompra por Ley Limón?", a: "Una recompra por Ley Limón es un vehículo que el fabricante recompró a su dueño original bajo una Ley Limón estatal porque un defecto sustancial no pudo repararse dentro de un número razonable de intentos. Las recompras por Ley Limón generalmente deben divulgarse y típicamente llevan una marca de título permanente como 'Recompra Ley Limón' o 'Recompra del Fabricante.' Estos vehículos a menudo regresan al mercado usado después de reparaciones, usualmente con un descuento considerable." },
+    ],
+    terms: [
+      { term: "ACV (Valor Real en Efectivo)", definition: "El valor justo de mercado de un vehículo inmediatamente antes de una pérdida, usado por las aseguradoras para liquidar reclamos de pérdida total. ACV considera edad, kilometraje, condición y demanda local. Típicamente es menor al costo de reemplazo al detalle." },
+      { term: "Historial de airbags", definition: "Un registro que muestra si los airbags de un vehículo se han desplegado alguna vez y si los reemplazos se instalaron correctamente. Airbags faltantes o reseteados incorrectamente son una bandera roja mayor de seguridad. El historial de airbags a veces aparece en reportes de historial vehicular y registros de inspección." },
+      { term: "Venta tal cual (As-is)", definition: "Una venta de auto usado en la que el comprador acepta el vehículo en su condición actual sin garantía implícita. Una vez que firmas, las reparaciones son tu responsabilidad a menos que se pruebe fraude. Siempre ejecuta una revisión VIN e inspección pre-compra antes de aceptar términos tal cual." },
+      { term: "Planta de ensamblaje", definition: "La fábrica donde se construyó un vehículo, codificada en el carácter 11 del VIN. Conocer la planta puede ayudar a diagnosticar el alcance de un retiro o problemas de lote de producción. Los fabricantes pueden usar múltiples plantas para el mismo modelo." },
+      { term: "Registro de subasta", definition: "Una entrada histórica que muestra que un vehículo fue vendido u ofrecido en una subasta mayorista, de salvamento o de seguros. Apariciones frecuentes en subastas a menudo señalan daño, pérdida total o historial de recompra por Ley Limón. Las fotos de subasta pueden revelar daños ocultos por reparaciones cosméticas posteriores." },
+      { term: "AutoCheck", definition: "Un servicio de reportes de historial vehicular propiedad de Experian, a menudo usado por concesionarios y en subastas. Califica vehículos en una escala numérica basada en historial de título, accidentes y propiedad. AutoCheck y Carfax a veces muestran registros diferentes, así que verificar cruzadamente es sabio." },
+      { term: "Contrato de compraventa", definition: "Un documento escrito que registra la transferencia de un vehículo del vendedor al comprador, incluyendo precio, VIN y detalles de las partes. Muchos estados requieren un contrato de compraventa notariado para registrar el vehículo. Guarda tu copia para fines de impuestos y garantía." },
+      { term: "Título con fianza", definition: "Un título emitido cuando falta documentación de propiedad, respaldado por una fianza que protege a futuros reclamantes. La fianza típicamente permanece en vigor de tres a cinco años. Los títulos con fianza usualmente pueden convertirse a títulos estándar después de que el periodo de fianza expire sin reclamos." },
+      { term: "Título con marca", definition: "Cualquier título que lleva una designación permanente como salvamento, reconstruido, inundación, chatarra o limón. Los vehículos con marca valen sustancialmente menos y pueden ser más difíciles de asegurar o financiar. La marca sigue al VIN entre estados durante toda la vida del vehículo." },
+      { term: "Garantía bumper-to-bumper", definition: "Una garantía completa del fabricante que cubre la mayoría de los componentes del vehículo excepto los de desgaste y mantenimiento de rutina. La cobertura típicamente dura tres años o 36,000 millas, lo que ocurra primero. Usualmente se transfiere con el VIN a los dueños subsecuentes hasta la expiración." },
+      { term: "Carfax", definition: "Un proveedor ampliamente reconocido de reportes de historial vehicular que agrega registros de título, accidentes, servicio y propiedad. Los reportes incluyen una Garantía de Recompra en problemas de título cubiertos. Los precios de Carfax son significativamente más altos que alternativas como CarCheckerVIN." },
+      { term: "Certificado de título", definition: "El documento legal oficial emitido por el estado que prueba la propiedad de un vehículo. Lista el VIN, dueño, acreedores y cualquier marca de título. Generalmente no puedes transferir o registrar un vehículo sin él." },
+      { term: "Certified pre-owned (CPO)", definition: "Un vehículo usado que ha pasado una inspección respaldada por el fabricante y califica para una garantía extendida. Los programas CPO varían ampliamente entre marcas, así que siempre lee el contrato. Espera pagar un premium versus un equivalente no certificado." },
+      { term: "Dígito verificador", definition: "El carácter 9 del VIN, calculado a partir de los otros 16 caracteres usando una fórmula ponderada. Permite al software detectar errores tipográficos y VINs falsificados. Un dígito verificador que falla es un fuerte indicador de fraude o clonación de VIN." },
+      { term: "Chop shop", definition: "Una operación ilegal que desensambla vehículos robados para vender partes en el mercado negro. Las partes de chop shops a veces aparecen en mercados legítimos con VINs no coincidentes. Comprar partes de chop shop puede llevar a confiscación y exposición criminal." },
+      { term: "Título limpio", definition: "Un título sin daño, salvamento, inundación u otras marcas adversas registradas contra el VIN. Limpio no necesariamente significa que el vehículo nunca ha sido dañado, solo que no se reportó marca. Siempre acompaña un título limpio con una inspección independiente." },
+      { term: "Título libre (clear)", definition: "Un título libre de gravámenes u otros encumbramientos de propiedad, listo para transferencia. Libre se refiere al estado de propiedad, mientras que limpio se refiere al historial de daño. Un título puede estar limpio y todavía no libre si un prestamista mantiene un gravamen." },
+      { term: "VIN clonado", definition: "Un VIN copiado de un vehículo legítimo y aplicado a uno robado o salvado para disfrazar su identidad. Los VINs clonados a menudo se emparejan con títulos falsificados y documentos de registro alterados. Una inspección física del VIN puede revelar discrepancias entre las placas estampadas y visibles." },
+      { term: "Markup del concesionario", definition: "Una cantidad agregada por encima del precio sugerido por el fabricante, común para modelos en demanda. Los markups son negociables en mercados suaves pero rígidos durante escaseces. Siempre compara el precio out-the-door entre múltiples concesionarios." },
+      { term: "Depreciación", definition: "La disminución en el valor de un vehículo a lo largo del tiempo debido a edad, kilometraje y desgaste. La mayoría de los autos pierden 20 a 30 por ciento de valor en el primer año y aproximadamente 60 por ciento en cinco años. Comprar ligeramente usado puede esquivar la curva de depreciación más pronunciada." },
+      { term: "DMV", definition: "El Departamento de Vehículos Motorizados, la agencia estatal que emite títulos, registros y licencias de conducir. Algunos estados usan nombres alternativos como DOT, MVD o BMV. El DMV es la fuente autoritativa para datos de título y registro a nivel estatal." },
+      { term: "Cuota de documentación", definition: "Un cobro del concesionario por preparar y archivar el papeleo asociado con una venta de vehículo. Las cuotas de doc varían ampliamente por estado y a veces están limitadas por ley. Son negociables en algunos mercados pero rara vez se eliminan completamente." },
+      { term: "Título duplicado", definition: "Un certificado de título de reemplazo emitido cuando el original se pierde, roba o daña. La mayoría de los estados requieren un affidávit y una pequeña cuota. Los títulos duplicados pueden estar marcados como tal en su cara." },
+      { term: "Edmunds TMV", definition: "Edmunds True Market Value, un precio estimado de transacción basado en ventas recientes en tu área. TMV se ajusta por trim, kilometraje, opciones y demanda regional. Úsalo junto con Kelley Blue Book para triangular precios justos." },
+      { term: "Inspección de emisiones", definition: "Una prueba mandatada por el estado que mide los contaminantes del escape de un vehículo. Muchos condados urbanos requieren pasar emisiones antes de la renovación de registro. Los vehículos que fallan deben ser reparados o, en casos limitados, otorgados una exención." },
+      { term: "Título encumbrado", definition: "Un título que muestra uno o más gravámenes activos, significando que un prestamista tiene un interés financiero en el vehículo. Los vehículos encumbrados no pueden ser transferidos libres y claros hasta que se satisfaga el gravamen. Siempre confirma la liberación del gravamen antes de pagar a un vendedor privado." },
+      { term: "Garantía extendida", definition: "Un contrato de servicio opcional que prolonga la cobertura más allá de la garantía original del fabricante. Los costos, exclusiones y procesos de reclamo varían ampliamente entre proveedores. Lee la letra pequeña sobre cláusulas de condición preexistente y modificación." },
+      { term: "Vehículo de flota", definition: "Un vehículo previamente propiedad y operado por una compañía, agencia gubernamental o flota de renta. Los vehículos de flota a menudo tienen mayor kilometraje pero horarios de mantenimiento más estrictos. El historial de flota puede afectar el valor de reventa y elegibilidad de garantía." },
+      { term: "Título de inundación", definition: "Una marca de título aplicada cuando un vehículo ha sufrido daño por estar sumergido en agua por encima de componentes sensibles. Los vehículos inundados pueden sufrir corrosión y fallas eléctricas durante años después de la pérdida. Algunos estados los marcan como Inundación, otros los doblan en la marca de salvamento." },
+      { term: "Daño al chasis", definition: "Doblado, agrietamiento o compromiso del chasis estructural o monocasco de un vehículo. Incluso después de reparación profesional, el daño al chasis puede afectar el desempeño en choques y el valor de reventa. Muchos prestamistas y programas CPO rechazan vehículos con daño al chasis documentado." },
+      { term: "Cobertura GAP", definition: "Seguro de Protección de Activos Garantizada que paga la diferencia entre el ACV de un vehículo y el saldo restante del préstamo después de una pérdida total. GAP es más valiosa en préstamos a largo plazo con bajos enganches. Usualmente no cubre deducibles, cuotas tardías o garantías extendidas." },
+      { term: "Daño por granizo", definition: "Abolladuras cosméticas o estructurales causadas por granizos grandes golpeando el vehículo. El daño severo por granizo puede llevar a una marca de título de salvamento o específica de granizo. Muchos autos dañados por granizo se venden en subastas de seguros y se revenden sin divulgación adecuada." },
+      { term: "Título de chatarra", definition: "Un título que indica que un vehículo es apto solo para partes o chatarra y no puede ser legalmente re-titulado o conducido. Los vehículos con título de chatarra ocasionalmente resurgen mediante fraude y lavado de títulos. Siempre verifica cruzadamente un VIN contra NMVTIS para registros de chatarra." },
+      { term: "Kelley Blue Book", definition: "Una fuente de valoración automotriz de larga data que publica valores de trade-in, venta privada y al detalle. Los precios de KBB son ampliamente aceptados por concesionarios, prestamistas y aseguradoras. Usa el mismo nivel de condición entre proveedores al comparar estimaciones." },
+      { term: "Recompra por Ley Limón", definition: "Un vehículo recomprado por el fabricante bajo una Ley Limón estatal porque no pudo ser reparado. Las recompras por Ley Limón deben divulgarse y típicamente llevan una marca de título permanente. A veces regresan al mercado después de reparaciones con un descuento considerable." },
+      { term: "Ley Limón", definition: "Estatutos estatales y federales que protegen a compradores de vehículos nuevos y a veces usados con defectos crónicos. Los vehículos que califican pueden ser elegibles para reemplazo, reembolso o liquidación en efectivo. Los umbrales de Ley Limón varían, así que consulta la oficina del fiscal general de tu estado para detalles." },
+      { term: "Gravamen", definition: "Una reclamación legal contra un vehículo que asegura el pago de una deuda, más a menudo un préstamo de auto. El acreedor está listado en el título hasta que la deuda se satisface y el gravamen se libera. No puedes transferir propiedad libre mientras un gravamen permanezca activo." },
+      { term: "Acreedor (Lienholder)", definition: "La parte, usualmente un banco o cooperativa de crédito, que mantiene un gravamen en el vehículo. El acreedor físicamente mantiene o controla electrónicamente el título en muchos estados. Siempre verifica una carta de liberación de gravamen antes de pagarle a un vendedor privado." },
+      { term: "Recompra del fabricante", definition: "Una categoría más amplia que incluye recompras por Ley Limón más recompras voluntarias por fabricantes por razones de buena voluntad o retiros. La mayoría lleva una marca de título permanente. Los requisitos de divulgación varían por estado y circunstancia." },
+      { term: "Dígito del año modelo", definition: "El carácter 10 del VIN, codificando el año modelo del vehículo. El carácter rota a través de letras y números en una rotación de 30 años. Emparejarlo con el carácter de planta de ensamblaje ayuda a confirmar autenticidad." },
+      { term: "NICB", definition: "El National Insurance Crime Bureau, una organización sin fines de lucro que mantiene bases de datos de vehículos robados y de salvamento reportados por aseguradoras miembros. Su herramienta gratuita VINCheck marca registros de robo y pérdida total. La cobertura está limitada a aseguradoras participantes, así que no debería ser tu única verificación." },
+      { term: "NMVTIS", definition: "El Sistema Nacional del Título de Vehículos, una base de datos federalmente obligatoria que rastrea títulos, marcas, chatarra y registros de salvamento en jurisdicciones de EE. UU. NMVTIS es la fuente más autoritativa para historial de marcas de título entre estados. La mayoría de los servicios reputables de revisión VIN obtienen datos de NMVTIS." },
+      { term: "Título no reparable", definition: "Una marca de título que indica que un vehículo está tan severamente dañado que solo puede ser desmantelado para partes o vendido para chatarra. Los vehículos no reparables no pueden ser re-titulados para uso vial. La marca permanentemente sigue al VIN." },
+      { term: "Fraude de odómetro", definition: "Manipular ilegalmente el odómetro de un vehículo para tergiversar su kilometraje real. La ley federal requiere divulgación del odómetro en transferencias de título y prohíbe el retroceso. Brechas sospechosas de kilometraje en registros de servicio o registro a menudo exponen fraude." },
+      { term: "Retroceso de odómetro", definition: "Una forma específica de fraude de odómetro donde el kilometraje mostrado se reduce. Los clústeres digitales modernos pueden retroceder vía herramientas de servicio, dejando pocos signos visibles. Siempre compara el kilometraje mostrado con los registros más recientes de inspección estatal o cambio de aceite." },
+      { term: "Título abierto", definition: "Un título firmado por el dueño anterior pero aún no transferido al nombre del nuevo dueño. Los títulos abiertos son ilegales en la mayoría de los estados y frecuentemente asociados con curbstoning y title skipping. Evita cualquier trato que involucre un título abierto." },
+      { term: "Título solo de partes", definition: "Una designación de título similar a chatarra o no reparable, indicando que el vehículo puede ser vendido solo por componentes. Los vehículos solo de partes no pueden regresar a uso vial. Algunos estados usan solo-partes y no-reparable intercambiablemente." },
+      { term: "Vehículo fantasma", definition: "Un vehículo ficticio creado en registros de registro o seguro, a menudo usando un VIN falso o clonado. Los vehículos fantasma surgen en esquemas de fraude apuntando a pagos de financiamiento o seguros. Una decodificación VIN fallida es una señal clásica de advertencia." },
+      { term: "Garantía del tren motriz", definition: "Cobertura enfocada en componentes del motor, transmisión y tren de potencia. Las garantías del tren motriz usualmente duran más que la cobertura bumper-to-bumper, a menudo cinco a diez años. Típicamente se transfieren a dueños subsecuentes con restricciones." },
+      { term: "Inspección pre-compra (PPI)", definition: "Una inspección independiente realizada por un mecánico calificado antes de comprar un vehículo usado. Una buena PPI descubre daño oculto, mantenimiento diferido y banderas rojas perdidas en una prueba de manejo. Espera pagar 100 a 250 dólares, bien valen la tranquilidad." },
+      { term: "Venta privada", definition: "Una venta de vehículo directamente entre dos individuos, sin concesionario de por medio. Los precios de venta privada típicamente son más bajos que el retail del concesionario pero no ofrecen protección de garantía. Una revisión VIN es esencial antes de transferir cualquier dinero." },
+      { term: "Valor de venta privada", definition: "Un precio estimado que refleja lo que un comprador privado razonablemente pagaría a un vendedor privado. Generalmente cae entre los valores de trade-in y retail. Úsalo para anclar negociaciones en Craigslist, Facebook Marketplace y plataformas similares." },
+      { term: "Título reconstruido", definition: "Un título emitido a un vehículo previamente salvado que ha sido reparado y pasado una inspección estatal de seguridad. Los vehículos reconstruidos son legales para vía pero valen 20 a 40 por ciento menos que equivalentes con título limpio. Las opciones de seguro y financiamiento son limitadas." },
+      { term: "Recall (Retiro)", definition: "Un programa de reparación obligado por el fabricante o NHTSA que aborda defectos de seguridad. Las reparaciones de retiro son gratuitas sin importar la edad o propiedad del vehículo. Siempre verifica retiros abiertos por VIN antes de comprar y haz que se completen en un concesionario autorizado." },
+      { term: "Reconstruido (Reconstructed)", definition: "Una marca de título usada en algunos estados para vehículos sustancialmente reconstruidos a partir de ensamblajes de componentes mayores. Los vehículos reconstruidos usualmente deben pasar una inspección estructural y de seguridad. La marca sigue al VIN y afecta el valor de reventa." },
+      { term: "Registro vehicular", definition: "La credencial emitida por el estado que permite que un vehículo titulado sea operado en vías públicas. El registro debe renovarse periódicamente y puede requerir inspecciones de emisiones o seguridad. El registro es separado del título y debe actualizarse cuando cambia la propiedad." },
+      { term: "Valor al detalle (Retail)", definition: "El precio que un concesionario típicamente pide en el lote, reflejando reacondicionamiento, marketing, cobertura de garantía y gastos generales. El valor al detalle es el más alto de las valoraciones estándar. Negocia desde el valor documentado de venta privada cuando sea posible." },
+      { term: "Inspección de seguridad", definition: "Una inspección estatal periódica que verifica que frenos, luces, llantas y otros sistemas de seguridad cumplan estándares mínimos. Los intervalos requeridos y alcance varían por estado. Los vehículos que fallan deben ser reparados antes de poder ser re-registrados." },
+      { term: "Título de salvamento", definition: "Una marca de título aplicada cuando una aseguradora declara un vehículo como pérdida total, usualmente después de que el daño excede 70 a 90 por ciento de su valor. Los vehículos de salvamento no pueden ser conducidos legalmente hasta ser reconstruidos y re-titulados. Siempre evita vehículos de salvamento a menos que seas un reconstructor experimentado." },
+      { term: "Daño estructural", definition: "Daño que afecta componentes que soportan carga como el chasis, monocasco o pilares. El daño estructural compromete el desempeño en choques incluso después de reparación profesional. Es una de las señales más fuertes para alejarse de un trato." },
+      { term: "Marca de título (Title brand)", definition: "Una notación permanente en un título vehicular que indica daño significativo, recuperación de robo u otro historial adverso. Las marcas siguen al VIN entre estados durante toda la vida del vehículo. Las marcas comunes incluyen salvamento, reconstruido, inundación, chatarra y limón." },
+      { term: "Transferencia de título", definition: "El proceso legal de mover propiedad del vendedor al comprador a través del DMV estatal. La mayoría de los estados imponen plazos estrictos, a menudo 10 a 30 días desde la venta. Fallar al transferir a tiempo puede activar penalizaciones y problemas de registro." },
+      { term: "Lavado de títulos (Title washing)", definition: "La práctica fraudulenta de mover un vehículo con marca a través de múltiples estados para remover u ocultar marcas de título adversas. NMVTIS dificulta el lavado de títulos pero todavía ocurre. Siempre ejecuta una verificación de historial VIN de múltiples fuentes antes de comprar." },
+      { term: "Pérdida total (Total loss)", definition: "Una designación de seguro para un vehículo cuyo costo de reparación excede un porcentaje definido por el estado de su valor antes de la pérdida. Las pérdidas totales usualmente reciben una marca de título de salvamento o chatarra. Incluso vehículos de pérdida total reparados pueden cargar problemas ocultos a largo plazo." },
+      { term: "Valor trade-in", definition: "La cantidad que un concesionario ofrece acreditarte por tu vehículo actual al comprar otro. El valor trade-in típicamente es el más bajo de las valoraciones estándar porque los concesionarios deben reacondicionar y revender. En muchos estados, el trade-in reduce el impuesto a la venta del nuevo vehículo." },
+      { term: "TSB (Boletín de Servicio Técnico)", definition: "Una advertencia emitida por el fabricante que describe un problema conocido y la reparación recomendada. A diferencia de los recalls, las reparaciones de TSB usualmente se realizan a cuenta del dueño. Buscar TSBs por VIN puede revelar problemas comunes antes de comprar." },
+      { term: "VDS (Vehicle Descriptor Section)", definition: "Caracteres 4 al 9 del VIN, describiendo el modelo del vehículo, carrocería, motor y sistema de sujeción. La estructura VDS está definida por cada fabricante dentro de estándares ISO. Decodificar el VDS revela detalles de trim y tren motriz." },
+      { term: "VIN", definition: "El Número de Identificación Vehicular, un código alfanumérico de 17 caracteres que identifica de forma única cada vehículo moderno. El VIN codifica fabricante, modelo, año, planta e información serial. Aparece en el tablero, marco de la puerta, título y registro." },
+      { term: "VIS (Vehicle Identifier Section)", definition: "Caracteres 10 al 17 del VIN, incluyendo año modelo, planta de ensamblaje y un número único de secuencia de producción. El VIS hace que cada vehículo sea individualmente identificable. Es lo que hace posible el reporte de historial basado en VIN." },
+      { term: "WMI (World Manufacturer Identifier)", definition: "Los primeros tres caracteres del VIN, identificando el país, fabricante y tipo de vehículo. Los códigos son asignados globalmente por SAE International. El WMI es tu primera pista sobre dónde y por quién fue construido un vehículo." },
+    ],
+  },
+} as const;
+
+// Per-term internal-link hrefs (locale-aware). Index-matched to COPY.terms.
+const TERM_LINKS_EN: (string | undefined)[] = [
+  undefined, "/accident-history-check", "/vin-check", undefined, undefined, undefined, undefined, undefined,
+  "/salvage-title-check", undefined, "/vin-check-vs-carfax", undefined, undefined, undefined, "/stolen-vehicle-check",
+  undefined, undefined, "/stolen-vehicle-check", undefined, undefined, undefined, undefined, undefined,
+  undefined, undefined, undefined, undefined, undefined, "/salvage-title-check", "/accident-history-check",
+  undefined, undefined, "/salvage-title-check", undefined, "/lemon-check", "/lemon-check", undefined, undefined,
+  "/lemon-check", undefined, "/stolen-vehicle-check", "/vin-check", "/salvage-title-check",
+  "/odometer-check", "/odometer-check", undefined, undefined, "/stolen-vehicle-check", undefined,
+  undefined, "/vin-check", undefined, "/salvage-title-check", undefined, undefined, undefined, undefined,
+  undefined, "/salvage-title-check", "/accident-history-check", "/salvage-title-check", undefined,
+  "/vin-check", undefined, undefined, undefined, "/vin-check", "/vin-check", "/vin-check", undefined,
+];
+
+const TERM_LINKS_ES: (string | undefined)[] = [
+  undefined, "/es/historial-accidentes", "/es/revision-vin", undefined, undefined, undefined, undefined, undefined,
+  "/es/titulo-salvamento", undefined, "/es/carcheckervin-vs-carfax", undefined, undefined, undefined, "/es/vehiculo-robado",
+  undefined, undefined, "/es/vehiculo-robado", undefined, undefined, undefined, undefined, undefined,
+  undefined, undefined, undefined, undefined, undefined, "/es/titulo-salvamento", "/es/historial-accidentes",
+  undefined, undefined, "/es/titulo-salvamento", undefined, "/es/verificacion-ley-limon", "/es/verificacion-ley-limon", undefined, undefined,
+  "/es/verificacion-ley-limon", undefined, "/es/vehiculo-robado", "/es/revision-vin", "/es/titulo-salvamento",
+  "/es/verificacion-odometro", "/es/verificacion-odometro", undefined, undefined, "/es/vehiculo-robado", undefined,
+  undefined, "/es/revision-vin", undefined, "/es/titulo-salvamento", undefined, undefined, undefined, undefined,
+  undefined, "/es/titulo-salvamento", "/es/historial-accidentes", "/es/titulo-salvamento", undefined,
+  "/es/revision-vin", undefined, undefined, undefined, "/es/revision-vin", "/es/revision-vin", "/es/revision-vin", undefined,
+];
+
+export default function GlossaryPageBody({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const copy = COPY[locale];
+  const homeHref = locale === "es" ? "/es" : "/";
+  const links = locale === "es" ? TERM_LINKS_ES : TERM_LINKS_EN;
+  const QUICK_HREFS = locale === "es"
+    ? ["/es/revision-vin", "/es/vehiculo-robado", "/es/titulo-salvamento", "/es/historial-accidentes", "/es/verificacion-odometro", "/es/verificacion-ley-limon"]
+    : ["/vin-check", "/stolen-vehicle-check", "/salvage-title-check", "/accident-history-check", "/odometer-check", "/lemon-check"];
+
+  // Build Term[] with hrefs
+  const terms: Term[] = copy.terms.map((t, i) => ({
+    term: t.term,
+    definition: t.definition,
+    href: links[i],
+  }));
+
+  const sortedTerms = [...terms].sort((a, b) =>
+    a.term.localeCompare(b.term, locale === "es" ? "es" : "en", { sensitivity: "base" })
+  );
+
+  const grouped = sortedTerms.reduce<Record<string, Term[]>>((acc, t) => {
+    const letter = t.term[0]?.toUpperCase() ?? "#";
+    const key = /[A-Z]/.test(letter) ? letter : "#";
+    acc[key] ||= [];
+    acc[key].push(t);
+    return acc;
+  }, {});
+
+  const letters = Object.keys(grouped).sort();
+  const allLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+  return (
+    <>
+      <section className="pt-28 pb-10 bg-gradient-to-br from-primary-600 to-primary-700 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-5 [&_a]:text-primary-100 [&_a:hover]:text-white [&_span]:text-white [&_li_span]:text-primary-200">
+            <Breadcrumbs onDark items={[{ label: copy.breadcrumbHome, href: homeHref }, { label: copy.breadcrumbCurrent }]} />
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold">{copy.h1}</h1>
+          <p className="mt-5 text-lg text-primary-100 leading-relaxed max-w-3xl">{copy.heroLead}</p>
+        </div>
+      </section>
+
+      <section className="py-10 border-b border-slate-200 bg-white sticky top-16 z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav aria-label={copy.lettersAria} className="flex flex-wrap gap-2 justify-center">
+            {allLetters.map((l) => {
+              const enabled = letters.includes(l);
+              return enabled ? (
+                <a key={l} href={`#letter-${l}`} className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-50 text-primary-700 hover:bg-primary-600 hover:text-white font-semibold text-sm transition-colors">
+                  {l}
+                </a>
+              ) : (
+                <span key={l} className="w-9 h-9 flex items-center justify-center rounded-lg bg-slate-50 text-slate-300 font-semibold text-sm" aria-hidden>{l}</span>
+              );
+            })}
+          </nav>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          {letters.map((letter) => (
+            <div key={letter} id={`letter-${letter}`} className="mb-12 scroll-mt-32">
+              <h2 className="text-3xl font-bold text-slate-900 border-b border-slate-200 pb-3 mb-6">{letter}</h2>
+              <dl className="space-y-6">
+                {grouped[letter].map((t) => (
+                  <div key={t.term} className="bg-white">
+                    <dt className="text-lg font-semibold text-slate-900">
+                      {t.href ? (
+                        <Link href={t.href} className="hover:text-primary-600 transition-colors">{t.term}</Link>
+                      ) : (
+                        t.term
+                      )}
+                    </dt>
+                    <dd className="mt-1.5 text-slate-600 leading-relaxed">{t.definition}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-16 bg-white border-t border-slate-200">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900 text-center">{copy.faqHeading}</h2>
+          <p className="mt-3 text-slate-700 text-center max-w-2xl mx-auto">{copy.faqIntro}</p>
+          <div className="mt-8 space-y-3">
+            {copy.faqs.map((f) => (
+              <details key={f.q} className="group rounded-2xl border border-slate-200 bg-white p-5 hover:border-primary-500 transition-colors [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-base sm:text-lg font-semibold text-slate-900 pr-2">{f.q}</span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary-600 text-2xl font-light leading-none group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <p className="mt-3 text-slate-600 leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900 text-center">{copy.quickHeading}</h2>
+          <p className="mt-3 text-slate-700 text-center max-w-2xl mx-auto">{copy.quickIntro}</p>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {copy.quickTools.map((tool, i) => (
+              <Link key={QUICK_HREFS[i]} href={QUICK_HREFS[i]} className="block p-5 bg-white rounded-2xl border border-slate-200 hover:border-primary-500 hover:shadow-md transition-all text-slate-900 font-semibold">
+                {tool.label}
+                <span className="block mt-1 text-sm text-slate-700 font-normal">
+                  {copy.quickToolSubTemplate.replace("{label}", tool.label.toLowerCase())}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">{copy.ctaHeading}</h2>
+          <p className="text-slate-700 mb-8">{copy.ctaBody}</p>
+          <VinSearchForm size="sm" locale={locale} />
+        </div>
+      </section>
+    </>
+  );
+}
+
+export { COPY as GLOSSARY_COPY };
