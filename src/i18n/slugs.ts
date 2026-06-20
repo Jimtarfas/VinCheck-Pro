@@ -368,6 +368,11 @@ const TRANSLATED_ES_TOP_SEGMENTS: ReadonlySet<string> = new Set([
   "terms",
   "refund-policy",
   "research",
+  // Wave 15 — blog author profiles (dynamic [slug] under /es/author/)
+  // The other dynamic Wave-15 templates live under top segments already
+  // in this set (lemon-check, paint-code-lookup, build-sheet, guides,
+  // marketplace-vin-check, blog). Only /author/ needs adding.
+  "author",
 ]);
 
 /**
