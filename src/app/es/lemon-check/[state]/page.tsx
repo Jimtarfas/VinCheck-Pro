@@ -1,69 +1,22 @@
 /**
- * Wave 15 — Spanish dynamic template for /lemon-check/[state].
+ * Wave 17 — Spanish dynamic template for /es/lemon-check/[state].
+ * Renders the SAME full English layout via the shared
+ * LemonCheckStateBody component (Wave 17 pattern), differing only by
+ * locale="es" and Spanish metadata + JSON-LD.
  *
- * Reuses the existing English data sources (states + LEMON_LAWS) and
- * pipes per-state facts into a Spanish hook rendered through the
- * shared SpecialtyToolPage. 50 pages generated statically — one per
- * U.S. state. The actual statute names + numbers stay in English/legal
- * Spanish because they're proper-noun legal references.
+ * Replaces the Wave 15 SpecialtyToolPage shell.
  */
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Scale } from "lucide-react";
-import SpecialtyToolPage from "../../_specialty-shared/SpecialtyToolPage";
-import { specialtyMetadata, specialtySchemas } from "../../_specialty-shared/metadata";
-import type { SpecialtyHook } from "../../_specialty-shared/strings";
-import { states } from "@/lib/states";
+import LemonCheckStateBody, { getStateBundle, getAllStateBundles } from "@/components/LemonCheckStateBody";
 import { statesEs } from "@/lib/states-es";
-import { LEMON_LAWS } from "@/lib/lemon-laws";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
+
+const SITE = "https://www.carcheckervin.com";
 
 export function generateStaticParams() {
-  return states.map((s) => ({ state: s.slug }));
-}
-
-function buildHook(stateSlug: string): SpecialtyHook | null {
-  const state = states.find((s) => s.slug === stateSlug);
-  if (!state) return null;
-  const stateEs = statesEs.find((s) => s.slug === stateSlug);
-  const name = stateEs?.nameEs ?? state.name;
-  const law = LEMON_LAWS.find((l) => l.abbr === state.abbr);
-
-  return {
-    esSlug: `/lemon-check/${state.slug}`,
-    englishPath: `/lemon-check/${state.slug}`,
-    icon: Scale,
-    badge: `Ley Limón · ${name}`,
-    h1: `Ley Limón en ${name}`,
-    metaTitle: `Ley Limón ${name} — Verificación gratis por VIN`,
-    metaDescription: `Verifica si tu vehículo califica bajo la Ley Limón de ${name}. Cobertura estatal, plazos, intentos de reparación y remedios. Gratis por VIN.`,
-    keywords: [
-      `Ley Limón ${name}`,
-      `lemon law ${name} español`,
-      `auto defectuoso ${name}`,
-      `reembolso auto ${name}`,
-      `${name} buyback VIN`,
-      `${name} Lemon Law VIN check`,
-    ],
-    intro: `${stateEs?.lemonLawNotesEs ?? `${name} tiene una Ley Limón estatal que protege a compradores de autos nuevos con defectos sustanciales no reparables.`} Verifica gratis por VIN si tu vehículo cumple los criterios específicos de ${name} para reclamar reembolso, reemplazo o cash bajo la Ley Limón estatal y la ley federal Magnuson-Moss.`,
-    whatYouGet: [
-      `Cobertura específica de la Ley Limón en ${name}`,
-      law ? `Plazo legal en ${name}: ${law.coveragePeriod}` : `Plazos legales de la Ley Limón de ${name}`,
-      law ? `Umbral de intentos de reparación: ${law.repairAttempts}` : `Número de intentos de reparación requeridos`,
-      `Tipo de remedio: reembolso completo, reemplazo o cash`,
-      `Aplicabilidad a autos usados bajo garantía de fábrica`,
-      `Cobertura adicional bajo la ley federal Magnuson-Moss`,
-      `Recursos de abogados especializados en Ley Limón en ${name} (sin costo si ganas)`,
-    ],
-    whyItMatters: [
-      `Los abogados de Ley Limón en ${name} cobran al fabricante, no al consumidor — tu reclamo no cuesta nada`,
-      `Los plazos son cortos: en ${name} puedes perder el derecho tras 12–24 meses sin reclamar`,
-      `Documenta cada intento de reparación con fecha, kilometraje y descripción del defecto`,
-      stateEs?.specialFactEs ?? `${name} aplica las protecciones estatales de Ley Limón a vehículos registrados en el estado`,
-    ],
-    trustNote: `Los datos provienen de la Oficina del Fiscal General de ${name} y referencias publicadas del estatuto. Esta página es una guía educativa — la elegibilidad real depende del estatuto exacto y los hechos del caso. Confirma siempre con un abogado certificado en ${name} antes de presentar reclamo.`,
-    schemaName: `Verificación de Ley Limón en ${name}`,
-  };
+  return getAllStateBundles().map((b) => ({ state: b.s.slug }));
 }
 
 export async function generateMetadata({
@@ -72,9 +25,39 @@ export async function generateMetadata({
   params: Promise<{ state: string }>;
 }): Promise<Metadata> {
   const { state } = await params;
-  const hook = buildHook(state);
-  if (!hook) return {};
-  return specialtyMetadata(hook);
+  const b = getStateBundle(state);
+  if (!b) return {};
+  const { s, law } = b;
+  const stateEs = statesEs.find((e) => e.slug === state);
+  const name = stateEs?.nameEs ?? s.name;
+
+  const alt = hreflangAlternatesForLocale(`/lemon-check/${s.slug}`, "es");
+  const title = `Verificación Ley Limón ${name} por VIN — Búsqueda gratis de recompra`;
+  const description = `Verificación gratis de Ley Limón en ${name} por VIN. Ve si un auto fue recompra del fabricante bajo la Ley Limón de ${name} (${law.coveragePeriod}). Respaldado por NMVTIS, instantáneo, sin registro.`;
+
+  return {
+    title: { absolute: title },
+    description,
+    keywords: [
+      `Ley Limón ${name}`,
+      `${name} lemon law español`,
+      `verificación recompra ${name}`,
+      `${name} ${law.brandTerm}`,
+      `${name} auto defectuoso`,
+      `${s.abbr} lemon law check`,
+    ],
+    alternates: { canonical: alt.canonical, languages: alt.languages },
+    openGraph: {
+      title,
+      description,
+      url: alt.canonical,
+      type: "article",
+      siteName: "CarCheckerVIN",
+      locale: "es_US",
+    },
+    twitter: { card: "summary_large_image", title, description },
+    robots: { index: true, follow: true },
+  };
 }
 
 export default async function Page({
@@ -83,14 +66,27 @@ export default async function Page({
   params: Promise<{ state: string }>;
 }) {
   const { state } = await params;
-  const hook = buildHook(state);
-  if (!hook) notFound();
-  const { webAppSchema, breadcrumbSchema } = specialtySchemas(hook);
+  const b = getStateBundle(state);
+  if (!b) notFound();
+  const { s } = b;
+  const stateEs = statesEs.find((e) => e.slug === state);
+  const name = stateEs?.nameEs ?? s.name;
+  const pageUrl = `${SITE}/es/lemon-check/${s.slug}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE}/es` },
+      { "@type": "ListItem", position: 2, name: "Verificación Ley Limón", item: `${SITE}/es/lemon-check` },
+      { "@type": "ListItem", position: 3, name: `Ley Limón ${name}`, item: pageUrl },
+    ],
+  };
+
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <SpecialtyToolPage hook={hook} />
+      <LemonCheckStateBody stateSlug={state} locale="es" />
     </>
   );
 }
