@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { hreflangAlternates } from "@/lib/seo/hreflang";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 import {
   Check,
   TrendingDown,
@@ -10,6 +11,9 @@ import {
   Car,
   Gauge,
   Stamp,
+  Calculator,
+  BookOpen,
+  MapPin,
 } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
@@ -252,8 +256,55 @@ const speakableSchema = {
   url: `${SITE}/diminished-value-calculator`,
   speakable: {
     "@type": "SpeakableSpecification",
-    cssSelector: ["h1", "#what-is-dv", "#how-17c-works", "#faq"],
+    cssSelector: [
+      "h1",
+      "#what-is-dv",
+      "#how-17c-works",
+      "#worked-example",
+      "#dv-vs-depreciation",
+      "#by-state",
+      "#faq",
+    ],
   },
+};
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Diminished Value Calculator: The 17c Formula and Your Real Market Loss",
+  description:
+    "How the insurer 17c formula calculates diminished value, why it understates real loss, a worked numeric example, how diminished value differs from depreciation, and where first- vs third-party claims are allowed by state.",
+  about: [
+    { "@type": "Thing", name: "Diminished value" },
+    { "@type": "Thing", name: "17c formula" },
+    { "@type": "Thing", name: "Auto insurance claim" },
+  ],
+  author: ORG_AUTHOR,
+  publisher: ORG_AUTHOR,
+  datePublished: "2025-09-01",
+  dateModified: "2026-06-20",
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `${SITE}/diminished-value-calculator`,
+  },
+  image: `${SITE}/diminished-value-calculator/opengraph-image`,
+};
+
+const datasetSchema = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "Typical Vehicle Market Loss by Damage Severity",
+  description:
+    "Real-world resale discount as a percentage of pre-accident value, by damage severity, used to sanity-check a 17c diminished value estimate.",
+  url: `${SITE}/diminished-value-calculator#loss-by-severity`,
+  creator: ORG_AUTHOR,
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  variableMeasured: [
+    "Damage severity",
+    "Market value lost (% of pre-accident value)",
+  ],
+  measurementTechnique:
+    "Comparison of post-repair resale prices against clean-history comparables by damage category",
 };
 
 /* ─── Reference data ──────────────────────────────────────── */
@@ -311,6 +362,14 @@ export default function DiminishedValueCalculatorPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }}
       />
 
       <main className="pt-28 pb-16">
@@ -447,6 +506,116 @@ export default function DiminishedValueCalculatorPage() {
             </div>
           </section>
 
+          {/* Worked example */}
+          <section id="worked-example" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              17c Formula: A Worked Example
+            </h2>
+            <p className="text-slate-700 leading-relaxed mb-5">
+              Take a car worth <strong>$30,000</strong> before the accident that
+              suffered <strong>major bodywork</strong> (a 0.75 damage multiplier)
+              with <strong>15,000 miles</strong> on the odometer (a 1.00 mileage
+              multiplier). Here is exactly how the 17c number is built, and how it
+              compares to the real market loss.
+            </p>
+            <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 bg-slate-50 border-b border-slate-200">
+                <Calculator className="w-5 h-5 text-primary-600" />
+                <p className="font-bold text-slate-900 text-sm">
+                  Step-by-step on a $30,000 vehicle
+                </p>
+              </div>
+              <ol className="divide-y divide-slate-100 text-sm">
+                <li className="flex justify-between gap-4 px-4 py-3">
+                  <span className="text-slate-700">
+                    Pre-accident value
+                  </span>
+                  <span className="font-bold text-slate-900">$30,000</span>
+                </li>
+                <li className="flex justify-between gap-4 px-4 py-3">
+                  <span className="text-slate-700">
+                    10% base cap ($30,000 × 0.10)
+                  </span>
+                  <span className="font-bold text-slate-900">$3,000</span>
+                </li>
+                <li className="flex justify-between gap-4 px-4 py-3">
+                  <span className="text-slate-700">
+                    × Damage multiplier (major, 0.75)
+                  </span>
+                  <span className="font-bold text-slate-900">$2,250</span>
+                </li>
+                <li className="flex justify-between gap-4 px-4 py-3">
+                  <span className="text-slate-700">
+                    × Mileage multiplier (under 20k, 1.00)
+                  </span>
+                  <span className="font-bold text-slate-900">$2,250</span>
+                </li>
+                <li className="flex justify-between gap-4 px-4 py-3 bg-primary-50">
+                  <span className="font-bold text-slate-900">
+                    17c diminished value
+                  </span>
+                  <span className="font-bold text-primary-700">$2,250</span>
+                </li>
+                <li className="flex justify-between gap-4 px-4 py-3 bg-emerald-50">
+                  <span className="font-bold text-slate-900">
+                    Real market loss (15–20% of value)
+                  </span>
+                  <span className="font-bold text-emerald-700">
+                    $4,500–$6,000
+                  </span>
+                </li>
+              </ol>
+            </div>
+            <p className="text-slate-600 leading-relaxed mt-4 text-sm">
+              The 17c formula returns <strong>$2,250</strong>, but comparable
+              resale data for major bodywork points to a loss of{" "}
+              <strong>$4,500 to $6,000</strong> — roughly two to nearly three
+              times higher. That gap, often <strong>$2,250–$3,750</strong> on a
+              single mid-priced car, is why an independent appraisal usually pays
+              for itself when you build the claim around the market figure rather
+              than the insurer&rsquo;s 17c output.
+            </p>
+          </section>
+
+          {/* DV vs depreciation */}
+          <section id="dv-vs-depreciation" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              Diminished Value vs. Depreciation
+            </h2>
+            <p className="text-slate-700 leading-relaxed mb-5">
+              They are not the same thing, and conflating them is the fastest way
+              to lose a claim. <strong>Depreciation</strong> is the normal,
+              expected loss in value every car takes from age and mileage — it
+              happens to a flawless vehicle that never sees an accident.{" "}
+              <strong>Diminished value</strong> is the{" "}
+              <em>extra</em> loss stacked on top, caused specifically by the
+              recorded accident. An insurer owes you for the diminished value, not
+              for the ordinary depreciation you would have absorbed anyway.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div className="p-4 rounded-xl border border-slate-200 bg-white">
+                <p className="font-bold text-slate-900 text-sm mb-1.5">
+                  Depreciation
+                </p>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Predictable loss from time, mileage, and wear. Affects every
+                  car. Not recoverable from an insurer — it is the cost of
+                  ownership.
+                </p>
+              </div>
+              <div className="p-4 rounded-xl border border-slate-200 bg-white">
+                <p className="font-bold text-slate-900 text-sm mb-1.5">
+                  Diminished value
+                </p>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Additional loss caused by the accident record alone. Recoverable
+                  through a diminished value claim, usually against the at-fault
+                  driver&rsquo;s insurer.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* How to file */}
           <section id="how-to-claim" className="mt-14">
             <h2 className="text-2xl font-bold text-slate-900 mb-5">
@@ -488,6 +657,50 @@ export default function DiminishedValueCalculatorPage() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          {/* By state */}
+          <section id="by-state" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              Diminished Value Claims by State
+            </h2>
+            <p className="text-slate-700 leading-relaxed mb-5">
+              Whether you can recover diminished value — and from whom — depends
+              on your state. The reliable path almost everywhere is a{" "}
+              <strong>third-party claim</strong>: when another driver is at fault,
+              you claim diminished value against <em>their</em> insurer. A{" "}
+              <strong>first-party claim</strong> against your own insurer is the
+              harder case and is barred or sharply limited in many states.
+            </p>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 bg-white">
+                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-primary-600" />
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  <strong className="text-slate-900">Georgia</strong> is the
+                  origin of the 17c formula through{" "}
+                  <em>Mabry v. State Farm</em>, and Georgia insurers are
+                  affirmatively required to consider diminished value on
+                  first-party claims — one of the most claimant-friendly states.
+                </p>
+              </div>
+              <div className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 bg-white">
+                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-primary-600" />
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  <strong className="text-slate-900">
+                    Most other states
+                  </strong>{" "}
+                  recognize third-party diminished value claims but limit or
+                  exclude first-party recovery. Check your policy language and
+                  your state insurance department before filing.
+                </p>
+              </div>
+            </div>
+            <p className="text-slate-600 leading-relaxed mt-4 text-sm">
+              Because the rules and the statute of limitations vary, confirm your
+              state&rsquo;s position with its insurance department before you send
+              a demand. The calculation above is the same everywhere; what
+              changes is who you can collect from and how long you have.
+            </p>
           </section>
 
           {/* Cross-links */}
@@ -563,6 +776,64 @@ export default function DiminishedValueCalculatorPage() {
                 </div>
               ))}
             </dl>
+          </section>
+
+          {/* Sources & references */}
+          <section id="sources" className="mt-14">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              Sources &amp; References
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-5 text-sm">
+              The 17c methodology, market-loss ranges, and claim rules above draw
+              on the following primary sources.
+            </p>
+            <ul className="space-y-3">
+              {[
+                {
+                  href: "https://law.justia.com/cases/georgia/supreme-court/2001/s00g1840-1.html",
+                  label: "Mabry v. State Farm Mutual Automobile Insurance Co.",
+                  sub: "Georgia Supreme Court — origin of the 17c formula",
+                },
+                {
+                  href: "https://content.naic.org/",
+                  label: "National Association of Insurance Commissioners (NAIC)",
+                  sub: "State insurance regulation and consumer guidance",
+                },
+                {
+                  href: "https://www.nhtsa.gov/",
+                  label: "NHTSA",
+                  sub: "Vehicle safety, crash, and recall data",
+                },
+                {
+                  href: "https://www.kbb.com/",
+                  label: "Kelley Blue Book (KBB)",
+                  sub: "Pre-accident retail and trade-in valuation",
+                },
+                {
+                  href: "https://www.jdpower.com/cars/nadaguides",
+                  label: "J.D. Power / NADA Guides",
+                  sub: "Used-vehicle valuation benchmarks",
+                },
+              ].map(({ href, label, sub }) => (
+                <li
+                  key={href}
+                  className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 bg-white"
+                >
+                  <BookOpen className="w-5 h-5 flex-shrink-0 mt-0.5 text-primary-600" />
+                  <span className="text-sm">
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="nofollow noopener noreferrer"
+                      className="font-bold text-slate-900 hover:text-primary-700 underline decoration-slate-300 underline-offset-2"
+                    >
+                      {label}
+                    </a>
+                    <span className="block text-slate-600 mt-0.5">{sub}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
           </section>
 
           {/* Related */}
