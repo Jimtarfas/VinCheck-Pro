@@ -45,6 +45,7 @@ import {
 import { createClient } from "@sanity/client";
 import { createAdminClient } from "@/lib/supabase/admin";
 import AutoRefresh from "../_components/AutoRefresh";
+import RunNowButton from "./_components/RunNowButton";
 import {
   botPublishedPostsQuery,
   botUpcomingPostsQuery,
@@ -267,6 +268,10 @@ export default async function AdminBlogBotPage() {
             </p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
+            {/* Manual trigger — useful for smoke-tests, recovery
+                from a stuck cron, and impatient backfills between
+                Mon/Wed/Fri slots. */}
+            <RunNowButton />
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-slate-700 text-xs font-bold">
               <Calendar className="w-3 h-3" />
               {SCHEDULE_HUMAN}
