@@ -26,10 +26,14 @@ function uuid(): string {
 
 export default function ChatWidget() {
   const pathname = usePathname();
-  // The premium report (/full-report) renders a fixed floating action dock
-  // anchored at the bottom of the viewport. Lift the chat launcher above it so
-  // the bubble doesn't cover the dock's Download/Print buttons.
-  const liftAboveDock = pathname?.startsWith("/full-report") ?? false;
+  // The full VIN report (rendered at both /full-report and the paid
+  // /order/report/[orderId]) shows a fixed floating action dock anchored at the
+  // bottom of the viewport. Lift the chat launcher above it so the bubble
+  // doesn't cover the dock's Download PDF / Print buttons on mobile.
+  const liftAboveDock =
+    pathname?.startsWith("/full-report") ||
+    pathname?.startsWith("/order/report") ||
+    false;
   const [open, setOpen] = useState(false);
   const [introDone, setIntroDone] = useState(false);
   const [name, setName] = useState("");
