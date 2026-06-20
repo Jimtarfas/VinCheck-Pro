@@ -2,23 +2,96 @@
 
 import { useState } from "react";
 import { Send, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 
-const SUBJECTS = [
-  "General Question",
-  "Report Issue",
-  "Partnership",
-  "Press",
-  "Other",
-] as const;
+const SUBJECT_KEYS = ["general", "report", "partnership", "press", "other"] as const;
+type SubjectKey = (typeof SUBJECT_KEYS)[number];
 
 type Status = "idle" | "loading" | "success" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function ContactForm() {
+// Per-locale copy. Same pattern as VinSearchForm (Wave 13) — form-only
+// strings live next to the component so the Spanish page renders the
+// same form widget with translated labels and errors.
+const COPY = {
+  en: {
+    subjects: {
+      general: "General Question",
+      report: "Report Issue",
+      partnership: "Partnership",
+      press: "Press",
+      other: "Other",
+    },
+    nameLabel: "Name",
+    emailLabel: "Email",
+    subjectLabel: "Subject",
+    messageLabel: "Message",
+    requiredMark: "*",
+    namePlaceholder: "Jane Doe",
+    emailPlaceholder: "you@example.com",
+    messagePlaceholder: "How can we help?",
+    charCounterTemplate: "{n} / 5000 characters (minimum 10)",
+    submit: "Send message",
+    submitLoading: "Sending...",
+    consent:
+      "By submitting this form you agree we may use the information you provide to respond to your message. We never share your details with third parties.",
+    successHeading: "Thanks! We'll reply within 24 hours",
+    successBody:
+      "Your message has been received. A member of our team will get back to you at the email address you provided.",
+    sendAnother: "Send another message",
+    websiteLabel: "Website",
+    errorName: "Please enter your name.",
+    errorEmail: "Please enter a valid email address.",
+    errorMessageShort: "Message must be at least 10 characters long.",
+    errorGeneric: "Something went wrong. Please try again.",
+    errorNetwork:
+      "Network error. Please check your connection and try again.",
+  },
+  es: {
+    subjects: {
+      general: "Pregunta general",
+      report: "Problema con un reporte",
+      partnership: "Asociación",
+      press: "Prensa",
+      other: "Otro",
+    },
+    nameLabel: "Nombre",
+    emailLabel: "Correo electrónico",
+    subjectLabel: "Asunto",
+    messageLabel: "Mensaje",
+    requiredMark: "*",
+    namePlaceholder: "Juan Pérez",
+    emailPlaceholder: "tu@ejemplo.com",
+    messagePlaceholder: "¿Cómo podemos ayudarte?",
+    charCounterTemplate: "{n} / 5000 caracteres (mínimo 10)",
+    submit: "Enviar mensaje",
+    submitLoading: "Enviando...",
+    consent:
+      "Al enviar este formulario aceptas que usemos la información proporcionada para responderte. Nunca compartimos tus datos con terceros.",
+    successHeading: "¡Gracias! Te responderemos en menos de 24 horas",
+    successBody:
+      "Tu mensaje ha sido recibido. Un miembro de nuestro equipo te responderá al correo que proporcionaste.",
+    sendAnother: "Enviar otro mensaje",
+    websiteLabel: "Sitio web",
+    errorName: "Por favor ingresa tu nombre.",
+    errorEmail: "Por favor ingresa un correo electrónico válido.",
+    errorMessageShort: "El mensaje debe tener al menos 10 caracteres.",
+    errorGeneric: "Algo salió mal. Por favor intenta de nuevo.",
+    errorNetwork:
+      "Error de red. Verifica tu conexión e intenta de nuevo.",
+  },
+} as const;
+
+export default function ContactForm({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const copy = COPY[locale];
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState<(typeof SUBJECTS)[number]>("General Question");
+  const [subject, setSubject] = useState<SubjectKey>("general");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
 
@@ -32,17 +105,17 @@ export default function ContactForm() {
     // Client-side validation
     if (!name.trim()) {
       setStatus("error");
-      setErrorMsg("Please enter your name.");
+      setErrorMsg(copy.errorName);
       return;
     }
     if (!EMAIL_RE.test(email.trim())) {
       setStatus("error");
-      setErrorMsg("Please enter a valid email address.");
+      setErrorMsg(copy.errorEmail);
       return;
     }
     if (message.trim().length < 10) {
       setStatus("error");
-      setErrorMsg("Message must be at least 10 characters long.");
+      setErrorMsg(copy.errorMessageShort);
       return;
     }
 
@@ -55,7 +128,9 @@ export default function ContactForm() {
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          subject,
+          // Always send the English subject label so the inbox stays
+          // consistent regardless of which locale submitted it.
+          subject: COPY.en.subjects[subject],
           message: message.trim(),
           website,
         }),
@@ -68,18 +143,18 @@ export default function ContactForm() {
 
       if (!res.ok || !data.ok) {
         setStatus("error");
-        setErrorMsg(data.error || "Something went wrong. Please try again.");
+        setErrorMsg(data.error || copy.errorGeneric);
         return;
       }
 
       setStatus("success");
       setName("");
       setEmail("");
-      setSubject("General Question");
+      setSubject("general");
       setMessage("");
     } catch {
       setStatus("error");
-      setErrorMsg("Network error. Please check your connection and try again.");
+      setErrorMsg(copy.errorNetwork);
     }
   }
 
@@ -90,18 +165,17 @@ export default function ContactForm() {
           <CheckCircle2 className="w-6 h-6 text-emerald-600 mt-0.5 flex-shrink-0" />
           <div>
             <h3 className="text-lg font-semibold text-slate-900">
-              Thanks! We&rsquo;ll reply within 24 hours
+              {copy.successHeading}
             </h3>
             <p className="mt-1 text-slate-600">
-              Your message has been received. A member of our team will get back to you at the
-              email address you provided.
+              {copy.successBody}
             </p>
             <button
               type="button"
               onClick={() => setStatus("idle")}
               className="mt-4 text-sm font-medium text-primary-600 hover:underline"
             >
-              Send another message
+              {copy.sendAnother}
             </button>
           </div>
         </div>
@@ -123,7 +197,7 @@ export default function ContactForm() {
           overflow: "hidden",
         }}
       >
-        <label htmlFor="website">Website</label>
+        <label htmlFor="website">{copy.websiteLabel}</label>
         <input
           type="text"
           id="website"
@@ -137,7 +211,7 @@ export default function ContactForm() {
 
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-slate-700">
-          Name <span className="text-red-500">*</span>
+          {copy.nameLabel} <span className="text-red-500">{copy.requiredMark}</span>
         </label>
         <input
           type="text"
@@ -148,13 +222,13 @@ export default function ContactForm() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-          placeholder="Jane Doe"
+          placeholder={copy.namePlaceholder}
         />
       </div>
 
       <div>
         <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-          Email <span className="text-red-500">*</span>
+          {copy.emailLabel} <span className="text-red-500">{copy.requiredMark}</span>
         </label>
         <input
           type="email"
@@ -164,25 +238,25 @@ export default function ContactForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
-          placeholder="you@example.com"
+          placeholder={copy.emailPlaceholder}
         />
       </div>
 
       <div>
         <label htmlFor="subject" className="block text-sm font-medium text-slate-700">
-          Subject <span className="text-red-500">*</span>
+          {copy.subjectLabel} <span className="text-red-500">{copy.requiredMark}</span>
         </label>
         <select
           id="subject"
           name="subject"
           required
           value={subject}
-          onChange={(e) => setSubject(e.target.value as (typeof SUBJECTS)[number])}
+          onChange={(e) => setSubject(e.target.value as SubjectKey)}
           className="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30"
         >
-          {SUBJECTS.map((s) => (
-            <option key={s} value={s}>
-              {s}
+          {SUBJECT_KEYS.map((k) => (
+            <option key={k} value={k}>
+              {copy.subjects[k]}
             </option>
           ))}
         </select>
@@ -190,7 +264,7 @@ export default function ContactForm() {
 
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-slate-700">
-          Message <span className="text-red-500">*</span>
+          {copy.messageLabel} <span className="text-red-500">{copy.requiredMark}</span>
         </label>
         <textarea
           id="message"
@@ -202,10 +276,10 @@ export default function ContactForm() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-slate-900 placeholder-slate-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/30 resize-y"
-          placeholder="How can we help?"
+          placeholder={copy.messagePlaceholder}
         />
         <p className="mt-1 text-xs text-slate-700">
-          {message.length} / 5000 characters (minimum 10)
+          {copy.charCounterTemplate.replace("{n}", String(message.length))}
         </p>
       </div>
 
@@ -226,20 +300,17 @@ export default function ContactForm() {
         {status === "loading" ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
-            Sending...
+            {copy.submitLoading}
           </>
         ) : (
           <>
             <Send className="w-5 h-5" />
-            Send message
+            {copy.submit}
           </>
         )}
       </button>
 
-      <p className="text-xs text-slate-700">
-        By submitting this form you agree we may use the information you provide to respond to
-        your message. We never share your details with third parties.
-      </p>
+      <p className="text-xs text-slate-700">{copy.consent}</p>
     </form>
   );
 }
