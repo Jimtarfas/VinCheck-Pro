@@ -1,17 +1,45 @@
 import type { Metadata } from "next";
-import InfoPage from "../_info-shared/InfoPage";
-import { INFO_HOOKS_ES } from "../_info-shared/strings";
-import { infoMetadata, infoBreadcrumbSchema } from "../_info-shared/metadata";
+import PressPageBody, { PRESS_COPY } from "@/components/PressPageBody";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 
-const hook = INFO_HOOKS_ES["press"];
-export const metadata: Metadata = infoMetadata(hook);
+const ENGLISH_PATH = "/press" as const;
+const LOCALE = "es" as const;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const alt = hreflangAlternatesForLocale(ENGLISH_PATH, LOCALE);
+  return {
+    title: "Kit de prensa y recursos para medios",
+    description:
+      "Kit de prensa de CarCheckerVIN: datos de la empresa, recursos de marca, voceros, anuncios recientes y contacto directo para consultas de medios.",
+    keywords: ["kit prensa CarCheckerVIN", "medios CarCheckerVIN", "logo CarCheckerVIN", "voceros CarCheckerVIN"],
+    alternates: { canonical: alt.canonical, languages: alt.languages },
+    openGraph: {
+      title: "Kit de prensa y recursos para medios",
+      description: "Datos rápidos, recursos de marca, voceros y contacto de prensa para CarCheckerVIN.",
+      url: alt.canonical,
+      type: "website",
+      locale: "es_US",
+      siteName: "CarCheckerVIN",
+    },
+  };
+}
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: "es",
+  mainEntity: PRESS_COPY.es.faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
 
 export default function Page() {
-  const breadcrumbSchema = infoBreadcrumbSchema(hook);
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <InfoPage hook={hook} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <PressPageBody locale="es" />
     </>
   );
 }
