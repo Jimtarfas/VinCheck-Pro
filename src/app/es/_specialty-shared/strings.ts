@@ -986,7 +986,10 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
 
   /* ── Wave 14 — tool variants (12) ───────────────────────────────── */
 
-  "window-sticker": {
+  // Key is "window-sticker-maker" (not "window-sticker") because the
+  // Wave 5 key "window-sticker" already maps to /window-sticker-lookup
+  // (the Monroney lookup tool). This is the dedicated maker/generator.
+  "window-sticker-maker": {
     esSlug: "/creador-etiqueta-monroney",
     englishPath: "/window-sticker",
     icon: Sticker,
