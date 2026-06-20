@@ -41,8 +41,10 @@ export default function ChatWidget() {
   const pathname = usePathname();
   // The full VIN report (rendered at both /full-report and the paid
   // /order/report/[orderId]) shows a fixed floating action dock anchored at the
-  // bottom of the viewport. Lift the chat launcher above it so the bubble
-  // doesn't cover the dock's Download PDF / Print buttons on mobile.
+  // bottom of the viewport. On narrow screens the dock spans the full width, so
+  // we lift the chat launcher above it to clear the Download PDF / Print
+  // buttons. On xl+ the dock is a centered max-w-5xl bar and the corner bubble
+  // sits to its right with room to spare, so it stays in the normal position.
   const liftAboveDock =
     pathname?.startsWith("/full-report") ||
     pathname?.startsWith("/order/report") ||
@@ -337,7 +339,7 @@ export default function ChatWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open chat"
-          className={`fixed right-5 z-[60] w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-700 text-white shadow-2xl shadow-primary-900/30 flex items-center justify-center transition-transform hover:scale-105 active:scale-95 ${liftAboveDock ? "bottom-24" : "bottom-5"}`}
+          className={`fixed right-5 z-[60] w-14 h-14 rounded-full bg-primary-600 hover:bg-primary-700 text-white shadow-2xl shadow-primary-900/30 flex items-center justify-center transition-transform hover:scale-105 active:scale-95 ${liftAboveDock ? "bottom-24 xl:bottom-5" : "bottom-5"}`}
         >
           <MessageCircle className="w-6 h-6" />
           {bumpCount > 0 && (
