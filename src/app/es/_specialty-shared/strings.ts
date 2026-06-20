@@ -1,13 +1,19 @@
 /**
- * Wave 5 — Spanish specialty-tool landing pages.
+ * Spanish landing pages for tool/check pages — Waves 5 + 12.
  *
- * Each entry powers one /es/<slug> page (semi-truck, golf-cart,
+ * Wave 5 (8 entries): specialty-tool landings (semi-truck, golf-cart,
  * paint-code-finder, window-sticker, motorcycle, RV, classic-car, JDM).
- * The Spanish pages mirror their English counterparts in intent and
- * structure but use native-language slugs to capture Spanish SERPs
- * directly. The interactive widgets (form, decoder) live on the English
- * page; the Spanish landing page sends qualified buyers there with a
- * clear "Run the check" CTA after they've read the value prop in
+ *
+ * Wave 12 (15 entries): high-intent "check" pages (recall, lemon,
+ * odometer, salvage, flood, accident, stolen, hail, airbag, total-loss,
+ * auction, market-value, lien, vin-decoder, best-vin-decoder).
+ *
+ * Both waves follow the same architecture: the Spanish page mirrors
+ * its English counterpart in intent and structure but uses a native-
+ * language slug to capture Spanish SERPs directly. The interactive
+ * widgets (form, decoder, report) live on the English page; the
+ * Spanish landing sends qualified buyers there with a clear
+ * "Ejecuta la búsqueda" CTA after they've read the value prop in
  * their own language.
  */
 
@@ -21,6 +27,21 @@ import {
   Car,
   Globe2,
   CircleDashed,
+  AlertTriangle,
+  Scale,
+  Gauge,
+  Recycle,
+  Droplets,
+  CarFront,
+  ShieldAlert,
+  CloudHail,
+  ShieldOff,
+  CircleSlash,
+  Gavel,
+  DollarSign,
+  Landmark,
+  Search,
+  Award,
 } from "lucide-react";
 
 export interface SpecialtyHook {
@@ -360,5 +381,592 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     trustNote:
       "Decodificamos códigos de chasís de Nissan (Skyline, Silvia, GT-R), Toyota (Supra, Land Cruiser, Chaser), Honda (NSX, Civic Type R, Integra Type R), Mazda (RX-7), Mitsubishi (Lancer Evolution) y Subaru (WRX STI).",
     schemaName: "Decodificador VIN de auto JDM",
+  },
+
+  /* ── Wave 12 — high-intent check pages ──────────────────────────── */
+
+  "recall-check": {
+    esSlug: "/verificacion-recall",
+    englishPath: "/recall-check",
+    icon: AlertTriangle,
+    badge: "Recalls NHTSA · Verificación gratis",
+    h1: "Verificación de recalls NHTSA por VIN",
+    metaTitle: "Verificación de recall NHTSA gratis por VIN",
+    metaDescription:
+      "Consulta retiros (recalls) abiertos de la NHTSA por VIN. Cubrimos Toyota, Ford, Honda, GM, Hyundai y más. Gratis, al instante, sin registro.",
+    keywords: [
+      "verificación recall VIN",
+      "recall NHTSA español",
+      "consulta recall por VIN",
+      "retiro vehículo NHTSA",
+      "campañas de seguridad auto",
+      "recall Takata airbag",
+    ],
+    intro:
+      "La NHTSA (Administración Nacional de Seguridad del Tráfico en Carreteras) publica retiros (recalls) por VIN cada semana. Más de 50 millones de vehículos circulan en EE. UU. con al menos un recall abierto — frenos, airbags Takata, sistemas eléctricos. Verificarlo gratis por VIN antes de comprar usado, o como dueño actual, es la única forma de saber si tu vehículo está sujeto a una reparación gratuita del fabricante.",
+    whatYouGet: [
+      "Lista completa de recalls activos y cerrados por VIN",
+      "Descripción del defecto y riesgo de seguridad",
+      "Número de campaña NHTSA (formato 23V-456)",
+      "Instrucciones de reparación y plazo del fabricante",
+      "Concesionario autorizado más cercano para la reparación",
+      "Costo de reparación: GRATIS bajo recall federal",
+      "Historial de recalls anteriores y si fueron completados",
+    ],
+    whyItMatters: [
+      "Los recalls de airbags Takata han causado más de 27 muertes y 400 lesiones — verifica antes de comprar",
+      "Un vehículo con recall abierto puede negársele la inspección en algunos estados",
+      "Las reparaciones por recall son gratuitas sin importar año o kilometraje, pero solo si las solicitas",
+      "Las aseguradoras pueden negar reclamos si el accidente involucra un defecto bajo recall no reparado",
+    ],
+    trustNote:
+      "Los datos se cruzan en tiempo real contra la base oficial de la NHTSA. Cubrimos todas las marcas registradas en EE. UU. desde 1995. Si encuentras un recall abierto, llévalo al concesionario autorizado — la reparación es gratuita por ley federal.",
+    schemaName: "Verificación de recalls NHTSA por VIN",
+  },
+
+  "lemon-check": {
+    esSlug: "/verificacion-ley-limon",
+    englishPath: "/lemon-check",
+    icon: Scale,
+    badge: "Ley Limón · 50 estados",
+    h1: "Verificación bajo la Ley Limón por VIN",
+    metaTitle: "Verificación Ley Limón gratis por VIN",
+    metaDescription:
+      "Revisa si tu auto está protegido bajo la Ley Limón estatal o federal Magnuson-Moss. Cobertura por estado, plazos y reembolsos — gratis por VIN.",
+    keywords: [
+      "Ley Limón VIN",
+      "lemon law español",
+      "auto defectuoso reembolso",
+      "Magnuson-Moss Act español",
+      "ley limón California Texas Florida",
+      "auto nuevo defectuoso devolución",
+    ],
+    intro:
+      "Las leyes \"Lemon Law\" o Ley Limón existen en los 50 estados de EE. UU. y bajo la ley federal Magnuson-Moss. Protegen al comprador de un auto nuevo (y en muchos estados, también usado bajo garantía) que presenta un defecto sustancial que el fabricante no logra reparar tras un número razonable de intentos. Verifica gratis por VIN si tu vehículo cumple los criterios de protección en tu estado.",
+    whatYouGet: [
+      "Cobertura específica de la Ley Limón en tu estado",
+      "Número de intentos de reparación requeridos antes de calificar",
+      "Plazo legal: días en taller, meses desde la compra, millas máximas",
+      "Tipo de remedio: reembolso completo, reemplazo del vehículo, o cash",
+      "Aplicabilidad a autos usados bajo garantía de fábrica restante",
+      "Cobertura adicional bajo la ley federal Magnuson-Moss",
+      "Recursos de abogados especializados en Ley Limón (sin costo si ganas)",
+    ],
+    whyItMatters: [
+      "Los abogados de Ley Limón cobran al fabricante, no al consumidor — tu reclamo no cuesta nada",
+      "California, Florida y Texas tienen las leyes más estrictas y reembolsos más altos",
+      "Los autos eléctricos (Tesla, Rivian) generan reclamos crecientes por baterías y software",
+      "Los plazos son cortos: en muchos estados pierdes el derecho tras 12 o 18 meses sin reclamar",
+    ],
+    trustNote:
+      "Cubrimos los 50 estados + Magnuson-Moss federal. La elegibilidad se basa en la fecha de compra, kilometraje, número de reparaciones documentadas y tipo de defecto. La verificación por VIN te da el marco; un abogado certificado en tu estado confirma el caso.",
+    schemaName: "Verificación de Ley Limón por VIN",
+  },
+
+  "odometer-check": {
+    esSlug: "/verificacion-odometro",
+    englishPath: "/odometer-check",
+    icon: Gauge,
+    badge: "Odómetro · Fraude detectado",
+    h1: "Verificación de fraude de odómetro por VIN",
+    metaTitle: "Verificación de odómetro gratis por VIN",
+    metaDescription:
+      "Detecta fraude de odómetro (rollback) por VIN. Compara lecturas históricas de inspecciones, registro y servicio. Gratis, al instante, sin registro.",
+    keywords: [
+      "fraude odómetro VIN",
+      "verificación kilometraje auto",
+      "rollback odómetro español",
+      "kilometraje real auto usado",
+      "historial odómetro VIN",
+      "odómetro alterado detectar",
+    ],
+    intro:
+      "El fraude de odómetro (\"rollback\") cuesta a los compradores estadounidenses más de mil millones de dólares al año, según la NHTSA. Cada inspección estatal, cambio de aceite documentado, registro de DMV y orden de servicio queda registrado con la lectura del odómetro en ese momento. Si las lecturas históricas no son monótonamente crecientes, el odómetro fue retrocedido. Verifícalo gratis por VIN antes de comprar.",
+    whatYouGet: [
+      "Cronología completa de lecturas históricas del odómetro",
+      "Detección automática de retroceso (rollback) en cualquier punto",
+      "Lecturas de inspecciones estatales (smog, safety)",
+      "Lecturas de registros DMV en cada transferencia de título",
+      "Lecturas de talleres autorizados (Ford, Toyota, Honda dealers)",
+      "Marcas \"Not Actual Mileage\" reportadas en el título",
+      "Discrepancia estimada (millas reales vs millas mostradas)",
+    ],
+    whyItMatters: [
+      "La NHTSA estima que 1 de cada 10 autos usados a la venta tiene el odómetro alterado",
+      "Un rollback típico añade $4,000 al precio del vehículo — directo a la pérdida del comprador",
+      "El fraude federal de odómetro puede ser perseguido bajo el Federal Odometer Act",
+      "Los autos sin historial de servicio reciente son especialmente sospechosos",
+    ],
+    trustNote:
+      "Las lecturas se cruzan contra NMVTIS (Sistema Nacional del Título de Vehículos), DMVs estatales, redes de talleres autorizados y aseguradoras. Si el odómetro fue alterado, las lecturas más antiguas suelen exceder las más recientes — el algoritmo lo detecta automáticamente.",
+    schemaName: "Verificación de fraude de odómetro por VIN",
+  },
+
+  "salvage-title-check": {
+    esSlug: "/titulo-salvamento",
+    englishPath: "/salvage-title-check",
+    icon: Recycle,
+    badge: "Título de salvamento · NMVTIS",
+    h1: "Verificación de título de salvamento por VIN",
+    metaTitle: "Verificación título salvamento gratis por VIN",
+    metaDescription:
+      "Detecta títulos de salvamento (salvage), reconstruidos (rebuilt) o de chatarra (junk) por VIN. Datos oficiales NMVTIS — gratis, al instante.",
+    keywords: [
+      "título salvamento VIN",
+      "salvage title español",
+      "auto reconstruido VIN",
+      "rebuilt title español",
+      "junk title VIN",
+      "auto pérdida total título",
+    ],
+    intro:
+      "Un \"salvage title\" o título de salvamento se emite cuando una aseguradora declara un vehículo como pérdida total, normalmente porque el costo de reparación excede del 70% al 90% del valor del auto. Estos vehículos pueden ser reconstruidos y vendidos legalmente, pero pierden 20–40% de su valor de reventa, son difíciles de asegurar a todo riesgo, y pueden tener daños estructurales ocultos. Verifícalo gratis por VIN antes de comprar.",
+    whatYouGet: [
+      "Tipo exacto de marca: Salvage, Rebuilt, Reconstructed, Junk, Flood",
+      "Estado donde se emitió el título dañado",
+      "Razón de la marca: colisión, inundación, robo recuperado, granizo",
+      "Fecha en que la aseguradora declaró pérdida total",
+      "Historial de subastas Copart o IAA (Insurance Auto Auctions)",
+      "Antiguos estados de registro y fecha de cada transferencia",
+      "Si el título fue \"lavado\" (washed) cruzando fronteras estatales",
+    ],
+    whyItMatters: [
+      "Un vehículo salvage vale 20–40% menos — no pagues precio de auto limpio",
+      "Muchas aseguradoras solo ofrecen cobertura básica (liability) para autos salvage",
+      "Los daños estructurales (chasis) reconstruidos pueden comprometer airbags y zonas de impacto",
+      "El \"title washing\" entre estados oculta marcas — NMVTIS las recupera todas",
+    ],
+    trustNote:
+      "Los datos provienen de NMVTIS, la base federal que consolida marcas de título de los 50 estados. NMVTIS es administrada por el Departamento de Justicia (BJA) y es obligatoria para todas las aseguradoras y desguazadoras desde 2009. Si hay una marca, está en NMVTIS.",
+    schemaName: "Verificación de título de salvamento por VIN",
+  },
+
+  "flood-check": {
+    esSlug: "/verificacion-inundacion",
+    englishPath: "/flood-check",
+    icon: Droplets,
+    badge: "Daño por inundación · NMVTIS + NICB",
+    h1: "Verificación de daño por inundación por VIN",
+    metaTitle: "Verificación daño inundación gratis por VIN",
+    metaDescription:
+      "Detecta daño por inundación (flood damage) por VIN. Cruza datos NMVTIS, NICB y reportes de huracanes. Gratis, al instante, sin registro.",
+    keywords: [
+      "daño inundación VIN",
+      "flood damage español",
+      "auto inundado VIN",
+      "huracán Harvey Ian Ida autos",
+      "auto agua salada daño",
+      "flood title vehículo",
+    ],
+    intro:
+      "Después de cada huracán mayor (Harvey 2017, Florence 2018, Ian 2022, Helene 2024) decenas de miles de vehículos inundados se secan superficialmente, se limpian y se revenden a compradores desprevenidos — a menudo cruzando fronteras estatales para \"lavar\" el título. El agua salada corroe componentes eléctricos, transmisión y motor a lo largo de meses. Verifícalo gratis por VIN antes de comprar.",
+    whatYouGet: [
+      "Marcas \"Flood\" o \"Water Damage\" en el título (NMVTIS)",
+      "Registros de pérdida total por inundación reportados por aseguradoras",
+      "Cruce con códigos postales declarados zona de desastre FEMA",
+      "Registros NICB (National Insurance Crime Bureau) de vehículos inundados recuperados",
+      "Historial de subastas Copart/IAA post-huracán",
+      "Estado de origen vs estado de registro actual (señal de title washing)",
+      "Recomendaciones para inspección física (mecánico + inspector eléctrico)",
+    ],
+    whyItMatters: [
+      "Tras el huracán Harvey, FEMA estimó 500,000 vehículos dañados — muchos vueltos a vender",
+      "El daño por agua salada destruye módulos electrónicos meses después — fuera de garantía",
+      "Los airbags inundados pueden fallar al desplegarse o desplegarse sin razón",
+      "El moho dentro de paneles causa problemas de salud crónicos al ocupante",
+    ],
+    trustNote:
+      "Los datos provienen de NMVTIS (Departamento de Justicia), NICB, FEMA y aseguradoras participantes. Si el vehículo fue declarado pérdida total por inundación en cualquier estado, NMVTIS lo retiene. Cubrimos eventos desde el huracán Katrina (2005) hasta los huracanes recientes de 2024.",
+    schemaName: "Verificación de daño por inundación por VIN",
+  },
+
+  "accident-history-check": {
+    esSlug: "/historial-accidentes",
+    englishPath: "/accident-history-check",
+    icon: CarFront,
+    badge: "Historial de accidentes · NMVTIS",
+    h1: "Verificación de historial de accidentes por VIN",
+    metaTitle: "Verificación historial accidentes gratis por VIN",
+    metaDescription:
+      "Consulta historial de accidentes y reparaciones por VIN. Cruza datos de DMV, aseguradoras y talleres. Gratis, al instante, sin registro.",
+    keywords: [
+      "historial accidentes VIN",
+      "accident history español",
+      "auto chocado VIN",
+      "reparación accidente VIN",
+      "reporte accidente vehículo",
+      "auto con accidente verificar",
+    ],
+    intro:
+      "Aproximadamente el 40% de los autos usados a la venta en EE. UU. han estado en al menos un accidente reportado. Los accidentes menores (parachoques, alcance trasero) pueden no afectar el valor — pero accidentes con airbag desplegado, daño estructural del chasís o pérdida total reconstruida sí lo hacen. Verifica gratis por VIN cada incidente reportado a aseguradoras, DMVs y talleres certificados antes de comprar.",
+    whatYouGet: [
+      "Lista de accidentes reportados con fecha y ubicación general",
+      "Severidad: menor, moderada, mayor o pérdida total",
+      "Tipo de impacto: frontal, trasero, lateral, vuelco",
+      "Si se desplegaron airbags durante el accidente",
+      "Registros de reparación en talleres certificados",
+      "Marcas en el título derivadas de un accidente (salvage, rebuilt)",
+      "Fecha del último servicio post-accidente reportado",
+    ],
+    whyItMatters: [
+      "Los accidentes con daño estructural reducen el valor de reventa 25–40%",
+      "Un airbag desplegado y mal reemplazado puede no funcionar en el próximo accidente",
+      "Las aseguradoras pueden cobrar primas más altas si descubren el historial al asegurar",
+      "Los compradores informados pueden negociar $1,500–$5,000 de descuento sobre el precio inicial",
+    ],
+    trustNote:
+      "Los datos provienen de NMVTIS, reportes de aseguradoras participantes, DMVs estatales y registros de talleres certificados por fabricante. Los accidentes NO reportados a aseguradoras (reparaciones \"de bolsillo\") pueden no aparecer — una inspección mecánica antes de comprar siempre es recomendable.",
+    schemaName: "Verificación de historial de accidentes por VIN",
+  },
+
+  "stolen-vehicle-check": {
+    esSlug: "/vehiculo-robado",
+    englishPath: "/stolen-vehicle-check",
+    icon: ShieldAlert,
+    badge: "Vehículo robado · NICB",
+    h1: "Verificación de vehículo robado por VIN",
+    metaTitle: "Verificación vehículo robado gratis por VIN",
+    metaDescription:
+      "Consulta si un VIN está reportado como robado en la base NICB. Gratis, al instante, sin registro. Cubre los 50 estados de EE. UU.",
+    keywords: [
+      "vehículo robado VIN",
+      "stolen vehicle español",
+      "auto robado consultar",
+      "NICB español",
+      "VIN clonado fraude",
+      "auto robado recuperado",
+    ],
+    intro:
+      "El National Insurance Crime Bureau (NICB) mantiene la base oficial de vehículos robados reportados por aseguradoras y fuerzas policiales en EE. UU. Comprar un vehículo robado — aunque sea sin saberlo — significa perderlo sin reembolso cuando la policía lo confisque. Los traficantes a veces clonan VINs de autos limpios para enmascarar los robados. Verifica gratis por VIN antes de pagar.",
+    whatYouGet: [
+      "Estado actual: limpio, reportado como robado, recuperado",
+      "Fecha del reporte de robo",
+      "Jurisdicción donde se reportó el robo",
+      "Si fue recuperado y devuelto al propietario o aseguradora",
+      "Cruce con registros de subastas (señales de \"título lavado\" post-robo)",
+      "Indicadores de posible clonación de VIN",
+      "Recomendaciones si el vehículo aparece reportado",
+    ],
+    whyItMatters: [
+      "Comprar un vehículo robado significa perderlo SIN reembolso al ser confiscado",
+      "Los VINs clonados son una estafa creciente — el vendedor parece legítimo pero el auto es robado",
+      "Pickups Ford F-150, Honda Civic y Hyundai/Kia están entre los más robados",
+      "Una verificación NICB toma 5 segundos y previene una pérdida de $20,000–$80,000",
+    ],
+    trustNote:
+      "La base NICB (National Insurance Crime Bureau) consolida reportes de más de 1,100 aseguradoras y agencias policiales. Si un vehículo aparece reportado, NO completes la compra y reporta el caso a la policía local. La verificación es gratuita y anónima.",
+    schemaName: "Verificación de vehículo robado por VIN",
+  },
+
+  "hail-damage-check": {
+    esSlug: "/dano-granizo",
+    englishPath: "/hail-damage-check",
+    icon: CloudHail,
+    badge: "Daño por granizo · Subastas + NMVTIS",
+    h1: "Verificación de daño por granizo por VIN",
+    metaTitle: "Verificación daño granizo gratis por VIN",
+    metaDescription:
+      "Detecta daño por granizo (hail damage) por VIN. Cruza datos NMVTIS, NICB y subastas post-tormenta. Gratis, al instante, sin registro.",
+    keywords: [
+      "daño granizo VIN",
+      "hail damage español",
+      "auto granizado VIN",
+      "tormenta granizo Texas Colorado",
+      "PDR sin pintura granizo",
+      "subasta auto granizado",
+    ],
+    intro:
+      "Las tormentas de granizo en Texas, Colorado, Oklahoma y Nebraska generan cada año decenas de miles de vehículos con daño cosmético — abolladuras en el techo, capó y maletero. Las aseguradoras a menudo los declaran pérdida total cuando el costo de reparación excede su valor de mercado, los venden en subastas, y reaparecen en lotes de venta tras reparación PDR (Paintless Dent Repair) parcial. Verifícalo gratis por VIN antes de comprar.",
+    whatYouGet: [
+      "Marcas \"Hail Damage\" en el título o reportes de aseguradora",
+      "Si el vehículo fue declarado pérdida total por granizo",
+      "Historial de subastas Copart/IAA con clasificación \"Hail Damage\"",
+      "Cruce con eventos de granizo declarados zona de desastre",
+      "Indicadores de reparación PDR (parcial vs completa)",
+      "Estado de origen vs estado de venta actual (señal de title washing)",
+      "Recomendaciones de inspección bajo luz directa",
+    ],
+    whyItMatters: [
+      "Un vehículo granizado mal reparado pierde 15–30% de valor de reventa",
+      "El daño en el techo puede comprometer la integridad estructural en un vuelco",
+      "Las reparaciones PDR mal hechas dejan abolladuras visibles bajo luz directa del sol",
+      "La pintura sobre granizo se agrieta y desprende meses después",
+    ],
+    trustNote:
+      "Los datos provienen de NMVTIS, reportes de aseguradoras participantes y registros de subastas post-tormenta de Copart e IAA. Si el vehículo fue declarado pérdida total por granizo, NMVTIS lo retiene incluso si el título fue lavado cruzando estados.",
+    schemaName: "Verificación de daño por granizo por VIN",
+  },
+
+  "airbag-check": {
+    esSlug: "/verificacion-airbag",
+    englishPath: "/airbag-check",
+    icon: ShieldOff,
+    badge: "Airbag · Despliegue y Takata",
+    h1: "Verificación de airbag y recall Takata por VIN",
+    metaTitle: "Verificación airbag Takata gratis por VIN",
+    metaDescription:
+      "Detecta si los airbags se desplegaron en un accidente previo, o si el VIN está bajo recall Takata. Gratis, al instante, sin registro.",
+    keywords: [
+      "airbag VIN verificación",
+      "Takata airbag español",
+      "airbag desplegado VIN",
+      "recall airbag NHTSA",
+      "bolsa de aire defectuosa",
+      "airbag reemplazado verificar",
+    ],
+    intro:
+      "El recall global de airbags Takata es el mayor de la historia automotriz: más de 70 millones de bolsas de aire defectuosas en EE. UU. que pueden explotar y enviar fragmentos metálicos al conductor o pasajero. Más de 27 muertes confirmadas. Verifica gratis por VIN si tus airbags están bajo recall Takata, o si fueron desplegados en un accidente previo y reemplazados (o no).",
+    whatYouGet: [
+      "Estado del recall Takata para tu VIN (abierto o reparado)",
+      "Si los airbags se desplegaron en un accidente previo",
+      "Otros recalls de airbags (ARC, Joyson, ZF-TRW)",
+      "Concesionario autorizado más cercano para la reparación gratis",
+      "Lista de marcas y modelos cubiertos por el recall Takata",
+      "Fecha estimada de disponibilidad de la pieza de reemplazo",
+      "Riesgo \"alpha\" (calor + humedad): mayor riesgo de explosión",
+    ],
+    whyItMatters: [
+      "Los airbags Takata defectuosos han matado a 27+ personas y herido a 400+ en EE. UU.",
+      "Los vehículos en estados calientes/húmedos (FL, TX, HI, PR) tienen riesgo \"alpha\" — máxima prioridad",
+      "La reparación bajo recall es GRATIS sin importar año o kilometraje",
+      "Un airbag mal reemplazado después de un accidente puede no desplegarse en el siguiente",
+    ],
+    trustNote:
+      "Los datos del recall Takata se cruzan en tiempo real con la base oficial de la NHTSA. Si tu VIN aparece bajo recall, llévalo al concesionario autorizado de tu marca — la reparación es gratuita por ley federal. El historial de despliegue se cruza con reportes de aseguradora y talleres certificados.",
+    schemaName: "Verificación de airbag y Takata por VIN",
+  },
+
+  "total-loss-check": {
+    esSlug: "/perdida-total",
+    englishPath: "/total-loss-check",
+    icon: CircleSlash,
+    badge: "Pérdida total · Aseguradoras",
+    h1: "Verificación de pérdida total por VIN",
+    metaTitle: "Verificación pérdida total gratis por VIN",
+    metaDescription:
+      "Detecta si un vehículo fue declarado pérdida total (total loss) por una aseguradora. Cruza datos NMVTIS y subastas. Gratis por VIN.",
+    keywords: [
+      "pérdida total VIN",
+      "total loss español",
+      "auto declarado pérdida total",
+      "aseguradora pérdida total VIN",
+      "auto chocado reconstruido",
+      "salvage por pérdida total",
+    ],
+    intro:
+      "Una aseguradora declara un vehículo \"pérdida total\" (total loss) cuando el costo de reparación más el valor del salvamento excede el valor de mercado del auto antes del accidente — típicamente del 70% al 90%. El vehículo recibe un título \"salvage\" y, si se repara, un título \"rebuilt\". Estos autos pierden 20–40% de valor y son difíciles de asegurar a todo riesgo. Verifícalo gratis por VIN antes de pagar precio de auto limpio.",
+    whatYouGet: [
+      "Si una aseguradora declaró pérdida total alguna vez",
+      "Fecha y razón: colisión, inundación, granizo, robo recuperado, incendio",
+      "Estado donde se emitió el título salvage o rebuilt",
+      "Historial de subastas Copart/IAA con clasificación de daño",
+      "Si el vehículo fue reconstruido (rebuilt) o sigue como salvage",
+      "Cruce con marcas en el título de los 50 estados (NMVTIS)",
+      "Recomendaciones para inspección estructural y mecánica",
+    ],
+    whyItMatters: [
+      "Un vehículo con historial de pérdida total vale 20–40% menos que uno limpio",
+      "Muchas aseguradoras NO ofrecen cobertura comprehensive para autos rebuilt",
+      "Los bancos rara vez financian autos con título salvage o rebuilt",
+      "Una pérdida total reparada incorrectamente puede tener fallos estructurales ocultos",
+    ],
+    trustNote:
+      "Los datos provienen de NMVTIS, aseguradoras participantes y registros de subastas Copart e IAA. Si el vehículo fue declarado pérdida total en cualquier estado, NMVTIS lo retiene — el \"title washing\" cruzando estados no oculta esta marca.",
+    schemaName: "Verificación de pérdida total por VIN",
+  },
+
+  "auction-history": {
+    esSlug: "/historial-subastas",
+    englishPath: "/auction-history",
+    icon: Gavel,
+    badge: "Historial de subastas · Copart + IAA",
+    h1: "Historial de subastas por VIN (Copart, IAA)",
+    metaTitle: "Historial subastas auto gratis por VIN",
+    metaDescription:
+      "Consulta historial de subastas Copart e IAA por VIN. Fotos del daño, clasificación, precio de venta. Gratis, al instante, sin registro.",
+    keywords: [
+      "historial subasta VIN",
+      "Copart historial VIN",
+      "IAA historial VIN",
+      "auction history español",
+      "auto subasta Copart precio",
+      "subasta seguros vehículo",
+    ],
+    intro:
+      "Copart e IAA (Insurance Auto Auctions) son las dos principales casas de subastas de vehículos siniestrados en EE. UU. Las aseguradoras venden ahí los autos declarados pérdida total después de accidentes, inundaciones y granizo. Si un vehículo pasó por Copart o IAA, hay fotos, descripción del daño y precio de venta documentados. Verifícalo gratis por VIN para saber qué le pasó realmente.",
+    whatYouGet: [
+      "Lista de subastas pasadas en Copart e IAA con fecha",
+      "Clasificación del daño: front-end, rear-end, side, hail, flood, vandalism",
+      "Lecturas del odómetro al momento de cada subasta",
+      "Precio final de venta (cuando disponible)",
+      "Fotos del daño (cuando disponibles bajo licencia)",
+      "Ubicación de la subasta (subasta yard)",
+      "Estado primario del título al momento de la venta",
+    ],
+    whyItMatters: [
+      "Un vehículo vendido en Copart o IAA fue declarado pérdida total por una aseguradora — pierde 20–40% de valor",
+      "Las fotos de subasta revelan el daño real, no el cosmético \"reparado\" antes de revender",
+      "Los autos vendidos en Copart como \"flood\" frecuentemente reaparecen como \"clean\" en otros estados",
+      "Una subasta reciente seguida de venta como \"like new\" es la mayor bandera roja del mercado usado",
+    ],
+    trustNote:
+      "Los datos de subastas se cruzan con NMVTIS y reportes públicos de Copart e IAA. Las fotos están sujetas a disponibilidad y licencia de imagen — cuando existen, son evidencia objetiva del daño que el vendedor actual quizá no mencione.",
+    schemaName: "Historial de subastas Copart/IAA por VIN",
+  },
+
+  "market-value": {
+    esSlug: "/valor-mercado-auto",
+    englishPath: "/market-value",
+    icon: DollarSign,
+    badge: "Valor de mercado · KBB + NADA",
+    h1: "Valor de mercado de auto por VIN",
+    metaTitle: "Valor mercado auto gratis por VIN",
+    metaDescription:
+      "Consulta el valor de mercado real de un auto por VIN. Cruza datos KBB, NADA, Edmunds y precios de venta recientes. Gratis, al instante.",
+    keywords: [
+      "valor mercado auto VIN",
+      "Kelley Blue Book español",
+      "valor auto usado VIN",
+      "precio justo auto usado",
+      "tasación auto por VIN",
+      "valor reventa vehículo",
+    ],
+    intro:
+      "Saber el valor de mercado real de un vehículo por VIN es el primer paso para negociar el precio correcto — ya sea para comprar, vender o cambiar (trade-in). Las fuentes oficiales (Kelley Blue Book, NADA Guides, Edmunds) calculan el valor según año, modelo, equipamiento, kilometraje y región. Verifícalo gratis por VIN para tener la cifra exacta antes de cualquier negociación.",
+    whatYouGet: [
+      "Valor de trade-in (lo que el concesionario te dará al cambiarlo)",
+      "Valor de venta privada (lo que pedirías en Craigslist/Facebook Marketplace)",
+      "Valor de venta del concesionario (\"retail value\")",
+      "Ajustes por equipamiento de fábrica (paquete premium, AWD, etc.)",
+      "Ajustes por kilometraje vs el promedio del modelo",
+      "Comparación de las 3 fuentes principales: KBB, NADA, Edmunds",
+      "Tendencia de valor: depreciación esperada en 12 meses",
+    ],
+    whyItMatters: [
+      "Los concesionarios suelen ofrecer 10–20% menos del valor real en trade-in — saber la cifra real protege tu bolsillo",
+      "Pedir el precio correcto en venta privada acelera la venta sin dejar dinero en la mesa",
+      "Las aseguradoras pueden subestimar el valor en caso de pérdida total — KBB/NADA es la referencia para apelar",
+      "El valor varía 15–25% entre regiones (California vs Texas) — usa la cifra local",
+    ],
+    trustNote:
+      "Las valuaciones se cruzan con las fuentes oficiales reconocidas por la industria (Kelley Blue Book, NADA, Edmunds) y precios de venta recientes en marketplaces. El valor estimado por VIN considera año, modelo, equipamiento opcional, kilometraje promedio del modelo y región de venta.",
+    schemaName: "Valor de mercado de auto por VIN",
+  },
+
+  "vehicle-lien-check": {
+    esSlug: "/verificacion-gravamen",
+    englishPath: "/vehicle-lien-check",
+    icon: Landmark,
+    badge: "Gravamen · Lien · DMV",
+    h1: "Verificación de gravamen (lien) por VIN",
+    metaTitle: "Verificación gravamen auto gratis por VIN",
+    metaDescription:
+      "Consulta si un vehículo tiene gravamen activo (lien) por VIN. Si compras un auto con lien, el banco puede recuperarlo. Gratis, al instante.",
+    keywords: [
+      "gravamen auto VIN",
+      "lien español auto",
+      "auto con préstamo verificar",
+      "DMV gravamen vehículo",
+      "auto financiado verificar",
+      "lienholder español",
+    ],
+    intro:
+      "Un \"lien\" o gravamen es un préstamo registrado en el título del vehículo — un banco, financiera o crédito unión es el dueño legal hasta que el préstamo se paga completo. Comprar un auto con lien activo significa que el prestamista puede recuperarlo y dejarte sin auto y sin dinero. El gravamen queda registrado en el título estatal y en NMVTIS. Verifícalo gratis por VIN antes de pagar.",
+    whatYouGet: [
+      "Si hay un gravamen activo o liberado (\"released\")",
+      "Nombre del prestamista (lienholder): banco, financiera, dealer",
+      "Estado donde se registró el gravamen",
+      "Fecha de registro del gravamen",
+      "Si el título original ha sido entregado al comprador o sigue en poder del banco",
+      "Indicación de gravámenes históricos pagados",
+      "Recomendaciones si encuentras un gravamen activo",
+    ],
+    whyItMatters: [
+      "Comprar un auto con gravamen activo = el banco puede recuperarlo sin pagarte nada",
+      "El vendedor debe entregarte el título limpio o un \"lien release\" del banco antes de pagar",
+      "Las estafas \"curbstoning\" venden autos con gravamen activo a compradores sin verificar",
+      "Una verificación de 5 segundos previene una pérdida total de $10,000–$50,000+",
+    ],
+    trustNote:
+      "Los datos de gravámenes se cruzan con NMVTIS y DMVs estatales. Si el vehículo tiene un lien activo, exige al vendedor el \"lien release\" del prestamista antes de pagar — sin ese documento, el título es transferible solo en papel, no en realidad legal.",
+    schemaName: "Verificación de gravamen por VIN",
+  },
+
+  "vin-decoder": {
+    esSlug: "/decodificador-vin",
+    englishPath: "/vin-decoder",
+    icon: Search,
+    badge: "Decodificador VIN · 17 caracteres",
+    h1: "Decodificador de VIN gratis (17 caracteres)",
+    metaTitle: "Decodificador VIN gratis — Marca, modelo, motor",
+    metaDescription:
+      "Decodifica cualquier VIN de 17 caracteres gratis. Marca, modelo, año, planta, motor, transmisión y más. Al instante, sin registro.",
+    keywords: [
+      "decodificador VIN gratis",
+      "VIN decoder español",
+      "qué significa mi VIN",
+      "decodificar 17 caracteres VIN",
+      "leer VIN auto",
+      "marca modelo VIN",
+    ],
+    intro:
+      "El VIN (Vehicle Identification Number) es el código de 17 caracteres único de cada vehículo fabricado desde 1981. Cada carácter codifica información específica: país de origen, fabricante, tipo de vehículo, motor, año modelo, planta de ensamblaje y número de serie. Decodificarlo gratis revela toda la información de fábrica sin necesidad del título o documentos. Útil al comprar usado, reportar al seguro o pedir piezas correctas.",
+    whatYouGet: [
+      "Marca, modelo y año exactos del vehículo",
+      "País y planta de ensamblaje (WMI: World Manufacturer Identifier)",
+      "Configuración del motor (cilindrada, número de cilindros, tipo de combustible)",
+      "Transmisión y tracción (FWD, RWD, AWD, 4WD)",
+      "Tipo de carrocería (sedan, SUV, pickup, hatchback)",
+      "Equipamiento de seguridad de fábrica (airbags, ABS, ESC)",
+      "Número de serie de producción dentro del año modelo",
+    ],
+    whyItMatters: [
+      "Pedir piezas con el VIN exacto evita errores de compatibilidad ($50–$500 ahorrados por evento)",
+      "Confirmar el motor y transmisión antes de comprar evita estafas de \"motor swap\" no declarado",
+      "El año modelo en el VIN puede diferir del año calendario de venta — afecta valor y seguro",
+      "La planta de ensamblaje (US, México, Japón) impacta la calidad histórica de algunos modelos",
+    ],
+    trustNote:
+      "El decodificador VIN cumple con el estándar ISO 3779/3780 y las reglas de la NHTSA (49 CFR Part 565). Decodificamos todos los VINs de 17 caracteres de vehículos fabricados o vendidos en EE. UU. desde 1981. Para autos pre-1981 usa el decodificador de auto clásico.",
+    schemaName: "Decodificador de VIN gratis",
+  },
+
+  "best-vin-decoder": {
+    esSlug: "/mejor-decodificador-vin",
+    englishPath: "/best-vin-decoder",
+    icon: Award,
+    badge: "Mejor decodificador VIN · Comparativa",
+    h1: "Mejor decodificador de VIN gratis en 2026",
+    metaTitle: "Mejor decodificador VIN gratis 2026 — Comparativa",
+    metaDescription:
+      "Comparativa de los mejores decodificadores de VIN gratis en 2026: cobertura, precisión, idiomas y datos. Recomendaciones por caso de uso.",
+    keywords: [
+      "mejor decodificador VIN",
+      "mejor VIN decoder español",
+      "decodificador VIN gratis vs pagado",
+      "VIN decoder comparativa 2026",
+      "decodificador VIN preciso",
+      "VIN check gratis español",
+    ],
+    intro:
+      "No todos los decodificadores de VIN son iguales. Algunos cubren solo autos de pasajeros, otros solo modelos recientes, y muchos solo decodifican los primeros 11 caracteres (WMI + descriptor) sin acceder a los datos de configuración específica del vehículo. Esta guía comparativa lista los mejores decodificadores gratis en 2026, qué incluyen, qué no, y cuándo conviene usar uno pagado para datos críticos antes de comprar.",
+    whatYouGet: [
+      "Comparativa de cobertura por fabricante y año",
+      "Qué datos decodifica cada herramienta (solo básicos vs configuración completa)",
+      "Soporte para autos clásicos pre-1981 (5–13 caracteres)",
+      "Soporte para motocicletas, camiones comerciales y JDM",
+      "Precisión vs fuentes oficiales (NHTSA vPIC)",
+      "Cuándo conviene un reporte pagado (historial NMVTIS + accidentes)",
+      "Recomendaciones por caso de uso (comprador, vendedor, mecánico)",
+    ],
+    whyItMatters: [
+      "Un decodificador débil te da solo \"Toyota Camry\" — los buenos dan el motor exacto, paquete trim y planta",
+      "Los datos de configuración correctos previenen comprar piezas equivocadas y caer en estafas",
+      "Los autos clásicos requieren decodificadores especializados — los generalistas devuelven \"VIN inválido\"",
+      "Para decisiones de compra de $10K+ vale la pena un reporte pagado con historial NMVTIS completo",
+    ],
+    trustNote:
+      "Las recomendaciones se basan en pruebas con muestras reales de los 50 estados, todos los fabricantes principales (Toyota, Ford, Honda, Chevrolet, BMW, Mercedes), y años modelo desde 1981 hasta 2026. Los datos de fuente oficial provienen del Vehicle API de la NHTSA (vPIC).",
+    schemaName: "Mejor decodificador de VIN gratis",
   },
 };

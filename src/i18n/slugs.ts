@@ -137,6 +137,28 @@ ENGLISH_TO_LOCALE["/guides/vehicle-fraud-prevention"] = { es: "/guias/prevencion
 ENGLISH_TO_LOCALE["/used-car-inspection-checklist"] = { es: "/checklist-inspeccion-auto-usado" };
 ENGLISH_TO_LOCALE["/compare-cars"] = { es: "/comparar-autos" };
 
+// Wave 12 — the 15 high-intent "check" pages. Native Spanish slugs
+// targeting the exact buyer queries ("verificación de recall",
+// "título de salvamento", "vehículo robado VIN"). Pattern matches
+// Wave 5 specialty tools: Spanish landing brief → CTA to the English
+// interactive widget. Each entry must have a matching hook in
+// src/app/es/_specialty-shared/strings.ts and a /es/<slug>/page.tsx.
+ENGLISH_TO_LOCALE["/recall-check"] = { es: "/verificacion-recall" };
+ENGLISH_TO_LOCALE["/lemon-check"] = { es: "/verificacion-ley-limon" };
+ENGLISH_TO_LOCALE["/odometer-check"] = { es: "/verificacion-odometro" };
+ENGLISH_TO_LOCALE["/salvage-title-check"] = { es: "/titulo-salvamento" };
+ENGLISH_TO_LOCALE["/flood-check"] = { es: "/verificacion-inundacion" };
+ENGLISH_TO_LOCALE["/accident-history-check"] = { es: "/historial-accidentes" };
+ENGLISH_TO_LOCALE["/stolen-vehicle-check"] = { es: "/vehiculo-robado" };
+ENGLISH_TO_LOCALE["/hail-damage-check"] = { es: "/dano-granizo" };
+ENGLISH_TO_LOCALE["/airbag-check"] = { es: "/verificacion-airbag" };
+ENGLISH_TO_LOCALE["/total-loss-check"] = { es: "/perdida-total" };
+ENGLISH_TO_LOCALE["/auction-history"] = { es: "/historial-subastas" };
+ENGLISH_TO_LOCALE["/market-value"] = { es: "/valor-mercado-auto" };
+ENGLISH_TO_LOCALE["/vehicle-lien-check"] = { es: "/verificacion-gravamen" };
+ENGLISH_TO_LOCALE["/vin-decoder"] = { es: "/decodificador-vin" };
+ENGLISH_TO_LOCALE["/best-vin-decoder"] = { es: "/mejor-decodificador-vin" };
+
 /** Lookup: given an English path, return the path for the given locale. */
 export function translateSlug(englishPath: string, locale: Locale): string {
   if (locale === "en") return englishPath;
