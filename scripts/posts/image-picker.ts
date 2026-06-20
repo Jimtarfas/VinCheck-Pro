@@ -26,7 +26,19 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const CACHE_DIR = join(process.cwd(), ".cache");
+// Vercel's serverless filesystem mounts everything except /tmp as
+// read-only — writing to process.cwd()/.cache throws EROFS and
+// crashes the cron mid-run. Detect the serverless environment (the
+// AWS_LAMBDA_FUNCTION_NAME var is set on every Vercel Function
+// invocation) and route the cache to /tmp/.cache instead. /tmp is
+// ephemeral per cold-start, which is fine: the cache is best-effort
+// dedup, not durable state.
+const IS_SERVERLESS =
+  Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME) ||
+  Boolean(process.env.VERCEL);
+const CACHE_DIR = IS_SERVERLESS
+  ? "/tmp/.cache"
+  : join(process.cwd(), ".cache");
 const CACHE_FILE = join(CACHE_DIR, "blog-images.json");
 
 interface CacheEntry {
