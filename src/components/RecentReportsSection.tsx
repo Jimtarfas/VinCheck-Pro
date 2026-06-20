@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Clock, ArrowRight, Car } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import type { Locale } from "@/i18n/config";
 
 interface ReportRow {
   vin: string;
@@ -12,19 +13,63 @@ interface ReportRow {
   updated_at: string;
 }
 
-function relativeTime(iso: string): string {
+const COPY = {
+  en: {
+    eyebrow: "Your recent VIN reports",
+    heading: "Pick up where you left off",
+    sub: "Saved to your account — open them from any device, anytime.",
+    viewAll: "View all",
+    reopen: "Reopen report",
+    vinLabel: "VIN:",
+    relative: {
+      justNow: "just now",
+      minTemplate: "{n} min ago",
+      hrTemplate: "{n} hr ago",
+      hrsTemplate: "{n} hrs ago",
+      dayTemplate: "{n} day ago",
+      daysTemplate: "{n} days ago",
+      wkTemplate: "{n} wk ago",
+      wksTemplate: "{n} wks ago",
+      moTemplate: "{n} mo ago",
+      mosTemplate: "{n} mos ago",
+    },
+  },
+  es: {
+    eyebrow: "Tus reportes VIN recientes",
+    heading: "Continúa donde lo dejaste",
+    sub: "Guardados en tu cuenta — ábrelos desde cualquier dispositivo, en cualquier momento.",
+    viewAll: "Ver todos",
+    reopen: "Abrir reporte",
+    vinLabel: "VIN:",
+    relative: {
+      justNow: "justo ahora",
+      minTemplate: "hace {n} min",
+      hrTemplate: "hace {n} h",
+      hrsTemplate: "hace {n} h",
+      dayTemplate: "hace {n} día",
+      daysTemplate: "hace {n} días",
+      wkTemplate: "hace {n} sem",
+      wksTemplate: "hace {n} sem",
+      moTemplate: "hace {n} mes",
+      mosTemplate: "hace {n} meses",
+    },
+  },
+} as const;
+
+function relativeTime(iso: string, locale: Locale): string {
+  const rel = COPY[locale].relative;
   const diff = Math.max(0, Date.now() - new Date(iso).getTime());
   const mins = Math.round(diff / 60_000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins} min ago`;
+  if (mins < 1) return rel.justNow;
+  if (mins < 60) return rel.minTemplate.replace("{n}", String(mins));
   const hrs = Math.round(mins / 60);
-  if (hrs < 24) return `${hrs} hr${hrs === 1 ? "" : "s"} ago`;
+  if (hrs < 24) return (hrs === 1 ? rel.hrTemplate : rel.hrsTemplate).replace("{n}", String(hrs));
   const days = Math.round(hrs / 24);
-  if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
+  if (days < 7) return (days === 1 ? rel.dayTemplate : rel.daysTemplate).replace("{n}", String(days));
   const weeks = Math.round(days / 7);
-  if (weeks < 5) return `${weeks} wk${weeks === 1 ? "" : "s"} ago`;
+  if (weeks < 5) return (weeks === 1 ? rel.wkTemplate : rel.wksTemplate).replace("{n}", String(weeks));
   const months = Math.round(days / 30);
-  return `${months} mo${months === 1 ? "" : "s"} ago`;
+  return (months === 1 ? rel.moTemplate : rel.mosTemplate).replace("{n}", String(months));
 }
 
 /**
@@ -33,7 +78,12 @@ function relativeTime(iso: string): string {
  * the old localStorage-backed VinHistorySection so reports survive cache
  * clears and follow the user across devices.
  */
-export default async function RecentReportsSection() {
+export default async function RecentReportsSection({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const copy = COPY[locale];
   let rows: ReportRow[] = [];
 
   try {
@@ -64,13 +114,13 @@ export default async function RecentReportsSection() {
         <div className="flex items-end justify-between gap-4 mb-6 sm:mb-8 flex-wrap">
           <div className="min-w-0">
             <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-black text-primary uppercase tracking-[0.2em] mb-2">
-              <Clock className="w-4 h-4" /> Your recent VIN reports
+              <Clock className="w-4 h-4" /> {copy.eyebrow}
             </span>
             <h2 className="font-headline font-extrabold text-2xl sm:text-3xl lg:text-4xl text-on-surface leading-tight">
-              Pick up where you left off
+              {copy.heading}
             </h2>
             <p className="text-sm sm:text-base text-on-surface-variant mt-1.5 max-w-xl">
-              Saved to your account — open them from any device, anytime.
+              {copy.sub}
             </p>
           </div>
 
@@ -78,7 +128,7 @@ export default async function RecentReportsSection() {
             href="/dashboard"
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold text-primary bg-primary-container/30 hover:bg-primary-container/50 transition-colors"
           >
-            View all <ArrowRight className="w-3.5 h-3.5" />
+            {copy.viewAll} <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
@@ -124,16 +174,16 @@ export default async function RecentReportsSection() {
 
                 <div className="p-4 sm:p-5">
                   <p className="text-[10px] font-black text-outline uppercase tracking-widest mb-1">
-                    {relativeTime(r.updated_at)}
+                    {relativeTime(r.updated_at, locale)}
                   </p>
                   <p className="font-headline font-bold text-on-surface text-sm sm:text-base leading-tight break-words mb-1">
                     {label}
                   </p>
                   <p className="font-mono text-[10px] sm:text-xs text-outline tracking-wider break-all mb-3">
-                    VIN: {r.vin}
+                    {copy.vinLabel} {r.vin}
                   </p>
                   <span className="inline-flex items-center gap-1 text-xs font-bold text-primary group-hover:gap-2 transition-all">
-                    Reopen report <ArrowRight className="w-3.5 h-3.5" />
+                    {copy.reopen} <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </Link>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import VinSearchForm from "./VinSearchForm";
 import VinLocatorHint from "./VinLocatorHint";
+import type { Locale } from "@/i18n/config";
 
 const trustedSources = [
   { id: "nmvtis",     src: "/badges/nmvtis.webp",     alt: "NMVTIS",              h: "h-5" },
@@ -8,17 +9,54 @@ const trustedSources = [
   { id: "blockchain", src: "/badges/blockchain.svg",  alt: "Blockchain verified", h: "h-5" },
 ];
 
-// "Reports Downloaded" counts a measurable product event rather than a
-// self-claimed audience size like "Trusted Buyers" — easier to defend and
-// closer to what the system actually tracks.
-const stats = [
-  { value: "50K+",  label: "Reports Downloaded" },
-  { value: "4.9",   label: "Avg Rating" },
-  { value: "<60s",  label: "Report Speed" },
-  { value: "40+",   label: "Data Points" },
-];
+// Per-locale copy lives next to the component (matches Wave 5/12 pattern).
+// Numeric stat values stay locale-independent ("50K+", "4.9") — only labels
+// translate.
+const COPY = {
+  en: {
+    eyebrow: "Free Preview — Instant Results",
+    headlineLead: "Know Your Car's",
+    headlineAccent: "Full Story.",
+    sub: "Decode any VIN to get comprehensive vehicle specs, real photos, market values, and ownership history in seconds.",
+    trustedSources: "Trusted sources:",
+    imageAlt: "Modern luxury SUV — VIN check before you buy",
+    badgeVehicleVerified: "Vehicle Verified ✓",
+    badgeDataPoints: "40+ Data Points",
+    badgeVinDecodedLabel: "VIN Decoded",
+    badgeVinDecodedValue: "17-Char Verified",
+    stats: [
+      { value: "50K+",  label: "Reports Downloaded" },
+      { value: "4.9",   label: "Avg Rating" },
+      { value: "<60s",  label: "Report Speed" },
+      { value: "40+",   label: "Data Points" },
+    ],
+  },
+  es: {
+    eyebrow: "Vista previa gratis — Resultados al instante",
+    headlineLead: "Conoce la historia",
+    headlineAccent: "completa de tu auto.",
+    sub: "Decodifica cualquier VIN para obtener especificaciones completas del vehículo, fotos reales, valor de mercado e historial de propiedad en segundos.",
+    trustedSources: "Fuentes confiables:",
+    imageAlt: "SUV de lujo moderno — revisa el VIN antes de comprar",
+    badgeVehicleVerified: "Vehículo verificado ✓",
+    badgeDataPoints: "40+ puntos de datos",
+    badgeVinDecodedLabel: "VIN decodificado",
+    badgeVinDecodedValue: "17 caracteres verificados",
+    stats: [
+      { value: "50K+",  label: "Reportes descargados" },
+      { value: "4.9",   label: "Calificación promedio" },
+      { value: "<60s",  label: "Velocidad del reporte" },
+      { value: "40+",   label: "Puntos de datos" },
+    ],
+  },
+} as const;
 
-export default function HeroSection() {
+export default function HeroSection({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const copy = COPY[locale];
   return (
     <section
       id="hero"
@@ -40,30 +78,29 @@ export default function HeroSection() {
           <div className="animate-fade-in-up">
             <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-primary/8 border border-primary/10 text-xs sm:text-sm font-semibold text-primary mb-5 sm:mb-6">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Free Preview — Instant Results
+              {copy.eyebrow}
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="font-headline font-extrabold text-4xl sm:text-5xl lg:text-7xl leading-tight tracking-tighter text-primary mb-4 sm:mb-6 animate-fade-in-up-delay">
-            Know Your Car&apos;s<br />
-            <span style={{ color: "var(--color-secondary-container)" }}>Full Story.</span>
+            {copy.headlineLead}<br />
+            <span style={{ color: "var(--color-secondary-container)" }}>{copy.headlineAccent}</span>
           </h1>
 
           <p className="text-base sm:text-xl text-on-surface-variant font-medium max-w-xl mb-8 sm:mb-10 leading-relaxed animate-fade-in-up-delay-2">
-            Decode any VIN to get comprehensive vehicle specs, real photos,
-            market values, and ownership history in seconds.
+            {copy.sub}
           </p>
 
           {/* VIN Search */}
           <div className="animate-fade-in-up-delay-3">
-            <VinSearchForm size="lg" withPlateToggle />
-            <VinLocatorHint />
+            <VinSearchForm size="lg" withPlateToggle locale={locale} />
+            <VinLocatorHint locale={locale} />
           </div>
 
           {/* Stats row */}
           <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 animate-fade-in-up-delay-3">
-            {stats.map(({ value, label }) => (
+            {copy.stats.map(({ value, label }) => (
               <div key={label} className="text-center lg:text-left">
                 <p className="text-xl sm:text-2xl font-headline font-black text-primary leading-none mb-1">{value}</p>
                 <p className="text-[10px] sm:text-xs text-on-surface-variant font-medium uppercase tracking-wider">{label}</p>
@@ -73,7 +110,7 @@ export default function HeroSection() {
 
           {/* Trusted sources — part of hero, no background */}
           <div className="mt-8 pt-6 border-t border-slate-200/60 flex flex-wrap items-center gap-x-5 gap-y-3">
-            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.18em]">Trusted sources:</span>
+            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-[0.18em]">{copy.trustedSources}</span>
             {trustedSources.map(({ id, src, alt, h }) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img key={id} src={src} alt={alt} loading="lazy" decoding="async" className={`${h} w-auto object-contain opacity-50 grayscale`} />
@@ -96,7 +133,7 @@ export default function HeroSection() {
           <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl shadow-primary/15 -rotate-3 hover:rotate-0 transition-transform duration-700">
             <Image
               src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=900&q=80"
-              alt="Modern luxury SUV — VIN check before you buy"
+              alt={copy.imageAlt}
               fill
               className="object-cover"
               sizes="500px"
@@ -107,18 +144,18 @@ export default function HeroSection() {
             {/* Bottom badges */}
             <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
               <div className="px-3 py-1.5 bg-white/90 backdrop-blur rounded-xl text-xs font-bold text-on-surface shadow-sm">
-                Vehicle Verified ✓
+                {copy.badgeVehicleVerified}
               </div>
               <div className="px-3 py-1.5 rounded-xl text-xs font-bold text-on-secondary-container shadow-sm" style={{ background: "var(--color-secondary-container)" }}>
-                40+ Data Points
+                {copy.badgeDataPoints}
               </div>
             </div>
           </div>
 
           {/* VIN badge */}
           <div className="absolute top-6 left-6 px-3 py-2 bg-surface-container-lowest/95 backdrop-blur rounded-xl shadow-lg border border-outline-variant/10">
-            <p className="text-[10px] text-outline font-semibold uppercase tracking-wider">VIN Decoded</p>
-            <p className="text-xs font-mono font-bold text-primary">17-Char Verified</p>
+            <p className="text-[10px] text-outline font-semibold uppercase tracking-wider">{copy.badgeVinDecodedLabel}</p>
+            <p className="text-xs font-mono font-bold text-primary">{copy.badgeVinDecodedValue}</p>
           </div>
         </div>
 

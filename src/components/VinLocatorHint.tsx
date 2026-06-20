@@ -2,29 +2,66 @@
 
 import { useState } from "react";
 import { ChevronDown, LayoutDashboard, DoorOpen, FileText } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 
-const locations = [
-  {
-    icon: LayoutDashboard,
-    label: "Dashboard",
-    desc: "Driver's side, visible through the windshield at the base",
-    color: "bg-primary-50 text-primary-700",
+const COPY = {
+  en: {
+    toggle: "Where do I find my VIN?",
+    header: "Your 17-character VIN",
+    headerSub:
+      "Every vehicle built after 1981 has a unique VIN. Here are the most common places to find it:",
+    exampleLabel: "Example:",
+    locations: [
+      {
+        label: "Dashboard",
+        desc: "Driver's side, visible through the windshield at the base",
+      },
+      {
+        label: "Driver's Door Jamb",
+        desc: "Inside the door frame — look for the white sticker near the latch",
+      },
+      {
+        label: "Documents",
+        desc: "On your registration, title, or insurance card",
+      },
+    ],
   },
-  {
-    icon: DoorOpen,
-    label: "Driver's Door Jamb",
-    desc: "Inside the door frame — look for the white sticker near the latch",
-    color: "bg-amber-50 text-amber-700",
+  es: {
+    toggle: "¿Dónde encuentro mi VIN?",
+    header: "Tu VIN de 17 caracteres",
+    headerSub:
+      "Todo vehículo fabricado después de 1981 tiene un VIN único. Aquí están los lugares más comunes para encontrarlo:",
+    exampleLabel: "Ejemplo:",
+    locations: [
+      {
+        label: "Tablero",
+        desc: "Lado del conductor, visible a través del parabrisas en la base",
+      },
+      {
+        label: "Marco de la puerta del conductor",
+        desc: "Dentro del marco de la puerta — busca la calcomanía blanca cerca del seguro",
+      },
+      {
+        label: "Documentos",
+        desc: "En tu registro, título o tarjeta del seguro",
+      },
+    ],
   },
-  {
-    icon: FileText,
-    label: "Documents",
-    desc: "On your registration, title, or insurance card",
-    color: "bg-emerald-50 text-emerald-700",
-  },
-];
+} as const;
 
-export default function VinLocatorHint() {
+// Icon + color stay locale-independent — they're visual, not textual.
+const LOCATION_VISUALS = [
+  { icon: LayoutDashboard, color: "bg-primary-50 text-primary-700" },
+  { icon: DoorOpen, color: "bg-amber-50 text-amber-700" },
+  { icon: FileText, color: "bg-emerald-50 text-emerald-700" },
+] as const;
+
+export default function VinLocatorHint({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const copy = COPY[locale];
   const [open, setOpen] = useState(false);
 
   return (
@@ -39,7 +76,7 @@ export default function VinLocatorHint() {
         <span className="w-4 h-4 rounded-full bg-slate-200 group-hover:bg-primary/10 flex items-center justify-center transition-colors">
           <span className="text-[9px] font-black text-slate-400 group-hover:text-primary leading-none">?</span>
         </span>
-        Where do I find my VIN?
+        {copy.toggle}
         <ChevronDown
           className={`w-3.5 h-3.5 text-slate-400 group-hover:text-primary transition-transform duration-300 ${open ? "rotate-180" : ""}`}
         />
@@ -79,13 +116,13 @@ export default function VinLocatorHint() {
             </div>
 
             <div>
-              <p className="text-sm font-bold text-slate-800 mb-0.5">Your 17-character VIN</p>
+              <p className="text-sm font-bold text-slate-800 mb-0.5">{copy.header}</p>
               <p className="text-xs text-slate-500 leading-relaxed">
-                Every vehicle built after 1981 has a unique VIN. Here are the most common places to find it:
+                {copy.headerSub}
               </p>
               {/* Example VIN */}
               <div className="mt-2 inline-flex items-center gap-2 bg-slate-100 rounded-lg px-2.5 py-1">
-                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Example:</span>
+                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{copy.exampleLabel}</span>
                 <span className="font-mono text-xs font-bold text-slate-700 tracking-widest">1HGBH41JXMN109186</span>
               </div>
             </div>
@@ -93,17 +130,20 @@ export default function VinLocatorHint() {
 
           {/* 3 location cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {locations.map(({ icon: Icon, label, desc, color }) => (
-              <div key={label} className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-100">
-                <span className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center ${color}`}>
-                  <Icon className="w-3.5 h-3.5" />
-                </span>
-                <div>
-                  <p className="text-xs font-bold text-slate-800 leading-snug">{label}</p>
-                  <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">{desc}</p>
+            {copy.locations.map(({ label, desc }, i) => {
+              const { icon: Icon, color } = LOCATION_VISUALS[i];
+              return (
+                <div key={label} className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <span className={`flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center ${color}`}>
+                    <Icon className="w-3.5 h-3.5" />
+                  </span>
+                  <div>
+                    <p className="text-xs font-bold text-slate-800 leading-snug">{label}</p>
+                    <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">{desc}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

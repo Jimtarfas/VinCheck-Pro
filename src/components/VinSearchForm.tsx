@@ -5,19 +5,75 @@ import { useRouter, usePathname } from "next/navigation";
 import { Search, Loader2 } from "lucide-react";
 import { contextSlugForPath } from "@/lib/report-context";
 import { states } from "@/lib/states";
+import type { Locale } from "@/i18n/config";
 
 type Mode = "vin" | "plate";
+
+// Per-locale copy. Pattern matches SPECIALTY_HOOKS_ES (Wave 5/12) and
+// STATE_HOOKS_ES — keep translations next to the component instead of
+// blowing up the central i18n dictionary with form-only strings. US
+// state names in the dropdown stay English (proper nouns).
+const COPY = {
+  en: {
+    toggleVin: "By VIN",
+    togglePlate: "By U.S. License Plate",
+    vinPlaceholder: "Enter 17-digit VIN Number",
+    platePlaceholder: "License plate number",
+    stateLabelDefault: "State…",
+    stateAriaLabel: "Issuing state",
+    submitVin: "Check VIN",
+    submitVinLoading: "Checking…",
+    submitPlate: "Look Up VIN",
+    submitPlateLoading: "Looking up…",
+    errorVinLength: "A valid VIN must be exactly 17 characters.",
+    errorVinBanned: "VINs cannot contain I, O, or Q characters.",
+    errorPlateEmpty: "Enter a plate number.",
+    errorPlateLong: "Plates are at most 8 characters.",
+    errorPlateNoState: "Select the issuing state.",
+    errorPlateNotFound:
+      "We couldn't find a VIN for that plate. Try searching by VIN.",
+    errorNetwork: "Network error.",
+    badgeSecure: "100% Secure",
+    badgeInstant: "Instant Results",
+  },
+  es: {
+    toggleVin: "Por VIN",
+    togglePlate: "Por placa de EE. UU.",
+    vinPlaceholder: "Ingresa el VIN de 17 dígitos",
+    platePlaceholder: "Número de placa",
+    stateLabelDefault: "Estado…",
+    stateAriaLabel: "Estado emisor",
+    submitVin: "Revisar VIN",
+    submitVinLoading: "Revisando…",
+    submitPlate: "Buscar VIN",
+    submitPlateLoading: "Buscando…",
+    errorVinLength: "Un VIN válido debe tener exactamente 17 caracteres.",
+    errorVinBanned: "Los VIN no pueden contener las letras I, O o Q.",
+    errorPlateEmpty: "Ingresa un número de placa.",
+    errorPlateLong: "Las placas tienen como máximo 8 caracteres.",
+    errorPlateNoState: "Selecciona el estado emisor.",
+    errorPlateNotFound:
+      "No encontramos un VIN para esa placa. Intenta buscar por VIN.",
+    errorNetwork: "Error de red.",
+    badgeSecure: "100% Seguro",
+    badgeInstant: "Resultados al instante",
+  },
+} as const;
 
 export default function VinSearchForm({
   size = "lg",
   onDark = false,
   withPlateToggle = false,
+  locale = "en",
 }: {
   size?: "lg" | "sm";
   onDark?: boolean;
   /** Show the "By VIN / By U.S. License Plate" toggle and plate-lookup mode. */
   withPlateToggle?: boolean;
+  /** UI language. Defaults to English to keep existing call sites unchanged. */
+  locale?: Locale;
 }) {
+  const copy = COPY[locale];
   const [mode, setMode] = useState<Mode>("vin");
   const [vin, setVin] = useState("");
   const [plate, setPlate] = useState("");
@@ -37,8 +93,8 @@ export default function VinSearchForm({
 
   const go = (raw: string) => {
     const cleaned = raw.trim().toUpperCase();
-    if (cleaned.length !== 17) { setError("A valid VIN must be exactly 17 characters."); return; }
-    if (/[IOQ]/.test(cleaned)) { setError("VINs cannot contain I, O, or Q characters."); return; }
+    if (cleaned.length !== 17) { setError(copy.errorVinLength); return; }
+    if (/[IOQ]/.test(cleaned)) { setError(copy.errorVinBanned); return; }
     setError("");
     setLoading(true);
     router.push(`/report-preview/${cleaned}${query}`);
@@ -62,9 +118,9 @@ export default function VinSearchForm({
   // report-preview flow the VIN path uses so the experience is identical.
   const goPlate = async () => {
     const cleanedPlate = plate.toUpperCase().replace(/[^A-Z0-9]/g, "");
-    if (cleanedPlate.length < 2) { setError("Enter a plate number."); return; }
-    if (cleanedPlate.length > 8) { setError("Plates are at most 8 characters."); return; }
-    if (!plateState) { setError("Select the issuing state."); return; }
+    if (cleanedPlate.length < 2) { setError(copy.errorPlateEmpty); return; }
+    if (cleanedPlate.length > 8) { setError(copy.errorPlateLong); return; }
+    if (!plateState) { setError(copy.errorPlateNoState); return; }
     setError("");
     setLoading(true);
     try {
@@ -84,10 +140,10 @@ export default function VinSearchForm({
         router.push(`/report-preview/${data.vin}${query}`);
         return;
       }
-      setError(data.message || "We couldn't find a VIN for that plate. Try searching by VIN.");
+      setError(data.message || copy.errorPlateNotFound);
       setLoading(false);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Network error.");
+      setError(e instanceof Error ? e.message : copy.errorNetwork);
       setLoading(false);
     }
   };
@@ -101,8 +157,8 @@ export default function VinSearchForm({
         <div className="mb-4 flex">
           <div className="inline-flex rounded-full bg-surface-container/80 ring-1 ring-outline-variant/15 p-1">
             {([
-              { key: "vin", label: "By VIN" },
-              { key: "plate", label: "By U.S. License Plate" },
+              { key: "vin", label: copy.toggleVin },
+              { key: "plate", label: copy.togglePlate },
             ] as { key: Mode; label: string }[]).map(({ key, label }) => {
               const active = mode === key;
               return (
@@ -136,7 +192,7 @@ export default function VinSearchForm({
               type="text"
               value={vin}
               onChange={handleChange}
-              placeholder="Enter 17-digit VIN Number"
+              placeholder={copy.vinPlaceholder}
               maxLength={17}
               className={`w-full bg-transparent border-none outline-none text-on-surface placeholder:text-outline/50 uppercase tracking-widest font-mono font-medium ${isLg ? "text-base py-2" : "text-base sm:text-sm py-1.5"}`}
             />
@@ -146,7 +202,7 @@ export default function VinSearchForm({
             disabled={loading}
             className={`flex-shrink-0 flex items-center justify-center gap-2 bg-secondary-container text-on-secondary-container font-headline font-extrabold rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-secondary-container/20 active:scale-95 disabled:opacity-60 cursor-pointer ${isLg ? "px-8 py-4 text-base" : "px-6 py-3 text-sm"}`}
           >
-            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Checking…</> : "Check VIN"}
+            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> {copy.submitVinLoading}</> : copy.submitVin}
           </button>
         </div>
       ) : (
@@ -157,7 +213,7 @@ export default function VinSearchForm({
               type="text"
               value={plate}
               onChange={(e) => { setPlate(e.target.value.toUpperCase()); setError(""); }}
-              placeholder="License plate number"
+              placeholder={copy.platePlaceholder}
               maxLength={10}
               autoComplete="off"
               className={`w-full bg-transparent border-none outline-none text-on-surface placeholder:text-outline/50 uppercase tracking-widest font-mono font-medium ${isLg ? "text-base py-2" : "text-base sm:text-sm py-1.5"}`}
@@ -166,10 +222,10 @@ export default function VinSearchForm({
           <select
             value={plateState}
             onChange={(e) => { setPlateState(e.target.value); setError(""); }}
-            aria-label="Issuing state"
+            aria-label={copy.stateAriaLabel}
             className={`bg-transparent border-none outline-none text-on-surface font-medium cursor-pointer px-3 sm:max-w-[10rem] ${isLg ? "text-base py-2" : "text-sm py-1.5"}`}
           >
-            <option value="">State…</option>
+            <option value="">{copy.stateLabelDefault}</option>
             {states.map((s) => (
               <option key={s.abbr} value={s.abbr}>{s.name} ({s.abbr})</option>
             ))}
@@ -180,7 +236,7 @@ export default function VinSearchForm({
             disabled={loading}
             className={`flex-shrink-0 flex items-center justify-center gap-2 bg-secondary-container text-on-secondary-container font-headline font-extrabold rounded-full transition-all hover:scale-105 hover:shadow-lg hover:shadow-secondary-container/20 active:scale-95 disabled:opacity-60 cursor-pointer ${isLg ? "px-8 py-4 text-base" : "px-6 py-3 text-sm"}`}
           >
-            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Looking up…</> : "Look Up VIN"}
+            {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> {copy.submitPlateLoading}</> : copy.submitPlate}
           </button>
         </div>
       )}
@@ -193,11 +249,11 @@ export default function VinSearchForm({
         <div className={`mt-4 flex items-center gap-6 text-xs font-semibold uppercase tracking-widest ${onDark ? "text-white" : "text-slate-700"}`}>
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            100% Secure
+            {copy.badgeSecure}
           </span>
           <span className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-secondary-container" />
-            Instant Results
+            {copy.badgeInstant}
           </span>
         </div>
       )}

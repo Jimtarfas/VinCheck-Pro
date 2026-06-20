@@ -14,34 +14,138 @@ import {
   RefreshCcw,
   ArrowRight,
 } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 
-/* ── 12-item feature list shown on the right ── */
-const features = [
-  { label: "Accident & damage history",            icon: FileWarning,  color: "text-rose-500",   bg: "bg-rose-50" },
-  { label: "Title brand records (salvage, lemon)", icon: ShieldCheck,  color: "text-primary",    bg: "bg-primary/8" },
-  { label: "Odometer rollback detection",          icon: Gauge,        color: "text-amber-500",  bg: "bg-amber-50" },
-  { label: "Ownership history & registration",     icon: Users,        color: "text-violet-500", bg: "bg-violet-50" },
-  { label: "Theft & recovery records",             icon: Car,          color: "text-slate-600",  bg: "bg-slate-100" },
-  { label: "Open safety recalls",                  icon: ShieldCheck,  color: "text-red-500",    bg: "bg-red-50" },
-  { label: "Flood & fire damage reports",          icon: Flame,        color: "text-orange-500", bg: "bg-orange-50" },
-  { label: "Auction sale history with photos",     icon: BarChart3,    color: "text-blue-500",   bg: "bg-blue-50" },
-  { label: "Lien & impound information",           icon: Anchor,       color: "text-indigo-500", bg: "bg-indigo-50" },
-  { label: "Service & maintenance records",        icon: Wrench,       color: "text-emerald-500",bg: "bg-emerald-50" },
-  { label: "VIN specs & factory options",          icon: RefreshCcw,   color: "text-cyan-600",   bg: "bg-cyan-50" },
-  { label: "Market value estimate",                icon: TrendingDown, color: "text-green-600",  bg: "bg-green-50" },
-];
+const COPY = {
+  en: {
+    badgeDataPoints: "40+ Data Points",
+    heading: "What's Included in Every Report",
+    sub: "Comprehensive vehicle history from NMVTIS and 50+ trusted sources — delivered instantly.",
+    checklistLabel: "Full Coverage Checklist",
+    checklistCounter: "12 of 40+ shown",
+    features: [
+      "Accident & damage history",
+      "Title brand records (salvage, lemon)",
+      "Odometer rollback detection",
+      "Ownership history & registration",
+      "Theft & recovery records",
+      "Open safety recalls",
+      "Flood & fire damage reports",
+      "Auction sale history with photos",
+      "Lien & impound information",
+      "Service & maintenance records",
+      "VIN specs & factory options",
+      "Market value estimate",
+    ],
+    phoneRows: [
+      { label: "Title Status",    value: "Clean" },
+      { label: "Accidents",       value: "0 Reported" },
+      { label: "Owners",          value: "2 Previous" },
+      { label: "Service Records", value: "12 Found" },
+      { label: "Open Recalls",    value: "None" },
+      { label: "Odometer",        value: "Verified" },
+    ],
+    phoneTitle: "2019 Toyota Camry",
+    phoneScore: "Score",
+    phoneValue: "Value",
+    phoneCta: "View Full Report",
+    previewEyebrow: "Free Preview",
+    previewHeading: "See what you'll get",
+    previewBullet1: "50+ data points",
+    previewBullet2: "Title & accident records",
+    previewBullet3: "Print-ready",
+    previewCta: "View Sample",
+    statBlocks: [
+      { n: "50+",    label: "Trusted Sources" },
+      { n: "1B+",    label: "Records Checked" },
+      { n: "NMVTIS", label: "Federal Database" },
+      { n: "<60s",   label: "Report Delivery" },
+    ],
+  },
+  es: {
+    badgeDataPoints: "40+ puntos de datos",
+    heading: "Lo que incluye cada reporte",
+    sub: "Historial vehicular completo desde NMVTIS y más de 50 fuentes confiables — entregado al instante.",
+    checklistLabel: "Lista completa de cobertura",
+    checklistCounter: "12 de 40+ mostrados",
+    features: [
+      "Historial de accidentes y daños",
+      "Registros de marca de título (salvamento, limón)",
+      "Detección de retroceso de odómetro",
+      "Historial de propiedad y registro",
+      "Registros de robo y recuperación",
+      "Retiros de seguridad abiertos",
+      "Reportes de daño por inundación e incendio",
+      "Historial de subastas con fotos",
+      "Información de gravámenes e incautaciones",
+      "Registros de servicio y mantenimiento",
+      "Especificaciones VIN y opciones de fábrica",
+      "Estimación del valor de mercado",
+    ],
+    phoneRows: [
+      { label: "Estado del título",   value: "Limpio" },
+      { label: "Accidentes",          value: "0 reportados" },
+      { label: "Propietarios",        value: "2 previos" },
+      { label: "Registros de servicio", value: "12 encontrados" },
+      { label: "Retiros abiertos",    value: "Ninguno" },
+      { label: "Odómetro",            value: "Verificado" },
+    ],
+    phoneTitle: "Toyota Camry 2019",
+    phoneScore: "Puntaje",
+    phoneValue: "Valor",
+    phoneCta: "Ver reporte completo",
+    previewEyebrow: "Vista previa gratis",
+    previewHeading: "Mira lo que vas a obtener",
+    previewBullet1: "50+ puntos de datos",
+    previewBullet2: "Registros de título y accidentes",
+    previewBullet3: "Listo para imprimir",
+    previewCta: "Ver muestra",
+    statBlocks: [
+      { n: "50+",    label: "Fuentes confiables" },
+      { n: "1B+",    label: "Registros revisados" },
+      { n: "NMVTIS", label: "Base de datos federal" },
+      { n: "<60s",   label: "Entrega del reporte" },
+    ],
+  },
+} as const;
 
-/* ── Phone screen data rows ── */
-const phoneRows = [
-  { label: "Title Status",    value: "Clean",      badge: true,  badgeColor: "bg-green-100 text-green-700" },
-  { label: "Accidents",       value: "0 Reported", badge: false, good: true },
-  { label: "Owners",          value: "2 Previous", badge: false, good: false },
-  { label: "Service Records", value: "12 Found",   badge: false, good: true },
-  { label: "Open Recalls",    value: "None",       badge: false, good: true },
-  { label: "Odometer",        value: "Verified",   badge: true,  badgeColor: "bg-blue-100 text-blue-700" },
-];
+const FEATURE_VISUALS = [
+  { icon: FileWarning,  color: "text-rose-500",   bg: "bg-rose-50" },
+  { icon: ShieldCheck,  color: "text-primary",    bg: "bg-primary/8" },
+  { icon: Gauge,        color: "text-amber-500",  bg: "bg-amber-50" },
+  { icon: Users,        color: "text-violet-500", bg: "bg-violet-50" },
+  { icon: Car,          color: "text-slate-600",  bg: "bg-slate-100" },
+  { icon: ShieldCheck,  color: "text-red-500",    bg: "bg-red-50" },
+  { icon: Flame,        color: "text-orange-500", bg: "bg-orange-50" },
+  { icon: BarChart3,    color: "text-blue-500",   bg: "bg-blue-50" },
+  { icon: Anchor,       color: "text-indigo-500", bg: "bg-indigo-50" },
+  { icon: Wrench,       color: "text-emerald-500",bg: "bg-emerald-50" },
+  { icon: RefreshCcw,   color: "text-cyan-600",   bg: "bg-cyan-50" },
+  { icon: TrendingDown, color: "text-green-600",  bg: "bg-green-50" },
+] as const;
 
-export default function ReportIncludedSection() {
+const PHONE_ROW_VISUALS = [
+  { badge: true,  badgeColor: "bg-green-100 text-green-700" },
+  { badge: false, good: true },
+  { badge: false, good: false },
+  { badge: false, good: true },
+  { badge: false, good: true },
+  { badge: true,  badgeColor: "bg-blue-100 text-blue-700" },
+] as const;
+
+const STAT_VISUALS = [
+  { color: "bg-surface-container-lowest text-primary border border-primary/10" },
+  { color: "bg-violet-50 text-violet-700" },
+  { color: "bg-emerald-50 text-emerald-700" },
+  { color: "bg-amber-50 text-amber-700" },
+] as const;
+
+export default function ReportIncludedSection({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const copy = COPY[locale];
   return (
     <section
       id="whats-included"
@@ -54,13 +158,13 @@ export default function ReportIncludedSection() {
         <div className="text-center mb-10 sm:mb-14">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/12 text-xs font-bold text-primary uppercase tracking-[0.18em] mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            40+ Data Points
+            {copy.badgeDataPoints}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold text-on-surface tracking-tight mb-3">
-            What&apos;s Included in Every Report
+            {copy.heading}
           </h2>
           <p className="text-base sm:text-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
-            Comprehensive vehicle history from NMVTIS and 50+ trusted sources — delivered instantly.
+            {copy.sub}
           </p>
         </div>
 
@@ -81,17 +185,17 @@ export default function ReportIncludedSection() {
                       <Car className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div>
-                      <p className="text-[9px] font-black text-white leading-none">2019 Toyota Camry</p>
+                      <p className="text-[9px] font-black text-white leading-none">{copy.phoneTitle}</p>
                       <p className="text-[7px] font-mono text-white/60 leading-none mt-0.5">4T1B11HK5KU••••••</p>
                     </div>
                   </div>
                   <div className="flex gap-2">
                     <div className="flex-1 bg-white/15 rounded-2xl px-2 py-1.5 text-center">
-                      <p className="text-[7px] text-white/60 uppercase tracking-widest leading-none mb-0.5">Score</p>
+                      <p className="text-[7px] text-white/60 uppercase tracking-widest leading-none mb-0.5">{copy.phoneScore}</p>
                       <p className="text-[13px] font-black text-white leading-none">9.2<span className="text-[9px] font-semibold text-white/60">/10</span></p>
                     </div>
                     <div className="flex-1 bg-white/15 rounded-2xl px-2 py-1.5 text-center">
-                      <p className="text-[7px] text-white/60 uppercase tracking-widest leading-none mb-0.5">Value</p>
+                      <p className="text-[7px] text-white/60 uppercase tracking-widest leading-none mb-0.5">{copy.phoneValue}</p>
                       <p className="text-[13px] font-black text-white leading-none">$18.4k</p>
                     </div>
                   </div>
@@ -99,21 +203,24 @@ export default function ReportIncludedSection() {
 
                 {/* Data rows */}
                 <div className="px-3 py-2.5 space-y-1.5">
-                  {phoneRows.map(({ label, value, badge, badgeColor, good }) => (
-                    <div key={label} className="flex items-center justify-between pb-1.5 border-b border-slate-50 last:border-0 last:pb-0">
-                      <span className="text-[9px] text-slate-400 font-medium">{label}</span>
-                      {badge ? (
-                        <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full ${badgeColor}`}>{value}</span>
-                      ) : (
-                        <span className={`text-[9px] font-bold ${good ? "text-emerald-600" : "text-slate-600"}`}>{value}</span>
-                      )}
-                    </div>
-                  ))}
+                  {copy.phoneRows.map(({ label, value }, i) => {
+                    const v = PHONE_ROW_VISUALS[i];
+                    return (
+                      <div key={label} className="flex items-center justify-between pb-1.5 border-b border-slate-50 last:border-0 last:pb-0">
+                        <span className="text-[9px] text-slate-400 font-medium">{label}</span>
+                        {v.badge ? (
+                          <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full ${v.badgeColor}`}>{value}</span>
+                        ) : (
+                          <span className={`text-[9px] font-bold ${v.good ? "text-emerald-600" : "text-slate-600"}`}>{value}</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <div className="px-3 pb-4 pt-2">
                   <div className="bg-primary rounded-2xl py-2 text-center">
-                    <span className="text-[8px] font-black text-white uppercase tracking-widest">View Full Report</span>
+                    <span className="text-[8px] font-black text-white uppercase tracking-widest">{copy.phoneCta}</span>
                   </div>
                 </div>
               </div>
@@ -126,38 +233,41 @@ export default function ReportIncludedSection() {
           <div className="bg-surface-container-lowest rounded-3xl p-6 sm:p-8 shadow-sm border border-outline-variant/10 flex flex-col">
 
             <div className="flex items-center justify-between mb-5">
-              <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em]">Full Coverage Checklist</p>
-              <span className="text-[10px] font-bold text-primary bg-primary/8 px-2 py-1 rounded-full">12 of 40+ shown</span>
+              <p className="text-[10px] font-black text-outline uppercase tracking-[0.2em]">{copy.checklistLabel}</p>
+              <span className="text-[10px] font-bold text-primary bg-primary/8 px-2 py-1 rounded-full">{copy.checklistCounter}</span>
             </div>
 
             {/* 2-col feature grid (3-col on large) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-1 mb-6">
-              {features.map(({ label, icon: Icon, color, bg }) => (
-                <div key={label} className="flex items-center gap-3 py-2 border-b border-slate-100 last:border-0 sm:[&:nth-last-child(2)]:border-0">
-                  <div className={`w-8 h-8 rounded-xl ${bg} flex items-center justify-center flex-shrink-0`}>
-                    <Icon className={`w-4 h-4 ${color}`} />
+              {copy.features.map((label, i) => {
+                const { icon: Icon, color, bg } = FEATURE_VISUALS[i];
+                return (
+                  <div key={label} className="flex items-center gap-3 py-2 border-b border-slate-100 last:border-0 sm:[&:nth-last-child(2)]:border-0">
+                    <div className={`w-8 h-8 rounded-xl ${bg} flex items-center justify-center flex-shrink-0`}>
+                      <Icon className={`w-4 h-4 ${color}`} />
+                    </div>
+                    <span className="text-sm text-on-surface font-medium leading-snug">{label}</span>
                   </div>
-                  <span className="text-sm text-on-surface font-medium leading-snug">{label}</span>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Inline preview banner — tight, integrated, no floating empty space */}
             <div className="mt-auto bg-primary rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:justify-between">
               <div>
-                <p className="text-[10px] font-black text-white/70 uppercase tracking-[0.18em] mb-1">Free Preview</p>
-                <p className="text-base sm:text-lg font-headline font-extrabold text-white leading-tight mb-1">See what you&apos;ll get</p>
+                <p className="text-[10px] font-black text-white/70 uppercase tracking-[0.18em] mb-1">{copy.previewEyebrow}</p>
+                <p className="text-base sm:text-lg font-headline font-extrabold text-white leading-tight mb-1">{copy.previewHeading}</p>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/80">
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> 50+ data points</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Title & accident records</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Print-ready</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> {copy.previewBullet1}</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> {copy.previewBullet2}</span>
+                  <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> {copy.previewBullet3}</span>
                 </div>
               </div>
               <Link
                 href="/full-report/1C4RJEAG0JC168184"
                 className="flex-shrink-0 inline-flex items-center gap-2 bg-white text-primary text-sm font-bold rounded-full px-5 py-3 hover:bg-white/90 transition-colors group whitespace-nowrap"
               >
-                View Sample
+                {copy.previewCta}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
@@ -167,13 +277,8 @@ export default function ReportIncludedSection() {
 
         {/* ── Stat strip — closer to content ── */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8">
-          {[
-            { n: "50+",    label: "Trusted Sources",  color: "bg-surface-container-lowest text-primary border border-primary/10" },
-            { n: "1B+",    label: "Records Checked",  color: "bg-violet-50 text-violet-700" },
-            { n: "NMVTIS", label: "Federal Database", color: "bg-emerald-50 text-emerald-700" },
-            { n: "<60s",   label: "Report Delivery",  color: "bg-amber-50 text-amber-700" },
-          ].map(({ n, label, color }) => (
-            <div key={label} className={`rounded-2xl px-4 py-3.5 text-center ${color}`}>
+          {copy.statBlocks.map(({ n, label }, i) => (
+            <div key={label} className={`rounded-2xl px-4 py-3.5 text-center ${STAT_VISUALS[i].color}`}>
               <p className="text-xl sm:text-2xl font-headline font-black leading-none mb-1">{n}</p>
               <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">{label}</p>
             </div>

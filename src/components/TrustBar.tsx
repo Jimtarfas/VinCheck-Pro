@@ -1,14 +1,33 @@
+import type { Locale } from "@/i18n/config";
+
 // "Reports Downloaded" counts a measurable product event rather than a
 // self-claimed audience size like "Happy Customers" — easier to defend and
 // closer to what the system actually tracks.
-const stats = [
-  { value: "50K+",  label: "Reports Downloaded" },
-  { value: "4.9",   label: "Average Rating" },
-  { value: "<60s",  label: "Avg. Delivery Time" },
-  { value: "24/7",  label: "Data Available" },
-];
+const COPY = {
+  en: {
+    stats: [
+      { value: "50K+",  label: "Reports Downloaded" },
+      { value: "4.9",   label: "Average Rating" },
+      { value: "<60s",  label: "Avg. Delivery Time" },
+      { value: "24/7",  label: "Data Available" },
+    ],
+  },
+  es: {
+    stats: [
+      { value: "50K+",  label: "Reportes descargados" },
+      { value: "4.9",   label: "Calificación promedio" },
+      { value: "<60s",  label: "Entrega promedio" },
+      { value: "24/7",  label: "Datos disponibles" },
+    ],
+  },
+} as const;
 
-export default function TrustBar() {
+export default function TrustBar({
+  locale = "en",
+}: {
+  locale?: Locale;
+}) {
+  const stats = COPY[locale].stats;
   return (
     <section className="bg-primary-container py-10 sm:py-12 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
