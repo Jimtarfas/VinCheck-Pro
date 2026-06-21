@@ -16,6 +16,7 @@ import { createHash } from "node:crypto";
 import { fetchLatestCarNews, type SourceArticle } from "./apitube";
 import { rewriteArticle } from "./rewrite";
 import { publishNewsArticle } from "./publish";
+import { submitToIndexNow } from "../indexnow";
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "s41e632p";
 const DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
@@ -104,6 +105,17 @@ export async function runNewsBot(
         sourceId: source.id,
         error: e instanceof Error ? e.message : "unknown",
       });
+    }
+  }
+
+  // News goes live immediately (no noIndex hold), so the daily unindex sweep
+  // never touches it — ping IndexNow here so Bing/Copilot pick up new posts
+  // right away instead of waiting for the next sitemap crawl.
+  if (published.length > 0) {
+    try {
+      await submitToIndexNow(published.map((p) => `/blog/${p.slug}`));
+    } catch {
+      /* never let IndexNow break the run */
     }
   }
 

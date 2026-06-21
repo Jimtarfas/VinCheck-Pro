@@ -30,8 +30,6 @@ export const NEWS_CATEGORY_SLUG = "auto-news";
 const NEWS_CATEGORY_TITLE = "Auto News";
 const NEWS_CATEGORY_COLOR = "cyan";
 
-// Hours between post creation and Google-indexable. 24 = next-day reveal.
-const INDEX_DELAY_HOURS = 24;
 
 function client() {
   const token = process.env.SANITY_API_TOKEN;
@@ -148,7 +146,6 @@ export async function publishNewsArticle(
   const body = draftToBody(draft);
 
   const now = new Date();
-  const indexAt = new Date(now.getTime() + INDEX_DELAY_HOURS * 3600 * 1000);
 
   const doc = await c.createIfNotExists({
     _id: docId,
@@ -171,16 +168,17 @@ export async function publishNewsArticle(
     author: { _type: "reference", _ref: authorId },
     body,
     // ── Bot bookkeeping ──
-    noIndex: true, // hidden from search engines until indexAt
+    // News goes live immediately — freshness matters and these are original
+    // rewrites, not republications. No 24h noIndex hold (unlike blog-bot).
+    noIndex: false,
     botGenerated: true,
-    indexAt: indexAt.toISOString(),
     botRunId: runId,
   });
 
   return {
     slug,
     sanityId: doc._id,
-    indexAt: indexAt.toISOString(),
+    indexAt: now.toISOString(),
     created: true,
   };
 }
