@@ -1,46 +1,20 @@
 /**
- * Wave 15 — Spanish dynamic template for /build-sheet/[brand].
- * Per-brand build-sheet pages for Mercedes-Benz, BMW, Audi, etc.
+ * Wave 17d — Spanish dynamic template for /es/build-sheet/[brand].
+ * Renders the SAME full English brand-page layout via the shared
+ * BuildSheetBrandBody component. Replaces the Wave 15 SpecialtyToolPage
+ * shell with true visual parity.
  */
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { FileText } from "lucide-react";
-import SpecialtyToolPage from "../../_specialty-shared/SpecialtyToolPage";
-import { specialtyMetadata, specialtySchemas } from "../../_specialty-shared/metadata";
-import type { SpecialtyHook } from "../../_specialty-shared/strings";
-import { BUILD_SHEET_BRANDS } from "@/lib/build-sheets";
+import BuildSheetBrandBody from "@/components/BuildSheetBrandBody";
+import { BUILD_SHEET_BRANDS, findBuildSheetBrand } from "@/lib/build-sheets";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
+
+const SITE = "https://www.carcheckervin.com";
 
 export function generateStaticParams() {
   return BUILD_SHEET_BRANDS.map((b) => ({ brand: b.slug }));
-}
-
-function buildHook(brandSlug: string): SpecialtyHook | null {
-  const brand = BUILD_SHEET_BRANDS.find((b) => b.slug === brandSlug);
-  if (!brand) return null;
-
-  return {
-    esSlug: `/build-sheet/${brand.slug}`,
-    englishPath: `/build-sheet/${brand.slug}`,
-    icon: FileText,
-    badge: `Hoja de fábrica · ${brand.name}`,
-    h1: `Hoja de fábrica ${brand.name} (${brand.docName})`,
-    metaTitle: `Hoja de fábrica ${brand.name} gratis por VIN`,
-    metaDescription: `Recupera la ${brand.docName} (hoja de fábrica) de cualquier ${brand.name} por VIN. Códigos de opciones, configuración original, planta y fecha — gratis.`,
-    keywords: [
-      `hoja de fábrica ${brand.name}`,
-      `${brand.name} ${brand.docName} VIN`,
-      `${brand.name} build sheet español`,
-      `${brand.name} option codes`,
-      `${brand.name} configuración original`,
-      `${brand.name} spec sheet`,
-    ],
-    intro: `${brand.summary} La ${brand.docName} es el documento original que ${brand.name} genera al ensamblar cada vehículo. Lista todas las opciones instaladas, códigos de equipamiento, color de pintura, configuración del motor y planta de origen. Es la única referencia oficial para verificar qué especificaciones venían de fábrica en tu ${brand.name}.`,
-    whatYouGet: brand.contains.slice(0, 7),
-    whyItMatters: brand.tips.slice(0, 4),
-    trustNote: `${brand.sourceNote} El formato de códigos de opciones es: ${brand.optionCodeFormat}. La hoja física se encuentra típicamente en: ${brand.whereToFind.slice(0, 3).join(", ")}.`,
-    schemaName: `Hoja de fábrica ${brand.name}`,
-  };
 }
 
 export async function generateMetadata({
@@ -48,10 +22,37 @@ export async function generateMetadata({
 }: {
   params: Promise<{ brand: string }>;
 }): Promise<Metadata> {
-  const { brand } = await params;
-  const hook = buildHook(brand);
-  if (!hook) return {};
-  return specialtyMetadata(hook);
+  const { brand: slug } = await params;
+  const b = findBuildSheetBrand(slug);
+  if (!b) return {};
+
+  const alt = hreflangAlternatesForLocale(`/build-sheet/${b.slug}`, "es");
+  const title = `Hoja de fábrica ${b.name} por VIN — Decodificador gratis`;
+  const description = `Busca una hoja de fábrica ${b.name} por VIN, gratis. Decodifica la ${b.docName}: opciones de fábrica, códigos de pintura e interior, motor, transmisión y planta de ensamble del registro original.`;
+
+  return {
+    title: { absolute: `${title} | CarCheckerVIN` },
+    description,
+    keywords: [
+      `hoja de fábrica ${b.name}`,
+      `${b.name} ${b.docName} VIN`,
+      `${b.name} build sheet español`,
+      `${b.name} códigos de opciones`,
+      `${b.name} configuración original`,
+      `${b.name} hoja de fábrica por VIN`,
+    ],
+    alternates: { canonical: alt.canonical, languages: alt.languages },
+    openGraph: {
+      title,
+      description,
+      url: alt.canonical,
+      type: "article",
+      siteName: "CarCheckerVIN",
+      locale: "es_US",
+    },
+    twitter: { card: "summary_large_image", title, description },
+    robots: { index: true, follow: true },
+  };
 }
 
 export default async function Page({
@@ -59,15 +60,36 @@ export default async function Page({
 }: {
   params: Promise<{ brand: string }>;
 }) {
-  const { brand } = await params;
-  const hook = buildHook(brand);
-  if (!hook) notFound();
-  const { webAppSchema, breadcrumbSchema } = specialtySchemas(hook);
+  const { brand: slug } = await params;
+  const b = findBuildSheetBrand(slug);
+  if (!b) notFound();
+
+  const pageUrl = `${SITE}/es/build-sheet/${b.slug}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE}/es` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Hoja de fábrica",
+        item: `${SITE}/es/hoja-fabrica`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `Hoja de fábrica ${b.name}`,
+        item: pageUrl,
+      },
+    ],
+  };
+
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <SpecialtyToolPage hook={hook} />
+      <BuildSheetBrandBody brandSlug={slug} locale="es" />
     </>
   );
 }
