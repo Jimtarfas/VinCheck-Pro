@@ -1,56 +1,20 @@
 /**
- * Wave 15 — Spanish dynamic template for /paint-code-lookup/[brand].
- * One page per entry in PAINT_CODE_BRANDS (Honda, Toyota, Ford, BMW…).
+ * Wave 17c — Spanish dynamic template for /es/paint-code-lookup/[brand].
+ * Renders the SAME full English brand-page layout via the shared
+ * PaintCodeBrandBody component. Replaces the Wave 15 SpecialtyToolPage
+ * shell with true visual parity.
  */
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Palette } from "lucide-react";
-import SpecialtyToolPage from "../../_specialty-shared/SpecialtyToolPage";
-import { specialtyMetadata, specialtySchemas } from "../../_specialty-shared/metadata";
-import type { SpecialtyHook } from "../../_specialty-shared/strings";
-import { PAINT_CODE_BRANDS } from "@/lib/paint-codes";
+import PaintCodeBrandBody from "@/components/PaintCodeBrandBody";
+import { PAINT_CODE_BRANDS, findBrand } from "@/lib/paint-codes";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
+
+const SITE = "https://www.carcheckervin.com";
 
 export function generateStaticParams() {
   return PAINT_CODE_BRANDS.map((b) => ({ brand: b.slug }));
-}
-
-function buildHook(brandSlug: string): SpecialtyHook | null {
-  const brand = PAINT_CODE_BRANDS.find((b) => b.slug === brandSlug);
-  if (!brand) return null;
-
-  const examples = brand.examples.slice(0, 3).map((e) => `${e.code} (${e.colorName})`).join(", ");
-
-  return {
-    esSlug: `/paint-code-lookup/${brand.slug}`,
-    englishPath: `/paint-code-lookup/${brand.slug}`,
-    icon: Palette,
-    badge: `Código de pintura · ${brand.name}`,
-    h1: `Buscador de código de pintura ${brand.name}`,
-    metaTitle: `Código pintura ${brand.name} gratis por VIN`,
-    metaDescription: `Encuentra el código de pintura OEM exacto de cualquier ${brand.name} por VIN. Nombre del color, código y referencias de retoque — gratis al instante.`,
-    keywords: [
-      `código pintura ${brand.name}`,
-      `${brand.name} paint code español`,
-      `color OEM ${brand.name}`,
-      `retoque pintura ${brand.name}`,
-      `${brand.name} código color`,
-      `${brand.name} pintura VIN`,
-    ],
-    intro: `El código de pintura de fábrica de tu ${brand.name} está vinculado al VIN y a la calcomanía del ${brand.stickerLabel.toLowerCase()}. El formato es ${brand.codeFormat} y se encuentra principalmente en ${brand.primaryLocation.toLowerCase()}. Ejemplos comunes: ${examples}. Decodificarlo correctamente por VIN te da el código OEM exacto para pedir pintura de retoque que combine perfectamente con el resto de la carrocería.`,
-    whatYouGet: [
-      `Código OEM exacto de ${brand.name}`,
-      `Nombre comercial del color (${examples})`,
-      `Años de producción en que se ofreció ese color`,
-      `Referencias para botellas, bolígrafos y latas de aerosol de retoque`,
-      `Compatibilidad con sistemas PPG, Sherwin-Williams y BASF`,
-      `Ubicación física de la calcomanía: ${brand.primaryLocation}`,
-      `Ubicaciones alternativas: ${brand.secondaryLocations.slice(0, 2).join(", ")}`,
-    ],
-    whyItMatters: brand.tips.slice(0, 4),
-    trustNote: `Decodificamos códigos de pintura OEM de ${brand.name} directamente desde hojas de especificación del fabricante. El formato sigue el estándar ${brand.codePattern}. Para confirmación física, busca la calcomanía en ${brand.primaryLocation.toLowerCase()} o cualquiera de las ubicaciones alternativas listadas arriba.`,
-    schemaName: `Buscador código pintura ${brand.name}`,
-  };
 }
 
 export async function generateMetadata({
@@ -58,10 +22,37 @@ export async function generateMetadata({
 }: {
   params: Promise<{ brand: string }>;
 }): Promise<Metadata> {
-  const { brand } = await params;
-  const hook = buildHook(brand);
-  if (!hook) return {};
-  return specialtyMetadata(hook);
+  const { brand: slug } = await params;
+  const b = findBrand(slug);
+  if (!b) return {};
+
+  const alt = hreflangAlternatesForLocale(`/paint-code-lookup/${b.slug}`, "es");
+  const title = `Código de pintura ${b.name} — Ubicación + gráfico OEM`;
+  const description = `Encuentra el código de pintura ${b.name} rápido. Ubicación exacta de la calcomanía (${b.primaryLocation.split("—")[0].trim()}), lo que dice la etiqueta, formato del código y ejemplos reales de códigos de color ${b.name}. O búscalo gratis por VIN.`;
+
+  return {
+    title: { absolute: `${title} | CarCheckerVIN` },
+    description,
+    keywords: [
+      `código pintura ${b.name}`,
+      `${b.name} paint code español`,
+      `color OEM ${b.name}`,
+      `dónde está código pintura ${b.name}`,
+      `${b.name} código pintura por VIN`,
+      `retoque pintura ${b.name}`,
+    ],
+    alternates: { canonical: alt.canonical, languages: alt.languages },
+    openGraph: {
+      title,
+      description,
+      url: alt.canonical,
+      type: "article",
+      siteName: "CarCheckerVIN",
+      locale: "es_US",
+    },
+    twitter: { card: "summary_large_image", title, description },
+    robots: { index: true, follow: true },
+  };
 }
 
 export default async function Page({
@@ -69,15 +60,36 @@ export default async function Page({
 }: {
   params: Promise<{ brand: string }>;
 }) {
-  const { brand } = await params;
-  const hook = buildHook(brand);
-  if (!hook) notFound();
-  const { webAppSchema, breadcrumbSchema } = specialtySchemas(hook);
+  const { brand: slug } = await params;
+  const b = findBrand(slug);
+  if (!b) notFound();
+
+  const pageUrl = `${SITE}/es/paint-code-lookup/${b.slug}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE}/es` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Buscador de código de pintura",
+        item: `${SITE}/es/codigo-de-pintura`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `Código de pintura ${b.name}`,
+        item: pageUrl,
+      },
+    ],
+  };
+
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <SpecialtyToolPage hook={hook} />
+      <PaintCodeBrandBody brandSlug={slug} locale="es" />
     </>
   );
 }
