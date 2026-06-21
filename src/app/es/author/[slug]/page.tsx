@@ -1,20 +1,30 @@
 /**
- * Wave 15 — Spanish author profile page. Sanity-backed.
- * Profile bios stay in English (proper names + journalist credentials)
- * but we render Spanish chrome around them so /es/author/<slug> exists.
+ * Wave 17g — Spanish author profile.
+ * Renders the SAME full English author-profile layout via the shared
+ * AuthorBody component. Replaces the Wave 15 SpecialtyToolPage stub
+ * with true visual parity. Bio + name + role render verbatim from
+ * Sanity (proper nouns / journalist credentials); only chrome translates.
  */
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { User } from "lucide-react";
-import SpecialtyToolPage from "../../_specialty-shared/SpecialtyToolPage";
-import { specialtyMetadata, specialtySchemas } from "../../_specialty-shared/metadata";
-import type { SpecialtyHook } from "../../_specialty-shared/strings";
-import { sanityClient } from "@/sanity/client";
-import { allAuthorsQuery, authorBySlugQuery } from "@/sanity/queries";
-import type { SanityAuthor } from "@/sanity/types";
+import AuthorBody from "@/components/AuthorBody";
+import { sanityClient, urlFor } from "@/sanity/client";
+import {
+  allAuthorsQuery,
+  authorBySlugQuery,
+  postsByAuthorQuery,
+} from "@/sanity/queries";
+import type { SanityAuthor, SanityPost } from "@/sanity/types";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
+
+const SITE = "https://www.carcheckervin.com";
 
 export const revalidate = 60;
+
+interface Props {
+  params: Promise<{ slug: string }>;
+}
 
 export async function generateStaticParams() {
   const authors = await sanityClient.fetch<SanityAuthor[]>(allAuthorsQuery);
@@ -23,61 +33,91 @@ export async function generateStaticParams() {
     .map((a) => ({ slug: a.slug as string }));
 }
 
-async function buildHook(slug: string): Promise<SpecialtyHook | null> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
   const author = await sanityClient.fetch<SanityAuthor | null>(authorBySlugQuery, { slug });
-  if (!author) return null;
+
+  if (!author) {
+    return { robots: { index: false, follow: false } };
+  }
+
+  const alt = hreflangAlternatesForLocale(`/author/${author.slug}`, "es");
+  const description =
+    author.bio ||
+    `${author.name}${author.role ? ` — ${author.role}` : ""} en CarCheckerVIN. Lee todos los artículos escritos por ${author.name}.`;
+  const ogImageUrl = author.avatar ? urlFor(author.avatar).width(1200).height(630).url() : undefined;
+  const title = `${author.name} — Autor en CarCheckerVIN`;
+
   return {
-    esSlug: `/author/${author.slug}`,
-    englishPath: `/author/${author.slug}`,
-    icon: User,
-    badge: `Autor · ${author.name}`,
-    h1: `Autor: ${author.name}`,
-    metaTitle: `${author.name} — Autor en CarCheckerVIN`,
-    metaDescription:
-      author.bio ||
-      `${author.name}${author.role ? ` — ${author.role}` : ""} en CarCheckerVIN. Lee todos los artículos escritos por ${author.name}.`,
-    keywords: [`${author.name} CarCheckerVIN`, `autor ${author.name}`, `artículos ${author.name}`],
-    intro: `${author.name}${author.role ? ` (${author.role})` : ""} forma parte del equipo editorial de CarCheckerVIN. ${author.bio || ""}`,
-    whatYouGet: [
-      `Lista de artículos publicados por ${author.name}`,
-      `Biografía y credenciales profesionales`,
-      `Acceso al feed completo del blog en /es/blog`,
-    ],
-    whyItMatters: [
-      `Nuestros autores son periodistas y expertos del sector automotriz`,
-      `Cada artículo es revisado por nuestro equipo de datos antes de publicar`,
-      `Para más artículos en español, visita /es/blog`,
-    ],
-    trustNote: `Todos los autores de CarCheckerVIN tienen credenciales verificadas en periodismo automotriz o data del sector. Los perfiles aparecen primero en inglés y se traducen al español según prioridad de tráfico.`,
-    schemaName: `Autor: ${author.name}`,
+    title,
+    description,
+    alternates: { canonical: alt.canonical, languages: alt.languages },
+    openGraph: {
+      title,
+      description,
+      url: alt.canonical,
+      type: "profile",
+      siteName: "CarCheckerVIN",
+      locale: "es_US",
+      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : undefined,
+    },
   };
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const hook = await buildHook(slug);
-  if (!hook) return { robots: { index: false, follow: false } };
-  return { ...specialtyMetadata(hook), robots: { index: false, follow: true } };
-}
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const hook = await buildHook(slug);
-  if (!hook) notFound();
-  const { webAppSchema, breadcrumbSchema } = specialtySchemas(hook);
+  const [author, posts] = await Promise.all([
+    sanityClient.fetch<SanityAuthor | null>(authorBySlugQuery, { slug }),
+    sanityClient.fetch<SanityPost[]>(postsByAuthorQuery, { slug }),
+  ]);
+
+  if (!author) notFound();
+
+  const pageUrl = `${SITE}/es/author/${author.slug}`;
+  const sameAs = [
+    author.social?.twitter,
+    author.social?.linkedin,
+    author.social?.website,
+  ].filter(Boolean) as string[];
+
+  const personLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: author.name,
+    jobTitle: author.role,
+    description: author.bio,
+    url: pageUrl,
+    image: author.avatar ? urlFor(author.avatar).width(400).height(400).url() : undefined,
+    sameAs: sameAs.length > 0 ? sameAs : undefined,
+    worksFor: {
+      "@type": "Organization",
+      name: "CarCheckerVIN",
+      url: SITE,
+    },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE}/es` },
+      { "@type": "ListItem", position: 2, name: "Autores", item: `${SITE}/es/author` },
+      { "@type": "ListItem", position: 3, name: author.name, item: pageUrl },
+    ],
+  };
+
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <SpecialtyToolPage hook={hook} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <AuthorBody author={author} posts={posts} locale="es" />
     </>
   );
 }

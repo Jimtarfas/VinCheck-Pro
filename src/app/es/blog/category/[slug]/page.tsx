@@ -1,84 +1,116 @@
 /**
- * Wave 15 — Spanish blog category index. Sanity-backed.
- * Renders a thin Spanish "Categoría: X" landing that links back to
- * /es/blog. Blog category pages are intentionally low-rank (per the
- * note on the English version, Google typically parks them as
- * "Crawled — currently not indexed"), so we keep the Spanish version
- * minimal — just enough to avoid 404 + give the visitor a way back
- * to the main /es/blog feed.
+ * Wave 17g — Spanish blog category archive.
+ * Renders the SAME full English category-archive layout via the shared
+ * BlogCategoryBody component. Replaces the Wave 15 SpecialtyToolPage
+ * stub with true visual parity.
  */
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { FolderOpen } from "lucide-react";
-import SpecialtyToolPage from "../../../_specialty-shared/SpecialtyToolPage";
-import { specialtyMetadata, specialtySchemas } from "../../../_specialty-shared/metadata";
-import type { SpecialtyHook } from "../../../_specialty-shared/strings";
+import BlogCategoryBody from "@/components/BlogCategoryBody";
 import { sanityClient } from "@/sanity/client";
-import { allCategorySlugsQuery, categoryBySlugQuery } from "@/sanity/queries";
-import type { SanityCategory } from "@/sanity/types";
+import {
+  allCategorySlugsQuery,
+  categoryBySlugQuery,
+  postsByCategoryQuery,
+} from "@/sanity/queries";
+import type { SanityPost, SanityCategory } from "@/sanity/types";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
+
+const SITE = "https://www.carcheckervin.com";
 
 export const revalidate = 60;
+
+interface Props {
+  params: Promise<{ slug: string }>;
+}
 
 export async function generateStaticParams() {
   const slugs = await sanityClient.fetch<string[]>(allCategorySlugsQuery);
   return slugs.map((slug) => ({ slug }));
 }
 
-async function buildHook(slug: string): Promise<SpecialtyHook | null> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
   const category = await sanityClient.fetch<SanityCategory | null>(categoryBySlugQuery, { slug });
-  if (!category) return null;
+
+  if (!category) {
+    return { robots: { index: false, follow: false } };
+  }
+
+  const alt = hreflangAlternatesForLocale(`/blog/category/${category.slug}`, "es");
+  const description =
+    category.description ||
+    `Lee los artículos más recientes de CarCheckerVIN en la categoría ${category.title} — guías, consejos y análisis.`;
+  const title = `${category.title} — Blog CarCheckerVIN`;
+
   return {
-    esSlug: `/blog/category/${category.slug}`,
-    englishPath: `/blog/category/${category.slug}`,
-    icon: FolderOpen,
-    badge: `Categoría · ${category.title}`,
-    h1: `Categoría: ${category.title}`,
-    metaTitle: `${category.title} — Blog CarCheckerVIN`,
-    metaDescription:
-      category.description ||
-      `Lee los artículos más recientes de CarCheckerVIN en la categoría ${category.title} — guías, consejos y análisis.`,
-    keywords: [`${category.title} CarCheckerVIN`, `blog ${category.title} español`, `artículos VIN ${category.title}`],
-    intro: `Esta es la página de la categoría "${category.title}". Hemos publicado artículos relacionados en esta categoría — visita /es/blog para ver el feed completo en español.`,
-    whatYouGet: [
-      `Artículos publicados bajo la categoría ${category.title}`,
-      `Acceso al feed completo en /es/blog`,
-      `Suscripción opcional al boletín por correo`,
-    ],
-    whyItMatters: [
-      `Las categorías ayudan a navegar los artículos por tema`,
-      `Para artículos en español, visita la página principal del blog en /es/blog`,
-    ],
-    trustNote: `Los artículos son escritos por nuestro equipo editorial y revisados por nuestro equipo de datos antes de publicar. Las traducciones al español están en desarrollo continuo — algunos artículos pueden estar solo disponibles en inglés temporalmente.`,
-    schemaName: `Categoría blog: ${category.title}`,
+    title,
+    description,
+    alternates: { canonical: alt.canonical, languages: alt.languages },
+    openGraph: {
+      title,
+      description,
+      url: alt.canonical,
+      type: "website",
+      siteName: "CarCheckerVIN",
+      locale: "es_US",
+    },
+    robots: { index: false, follow: true },
   };
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const hook = await buildHook(slug);
-  if (!hook) return { robots: { index: false, follow: false } };
-  return { ...specialtyMetadata(hook), robots: { index: false, follow: true } };
-}
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const hook = await buildHook(slug);
-  if (!hook) notFound();
-  const { webAppSchema, breadcrumbSchema } = specialtySchemas(hook);
+  const [category, posts] = await Promise.all([
+    sanityClient.fetch<SanityCategory | null>(categoryBySlugQuery, { slug }),
+    sanityClient.fetch<SanityPost[]>(postsByCategoryQuery, { slug }),
+  ]);
+
+  if (!category) notFound();
+
+  const pageUrl = `${SITE}/es/blog/category/${category.slug}`;
+
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${category.title} — Blog CarCheckerVIN`,
+    description: category.description,
+    url: pageUrl,
+    inLanguage: "es",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: posts.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE}/es/blog/${p.slug}`,
+        name: p.title,
+      })),
+    },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE}/es` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/es/blog` },
+      { "@type": "ListItem", position: 3, name: category.title, item: pageUrl },
+    ],
+  };
+
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <SpecialtyToolPage hook={hook} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      <BlogCategoryBody category={category} posts={posts} locale="es" />
     </>
   );
 }
