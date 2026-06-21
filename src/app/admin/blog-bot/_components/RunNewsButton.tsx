@@ -25,7 +25,7 @@ import {
 type State =
   | { kind: "idle" }
   | { kind: "running" }
-  | { kind: "ok"; count: number; usd: number | null }
+  | { kind: "ok"; count: number; fetched: number; candidates: number; usd: number | null }
   | { kind: "err"; message: string };
 
 export default function RunNewsButton() {
@@ -54,6 +54,8 @@ export default function RunNewsButton() {
         result?: {
           ok?: boolean;
           published?: Array<{ slug: string }>;
+          fetched?: number;
+          candidates?: number;
           usd?: number | null;
           error?: string;
           errors?: Array<{ error?: string }>;
@@ -76,6 +78,8 @@ export default function RunNewsButton() {
       setState({
         kind: "ok",
         count: inner?.published?.length ?? 0,
+        fetched: inner?.fetched ?? 0,
+        candidates: inner?.candidates ?? 0,
         usd: inner?.usd ?? null,
       });
       // Pull the new bot_runs rows into the dashboard.
@@ -113,11 +117,13 @@ export default function RunNewsButton() {
         <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700">
           <CheckCircle2 className="w-3.5 h-3.5" />
           {state.count === 0
-            ? "No new stories to publish"
+            ? `No new stories to publish (fetched ${state.fetched}, ${state.candidates} new)`
             : `Published ${state.count} ${
                 state.count === 1 ? "story" : "stories"
               }`}
-          {state.usd != null ? ` · $${state.usd.toFixed(2)}` : ""}
+          {state.count > 0 && state.usd != null
+            ? ` · $${state.usd.toFixed(2)}`
+            : ""}
         </span>
       )}
       {state.kind === "err" && (
