@@ -6,6 +6,7 @@ import { LEMON_BRANDS } from "@/lib/lemon-brands";
 import { marketplaces } from "@/lib/marketplaces";
 import { PAINT_CODE_BRANDS } from "@/lib/paint-codes";
 import { BUILD_SHEET_BRANDS } from "@/lib/build-sheets";
+import { CHEVY_MODELS } from "@/lib/chevy-models";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -130,6 +131,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
+  // Per-model Chevrolet VIN check pages (/chevrolet-vin-check/[model]) — a
+  // hub-and-spoke cluster targeting model-specific VIN-check intent (Silverado,
+  // Equinox, Tahoe, Corvette, …) the generic /vin-check/chevrolet can't rank for.
+  const chevyModelPages: MetadataRoute.Sitemap = CHEVY_MODELS.map((m) => ({
+    url: `${baseUrl}/chevrolet-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -204,6 +215,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...lemonStatePages,
     { url: `${baseUrl}/lemon-check/brand`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     ...lemonBrandPages,
+    // Chevrolet VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/chevrolet-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...chevyModelPages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.
