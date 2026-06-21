@@ -532,6 +532,88 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     (a, b) => urgencyRank(a.count) - urgencyRank(b.count)
   );
 
+  /* ── Vehicle-specific finding banner (above the fold) ─────────────────────
+     The first thing the buyer sees after decoding their VIN should be the
+     single most relevant true fact about THEIR car, not a generic feature
+     list. When the free preview surfaces real damage/auction activity we lead
+     with a high-urgency alert; when it looks clean we lead with the "but the
+     records that matter aren't shown for free" angle so there's still a
+     concrete reason to unlock. Suppressed for unsupported VINs (nothing to
+     buy) and when we have no live preview signals to stand on. */
+  const findingBanner =
+    !isUnsupported && previewSignals
+      ? (() => {
+          const { damageRecords, auctionRecords, recalls } = previewSignals;
+          const alertParts: string[] = [];
+          if (damageRecords > 0)
+            alertParts.push(
+              `${damageRecords} damage record${damageRecords === 1 ? "" : "s"}`
+            );
+          if (auctionRecords > 0)
+            alertParts.push(
+              `${auctionRecords} prior auction sale${auctionRecords === 1 ? "" : "s"}`
+            );
+          const hasAlerts = alertParts.length > 0;
+          const Icon = hasAlerts ? AlertTriangle : ShieldAlert;
+
+          const headline = hasAlerts
+            ? `This ${vehicleLabel} has ${alertParts.join(" and ")} on file`
+            : `No damage or auction sales in this free preview — verify before you buy`;
+          const body = hasAlerts
+            ? `Title brands, liens, odometer rollbacks and ownership records aren't shown here either. Unlock the full NMVTIS report to see the complete picture before you pay the seller's price.`
+            : `Title brands, liens, odometer rollbacks and ownership history aren't shown in the free preview. Confirm this ${vehicleLabel} is genuinely clean, in writing, before you pay.`;
+
+          const shell = hasAlerts
+            ? "border-red-200 bg-gradient-to-br from-red-50 to-surface-container-lowest"
+            : "border-amber-200 bg-gradient-to-br from-amber-50 to-surface-container-lowest";
+          const iconWrap = hasAlerts
+            ? "bg-red-100 text-red-600"
+            : "bg-amber-100 text-amber-700";
+          const eyebrowTone = hasAlerts ? "text-red-600" : "text-amber-700";
+
+          return (
+            <div className={`rounded-3xl border p-5 sm:p-6 ${shell}`}>
+              <div className="flex items-start gap-4">
+                <div
+                  className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl ${iconWrap}`}
+                >
+                  <Icon className="h-5 w-5" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p
+                    className={`text-[11px] font-bold uppercase tracking-widest ${eyebrowTone}`}
+                  >
+                    {hasAlerts ? "Records found on this VIN" : "Looks clean — confirm before you buy"}
+                  </p>
+                  <h2 className="mt-1 font-headline text-lg font-extrabold leading-tight text-on-surface sm:text-xl">
+                    {headline}
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-on-surface-variant">
+                    {body}
+                    {recalls > 0 && (
+                      <>
+                        {" "}
+                        <span className="font-semibold text-on-surface">
+                          {recalls} open safety recall{recalls === 1 ? "" : "s"}
+                        </span>{" "}
+                        also reported (shown free below).
+                      </>
+                    )}
+                  </p>
+                  <BuyReportButton
+                    ariaLabel="Unlock the full vehicle history report"
+                    className="mt-4 inline-flex items-center gap-2 rounded-2xl bg-primary px-5 py-2.5 font-headline text-sm font-extrabold text-white shadow-lg shadow-primary/25 transition-colors hover:bg-primary/90 cursor-pointer"
+                  >
+                    <Lock className="h-4 w-4" /> Unlock the full report — $
+                    {SINGLE_PRICE.toFixed(2)}
+                  </BuyReportButton>
+                </div>
+              </div>
+            </div>
+          );
+        })()
+      : null;
+
   // Paint-code section (Option 3) — only shown when the buyer arrived from the
   // paint-code lookup/finder tools, so it answers the intent they came with
   // without cluttering the report for everyone else.
@@ -1212,7 +1294,14 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       <VinReport
         data={reportData}
         hideCheckAnother
-        mainTop={contextBanner}
+        mainTop={
+          findingBanner || contextBanner ? (
+            <div className="space-y-4">
+              {findingBanner}
+              {contextBanner}
+            </div>
+          ) : undefined
+        }
         afterPhotos={afterPhotos}
         mainExtra={premiumSections}
         mainFiller={
