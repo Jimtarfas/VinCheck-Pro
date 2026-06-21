@@ -9,9 +9,15 @@
  *
  * Logic per run:
  *   1. ALWAYS sweep noIndex flips on bot posts whose indexAt has passed.
- *   2. If today is a publish day (Mon/Wed/Fri UTC), also generate +
- *      publish a new post via the same pipeline the standalone route uses.
- *   3. Return a combined report.
+ *   2. ALWAYS run the auto-news pipeline (apitube → rewrite → publish). News
+ *      is an ongoing feed, so it runs daily rather than on the M/W/F schedule.
+ *   3. If today is a publish day (Mon/Wed/Fri UTC), also generate +
+ *      publish a new blog post via the same pipeline the standalone route uses.
+ *   4. Return a combined report.
+ *
+ * Packing news-bot in here (rather than a third Vercel cron) keeps us within
+ * the Hobby 2-cron limit. The auto-news posts are bot-generated, so step 1's
+ * sweep flips them public after their 24h hold just like blog posts.
  *
  * Scheduled by Vercel at 09:17 UTC daily (see vercel.json). The off-half-
  * hour minute is deliberate — most ops/observability dashboards cluster
@@ -23,7 +29,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const PUBLISH_DOW = new Set([1, 3, 5]); // Mon, Wed, Fri (Sun=0)
 
@@ -67,7 +73,10 @@ export async function GET(req: NextRequest) {
   // 1. Always sweep noIndex
   const unindex = await callSiblingRoute(req, "/api/cron/blog-bot-unindex");
 
-  // 2. Publish only on the M/W/F schedule
+  // 2. Always run the auto-news pipeline (ongoing feed, runs daily)
+  const news = await callSiblingRoute(req, "/api/cron/news-bot");
+
+  // 3. Publish a blog post only on the M/W/F schedule
   const dow = new Date().getUTCDay();
   let publish: unknown = { skipped: true, reason: `not a publish day (dow=${dow})` };
   if (PUBLISH_DOW.has(dow)) {
@@ -78,6 +87,7 @@ export async function GET(req: NextRequest) {
     ok: true,
     ran: new Date().toISOString(),
     unindex,
+    news,
     publish,
   });
 }

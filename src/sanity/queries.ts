@@ -24,7 +24,19 @@ const POST_FIELDS = `
 `;
 
 export const allPostsQuery = groq`
-  *[_type == "post" && !(_id in path("drafts.**")) && !defined(noIndex) || noIndex == false]
+  *[(_type == "post" && !(_id in path("drafts.**")) && !defined(noIndex) || noIndex == false)
+    && category->slug.current != "auto-news"]
+  | order(publishedAt desc) {
+    ${POST_FIELDS}
+  }
+`;
+
+// Auto-news pipeline (/auto-news): posts in the "auto-news" category, public
+// only (noIndex flipped false by the unindex sweep). Newest first.
+export const autoNewsPostsQuery = groq`
+  *[_type == "post"
+    && category->slug.current == "auto-news"
+    && (!defined(noIndex) || noIndex == false)]
   | order(publishedAt desc) {
     ${POST_FIELDS}
   }
