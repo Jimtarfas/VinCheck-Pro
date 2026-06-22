@@ -8,6 +8,9 @@ import { PAINT_CODE_BRANDS } from "@/lib/paint-codes";
 import { BUILD_SHEET_BRANDS } from "@/lib/build-sheets";
 import { CHEVY_MODELS } from "@/lib/chevy-models";
 import { MERCEDES_MODELS } from "@/lib/mercedes-models";
+import { CADILLAC_MODELS } from "@/lib/cadillac-models";
+import { GMC_MODELS } from "@/lib/gmc-models";
+import { RAM_MODELS } from "@/lib/ram-models";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -152,6 +155,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-model Cadillac VIN check pages (/cadillac-vin-check/[model]) — a
+  // hub-and-spoke cluster targeting model-specific VIN-check intent (Escalade,
+  // XT5, CT5, Lyriq, …) the generic /vin-check/cadillac can't rank for.
+  const cadillacModelPages: MetadataRoute.Sitemap = CADILLAC_MODELS.map((m) => ({
+    url: `${baseUrl}/cadillac-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-model GMC VIN check pages (/gmc-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (Sierra, Yukon, Acadia,
+  // Terrain, Canyon, …) the generic /vin-check/gmc can't rank for.
+  const gmcModelPages: MetadataRoute.Sitemap = GMC_MODELS.map((m) => ({
+    url: `${baseUrl}/gmc-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-model RAM VIN check pages (/ram-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (1500, 2500, 3500,
+  // ProMaster, TRX, …) the generic /vin-check/ram can't rank for.
+  const ramModelPages: MetadataRoute.Sitemap = RAM_MODELS.map((m) => ({
+    url: `${baseUrl}/ram-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -232,6 +265,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Mercedes-Benz VIN check hub + 10 per-model spokes.
     { url: `${baseUrl}/mercedes-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...mercedesModelPages,
+    // Cadillac VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/cadillac-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...cadillacModelPages,
+    // GMC VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/gmc-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...gmcModelPages,
+    // RAM VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/ram-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...ramModelPages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.
