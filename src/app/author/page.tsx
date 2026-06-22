@@ -28,7 +28,15 @@ export const metadata: Metadata = {
 };
 
 export default async function AuthorIndexPage() {
-  const authors = await sanityClient.fetch<AuthorWithCount[]>(allAuthorsQuery);
+  // Resilient fetch: if Sanity is unreachable or quota-limited, render an
+  // empty list instead of throwing a 500. Mirrors /author/[slug] and the
+  // blog index resilience pattern.
+  let authors: AuthorWithCount[] = [];
+  try {
+    authors = (await sanityClient.fetch<AuthorWithCount[]>(allAuthorsQuery)) ?? [];
+  } catch {
+    authors = [];
+  }
 
   const collectionLd = {
     "@context": "https://schema.org",

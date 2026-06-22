@@ -47,7 +47,16 @@ const categoryColors: Record<string, string> = {
 };
 
 export default async function BlogIndexPage() {
-  const posts = await sanityClient.fetch<SanityPost[]>(allPostsQuery);
+  // Wrap the Sanity fetch so a transient outage or quota cap returns the
+  // empty-state UI instead of a hard 500. Matches the resilience pattern
+  // already in place on /blog/category/[slug], /blog/tag/[tag], and
+  // /author/[slug] (see those files' generateStaticParams try/catch).
+  let posts: SanityPost[] = [];
+  try {
+    posts = (await sanityClient.fetch<SanityPost[]>(allPostsQuery)) ?? [];
+  } catch {
+    posts = [];
+  }
 
   const blogLd = {
     "@context": "https://schema.org",

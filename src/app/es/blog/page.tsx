@@ -64,7 +64,15 @@ const categoryColors: Record<string, string> = {
 };
 
 export default async function BlogIndexPageEs() {
-  const posts = await sanityClient.fetch<SanityPost[]>(allPostsEsQuery);
+  // Resilient fetch: if Sanity is unreachable or quota-limited, render the
+  // empty-state UI instead of throwing a 500. Matches /blog and the
+  // dynamic ES blog routes.
+  let posts: SanityPost[] = [];
+  try {
+    posts = (await sanityClient.fetch<SanityPost[]>(allPostsEsQuery)) ?? [];
+  } catch {
+    posts = [];
+  }
 
   const blogLd = {
     "@context": "https://schema.org",

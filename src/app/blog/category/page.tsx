@@ -35,7 +35,15 @@ const categoryColors: Record<string, string> = {
 };
 
 export default async function BlogCategoryIndexPage() {
-  const categories = await sanityClient.fetch<SanityCategory[]>(allCategoriesQuery);
+  // Resilient fetch: if Sanity is unreachable or quota-limited, render with
+  // an empty list rather than throwing a 500. Mirrors the pattern on
+  // /blog/category/[slug] and /author/[slug].
+  let categories: SanityCategory[] = [];
+  try {
+    categories = (await sanityClient.fetch<SanityCategory[]>(allCategoriesQuery)) ?? [];
+  } catch {
+    categories = [];
+  }
 
   const collectionLd = {
     "@context": "https://schema.org",
