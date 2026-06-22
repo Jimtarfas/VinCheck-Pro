@@ -175,9 +175,13 @@ export default function ChatWidget() {
       id: `system-paid-${Date.now()}`,
       sender: "system",
       body:
-        "🎉 Payment received — thank you! We've just emailed you a secure link with a \u201cCreate password\u201d button. Click it to set your password, then you can log in to your account any time and find all your reports under My Reports.",
+        "🎉 Payment received — thank you! Your report is ready on this page. We've also emailed you a secure link to set your password — please check your inbox (and spam folder). Click the \u201cCreate password\u201d button in that email to set your password, then you can sign in any time to view all your reports.",
       created_at: new Date().toISOString(),
-      cta: { href: "/account", label: "Open My Reports" },
+      // No CTA button here on purpose: the buyer isn't signed in yet (the
+      // account is provisioned server-side at webhook time but a session
+      // only exists once they click the emailed magic link), so any in-chat
+      // link would dead-end at a sign-in wall or 404. The emailed link is
+      // the one working path to set a password, so we just point them there.
     });
     // The open panel is a near-fullscreen sheet on phones, so auto-opening
     // there would bury the report the buyer just paid for. On phones we only
