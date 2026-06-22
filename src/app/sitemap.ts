@@ -7,6 +7,7 @@ import { marketplaces } from "@/lib/marketplaces";
 import { PAINT_CODE_BRANDS } from "@/lib/paint-codes";
 import { BUILD_SHEET_BRANDS } from "@/lib/build-sheets";
 import { CHEVY_MODELS } from "@/lib/chevy-models";
+import { MERCEDES_MODELS } from "@/lib/mercedes-models";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -141,6 +142,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-model Mercedes-Benz VIN check pages (/mercedes-vin-check/[model]) — a
+  // hub-and-spoke cluster targeting model-specific VIN-check intent (C-Class,
+  // E-Class, GLC, GLE, S-Class, …) the generic /vin-check/mercedes can't rank for.
+  const mercedesModelPages: MetadataRoute.Sitemap = MERCEDES_MODELS.map((m) => ({
+    url: `${baseUrl}/mercedes-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -218,6 +229,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Chevrolet VIN check hub + 10 per-model spokes.
     { url: `${baseUrl}/chevrolet-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...chevyModelPages,
+    // Mercedes-Benz VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/mercedes-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...mercedesModelPages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.

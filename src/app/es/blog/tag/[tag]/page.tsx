@@ -40,7 +40,14 @@ async function resolveTag(slugParam: string): Promise<string | null> {
 }
 
 export async function generateStaticParams() {
-  const allTags = await sanityClient.fetch<string[]>(allTagsQuery);
+  let allTags: string[] | null = null;
+  try {
+    allTags = await sanityClient.fetch<string[]>(allTagsQuery);
+  } catch {
+    // Sanity unreachable or quota reached at build time — skip prerendering and
+    // let these pages render on demand via ISR rather than failing the build.
+    return [];
+  }
   if (!allTags) return [];
   const seen = new Set<string>();
   const params: { tag: string }[] = [];

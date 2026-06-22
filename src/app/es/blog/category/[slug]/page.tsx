@@ -26,8 +26,14 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const slugs = await sanityClient.fetch<string[]>(allCategorySlugsQuery);
-  return slugs.map((slug) => ({ slug }));
+  try {
+    const slugs = await sanityClient.fetch<string[]>(allCategorySlugsQuery);
+    return (slugs ?? []).map((slug) => ({ slug }));
+  } catch {
+    // Sanity unreachable or quota reached at build time — skip prerendering and
+    // let these pages render on demand via ISR rather than failing the build.
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
