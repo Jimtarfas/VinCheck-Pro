@@ -1,0 +1,158 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import GmVinBody from "@/components/GmVinBody";
+import {
+  GM_DIVISIONS,
+  findGmDivision,
+  gmFaqs,
+  gmHowTo,
+} from "@/lib/gm-models";
+import { ORG_AUTHOR } from "@/lib/seo/author";
+
+const SITE = "https://www.carcheckervin.com";
+
+export function generateStaticParams() {
+  return GM_DIVISIONS.map((m) => ({ model: m.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ model: string }>;
+}): Promise<Metadata> {
+  const { model } = await params;
+  const m = findGmDivision(model);
+  if (!m) return {};
+
+  const title = `${m.fullName} VIN Decoder — Free Lookup`;
+  const description = `Free ${m.fullName} VIN decoder. Read the year, division, and RPO/SPID codes, and reveal salvage, flood, buyback, accident & odometer brands on your ${m.name}. NMVTIS-backed, instant, no signup.`;
+
+  return {
+    title: { absolute: title },
+    description,
+    keywords: [
+      `${m.fullName} VIN decoder`,
+      `${m.name} VIN decoder`,
+      `${m.name} VIN check`,
+      `decode ${m.name} VIN`,
+      `${m.name} VIN lookup`,
+      `GM ${m.name} VIN`,
+      `${m.name} RPO code lookup`,
+      `is my ${m.name} salvage`,
+      `free ${m.name} VIN check`,
+    ],
+    alternates: { canonical: `/gm-vin-check/${m.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE}/gm-vin-check/${m.slug}`,
+      type: "article",
+      siteName: "CarCheckerVIN",
+    },
+    twitter: { card: "summary_large_image", title, description },
+    robots: { index: true, follow: true },
+  };
+}
+
+export default async function GmDivisionVinPage({
+  params,
+}: {
+  params: Promise<{ model: string }>;
+}) {
+  const { model } = await params;
+  const m = findGmDivision(model);
+  if (!m) notFound();
+
+  const pageUrl = `${SITE}/gm-vin-check/${m.slug}`;
+  const faqs = gmFaqs(m);
+  const howTo = gmHowTo(m);
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `${m.fullName} VIN Decoder`,
+    description: `How to decode and check a ${m.fullName} VIN: where to find it, what the ${m.vinPrefix} WMI prefix and RPO/SPID codes mean, and how to surface salvage, flood, and buyback brands before you buy.`,
+    author: ORG_AUTHOR,
+    publisher: {
+      "@type": "Organization",
+      name: "CarCheckerVIN",
+      url: SITE,
+      logo: { "@type": "ImageObject", url: `${SITE}/logo.png` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+    datePublished: "2026-06-22",
+    dateModified: "2026-06-22",
+    image: `${SITE}/opengraph-image`,
+    about: {
+      "@type": "Brand",
+      name: m.fullName,
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+      { "@type": "ListItem", position: 2, name: "GM VIN Decoder", item: `${SITE}/gm-vin-check` },
+      { "@type": "ListItem", position: 3, name: `${m.name} VIN Decoder`, item: pageUrl },
+    ],
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `How to Decode a ${m.fullName} VIN`,
+    description: `A 6-step guide to decoding and verifying a ${m.fullName} VIN before purchase.`,
+    totalTime: "PT15M",
+    step: howTo.map((s, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: s.title,
+      text: s.body,
+    })),
+  };
+
+  const appSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: `${m.fullName} VIN Decoder`,
+    url: pageUrl,
+    applicationCategory: "AutomotiveApplication",
+    operatingSystem: "Web",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    publisher: ORG_AUTHOR,
+  };
+
+  const speakableSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": pageUrl,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: [".speakable-intro", "h1"],
+    },
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
+      <GmVinBody modelSlug={m.slug} />
+    </>
+  );
+}

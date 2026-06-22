@@ -18,6 +18,9 @@ import { DODGE_MODELS } from "@/lib/dodge-models";
 import { HARLEY_MODELS } from "@/lib/harley-models";
 import { NISSAN_MODELS } from "@/lib/nissan-models";
 import { VOLKSWAGEN_MODELS } from "@/lib/volkswagen-models";
+import { JEEP_MODELS } from "@/lib/jeep-models";
+import { GM_DIVISIONS } from "@/lib/gm-models";
+import { ATV_BRANDS } from "@/lib/atv-models";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -263,6 +266,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-model Jeep VIN check pages (/jeep-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (Wrangler, Grand Cherokee,
+  // Cherokee, Gladiator, …) the generic /vin-check/jeep can't rank for.
+  const jeepModelPages: MetadataRoute.Sitemap = JEEP_MODELS.map((m) => ({
+    url: `${baseUrl}/jeep-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-division GM VIN decoder pages (/gm-vin-check/[division]) — a hub-and-spoke
+  // cluster targeting "GM VIN number decoder" intent, one spoke per GM marque
+  // (Chevrolet, GMC, Cadillac, Buick, Pontiac, …) covering WMI + RPO/SPID codes.
+  const gmDivisionPages: MetadataRoute.Sitemap = GM_DIVISIONS.map((m) => ({
+    url: `${baseUrl}/gm-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-brand ATV VIN decoder pages (/atv-vin-check/[brand]) — a hub-and-spoke
+  // cluster targeting "ATV VIN decoder" intent, one spoke per powersports brand
+  // (Honda, Polaris, Yamaha, Can-Am, …) with frame-VIN + theft-check guidance.
+  const atvBrandPages: MetadataRoute.Sitemap = ATV_BRANDS.map((m) => ({
+    url: `${baseUrl}/atv-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -373,6 +406,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Volkswagen VIN check hub + 10 per-model spokes.
     { url: `${baseUrl}/volkswagen-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...volkswagenModelPages,
+    // Jeep VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/jeep-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...jeepModelPages,
+    // GM VIN decoder hub + 10 per-division spokes.
+    { url: `${baseUrl}/gm-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...gmDivisionPages,
+    // ATV VIN decoder hub + 10 per-brand spokes.
+    { url: `${baseUrl}/atv-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...atvBrandPages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.
