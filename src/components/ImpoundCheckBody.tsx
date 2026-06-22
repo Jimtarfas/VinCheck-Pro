@@ -1,23 +1,57 @@
 /**
  * Shared body for /impound-check and /es/impound-check.
- * Wave 18d — full English layout in both locales via COPY={en,es}.
+ *
+ * Upgraded to the rich VIN-check layout used by the Chevrolet cluster and
+ * LemonCheckBrandBody: dark hero with trust stats, an at-a-glance card,
+ * long-form content sections, a "records that reveal an impound" grid, a
+ * 6-step how-to, a mid-page CTA, the VinCheckBanner, an FAQ accordion, and a
+ * closing CTA. Fully bilingual via COPY={en,es}; the page files supply the
+ * matching JSON-LD (Article, FAQ, Breadcrumb, HowTo, WebApplication,
+ * Speakable) and pull FAQS_* / HOWTO_* from here so the structured data
+ * never drifts from the rendered copy.
  */
 
 import Link from "next/link";
-import { Check } from "lucide-react";
+import {
+  Search, Banknote, FileText, Repeat, Building2, ShieldCheck,
+  Check, AlertTriangle, Clock, BadgeCheck, Fingerprint, Lock,
+  Zap, ArrowRight, Gauge,
+} from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import VinCheckBanner from "@/components/VinCheckBanner";
 import type { Locale } from "@/i18n/config";
+
+const HOWTO_ICONS = [Search, Banknote, FileText, Repeat, Building2, ShieldCheck] as const;
+const TRUST_ICONS = [ShieldCheck, Banknote, Clock, BadgeCheck, Fingerprint] as const;
 
 const COPY = {
   en: {
     home: "Home",
     crumb: "Impound Check",
+    badge: "Impound · Repo · Lien Records",
     h1: "Impound & Repo History Check by VIN",
+    h1Accent: "Find Liens Before You Buy",
     intro:
       "Purchasing a vehicle with an active lien or unresolved impound record can result in losing the vehicle after purchase — even if you paid in full and the seller appeared to have legitimate ownership. A VIN impound and repo check reveals active liens, past repossession events, and impound history that could complicate or completely prevent a clean title transfer.",
-    ctaTopHeading: "Check for Impound, Repo, and Lien History",
+    heroFormHeading: "Run a Free Impound & Lien Check",
+    heroFormSub: "Enter any 17-character VIN",
+    secureNote: "256-bit encrypted · DPPA compliant · NMVTIS-sourced title data",
+    trustStats: [
+      { value: "NMVTIS", label: "federally-sourced" },
+      { value: "Liens", label: "active lien check" },
+      { value: "< 5 sec", label: "average lookup" },
+      { value: "Free", label: "preview, no signup" },
+      { value: "17-char", label: "full VIN decode" },
+    ],
+    glanceHeading: "Impound & Lien Check at a Glance",
+    glanceStats: [
+      { label: "Records checked", value: "Liens · Repo · Impound" },
+      { label: "Primary source", value: "NMVTIS + state DMV" },
+      { label: "Coverage note", value: "Local impounds vary" },
+      { label: "Lookup", value: "Free · instant · by VIN" },
+    ],
     h2What: "What Is an Impound Record",
     what1:
       "A vehicle impound is the seizure and storage of a vehicle by law enforcement or a government authority. Impounds occur for a range of reasons: driving under the influence, operating an uninsured or unregistered vehicle, parking violations with unpaid fines, vehicle abandonment, association with criminal activity, or as evidence in an investigation. When a vehicle is impounded, the event is recorded in law enforcement databases.",
@@ -25,6 +59,14 @@ const COPY = {
       "Impound records can complicate used car purchases in several ways. Outstanding impound fees or storage charges may become liens against the vehicle that must be resolved before title transfer. A vehicle impounded as evidence in an ongoing investigation may not be available for transfer at all until the legal matter is resolved. And some jurisdictions place holds on vehicle titles for unpaid fines that block registration in a new owner's name.",
     what3:
       "Not all impound records appear in VIN-linked databases — local law enforcement impound records are particularly variable in their reporting to centralized databases. However, impounds that resulted in auction sales, abandoned vehicle proceedings, or liens against the title will generally appear in comprehensive vehicle history reports.",
+    h2Records: "Records That Reveal an Impound",
+    recordsSub:
+      "Impounds rarely appear as a single dedicated entry. They usually surface through the records they leave behind — these are the signals worth checking by VIN.",
+    recordCards: [
+      "Liens against the title for unpaid storage or towing fees that must clear before a clean transfer.",
+      "Abandoned-vehicle title proceedings and lender or municipal auction sale records.",
+      "Title brands or reassignments that resulted from the impound or auction process.",
+    ],
     h2Repo: "Repossession History and What It Means",
     repo1:
       "A vehicle repossession occurs when a lender legally reclaims the vehicle from a borrower who has defaulted on their loan payments. The lender holds a security interest in the vehicle (their collateral for the loan), and upon default, they are entitled to take possession without a court order in most states. Repossession events are recorded in lender databases and often appear in vehicle history reports as a change of ownership from the borrower to the lender.",
@@ -61,17 +103,46 @@ const COPY = {
     buy3Mid: " and an ",
     odoLink: "odometer check",
     buy3Suffix: " alongside the impound and lien check for full pre-purchase protection.",
+    howToHeading: "How to Check Impound, Repo & Lien History — 6 Steps",
+    howToSub:
+      "A complete pre-purchase encumbrance screen takes about 15 minutes between your desk and the DMV.",
+    midCtaHeading: "Don't Inherit Someone Else's Lien",
+    midCtaSub:
+      "Free, instant impound, repo, and lien check sourced from NMVTIS and every state DMV. No credit card. No signup.",
     faqHeading: "Frequently Asked Questions",
+    faqSub:
+      "The most-searched questions about impound, repossession, and lien checks.",
+    bottomBadge: "Free · Instant · Lien & Repo",
     ctaBottomHeading: "Check for Impound, Repo, and Lien Records",
-    ctaBottomSub: "Enter a 17-character VIN to check for active liens, repossession history, and impound records.",
+    ctaBottomSub:
+      "Enter a 17-character VIN to check for active liens, repossession history, and impound records.",
+    bottomReportLink: "Or get the full VIN history report",
   },
   es: {
     home: "Inicio",
     crumb: "Verificación de incautación",
+    badge: "Registros de incautación · embargo · gravamen",
     h1: "Verificación de historial de incautación y embargo por VIN",
+    h1Accent: "Encuentra gravámenes antes de comprar",
     intro:
       "Comprar un vehículo con un gravamen activo o un registro de incautación sin resolver puede resultar en perder el vehículo después de la compra — incluso si pagaste completo y el vendedor parecía tener la propiedad legítima. Una verificación VIN de incautación y embargo revela gravámenes activos, eventos pasados de recuperación e historial de incautación que podrían complicar o impedir completamente una transferencia limpia del título.",
-    ctaTopHeading: "Verifica historial de incautación, embargo y gravámenes",
+    heroFormHeading: "Ejecuta una verificación gratuita de incautación y gravamen",
+    heroFormSub: "Ingresa cualquier VIN de 17 caracteres",
+    secureNote: "Cifrado de 256 bits · conforme a DPPA · datos de título de NMVTIS",
+    trustStats: [
+      { value: "NMVTIS", label: "datos federales" },
+      { value: "Gravámenes", label: "verificación activa" },
+      { value: "< 5 seg", label: "consulta promedio" },
+      { value: "Gratis", label: "vista previa, sin registro" },
+      { value: "17 caract.", label: "decodificación VIN" },
+    ],
+    glanceHeading: "Verificación de incautación y gravamen de un vistazo",
+    glanceStats: [
+      { label: "Registros revisados", value: "Gravámenes · embargo · incautación" },
+      { label: "Fuente principal", value: "NMVTIS + DMV estatal" },
+      { label: "Nota de cobertura", value: "Incautaciones locales varían" },
+      { label: "Consulta", value: "Gratis · instantánea · por VIN" },
+    ],
     h2What: "Qué es un registro de incautación",
     what1:
       "Una incautación de vehículo es el secuestro y almacenamiento de un vehículo por parte de las fuerzas del orden o una autoridad gubernamental. Las incautaciones ocurren por diversas razones: conducir bajo los efectos del alcohol, operar un vehículo sin seguro o sin registrar, violaciones de estacionamiento con multas impagas, abandono del vehículo, asociación con actividad criminal o como evidencia en una investigación. Cuando un vehículo es incautado, el evento se registra en bases de datos de las fuerzas del orden.",
@@ -79,6 +150,14 @@ const COPY = {
       "Los registros de incautación pueden complicar las compras de autos usados de varias formas. Las tarifas pendientes de incautación o cargos de almacenamiento pueden convertirse en gravámenes contra el vehículo que deben resolverse antes de la transferencia del título. Un vehículo incautado como evidencia en una investigación en curso puede no estar disponible para transferencia hasta que se resuelva el asunto legal. Y algunas jurisdicciones colocan retenciones sobre los títulos de los vehículos por multas impagas que bloquean el registro a nombre del nuevo propietario.",
     what3:
       "No todos los registros de incautación aparecen en bases de datos vinculadas al VIN — los registros locales de incautación de las fuerzas del orden son particularmente variables en su reporte a bases de datos centralizadas. Sin embargo, las incautaciones que resultaron en ventas en subasta, procedimientos de vehículos abandonados o gravámenes contra el título generalmente aparecerán en reportes completos de historial vehicular.",
+    h2Records: "Registros que revelan una incautación",
+    recordsSub:
+      "Las incautaciones rara vez aparecen como una sola entrada dedicada. Normalmente surgen a través de los registros que dejan atrás — estas son las señales que vale la pena revisar por VIN.",
+    recordCards: [
+      "Gravámenes contra el título por tarifas impagas de almacenamiento o remolque que deben liquidarse antes de una transferencia limpia.",
+      "Procedimientos de título de vehículo abandonado y registros de venta en subasta de prestamistas o municipios.",
+      "Marcas de título o reasignaciones que resultaron del proceso de incautación o subasta.",
+    ],
     h2Repo: "Historial de recuperación y qué significa",
     repo1:
       "Una recuperación de vehículo ocurre cuando un prestamista reclama legalmente el vehículo a un prestatario que ha incumplido los pagos de su préstamo. El prestamista tiene un interés de garantía en el vehículo (su garantía para el préstamo), y al incumplir, tiene derecho a tomar posesión sin orden judicial en la mayoría de los estados. Los eventos de recuperación se registran en bases de datos de prestamistas y a menudo aparecen en reportes de historial vehicular como un cambio de propiedad del prestatario al prestamista.",
@@ -115,11 +194,40 @@ const COPY = {
     buy3Mid: " y una ",
     odoLink: "verificación de odómetro",
     buy3Suffix: " junto con la verificación de incautación y gravámenes para protección completa previa a la compra.",
+    howToHeading: "Cómo verificar el historial de incautación, embargo y gravamen — 6 pasos",
+    howToSub:
+      "Una verificación completa de cargas previa a la compra toma unos 15 minutos entre tu escritorio y el DMV.",
+    midCtaHeading: "No heredes el gravamen de otra persona",
+    midCtaSub:
+      "Verificación gratuita e instantánea de incautación, embargo y gravamen desde NMVTIS y cada DMV estatal. Sin tarjeta de crédito. Sin registro.",
     faqHeading: "Preguntas frecuentes",
+    faqSub:
+      "Las preguntas más buscadas sobre verificaciones de incautación, recuperación y gravámenes.",
+    bottomBadge: "Gratis · Instantáneo · Gravamen y embargo",
     ctaBottomHeading: "Verifica registros de incautación, embargo y gravámenes",
-    ctaBottomSub: "Ingresa un VIN de 17 caracteres para verificar gravámenes activos, historial de recuperación y registros de incautación.",
+    ctaBottomSub:
+      "Ingresa un VIN de 17 caracteres para verificar gravámenes activos, historial de recuperación y registros de incautación.",
+    bottomReportLink: "O obtén el reporte completo de historial VIN",
   },
 } as const;
+
+const HOWTO_EN = [
+  { title: "Enter the VIN", body: "Type the 17-character VIN into the search form to start the impound, repossession, and lien screen for that exact vehicle." },
+  { title: "Review active liens", body: "Check the report for active liens and the lienholder's name. An open lien means a creditor still has a legal claim against the vehicle as collateral." },
+  { title: "Inspect the physical title", body: "Confirm whether a lienholder appears on the front of the paper title. A clean title shows none; a named lienholder signals an unresolved loan." },
+  { title: "Look for repo & auction records", body: "Watch for an ownership change to a lender and a lender-auction sale — the fingerprint of a past repossession. Verify the lien was released afterward." },
+  { title: "Confirm with the state DMV", body: "State motor vehicle agencies hold lien and title-hold records and can confirm encumbrances tied to a VIN that purely local impound events may never report." },
+  { title: "Resolve before you pay", body: "If a lien or unpaid impound fee exists, settle it through the lender or authority and get written lien release in hand before any money changes hands." },
+];
+
+const HOWTO_ES = [
+  { title: "Ingresa el VIN", body: "Escribe el VIN de 17 caracteres en el formulario de búsqueda para iniciar la verificación de incautación, recuperación y gravámenes de ese vehículo." },
+  { title: "Revisa los gravámenes activos", body: "Revisa el reporte por gravámenes activos y el nombre del acreedor. Un gravamen abierto significa que un acreedor todavía tiene una reclamación legal sobre el vehículo como garantía." },
+  { title: "Inspecciona el título físico", body: "Confirma si aparece un acreedor en el frente del título en papel. Un título limpio no muestra ninguno; un acreedor nombrado señala un préstamo sin resolver." },
+  { title: "Busca registros de embargo y subasta", body: "Observa un cambio de propiedad a un prestamista y una venta en subasta del prestamista — la huella de una recuperación pasada. Verifica que el gravamen se haya liberado después." },
+  { title: "Confirma con el DMV estatal", body: "Las agencias estatales de vehículos mantienen registros de gravámenes y retenciones de título y pueden confirmar cargas vinculadas a un VIN que los eventos puramente locales de incautación quizá nunca reporten." },
+  { title: "Resuelve antes de pagar", body: "Si existe un gravamen o tarifa de incautación impaga, liquídalo a través del prestamista o autoridad y obtén la liberación de gravamen por escrito antes de que el dinero cambie de manos." },
+];
 
 const FAQS_EN = [
   { question: "What is an impound check?", answer: "An impound check is a VIN-based search for records showing that a vehicle was seized and stored by law enforcement or a government authority. It looks for impound-related events such as outstanding storage fees, abandoned-vehicle proceedings, or liens placed against the title. Because local impound records are not consistently reported to centralized databases, an impound check is most reliable when an impound intersected title, salvage, lien, or auction records." },
@@ -146,91 +254,273 @@ interface Props { locale: Locale; }
 export default function ImpoundCheckBody({ locale }: Props) {
   const c = COPY[locale];
   const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const howTo = locale === "es" ? HOWTO_ES : HOWTO_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
+  const homeHref = locale === "es" ? "/es" : "/";
+  const vinCheckHref = link("/vin-check");
 
   return (
-    <>
-      <article className="pt-28 pb-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ label: c.home, href: locale === "es" ? "/es" : "/" }, { label: c.crumb }]} />
-          <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">{c.h1}</h1>
-          <p className="mt-4 text-lg text-slate-700 leading-relaxed">{c.intro}</p>
-          <div className="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-100">
-            <h2 className="text-lg font-bold text-slate-900 mb-3">{c.ctaTopHeading}</h2>
-            <VinSearchForm size="sm" />
+    <article className="pb-16 bg-surface">
+      {/* Hero */}
+      <div className="bg-primary text-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
+          <Breadcrumbs
+            items={[{ label: c.home, href: homeHref }, { label: c.crumb }]}
+            onDark
+          />
+
+          <div className="mt-6 inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm font-bold mb-4">
+            <Banknote className="w-4 h-4" /> {c.badge}
           </div>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.h2What}</h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.what1}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.what2}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.what3}</p>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-headline font-extrabold leading-tight mb-4">
+            {c.h1} —{" "}
+            <span style={{ color: "var(--color-secondary-container)" }}>
+              {c.h1Accent}
+            </span>
+          </h1>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.h2Repo}</h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.repo1}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.repo2}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.repo3}</p>
+          <p className="speakable-intro text-base sm:text-xl text-white/85 max-w-3xl mb-8 leading-relaxed">
+            {c.intro}
+          </p>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.h2Liens}</h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.liensIntro}</p>
-          <ul className="mt-4 space-y-2 text-slate-600">
+          <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl">
+            <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">
+              {c.heroFormHeading}
+            </h2>
+            <p className="text-xs sm:text-sm text-on-surface-variant mb-4">
+              {c.heroFormSub}
+            </p>
+            <VinSearchForm size="lg" />
+            <p className="mt-3 text-[11px] text-slate-400 flex items-center gap-1.5">
+              <Lock className="w-3 h-3" /> {c.secureNote}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-8">
+            {c.trustStats.map((st, i) => {
+              const Icon = TRUST_ICONS[i] ?? ShieldCheck;
+              return (
+                <div key={st.label} className="bg-white/10 border border-white/15 rounded-xl px-3 py-3 text-center">
+                  <Icon className="w-5 h-5 mx-auto mb-1 text-white/70" />
+                  <div className="text-sm sm:text-base font-headline font-black text-white">{st.value}</div>
+                  <div className="text-[10px] sm:text-[11px] text-white/65 leading-tight mt-0.5">{st.label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* At a glance */}
+      <section aria-labelledby="glance-heading" className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 sm:-mt-10 relative z-10">
+        <div className="rounded-3xl bg-surface-container shadow-md border border-outline-variant p-5 sm:p-7">
+          <h2 id="glance-heading" className="text-xs sm:text-sm font-headline font-black uppercase tracking-widest text-primary mb-4 sm:mb-5">
+            {c.glanceHeading}
+          </h2>
+          <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {c.glanceStats.map((st) => (
+              <div key={st.label} className="rounded-2xl bg-primary px-4 py-4 sm:py-5">
+                <dt className="text-[11px] sm:text-xs text-white/75 leading-snug mb-1.5">{st.label}</dt>
+                <dd className="font-headline font-bold text-base sm:text-lg text-white leading-tight">{st.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        {/* What is an impound record */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+            {c.h2What}
+          </h2>
+          <div className="prose prose-slate max-w-none text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+            <p>{c.what1}</p>
+            <p>{c.what2}</p>
+            <p>{c.what3}</p>
+          </div>
+        </section>
+
+        {/* Records that reveal an impound */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+            {c.h2Records}
+          </h2>
+          <p className="text-sm sm:text-base text-on-surface-variant mb-7 max-w-3xl">
+            {c.recordsSub}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {c.recordCards.map((card, i) => (
+              <div key={i} className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <AlertTriangle className="w-4 h-4 text-primary" />
+                </div>
+                <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">{card}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Repossession history */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+            {c.h2Repo}
+          </h2>
+          <div className="prose prose-slate max-w-none text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+            <p>{c.repo1}</p>
+            <p>{c.repo2}</p>
+            <p>{c.repo3}</p>
+          </div>
+        </section>
+
+        {/* How to check for active liens */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+            {c.h2Liens}
+          </h2>
+          <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed mb-5 max-w-3xl">
+            {c.liensIntro}
+          </p>
+          <ul className="space-y-3">
             {c.lienBullets.map((b) => (
-              <li key={b.strong} className="flex gap-2 items-start">
-                <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                <span><strong>{b.strong}</strong>{b.rest}</span>
+              <li key={b.strong} className="flex gap-3 items-start rounded-2xl border border-outline-variant bg-surface-container-lowest p-4">
+                <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
+                <span className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
+                  <strong className="text-on-surface">{b.strong}</strong>{b.rest}
+                </span>
               </li>
             ))}
           </ul>
+        </section>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.h2Transfer}</h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.transfer1}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.transfer2}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            {c.transfer3Pre}
-            <Link href={link("/vin-check")} className="text-primary-600 hover:underline font-medium">{c.vinLink}</Link>
-            {c.transfer3Mid}
-            <Link href={link("/stolen-vehicle-check")} className="text-primary-600 hover:underline font-medium">{c.stolenLink}</Link>
-            {c.transfer3Suffix}
+        {/* Title transfer issues */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+            {c.h2Transfer}
+          </h2>
+          <div className="prose prose-slate max-w-none text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+            <p>{c.transfer1}</p>
+            <p>{c.transfer2}</p>
+            <p>
+              {c.transfer3Pre}
+              <Link href={vinCheckHref} className="text-primary font-bold hover:underline">{c.vinLink}</Link>
+              {c.transfer3Mid}
+              <Link href={link("/stolen-vehicle-check")} className="text-primary font-bold hover:underline">{c.stolenLink}</Link>
+              {c.transfer3Suffix}
+            </p>
+          </div>
+        </section>
+
+        {/* How-to */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+            {c.howToHeading}
+          </h2>
+          <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">
+            {c.howToSub}
           </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {howTo.map((st, i) => {
+              const Icon = HOWTO_ICONS[i] ?? Search;
+              const n = String(i + 1).padStart(2, "0");
+              return (
+                <div key={st.title} className="rounded-2xl border border-outline-variant bg-surface p-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-headline font-black text-primary">{n}</span>
+                  </div>
+                  <h3 className="text-base font-headline font-extrabold text-primary mb-1.5">{st.title}</h3>
+                  <p className="text-xs sm:text-sm text-on-surface-variant leading-relaxed">{st.body}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.h2Buying}</h2>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.buy1}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">{c.buy2}</p>
-          <p className="mt-3 text-slate-600 leading-relaxed">
-            {c.buy3Pre}
-            <Link href={link("/accident-history-check")} className="text-primary-600 hover:underline font-medium">{c.accidentLink}</Link>
-            {c.buy3Mid}
-            <Link href={link("/odometer-check")} className="text-primary-600 hover:underline font-medium">{c.odoLink}</Link>
-            {c.buy3Suffix}
-          </p>
+        {/* Buying a car with repo history */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
+            {c.h2Buying}
+          </h2>
+          <div className="prose prose-slate max-w-none text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+            <p>{c.buy1}</p>
+            <p>{c.buy2}</p>
+            <p>
+              {c.buy3Pre}
+              <Link href={link("/accident-history-check")} className="text-primary font-bold hover:underline">{c.accidentLink}</Link>
+              {c.buy3Mid}
+              <Link href={link("/odometer-check")} className="text-primary font-bold hover:underline">{c.odoLink}</Link>
+              {c.buy3Suffix}
+            </p>
+          </div>
+        </section>
 
-          <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.faqHeading}</h2>
-          <div className="mt-6 space-y-3">
-            {faqs.map((faq) => (
-              <details key={faq.question} className="group rounded-xl border border-slate-200 bg-white p-5">
-                <summary className="flex cursor-pointer items-center justify-between gap-4 list-none">
-                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 m-0">{faq.question}</h3>
-                  <span className="text-2xl text-primary-600 transition-transform group-open:rotate-45">+</span>
+        {/* Mid CTA */}
+        <section className="py-10">
+          <div className="rounded-3xl bg-primary p-7 sm:p-10 text-center">
+            <Search className="w-8 h-8 text-yellow-300 mx-auto mb-3" />
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-white mb-2">
+              {c.midCtaHeading}
+            </h2>
+            <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">
+              {c.midCtaSub}
+            </p>
+            <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
+              <VinSearchForm size="lg" />
+            </div>
+          </div>
+        </section>
+
+        <section className="py-10">
+          <VinCheckBanner />
+        </section>
+
+        {/* FAQ */}
+        <section className="py-12 sm:py-16 border-b border-outline-variant">
+          <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
+            {c.faqHeading}
+          </h2>
+          <p className="text-sm text-on-surface-variant mb-8">{c.faqSub}</p>
+          <div className="speakable-faq space-y-3">
+            {faqs.map((f) => (
+              <details key={f.question} className="group rounded-2xl border border-outline-variant bg-surface p-4 sm:p-5 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex items-start justify-between gap-4 cursor-pointer list-none">
+                  <span className="text-sm sm:text-base font-headline font-extrabold text-primary pr-2">{f.question}</span>
+                  <span className="flex-shrink-0 mt-0.5 text-primary text-xl font-light group-open:rotate-45 transition-transform">+</span>
                 </summary>
-                <p className="mt-3 text-slate-600 leading-relaxed">{faq.answer}</p>
+                <p className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed">{f.answer}</p>
               </details>
             ))}
           </div>
-        </div>
-      </article>
+        </section>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-4">
+        {/* Bottom CTA */}
+        <section className="py-14 sm:py-20 text-center">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 text-xs font-black uppercase tracking-wider mb-4">
+            <Zap className="w-3.5 h-3.5" /> {c.bottomBadge}
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">
+            {c.ctaBottomHeading}
+          </h2>
+          <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">
+            {c.ctaBottomSub}
+          </p>
+          <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
+            <VinSearchForm size="lg" />
+          </div>
+          <Link href={vinCheckHref} className="inline-flex items-center gap-2 mt-6 text-sm font-bold text-primary hover:underline">
+            {c.bottomReportLink}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </section>
+
         <RelatedChecks exclude="/impound-check" />
       </div>
-
-      <section className="py-14 bg-slate-50">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">{c.ctaBottomHeading}</h2>
-          <p className="text-slate-700 mb-6">{c.ctaBottomSub}</p>
-          <VinSearchForm size="sm" />
-        </div>
-      </section>
-    </>
+    </article>
   );
 }
 
-export { FAQS_EN, FAQS_ES };
+export { FAQS_EN, FAQS_ES, HOWTO_EN, HOWTO_ES };
