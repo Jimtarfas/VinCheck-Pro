@@ -27,14 +27,15 @@ import {
   ScrollText,
   Banknote,
   BarChart3,
-  Sparkles,
-  Gift,
   Globe2,
   Palette,
   MapPin,
   Waves,
   Bike,
   Citrus,
+  Calendar,
+  Tag,
+  Info,
 } from "lucide-react";
 import { headers } from "next/headers";
 import { getReportContext, type ReportContext } from "@/lib/report-context";
@@ -675,55 +676,63 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     </BuyReportButton>
   );
 
-  /* ── Free window-sticker promo ────────────────────────────────────────
-     A "scratch-off coupon" styled banner pitching a free factory-style
-     window sticker with the buyer's first report. The window-sticker
-     generator is a flagship free tool on the site, so bundling it as a
-     first-purchase gift is a creative, no-cost conversion sweetener.
-     Rendered twice: in the empty navy hero space on desktop, and inline
-     after the records card on mobile (where the hero version is hidden). */
-  const stickerCoupon = (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-secondary-fixed to-amber-200 text-primary shadow-xl shadow-black/25 ring-1 ring-white/40">
-      {/* ticket perforation notches */}
-      <span aria-hidden className="absolute -left-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-primary" />
-      <span aria-hidden className="absolute -right-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-primary" />
-      {/* soft sheen */}
-      <span aria-hidden className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-white/30 blur-2xl" />
+  /* ── Vehicle details card ─────────────────────────────────────────────
+     The free, decoded identity of THIS vehicle (year/make/model/trim plus
+     body type and the build specs from ClearVin's preview), gathered into a
+     single card. Replaces the old window-sticker promo so the hero's empty
+     space carries useful, on-topic information instead of an unrelated offer.
+     Rendered twice: in the empty navy hero space on desktop, and inline on
+     mobile (where the hero version is hidden). */
+  const detailTiles: { icon: typeof Calendar; label: string; value: string }[] = [];
+  const pushTile = (icon: typeof Calendar, label: string, v?: string | null) => {
+    const val = (v || "").trim();
+    if (val) detailTiles.push({ icon, label, value: val });
+  };
+  pushTile(Calendar, "Year", s?.year ?? (aiYear != null ? String(aiYear) : null));
+  pushTile(Car, "Make", make);
+  pushTile(Car, "Model", s?.model ?? reportData.model?.name);
+  pushTile(Tag, "Trim", s?.trim);
+  pushTile(Info, "Body Type", s?.style);
+  pushTile(Fingerprint, "Engine", s?.engine);
+  pushTile(MapPin, "Assembled In", s?.madeIn);
+  pushTile(Receipt, "Original MSRP", s?.msrp);
 
-      <div className="flex items-stretch">
-        {/* Left stub — the "gift" face of the coupon */}
-        <div className="flex flex-col items-center justify-center gap-1 border-r-2 border-dashed border-primary/25 px-5 py-5">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-secondary-fixed shadow-md">
-            <Receipt className="h-6 w-6" />
+  const vehicleDetails = detailTiles.length > 0 && (
+    <div className="bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden">
+      <div className="px-4 sm:px-5 py-4 border-b border-surface-container">
+        <h2 className="font-headline font-bold text-base text-on-surface flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
+            <Car className="w-5 h-5" />
           </div>
-          <span className="font-headline text-2xl font-black leading-none tracking-tight">FREE</span>
-          <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-primary/65">Bonus</span>
-        </div>
-
-        {/* Right body — the offer */}
-        <div className="relative flex-1 px-4 py-3.5">
-          <div className="inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-secondary-fixed">
-            <Sparkles className="h-3 w-3" /> First-order gift
-          </div>
-          <h3 className="mt-2 flex items-center gap-1.5 font-headline text-[19px] font-extrabold leading-tight">
-            <Gift className="h-4 w-4 flex-shrink-0" /> Free Window Sticker
-          </h3>
-          <p className="mt-1 text-[12px] font-semibold leading-snug text-primary/80">
-            Buy your first report and we&apos;ll throw in a factory-style window
-            sticker — Original MSRP, factory options &amp; EPA fuel economy — on us.
-          </p>
-          <p className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-primary/60">
-            <BadgeCheck className="h-3 w-3" /> Auto-applied at checkout
-          </p>
+          Vehicle Details
+        </h2>
+      </div>
+      <div className="p-3 sm:p-4">
+        <div className="grid grid-cols-2 gap-2.5">
+          {detailTiles.map(({ icon: Icon, label, value }) => (
+            <div key={label} className="flex items-start gap-2.5 rounded-xl bg-surface-container-low px-3 py-2.5">
+              <div className="w-8 h-8 rounded-lg bg-primary/8 text-primary flex items-center justify-center flex-shrink-0">
+                <Icon className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-outline leading-tight">
+                  {label}
+                </div>
+                <div className="text-sm font-headline font-extrabold text-on-surface leading-tight mt-0.5 break-words">
+                  {value}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 
   // Desktop: fills the empty navy space on the right of the hero.
-  const heroPromo = (
-    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{stickerCoupon}</div>
-  );
+  const heroPromo = vehicleDetails ? (
+    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{vehicleDetails}</div>
+  ) : undefined;
 
   /* ── Market Analysis card (sidebar, above Report Summary) ──────────────
      Built from auto.dev market/pricing data with an example fallback so the
@@ -788,25 +797,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     );
   })();
 
-  /* ── Build & pricing specs (free, from ClearVin's preview) ──
-     Only the ClearVin spec fields NOT already covered by VinReport's built-in
-     quick-specs (Year/Make/Model/Trim) and Vehicle Classification (Body Type)
-     cards — so the two never duplicate. Empty values (e.g. blank invoice) are
-     dropped. Rendered only when the ClearVin preview is present (never from the
-     auto.dev fallback). Styled to match VinReport's Card/Stat design. */
-  const buildSpecs: { label: string; value: string }[] = [];
-  if (preview) {
-    const sp = preview.vinSpec;
-    const push = (label: string, v?: string | null) => {
-      const val = (v || "").trim();
-      if (val) buildSpecs.push({ label, value: val });
-    };
-    push("Engine", sp.engine);
-    push("Assembled In", sp.madeIn);
-    push("Original MSRP", sp.msrp);
-    push("Invoice Price", sp.invoice);
-  }
-
   /* ── Free teasers surfaced directly under the photo gallery ──
      The "records on file" upsell card comes FIRST — it's the conversion
      driver. The free NHTSA recalls follow as trust proof; recalls are public
@@ -870,7 +860,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           <div className="flex items-center gap-2 mb-2">
             <ShieldAlert className="w-5 h-5 text-amber-600" />
             <h2 className="text-xl font-headline font-extrabold text-primary">
-              {preview.recalls.length} open safety recall{preview.recalls.length === 1 ? "" : "s"} — shown free
+              {preview.recalls.length} open safety recall{preview.recalls.length === 1 ? "" : "s"}
+              {preview.recalls.length > 2 ? " — 2 shown free" : " — shown free"}
             </h2>
           </div>
           <p className="text-sm text-on-surface-variant mb-4 max-w-2xl">
@@ -880,7 +871,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             fraud or who owned the car.
           </p>
           <div className="space-y-2">
-            {preview.recalls.map((r, i) => (
+            {preview.recalls.slice(0, 2).map((r, i) => (
               <details
                 key={`${r.NHTSACampaignNumber}-${i}`}
                 className="group rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 [&_summary::-webkit-details-marker]:hidden"
@@ -909,6 +900,37 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                 </div>
               </details>
             ))}
+
+            {/* Remaining recalls are blurred behind an unlock overlay — the first
+                two are shown free as proof, the rest convert. */}
+            {preview.recalls.length > 2 && (
+              <BuyReportButton
+                ariaLabel={`Unlock ${preview.recalls.length - 2} more open safety recalls`}
+                className="group relative block w-full cursor-pointer text-left"
+              >
+                <div aria-hidden className="space-y-2 blur-[5px] select-none pointer-events-none">
+                  {preview.recalls.slice(2, 5).map((r, i) => (
+                    <div
+                      key={`${r.NHTSACampaignNumber}-locked-${i}`}
+                      className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4"
+                    >
+                      <div className="text-[11px] font-black uppercase tracking-wider text-amber-600 mb-0.5">
+                        {r.Component}
+                      </div>
+                      <div className="text-sm font-bold text-on-surface">
+                        Campaign {r.NHTSACampaignNumber} · {r.ReportReceivedDate}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-headline text-sm font-extrabold text-white shadow-lg shadow-primary/25 transition-colors group-hover:bg-primary/90">
+                    <Lock className="h-4 w-4" />
+                    Unlock {preview.recalls.length - 2} more recall{preview.recalls.length - 2 === 1 ? "" : "s"}
+                  </span>
+                </div>
+              </BuyReportButton>
+            )}
           </div>
 
           {/* Bridge: pivot from free public recalls to the locked records */}
@@ -937,38 +959,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   /* ── Premium sections injected UNDER the car info (main column) ── */
   const premiumSections = (
     <div className="space-y-12">
-      {/* Build & pricing specs — free, complements VinReport's identity cards */}
-      {buildSpecs.length > 0 && (
-        <div className="bg-surface-container-lowest rounded-3xl sm:rounded-[2rem] shadow-sm overflow-hidden">
-          <div className="px-4 sm:px-6 py-5 border-b border-surface-container">
-            <h2 className="font-headline font-bold text-base sm:text-lg text-on-surface flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
-                <Fingerprint className="w-5 h-5" />
-              </div>
-              Vehicle Specifications
-            </h2>
-            <p className="text-xs sm:text-sm text-on-surface-variant mt-1 ml-12">
-              Decoded from this VIN — free. Verify it matches the seller&apos;s listing.
-            </p>
-          </div>
-          <div className="p-4 sm:p-6">
-            <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-              {buildSpecs.map((s) => (
-                <div
-                  key={s.label}
-                  className="py-3 border-b border-surface-container last:border-0"
-                >
-                  <p className="text-xs text-outline uppercase tracking-wider font-semibold mb-1">
-                    {s.label}
-                  </p>
-                  <p className="font-semibold text-on-surface">{s.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Mobile-only bundle/prepaid-pack checkout — the desktop copy lives at
           the top of the sidebar (hidden on mobile, where the sidebar stacks far
           below the whole report). Surfaced here so phone buyers can pick a pack
@@ -1001,10 +991,9 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         )}
       </div>
 
-      {/* Free window-sticker bonus — phone users don't see the hero version
-          (desktop-only), so surface the same coupon here, right after the
-          records/purchase card. */}
-      <div className="lg:hidden">{stickerCoupon}</div>
+      {/* Vehicle details — phone users don't see the hero version (desktop-only),
+          so surface the same card here, right after the records/purchase card. */}
+      {vehicleDetails && <div className="lg:hidden">{vehicleDetails}</div>}
 
       {/* Your report contains */}
       <section className="rounded-3xl bg-surface-container-lowest border border-outline-variant p-6">
