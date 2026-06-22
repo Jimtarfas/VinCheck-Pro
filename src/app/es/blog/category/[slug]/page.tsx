@@ -38,7 +38,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const category = await sanityClient.fetch<SanityCategory | null>(categoryBySlugQuery, { slug });
+  let category: SanityCategory | null = null;
+  try {
+    category = await sanityClient.fetch<SanityCategory | null>(categoryBySlugQuery, { slug });
+  } catch {
+    category = null;
+  }
 
   if (!category) {
     return { robots: { index: false, follow: false } };
@@ -69,10 +74,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { slug } = await params;
 
-  const [category, posts] = await Promise.all([
-    sanityClient.fetch<SanityCategory | null>(categoryBySlugQuery, { slug }),
-    sanityClient.fetch<SanityPost[]>(postsByCategoryQuery, { slug }),
-  ]);
+  let category: SanityCategory | null = null;
+  let posts: SanityPost[] = [];
+  try {
+    const result = await Promise.all([
+      sanityClient.fetch<SanityCategory | null>(categoryBySlugQuery, { slug }),
+      sanityClient.fetch<SanityPost[]>(postsByCategoryQuery, { slug }),
+    ]);
+    category = result[0];
+    posts = result[1] ?? [];
+  } catch {
+    category = null;
+    posts = [];
+  }
 
   if (!category) notFound();
 

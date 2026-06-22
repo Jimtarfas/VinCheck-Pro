@@ -30,7 +30,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const author = await sanityClient.fetch<SanityAuthor | null>(authorBySlugQuery, { slug });
+  let author: SanityAuthor | null = null;
+  try {
+    author = await sanityClient.fetch<SanityAuthor | null>(authorBySlugQuery, { slug });
+  } catch {
+    author = null;
+  }
 
   if (!author) {
     return { title: "Author Not Found", robots: { index: false, follow: false } };
@@ -59,10 +64,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function AuthorPage({ params }: Props) {
   const { slug } = await params;
 
-  const [author, posts] = await Promise.all([
-    sanityClient.fetch<SanityAuthor | null>(authorBySlugQuery, { slug }),
-    sanityClient.fetch<SanityPost[]>(postsByAuthorQuery, { slug }),
-  ]);
+  let author: SanityAuthor | null = null;
+  let posts: SanityPost[] = [];
+  try {
+    const result = await Promise.all([
+      sanityClient.fetch<SanityAuthor | null>(authorBySlugQuery, { slug }),
+      sanityClient.fetch<SanityPost[]>(postsByAuthorQuery, { slug }),
+    ]);
+    author = result[0];
+    posts = result[1] ?? [];
+  } catch {
+    author = null;
+    posts = [];
+  }
 
   if (!author) notFound();
 

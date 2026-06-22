@@ -55,7 +55,14 @@ const categoryColors: Record<string, string> = {
 };
 
 export default async function AutoNewsPage() {
-  const posts = await sanityClient.fetch<SanityPost[]>(autoNewsPostsQuery);
+  // Resilient fetch: if Sanity is unreachable or quota-limited, render the
+  // page with an empty post list instead of throwing a 500.
+  let posts: SanityPost[] = [];
+  try {
+    posts = (await sanityClient.fetch<SanityPost[]>(autoNewsPostsQuery)) ?? [];
+  } catch {
+    posts = [];
+  }
 
   const collectionLd = {
     "@context": "https://schema.org",

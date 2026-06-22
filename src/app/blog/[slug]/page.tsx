@@ -29,7 +29,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await sanityClient.fetch<SanityPost>(postBySlugQuery, { slug });
+  // Resilient fetch: if Sanity is unreachable or quota-limited, return a
+  // generic metadata object instead of throwing and crashing the route.
+  let post: SanityPost | null = null;
+  try {
+    post = await sanityClient.fetch<SanityPost>(postBySlugQuery, { slug });
+  } catch {
+    post = null;
+  }
 
   if (!post) {
     return { title: "Post Not Found", robots: { index: false, follow: false } };
@@ -92,7 +99,14 @@ const categoryColors: Record<string, string> = {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await sanityClient.fetch<SanityPost>(postBySlugQuery, { slug });
+  // Resilient fetch: a transient Sanity outage or quota cap should render
+  // a clean 404 (post not found) rather than a 500 server error.
+  let post: SanityPost | null = null;
+  try {
+    post = await sanityClient.fetch<SanityPost>(postBySlugQuery, { slug });
+  } catch {
+    post = null;
+  }
 
   if (!post) notFound();
 

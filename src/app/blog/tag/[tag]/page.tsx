@@ -20,13 +20,30 @@ function slugifyTag(tag: string): string {
 }
 
 async function resolveTag(slugParam: string): Promise<string | null> {
-  const allTags = await sanityClient.fetch<string[]>(allTagsQuery);
+  let allTags: string[] | null = null;
+  try {
+    allTags = await sanityClient.fetch<string[]>(allTagsQuery);
+  } catch {
+    return null;
+  }
   if (!allTags) return null;
   const decoded = decodeURIComponent(slugParam).toLowerCase();
   const match = allTags.find(
     (t) => slugifyTag(t) === decoded || t.toLowerCase() === decoded,
   );
   return match || null;
+}
+
+async function fetchPostsByTag(resolved: string): Promise<SanityPost[]> {
+  try {
+    const posts = await sanityClient.fetch<SanityPost[]>(
+      postsByTagQuery,
+      { tag: resolved } as Record<string, string>,
+    );
+    return posts ?? [];
+  } catch {
+    return [];
+  }
 }
 
 export async function generateStaticParams() {
@@ -59,7 +76,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Tag Not Found", robots: { index: false, follow: false } };
   }
 
-  const posts = await sanityClient.fetch<SanityPost[]>(postsByTagQuery, { tag: resolved } as Record<string, string>);
+  const posts = await fetchPostsByTag(resolved);
   const count = posts.length;
 
   return {
@@ -88,7 +105,7 @@ export default async function BlogTagPage({ params }: Props) {
 
   if (!resolved) notFound();
 
-  const posts = await sanityClient.fetch<SanityPost[]>(postsByTagQuery, { tag: resolved } as Record<string, string>);
+  const posts = await fetchPostsByTag(resolved);
 
   if (!posts || posts.length === 0) notFound();
 

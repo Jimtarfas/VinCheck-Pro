@@ -48,9 +48,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await sanityClient.fetch<SanityPost>(postBySlugEsQuery, {
-    slug,
-  });
+  // Resilient fetch: degrade to generic metadata if Sanity is unreachable
+  // or quota-limited rather than throwing and crashing the route.
+  let post: SanityPost | null = null;
+  try {
+    post = await sanityClient.fetch<SanityPost>(postBySlugEsQuery, { slug });
+  } catch {
+    post = null;
+  }
 
   if (!post || !post.titleEs) {
     return {
@@ -115,9 +120,14 @@ const categoryColors: Record<string, string> = {
 
 export default async function BlogPostPageEs({ params }: Props) {
   const { slug } = await params;
-  const post = await sanityClient.fetch<SanityPost>(postBySlugEsQuery, {
-    slug,
-  });
+  // Resilient fetch: a Sanity outage should produce a 404 (post not found)
+  // rather than a 500 server error.
+  let post: SanityPost | null = null;
+  try {
+    post = await sanityClient.fetch<SanityPost>(postBySlugEsQuery, { slug });
+  } catch {
+    post = null;
+  }
 
   // Only render if the post has been translated; an editor adds titleEs
   // in Sanity Studio to make a post reachable at /es/blog/<slug>.
