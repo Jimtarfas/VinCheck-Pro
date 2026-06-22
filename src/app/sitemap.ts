@@ -11,6 +11,9 @@ import { MERCEDES_MODELS } from "@/lib/mercedes-models";
 import { CADILLAC_MODELS } from "@/lib/cadillac-models";
 import { GMC_MODELS } from "@/lib/gmc-models";
 import { RAM_MODELS } from "@/lib/ram-models";
+import { FORD_MODELS } from "@/lib/ford-models";
+import { TOYOTA_MODELS } from "@/lib/toyota-models";
+import { HONDA_MODELS } from "@/lib/honda-models";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -185,6 +188,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-model Ford VIN check pages (/ford-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (F-150, Escape, Explorer,
+  // Mustang, Bronco, …) the generic /vin-check/ford can't rank for.
+  const fordModelPages: MetadataRoute.Sitemap = FORD_MODELS.map((m) => ({
+    url: `${baseUrl}/ford-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-model Toyota VIN check pages (/toyota-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (Camry, Corolla, RAV4,
+  // Tacoma, Highlander, …) the generic /vin-check/toyota can't rank for.
+  const toyotaModelPages: MetadataRoute.Sitemap = TOYOTA_MODELS.map((m) => ({
+    url: `${baseUrl}/toyota-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-model Honda VIN check pages (/honda-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (Civic, Accord, CR-V,
+  // Pilot, Odyssey, …) the generic /vin-check/honda can't rank for.
+  const hondaModelPages: MetadataRoute.Sitemap = HONDA_MODELS.map((m) => ({
+    url: `${baseUrl}/honda-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -274,6 +307,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // RAM VIN check hub + 10 per-model spokes.
     { url: `${baseUrl}/ram-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...ramModelPages,
+    // Ford VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/ford-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...fordModelPages,
+    // Toyota VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/toyota-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...toyotaModelPages,
+    // Honda VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/honda-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...hondaModelPages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.
