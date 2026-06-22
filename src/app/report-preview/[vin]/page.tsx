@@ -554,6 +554,11 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
               `${auctionRecords} prior auction sale${auctionRecords === 1 ? "" : "s"}`
             );
           const hasAlerts = alertParts.length > 0;
+          // Only surface this above-the-fold banner when there's a real finding
+          // (damage or a prior auction sale). A "looks clean" banner here just
+          // reassured buyers into leaving without unlocking, so the clean state
+          // is intentionally suppressed.
+          if (!hasAlerts) return null;
           const Icon = hasAlerts ? AlertTriangle : ShieldAlert;
 
           const headline = hasAlerts
@@ -816,16 +821,13 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           <Crown className="w-3.5 h-3.5" /> Premium vehicle history
         </div>
         <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
-          {looksClean
-            ? `No accident or auction records reported for this ${make || "vehicle"}`
-            : recordsFound > 0
+          {!looksClean && recordsFound > 0
             ? `${recordsFound} history record${recordsFound === 1 ? "" : "s"} on file for this ${make || "vehicle"}`
             : "Unlock the full vehicle history"}
         </h2>
         <p className="text-sm text-on-surface-variant mb-5 max-w-md">
-          {looksClean
-            ? `A good sign — but title brands, liens, odometer rollbacks and ownership records aren't shown here. Confirm this ${make || "vehicle"} is genuinely clean, in writing, before you pay the seller's price.`
-            : "The specs below are free. Title brands, accidents, odometer and ownership records are revealed in the full report."}
+          The specs below are free. Title brands, accidents, odometer and
+          ownership records are revealed in the full report.
         </p>
         <BuyReportButton
           ariaLabel="Unlock the full vehicle history report"
