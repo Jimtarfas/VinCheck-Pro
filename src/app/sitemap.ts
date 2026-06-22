@@ -14,6 +14,10 @@ import { RAM_MODELS } from "@/lib/ram-models";
 import { FORD_MODELS } from "@/lib/ford-models";
 import { TOYOTA_MODELS } from "@/lib/toyota-models";
 import { HONDA_MODELS } from "@/lib/honda-models";
+import { DODGE_MODELS } from "@/lib/dodge-models";
+import { HARLEY_MODELS } from "@/lib/harley-models";
+import { NISSAN_MODELS } from "@/lib/nissan-models";
+import { VOLKSWAGEN_MODELS } from "@/lib/volkswagen-models";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -218,6 +222,47 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-model Dodge VIN check pages (/dodge-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (Charger, Challenger,
+  // Durango, Hornet, …) the generic /vin-check/dodge can't rank for.
+  const dodgeModelPages: MetadataRoute.Sitemap = DODGE_MODELS.map((m) => ({
+    url: `${baseUrl}/dodge-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-model Harley-Davidson VIN check pages (/harley-davidson-vin-check/[model])
+  // — a hub-and-spoke cluster targeting model-specific motorcycle VIN-check intent
+  // (Street Glide, Road Glide, Sportster, Fat Boy, …).
+  const harleyModelPages: MetadataRoute.Sitemap = HARLEY_MODELS.map((m) => ({
+    url: `${baseUrl}/harley-davidson-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-model Nissan VIN check pages (/nissan-vin-check/[model]) — a hub-and-spoke
+  // cluster targeting model-specific VIN-check intent (Altima, Rogue, Sentra,
+  // Pathfinder, …) the generic /vin-check/nissan can't rank for.
+  const nissanModelPages: MetadataRoute.Sitemap = NISSAN_MODELS.map((m) => ({
+    url: `${baseUrl}/nissan-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-model Volkswagen VIN check pages (/volkswagen-vin-check/[model]) — a
+  // hub-and-spoke cluster targeting model-specific VW VIN-check intent (Jetta,
+  // Tiguan, Passat, Atlas, Golf/GTI, …) the generic /vin-check/volkswagen can't
+  // rank for.
+  const volkswagenModelPages: MetadataRoute.Sitemap = VOLKSWAGEN_MODELS.map((m) => ({
+    url: `${baseUrl}/volkswagen-vin-check/${m.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -316,6 +361,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Honda VIN check hub + 10 per-model spokes.
     { url: `${baseUrl}/honda-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...hondaModelPages,
+    // Dodge VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/dodge-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...dodgeModelPages,
+    // Harley-Davidson VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/harley-davidson-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...harleyModelPages,
+    // Nissan VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/nissan-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...nissanModelPages,
+    // Volkswagen VIN check hub + 10 per-model spokes.
+    { url: `${baseUrl}/volkswagen-vin-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...volkswagenModelPages,
     // Window Sticker Maker — flagship interactive tool. High priority for Google + Bing.
     { url: `${baseUrl}/window-sticker`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Window sticker SEO landing pages — VIN lookup + free-by-VIN intent clusters.
