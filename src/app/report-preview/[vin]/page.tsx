@@ -849,10 +849,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                     <span className="flex-shrink-0 bg-amber-500 text-white text-[10px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full">
                       {r.count} found
                     </span>
-                  ) : r.count === 0 ? (
-                    <span className="flex-shrink-0 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full">
-                      <Check className="w-3 h-3" strokeWidth={3} /> None reported
-                    </span>
                   ) : (
                     <Lock className="w-4 h-4 text-on-surface-variant/60 group-hover:text-primary transition-colors flex-shrink-0" />
                   )}
