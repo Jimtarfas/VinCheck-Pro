@@ -912,35 +912,41 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       <BuyReportButton
         key={r.label}
         ariaLabel={`Unlock ${r.label} in the full report`}
-        className="group flex flex-col text-left rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
+        className="group block w-full h-full text-left rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
       >
-        <div className="flex items-center gap-2.5 px-3.5 pt-3.5 pb-2">
-          <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-            <Icon className="w-4 h-4 text-primary" />
+        {/* Inner flex wrapper: iPhone Safari does NOT treat a <button> as a
+            flex container, so the card's children (and their nested flex-1
+            columns) collapse to content width and bunch to the left. Putting
+            the column layout on a <div> instead fixes the alignment on iOS. */}
+        <div className="flex h-full flex-col">
+          <div className="flex items-center gap-2.5 px-3.5 pt-3.5 pb-2">
+            <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Icon className="w-4 h-4 text-primary" />
+            </div>
+            <div className="text-[12px] font-extrabold uppercase tracking-wide text-on-surface leading-tight flex-1 min-w-0">
+              {r.label}
+            </div>
+            {found ? (
+              <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-red-500 text-white text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
+                <AlertTriangle className="w-2.5 h-2.5" /> {r.count} found
+              </span>
+            ) : (
+              <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
+                <Info className="w-2.5 h-2.5" /> Info available
+              </span>
+            )}
           </div>
-          <div className="text-[12px] font-extrabold uppercase tracking-wide text-on-surface leading-tight flex-1 min-w-0">
-            {r.label}
+          <div className="px-3.5 text-[11px] text-on-surface-variant mb-3 truncate">
+            {r.note}
           </div>
-          {found ? (
-            <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-red-500 text-white text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
-              <AlertTriangle className="w-2.5 h-2.5" /> {r.count} found
+          <div className="px-3.5 select-none pointer-events-none">
+            {renderRecordSkeleton(r)}
+          </div>
+          <div className="mt-auto px-3.5 pt-3 pb-3.5">
+            <span className="flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-2 text-[11px] font-bold text-white transition-colors group-hover:bg-primary/90">
+              <Lock className="w-3 h-3 flex-shrink-0" /> View all
             </span>
-          ) : (
-            <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
-              <Info className="w-2.5 h-2.5" /> Info available
-            </span>
-          )}
-        </div>
-        <div className="px-3.5 text-[11px] text-on-surface-variant mb-3 truncate">
-          {r.note}
-        </div>
-        <div className="px-3.5 select-none pointer-events-none">
-          {renderRecordSkeleton(r)}
-        </div>
-        <div className="mt-auto px-3.5 pt-3 pb-3.5">
-          <span className="flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-2 text-[11px] font-bold text-white transition-colors group-hover:bg-primary/90">
-            <Lock className="w-3 h-3 flex-shrink-0" /> View all
-          </span>
+          </div>
         </div>
       </BuyReportButton>
     );
@@ -1051,13 +1057,14 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         </BuyReportButton>
       </section>
 
-      {/* Mobile-only bundle/prepaid-pack checkout — surfaced directly behind the
-          "Unlock the full vehicle history" section so phone buyers see the offer
-          right after the locked-records reveal (instead of buried below the whole
-          specs wall). The desktop copy lives in the sticky sidebar. Hidden when
-          the VIN is unsupported. */}
+      {/* Bundle/prepaid-pack checkout — surfaced directly behind the "Unlock the
+          full vehicle history" section on every viewport so the offer lands
+          right after the locked-records reveal (instead of buried below the
+          specs wall on mobile, or floating in the sidebar on desktop). This is
+          the single bundle instance for both layouts. Hidden when the VIN is
+          unsupported. */}
       {!isUnsupported && (
-        <div className="lg:hidden" data-buybar-hide data-bundle-target>
+        <div data-buybar-hide data-bundle-target>
           <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
         </div>
       )}
@@ -1390,18 +1397,14 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     </div>
   );
 
-  // Desktop sidebar "Buy more, pay less" bundle upsell. Replaces the AI block
-  // (sidebarReplaceAI) so it now sits BELOW the Market Analysis panel — swapped
-  // under the marketing card above. For unsupported VINs this slot carries the
-  // friendly notice instead, which also keeps the AI block hidden + the sidebar
-  // column stretched for sticky behavior.
+  // Desktop sidebar slot. The "Buy more, pay less" bundle now lives in the main
+  // column directly behind the "Unlock the full vehicle history" section (on
+  // every viewport), so the sidebar no longer carries a bundle copy. For
+  // unsupported VINs this slot still carries the friendly notice, which also
+  // keeps the AI block hidden + the sidebar column stretched.
   const sidebarBundleOrNotice = isUnsupported ? (
     <div className="hidden lg:block">{unsupportedNotice}</div>
-  ) : (
-    <div className="hidden lg:block" data-bundle-target>
-      <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
-    </div>
-  );
+  ) : null;
 
   /* Purchase & report FAQ. Rendered in two places: under the Report Summary in
      the sidebar on desktop (via VinReport's sidebarBottom), and in the footer
