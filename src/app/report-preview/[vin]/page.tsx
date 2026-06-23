@@ -111,6 +111,30 @@ function clearVinReportData(vin: string, p: ClearVinPreview): VinData {
   // ClearVin returns the literal "0" (not a URL) when it has no photo on file.
   const heroPhoto =
     p.previewImageURL && p.previewImageURL !== "0" ? p.previewImageURL : null;
+  // ClearVin's FREE preview already carries manufacturer pricing for this VIN
+  // (vinSpec.msrp / vinSpec.invoice) — so the Valuation card shows real,
+  // VIN-specific figures without ever spending a credit on the paid report.
+  // The strings may arrive as "$31,545", "31545.00" or "" — parse to a clean
+  // integer and treat anything unparseable as absent (0 → row hidden).
+  const parseUsd = (v: string | null | undefined): number => {
+    if (!v) return 0;
+    const n = Number(String(v).replace(/[^0-9.]/g, ""));
+    return Number.isFinite(n) && n > 0 ? Math.round(n) : 0;
+  };
+  const baseMsrp = parseUsd(s.msrp);
+  const baseInvoice = parseUsd(s.invoice);
+  const clearVinPrice =
+    baseMsrp > 0 || baseInvoice > 0
+      ? {
+          baseMsrp,
+          baseInvoice,
+          deliveryCharges: 0,
+          usedTmvRetail: 0,
+          usedPrivateParty: 0,
+          usedTradeIn: 0,
+          estimateTmv: false,
+        }
+      : undefined;
   return {
     vin,
     make: { id: 0, name: s.make || "Vehicle", niceName: "" },
@@ -132,6 +156,7 @@ function clearVinReportData(vin: string, p: ClearVinPreview): VinData {
       : undefined,
     photos: heroPhoto ? [heroPhoto] : undefined,
     photoSource: "vin",
+    price: clearVinPrice,
   } as unknown as VinData;
 }
 
@@ -436,7 +461,11 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   if (preview) {
     reportData = clearVinReportData(cleaned, preview);
     if (decoded) {
-      reportData.price = decoded.price;
+      // Valuation is sourced from ClearVin's free preview (vinSpec MSRP/Invoice)
+      // when present; auto.dev pricing only fills in when ClearVin gave us none.
+      if (!reportData.price) reportData.price = decoded.price;
+      // ClearVin's free preview carries no live-listings market data, so the
+      // Market Analysis panel still comes from auto.dev when it's configured.
       reportData.marketData = decoded.marketData;
     }
   } else if (decoded) {
@@ -967,6 +996,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     const cards: { label: string; value: string }[] = [];
     if (pr) {
       if (pr.baseMsrp > 0) cards.push({ label: "Original MSRP", value: `$${pr.baseMsrp.toLocaleString()}` });
+      if (pr.baseInvoice > 0) cards.push({ label: "Dealer Invoice", value: `$${pr.baseInvoice.toLocaleString()}` });
       if (pr.usedTmvRetail > 0) cards.push({ label: "Used Retail", value: `$${pr.usedTmvRetail.toLocaleString()}` });
       if (pr.usedPrivateParty > 0) cards.push({ label: "Private Party", value: `$${pr.usedPrivateParty.toLocaleString()}` });
       if (pr.usedTradeIn > 0) cards.push({ label: "Trade-In", value: `$${pr.usedTradeIn.toLocaleString()}` });
