@@ -48,6 +48,7 @@ import BuyReportButton from "@/components/BuyReportButton";
 import BundleUpsellCard from "./BundleUpsellCard";
 import StickyBuyBar from "./StickyBuyBar";
 import ReportColumnFiller from "./ReportColumnFiller";
+import BrandLogo from "@/components/BrandLogo";
 
 /* Small laurel-wreath flourish for the satisfaction-guarantee seal. */
 function Laurel({ className = "" }: { className?: string }) {
@@ -760,48 +761,62 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
      body type and the build specs from ClearVin's preview), gathered into a
      single card rendered full-width directly under the photo gallery so the
      buyer reads the car's facts (and the free recalls) BEFORE any paywall. */
-  const detailTiles: { label: string; value: string }[] = [];
-  const pushTile = (label: string, v?: string | null) => {
+  // Spec pills — the decoded build facts shown as labelled chips, one icon per
+  // spec (the year/make/model live in the card title, so they aren't repeated
+  // here). Each chip is value-only with a small green glyph, matching the badge
+  // row in the header mock.
+  const specPills: { icon: typeof Car; value: string }[] = [];
+  const pushPill = (icon: typeof Car, v?: string | null) => {
     const val = (v || "").trim();
-    if (val) detailTiles.push({ label, value: val });
+    if (val) specPills.push({ icon, value: val });
   };
-  pushTile("Year", s?.year ?? (aiYear != null ? String(aiYear) : null));
-  pushTile("Make", make);
-  pushTile("Model", s?.model ?? reportData.model?.name);
-  pushTile("Trim", s?.trim);
-  pushTile("Body Type", s?.style);
-  pushTile("Engine", s?.engine);
-  pushTile("Assembled In", s?.madeIn);
-  pushTile("Original MSRP", s?.msrp);
+  pushPill(Star, s?.trim);
+  pushPill(Car, s?.style);
+  pushPill(Wrench, s?.engine);
+  pushPill(MapPin, s?.madeIn);
+  pushPill(Banknote, s?.msrp);
 
-  const hasVehicleDetails = detailTiles.length > 0;
+  // The card is worth showing when we have a real decoded identity (a name
+  // beyond the bare VIN) or at least one build-spec chip.
+  const hasVehicleDetails =
+    Boolean(vehicleLabel && vehicleLabel !== cleaned) || specPills.length > 0;
+
   // Self-contained navy card rendered full-width directly under the photo
-  // gallery (see afterPhotos). Solid `bg-primary` so it reads on the light page
-  // background; the value grid widens on larger screens to fill the column.
+  // gallery (see afterPhotos), keeping our `bg-primary` palette. The header
+  // pairs the brand logo + vehicle name + VIN; below it a row of icon chips
+  // surfaces the free build specs — so the buyer reads the car's facts before
+  // any paywall.
   const renderVehicleDetails = () => (
     <div className="rounded-3xl bg-primary shadow-sm overflow-hidden">
-      <div className="px-5 sm:px-6 py-4 border-b border-white/10">
-        <h2 className="font-headline font-bold text-base sm:text-lg flex items-center gap-2.5 text-white">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10 text-white">
-            <Car className="w-4 h-4" />
-          </div>
-          Vehicle Details
-        </h2>
+      <div className="flex items-center gap-3.5 px-5 sm:px-6 py-4 border-b border-white/10">
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
+          <BrandLogo make={make} className="w-7 h-7 sm:w-8 sm:h-8" />
+        </div>
+        <div className="min-w-0">
+          <h2 className="font-headline font-bold text-lg sm:text-2xl leading-tight text-white break-words">
+            {vehicleLabel}
+          </h2>
+          <p className="text-xs sm:text-sm font-semibold mt-0.5">
+            <span className="text-white/50">VIN: </span>
+            <span className="text-white font-mono tracking-wide break-all">
+              {cleaned}
+            </span>
+          </p>
+        </div>
       </div>
-      <div className="px-5 sm:px-6 py-4">
-        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-3.5">
-          {detailTiles.map(({ label, value }) => (
-            <div key={label} className="min-w-0">
-              <dt className="text-[10px] font-bold uppercase tracking-wider leading-tight text-white/50">
-                {label}
-              </dt>
-              <dd className="text-sm font-headline font-semibold leading-tight mt-1 break-words text-white">
-                {value}
-              </dd>
-            </div>
+      {specPills.length > 0 && (
+        <div className="px-5 sm:px-6 py-4 flex flex-wrap gap-2.5">
+          {specPills.map(({ icon: Icon, value }) => (
+            <span
+              key={value}
+              className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-2 text-sm font-headline font-semibold text-white"
+            >
+              <Icon className="w-4 h-4 text-white/70 flex-shrink-0" />
+              {value}
+            </span>
           ))}
-        </dl>
-      </div>
+        </div>
+      )}
     </div>
   );
 
