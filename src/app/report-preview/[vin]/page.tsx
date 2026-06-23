@@ -185,14 +185,77 @@ function minimalReportData(vin: string, d: VinData): VinData {
    "0 found" lets the card show a reassuring "None reported" badge for clean
    cars instead of a bare lock. The other four stay null (genuinely unknown
    until unlocked). */
+/**
+ * The locked record categories surfaced in the "Premium vehicle history"
+ * section. Each renders as a competitor-style teaser card: a header with a
+ * status pill + a BLURRED skeleton of the underlying data so the buyer sees
+ * the *shape* of what's on file (how many accidents, an ownership timeline,
+ * title rows, damage photos) without the answer. This drives urgency without
+ * giving the result away for free.
+ *
+ * `count` carries a *confirmed* finding from the free preview:
+ *   - number > 0 → real signal we can truthfully count ("3 found").
+ *   - null       → checked in the paid report, result not shown for free.
+ * We never surface a "0 / none" result, so a clean category keeps its mystery
+ * (and a real finding still gets the high-urgency red badge).
+ *
+ * `body` picks the blurred skeleton style:
+ *   - "photos"   → rows with a blurred thumbnail (accidents, auctions).
+ *   - "timeline" → an owner dot-timeline (ownership).
+ *   - "grid"     → a 2x2 flag grid (major-problem screening).
+ *   - "rows"     → plain blurred table rows (titles, odometer).
+ */
+type RecordBody = "rows" | "photos" | "timeline" | "grid";
 function lockedRecords(p: ClearVinPreview | null) {
   return [
-    { icon: ShieldCheck, label: "Title brands & history", note: "Salvage · flood · junk · lemon", count: null as number | null },
-    { icon: AlertTriangle, label: "Accident & damage records", note: "Reported collisions & severity", count: p ? p.damagesCount : null },
-    { icon: Gauge, label: "Odometer readings", note: "Rollback & mileage checks", count: null },
-    { icon: Users, label: "Ownership history", note: "Owners & usage type", count: null },
-    { icon: Gavel, label: "Auction & sale records", note: "Sale price & location", count: p ? p.auctionHistoryRecords : null },
-    { icon: Wrench, label: "Theft & total-loss checks", note: "Stolen / recovered / junked", count: null },
+    {
+      icon: AlertTriangle,
+      label: "Accident & damage",
+      note: "Collisions, severity & damage photos",
+      count: p ? p.damagesCount : null,
+      rows: 3,
+      body: "photos" as RecordBody,
+    },
+    {
+      icon: FileText,
+      label: "Title records",
+      note: "Brands, state & odometer at title",
+      count: null as number | null,
+      rows: 3,
+      body: "rows" as RecordBody,
+    },
+    {
+      icon: Users,
+      label: "Ownership history",
+      note: "Owners, usage type & timeline",
+      count: null,
+      rows: 3,
+      body: "timeline" as RecordBody,
+    },
+    {
+      icon: Gavel,
+      label: "Sales & auction history",
+      note: "Sale price, location & dates",
+      count: p ? p.auctionHistoryRecords : null,
+      rows: 3,
+      body: "photos" as RecordBody,
+    },
+    {
+      icon: Gauge,
+      label: "Odometer readings",
+      note: "Rollback & mileage timeline",
+      count: null,
+      rows: 3,
+      body: "rows" as RecordBody,
+    },
+    {
+      icon: Skull,
+      label: "Major problems",
+      note: "Salvage · total loss · lemon · rebuilt",
+      count: null,
+      rows: 4,
+      body: "grid" as RecordBody,
+    },
   ];
 }
 
@@ -764,6 +827,104 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{renderVehicleDetails(true)}</div>
   ) : undefined;
 
+  /* ── Blurred record teaser card ───────────────────────────────────────────
+     Mirrors the competitor pattern: a category header with a status pill +
+     a blurred skeleton of the data so the buyer sees the *shape* of what's on
+     file (record count, ownership timeline, damage photos) but not the answer.
+     A confirmed finding (count > 0) gets a high-urgency red "N found" badge;
+     everything else shows a neutral "Info available" pill so a clean category
+     keeps its mystery (we never reveal a "none reported" result for free). */
+  const blurBar = (cls: string) => (
+    <div className={`rounded-full bg-on-surface/15 ${cls}`} />
+  );
+  const renderRecordSkeleton = (
+    body: RecordBody,
+    rows: number
+  ) => {
+    if (body === "timeline") {
+      return (
+        <div className="flex items-center gap-1.5">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-1.5 flex-1">
+              <div className="w-3 h-3 rounded-full bg-primary/40 flex-shrink-0" />
+              {i < 3 && <div className="h-0.5 flex-1 bg-on-surface/15" />}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    if (body === "grid") {
+      return (
+        <div className="grid grid-cols-2 gap-2">
+          {Array.from({ length: rows }).map((_, i) => (
+            <div key={i} className="space-y-1.5">
+              {blurBar("h-2 w-3/4")}
+              {blurBar("h-2 w-1/2")}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return (
+      <div className="space-y-2.5">
+        {Array.from({ length: rows }).map((_, i) => (
+          <div key={i} className="flex items-center gap-2.5">
+            {body === "photos" && (
+              <div className="w-11 h-8 rounded-md bg-on-surface/15 flex-shrink-0" />
+            )}
+            <div className="flex-1 space-y-1.5">
+              {blurBar("h-2 w-2/3")}
+              {blurBar("h-2 w-2/5")}
+            </div>
+            {blurBar("h-2 w-10 flex-shrink-0")}
+          </div>
+        ))}
+      </div>
+    );
+  };
+  const renderRecordCard = (r: ReturnType<typeof lockedRecords>[number]) => {
+    const Icon = r.icon;
+    const found = typeof r.count === "number" && r.count > 0;
+    return (
+      <BuyReportButton
+        key={r.label}
+        ariaLabel={`Unlock ${r.label} in the full report`}
+        className="group relative flex flex-col text-left rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
+      >
+        <div className="flex items-center gap-2.5 px-3.5 pt-3.5 pb-2.5">
+          <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <Icon className="w-4 h-4 text-primary" />
+          </div>
+          <div className="text-[12px] font-extrabold uppercase tracking-wide text-on-surface leading-tight flex-1 min-w-0">
+            {r.label}
+          </div>
+          {found ? (
+            <span className="flex-shrink-0 inline-flex items-center gap-1 bg-red-500 text-white text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
+              <AlertTriangle className="w-2.5 h-2.5" /> {r.count} found
+            </span>
+          ) : (
+            <span className="flex-shrink-0 inline-flex items-center gap-1 bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
+              <Info className="w-2.5 h-2.5" /> Info available
+            </span>
+          )}
+        </div>
+        <div className="px-3.5 text-[11px] text-on-surface-variant mb-2.5 truncate">
+          {r.note}
+        </div>
+        <div className="relative px-3.5 pb-3.5 flex-1">
+          <div className="blur-[3px] select-none pointer-events-none" aria-hidden>
+            {renderRecordSkeleton(r.body, r.rows)}
+          </div>
+          <div className="absolute inset-0 flex items-end justify-center pb-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[11px] font-bold text-white shadow-md transition-transform group-hover:scale-105">
+              <Lock className="w-3 h-3" /> View all
+            </span>
+          </div>
+        </div>
+      </BuyReportButton>
+    );
+  };
+
   /* ── Market Analysis card (sidebar, above Report Summary) ──────────────
      Built from auto.dev market/pricing data with an example fallback so the
      panel is reviewable before AUTO_DEV_API_KEY is configured. Skipped when
@@ -849,36 +1010,23 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           The specs below are free. Title brands, accidents, odometer and
           ownership records are revealed in the full report.
         </p>
+        {recordsFound > 0 && (
+          <p className="text-base sm:text-lg font-headline font-bold text-on-surface mb-4">
+            We found{" "}
+            <span className="text-primary">
+              {recordsFound} history record{recordsFound === 1 ? "" : "s"}
+            </span>{" "}
+            on your vehicle.
+          </p>
+        )}
+        <div className="grid sm:grid-cols-2 gap-3">
+          {records.map((r) => renderRecordCard(r))}
+        </div>
         <BuyReportButton
           ariaLabel="Unlock the full vehicle history report"
-          className="group block w-full text-left relative rounded-3xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
+          className="group mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl bg-primary px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary/90 cursor-pointer"
         >
-          <div className="divide-y divide-outline-variant/60">
-            {records.map((r) => {
-              const Icon = r.icon;
-              return (
-                <div key={r.label} className="flex items-center gap-4 p-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-bold text-on-surface">{r.label}</div>
-                    <div className="text-xs text-on-surface-variant">{r.note}</div>
-                  </div>
-                  {typeof r.count === "number" && r.count > 0 ? (
-                    <span className="flex-shrink-0 bg-amber-500 text-white text-[10px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full">
-                      {r.count} found
-                    </span>
-                  ) : (
-                    <Lock className="w-4 h-4 text-on-surface-variant/60 group-hover:text-primary transition-colors flex-shrink-0" />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <div className="flex items-center justify-center gap-1.5 border-t border-outline-variant/60 bg-primary/5 px-4 py-3 text-xs font-bold text-primary">
-            <Lock className="w-3.5 h-3.5" /> Tap to unlock the full report
-          </div>
+          <Lock className="w-4 h-4" /> Unlock the full report
         </BuyReportButton>
       </section>
 
