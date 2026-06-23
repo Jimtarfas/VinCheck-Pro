@@ -33,8 +33,6 @@ import {
   Waves,
   Bike,
   Citrus,
-  Calendar,
-  Tag,
   Info,
 } from "lucide-react";
 import { headers } from "next/headers";
@@ -199,11 +197,17 @@ function minimalReportData(vin: string, d: VinData): VinData {
  * We never surface a "0 / none" result, so a clean category keeps its mystery
  * (and a real finding still gets the high-urgency red badge).
  *
- * `body` picks the blurred skeleton style:
- *   - "photos"   → rows with a blurred thumbnail (accidents, auctions).
- *   - "timeline" → an owner dot-timeline (ownership).
- *   - "grid"     → a 2x2 flag grid (major-problem screening).
- *   - "rows"     → plain blurred table rows (titles, odometer).
+ * `body` picks the blurred skeleton style — each one shows VISIBLE descriptive
+ * labels (entry headings + field names) with only the VALUES blurred, so the
+ * buyer reads the *shape* of the data (like GoodCar's preview) without the
+ * answer:
+ *   - "photos"   → entries with a blurred thumbnail + labelled fields
+ *                  (accidents, auctions).
+ *   - "timeline" → an owner dot-timeline with labelled stops (ownership).
+ *   - "grid"     → a named flag grid (major-problem screening).
+ *   - "rows"     → labelled record rows (titles, odometer).
+ * `entry` is the per-row heading prefix; `fields` are the visible column labels
+ * shown next to each blurred value.
  */
 type RecordBody = "rows" | "photos" | "timeline" | "grid";
 function lockedRecords(p: ClearVinPreview | null) {
@@ -215,6 +219,8 @@ function lockedRecords(p: ClearVinPreview | null) {
       count: p ? p.damagesCount : null,
       rows: 3,
       body: "photos" as RecordBody,
+      entry: "Accident",
+      fields: ["Date", "Damage", "State"],
     },
     {
       icon: FileText,
@@ -223,6 +229,8 @@ function lockedRecords(p: ClearVinPreview | null) {
       count: null as number | null,
       rows: 3,
       body: "rows" as RecordBody,
+      entry: "Title",
+      fields: ["State", "Odometer", "Issue date"],
     },
     {
       icon: Users,
@@ -231,6 +239,8 @@ function lockedRecords(p: ClearVinPreview | null) {
       count: null,
       rows: 3,
       body: "timeline" as RecordBody,
+      entry: "Owner",
+      fields: ["Years", "Type", "Location"],
     },
     {
       icon: Gavel,
@@ -239,6 +249,8 @@ function lockedRecords(p: ClearVinPreview | null) {
       count: p ? p.auctionHistoryRecords : null,
       rows: 3,
       body: "photos" as RecordBody,
+      entry: "Sale",
+      fields: ["Found at", "Date", "Price"],
     },
     {
       icon: Gauge,
@@ -247,6 +259,8 @@ function lockedRecords(p: ClearVinPreview | null) {
       count: null,
       rows: 3,
       body: "rows" as RecordBody,
+      entry: "Reading",
+      fields: ["Date", "Mileage", "Source"],
     },
     {
       icon: Skull,
@@ -255,6 +269,8 @@ function lockedRecords(p: ClearVinPreview | null) {
       count: null,
       rows: 4,
       body: "grid" as RecordBody,
+      entry: "Check",
+      fields: ["Salvage", "Total loss", "Lemon", "Rebuilt title"],
     },
   ];
 }
@@ -742,89 +758,63 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   /* ── Vehicle details card ─────────────────────────────────────────────
      The free, decoded identity of THIS vehicle (year/make/model/trim plus
      body type and the build specs from ClearVin's preview), gathered into a
-     single card. Replaces the old window-sticker promo so the hero's empty
-     space carries useful, on-topic information instead of an unrelated offer.
-     Rendered twice: in the empty navy hero space on desktop, and inline on
-     mobile (where the hero version is hidden). */
-  const detailTiles: { icon: typeof Calendar; label: string; value: string }[] = [];
-  const pushTile = (icon: typeof Calendar, label: string, v?: string | null) => {
+     single navy-hero card. On desktop it fills the empty space to the right of
+     the vehicle name; on mobile it replaces the old "On this VIN's record"
+     strip (which leaked a reassuring "none reported" result). */
+  const detailTiles: { label: string; value: string }[] = [];
+  const pushTile = (label: string, v?: string | null) => {
     const val = (v || "").trim();
-    if (val) detailTiles.push({ icon, label, value: val });
+    if (val) detailTiles.push({ label, value: val });
   };
-  pushTile(Calendar, "Year", s?.year ?? (aiYear != null ? String(aiYear) : null));
-  pushTile(Car, "Make", make);
-  pushTile(Car, "Model", s?.model ?? reportData.model?.name);
-  pushTile(Tag, "Trim", s?.trim);
-  pushTile(Info, "Body Type", s?.style);
-  pushTile(Fingerprint, "Engine", s?.engine);
-  pushTile(MapPin, "Assembled In", s?.madeIn);
-  pushTile(Receipt, "Original MSRP", s?.msrp);
+  pushTile("Year", s?.year ?? (aiYear != null ? String(aiYear) : null));
+  pushTile("Make", make);
+  pushTile("Model", s?.model ?? reportData.model?.name);
+  pushTile("Trim", s?.trim);
+  pushTile("Body Type", s?.style);
+  pushTile("Engine", s?.engine);
+  pushTile("Assembled In", s?.madeIn);
+  pushTile("Original MSRP", s?.msrp);
 
   const hasVehicleDetails = detailTiles.length > 0;
-  // `dark` styles the card for the navy hero (desktop); the light variant is
-  // used inline on mobile where it sits on the white report background.
-  const renderVehicleDetails = (dark: boolean) => (
-    <div
-      className={
-        dark
-          ? "rounded-3xl ring-1 ring-white/15 bg-white/[0.06] overflow-hidden"
-          : "bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden"
-      }
-    >
-      <div className={`px-4 sm:px-5 ${dark ? "py-3" : "py-4"} border-b ${dark ? "border-white/10" : "border-surface-container"}`}>
-        <h2 className={`font-headline font-bold ${dark ? "text-sm" : "text-base"} flex items-center gap-2.5 ${dark ? "text-white" : "text-on-surface"}`}>
-          <div className={`${dark ? "w-7 h-7" : "w-9 h-9"} rounded-xl flex items-center justify-center flex-shrink-0 ${dark ? "bg-white/10 text-white" : "bg-indigo-50 text-indigo-600"}`}>
-            <Car className={dark ? "w-4 h-4" : "w-5 h-5"} />
+  // Compact dark card for the navy hero. `cols` controls the value grid so the
+  // desktop right-rail copy stays narrow (2 cols) while the mobile copy that
+  // replaces the record strip can spread wider (2 cols, full width).
+  const renderVehicleDetails = () => (
+    <div className="rounded-3xl ring-1 ring-white/15 bg-white/[0.06] overflow-hidden">
+      <div className="px-4 sm:px-5 py-3 border-b border-white/10">
+        <h2 className="font-headline font-bold text-sm flex items-center gap-2.5 text-white">
+          <div className="w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10 text-white">
+            <Car className="w-4 h-4" />
           </div>
           Vehicle Details
         </h2>
       </div>
-      {dark ? (
-        // Desktop: compact plain-text rows so the hero card stays small.
-        <div className="px-4 sm:px-5 py-3">
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-2">
-            {detailTiles.map(({ label, value }) => (
-              <div key={label} className="min-w-0">
-                <dt className="text-[10px] font-bold uppercase tracking-wider leading-tight text-white/50">
-                  {label}
-                </dt>
-                <dd className="text-[13px] font-headline font-semibold leading-tight mt-0.5 break-words text-white">
-                  {value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      ) : (
-        <div className="p-3 sm:p-4">
-          <div className="grid grid-cols-2 gap-2.5">
-            {detailTiles.map(({ icon: Icon, label, value }) => (
-              <div
-                key={label}
-                className="flex items-start gap-2.5 rounded-xl px-3 py-2.5 bg-surface-container-low"
-              >
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/8 text-primary">
-                  <Icon className="w-4 h-4" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[10px] font-bold uppercase tracking-wider leading-tight text-outline">
-                    {label}
-                  </div>
-                  <div className="text-sm font-headline font-extrabold leading-tight mt-0.5 break-words text-on-surface">
-                    {value}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <div className="px-4 sm:px-5 py-3">
+        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-x-6 gap-y-2.5">
+          {detailTiles.map(({ label, value }) => (
+            <div key={label} className="min-w-0">
+              <dt className="text-[10px] font-bold uppercase tracking-wider leading-tight text-white/50">
+                {label}
+              </dt>
+              <dd className="text-[13px] font-headline font-semibold leading-tight mt-0.5 break-words text-white">
+                {value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </div>
   );
 
   // Desktop: fills the empty navy space on the right of the hero.
   const heroPromo = hasVehicleDetails ? (
-    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{renderVehicleDetails(true)}</div>
+    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{renderVehicleDetails()}</div>
+  ) : undefined;
+
+  // Mobile: full-width vehicle details below the name — replaces the removed
+  // "On this VIN's record" strip. Hidden on desktop (heroPromo covers it).
+  const heroAside = hasVehicleDetails ? (
+    <div className="lg:hidden mt-6">{renderVehicleDetails()}</div>
   ) : undefined;
 
   /* ── Blurred record teaser card ───────────────────────────────────────────
@@ -834,49 +824,82 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
      A confirmed finding (count > 0) gets a high-urgency red "N found" badge;
      everything else shows a neutral "Info available" pill so a clean category
      keeps its mystery (we never reveal a "none reported" result for free). */
-  const blurBar = (cls: string) => (
-    <div className={`rounded-full bg-on-surface/15 ${cls}`} />
+  // A blurred value placeholder. Labels stay crisp; only the *answer* is
+  // obscured, so the buyer reads what a field IS but not what it SAYS.
+  const blurVal = (cls = "w-full") => (
+    <div className={`h-2 rounded bg-on-surface/20 blur-[2.5px] ${cls}`} aria-hidden />
   );
+  // Descriptive blurred skeleton — visible field labels next to blurred values
+  // (GoodCar-style), so each card describes the records it's hiding.
   const renderRecordSkeleton = (
-    body: RecordBody,
-    rows: number
+    r: ReturnType<typeof lockedRecords>[number]
   ) => {
+    const { body, rows, entry, fields } = r;
+
     if (body === "timeline") {
       return (
-        <div className="flex items-center gap-1.5">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-1.5 flex-1">
-              <div className="w-3 h-3 rounded-full bg-primary/40 flex-shrink-0" />
-              {i < 3 && <div className="h-0.5 flex-1 bg-on-surface/15" />}
-            </div>
-          ))}
+        <div className="space-y-3">
+          <div className="flex items-center">
+            {Array.from({ length: rows }).map((_, i) => (
+              <div key={i} className="flex items-center flex-1 last:flex-none">
+                <div className="w-3.5 h-3.5 rounded-full border-2 border-primary bg-surface-container-lowest flex-shrink-0" />
+                {i < rows - 1 && <div className="h-0.5 flex-1 bg-on-surface/15" />}
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {Array.from({ length: rows }).map((_, i) => (
+              <div key={i} className="space-y-1">
+                <div className="text-[9px] font-bold text-on-surface leading-none">
+                  {entry} {i + 1}
+                </div>
+                {blurVal("w-3/4")}
+                {blurVal("w-1/2")}
+              </div>
+            ))}
+          </div>
         </div>
       );
     }
+
     if (body === "grid") {
       return (
-        <div className="grid grid-cols-2 gap-2">
-          {Array.from({ length: rows }).map((_, i) => (
-            <div key={i} className="space-y-1.5">
-              {blurBar("h-2 w-3/4")}
-              {blurBar("h-2 w-1/2")}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+          {fields.map((f) => (
+            <div key={f} className="space-y-1">
+              <div className="text-[9px] font-bold uppercase tracking-wide text-on-surface leading-none">
+                {f}
+              </div>
+              {blurVal("w-2/3")}
             </div>
           ))}
         </div>
       );
     }
+
+    // "rows" and "photos" — labelled record rows, optionally with a thumbnail.
     return (
       <div className="space-y-2.5">
         {Array.from({ length: rows }).map((_, i) => (
           <div key={i} className="flex items-center gap-2.5">
             {body === "photos" && (
-              <div className="w-11 h-8 rounded-md bg-on-surface/15 flex-shrink-0" />
+              <div className="w-12 h-9 rounded-md bg-on-surface/10 blur-[2px] flex-shrink-0" aria-hidden />
             )}
-            <div className="flex-1 space-y-1.5">
-              {blurBar("h-2 w-2/3")}
-              {blurBar("h-2 w-2/5")}
+            <div className="flex-1 min-w-0">
+              <div className="text-[9px] font-bold text-on-surface leading-none mb-1.5">
+                {entry} #{i + 1}
+              </div>
+              <div className="flex gap-3">
+                {fields.map((f) => (
+                  <div key={f} className="flex-1 min-w-0 space-y-1">
+                    <div className="text-[8px] uppercase tracking-wide text-outline leading-none truncate">
+                      {f}
+                    </div>
+                    {blurVal()}
+                  </div>
+                ))}
+              </div>
             </div>
-            {blurBar("h-2 w-10 flex-shrink-0")}
           </div>
         ))}
       </div>
@@ -889,9 +912,9 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       <BuyReportButton
         key={r.label}
         ariaLabel={`Unlock ${r.label} in the full report`}
-        className="group relative flex flex-col text-left rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
+        className="group flex flex-col text-left rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
       >
-        <div className="flex items-center gap-2.5 px-3.5 pt-3.5 pb-2.5">
+        <div className="flex items-center gap-2.5 px-3.5 pt-3.5 pb-2">
           <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
             <Icon className="w-4 h-4 text-primary" />
           </div>
@@ -899,27 +922,25 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             {r.label}
           </div>
           {found ? (
-            <span className="flex-shrink-0 inline-flex items-center gap-1 bg-red-500 text-white text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
+            <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-red-500 text-white text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
               <AlertTriangle className="w-2.5 h-2.5" /> {r.count} found
             </span>
           ) : (
-            <span className="flex-shrink-0 inline-flex items-center gap-1 bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
+            <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
               <Info className="w-2.5 h-2.5" /> Info available
             </span>
           )}
         </div>
-        <div className="px-3.5 text-[11px] text-on-surface-variant mb-2.5 truncate">
+        <div className="px-3.5 text-[11px] text-on-surface-variant mb-3 truncate">
           {r.note}
         </div>
-        <div className="relative px-3.5 pb-3.5 flex-1">
-          <div className="blur-[3px] select-none pointer-events-none" aria-hidden>
-            {renderRecordSkeleton(r.body, r.rows)}
-          </div>
-          <div className="absolute inset-0 flex items-end justify-center pb-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-[11px] font-bold text-white shadow-md transition-transform group-hover:scale-105">
-              <Lock className="w-3 h-3" /> View all
-            </span>
-          </div>
+        <div className="px-3.5 select-none pointer-events-none">
+          {renderRecordSkeleton(r)}
+        </div>
+        <div className="mt-auto px-3.5 pt-3 pb-3.5">
+          <span className="flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-2 text-[11px] font-bold text-white transition-colors group-hover:bg-primary/90">
+            <Lock className="w-3 h-3 flex-shrink-0" /> View all
+          </span>
         </div>
       </BuyReportButton>
     );
@@ -1029,12 +1050,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           <Lock className="w-4 h-4" /> Unlock the full report
         </BuyReportButton>
       </section>
-
-      {/* Vehicle details — phone users don't see the desktop hero version, so
-          surface the same card here, right after the Premium vehicle history
-          section. The built-in identity cards / Vehicle Classification are
-          hidden on mobile (hideIdentityCardsMobile) so nothing is duplicated. */}
-      {hasVehicleDetails && <div className="lg:hidden">{renderVehicleDetails(false)}</div>}
 
       {/* Free recalls — public NHTSA data, framed as proof + a bridge to the
           non-public records the paid report adds. Recalls alone don't drive a
@@ -1498,13 +1513,13 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         summaryGroups={SUMMARY_GROUPS}
         heroCta={heroCta}
         heroPromo={heroPromo}
+        heroAside={heroAside}
         hideIdentityCardsMobile={hasVehicleDetails}
         summaryTop={summaryTop}
         sidebarTop={sidebarMarketingCard}
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
         unlockPrice={SINGLE_PRICE}
-        previewSignals={previewSignals}
       />
 
       {/* ═══ Commercial footer sections ═══════════════════════════ */}
