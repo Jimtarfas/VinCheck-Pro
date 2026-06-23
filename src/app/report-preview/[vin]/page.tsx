@@ -1051,6 +1051,17 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         </BuyReportButton>
       </section>
 
+      {/* Mobile-only bundle/prepaid-pack checkout — surfaced directly behind the
+          "Unlock the full vehicle history" section so phone buyers see the offer
+          right after the locked-records reveal (instead of buried below the whole
+          specs wall). The desktop copy lives in the sticky sidebar. Hidden when
+          the VIN is unsupported. */}
+      {!isUnsupported && (
+        <div className="lg:hidden" data-buybar-hide data-bundle-target>
+          <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
+        </div>
+      )}
+
       {/* Free recalls — public NHTSA data, framed as proof + a bridge to the
           non-public records the paid report adds. Recalls alone don't drive a
           purchase, so we contrast them with what stays locked. */}
@@ -1152,18 +1163,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   /* ── Premium sections injected UNDER the car info (main column) ── */
   const premiumSections = (
     <div className="space-y-12">
-      {/* Mobile-only bundle/prepaid-pack checkout — the desktop copy lives at
-          the top of the sidebar (hidden on mobile, where the sidebar stacks far
-          below the whole report). Surfaced here so phone buyers can pick a pack
-          and check out straight to Stripe without scrolling to the bottom.
-          Hidden when the VIN is unsupported — replaced with the friendly
-          notice below the mobile MarketingCard slot. */}
-      {!isUnsupported && (
-        <div className="lg:hidden" data-buybar-hide data-bundle-target>
-          <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
-        </div>
-      )}
-
       {/* Mobile-only purchase card — surfaced right after the recalls so phone
           users see the offer without scrolling past the whole report. The
           desktop copy lives in the sticky sidebar (hidden on mobile).
