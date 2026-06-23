@@ -758,9 +758,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   /* ── Vehicle details card ─────────────────────────────────────────────
      The free, decoded identity of THIS vehicle (year/make/model/trim plus
      body type and the build specs from ClearVin's preview), gathered into a
-     single navy-hero card. On desktop it fills the empty space to the right of
-     the vehicle name; on mobile it replaces the old "On this VIN's record"
-     strip (which leaked a reassuring "none reported" result). */
+     single card rendered full-width directly under the photo gallery so the
+     buyer reads the car's facts (and the free recalls) BEFORE any paywall. */
   const detailTiles: { label: string; value: string }[] = [];
   const pushTile = (label: string, v?: string | null) => {
     const val = (v || "").trim();
@@ -776,27 +775,27 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   pushTile("Original MSRP", s?.msrp);
 
   const hasVehicleDetails = detailTiles.length > 0;
-  // Compact dark card for the navy hero. `cols` controls the value grid so the
-  // desktop right-rail copy stays narrow (2 cols) while the mobile copy that
-  // replaces the record strip can spread wider (2 cols, full width).
+  // Self-contained navy card rendered full-width directly under the photo
+  // gallery (see afterPhotos). Solid `bg-primary` so it reads on the light page
+  // background; the value grid widens on larger screens to fill the column.
   const renderVehicleDetails = () => (
-    <div className="rounded-3xl ring-1 ring-white/15 bg-white/[0.06] overflow-hidden">
-      <div className="px-4 sm:px-5 py-3 border-b border-white/10">
-        <h2 className="font-headline font-bold text-sm flex items-center gap-2.5 text-white">
-          <div className="w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10 text-white">
+    <div className="rounded-3xl bg-primary shadow-sm overflow-hidden">
+      <div className="px-5 sm:px-6 py-4 border-b border-white/10">
+        <h2 className="font-headline font-bold text-base sm:text-lg flex items-center gap-2.5 text-white">
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/10 text-white">
             <Car className="w-4 h-4" />
           </div>
           Vehicle Details
         </h2>
       </div>
-      <div className="px-4 sm:px-5 py-3">
-        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-x-6 gap-y-2.5">
+      <div className="px-5 sm:px-6 py-4">
+        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-3.5">
           {detailTiles.map(({ label, value }) => (
             <div key={label} className="min-w-0">
               <dt className="text-[10px] font-bold uppercase tracking-wider leading-tight text-white/50">
                 {label}
               </dt>
-              <dd className="text-[13px] font-headline font-semibold leading-tight mt-0.5 break-words text-white">
+              <dd className="text-sm font-headline font-semibold leading-tight mt-1 break-words text-white">
                 {value}
               </dd>
             </div>
@@ -805,17 +804,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       </div>
     </div>
   );
-
-  // Desktop: fills the empty navy space on the right of the hero.
-  const heroPromo = hasVehicleDetails ? (
-    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{renderVehicleDetails()}</div>
-  ) : undefined;
-
-  // Mobile: full-width vehicle details below the name — replaces the removed
-  // "On this VIN's record" strip. Hidden on desktop (heroPromo covers it).
-  const heroAside = hasVehicleDetails ? (
-    <div className="lg:hidden mt-6">{renderVehicleDetails()}</div>
-  ) : undefined;
 
   /* ── Blurred record teaser card ───────────────────────────────────────────
      Mirrors the competitor pattern: a category header with a status pill +
@@ -1015,59 +1003,16 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     );
   })();
 
-  /* ── Free teasers surfaced directly under the photo gallery ──
-     The "records on file" upsell card comes FIRST — it's the conversion
-     driver. The free NHTSA recalls follow as trust proof; recalls are public
-     data anyone can look up, so on their own they don't motivate a purchase.
-     We reframe them as proof + a bridge to the non-public records (accidents,
-     title brands, odometer, ownership) that only the paid report reveals. */
+  /* ── Free data surfaced directly under the photo gallery ──
+     The buyer reads the car's facts first: the Vehicle Details card, then the
+     free NHTSA recalls (public data, framed as trust proof + a bridge). Only
+     AFTER that free data do the paywalled records on file (the conversion
+     driver) and the bundle upsell appear — so nobody is asked to pay before
+     seeing real information about the vehicle. */
   const afterPhotos = (
     <div className="space-y-12">
-      {/* Premium vehicle history — records on file (conversion driver, first) */}
-      <section>
-        <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
-          <Crown className="w-3.5 h-3.5" /> Premium vehicle history
-        </div>
-        <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
-          {!looksClean && recordsFound > 0
-            ? `${recordsFound} history record${recordsFound === 1 ? "" : "s"} on file for this ${make || "vehicle"}`
-            : "Unlock the full vehicle history"}
-        </h2>
-        <p className="text-sm text-on-surface-variant mb-5 max-w-md">
-          The specs below are free. Title brands, accidents, odometer and
-          ownership records are revealed in the full report.
-        </p>
-        {recordsFound > 0 && (
-          <p className="text-base sm:text-lg font-headline font-bold text-on-surface mb-4">
-            We found{" "}
-            <span className="text-primary">
-              {recordsFound} history record{recordsFound === 1 ? "" : "s"}
-            </span>{" "}
-            on your vehicle.
-          </p>
-        )}
-        <div className="grid sm:grid-cols-2 gap-3">
-          {records.map((r) => renderRecordCard(r))}
-        </div>
-        <BuyReportButton
-          ariaLabel="Unlock the full vehicle history report"
-          className="group mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl bg-primary px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary/90 cursor-pointer"
-        >
-          <Lock className="w-4 h-4" /> Unlock the full report
-        </BuyReportButton>
-      </section>
-
-      {/* Bundle/prepaid-pack checkout — surfaced directly behind the "Unlock the
-          full vehicle history" section on every viewport so the offer lands
-          right after the locked-records reveal (instead of buried below the
-          specs wall on mobile, or floating in the sidebar on desktop). This is
-          the single bundle instance for both layouts. Hidden when the VIN is
-          unsupported. */}
-      {!isUnsupported && (
-        <div data-buybar-hide data-bundle-target>
-          <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
-        </div>
-      )}
+      {/* Vehicle Details — free decoded identity, directly under the gallery. */}
+      {hasVehicleDetails && renderVehicleDetails()}
 
       {/* Free recalls — public NHTSA data, framed as proof + a bridge to the
           non-public records the paid report adds. Recalls alone don't drive a
@@ -1163,6 +1108,51 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             <ChevronRight className="w-5 h-5 flex-shrink-0 text-primary transition-transform group-hover:translate-x-0.5" />
           </BuyReportButton>
         </section>
+      )}
+
+      {/* Premium vehicle history — records on file (the conversion driver).
+          Sits AFTER the free vehicle details + recalls so buyers see real
+          data before the paywall. */}
+      <section>
+        <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
+          <Crown className="w-3.5 h-3.5" /> Premium vehicle history
+        </div>
+        <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
+          {!looksClean && recordsFound > 0
+            ? `${recordsFound} history record${recordsFound === 1 ? "" : "s"} on file for this ${make || "vehicle"}`
+            : "Unlock the full vehicle history"}
+        </h2>
+        <p className="text-sm text-on-surface-variant mb-5 max-w-md">
+          The specs below are free. Title brands, accidents, odometer and
+          ownership records are revealed in the full report.
+        </p>
+        {recordsFound > 0 && (
+          <p className="text-base sm:text-lg font-headline font-bold text-on-surface mb-4">
+            We found{" "}
+            <span className="text-primary">
+              {recordsFound} history record{recordsFound === 1 ? "" : "s"}
+            </span>{" "}
+            on your vehicle.
+          </p>
+        )}
+        <div className="grid sm:grid-cols-2 gap-3">
+          {records.map((r) => renderRecordCard(r))}
+        </div>
+        <BuyReportButton
+          ariaLabel="Unlock the full vehicle history report"
+          className="group mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl bg-primary px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary/90 cursor-pointer"
+        >
+          <Lock className="w-4 h-4" /> Unlock the full report
+        </BuyReportButton>
+      </section>
+
+      {/* Bundle/prepaid-pack checkout — directly behind the Unlock section on
+          every viewport (the single bundle instance). Hidden when the VIN is
+          unsupported. */}
+      {!isUnsupported && (
+        <div data-buybar-hide data-bundle-target>
+          <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
+        </div>
       )}
     </div>
   );
@@ -1514,8 +1504,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         unlockHref={orderHref}
         summaryGroups={SUMMARY_GROUPS}
         heroCta={heroCta}
-        heroPromo={heroPromo}
-        heroAside={heroAside}
         hideIdentityCardsMobile={hasVehicleDetails}
         summaryTop={summaryTop}
         sidebarTop={sidebarMarketingCard}
