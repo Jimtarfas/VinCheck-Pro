@@ -864,6 +864,12 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         </BuyReportButton>
       </section>
 
+      {/* Vehicle details — phone users don't see the desktop hero version, so
+          surface the same card here, right after the Premium vehicle history
+          section. The built-in identity cards / Vehicle Classification are
+          hidden on mobile (hideIdentityCardsMobile) so nothing is duplicated. */}
+      {hasVehicleDetails && <div className="lg:hidden">{renderVehicleDetails(false)}</div>}
+
       {/* Free recalls — public NHTSA data, framed as proof + a bridge to the
           non-public records the paid report adds. Recalls alone don't drive a
           purchase, so we contrast them with what stays locked. */}
@@ -996,12 +1002,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           />
         )}
       </div>
-
-      {/* Vehicle details — phone users don't see the hero version (desktop-only),
-          so surface the same card here, right after the records/purchase card.
-          The built-in identity cards / Vehicle Classification are hidden on
-          mobile (see hideIdentityCardsMobile) so nothing is duplicated. */}
-      {hasVehicleDetails && <div className="lg:hidden">{renderVehicleDetails(false)}</div>}
 
       {/* Your report contains */}
       <section className="rounded-3xl bg-surface-container-lowest border border-outline-variant p-6">
