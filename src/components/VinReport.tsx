@@ -271,6 +271,7 @@ function PhotoGallery({
   make,
   model,
   lockedPhotoCount,
+  footer,
 }: {
   photos: string[];
   photoSource?: VinData["photoSource"];
@@ -279,6 +280,7 @@ function PhotoGallery({
   make?: string;
   model?: string;
   lockedPhotoCount?: number;
+  footer?: React.ReactNode;
 }) {
   const [current, setCurrent] = useState(0);
 
@@ -290,15 +292,18 @@ function PhotoGallery({
   if (!photos || photos.length === 0) {
     const label = [year, make, model].filter(Boolean).join(" ");
     return (
-      <div className="flex flex-col items-center justify-center py-20 bg-surface-container-low rounded-[2rem]">
-        <div className="w-20 h-20 rounded-2xl bg-surface-container flex items-center justify-center mb-4">
-          <Car className="w-10 h-10 text-outline/40" />
+      <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
+        <div className="flex flex-col items-center justify-center py-20 bg-surface-container-low">
+          <div className="w-20 h-20 rounded-2xl bg-surface-container flex items-center justify-center mb-4">
+            <Car className="w-10 h-10 text-outline/40" />
+          </div>
+          <h3 className="font-headline font-bold text-on-surface mb-1">No Photos Available</h3>
+          <p className="text-sm text-on-surface-variant text-center max-w-sm">
+            We couldn&apos;t locate photos for this VIN or any{label ? ` ${label}` : ""} from
+            our data sources.
+          </p>
         </div>
-        <h3 className="font-headline font-bold text-on-surface mb-1">No Photos Available</h3>
-        <p className="text-sm text-on-surface-variant text-center max-w-sm">
-          We couldn&apos;t locate photos for this VIN or any{label ? ` ${label}` : ""} from
-          our data sources.
-        </p>
+        {footer}
       </div>
     );
   }
@@ -408,6 +413,11 @@ function PhotoGallery({
           <span>Example image of a similar vehicle. The photo does not depict the inspected car.</span>
         </div>
       )}
+
+      {/* Optional footer rendered inside the gallery's rounded container so an
+          attached panel (e.g. the vehicle-details strip) reads as one unit with
+          the photo rather than a separate card below it. */}
+      {footer}
     </div>
   );
 }
@@ -466,6 +476,7 @@ export default function VinReport({
   data,
   hideCheckAnother = false,
   mainTop,
+  galleryFooter,
   afterPhotos,
   mainExtra,
   mainFiller,
@@ -490,6 +501,10 @@ export default function VinReport({
   /** Content rendered at the very top of the main column, above the photo
    *  gallery (e.g. a source-page message-match banner). */
   mainTop?: React.ReactNode;
+  /** Content rendered inside the photo-gallery container, attached to the
+   *  bottom of the photo so it reads as one unit with the image (e.g. the
+   *  preview's vehicle-details strip). */
+  galleryFooter?: React.ReactNode;
   /** Content rendered directly under the photo gallery, above the spec cards
    *  (e.g. the preview's free recalls + records-on-file teasers). */
   afterPhotos?: React.ReactNode;
@@ -761,6 +776,7 @@ export default function VinReport({
               make={makeName}
               model={modelName}
               lockedPhotoCount={lockedPhotoCount}
+              footer={galleryFooter}
             />
 
             {/* Slot directly under the gallery (preview: free recalls +

@@ -781,37 +781,39 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   const hasVehicleDetails =
     Boolean(vehicleLabel && vehicleLabel !== cleaned) || specPills.length > 0;
 
-  // Self-contained navy card rendered full-width directly under the photo
-  // gallery (see afterPhotos), keeping our `bg-primary` palette. The header
-  // pairs the brand logo + vehicle name + VIN; below it a row of icon chips
-  // surfaces the free build specs — so the buyer reads the car's facts before
-  // any paywall.
+  // Detail strip attached to the bottom of the photo gallery (passed as
+  // VinReport's `galleryFooter`). It shares the gallery's light surface so it
+  // reads as one unit with the image rather than a separate card; the gallery
+  // container supplies the rounding/shadow/clip, so this block stays flat. The
+  // header pairs the brand logo + vehicle name + VIN; below it a row of icon
+  // chips surfaces the free build specs — so the buyer reads the car's facts
+  // before any paywall.
   const renderVehicleDetails = () => (
-    <div className="rounded-3xl bg-primary shadow-sm overflow-hidden">
-      <div className="flex items-center gap-3.5 px-5 sm:px-6 py-4 border-b border-white/10">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
+    <div className="bg-surface-container-lowest border-t border-outline-variant">
+      <div className="flex items-center gap-3.5 px-5 sm:px-6 py-4">
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center flex-shrink-0 overflow-hidden">
           <BrandLogo make={make} className="w-7 h-7 sm:w-8 sm:h-8" />
         </div>
         <div className="min-w-0">
-          <h2 className="font-headline font-bold text-lg sm:text-2xl leading-tight text-white break-words">
+          <h2 className="font-headline font-bold text-lg sm:text-2xl leading-tight text-on-surface break-words">
             {vehicleLabel}
           </h2>
           <p className="text-xs sm:text-sm font-semibold mt-0.5">
-            <span className="text-white/50">VIN: </span>
-            <span className="text-white font-mono tracking-wide break-all">
+            <span className="text-on-surface-variant">VIN: </span>
+            <span className="text-primary font-mono tracking-wide break-all">
               {cleaned}
             </span>
           </p>
         </div>
       </div>
       {specPills.length > 0 && (
-        <div className="px-5 sm:px-6 py-4 flex flex-wrap gap-2.5">
+        <div className="px-5 sm:px-6 pb-4 flex flex-wrap gap-2.5">
           {specPills.map(({ icon: Icon, value }) => (
             <span
               key={value}
-              className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-2 text-sm font-headline font-semibold text-white"
+              className="inline-flex items-center gap-2 rounded-full bg-surface-container-high px-3.5 py-2 text-sm font-headline font-semibold text-on-surface"
             >
-              <Icon className="w-4 h-4 text-white/70 flex-shrink-0" />
+              <Icon className="w-4 h-4 text-primary flex-shrink-0" />
               {value}
             </span>
           ))}
@@ -1026,8 +1028,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
      seeing real information about the vehicle. */
   const afterPhotos = (
     <div className="space-y-12">
-      {/* Vehicle Details — free decoded identity, directly under the gallery. */}
-      {hasVehicleDetails && renderVehicleDetails()}
+      {/* Vehicle Details are attached to the gallery itself (see galleryFooter),
+          so the decoded identity reads as one unit with the photo. */}
 
       {/* Free recalls — public NHTSA data, framed as proof + a bridge to the
           non-public records the paid report adds. Recalls alone don't drive a
@@ -1492,6 +1494,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             </div>
           ) : undefined
         }
+        galleryFooter={hasVehicleDetails ? renderVehicleDetails() : undefined}
         afterPhotos={afterPhotos}
         mainExtra={premiumSections}
         mainFiller={
