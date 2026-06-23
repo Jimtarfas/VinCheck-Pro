@@ -26,6 +26,9 @@ interface Props {
   vin: string;
   /** Human label (e.g. "2018 Jeep Grand Cherokee") stored on the order. */
   vehicleLabel?: string;
+  /** Unique id for the email input — set when more than one copy of the card
+   *  is rendered (desktop sidebar + mobile inline) so the ids don't collide. */
+  inputId?: string;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -37,7 +40,11 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
  * /api/order/checkout and hard-navigate to the returned Stripe URL, so the
  * buyer never hops through /order — checkout happens in place on the preview.
  */
-export default function BundleUpsellCard({ vin, vehicleLabel }: Props) {
+export default function BundleUpsellCard({
+  vin,
+  vehicleLabel,
+  inputId = "bundle-email",
+}: Props) {
   const options: PricingOption[] = pricingOptions();
   const [selected, setSelected] = useState(1);
   const [email, setEmail] = useState("");
@@ -172,7 +179,7 @@ export default function BundleUpsellCard({ vin, vehicleLabel }: Props) {
         {/* Inline checkout — email + straight to Stripe, no /order hop. */}
         <div className="mt-4">
           <label
-            htmlFor="bundle-email"
+            htmlFor={inputId}
             className="block text-[13px] font-bold text-on-surface mb-1.5"
           >
             Email for receipt &amp; report
@@ -180,7 +187,7 @@ export default function BundleUpsellCard({ vin, vehicleLabel }: Props) {
           <div className="relative">
             <Mail className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
             <input
-              id="bundle-email"
+              id={inputId}
               type="email"
               inputMode="email"
               autoComplete="email"

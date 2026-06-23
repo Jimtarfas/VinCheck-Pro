@@ -494,6 +494,7 @@ export default function VinReport({
   lockActions = false,
   unlockPrice,
   hideIdentityCardsMobile = false,
+  summaryDesktopHidden = false,
 }: {
   data: VinData;
   /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
@@ -552,6 +553,10 @@ export default function VinReport({
       Classification card on mobile, where the page renders its own inline
       Vehicle Details card instead — avoids duplicating the same fields. */
   hideIdentityCardsMobile?: boolean;
+  /** Preview: hide the built-in sidebar Report Summary card on desktop, where the
+      page renders it in the main column instead (and moves the bundle into the
+      sidebar). Stays visible on mobile. */
+  summaryDesktopHidden?: boolean;
 }) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Interior", "Exterior"]));
   const toggleCategory = (cat: string) => {
@@ -1145,7 +1150,7 @@ export default function VinReport({
             {sidebarReplaceAI}
 
             {/* Quick report summary sidebar */}
-            <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+            <div className={`bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden${summaryDesktopHidden ? " lg:hidden" : ""}`}>
               <div className="px-5 py-4 border-b border-surface-container">
                 <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-secondary-container" style={{ color: "var(--color-secondary-container)" }} /> Report Summary

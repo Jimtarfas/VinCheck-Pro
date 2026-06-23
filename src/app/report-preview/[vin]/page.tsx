@@ -1020,6 +1020,52 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     );
   })();
 
+  /* Report Summary — the full list of deliverables, grouped. On desktop this
+     renders in the MAIN column (behind the Premium/Unlock section), having
+     swapped places with the bundle checkout, which moves into the sidebar. The
+     wider main column lets the groups sit two-up. (On mobile the built-in
+     sidebar copy from VinReport is used instead — see summaryDesktopHidden.) */
+  const reportSummaryCard = (
+    <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+      <div className="px-5 sm:px-6 py-4 border-b border-surface-container">
+        <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
+          <AlertTriangle
+            className="w-5 h-5"
+            style={{ color: "var(--color-secondary-container)" }}
+          />{" "}
+          Report Summary
+        </h3>
+        <p className="text-xs text-on-surface-variant mt-0.5">
+          Everything the full report on this {vehicleLabel} unlocks.
+        </p>
+      </div>
+      <div className="p-5 sm:p-6 grid sm:grid-cols-2 gap-x-8 gap-y-5">
+        {SUMMARY_GROUPS.map((group) => (
+          <div key={group.title}>
+            <p className="text-[11px] font-black text-primary uppercase tracking-wider mb-2">
+              {group.title}
+            </p>
+            <div className="space-y-2">
+              {group.items.map((label) => (
+                <div
+                  key={label}
+                  className="flex items-center justify-between gap-3"
+                >
+                  <span className="text-sm text-on-surface-variant">
+                    {label}
+                  </span>
+                  <span className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full bg-green-50 text-green-700">
+                    ✓ Included
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   /* ── Free data surfaced directly under the photo gallery ──
      The buyer reads the car's facts first: the Vehicle Details card, then the
      free NHTSA recalls (public data, framed as trust proof + a bridge). Only
@@ -1163,14 +1209,25 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         </BuyReportButton>
       </section>
 
-      {/* Bundle/prepaid-pack checkout — directly behind the Unlock section on
-          every viewport (the single bundle instance). Hidden when the VIN is
-          unsupported. */}
+      {/* Behind the Unlock section the two columns swap by viewport:
+          • Mobile — the bundle checkout sits here so phone users can buy right
+            after reading the history (Report Summary lives in the sidebar below).
+          • Desktop — the Report Summary sits here instead; the bundle moves into
+            the right sidebar so it stays beside the history as the buyer reads. */}
       {!isUnsupported && (
-        <div data-buybar-hide data-bundle-target>
-          <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
+        <div
+          className="lg:hidden"
+          data-buybar-hide
+          data-bundle-target
+        >
+          <BundleUpsellCard
+            vin={cleaned}
+            vehicleLabel={vehicleLabel}
+            inputId="bundle-email-mobile"
+          />
         </div>
       )}
+      <div className="hidden lg:block">{reportSummaryCard}</div>
     </div>
   );
 
@@ -1404,14 +1461,24 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     </div>
   );
 
-  // Desktop sidebar slot. The "Buy more, pay less" bundle now lives in the main
-  // column directly behind the "Unlock the full vehicle history" section (on
-  // every viewport), so the sidebar no longer carries a bundle copy. For
-  // unsupported VINs this slot still carries the friendly notice, which also
-  // keeps the AI block hidden + the sidebar column stretched.
+  // Desktop sidebar slot. On desktop the "Buy more, pay less" bundle lives HERE
+  // in the sidebar — swapped with the Report Summary, which moves into the main
+  // column behind the "Unlock the full vehicle history" section — so the
+  // checkout stays beside the history as the buyer reads it. (On mobile the
+  // bundle renders inline in the main column instead; see afterPhotos.) For
+  // unsupported VINs this slot carries the friendly notice. Either way it keeps
+  // the AI block hidden + the sidebar column stretched.
   const sidebarBundleOrNotice = isUnsupported ? (
     <div className="hidden lg:block">{unsupportedNotice}</div>
-  ) : null;
+  ) : (
+    <div className="hidden lg:block" data-buybar-hide data-bundle-target>
+      <BundleUpsellCard
+        vin={cleaned}
+        vehicleLabel={vehicleLabel}
+        inputId="bundle-email-desktop"
+      />
+    </div>
+  );
 
   /* Purchase & report FAQ. Rendered in two places: under the Report Summary in
      the sidebar on desktop (via VinReport's sidebarBottom), and in the footer
@@ -1524,6 +1591,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         heroCta={heroCta}
         hideIdentityCardsMobile={hasVehicleDetails}
         summaryTop={summaryTop}
+        summaryDesktopHidden
         sidebarTop={sidebarMarketingCard}
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
