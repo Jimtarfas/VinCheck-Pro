@@ -54,8 +54,20 @@ export default function MarketingCard({
       <p className="text-[11px] font-bold uppercase tracking-wider text-white/55 mb-2">
         VIN: {vin}
       </p>
-      <h3 className="text-2xl sm:text-[28px] font-headline font-extrabold leading-tight mb-2 pr-24">
-        CarCheckerVIN <span className="text-white/40">vs</span> Carfax
+      <h3 className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mb-2 pr-24">
+        {/* CarCheckerVIN wordmark — matches the site logo (orange "VIN"). */}
+        <span className="font-headline font-black tracking-tight text-2xl sm:text-[26px] text-white leading-none">
+          CarChecker
+          <span style={{ color: "var(--color-secondary-container)" }}>VIN</span>
+        </span>
+        <span className="text-sm font-bold uppercase tracking-wide text-white/40">
+          vs
+        </span>
+        {/* Carfax wordmark — their recognizable all-caps bold mark, on a white
+            pill so it reads as a logo rather than body copy. */}
+        <span className="inline-flex items-center rounded-md bg-white px-2 py-1 font-black tracking-tight text-lg sm:text-xl leading-none text-[#1a1a2e]">
+          CARFAX
+        </span>
       </h3>
       <p className="text-sm text-white/75 mb-5">
         The same records on this {vehicleLabel} — with more detail, for a fraction
