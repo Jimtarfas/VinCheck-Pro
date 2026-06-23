@@ -1352,33 +1352,40 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
      instead (see premiumSections). Sits in normal flow directly beneath the
      Market Analysis panel — not sticky, so it never overlaps the Report
      Summary that follows it in the sidebar. */
-  // Desktop sidebar paywall card. When the VIN is unsupported we replace
-  // the MarketingCard with the same friendly notice + drop the satisfaction-
-  // guarantee laurel (which only makes sense next to a CTA).
-  const sidebarCard = (
+  // Desktop sidebar "Additional records available" marketing card. Sits at the
+  // TOP of the sidebar (sidebarTop) — swapped above the bundle upsell. Dropped
+  // for unsupported VINs (no CTA to sell).
+  const sidebarMarketingCard = isUnsupported ? null : (
     <div className="hidden lg:block">
-      {isUnsupported ? (
-        unsupportedNotice
-      ) : (
-        <>
-          <MarketingCard
-            make={make}
-            vehicleLabel={vehicleLabel}
-            vin={cleaned}
-            price={SINGLE_PRICE.toFixed(2)}
-            exampleHref={exampleHref}
-          />
-          <div className="flex items-center justify-center gap-2 mt-5 text-primary">
-            <Laurel className="w-7 h-10" />
-            <span className="text-sm font-headline font-extrabold uppercase tracking-wide leading-tight text-center">
-              Satisfaction
-              <br />
-              Guarantee
-            </span>
-            <Laurel className="w-7 h-10 -scale-x-100" />
-          </div>
-        </>
-      )}
+      <MarketingCard
+        make={make}
+        vehicleLabel={vehicleLabel}
+        vin={cleaned}
+        price={SINGLE_PRICE.toFixed(2)}
+        exampleHref={exampleHref}
+      />
+      <div className="flex items-center justify-center gap-2 mt-5 text-primary">
+        <Laurel className="w-7 h-10" />
+        <span className="text-sm font-headline font-extrabold uppercase tracking-wide leading-tight text-center">
+          Satisfaction
+          <br />
+          Guarantee
+        </span>
+        <Laurel className="w-7 h-10 -scale-x-100" />
+      </div>
+    </div>
+  );
+
+  // Desktop sidebar "Buy more, pay less" bundle upsell. Replaces the AI block
+  // (sidebarReplaceAI) so it now sits BELOW the Market Analysis panel — swapped
+  // under the marketing card above. For unsupported VINs this slot carries the
+  // friendly notice instead, which also keeps the AI block hidden + the sidebar
+  // column stretched for sticky behavior.
+  const sidebarBundleOrNotice = isUnsupported ? (
+    <div className="hidden lg:block">{unsupportedNotice}</div>
+  ) : (
+    <div className="hidden lg:block" data-bundle-target>
+      <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
     </div>
   );
 
@@ -1484,7 +1491,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             </div>
           </ReportColumnFiller>
         }
-        sidebarReplaceAI={sidebarCard}
+        sidebarReplaceAI={sidebarBundleOrNotice}
         lockedPhotoCount={lockedPhotoCount}
         lockListing={!!reportData.listing}
         unlockHref={orderHref}
@@ -1493,16 +1500,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         heroPromo={heroPromo}
         hideIdentityCardsMobile={hasVehicleDetails}
         summaryTop={summaryTop}
-        sidebarTop={
-          // Desktop sidebar bundle upsell. Hidden when the VIN is
-          // unsupported (the unsupportedNotice already lives in
-          // sidebarCard below; no need for two notices stacked).
-          isUnsupported ? undefined : (
-            <div className="hidden lg:block" data-bundle-target>
-              <BundleUpsellCard vin={cleaned} vehicleLabel={vehicleLabel} />
-            </div>
-          )
-        }
+        sidebarTop={sidebarMarketingCard}
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
         unlockPrice={SINGLE_PRICE}
