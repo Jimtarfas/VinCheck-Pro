@@ -493,7 +493,7 @@ export default function VinReport({
   sidebarBottom,
   lockActions = false,
   unlockPrice,
-  hideIdentityCardsMobile = false,
+  hideIdentityCards = false,
   summaryDesktopHidden = false,
 }: {
   data: VinData;
@@ -549,10 +549,11 @@ export default function VinReport({
   lockActions?: boolean;
   /** Preview: price (in dollars) shown in the upsell modal CTA, e.g. 9.99. */
   unlockPrice?: number;
-  /** Preview: hide the built-in identity DataCards grid and Vehicle
-      Classification card on mobile, where the page renders its own inline
-      Vehicle Details card instead — avoids duplicating the same fields. */
-  hideIdentityCardsMobile?: boolean;
+  /** Preview: hide the built-in identity DataCards grid (Year/Make/Model/Trim…)
+      and Vehicle Classification card on every viewport, where the page renders
+      its own inline Vehicle Details strip under the photo instead — avoids
+      duplicating the same fields. */
+  hideIdentityCards?: boolean;
   /** Preview: hide the built-in sidebar Report Summary card on desktop, where the
       page renders it in the main column instead (and moves the bundle into the
       sidebar). Stays visible on mobile. */
@@ -854,7 +855,7 @@ export default function VinReport({
             )}
 
             {/* Quick specs grid */}
-            <div className={`grid-cols-2 md:grid-cols-3 gap-3 ${hideIdentityCardsMobile ? "hidden lg:grid" : "grid"}`}>
+            <div className={`grid-cols-2 md:grid-cols-3 gap-3 ${hideIdentityCards ? "hidden" : "grid"}`}>
               {year        && <DataCard icon={Calendar}  label="Year"         value={String(year)}                 accent="bg-primary/8 text-primary" />}
               <DataCard icon={Car}      label="Make"         value={makeName}                     accent="bg-primary/8 text-primary" />
               <DataCard icon={Car}      label="Model"        value={modelName}                    accent="bg-tertiary/10 text-tertiary" />
@@ -920,8 +921,8 @@ export default function VinReport({
             )}
 
             {/* Vehicle Classification */}
-            {data.categories && (
-              <div className={hideIdentityCardsMobile ? "hidden lg:block" : undefined}>
+            {data.categories && !hideIdentityCards && (
+              <div>
                 <Card icon={Info} title="Vehicle Classification" accent="bg-indigo-50 text-indigo-600">
                   <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
                     {data.categories.primaryBodyType && <Stat label="Body Type"    value={data.categories.primaryBodyType} />}

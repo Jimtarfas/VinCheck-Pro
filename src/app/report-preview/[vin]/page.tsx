@@ -1589,7 +1589,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         unlockHref={orderHref}
         summaryGroups={SUMMARY_GROUPS}
         heroCta={heroCta}
-        hideIdentityCardsMobile={hasVehicleDetails}
+        hideIdentityCards={hasVehicleDetails}
         summaryTop={summaryTop}
         summaryDesktopHidden
         sidebarTop={sidebarMarketingCard}
