@@ -93,36 +93,9 @@ export default function BundleUpsellCard({ vin, vehicleLabel }: Props) {
         </p>
       </div>
       <div className="p-5">
-        <BundleSelect options={options} selected={selected} onSelect={setSelected} />
-
-        {current.isBundle && (
-          <p className="mt-3 text-[11px] text-on-surface-variant leading-relaxed">
-            One report unlocks now; the other {current.size - 1} become account
-            credits, good for 12 months on any VIN.
-          </p>
-        )}
-
-        {/* Trust row */}
-        <div className="mt-4 pb-4 border-b border-surface-container flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-on-surface-variant">
-          <span className="inline-flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> NMVTIS-backed data
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5 text-primary" /> Instant access
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-0.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
-              ))}
-            </span>
-            <span className="font-bold text-on-surface">Trustpilot</span>
-          </span>
-        </div>
-
         {/* Order summary — mirrors the selected option so the buyer sees exactly
-            what they're paying for, and the running total, before checkout. */}
-        <div className="mt-4 rounded-2xl bg-surface-container-low border border-outline-variant p-4">
+            what they're paying for, and the running total, up front. */}
+        <div className="rounded-2xl bg-surface-container-low border border-outline-variant p-4">
           <h4 className="font-headline font-bold text-on-surface text-sm mb-3">
             Order Summary
           </h4>
@@ -165,6 +138,35 @@ export default function BundleUpsellCard({ vin, vehicleLabel }: Props) {
           <p className="mt-2 text-[11px] italic text-on-surface-variant leading-snug">
             * Sales tax may be applicable in some states
           </p>
+        </div>
+
+        <div className="mt-5">
+          <BundleSelect options={options} selected={selected} onSelect={setSelected} />
+        </div>
+
+        {current.isBundle && (
+          <p className="mt-3 text-[11px] text-on-surface-variant leading-relaxed">
+            One report unlocks now; the other {current.size - 1} become account
+            credits, good for 12 months on any VIN.
+          </p>
+        )}
+
+        {/* Trust row */}
+        <div className="mt-4 pb-4 border-b border-surface-container flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-on-surface-variant">
+          <span className="inline-flex items-center gap-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> NMVTIS-backed data
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Clock className="w-3.5 h-3.5 text-primary" /> Instant access
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
+              ))}
+            </span>
+            <span className="font-bold text-on-surface">Trustpilot</span>
+          </span>
         </div>
 
         {/* Inline checkout — email + straight to Stripe, no /order hop. */}
