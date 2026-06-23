@@ -1066,6 +1066,33 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     </div>
   );
 
+  /* "Your report contains" — the green deliverables checklist. Rendered behind
+     the Unlock section (it swapped places with the Report Summary card). */
+  const reportContainsSection = (
+    <section className="rounded-3xl bg-surface-container-lowest border border-outline-variant p-6">
+      <h2 className="text-xl font-headline font-extrabold text-primary mb-2">
+        Your report contains
+      </h2>
+      <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
+        Here&apos;s everything you could uncover about this {make || "vehicle"} before you buy.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3">
+        {MAY_CONTAIN.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div key={item.label} className="flex items-center gap-2.5">
+              <span className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                <Icon className="w-3.5 h-3.5 text-emerald-600" />
+              </span>
+              <span className="text-sm font-semibold text-on-surface leading-tight">{item.label}</span>
+              <Check className="w-4 h-4 text-emerald-600 ml-auto flex-shrink-0" strokeWidth={3} />
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+
   /* ── Free data surfaced directly under the photo gallery ──
      The buyer reads the car's facts first: the Vehicle Details card, then the
      free NHTSA recalls (public data, framed as trust proof + a bridge). Only
@@ -1227,7 +1254,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           />
         </div>
       )}
-      <div className="hidden lg:block">{reportSummaryCard}</div>
+      {reportContainsSection}
     </div>
   );
 
@@ -1254,29 +1281,10 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         )}
       </div>
 
-      {/* Your report contains */}
-      <section className="rounded-3xl bg-surface-container-lowest border border-outline-variant p-6">
-        <h2 className="text-xl font-headline font-extrabold text-primary mb-2">
-          Your report contains
-        </h2>
-        <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
-          Here&apos;s everything you could uncover about this {make || "vehicle"} before you buy.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3">
-          {MAY_CONTAIN.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div key={item.label} className="flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                  <Icon className="w-3.5 h-3.5 text-emerald-600" />
-                </span>
-                <span className="text-sm font-semibold text-on-surface leading-tight">{item.label}</span>
-                <Check className="w-4 h-4 text-emerald-600 ml-auto flex-shrink-0" strokeWidth={3} />
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      {/* Report Summary — swapped down here from behind the Unlock section,
+          trading places with "Your report contains". Desktop-only; on mobile
+          the built-in sidebar copy is used (see summaryDesktopHidden). */}
+      <div className="hidden lg:block">{reportSummaryCard}</div>
 
       {/* Every record your report checks */}
       <section>
