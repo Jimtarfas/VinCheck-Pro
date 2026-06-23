@@ -1592,6 +1592,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         hideIdentityCards={hasVehicleDetails}
         summaryTop={summaryTop}
         summaryDesktopHidden
+        keepSidebarAI
         sidebarTop={sidebarMarketingCard}
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions

@@ -495,6 +495,7 @@ export default function VinReport({
   unlockPrice,
   hideIdentityCards = false,
   summaryDesktopHidden = false,
+  keepSidebarAI = false,
 }: {
   data: VinData;
   /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
@@ -558,6 +559,10 @@ export default function VinReport({
       page renders it in the main column instead (and moves the bundle into the
       sidebar). Stays visible on mobile. */
   summaryDesktopHidden?: boolean;
+  /** Render the AI report sections even when sidebarReplaceAI is set. The
+      preview uses this because its sidebar now carries the bundle checkout in
+      sidebarReplaceAI, yet still wants the AI sections at the sidebar foot. */
+  keepSidebarAI?: boolean;
 }) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Interior", "Exterior"]));
   const toggleCategory = (cat: string) => {
@@ -1203,9 +1208,13 @@ export default function VinReport({
             {sidebarBottom}
 
             {/* AI-powered report sections (Concierge, Risk Insights, Storyteller).
-                Free report only — in preview mode the paywall card renders above,
-                directly under the Market Analysis panel. */}
-            {!sidebarReplaceAI && <VinReportAI data={data} fullName={fullName} />}
+                Render whenever the AI block isn't being replaced — or when the
+                caller explicitly opts to keep them alongside a replacement
+                (e.g. the preview keeps them even though the sidebar now carries
+                the bundle in sidebarReplaceAI). */}
+            {(!sidebarReplaceAI || keepSidebarAI) && (
+              <VinReportAI data={data} fullName={fullName} />
+            )}
 
           </div>{/* end sidebar */}
         </div>{/* end grid */}
