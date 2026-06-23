@@ -1,20 +1,22 @@
 import Link from "next/link";
-import { Check, Gem } from "lucide-react";
+import { Check, X, Gem } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import BuyReportButton from "@/components/BuyReportButton";
 
-/* The records the paid report unlocks — mirrors the conversion card
-   pattern used by driving-tests / vininspect, in our brand style. */
-const CARD_ITEMS = [
-  "Salvage / Damage Records",
-  "Odometer Rollbacks",
-  "Theft & Total-Loss Records",
-  "Ownership Changes",
-  "Open Liens",
-  "Market Values",
-  "Warranty Details",
-  "Sales Listings",
+/* Head-to-head comparison vs Carfax — same core records, a fraction of the
+   price, plus a couple of extras. Rendered inside the same navy conversion
+   card so the footprint matches the previous "additional records" panel. */
+const COMPARE: { label: string; us: boolean; them: boolean }[] = [
+  { label: "Salvage & accident records", us: true, them: true },
+  { label: "Odometer rollback check", us: true, them: true },
+  { label: "Title brands & total loss", us: true, them: true },
+  { label: "Open liens & theft check", us: true, them: true },
+  { label: "Auction sale listings & photos", us: true, them: false },
+  { label: "Live market value & pricing", us: true, them: false },
 ];
+
+/* Carfax single-report list price for the side-by-side. */
+const CARFAX_PRICE = "$44.99";
 
 interface Props {
   make: string;
@@ -52,32 +54,66 @@ export default function MarketingCard({
       <p className="text-[11px] font-bold uppercase tracking-wider text-white/55 mb-2">
         VIN: {vin}
       </p>
-      <h3 className="text-2xl sm:text-[28px] font-headline font-extrabold leading-tight mb-3 pr-24">
-        Additional records available for {vehicleLabel}
+      <h3 className="text-2xl sm:text-[28px] font-headline font-extrabold leading-tight mb-2 pr-24">
+        CarCheckerVIN <span className="text-white/40">vs</span> Carfax
       </h3>
       <p className="text-sm text-white/75 mb-5">
-        Save thousands with a comprehensive vehicle history report:
+        The same records on this {vehicleLabel} — with more detail, for a fraction
+        of the price.
       </p>
 
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 mb-7">
-        {CARD_ITEMS.map((item) => (
-          <li key={item} className="flex items-center gap-2.5">
-            <Check className="w-4 h-4 text-yellow-300 flex-shrink-0" strokeWidth={3} />
-            <span className="text-sm font-bold leading-tight">{item}</span>
-          </li>
+      {/* Comparison table */}
+      <div className="rounded-2xl bg-white/[0.06] border border-white/10 overflow-hidden mb-5">
+        <div className="grid grid-cols-[1fr_4rem_4rem] items-center bg-white/10 px-3 py-2 text-[10px] font-black uppercase tracking-wide">
+          <span className="text-white/50">Included</span>
+          <span className="text-center text-yellow-300">Ours</span>
+          <span className="text-center text-white/55">Carfax</span>
+        </div>
+        {COMPARE.map((row) => (
+          <div
+            key={row.label}
+            className="grid grid-cols-[1fr_4rem_4rem] items-center px-3 py-2 border-t border-white/5"
+          >
+            <span className="text-[13px] font-semibold leading-tight pr-2">
+              {row.label}
+            </span>
+            <span className="flex justify-center">
+              {row.us ? (
+                <Check className="w-4 h-4 text-yellow-300" strokeWidth={3} />
+              ) : (
+                <X className="w-4 h-4 text-white/25" strokeWidth={3} />
+              )}
+            </span>
+            <span className="flex justify-center">
+              {row.them ? (
+                <Check className="w-4 h-4 text-white/40" strokeWidth={3} />
+              ) : (
+                <X className="w-4 h-4 text-white/25" strokeWidth={3} />
+              )}
+            </span>
+          </div>
         ))}
-      </ul>
-
-      <div className="flex items-end gap-2 mb-1.5">
-        <span className="text-5xl price font-extrabold leading-none">${price}</span>
-        <span className="text-xs text-white/60 pb-1.5">one-time</span>
+        {/* Price row — the headline win. */}
+        <div className="grid grid-cols-[1fr_4rem_4rem] items-center px-3 py-2.5 border-t border-white/10 bg-white/[0.04]">
+          <span className="text-[11px] font-black uppercase tracking-wide text-white/55">
+            Price
+          </span>
+          <span className="text-center font-headline font-extrabold text-yellow-300">
+            ${price}
+          </span>
+          <span className="text-center font-headline font-bold text-white/45 line-through decoration-white/30">
+            {CARFAX_PRICE}
+          </span>
+        </div>
       </div>
+
       <p className="text-xs text-white/70 mb-5">
-        Verified report in seconds · No hidden fees · 30-day money-back guarantee
+        NMVTIS-backed data · Verified report in seconds · 30-day money-back
+        guarantee
       </p>
 
       <BuyReportButton className="flex items-center justify-center gap-2 w-full bg-white text-primary rounded-2xl py-4 font-headline font-extrabold text-base hover:bg-yellow-50 transition-colors shadow-lg cursor-pointer">
-        <Gem className="w-5 h-5" /> Get full report now
+        <Gem className="w-5 h-5" /> Get full report — ${price}
       </BuyReportButton>
 
       <Link
