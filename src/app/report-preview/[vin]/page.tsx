@@ -697,11 +697,20 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   pushTile(MapPin, "Assembled In", s?.madeIn);
   pushTile(Receipt, "Original MSRP", s?.msrp);
 
-  const vehicleDetails = detailTiles.length > 0 && (
-    <div className="bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden">
-      <div className="px-4 sm:px-5 py-4 border-b border-surface-container">
-        <h2 className="font-headline font-bold text-base text-on-surface flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
+  const hasVehicleDetails = detailTiles.length > 0;
+  // `dark` styles the card for the navy hero (desktop); the light variant is
+  // used inline on mobile where it sits on the white report background.
+  const renderVehicleDetails = (dark: boolean) => (
+    <div
+      className={
+        dark
+          ? "rounded-3xl ring-1 ring-white/15 bg-white/[0.06] overflow-hidden"
+          : "bg-surface-container-lowest rounded-3xl shadow-sm overflow-hidden"
+      }
+    >
+      <div className={`px-4 sm:px-5 py-4 border-b ${dark ? "border-white/10" : "border-surface-container"}`}>
+        <h2 className={`font-headline font-bold text-base flex items-center gap-2.5 ${dark ? "text-white" : "text-on-surface"}`}>
+          <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${dark ? "bg-white/10 text-white" : "bg-indigo-50 text-indigo-600"}`}>
             <Car className="w-5 h-5" />
           </div>
           Vehicle Details
@@ -710,15 +719,18 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       <div className="p-3 sm:p-4">
         <div className="grid grid-cols-2 gap-2.5">
           {detailTiles.map(({ icon: Icon, label, value }) => (
-            <div key={label} className="flex items-start gap-2.5 rounded-xl bg-surface-container-low px-3 py-2.5">
-              <div className="w-8 h-8 rounded-lg bg-primary/8 text-primary flex items-center justify-center flex-shrink-0">
+            <div
+              key={label}
+              className={`flex items-start gap-2.5 rounded-xl px-3 py-2.5 ${dark ? "bg-white/[0.06]" : "bg-surface-container-low"}`}
+            >
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${dark ? "bg-white/10 text-white" : "bg-primary/8 text-primary"}`}>
                 <Icon className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <div className="text-[10px] font-bold uppercase tracking-wider text-outline leading-tight">
+                <div className={`text-[10px] font-bold uppercase tracking-wider leading-tight ${dark ? "text-white/60" : "text-outline"}`}>
                   {label}
                 </div>
-                <div className="text-sm font-headline font-extrabold text-on-surface leading-tight mt-0.5 break-words">
+                <div className={`text-sm font-headline font-extrabold leading-tight mt-0.5 break-words ${dark ? "text-white" : "text-on-surface"}`}>
                   {value}
                 </div>
               </div>
@@ -730,8 +742,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   );
 
   // Desktop: fills the empty navy space on the right of the hero.
-  const heroPromo = vehicleDetails ? (
-    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{vehicleDetails}</div>
+  const heroPromo = hasVehicleDetails ? (
+    <div className="hidden lg:block w-[340px] flex-shrink-0 self-end">{renderVehicleDetails(true)}</div>
   ) : undefined;
 
   /* ── Market Analysis card (sidebar, above Report Summary) ──────────────
@@ -864,12 +876,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
               {preview.recalls.length > 2 ? " — 2 shown free" : " — shown free"}
             </h2>
           </div>
-          <p className="text-sm text-on-surface-variant mb-4 max-w-2xl">
-            Recalls are public NHTSA safety notices anyone can look up for free —
-            shown here as proof this VIN&apos;s data is real and current. On their
-            own they don&apos;t reveal reported accidents, title brands, odometer
-            fraud or who owned the car.
-          </p>
           <div className="space-y-2">
             {preview.recalls.slice(0, 2).map((r, i) => (
               <details
@@ -992,8 +998,10 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       </div>
 
       {/* Vehicle details — phone users don't see the hero version (desktop-only),
-          so surface the same card here, right after the records/purchase card. */}
-      {vehicleDetails && <div className="lg:hidden">{vehicleDetails}</div>}
+          so surface the same card here, right after the records/purchase card.
+          The built-in identity cards / Vehicle Classification are hidden on
+          mobile (see hideIdentityCardsMobile) so nothing is duplicated. */}
+      {hasVehicleDetails && <div className="lg:hidden">{renderVehicleDetails(false)}</div>}
 
       {/* Your report contains */}
       <section className="rounded-3xl bg-surface-container-lowest border border-outline-variant p-6">
@@ -1317,6 +1325,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         summaryGroups={SUMMARY_GROUPS}
         heroCta={heroCta}
         heroPromo={heroPromo}
+        hideIdentityCardsMobile={hasVehicleDetails}
         summaryTop={summaryTop}
         sidebarTop={
           // Desktop sidebar bundle upsell. Hidden when the VIN is

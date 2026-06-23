@@ -494,6 +494,7 @@ export default function VinReport({
   lockActions = false,
   unlockPrice,
   previewSignals,
+  hideIdentityCardsMobile = false,
 }: {
   data: VinData;
   /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
@@ -547,6 +548,10 @@ export default function VinReport({
   /** Preview: VIN-specific ClearVin findings shown as urgency cards in the
       upsell modal (open recalls, auction sales, damage, photos). */
   previewSignals?: PreviewSignals;
+  /** Preview: hide the built-in identity DataCards grid and Vehicle
+      Classification card on mobile, where the page renders its own inline
+      Vehicle Details card instead — avoids duplicating the same fields. */
+  hideIdentityCardsMobile?: boolean;
 }) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Interior", "Exterior"]));
   const toggleCategory = (cat: string) => {
@@ -897,7 +902,7 @@ export default function VinReport({
             )}
 
             {/* Quick specs grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className={`grid-cols-2 md:grid-cols-3 gap-3 ${hideIdentityCardsMobile ? "hidden lg:grid" : "grid"}`}>
               {year        && <DataCard icon={Calendar}  label="Year"         value={String(year)}                 accent="bg-primary/8 text-primary" />}
               <DataCard icon={Car}      label="Make"         value={makeName}                     accent="bg-primary/8 text-primary" />
               <DataCard icon={Car}      label="Model"        value={modelName}                    accent="bg-tertiary/10 text-tertiary" />
@@ -964,18 +969,20 @@ export default function VinReport({
 
             {/* Vehicle Classification */}
             {data.categories && (
-              <Card icon={Info} title="Vehicle Classification" accent="bg-indigo-50 text-indigo-600">
-                <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-                  {data.categories.primaryBodyType && <Stat label="Body Type"    value={data.categories.primaryBodyType} />}
-                  {data.categories.vehicleType     && <Stat label="Vehicle Type" value={data.categories.vehicleType} />}
-                  {data.categories.vehicleStyle    && <Stat label="Style"        value={data.categories.vehicleStyle} />}
-                  {data.categories.vehicleSize     && <Stat label="Size"         value={data.categories.vehicleSize} />}
-                  {data.categories.market          && <Stat label="Segment"      value={data.categories.market} />}
-                  {data.categories.epaClass        && <Stat label="EPA Class"    value={data.categories.epaClass} />}
-                  {data.manufacturerCode           && <Stat label="Mfr Code"     value={data.manufacturerCode} />}
-                  {data.squishVin                  && <Stat label="Squish VIN"   value={data.squishVin} />}
-                </div>
-              </Card>
+              <div className={hideIdentityCardsMobile ? "hidden lg:block" : undefined}>
+                <Card icon={Info} title="Vehicle Classification" accent="bg-indigo-50 text-indigo-600">
+                  <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
+                    {data.categories.primaryBodyType && <Stat label="Body Type"    value={data.categories.primaryBodyType} />}
+                    {data.categories.vehicleType     && <Stat label="Vehicle Type" value={data.categories.vehicleType} />}
+                    {data.categories.vehicleStyle    && <Stat label="Style"        value={data.categories.vehicleStyle} />}
+                    {data.categories.vehicleSize     && <Stat label="Size"         value={data.categories.vehicleSize} />}
+                    {data.categories.market          && <Stat label="Segment"      value={data.categories.market} />}
+                    {data.categories.epaClass        && <Stat label="EPA Class"    value={data.categories.epaClass} />}
+                    {data.manufacturerCode           && <Stat label="Mfr Code"     value={data.manufacturerCode} />}
+                    {data.squishVin                  && <Stat label="Squish VIN"   value={data.squishVin} />}
+                  </div>
+                </Card>
+              </div>
             )}
 
             {/* Colors */}
