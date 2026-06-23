@@ -11,9 +11,15 @@ import {
   Clock,
   Star,
   TriangleAlert,
+  Check,
 } from "lucide-react";
 import BundleSelect from "@/app/order/_components/BundleSelect";
-import { pricingOptions, formatUsd, type PricingOption } from "@/lib/pricing";
+import {
+  pricingOptions,
+  formatUsd,
+  CREDIT_VALIDITY_MONTHS,
+  type PricingOption,
+} from "@/lib/pricing";
 
 interface Props {
   /** The VIN being previewed — carried into checkout. */
@@ -112,6 +118,53 @@ export default function BundleUpsellCard({ vin, vehicleLabel }: Props) {
             </span>
             <span className="font-bold text-on-surface">Trustpilot</span>
           </span>
+        </div>
+
+        {/* Order summary — mirrors the selected option so the buyer sees exactly
+            what they're paying for, and the running total, before checkout. */}
+        <div className="mt-4 rounded-2xl bg-surface-container-low border border-outline-variant p-4">
+          <h4 className="font-headline font-bold text-on-surface text-sm mb-3">
+            Order Summary
+          </h4>
+          <ul className="space-y-2 text-sm">
+            <li className="flex items-start gap-2 text-on-surface-variant">
+              <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
+              <span>
+                Report on{" "}
+                <strong className="text-on-surface font-bold">
+                  {vehicleLabel || "this vehicle"}
+                </strong>
+              </span>
+            </li>
+            <li className="flex items-start gap-2 text-on-surface-variant">
+              <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
+              <span>
+                {current.isBundle
+                  ? `${current.size}-report pack — ${formatUsd(current.perReportCents)} per report`
+                  : "Full vehicle history report"}
+              </span>
+            </li>
+            {current.isBundle && (
+              <li className="flex items-start gap-2 text-on-surface-variant">
+                <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
+                <span>
+                  {current.size - 1} report{current.size - 1 > 1 ? "s" : ""} saved as
+                  credits — good for {CREDIT_VALIDITY_MONTHS} months
+                </span>
+              </li>
+            )}
+          </ul>
+          <div className="mt-3 pt-3 border-t border-outline-variant flex items-baseline justify-between gap-3">
+            <span className="font-headline font-bold text-on-surface">
+              Today&apos;s Total
+            </span>
+            <span className="font-headline font-black text-2xl sm:text-3xl text-on-surface leading-none">
+              {formatUsd(current.priceCents)}
+            </span>
+          </div>
+          <p className="mt-2 text-[11px] italic text-on-surface-variant leading-snug">
+            * Sales tax may be applicable in some states
+          </p>
         </div>
 
         {/* Inline checkout — email + straight to Stripe, no /order hop. */}
