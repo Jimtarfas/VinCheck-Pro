@@ -105,6 +105,17 @@ export default async function OrderTermsPage({ searchParams }: PageProps) {
               </Link>
               .
             </p>
+            <p className="mt-4">
+              These Terms form a binding agreement between you and{" "}
+              <strong>Cognifyx Solutions LLC</strong>, a New Mexico limited
+              liability company with its registered office at 1209 Mountain
+              Road Pl NE, Ste N, Albuquerque, NM 87110, United States, doing
+              business as <strong>CarCheckerVIN</strong>
+              {" "}(&ldquo;Cognifyx Solutions LLC,&rdquo; &ldquo;we,&rdquo;
+              &ldquo;us,&rdquo; or &ldquo;our&rdquo;). Reports are fulfilled
+              by ClearVin LLC, an approved NMVTIS Data Provider, under
+              Cognifyx Solutions LLC&rsquo;s ClearVin reseller agreement.
+            </p>
           </section>
 
           {/* CLAUSE 1 — INTERNAL USE ONLY (ClearVin-required) */}
