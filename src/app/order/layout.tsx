@@ -72,9 +72,9 @@ export default function OrderLayout({ children }: { children: React.ReactNode })
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
           <div className="grid sm:grid-cols-[1fr_auto] gap-6 sm:gap-10 items-start">
             <div>
-              <Link href="/" className="inline-flex items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-2 mb-4">
                 <Logo />
-              </Link>
+              </div>
               <p className="text-[11px] text-on-surface-variant leading-relaxed max-w-xl">
                 CarCheckerVIN provides NMVTIS-backed vehicle history reports
                 and is operated by{" "}
