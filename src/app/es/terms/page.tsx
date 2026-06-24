@@ -12,12 +12,12 @@ const alt = hreflangAlternatesForLocale("/terms", "es");
 export const metadata: Metadata = {
   title: "Términos de servicio",
   description:
-    "Términos de servicio de VINCheck Pro. Revisa los términos y condiciones para usar nuestra plataforma de reportes de historial vehicular.",
+    "Términos de servicio de CarCheckerVIN. Revisa los términos y condiciones para usar nuestra plataforma de reportes de historial vehicular.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Términos de servicio",
     description:
-      "Términos de servicio de VINCheck Pro. Revisa los términos y condiciones para usar nuestra plataforma de reportes de historial vehicular.",
+      "Términos de servicio de CarCheckerVIN. Revisa los términos y condiciones para usar nuestra plataforma de reportes de historial vehicular.",
     url: `${SITE}/es/terms`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -34,15 +34,25 @@ export default function TermsPage() {
           <strong>Última actualización:</strong> 12 de abril de 2026
         </p>
 
+        <p>
+          Estos Términos rigen tu uso de <strong>CarCheckerVIN</strong>
+          (carcheckervin.com), operado por{" "}
+          <strong>Cognifyx Solutions LLC</strong>, una sociedad de
+          responsabilidad limitada de Nuevo México con domicilio registrado
+          en 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, Estados
+          Unidos (&ldquo;Cognifyx Solutions LLC,&rdquo; &ldquo;nosotros,&rdquo;
+          &ldquo;nos&rdquo; o &ldquo;nuestro&rdquo;).
+        </p>
+
         <h2 className="text-xl font-semibold text-slate-900 mt-8">1. Aceptación de los términos</h2>
         <p>
-          Al usar VINCheck Pro, aceptas estos Términos de servicio. Si no estás de acuerdo, por
+          Al usar CarCheckerVIN, aceptas estos Términos de servicio. Si no estás de acuerdo, por
           favor no uses el servicio.
         </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">2. Descripción del servicio</h2>
         <p>
-          VINCheck Pro proporciona servicios de decodificación del número de identificación
+          CarCheckerVIN proporciona servicios de decodificación del número de identificación
           vehicular (VIN) y reportes de historial vehicular. Los reportes incluyen especificaciones
           del vehículo, detalles del equipamiento y datos relacionados obtenidos de bases de datos
           de terceros.
@@ -58,14 +68,14 @@ export default function TermsPage() {
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">4. Uso permitido</h2>
         <p>
-          Puedes usar VINCheck Pro para fines personales y no comerciales de investigación
+          Puedes usar CarCheckerVIN para fines personales y no comerciales de investigación
           vehicular. Se prohíbe el rastreo automatizado, las descargas masivas o la redistribución
           de datos de reportes.
         </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">5. Limitación de responsabilidad</h2>
         <p>
-          VINCheck Pro se proporciona &ldquo;tal cual&rdquo; sin garantías de ningún tipo. No somos
+          CarCheckerVIN se proporciona &ldquo;tal cual&rdquo; sin garantías de ningún tipo. No somos
           responsables de ningún daño que surja del uso de nuestros reportes o de la confianza en
           la información proporcionada.
         </p>
@@ -86,9 +96,18 @@ export default function TermsPage() {
           Para preguntas sobre estos términos, contáctanos en{" "}
           <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">
             contact@carcheckervin.com
-          </a>
-          .
+          </a>{" "}
+          o por correo a:
         </p>
+        <address className="not-italic text-slate-700">
+          Cognifyx Solutions LLC
+          <br />
+          1209 Mountain Road Pl NE, Ste N
+          <br />
+          Albuquerque, NM 87110
+          <br />
+          Estados Unidos
+        </address>
       </div>
     </div>
   );

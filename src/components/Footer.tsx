@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -115,6 +115,16 @@ export default function Footer() {
                 <Phone className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0" />
                 +1 (564) 212-3985
               </li>
+              <li className="flex items-start gap-2 text-sm">
+                <MapPin className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0 mt-0.5" />
+                <address className="not-italic leading-relaxed">
+                  Cognifyx Solutions LLC
+                  <br />
+                  1209 Mountain Road Pl NE, Ste N
+                  <br />
+                  Albuquerque, NM 87110
+                </address>
+              </li>
             </ul>
           </div>
 
@@ -217,7 +227,8 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-inverse-on-surface/75">
-            &copy; {new Date().getFullYear()} CarChecker VIN. All rights reserved.
+            &copy; {new Date().getFullYear()} Cognifyx Solutions LLC. CarCheckerVIN
+            is a trademark of Cognifyx Solutions LLC. All rights reserved.
           </p>
           <p className="text-xs text-inverse-on-surface/20">Powered by Auto.dev API</p>
         </div>

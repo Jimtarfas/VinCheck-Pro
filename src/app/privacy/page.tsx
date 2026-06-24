@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "VINCheck Pro privacy policy. Learn how we collect, use, and protect your personal information.",
+    "CarCheckerVIN privacy policy. Learn how Cognifyx Solutions LLC collects, uses, and protects your personal information.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -15,10 +15,17 @@ export default function PrivacyPage() {
         <p>
           <strong>Last updated:</strong> April 12, 2026
         </p>
+        <p>
+          This Privacy Policy applies to <strong>CarCheckerVIN</strong>
+          (carcheckervin.com), a service operated by{" "}
+          <strong>Cognifyx Solutions LLC</strong>, a New Mexico limited
+          liability company with its registered office at 1209 Mountain Road
+          Pl NE, Ste N, Albuquerque, NM 87110, United States.
+        </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">1. Information We Collect</h2>
         <p>
-          When you use VINCheck Pro, we may collect Vehicle Identification Numbers (VINs) you submit
+          When you use CarCheckerVIN, we may collect Vehicle Identification Numbers (VINs) you submit
           for decoding, basic usage data (pages visited, features used), and contact information if
           you reach out to support.
         </p>
@@ -54,9 +61,18 @@ export default function PrivacyPage() {
           For privacy-related inquiries, contact us at{" "}
           <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">
             contact@carcheckervin.com
-          </a>
-          .
+          </a>{" "}
+          or by mail at:
         </p>
+        <address className="not-italic text-slate-700">
+          Cognifyx Solutions LLC
+          <br />
+          1209 Mountain Road Pl NE, Ste N
+          <br />
+          Albuquerque, NM 87110
+          <br />
+          United States
+        </address>
       </div>
     </div>
   );

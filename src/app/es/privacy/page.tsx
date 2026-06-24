@@ -12,12 +12,12 @@ const alt = hreflangAlternatesForLocale("/privacy", "es");
 export const metadata: Metadata = {
   title: "Política de privacidad",
   description:
-    "Política de privacidad de VINCheck Pro. Conoce cómo recopilamos, usamos y protegemos tu información personal.",
+    "Política de privacidad de CarCheckerVIN. Conoce cómo recopilamos, usamos y protegemos tu información personal.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Política de privacidad",
     description:
-      "Política de privacidad de VINCheck Pro. Conoce cómo recopilamos, usamos y protegemos tu información personal.",
+      "Política de privacidad de CarCheckerVIN. Conoce cómo recopilamos, usamos y protegemos tu información personal.",
     url: `${SITE}/es/privacy`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -33,10 +33,18 @@ export default function PrivacyPage() {
         <p>
           <strong>Última actualización:</strong> 12 de abril de 2026
         </p>
+        <p>
+          Esta Política de privacidad se aplica a{" "}
+          <strong>CarCheckerVIN</strong> (carcheckervin.com), un servicio
+          operado por <strong>Cognifyx Solutions LLC</strong>, una sociedad
+          de responsabilidad limitada de Nuevo México con domicilio
+          registrado en 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM
+          87110, Estados Unidos.
+        </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">1. Información que recopilamos</h2>
         <p>
-          Cuando usas VINCheck Pro, podemos recopilar los Números de Identificación Vehicular (VIN)
+          Cuando usas CarCheckerVIN, podemos recopilar los Números de Identificación Vehicular (VIN)
           que envías para decodificación, datos básicos de uso (páginas visitadas, funciones
           utilizadas) e información de contacto si te comunicas con soporte.
         </p>
@@ -72,9 +80,18 @@ export default function PrivacyPage() {
           Para consultas relacionadas con privacidad, contáctanos en{" "}
           <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">
             contact@carcheckervin.com
-          </a>
-          .
+          </a>{" "}
+          o por correo a:
         </p>
+        <address className="not-italic text-slate-700">
+          Cognifyx Solutions LLC
+          <br />
+          1209 Mountain Road Pl NE, Ste N
+          <br />
+          Albuquerque, NM 87110
+          <br />
+          Estados Unidos
+        </address>
       </div>
     </div>
   );

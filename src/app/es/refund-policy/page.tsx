@@ -54,10 +54,16 @@ export default function RefundPolicyPage() {
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">1. Resumen</h2>
         <p>
-          CarCheckerVIN vende reportes digitales de historial vehicular que se generan y entregan
-          al instante en el momento en que se recibe el pago. Debido a que cada reporte es un
-          producto digital único producido bajo demanda a partir de bases de datos automotrices de
-          terceros, los reembolsos se limitan a la única circunstancia descrita a continuación.
+          <strong>CarCheckerVIN</strong> (carcheckervin.com) es operado por{" "}
+          <strong>Cognifyx Solutions LLC</strong>, una sociedad de
+          responsabilidad limitada de Nuevo México con domicilio registrado
+          en 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, Estados
+          Unidos. CarCheckerVIN vende reportes digitales de historial
+          vehicular que se generan y entregan al instante en el momento en
+          que se recibe el pago. Debido a que cada reporte es un producto
+          digital único producido bajo demanda a partir de bases de datos
+          automotrices de terceros, los reembolsos se limitan a la única
+          circunstancia descrita a continuación.
         </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">

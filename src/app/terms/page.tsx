@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "VINCheck Pro terms of service. Review the terms and conditions for using our vehicle history report platform.",
+    "CarCheckerVIN terms of service. Review the terms and conditions for using our vehicle history report platform.",
   alternates: { canonical: "/terms" },
 };
 
@@ -15,16 +15,25 @@ export default function TermsPage() {
         <p>
           <strong>Last updated:</strong> April 12, 2026
         </p>
+        <p>
+          These Terms govern your use of <strong>CarCheckerVIN</strong>
+          (carcheckervin.com), operated by{" "}
+          <strong>Cognifyx Solutions LLC</strong>, a New Mexico limited
+          liability company with its registered office at 1209 Mountain Road
+          Pl NE, Ste N, Albuquerque, NM 87110, United States
+          (&ldquo;Cognifyx Solutions LLC,&rdquo; &ldquo;we,&rdquo;
+          &ldquo;us,&rdquo; or &ldquo;our&rdquo;).
+        </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">1. Acceptance of Terms</h2>
         <p>
-          By using VINCheck Pro, you agree to these Terms of Service. If you do not agree,
+          By using CarCheckerVIN, you agree to these Terms of Service. If you do not agree,
           please do not use the service.
         </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">2. Service Description</h2>
         <p>
-          VINCheck Pro provides vehicle identification number (VIN) decoding and vehicle history
+          CarCheckerVIN provides vehicle identification number (VIN) decoding and vehicle history
           report services. Reports include vehicle specifications, equipment details, and related
           data sourced from third-party databases.
         </p>
@@ -38,13 +47,13 @@ export default function TermsPage() {
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">4. Permitted Use</h2>
         <p>
-          You may use VINCheck Pro for personal, non-commercial vehicle research purposes.
+          You may use CarCheckerVIN for personal, non-commercial vehicle research purposes.
           Automated scraping, bulk downloads, or redistribution of report data is prohibited.
         </p>
 
         <h2 className="text-xl font-semibold text-slate-900 mt-8">5. Limitation of Liability</h2>
         <p>
-          VINCheck Pro is provided &ldquo;as is&rdquo; without warranties of any kind. We are not liable for
+          CarCheckerVIN is provided &ldquo;as is&rdquo; without warranties of any kind. We are not liable for
           any damages arising from the use of our reports or reliance on the information provided.
         </p>
 
@@ -64,9 +73,18 @@ export default function TermsPage() {
           For questions about these terms, contact us at{" "}
           <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">
             contact@carcheckervin.com
-          </a>
-          .
+          </a>{" "}
+          or by mail at:
         </p>
+        <address className="not-italic text-slate-700">
+          Cognifyx Solutions LLC
+          <br />
+          1209 Mountain Road Pl NE, Ste N
+          <br />
+          Albuquerque, NM 87110
+          <br />
+          United States
+        </address>
       </div>
     </div>
   );
