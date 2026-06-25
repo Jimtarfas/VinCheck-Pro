@@ -36,7 +36,6 @@ export interface RenderedEmail {
 
 // ── Design tokens (kept in sync with order-confirmation.ts) ──────────
 const NAVY = "#003178";
-const NAVY_DARK = "#001f4d";
 const ORANGE = "#ff9800";
 const ORANGE_DARK = "#e07f00";
 const TEXT = "#0f172a";
@@ -87,56 +86,36 @@ export function renderCheckoutRecovery(
     : "";
   const publicDomain = brandDomain(input.siteOrigin);
   const url = escapeHtml(input.checkoutUrl);
+  // Real logo, rendered to PNG and served from /public/email/ (email clients
+  // strip SVG, so we reference the raster). Absolute URL off the site origin.
+  const logoUrl = `${input.siteOrigin.replace(/\/+$/, "")}/email/logo.png`;
 
-  // ── Brand bar (logo lockup) ──
-  // The CarCheckerVIN logo rebuilt as an email-safe table so it renders in
-  // every client (Gmail/Outlook strip SVG, so we can't reference logo.svg).
-  // A white rounded square holding the brand's orange checkmark sits left of
-  // the wordmark, mirroring the on-site mark (navy square + orange check),
-  // inverted to a white tile so it reads on the navy header.
+  // ── Brand bar (white header w/ the real logo image) ──
+  // The wordmark is navy, so it can't sit on the navy gradient — we use a
+  // clean white header band with the actual logo PNG, plus a navy "REPORT
+  // READY" pill on the right. alt text falls back to the brand name if the
+  // recipient has images turned off.
   const brandBar = `
     <tr>
-      <td bgcolor="${NAVY}"
-          style="background:${NAVY};
-                 background-image:linear-gradient(135deg,${NAVY} 0%,${NAVY_DARK} 100%);
-                 padding:22px 28px;">
+      <td bgcolor="#ffffff"
+          style="background:#ffffff;padding:20px 28px;
+                 border-bottom:1px solid ${BORDER};">
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
           <tr>
             <td style="vertical-align:middle;">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td width="38" style="vertical-align:middle;">
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="38">
-                      <tr>
-                        <td width="38" height="38" align="center"
-                            bgcolor="#ffffff"
-                            style="background:#ffffff;border-radius:10px;
-                                   width:38px;height:38px;text-align:center;
-                                   vertical-align:middle;
-                                   font-family:Arial,Helvetica,sans-serif;
-                                   font-size:22px;font-weight:900;
-                                   color:${ORANGE};line-height:38px;
-                                   box-shadow:0 1px 3px rgba(0,0,0,0.2);">
-                          &#10003;
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td width="12" style="font-size:0;line-height:0;">&nbsp;</td>
-                  <td style="vertical-align:middle;
-                             font-family:Arial,Helvetica,sans-serif;
-                             color:#ffffff;font-size:20px;font-weight:800;
-                             letter-spacing:0.3px;line-height:1;">
-                    CarChecker<span style="color:${ORANGE};">VIN</span>
-                  </td>
-                </tr>
-              </table>
+              <img src="${escapeHtml(logoUrl)}" width="180" height="36"
+                   alt="CarCheckerVIN"
+                   style="display:block;border:0;outline:none;
+                          text-decoration:none;height:36px;width:180px;" />
             </td>
-            <td style="text-align:right;vertical-align:middle;
-                       font-family:Arial,Helvetica,sans-serif;
-                       color:#ffffff;font-size:10px;font-weight:700;
-                       letter-spacing:1.6px;opacity:0.85;line-height:1;">
-              REPORT READY
+            <td style="text-align:right;vertical-align:middle;">
+              <span style="display:inline-block;background:${NAVY};
+                           color:#ffffff;border-radius:999px;padding:6px 13px;
+                           font-family:Arial,Helvetica,sans-serif;
+                           font-size:10px;font-weight:700;letter-spacing:1.4px;
+                           line-height:1;">
+                REPORT READY
+              </span>
             </td>
           </tr>
         </table>
