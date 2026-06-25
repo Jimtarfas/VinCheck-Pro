@@ -32,6 +32,7 @@ CarCheckerVIN turns a 17-digit VIN (or US license plate) into an instant report 
 
 - [Free VIN Check](${SITE}/vin-check): Decode any 17-digit VIN and pull a free vehicle history report — specs, title brands, recalls, market value.
 - [VIN Decoder](${SITE}/vin-decoder): Standalone VIN decoder for year, make, model, trim, engine, transmission, plant, and 40+ specs.
+- [VIN Lookup](${SITE}/vin-lookup): Free VIN (or US plate) lookup hub — specs, title brands, accidents, recalls and history for cars, trucks, trailers, classics and specialty vehicles.
 - [License Plate Lookup](${SITE}/license-plate-lookup): US plate → VIN → full report in one step. All 50 states.
 - [Free Plate Lookup](${SITE}/look-up-car-plates-free): Keyword-optimized free plate lookup landing.
 - [Window Sticker Maker](${SITE}/window-sticker): Recreate an original window sticker (Monroney) from a VIN.

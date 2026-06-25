@@ -22,6 +22,7 @@ import { JEEP_MODELS } from "@/lib/jeep-models";
 import { GM_DIVISIONS } from "@/lib/gm-models";
 import { ATV_BRANDS } from "@/lib/atv-models";
 import { VIN_DECODER_PAGES } from "@/lib/vin-decoder-pages";
+import { VIN_LOOKUP_PAGES } from "@/lib/vin-lookup-pages";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -334,6 +335,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // VIN lookup hub-and-spoke cluster (/vin-lookup/[type]) — one canonical page
+  // per "vin lookup" keyword family the -check / -decoder pages don't own
+  // (parts, title, antique, truck, trailer, snowmobile, mobile-home).
+  const vinLookupPages: MetadataRoute.Sitemap = VIN_LOOKUP_PAGES.map((p) => ({
+    url: `${baseUrl}/vin-lookup/${p.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -479,6 +490,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/vin-decoder`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // VIN decoder cluster — brand / type / format spokes under /vin-decoder.
     ...vinDecoderPages,
+    // VIN lookup cluster — hub + type/attribute spokes under /vin-lookup.
+    { url: `${baseUrl}/vin-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    ...vinLookupPages,
     // Chassis Number Lookup — international "chassis number = VIN" SEO landing page.
     { url: `${baseUrl}/chassis-number-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Florida VIN Check — state-targeted SEO landing page.
