@@ -88,7 +88,12 @@ export function renderCheckoutRecovery(
   const publicDomain = brandDomain(input.siteOrigin);
   const url = escapeHtml(input.checkoutUrl);
 
-  // ── Brand bar ──
+  // ── Brand bar (logo lockup) ──
+  // The CarCheckerVIN logo rebuilt as an email-safe table so it renders in
+  // every client (Gmail/Outlook strip SVG, so we can't reference logo.svg).
+  // A white rounded square holding the brand's orange checkmark sits left of
+  // the wordmark, mirroring the on-site mark (navy square + orange check),
+  // inverted to a white tile so it reads on the navy header.
   const brandBar = `
     <tr>
       <td bgcolor="${NAVY}"
@@ -97,11 +102,35 @@ export function renderCheckoutRecovery(
                  padding:22px 28px;">
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
           <tr>
-            <td style="vertical-align:middle;
-                       font-family:Arial,Helvetica,sans-serif;
-                       color:#ffffff;font-size:20px;font-weight:800;
-                       letter-spacing:0.3px;line-height:1;">
-              CarChecker<span style="color:${ORANGE};">VIN</span>
+            <td style="vertical-align:middle;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td width="38" style="vertical-align:middle;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="38">
+                      <tr>
+                        <td width="38" height="38" align="center"
+                            bgcolor="#ffffff"
+                            style="background:#ffffff;border-radius:10px;
+                                   width:38px;height:38px;text-align:center;
+                                   vertical-align:middle;
+                                   font-family:Arial,Helvetica,sans-serif;
+                                   font-size:22px;font-weight:900;
+                                   color:${ORANGE};line-height:38px;
+                                   box-shadow:0 1px 3px rgba(0,0,0,0.2);">
+                          &#10003;
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="12" style="font-size:0;line-height:0;">&nbsp;</td>
+                  <td style="vertical-align:middle;
+                             font-family:Arial,Helvetica,sans-serif;
+                             color:#ffffff;font-size:20px;font-weight:800;
+                             letter-spacing:0.3px;line-height:1;">
+                    CarChecker<span style="color:${ORANGE};">VIN</span>
+                  </td>
+                </tr>
+              </table>
             </td>
             <td style="text-align:right;vertical-align:middle;
                        font-family:Arial,Helvetica,sans-serif;
@@ -152,11 +181,23 @@ export function renderCheckoutRecovery(
               : `Complete your order and it unlocks instantly.`
           }
         </p>
-        <p style="margin:0 0 26px 0;font-size:13px;line-height:1.6;
-                  color:${SOFT};font-family:Arial,Helvetica,sans-serif;
-                  font-family:'Courier New',Consolas,monospace;">
-          VIN ${escapeHtml(input.vin)}
-        </p>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0"
+               style="margin:2px 0 26px 0;">
+          <tr>
+            <td style="background:${SUBTLE_BG};border:1px solid ${BORDER};
+                       border-radius:8px;padding:9px 14px;
+                       vertical-align:middle;">
+              <span style="font-family:Arial,Helvetica,sans-serif;
+                           font-size:10px;font-weight:800;color:${MUTED};
+                           letter-spacing:1px;text-transform:uppercase;">VIN</span>
+              <span style="font-family:'Courier New',Consolas,monospace;
+                           font-size:15px;font-weight:700;color:${TEXT};
+                           letter-spacing:2px;">&nbsp;&nbsp;${escapeHtml(
+                             input.vin
+                           )}</span>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>`;
 
