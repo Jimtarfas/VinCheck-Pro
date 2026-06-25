@@ -12,6 +12,7 @@ import {
 import { createAdminClient } from "@/lib/supabase/admin";
 import { CLEARVIN_TEST_VINS } from "@/lib/clearvin";
 import AutoRefresh from "../_components/AutoRefresh";
+import RecoverButton from "./_components/RecoverButton";
 
 export const dynamic = "force-dynamic";
 
@@ -69,6 +70,10 @@ type LeadRow = {
   status: string;
   clearvin_error: string | null;
   stripe_session_id: string | null;
+  // Repurposed for these never-delivered rows as a recovery-email audit
+  // trail (written by /api/admin/leads/recover).
+  email_status: string | null;
+  email_sent_at: string | null;
 };
 
 async function getData(showAll: boolean) {
@@ -82,7 +87,7 @@ async function getData(showAll: boolean) {
   const { data: rawData } = await admin
     .from("report_orders")
     .select(
-      "id, created_at, user_email, vin, vehicle_label, amount_cents, bundle_size, status, clearvin_error, stripe_session_id, stripe_payment_intent_id"
+      "id, created_at, user_email, vin, vehicle_label, amount_cents, bundle_size, status, clearvin_error, stripe_session_id, stripe_payment_intent_id, email_status, email_sent_at"
     )
     .in("status", ["pending", "failed"])
     .is("stripe_payment_intent_id", null)
@@ -348,6 +353,7 @@ export default async function AdminLeadsPage({
                     <th className="px-2 py-2 font-bold text-right">Intended</th>
                     <th className="px-2 py-2 font-bold">Status</th>
                     <th className="px-2 py-2 font-bold">Stripe error</th>
+                    <th className="px-2 py-2 font-bold text-right">Recover</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -370,7 +376,7 @@ export default async function AdminLeadsPage({
                             )}&body=${encodeURIComponent(
                               `Hi,\n\nThank you for your interest in a CarCheckerVIN report for VIN ${r.vin}${
                                 r.vehicle_label ? ` (${r.vehicle_label})` : ""
-                              }.\n\nOur payment system had a temporary issue when you attempted to check out. It is now back online — you can complete your order here:\n\nhttps://app.carcheckervin.com/?vin=${r.vin}\n\nThanks,\nCarCheckerVIN Support`
+                              }.\n\nOur payment system had a temporary issue when you attempted to check out. It is now back online — you can complete your order here:\n\nhttps://www.carcheckervin.com/report-preview/${r.vin}\n\nThanks,\nCarCheckerVIN Support`
                             )}`}
                             className="text-primary-600 hover:text-primary-700 hover:underline"
                             title={r.user_email}
@@ -424,6 +430,29 @@ export default async function AdminLeadsPage({
                             no error recorded
                           </span>
                         )}
+                      </td>
+                      <td className="px-2 py-2 text-right whitespace-nowrap">
+                        <div className="inline-flex flex-col items-end gap-1">
+                          <RecoverButton
+                            orderId={r.id}
+                            buyerEmail={r.user_email}
+                          />
+                          {r.email_status === "sent" && r.email_sent_at && (
+                            <span
+                              className="text-[10px] text-emerald-600"
+                              title={`Recovery email sent ${new Date(
+                                r.email_sent_at
+                              ).toLocaleString()}`}
+                            >
+                              ✓ emailed {relTime(r.email_sent_at)}
+                            </span>
+                          )}
+                          {r.email_status === "failed" && (
+                            <span className="text-[10px] text-rose-500">
+                              last send failed
+                            </span>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
