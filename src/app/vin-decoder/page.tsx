@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import VinDecoderBody, { VIN_DECODER_FAQS_EN } from "@/components/VinDecoderBody";
+import { VIN_DECODER_PAGES } from "@/lib/vin-decoder-pages";
 
 const SITE = "https://www.carcheckervin.com";
+
+const DECODER_GROUPS: { heading: string; category: string }[] = [
+  { heading: "Decode by brand", category: "brand" },
+  { heading: "Decode by vehicle type", category: "type" },
+  { heading: "Decode by VIN format", category: "format" },
+  { heading: "APIs & comparisons", category: "api" },
+];
 
 export const metadata: Metadata = {
   title: "Free VIN Decoder — Decode Any VIN Number Instantly",
@@ -130,6 +140,18 @@ const speakableSchema = {
   speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", ".page-description"] },
 };
 
+const directorySchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "VIN Decoders by Brand, Type & Format",
+  itemListElement: VIN_DECODER_PAGES.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: p.badge,
+    url: `${SITE}/vin-decoder/${p.slug}`,
+  })),
+};
+
 export default function VinDecoderPage() {
   return (
     <>
@@ -138,7 +160,54 @@ export default function VinDecoderPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(directorySchema) }} />
       <VinDecoderBody locale="en" />
+
+      {/* Brand / type / format decoder directory — internal links to the
+          /vin-decoder/[slug] hub-and-spoke cluster. */}
+      <section className="bg-surface border-t border-outline-variant">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            Decode a Specific Brand or VIN Type
+          </h2>
+          <p className="text-slate-700 mb-8 max-w-3xl">
+            Jump to a decoder tuned to your make or VIN format — each one
+            explains the manufacturer&apos;s WMI prefixes, what each position
+            encodes, and how to verify the vehicle before you buy.
+          </p>
+          <div className="space-y-8">
+            {DECODER_GROUPS.map((group) => {
+              const items = VIN_DECODER_PAGES.filter((p) =>
+                group.category === "api"
+                  ? p.category === "api" || p.category === "compare"
+                  : p.category === group.category
+              );
+              if (items.length === 0) return null;
+              return (
+                <div key={group.category}>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">
+                    {group.heading}
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {items.map((p) => (
+                      <Link
+                        key={p.slug}
+                        href={`/vin-decoder/${p.slug}`}
+                        className="group flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:border-primary-300 hover:bg-primary-50/40 transition p-3.5"
+                      >
+                        <span className="text-sm font-semibold text-slate-900 group-hover:text-primary-700">
+                          {p.badge}
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-slate-300 ml-auto group-hover:text-primary-500 group-hover:translate-x-0.5 transition" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
     </>
   );
 }
