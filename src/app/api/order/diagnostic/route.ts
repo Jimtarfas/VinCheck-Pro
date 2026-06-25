@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
  *
  * Use it after editing Vercel env vars to confirm the new build
  * actually sees them:
- *   curl https://app.carcheckervin.com/api/order/diagnostic
+ *   curl https://www.carcheckervin.com/api/order/diagnostic
  */
 export async function GET() {
   const token = process.env.CLEARVIN_API_TOKEN || "";
