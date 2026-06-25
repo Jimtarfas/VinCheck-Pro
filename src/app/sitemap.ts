@@ -136,6 +136,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-state salvage-title check pages (/salvage-title-check/[state]) —
+  // one for every state, derived from verified DMV/title-brand data.
+  const salvageStatePages: MetadataRoute.Sitemap = states.map((s) => ({
+    url: `${baseUrl}/salvage-title-check/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-state odometer check pages (/odometer-check/[state]) —
+  // one for every state, derived from verified DMV/title-brand data.
+  const odometerStatePages: MetadataRoute.Sitemap = states.map((s) => ({
+    url: `${baseUrl}/odometer-check/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   // Per-state lemon law check pages (/lemon-check/[state]) — one for each
   // state that has both DMV data and a lemon-law reference entry.
   const lemonStatePages: MetadataRoute.Sitemap = states
@@ -385,8 +403,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/stolen-vehicle-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...stolenStatePages,
     { url: `${baseUrl}/salvage-title-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...salvageStatePages,
     { url: `${baseUrl}/accident-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/odometer-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...odometerStatePages,
     { url: `${baseUrl}/lemon-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...lemonStatePages,
     { url: `${baseUrl}/lemon-check/brand`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },

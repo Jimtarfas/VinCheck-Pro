@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { MapPin, ChevronRight } from "lucide-react";
 import OdometerCheckBody, { FAQS_EN } from "@/components/OdometerCheckBody";
 import { ORG_AUTHOR } from "@/lib/seo/author";
+import { states } from "@/lib/states";
 
 const SITE = "https://www.carcheckervin.com";
 
@@ -26,6 +29,18 @@ const howToSchema = { "@context": "https://schema.org", "@type": "HowTo", name: 
 const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: SITE }, { "@type": "ListItem", position: 2, name: "Odometer Check", item: `${SITE}/odometer-check` }] };
 const speakableSchema = { "@context": "https://schema.org", "@type": "WebPage", speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", ".speakable-intro"] }, url: `${SITE}/odometer-check` };
 
+const statesDirectorySchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Odometer Check by State",
+  itemListElement: states.map((s, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: `${s.name} Odometer Check`,
+    url: `${SITE}/odometer-check/${s.slug}`,
+  })),
+};
+
 export default function OdometerCheckPage() {
   return (
     <>
@@ -35,7 +50,34 @@ export default function OdometerCheckPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(statesDirectorySchema) }} />
       <OdometerCheckBody locale="en" />
+
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 sm:p-8">
+          <div className="flex items-center gap-2 mb-2">
+            <MapPin className="w-5 h-5 text-primary" />
+            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary">Odometer Check by State</h2>
+          </div>
+          <p className="text-sm sm:text-base text-on-surface-variant mb-6 max-w-3xl">
+            Mileage records are national, but each state&apos;s DMV records odometer readings and
+            title brands under its own rules. Pick a state for the local title authority, its
+            odometer-disclosure requirements, and how a mileage check works there.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+            {states.map((s) => (
+              <Link
+                key={s.slug}
+                href={`/odometer-check/${s.slug}`}
+                className="flex items-center gap-2 rounded-xl border border-outline-variant bg-surface hover:border-primary/40 hover:bg-primary/5 transition-colors px-3 py-2.5 group"
+              >
+                <ChevronRight className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-sm font-semibold text-on-surface group-hover:text-primary truncate">{s.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }
