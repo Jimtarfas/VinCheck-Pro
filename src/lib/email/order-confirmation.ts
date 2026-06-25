@@ -44,7 +44,7 @@ export interface OrderConfirmationInput {
    * mode) we hide the button — the report link still works.
    */
   signInUrl?: string;
-  /** Origin used in the footer support links (e.g. app.carcheckervin.com). */
+  /** Origin used in the footer support links (e.g. www.carcheckervin.com). */
   siteOrigin: string;
   /** Support inbox shown in the footer + set as Reply-To. */
   supportEmail: string;

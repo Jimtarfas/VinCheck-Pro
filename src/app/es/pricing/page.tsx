@@ -151,7 +151,7 @@ export default function PricingPageEs() {
               ))}
             </ul>
             <Link
-              href="https://app.carcheckervin.com/"
+              href="/#hero"
               className="block w-full text-center px-5 py-3 rounded-xl bg-white text-primary font-bold hover:bg-white/90 transition"
             >
               {t(LOCALE, "pricing.paidCta")}

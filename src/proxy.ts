@@ -11,19 +11,20 @@ const REVIEWS_HOST = "reviews.carcheckervin.com";
 // to the plural canonical so Google never indexes both versions.
 const LEGACY_REVIEW_HOSTS = new Set(["review.carcheckervin.com"]);
 
-// App subdomain — runs the ClearVin-powered paid-report flow. The marketing
-// site lives on www.; the buy/checkout/report experience lives on app. so the
-// two are visually and operationally isolated (different layout, different
-// auth surface, different SEO posture — app.* is noindex everywhere).
+// App subdomain — LEGACY. The buy/checkout/report flow used to be served
+// here on app.carcheckervin.com. Per user requirement the entire experience
+// now lives on the main site (www.carcheckervin.com): the buyer must never be
+// forwarded to the subdomain. We keep this host resolving only so any old
+// link still works — every request is 308'd to its www equivalent below.
 const APP_HOST = "app.carcheckervin.com";
 
 const WWW_ORIGIN = "https://www.carcheckervin.com";
 const REVIEWS_ORIGIN = `https://${REVIEWS_HOST}`;
-const APP_ORIGIN = `https://${APP_HOST}`;
 
-// Pretty URL → internal route mapping for the app. subdomain.
-// Keys are the pathnames the buyer sees in their address bar; values are the
-// real /order/* routes under src/app/order/. Rewrites preserve the pretty URL.
+// Legacy pretty URL → canonical www path mapping. When an old link hits the
+// app. subdomain we translate its pretty path (e.g. /success, /r/<uuid>) to
+// the real /order/* route and 308-redirect the buyer onto www, so they land
+// on the same page under carcheckervin.com instead of staying on app.*.
 const APP_PATH_REWRITES: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   // /                       → /order
   [/^\/?$/,                   () => "/order"],
@@ -47,14 +48,17 @@ const APP_PATH_REWRITES: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   [/^\/r\/([^/?#]+)\/?$/,     (m) => `/order/report/${m[1]}`],
 ];
 
-// Paths on the app. subdomain that should pass through unchanged (i.e. NOT
-// be rewritten or 308'd back to www.):
-//   - /api/*               (the order API routes live in the same project)
-//   - /_next/*             (build assets / chunks)
-//   - /order/*             (the real source-of-truth pages — supports deep
-//                          links during development or if a Stripe webhook
-//                          ever returns a /order URL by mistake)
-const APP_PASSTHROUGH_PREFIXES = ["/api/", "/_next/", "/order/", "/auth/"];
+// Paths on the app. subdomain that must keep working on the subdomain itself
+// (i.e. NOT be 308'd to www) — these are infrastructure endpoints that an
+// external system may still call against the app host:
+//   - /api/*    (e.g. a Stripe webhook still pointed at app.* in the
+//                dashboard — redirecting it would drop the POST body)
+//   - /_next/*  (build assets / chunks for any page rendered before redirect)
+//   - /auth/*   (a magic link whose redirect was minted against app.* — let
+//                the Supabase auth callback complete rather than lose the code)
+// Everything else on app.* (including /order/*) is redirected to www so the
+// buyer never stays on the subdomain.
+const APP_PASSTHROUGH_PREFIXES = ["/api/", "/_next/", "/auth/"];
 
 export async function proxy(request: NextRequest) {
   const host = request.headers.get("host")?.toLowerCase() ?? "";
@@ -67,41 +71,37 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(`${REVIEWS_ORIGIN}${pathname}${search}`, 308);
   }
 
-  // ── App subdomain ──────────────────────────────────────────────────
-  // app.carcheckervin.com is the standalone checkout / report experience.
-  // We rewrite its pretty URLs onto /order/* internally so the buyer's
-  // address bar stays clean (no /order/ leak) while the real pages live
-  // under one folder in the repo.
+  // ── App subdomain (legacy) ─────────────────────────────────────────
+  // The checkout / report flow has moved to www. app.carcheckervin.com is
+  // kept alive only so old links resolve — every request is 308'd to its
+  // www equivalent so the buyer always ends up on carcheckervin.com.
   if (host === APP_HOST) {
-    // Let API + Next internals + the canonical /order/* routes pass through
-    // untouched so they keep working from the subdomain.
+    // Let API + Next internals + auth callbacks complete on the subdomain so
+    // an in-flight Stripe webhook / magic-link callback isn't broken by a
+    // redirect (which would drop a POST body or auth code).
     if (APP_PASSTHROUGH_PREFIXES.some((p) => pathname.startsWith(p))) {
       return await updateSession(request);
     }
 
+    // Translate a legacy pretty path (/, /success, /r/<uuid>, …) to its
+    // canonical /order/* route and 308-redirect onto www.
     for (const [re, build] of APP_PATH_REWRITES) {
       const m = pathname.match(re);
       if (m) {
-        const url = request.nextUrl.clone();
-        url.pathname = build(m);
-        return NextResponse.rewrite(url);
+        return NextResponse.redirect(`${WWW_ORIGIN}${build(m)}${search}`, 308);
       }
     }
 
-    // Anything else on the app. host that doesn't map → bounce to www. so
-    // we don't accidentally mirror the marketing site at app.* (duplicate
-    // content risk, plus a confusing UX).
+    // Anything else (including /order/* deep links) → same path on www.
     return NextResponse.redirect(`${WWW_ORIGIN}${pathname}${search}`, 308);
   }
 
-  // ── www. is intentionally untouched ──
-  // Per user requirement: app.carcheckervin.com is the *only* host where the
-  // ClearVin checkout flow is served. We deliberately do NOT redirect
-  // www.carcheckervin.com/order/* to app. — the marketing site is the
-  // long-running production property and any change to its routing carries
-  // risk that's not justified here. The /order/* pages on www. are already
-  // `noindex` (see src/app/order/layout.tsx), so SEO duplication isn't a
-  // concern, and we simply never link to them from www.
+  // ── www. serves the checkout / report flow ──
+  // Per user requirement the ClearVin checkout + report experience lives on
+  // www.carcheckervin.com — the buyer is never forwarded to the app.* subdomain
+  // (that host now just 308s back here). The /order/* pages on www. are
+  // `noindex` (see src/app/order/layout.tsx) so SEO duplication isn't a concern.
+  // www. routing is otherwise left untouched.
 
   // ── Reviews subdomain ─────────────────────────────────────────────
   // reviews.carcheckervin.com points at the same Vercel project but we want

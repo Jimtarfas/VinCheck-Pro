@@ -21,7 +21,8 @@ export async function GET() {
   const base = process.env.CLEARVIN_API_BASE_URL || "";
   const stripeSecret = process.env.STRIPE_SECRET_KEY || "";
   const stripeWebhook = process.env.STRIPE_WEBHOOK_SECRET || "";
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+  const appUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || "";
 
   return NextResponse.json({
     clearvin: {
@@ -39,7 +40,7 @@ export async function GET() {
       priceLabel: stripeConfig.priceLabel(),
     },
     app: {
-      appUrl: appUrl || "https://app.carcheckervin.com (default)",
+      appUrl: appUrl || "https://www.carcheckervin.com (default)",
       nodeEnv: process.env.NODE_ENV,
     },
     timestamp: new Date().toISOString(),

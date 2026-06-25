@@ -12,13 +12,14 @@ import { renderOrderConfirmation } from "@/lib/email/order-confirmation";
 
 /**
  * Public origin used for links inside the confirmation email. The buyer
- * flow is canonical on app.carcheckervin.com; pretty paths there are
- * rewritten by the proxy onto /order/* internally. NEXT_PUBLIC_APP_URL
- * lets local dev / preview deploys override.
+ * flow is served on the main site (www.carcheckervin.com) — the report and
+ * checkout never leave that host. The /order/* routes resolve on www
+ * directly (they're noindex). NEXT_PUBLIC_SITE_URL lets local dev / preview
+ * deploys override.
  */
 const PUBLIC_APP_ORIGIN = (
-  process.env.NEXT_PUBLIC_APP_URL ||
-  "https://app.carcheckervin.com"
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://www.carcheckervin.com"
 ).replace(/\/+$/, "");
 
 const SUPPORT_EMAIL =

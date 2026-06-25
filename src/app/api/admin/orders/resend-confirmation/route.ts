@@ -35,9 +35,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 // Mirror the webhook's defaults so links in the manually-resent email
-// point at the same canonical app origin.
+// point at the same canonical origin — the main site (www), where the
+// report and checkout are served.
 const PUBLIC_APP_ORIGIN = (
-  process.env.NEXT_PUBLIC_APP_URL || "https://app.carcheckervin.com"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.carcheckervin.com"
 ).replace(/\/+$/, "");
 const SUPPORT_EMAIL =
   process.env.SUPPORT_EMAIL || "support@carcheckervin.com";

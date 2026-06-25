@@ -18,22 +18,26 @@ import { getBundle } from "./pricing";
 const SECRET = () => process.env.STRIPE_SECRET_KEY || "";
 const PRICE_CENTS = () => Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999");
 
-// Checkout success/cancel URLs live on the app. subdomain — that's where the
-// /order flow is publicly served. The pretty paths on app. (/, /success, /r/<id>)
-// are rewritten onto /order/* by src/proxy.ts.
-const DEFAULT_APP_ORIGIN = "https://app.carcheckervin.com";
+// Checkout success/cancel URLs live on the main site (www.carcheckervin.com) —
+// that's where the /order flow is publicly served. We hit the canonical
+// /order/* routes directly; the buyer never leaves carcheckervin.com.
+const DEFAULT_APP_ORIGIN = "https://www.carcheckervin.com";
 
 /**
- * Returns a guaranteed-valid app origin string with `https://` prefix and no
+ * Returns a guaranteed-valid site origin string with `https://` prefix and no
  * trailing slash. Hardened against the common Vercel-env-var mistakes that
  * cause Stripe to reject success/cancel URLs:
- *   - missing protocol  ("app.carcheckervin.com")     → prepend https://
- *   - trailing slash    ("https://app.carcheckervin.com/")  → strip it
+ *   - missing protocol  ("www.carcheckervin.com")     → prepend https://
+ *   - trailing slash    ("https://www.carcheckervin.com/")  → strip it
  *   - stray whitespace                                → trim
  *   - empty string                                    → use the default
  */
 function getAppOrigin(): string {
-  const raw = (process.env.NEXT_PUBLIC_APP_URL || "").trim();
+  const raw = (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.NEXT_PUBLIC_APP_URL ||
+    ""
+  ).trim();
   if (!raw) return DEFAULT_APP_ORIGIN;
   let v = raw;
   if (!/^https?:\/\//i.test(v)) v = `https://${v}`;
@@ -223,7 +227,7 @@ export async function createCheckoutSession(
   //    URL is set in the Stripe Dashboard"
   //
   // The buyer-facing disclaimer + clickable T&C / NMVTIS links already
-  // live on app.carcheckervin.com/order (the consent line sits directly
+  // live on the on-site order/report page (the consent line sits directly
   // under the order button there), which is the page ClearVin's review
   // requires us to display them on. To keep checkout reliable even
   // before the dashboard ToS URL is in place, we use only plain
@@ -246,8 +250,8 @@ export async function createCheckoutSession(
   body.set(
     "custom_text[after_submit][message]",
     isEs
-      ? "Tras el pago serás redirigido al reporte completo del historial del vehículo en app.carcheckervin.com."
-      : "After payment you'll be redirected to your full vehicle history report on app.carcheckervin.com."
+      ? "Tras el pago serás redirigido a tu reporte completo del historial del vehículo."
+      : "After payment you'll be redirected to your full vehicle history report."
   );
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
