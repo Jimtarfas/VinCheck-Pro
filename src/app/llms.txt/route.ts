@@ -41,7 +41,7 @@ CarCheckerVIN turns a 17-digit VIN (or US license plate) into an instant report 
 
 ## History & safety checks
 
-- [Vehicle History Report](${SITE}/vin-check): Full report — accidents, title, odometer, recalls, market value.
+- [Vehicle History Report](${SITE}/vehicle-history-report): Full report — accidents, title, odometer, recalls, market value.
 - [Accident History Check](${SITE}/accident-history-check): Reported accident records by VIN.
 - [Salvage Title Check](${SITE}/salvage-title-check): NMVTIS salvage-title verification.
 - [Stolen Vehicle Check](${SITE}/stolen-vehicle-check): Cross-check against theft databases.
