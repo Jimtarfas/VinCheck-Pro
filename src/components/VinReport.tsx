@@ -884,7 +884,6 @@ export default function VinReport({
             {data.engine && (
               <Card icon={Zap} title="Engine & Performance" subtitle="Complete powertrain specifications" accent="bg-amber-50 text-amber-600">
                 <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-                  {data.engine.name         && <Stat label="Engine"        value={data.engine.name} />}
                   {data.engine.cylinder     && <Stat label="Configuration" value={`${data.engine.cylinder}-Cyl ${data.engine.configuration}`} />}
                   {data.engine.displacement && <Stat label="Displacement"  value={`${data.engine.displacement} cc (${data.engine.size}L)`} />}
                   {data.engine.horsepower   && <Stat label="Horsepower"    value={`${data.engine.horsepower} HP${data.engine.rpm?.horsepower ? ` @ ${data.engine.rpm.horsepower} RPM` : ""}`} />}
@@ -893,7 +892,6 @@ export default function VinReport({
                   {data.engine.fuelType     && <Stat label="Fuel Type"     value={data.engine.fuelType} />}
                   {data.engine.compressorType && <Stat label="Aspiration"  value={data.engine.compressorType === "NA" ? "Naturally Aspirated" : data.engine.compressorType} />}
                   {data.engine.compressionRatio && <Stat label="Compression" value={`${data.engine.compressionRatio}:1`} />}
-                  {data.engine.type         && <Stat label="Engine Type"  value={data.engine.type} />}
                   {data.engine.manufacturerEngineCode && <Stat label="Engine Code" value={data.engine.manufacturerEngineCode} />}
                   {data.engine.valve && <><Stat label="Valve Timing" value={data.engine.valve.timing} /><Stat label="Valve Gear" value={data.engine.valve.gear} /></>}
                 </div>
