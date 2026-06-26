@@ -868,14 +868,9 @@ export default function VinReport({
               {data.numOfDoors && <DataCard icon={DoorOpen} label="Doors"    value={`${data.numOfDoors} Doors`}   accent="bg-amber-50 text-amber-600" />}
               {data.drivenWheels && <DataCard icon={Cog}  label="Drivetrain" value={data.drivenWheels}            accent="bg-cyan-50 text-cyan-600" />}
               {data.transmission && <DataCard icon={Settings} label="Transmission" value={`${data.transmission.numberOfSpeeds}-Spd ${data.transmission.transmissionType}`} accent="bg-purple-50 text-purple-600" />}
-              {data.engine?.size && data.engine?.cylinder && <DataCard icon={Zap} label="Engine" value={`${data.engine.size}L ${data.engine.cylinder}-Cyl`} accent="bg-amber-50 text-amber-600" />}
-              {data.engine?.horsepower && <DataCard icon={Gauge} label="Horsepower" value={`${data.engine.horsepower} HP`} accent="bg-rose-50 text-rose-600" />}
               {data.engine?.fuelType && <DataCard icon={Fuel} label="Fuel Type"  value={data.engine.fuelType}     accent="bg-green-50 text-green-600" />}
               {data.mpg    && <DataCard icon={Gauge}     label="Fuel Economy" value={`${data.mpg.city} / ${data.mpg.highway} MPG`} accent="bg-emerald-50 text-emerald-600" />}
               {data.categories?.vehicleSize && <DataCard icon={Info}   label="Size"  value={data.categories.vehicleSize} accent="bg-amber-50 text-amber-600" />}
-              {data.categories?.vehicleType  && <DataCard icon={Car}  label="Vehicle Type"  value={data.categories.vehicleType}  accent="bg-tertiary/10 text-tertiary" />}
-              {data.categories?.vehicleStyle && <DataCard icon={Car}  label="Vehicle Style" value={data.categories.vehicleStyle} accent="bg-cyan-50 text-cyan-600" />}
-              {data.categories?.market       && <DataCard icon={Info} label="Segment"       value={data.categories.market}       accent="bg-indigo-50 text-indigo-600" />}
               {data.categories?.epaClass    && <DataCard icon={Award}  label="EPA Class" value={data.categories.epaClass}    accent="bg-teal-50 text-teal-600" />}
               {submodel?.body && <DataCard icon={Car} label="Body Style" value={submodel.body} accent="bg-indigo-50 text-indigo-600" />}
             </div>
