@@ -187,6 +187,24 @@ body {
 .animate-fade-in-up-delay-3 { animation: fade-in-up 0.65s cubic-bezier(0.16,1,0.3,1) 0.45s forwards; opacity: 0; }
 .animate-float              { animation: float 6s ease-in-out infinite; }
 
+/* Bundle "buy here" attention pulse — applied to the bundle checkout card for a
+   moment after a buy CTA scrolls the reader to it, so they spot where to pay.
+   See lib/scroll-to-bundle.ts. */
+@keyframes bundle-attention {
+  0%   { box-shadow: 0 0 0 0   rgba(255, 152, 0, 0.0);  transform: scale(1); }
+  10%  { box-shadow: 0 0 0 5px rgba(255, 152, 0, 0.55); transform: scale(1.015); }
+  50%  { box-shadow: 0 0 0 8px rgba(255, 152, 0, 0.0);  transform: scale(1); }
+  60%  { box-shadow: 0 0 0 5px rgba(255, 152, 0, 0.45); transform: scale(1.012); }
+  100% { box-shadow: 0 0 0 10px rgba(255, 152, 0, 0.0); transform: scale(1); }
+}
+.bundle-attention {
+  border-radius: 2rem;
+  animation: bundle-attention 2.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bundle-attention { animation: none; }
+}
+
 /* ── Print / PDF styling for the full VIN report ──
    Force a clean white, edge-to-edge layout; expand every collapsible
    section; drop interactive chrome; and avoid awkward page breaks. */

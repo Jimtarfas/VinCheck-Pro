@@ -37,5 +37,25 @@ export function scrollToBundle() {
     document.querySelectorAll<HTMLElement>("[data-bundle-target]")
   );
   const target = targets.find((t) => t.offsetParent !== null) ?? targets[0];
-  target?.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (!target) return;
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
+  flashBundle(target);
+}
+
+/**
+ * Briefly pulses the bundle card (amber ring + tiny scale) so the reader's eye
+ * lands on the in-page checkout after the scroll. Re-arms cleanly on repeat
+ * clicks by removing the class once the animation finishes.
+ */
+function flashBundle(target: HTMLElement) {
+  const CLASS = "bundle-attention";
+  target.classList.remove(CLASS);
+  // Force reflow so re-adding the class restarts the animation on rapid re-clicks.
+  void target.offsetWidth;
+  target.classList.add(CLASS);
+  target.addEventListener(
+    "animationend",
+    () => target.classList.remove(CLASS),
+    { once: true }
+  );
 }
