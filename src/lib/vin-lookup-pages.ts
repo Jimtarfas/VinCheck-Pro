@@ -1413,6 +1413,280 @@ export const VIN_LOOKUP_PAGES: LookupPage[] = [
     ],
     relatedSlugs: ["title", "insurance"],
   },
+
+  // ───────────────────────── ATTRIBUTE: DMV ─────────────────────────
+  {
+    slug: "dmv",
+    category: "attribute",
+    badge: "DMV VIN Lookup",
+    h1: "DMV VIN Lookup —",
+    h1Accent: "Check DMV-Sourced VIN Records Free",
+    metaTitle: "DMV VIN Lookup — Check DMV-Sourced Records by VIN (Free)",
+    metaDescription:
+      "Is there a free DMV VIN lookup? DMVs have no single national public VIN portal, but their title and brand records flow through NMVTIS. Check DMV-sourced title status by VIN free.",
+    keywords: [
+      "dmv vin lookup",
+      "dmv vin lookup free",
+      "free dmv vin check",
+      "vin lookup dmv",
+      "dmv vehicle lookup by vin",
+      "state dmv vin lookup",
+      "dmv title check by vin",
+      "vin number dmv lookup",
+    ],
+    intro:
+      "Looking for a free DMV VIN lookup? There's no single nationwide public DMV website where you type a VIN and see everything — each state's DMV holds its own records. But the title and brand data those DMVs report flows into NMVTIS, the federal title database, and that's what a VIN check reads. Enter a VIN to check its DMV-sourced title record free.",
+    quickAnswer:
+      "There is no single national public DMV portal for VIN lookups — vehicle records are held by each individual state's DMV. However, every state DMV is required to report title and brand data to NMVTIS (the National Motor Vehicle Title Information System, run by the U.S. Department of Justice), so a VIN check returns that DMV-sourced title status, brands and prior-state titles. Owner names and addresses are not released, because the federal Driver's Privacy Protection Act (DPPA) restricts that personal data to permissible uses.",
+    reveals: [
+      { title: "Title status from state DMVs", body: "Whether the title is clean or branded, as reported by the DMVs that issued it — surfaced through NMVTIS." },
+      { title: "Brands across states", body: "Salvage, rebuilt, flood, junk and lemon brands from every state DMV that titled the vehicle, not just the current one." },
+      { title: "Prior-state title trail", body: "The chain of states a vehicle was titled in — the trail that exposes title washing across DMV lines." },
+      { title: "What DMVs keep private", body: "Owner names and addresses aren't released by VIN. The DPPA limits that data to permissible uses you request directly from your state DMV." },
+    ],
+    table: {
+      caption: "DMV-related records: what's free by VIN vs. what needs the DMV",
+      head: ["Record", "How to get it"],
+      rows: [
+        ["Title status & brands", "Free by VIN here (NMVTIS-sourced)"],
+        ["Prior-state titles", "Free by VIN here (NMVTIS-sourced)"],
+        ["Current owner name/address", "Your state DMV, with a DPPA permissible use"],
+        ["Official certified title record", "The titling state's DMV"],
+        ["Registration / plate transfer", "Your state DMV in person or online"],
+      ],
+    },
+    sections: [
+      {
+        h2: "Is there a free DMV VIN lookup?",
+        paras: [
+          "Not as a single national website. Vehicle title and registration records are held state by state, so there's no one DMV page where you enter a VIN and see a car's full history. What does exist is NMVTIS — the federal title database every state DMV, insurer and salvage operator is legally required to report to. A VIN check reads that DMV-reported data, which is why you can confirm title status and brands without visiting any DMV in person.",
+          "So when people search for a 'free DMV VIN lookup', the practical answer is a VIN check against NMVTIS-sourced records. It draws on the same title and brand data the DMVs file, surfaced by the 17-character VIN, with no signup needed to see the title status.",
+        ],
+      },
+      {
+        h2: "What the DMV won't release: owner info and the DPPA",
+        paras: [
+          "A VIN lookup will not return the current owner's name or address. That isn't a gap in the data — it's the law. The Driver's Privacy Protection Act (DPPA) restricts personal information in motor-vehicle records to specific permissible uses, such as a court order or an insurance claim. If you have one of those uses, you request the record directly from the relevant state DMV, not through a public VIN search.",
+          "What you can confirm freely by VIN is the vehicle's title status, brands and prior-state title trail — the records that matter most when you're checking a car before you buy it.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Is there a free DMV VIN lookup website?", a: "There's no single national public DMV site for VIN lookups — records are held by each state's DMV. But state DMVs report title and brand data to NMVTIS, so a free VIN check here returns that DMV-sourced title status without visiting a DMV." },
+      { q: "Can I find a car's owner through a DMV VIN lookup?", a: "No. The Driver's Privacy Protection Act restricts owner names and addresses to permissible uses. You'd request that record directly from your state DMV with a qualifying reason — it isn't available through a public VIN search." },
+      { q: "What DMV records can I check by VIN for free?", a: "Title status, title brands (salvage, rebuilt, flood, junk, lemon) and the prior-state title trail — all DMV-reported through NMVTIS and surfaced free by VIN here." },
+      { q: "Why do different states show different records for the same car?", a: "Each DMV titles and brands independently, which is how title washing happens. A VIN check reads across states through NMVTIS, so a brand filed by one state's DMV still shows even after re-titling elsewhere." },
+      { q: "Do I still need to go to the DMV after a VIN check?", a: "For a certified official title copy, registration or plate transfer, yes — those are handled by your state DMV. A VIN check is for confirming title status and brands before you buy." },
+    ],
+    related: [
+      { href: "/salvage-title-check", label: "Salvage Title Check" },
+      { href: "/vehicle-history-report", label: "Full Vehicle History Report" },
+      { href: "/state-to-vin", label: "State VIN Lookup" },
+    ],
+    relatedSlugs: ["title", "registration", "owner"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: REVERSE ─────────────────────────
+  {
+    slug: "reverse",
+    category: "attribute",
+    badge: "Reverse VIN Lookup",
+    h1: "Reverse VIN Lookup —",
+    h1Accent: "What You Can & Can't Reverse-Look-Up",
+    metaTitle: "Reverse VIN Lookup — What It Can (and Can't) Find (Free)",
+    metaDescription:
+      "What is a reverse VIN lookup? Decode a VIN into the exact vehicle, or run a plate-to-VIN search where legal. You can't reverse a VIN to an owner's name — here's why. Free.",
+    keywords: [
+      "reverse vin lookup",
+      "reverse vin lookup free",
+      "reverse vin number lookup",
+      "reverse vehicle lookup by vin",
+      "reverse vin search",
+      "free reverse vin lookup",
+      "reverse vin check",
+    ],
+    intro:
+      "\"Reverse VIN lookup\" means different things to different people — and only some of them are possible. You can decode a VIN into the exact vehicle it belongs to, and in many states you can go from a license plate to a VIN. What you can't do is reverse a VIN into an owner's name and address. Here's exactly what works, and what's blocked by law.",
+    quickAnswer:
+      "A reverse VIN lookup usually refers to one of two things. The first — decoding a 17-character VIN into the exact year, make, model, engine and trim — is fully supported and free. The second — going from an owner's name or a plate back to a vehicle — is only partly possible: plate-to-VIN works in many states, but you cannot reverse a VIN into an owner's name or address, because the Driver's Privacy Protection Act (DPPA) restricts that personal data to permissible uses.",
+    reveals: [
+      { title: "Decode VIN → vehicle", body: "Turn a 17-character VIN into the exact year, make, model, body, engine and trim. This is the most common 'reverse' lookup and it's free." },
+      { title: "Plate → VIN (where legal)", body: "In many states a license-plate lookup returns the VIN, which you can then decode and check the history of." },
+      { title: "VIN → owner is blocked", body: "You can't reverse a VIN into an owner's name or address. The DPPA restricts that to permissible uses requested from a state DMV." },
+      { title: "What's actually free", body: "Decoding the vehicle from a VIN, and checking its title, brands and recalls — all free by VIN, no signup." },
+    ],
+    sections: [
+      {
+        h2: "What 'reverse VIN lookup' really means",
+        paras: [
+          "Most people typing 'reverse VIN lookup' want one of two outcomes. Some have a VIN and want to know exactly what vehicle it is — that's just VIN decoding, and it works perfectly: the 17 characters encode the make, model, body, engine and year. Others have a plate, a name, or partial details and want to find the matching vehicle. That direction is limited: a plate-to-VIN search works in many states, but starting from a person's name is not a public lookup.",
+          "Because the phrase is loose, the honest answer depends on what you're starting with. If you have the VIN, you can decode it and check its full history free. If you have a plate, try a plate-to-VIN lookup first, then run the VIN.",
+        ],
+      },
+      {
+        h2: "You can't reverse a VIN to an owner — here's why",
+        paras: [
+          "No legitimate service returns a current owner's name and address from a VIN. The Driver's Privacy Protection Act (DPPA) is a federal law that makes personal information in motor-vehicle records off-limits except for specific permissible uses — things like a court proceeding, an insurance claim, or a recall notice. Sites that promise to 'find the owner by VIN' are either selling unrelated data or misrepresenting what's legal.",
+          "What you can do freely is reverse a VIN into the vehicle itself and its record: the exact build, the title status and brands, open recalls and more. That's the reliable, legal use of a reverse VIN lookup.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can a reverse VIN lookup find the owner of a car?", a: "No. The Driver's Privacy Protection Act restricts owner names and addresses to permissible uses requested from a state DMV. No public reverse VIN lookup returns owner information." },
+      { q: "What can a reverse VIN lookup actually tell me?", a: "It decodes the 17-character VIN into the exact year, make, model, engine and trim, and lets you check the vehicle's title, brands and recalls — all free by VIN." },
+      { q: "Can I find a VIN from a license plate?", a: "In many states, yes — a license-plate lookup returns the VIN, which you can then decode and run a history check on. Availability varies by state." },
+      { q: "Is a reverse VIN lookup free?", a: "Decoding a VIN into the vehicle and checking its title, brands and recalls is free here with no signup. Finding an owner is not possible at any price through a public lookup." },
+      { q: "Why do some sites claim to do a reverse VIN-to-owner search?", a: "Those claims are misleading. The DPPA makes owner data from a VIN off-limits without a permissible use, so any site promising it is either selling unrelated data or misrepresenting what's legal." },
+    ],
+    related: [
+      { href: "/plate-to-vin", label: "Plate to VIN Lookup" },
+      { href: "/license-plate-lookup", label: "License Plate Lookup" },
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+    ],
+    relatedSlugs: ["digits", "owner"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: NMVTIS ─────────────────────────
+  {
+    slug: "nmvtis",
+    category: "attribute",
+    badge: "NMVTIS VIN Lookup",
+    h1: "NMVTIS VIN Lookup —",
+    h1Accent: "Check the Official Federal VIN Record",
+    metaTitle: "NMVTIS VIN Lookup — Check the Official Federal Record (by VIN)",
+    metaDescription:
+      "What is an NMVTIS VIN lookup? NMVTIS is the only federal title database, run by the U.S. DOJ. States, insurers and salvage yards must report to it. Check NMVTIS-sourced title data by VIN.",
+    keywords: [
+      "nmvtis vin lookup",
+      "nmvtis vin check",
+      "government vin lookup",
+      "official vin lookup",
+      "national vin lookup",
+      "nmvtis report by vin",
+      "doj vin lookup",
+      "federal vin check",
+    ],
+    intro:
+      "If you want the official, government-backed record behind a VIN, that's NMVTIS — the National Motor Vehicle Title Information System, operated by the U.S. Department of Justice. It's the only nationwide database that state DMVs, insurers and salvage yards are legally required to report to. Enter a VIN to check its NMVTIS-sourced title and brand record.",
+    quickAnswer:
+      "NMVTIS — the National Motor Vehicle Title Information System — is the only federal vehicle-title database, operated by the U.S. Department of Justice. State DMVs, insurance carriers, junk yards and salvage auctions are required by federal law to report to it. An NMVTIS VIN lookup returns the title history, title brands, the most recent odometer reading, and total-loss and salvage records tied to a VIN. Consumers can't query the database directly; they access it through DOJ-approved data providers.",
+    reveals: [
+      { title: "National title history", body: "Every state that has titled the vehicle, in order — the cross-state trail that defeats title washing." },
+      { title: "Title brand records", body: "Salvage, rebuilt, flood, junk and lemon brands reported by any state DMV to the federal database." },
+      { title: "Odometer reading", body: "The most recent odometer reading reported to NMVTIS, useful for spotting rollback or inconsistency." },
+      { title: "Total-loss & salvage reports", body: "Insurer total-loss declarations and salvage-yard reports filed under federal reporting duties." },
+    ],
+    table: {
+      caption: "Who is required to report to NMVTIS",
+      head: ["Reporter", "What they report"],
+      rows: [
+        ["State DMVs", "Title issuance, title brands, odometer"],
+        ["Insurance carriers", "Total-loss declarations"],
+        ["Salvage & junk yards", "Vehicles received for salvage or scrap"],
+        ["Salvage auctions", "Vehicles processed for resale"],
+      ],
+    },
+    sections: [
+      {
+        h2: "What NMVTIS is and who runs it",
+        paras: [
+          "NMVTIS was established by federal law and is operated by the U.S. Department of Justice. Its purpose is to give states, law enforcement and consumers a single national check against title fraud, odometer fraud and the resale of unsafe salvage vehicles. Because state DMVs, insurers and salvage operators are legally required to report into it, NMVTIS is the authoritative national title record — far harder to defeat than a single paper title or a single state's database.",
+          "Consumers don't log into NMVTIS directly. Access is provided through DOJ-approved data providers, which is what a VIN check uses to return NMVTIS-sourced title status, brands, the latest odometer reading and salvage records.",
+        ],
+      },
+      {
+        h2: "What NMVTIS does and doesn't cover",
+        paras: [
+          "NMVTIS is strongest on title-level facts: title history across states, brands, the most recent odometer reading, and total-loss and salvage reports. That makes it the best single check for title washing and salvage fraud. It is not a complete service-and-accident database — minor accidents that never triggered a title brand or an insurance total-loss may not appear in NMVTIS itself.",
+          "That's why a full vehicle history report pairs NMVTIS title data with other sources — accident records, recall data and ownership history — to build a fuller picture. The NMVTIS layer is the authoritative title foundation underneath it.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "What is an NMVTIS VIN lookup?", a: "It's a check of a vehicle's record in NMVTIS — the federal title database run by the U.S. Department of Justice. It returns title history, title brands, the latest odometer reading and total-loss or salvage reports tied to the VIN." },
+      { q: "Is NMVTIS a government website I can search directly?", a: "NMVTIS is operated by the U.S. DOJ, but consumers don't query it directly. Access is provided through DOJ-approved data providers, which is what a VIN check uses to return NMVTIS-sourced data." },
+      { q: "What does NMVTIS not show?", a: "NMVTIS focuses on title-level facts — brands, odometer and total-loss records. Minor accidents or routine service that never triggered a title brand may not appear, which is why a full history report adds other sources." },
+      { q: "Who has to report to NMVTIS?", a: "State DMVs, insurance carriers, salvage auctions and junk/salvage yards are all required by federal law to report to NMVTIS, which is what makes it the authoritative national title record." },
+      { q: "Is an NMVTIS-based VIN check free?", a: "You can check NMVTIS-sourced title status and brands by VIN here free, with no signup. A full NMVTIS-backed history report that adds odometer, total-loss and salvage detail is part of the paid report." },
+    ],
+    related: [
+      { href: "/vehicle-history-report", label: "Full Vehicle History Report" },
+      { href: "/salvage-title-check", label: "Salvage Title Check" },
+      { href: "/total-loss-check", label: "Total Loss Check" },
+    ],
+    relatedSlugs: ["title", "auction", "insurance"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: PARTIAL VIN ─────────────────────────
+  {
+    slug: "partial",
+    category: "attribute",
+    badge: "Partial VIN Lookup",
+    h1: "Partial VIN Lookup —",
+    h1Accent: "What a Partial VIN Can Tell You",
+    metaTitle: "Partial VIN Lookup — What a Partial VIN Decodes (Free)",
+    metaDescription:
+      "Can you look up a partial VIN? The first 8–11 characters decode the make, model, engine, year and plant — but not a specific car's title or history. See what a partial VIN reveals, free.",
+    keywords: [
+      "partial vin lookup",
+      "partial vin number lookup",
+      "lookup partial vin",
+      "partial vin decoder",
+      "partial vin search",
+      "incomplete vin lookup",
+      "vin lookup with partial vin",
+    ],
+    intro:
+      "Only have part of a VIN? A partial VIN can still tell you a surprising amount. The first 8 to 11 characters decode the make, model line, body, engine and model year — enough to order many parts or confirm a vehicle's specs. What it can't do is identify one specific car or pull its title and history, because that depends on the unique serial in the last six digits. Here's exactly where the line is.",
+    quickAnswer:
+      "A partial VIN — typically the first 8 to 11 of the 17 characters — can be decoded to reveal the manufacturer, country, model, body style, engine, restraint system, model year and assembly plant. It cannot identify a specific individual vehicle or return title, ownership or accident history, because those are tied to the unique production serial number in positions 12–17. A partial VIN is useful for parts and specs, but a full 17-character VIN is required for a history check.",
+    reveals: [
+      { title: "Make & country (1–3)", body: "The first three characters (the WMI) decode the manufacturer and country of origin." },
+      { title: "Model, body & engine (4–8)", body: "Positions 4–8 (the VDS) encode the model line, body style, engine and restraint system — enough for most parts and specs." },
+      { title: "Model year & plant (10–11)", body: "Position 10 fixes the model year; position 11 identifies the assembly plant." },
+      { title: "What a partial loses", body: "Without positions 12–17 (the serial), a partial VIN can't identify a specific car or pull its title, owner or accident history." },
+    ],
+    table: {
+      caption: "The 17 VIN positions and what each section reveals",
+      head: ["Positions", "What it identifies"],
+      rows: [
+        ["1–3 (WMI)", "Country of origin and manufacturer"],
+        ["4–8 (VDS)", "Model, body style, engine, restraint system"],
+        ["9 (check digit)", "Math check that validates the VIN"],
+        ["10", "Model year"],
+        ["11", "Assembly plant"],
+        ["12–17 (serial)", "Unique production serial — the specific vehicle"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How much a partial VIN reveals",
+        paras: [
+          "A VIN is built in sections, and the early ones carry the descriptive information. Positions 1–3 (the World Manufacturer Identifier) name the maker and country. Positions 4–8 (the Vehicle Descriptor Section) encode the model, body, engine and safety systems. Position 10 sets the model year and position 11 the assembly plant. So if you have the first 8 to 11 characters, you can decode the make, model, engine and year — which is exactly what parts catalogs and spec lookups need.",
+          "That's why a partial VIN is often enough for ordering OEM-fit parts or confirming a vehicle's specifications: those answers live in the descriptive portion of the VIN, not the serial.",
+        ],
+      },
+      {
+        h2: "When you need the full 17 characters",
+        paras: [
+          "The last six characters (positions 12–17) are the unique production serial number — the part that distinguishes one specific car from every other identical build off the same line. Title records, ownership history, accident reports, odometer readings and recalls are all filed against the complete 17-character VIN. Without the serial, there's no way to pull the record for one particular vehicle.",
+          "So a partial VIN is great for 'what kind of car is this' questions, but for a real history or title check before you buy, you need every character. The full VIN is on the lower-left windshield, the driver-side door jamb, and the title and registration.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can you look up a car with a partial VIN?", a: "You can decode the make, model, body, engine, model year and plant from the first 8–11 characters. You can't identify one specific vehicle or pull its title and history, which require the full 17-character VIN." },
+      { q: "How many VIN digits do I need to decode a vehicle?", a: "Roughly the first 8–11 characters decode the make, model, engine and year. The last six (positions 12–17) are the unique serial, needed to identify a specific car and run a history check." },
+      { q: "Is a partial VIN enough to order parts?", a: "Often yes. Parts depend on the engine, trim, body and year — all encoded in the descriptive part of the VIN (positions 4–8 and 10), so a partial VIN is frequently enough for an OEM-fit match." },
+      { q: "Why can't a partial VIN show title or accident history?", a: "Title, ownership and accident records are filed against the complete 17-character VIN, including the unique serial in positions 12–17. Without those, there's no way to retrieve one specific vehicle's record." },
+      { q: "Where do I find the full VIN?", a: "The complete 17-character VIN is on the lower-left corner of the windshield, the driver-side door-jamb sticker, and your title and registration. On trucks it's also stamped on the frame." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/build-sheet", label: "Build Sheet by VIN" },
+    ],
+    relatedSlugs: ["digits", "specs", "year"],
+  },
 ];
 
 export function findLookupPage(slug: string): LookupPage | undefined {

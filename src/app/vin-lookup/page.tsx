@@ -84,6 +84,7 @@ const DIRECTORY: { heading: string; links: { href: string; label: string }[] }[]
       { href: "/vin-lookup/gvwr", label: "GVWR Lookup by VIN" },
       { href: "/vin-lookup/tsb", label: "TSB Lookup by VIN" },
       { href: "/vin-lookup/digits", label: "11, 13 & 17-Digit VINs" },
+      { href: "/vin-lookup/partial", label: "Partial VIN Lookup" },
       { href: "/vin-lookup/registration", label: "Registration Lookup by VIN" },
       { href: "/vin-lookup/owner", label: "Owner Lookup by VIN" },
       { href: "/vin-lookup/insurance", label: "Insurance Lookup by VIN" },
@@ -100,6 +101,9 @@ const DIRECTORY: { heading: string; links: { href: string; label: string }[] }[]
     links: [
       { href: "/license-plate-lookup", label: "License Plate Lookup" },
       { href: "/look-up-car-plates-free", label: "Free Plate Lookup" },
+      { href: "/vin-lookup/reverse", label: "Reverse VIN Lookup" },
+      { href: "/vin-lookup/dmv", label: "DMV VIN Lookup" },
+      { href: "/vin-lookup/nmvtis", label: "NMVTIS VIN Lookup" },
       { href: "/vin-check/state", label: "VIN Check by State" },
       { href: "/vehicle-history-report", label: "Full Vehicle History Report" },
       { href: "/salvage-title-check", label: "Salvage Title Check" },
