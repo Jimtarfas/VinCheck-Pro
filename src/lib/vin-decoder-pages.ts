@@ -1437,6 +1437,2480 @@ export const VIN_DECODER_PAGES: DecoderPage[] = [
     ],
     related: ["faxvin", "transmission", "nhtsa-api"],
   },
+
+  // ───────────────────────── BRAND: LAND ROVER ─────────────────────────
+  {
+    slug: "land-rover",
+    category: "brand",
+    badge: "Land Rover VIN Decoder",
+    h1: "Land Rover VIN Decoder —",
+    h1Accent: "Decode Any Range Rover or Defender VIN",
+    metaTitle: "Land Rover VIN Decoder — Free Range Rover & Defender Lookup",
+    metaDescription:
+      "Free Land Rover VIN decoder. Enter any 17-character Land Rover or Range Rover VIN to decode the year, engine, plant and trim — instant, no signup.",
+    keywords: [
+      "land rover vin decoder",
+      "range rover vin decoder",
+      "land rover vin number decoder",
+      "defender vin decoder",
+      "discovery vin decoder",
+      "land rover vin lookup",
+    ],
+    intro:
+      "Decode any Land Rover VIN free in seconds. Enter the 17-character VIN from your Range Rover, Discovery, Defender or Evoque and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Land Rover / Jaguar Land Rover WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["SAL", "Land Rover, built in the United Kingdom"],
+        ["SAL LA / SALW", "Range Rover and Range Rover Sport lines, UK"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Land Rover VIN breaks down",
+        paras: [
+          "Every Land Rover built since 1981 follows the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — UK-built Land Rovers commonly open with SAL. Positions 4–8 are the Vehicle Descriptor Section encoding the model line, body and engine; position 9 is the check digit; position 10 is the model year; position 11 is the plant; and 12–17 are the sequential build number.",
+          "Because Land Rover lines share descriptor structures across Range Rover, Discovery and Defender, the VDS (positions 4–8) is what separates a Range Rover Sport from a Discovery of the same year — which is why a decode beats reading the badge alone.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Land Rover VIN reveals the factory build: year, engine, plant and trim line. It doesn't reveal what happened after the vehicle left the line. For salvage, flood, accident and odometer brands you need a history report keyed to that same VIN drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Land Rover?", a: "On the lower-left corner of the windshield (visible from outside), the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Land Rover VIN starting with SAL mean?", a: "SAL is the World Manufacturer Identifier for a UK-built Land Rover. The following characters narrow it to the specific model line, body and engine." },
+      { q: "Can I decode a Range Rover VIN here?", a: "Yes. Range Rover, Range Rover Sport, Discovery, Defender and Evoque all use the 17-character standard this decoder reads." },
+    ],
+    related: ["jaguar", "bmw", "north-america"],
+  },
+
+  // ───────────────────────── BRAND: ACURA ─────────────────────────
+  {
+    slug: "acura",
+    category: "brand",
+    badge: "Acura VIN Decoder",
+    h1: "Acura VIN Decoder —",
+    h1Accent: "Decode Any Acura VIN Free",
+    metaTitle: "Acura VIN Decoder — Free Acura VIN Number Lookup",
+    metaDescription:
+      "Free Acura VIN decoder. Enter any 17-character Acura VIN to decode the year, engine, plant and trim — TLX, MDX, RDX and more. Instant, no signup.",
+    keywords: [
+      "acura vin decoder",
+      "acura vin number decoder",
+      "vin decoder acura",
+      "acura vin lookup",
+      "mdx vin decoder",
+      "tlx vin decoder",
+    ],
+    intro:
+      "Decode any Acura VIN free in seconds. Enter the 17-character VIN from your Acura TLX, MDX, RDX or Integra and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Acura / Honda WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["19U", "Acura car, built in the USA"],
+        ["JH4", "Acura car, built in Japan"],
+        ["5J8", "Acura SUV (MDX, RDX), built in the USA"],
+        ["2HN", "Acura built in Canada"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How an Acura VIN breaks down",
+        paras: [
+          "Acura is Honda's luxury division, so its VINs follow Honda's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a US-built Acura car commonly opens 19U, a Japan-built car JH4, and US-built SUVs 5J8. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "The engine is described within positions 4–8, which is why two same-year MDX or TLX models can carry different descriptor characters depending on engine and trim.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an Acura VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an Acura?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does an Acura VIN starting with 19U mean?", a: "19U is the World Manufacturer Identifier for a US-built Acura passenger car. JH4 indicates a Japan-built Acura car, and 5J8 a US-built Acura SUV." },
+      { q: "Is an Acura VIN decoded like a Honda VIN?", a: "Yes. Acura is Honda's luxury brand and shares the same VIN structure, so the descriptor section reads the same way." },
+    ],
+    related: ["honda", "nissan", "toyota"],
+  },
+
+  // ───────────────────────── BRAND: INFINITI ─────────────────────────
+  {
+    slug: "infiniti",
+    category: "brand",
+    badge: "Infiniti VIN Decoder",
+    h1: "Infiniti VIN Decoder —",
+    h1Accent: "Decode Any Infiniti VIN Free",
+    metaTitle: "Infiniti VIN Decoder — Free Infiniti VIN Number Lookup",
+    metaDescription:
+      "Free Infiniti VIN decoder. Enter any 17-character Infiniti VIN to decode the year, engine, plant and trim — Q50, QX60 and more. Instant, no signup.",
+    keywords: [
+      "infiniti vin decoder",
+      "infiniti vin number decoder",
+      "vin decoder infiniti",
+      "infiniti vin lookup",
+      "q50 vin decoder",
+      "qx60 vin decoder",
+    ],
+    intro:
+      "Decode any Infiniti VIN free in seconds. Enter the 17-character VIN from your Infiniti Q50, Q60, QX50, QX60 or QX80 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Infiniti / Nissan WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JNK", "Infiniti car, built in Japan"],
+        ["JN1 / JN8", "Nissan/Infiniti, built in Japan"],
+        ["5N1", "Nissan/Infiniti SUV, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How an Infiniti VIN breaks down",
+        paras: [
+          "Infiniti is Nissan's luxury division, so its VINs follow Nissan's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Japan-built Infiniti cars commonly open JNK or JN1. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "The engine and trim live in positions 4–8, which is why two same-year Q50 or QX60 models can carry different descriptor characters depending on configuration.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an Infiniti VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an Infiniti?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does an Infiniti VIN starting with JNK mean?", a: "JNK is the World Manufacturer Identifier for a Japan-built Infiniti car. The following characters narrow it to the model line, body and engine." },
+      { q: "Is an Infiniti VIN decoded like a Nissan VIN?", a: "Yes. Infiniti is Nissan's luxury brand and shares the same VIN structure, so the descriptor section reads the same way." },
+    ],
+    related: ["nissan", "acura", "toyota"],
+  },
+
+  // ───────────────────────── BRAND: SUZUKI ─────────────────────────
+  {
+    slug: "suzuki",
+    category: "brand",
+    badge: "Suzuki VIN Decoder",
+    h1: "Suzuki VIN Decoder —",
+    h1Accent: "Decode Any Suzuki VIN Free",
+    metaTitle: "Suzuki VIN Decoder — Free Suzuki VIN Number Lookup",
+    metaDescription:
+      "Free Suzuki VIN decoder. Enter any 17-character Suzuki VIN to decode the year, engine, plant and trim — car, SUV or motorcycle. Instant, no signup.",
+    keywords: [
+      "suzuki vin decoder",
+      "suzuki vin number decoder",
+      "vin decoder suzuki",
+      "suzuki motorcycle vin decoder",
+      "suzuki vin lookup",
+    ],
+    intro:
+      "Decode any Suzuki VIN free in seconds. Enter the 17-character VIN from your Suzuki car, SUV or motorcycle and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Suzuki WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JS2", "Suzuki car/SUV, built in Japan"],
+        ["JS1", "Suzuki motorcycle, built in Japan"],
+        ["KL5", "Suzuki built by GM Korea"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Suzuki VIN breaks down",
+        paras: [
+          "Every Suzuki built since 1981 follows the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Japan-built Suzuki cars commonly open JS2, while motorcycles open JS1. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Note that Suzuki motorcycle VINs and automobile VINs use different descriptor structures, so the same decoder reads the position layout but the engine and model codes differ by vehicle class.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Suzuki VIN reveals the factory build — year, engine, plant and model. It won't show post-sale events. For salvage, accident and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Suzuki?", a: "On a car, the lower-left windshield and driver-side doorjamb. On a motorcycle, the VIN is stamped on the steering head (neck) and is also on the title." },
+      { q: "What does a Suzuki VIN starting with JS mean?", a: "JS is the World Manufacturer Identifier for a Japan-built Suzuki. JS2 indicates a car or SUV; JS1 indicates a motorcycle." },
+      { q: "Can I decode a Suzuki motorcycle VIN here?", a: "Yes, for 17-character VINs. The decoder reads the standard position layout used on modern Suzuki motorcycles." },
+    ],
+    related: ["yamaha", "honda", "nissan"],
+  },
+
+  // ───────────────────────── BRAND: JAGUAR ─────────────────────────
+  {
+    slug: "jaguar",
+    category: "brand",
+    badge: "Jaguar VIN Decoder",
+    h1: "Jaguar VIN Decoder —",
+    h1Accent: "Decode Any Jaguar VIN Free",
+    metaTitle: "Jaguar VIN Decoder — Free Jaguar VIN Number Lookup",
+    metaDescription:
+      "Free Jaguar VIN decoder. Enter any 17-character Jaguar VIN to decode the year, engine, plant and trim — F-PACE, XF, XE and more. Instant, no signup.",
+    keywords: [
+      "jaguar vin decoder",
+      "jaguar vin number decoder",
+      "vin decoder jaguar",
+      "jaguar vin lookup",
+      "f-pace vin decoder",
+    ],
+    intro:
+      "Decode any Jaguar VIN free in seconds. Enter the 17-character VIN from your Jaguar F-PACE, XF, XE or F-TYPE and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Jaguar / Jaguar Land Rover WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["SAJ", "Jaguar, built in the United Kingdom"],
+        ["SAD", "Jaguar Land Rover group, UK"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Jaguar VIN breaks down",
+        paras: [
+          "Every Jaguar built since 1981 follows the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — UK-built Jaguars commonly open SAJ. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "The descriptor section (positions 4–8) separates an F-PACE from an XF of the same year and identifies the engine variant, which the badge alone won't always tell you.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Jaguar VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Jaguar?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Jaguar VIN starting with SAJ mean?", a: "SAJ is the World Manufacturer Identifier for a UK-built Jaguar. The following characters narrow it to the model line, body and engine." },
+      { q: "Can I decode an F-PACE or XF VIN here?", a: "Yes. All modern Jaguar models use the 17-character standard this decoder reads." },
+    ],
+    related: ["land-rover", "bmw", "mercedes-benz"],
+  },
+
+  // ───────────────────────── BRAND: MINI ─────────────────────────
+  {
+    slug: "mini",
+    category: "brand",
+    badge: "MINI VIN Decoder",
+    h1: "MINI VIN Decoder —",
+    h1Accent: "Decode Any MINI Cooper VIN Free",
+    metaTitle: "MINI VIN Decoder — Free MINI Cooper VIN Number Lookup",
+    metaDescription:
+      "Free MINI VIN decoder. Enter any 17-character MINI Cooper VIN to decode the year, engine, plant and trim — Hardtop, Countryman and more. Instant, no signup.",
+    keywords: [
+      "mini vin decoder",
+      "decode mini vin",
+      "mini cooper vin decoder",
+      "mini vin number decoder",
+      "vin decoder mini",
+    ],
+    intro:
+      "Decode any MINI VIN free in seconds. Enter the 17-character VIN from your MINI Cooper Hardtop, Clubman, Countryman or Convertible and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common MINI WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["WMW", "MINI (built by BMW Group), Europe"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a MINI VIN breaks down",
+        paras: [
+          "MINI is part of the BMW Group, and its VINs follow the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — MINI commonly opens WMW. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because MINI shares engineering with BMW, the descriptor section identifies the specific MINI variant — Hardtop versus Countryman, Cooper versus Cooper S — which determines engine and fitment.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a MINI VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a MINI?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a MINI VIN starting with WMW mean?", a: "WMW is the World Manufacturer Identifier for a MINI built by the BMW Group. The following characters narrow it to the model, body and engine." },
+      { q: "Is a MINI VIN decoded like a BMW VIN?", a: "MINI is part of the BMW Group and uses the same VIN structure, so the position layout reads the same way, though MINI carries its own WMI and model codes." },
+    ],
+    related: ["bmw", "volkswagen", "mercedes-benz"],
+  },
+
+  // ───────────────────────── BRAND: MITSUBISHI ─────────────────────────
+  {
+    slug: "mitsubishi",
+    category: "brand",
+    badge: "Mitsubishi VIN Decoder",
+    h1: "Mitsubishi VIN Decoder —",
+    h1Accent: "Decode Any Mitsubishi VIN Free",
+    metaTitle: "Mitsubishi VIN Decoder — Free Mitsubishi VIN Number Lookup",
+    metaDescription:
+      "Free Mitsubishi VIN decoder. Enter any 17-character Mitsubishi VIN to decode the year, engine, plant and trim — Outlander, Eclipse Cross and more. Instant, no signup.",
+    keywords: [
+      "mitsubishi vin decoder",
+      "mitsubishi vin number decoder",
+      "vin decoder mitsubishi",
+      "mitsubishi vin lookup",
+      "outlander vin decoder",
+    ],
+    intro:
+      "Decode any Mitsubishi VIN free in seconds. Enter the 17-character VIN from your Mitsubishi Outlander, Eclipse Cross, Mirage or Lancer and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Mitsubishi WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JA3 / JA4", "Mitsubishi car, built in Japan"],
+        ["4A3 / 4A4", "Mitsubishi, built in the USA"],
+        ["ML0", "Mitsubishi, built in Thailand"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Mitsubishi VIN breaks down",
+        paras: [
+          "Every Mitsubishi built since 1981 follows the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Japan-built Mitsubishis commonly open JA3 or JA4, while US-built models open 4A3 or 4A4. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "The descriptor section identifies the model and engine, which is how a decode separates an Outlander from an Eclipse Cross of the same year.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Mitsubishi VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Mitsubishi?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Mitsubishi VIN starting with JA mean?", a: "JA is part of the World Manufacturer Identifier for a Japan-built Mitsubishi car. US-built Mitsubishis commonly open 4A instead." },
+      { q: "Can I decode an Outlander VIN here?", a: "Yes. All modern Mitsubishi models use the 17-character standard this decoder reads." },
+    ],
+    related: ["nissan", "subaru", "honda"],
+  },
+
+  // ───────────────────────── BRAND: SUBARU ─────────────────────────
+  {
+    slug: "subaru",
+    category: "brand",
+    badge: "Subaru VIN Decoder",
+    h1: "Subaru VIN Decoder —",
+    h1Accent: "Decode Any Subaru VIN Free",
+    metaTitle: "Subaru VIN Decoder — Free Subaru VIN Number Lookup",
+    metaDescription:
+      "Free Subaru VIN decoder. Enter any 17-character Subaru VIN to decode the year, engine, plant and trim — Outback, Forester, Crosstrek and more. Instant, no signup.",
+    keywords: [
+      "subaru vin decoder",
+      "subaru vin code decoder",
+      "subaru vin number decoder",
+      "vin decoder subaru",
+      "outback vin decoder",
+      "forester vin decoder",
+    ],
+    intro:
+      "Decode any Subaru VIN free in seconds. Enter the 17-character VIN from your Subaru Outback, Forester, Crosstrek, Impreza or WRX and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Subaru WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JF1 / JF2", "Subaru, built in Japan"],
+        ["4S3 / 4S4", "Subaru, built in the USA (Subaru of Indiana)"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Subaru VIN breaks down",
+        paras: [
+          "Every Subaru built since 1981 follows the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Japan-built Subarus commonly open JF1 or JF2, while US-built models from Subaru of Indiana open 4S3 or 4S4. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "The descriptor section identifies the boxer-engine variant and trim, which is how a decode separates an Outback from a Forester, or a base engine from a turbocharged WRX, of the same year.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Subaru VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Subaru?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Subaru VIN starting with 4S mean?", a: "4S is part of the World Manufacturer Identifier for a US-built Subaru (Subaru of Indiana). Japan-built Subarus commonly open JF instead." },
+      { q: "Can I decode an Outback or Forester VIN here?", a: "Yes. All modern Subaru models use the 17-character standard this decoder reads." },
+    ],
+    related: ["toyota", "mitsubishi", "honda"],
+  },
+
+  // ───────────────────────── BRAND: PONTIAC ─────────────────────────
+  {
+    slug: "pontiac",
+    category: "brand",
+    badge: "Pontiac VIN Decoder",
+    h1: "Pontiac VIN Decoder —",
+    h1Accent: "Decode Any Pontiac VIN Free",
+    metaTitle: "Pontiac VIN Decoder — Free Pontiac VIN Number Lookup",
+    metaDescription:
+      "Free Pontiac VIN decoder. Enter any 17-character Pontiac VIN to decode the year, engine, plant and trim — G6, GTO, Firebird and more. Instant, no signup.",
+    keywords: [
+      "pontiac vin decoder",
+      "pontiac vin number decoder",
+      "vin decoder pontiac",
+      "pontiac vin lookup",
+      "firebird vin decoder",
+      "gto vin decoder",
+    ],
+    intro:
+      "Decode any Pontiac VIN free in seconds. Enter the 17-character VIN from your Pontiac G6, G8, GTO, Firebird or Grand Prix and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Pontiac / GM WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1G2", "Pontiac car, built in the USA"],
+        ["2G2", "Pontiac car, built in Canada"],
+        ["6G2", "Pontiac (e.g. G8), built in Australia"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Pontiac VIN breaks down",
+        paras: [
+          "Pontiac was a GM division (discontinued in 2010), and post-1981 Pontiac VINs follow the 17-character ISO 3779 standard. Positions 1–3 are the GM World Manufacturer Identifier — a US-built Pontiac commonly opens 1G2. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because Pontiac shared GM platforms, the descriptor section is what separates a Pontiac from its Chevrolet or Buick siblings of the same year and identifies the engine.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Pontiac VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records. For pre-1981 Pontiacs, see the classic-car VIN guide.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Pontiac?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Pontiac VIN starting with 1G2 mean?", a: "1G2 is GM's World Manufacturer Identifier for a US-built Pontiac car. 2G2 indicates a Canada-built Pontiac." },
+      { q: "Can I decode a classic Pontiac VIN here?", a: "This decoder is built for the 17-character standard used since 1981. Pre-1981 Pontiac VINs are shorter — see the classic-car VIN guide." },
+    ],
+    related: ["gm", "buick", "chevrolet"],
+  },
+
+  // ───────────────────────── BRAND: BUICK ─────────────────────────
+  {
+    slug: "buick",
+    category: "brand",
+    badge: "Buick VIN Decoder",
+    h1: "Buick VIN Decoder —",
+    h1Accent: "Decode Any Buick VIN Free",
+    metaTitle: "Buick VIN Decoder — Free Buick VIN Number Lookup",
+    metaDescription:
+      "Free Buick VIN decoder. Enter any 17-character Buick VIN to decode the year, engine, plant and trim — Enclave, Encore, LaCrosse and more. Instant, no signup.",
+    keywords: [
+      "buick vin decoder",
+      "buick vin number decoder",
+      "vin decoder buick",
+      "buick vin lookup",
+      "enclave vin decoder",
+    ],
+    intro:
+      "Decode any Buick VIN free in seconds. Enter the 17-character VIN from your Buick Enclave, Encore, Envision or LaCrosse and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Buick / GM WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1G4", "Buick car, built in the USA"],
+        ["5GA", "Buick SUV (Enclave), built in the USA"],
+        ["LRB", "Buick (e.g. Envision), built in China"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Buick VIN breaks down",
+        paras: [
+          "Buick is a GM division, and post-1981 Buick VINs follow the 17-character ISO 3779 standard. Positions 1–3 are the GM World Manufacturer Identifier — a US-built Buick car commonly opens 1G4, while the Enclave SUV opens 5GA and the China-built Envision opens LRB. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because Buick shares GM platforms, the descriptor section distinguishes a Buick from its Chevrolet or GMC siblings of the same year and identifies the engine.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Buick VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Buick?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Buick VIN starting with 1G4 mean?", a: "1G4 is GM's World Manufacturer Identifier for a US-built Buick passenger car. The Enclave SUV uses 5GA, and the China-built Envision uses LRB." },
+      { q: "Can I decode an Enclave VIN here?", a: "Yes. All modern Buick models use the 17-character standard this decoder reads." },
+    ],
+    related: ["gm", "pontiac", "chevrolet"],
+  },
+
+  // ───────────────────────── BRAND: VOLVO ─────────────────────────
+  {
+    slug: "volvo",
+    category: "brand",
+    badge: "Volvo VIN Decoder",
+    h1: "Volvo VIN Decoder —",
+    h1Accent: "Decode Any Volvo VIN Free",
+    metaTitle: "Volvo VIN Decoder — Free Volvo VIN Number Lookup",
+    metaDescription:
+      "Free Volvo VIN decoder. Enter any 17-character Volvo VIN to decode the year, engine, plant and trim — XC90, XC60, S60 and more. Instant, no signup.",
+    keywords: [
+      "volvo vin decoder",
+      "decoder vin volvo",
+      "volvo vin number decoder",
+      "vin decoder volvo",
+      "xc90 vin decoder",
+    ],
+    intro:
+      "Decode any Volvo VIN free in seconds. Enter the 17-character VIN from your Volvo XC90, XC60, XC40, S60 or V60 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Volvo WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["YV1", "Volvo car, built in Sweden"],
+        ["YV4", "Volvo SUV, built in Sweden/Europe"],
+        ["LVY", "Volvo, built in China"],
+        ["LYV", "Volvo, built in the USA (Charleston) / China"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Volvo VIN breaks down",
+        paras: [
+          "Every Volvo built since 1981 follows the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Sweden-built Volvo cars commonly open YV1, SUVs YV4, with China- and US-built models opening LVY or LYV. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "The descriptor section identifies the model and powertrain, which is how a decode separates an XC90 from an XC60, or a mild-hybrid from a plug-in Recharge, of the same year.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Volvo VIN reveals the factory build — year, engine, plant and trim. It won't show post-sale events. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Volvo?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Volvo VIN starting with YV1 mean?", a: "YV1 is the World Manufacturer Identifier for a Sweden-built Volvo car. YV4 indicates a Volvo SUV; LVY and LYV indicate China- or US-built Volvos." },
+      { q: "Can I decode an XC90 VIN here?", a: "Yes. All modern Volvo models use the 17-character standard this decoder reads." },
+    ],
+    related: ["bmw", "mercedes-benz", "volkswagen"],
+  },
+
+  // ───────────────────────── BRAND: YAMAHA (MOTORCYCLE) ─────────────────────────
+  {
+    slug: "yamaha",
+    category: "brand",
+    badge: "Yamaha VIN Decoder",
+    h1: "Yamaha VIN Decoder —",
+    h1Accent: "Decode Any Yamaha Motorcycle VIN Free",
+    metaTitle: "Yamaha VIN Decoder — Free Yamaha Motorcycle VIN Lookup",
+    metaDescription:
+      "Free Yamaha VIN decoder. Enter any 17-character Yamaha motorcycle, ATV or side-by-side VIN to decode the year, engine and plant. Instant, no signup.",
+    keywords: [
+      "yamaha motorcycle vin decoder",
+      "yamaha vin decoder",
+      "yamaha vin number decoder",
+      "vin decoder yamaha",
+      "yamaha atv vin decoder",
+    ],
+    intro:
+      "Decode any Yamaha VIN free in seconds. Enter the 17-character VIN from your Yamaha motorcycle, ATV, side-by-side or scooter and the decoder breaks it down position by position — manufacturer, model year and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Yamaha WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JYA", "Yamaha motorcycle, built in Japan"],
+        ["JY4", "Yamaha ATV / side-by-side, built in Japan"],
+        ["5Y4", "Yamaha, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Yamaha VIN breaks down",
+        paras: [
+          "Modern Yamaha powersports vehicles use the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Japan-built Yamaha motorcycles commonly open JYA, ATVs and side-by-sides JY4, and US-built units 5Y4. Positions 4–8 encode the model and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "On a motorcycle the VIN is stamped on the steering head (the neck of the frame) and on the engine case separately — the frame VIN is the one that follows the title.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Yamaha VIN reveals the factory build — year, model and plant. It won't show post-sale events. For theft and title-brand records on a motorcycle or ATV, run the same VIN through a history check; the National Insurance Crime Bureau's free VINCheck covers theft and total-loss records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Yamaha motorcycle?", a: "Stamped on the steering head (the frame neck), usually on the right side, and listed on the title. The engine carries a separate engine number." },
+      { q: "What does a Yamaha VIN starting with JYA mean?", a: "JYA is the World Manufacturer Identifier for a Japan-built Yamaha motorcycle. ATVs and side-by-sides commonly use JY4." },
+      { q: "Can I decode a Yamaha ATV or side-by-side VIN here?", a: "Yes, for 17-character VINs. The decoder reads the standard position layout used on modern Yamaha powersports vehicles." },
+    ],
+    related: ["suzuki", "harley-davidson", "honda"],
+  },
+
+  // ───────────────────────── BRAND: HARLEY-DAVIDSON (MOTORCYCLE) ─────────────────────────
+  {
+    slug: "harley-davidson",
+    category: "brand",
+    badge: "Harley-Davidson VIN Decoder",
+    h1: "Harley-Davidson VIN Decoder —",
+    h1Accent: "Decode Any Harley VIN Free",
+    metaTitle: "Harley-Davidson VIN Decoder — Free Harley Motorcycle VIN Lookup",
+    metaDescription:
+      "Free Harley-Davidson VIN decoder. Enter any 17-character Harley VIN to decode the year, model and plant — Sportster, Softail, Touring and more. Instant, no signup.",
+    keywords: [
+      "harley davidson motorcycle vin number decoder",
+      "harley davidson vin number decoder",
+      "harley davidson vin decoder",
+      "harley vin decoder",
+      "vin decoder harley davidson",
+    ],
+    intro:
+      "Decode any Harley-Davidson VIN free in seconds. Enter the 17-character VIN from your Harley Sportster, Softail, Touring or Street model and the decoder breaks it down position by position — manufacturer, model year and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Harley-Davidson WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1HD", "Harley-Davidson, built in the USA"],
+        ["5HD", "Harley-Davidson, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Harley-Davidson VIN breaks down",
+        paras: [
+          "Harley-Davidson motorcycles built since 1981 use the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Harleys commonly open 1HD or 5HD. Positions 4–8 encode the model family and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number. On a Harley, the descriptor section is what distinguishes a Sportster from a Touring model.",
+          "The VIN is stamped on the steering head (the frame neck) and is the identifier that follows the title. The engine and frame may also carry separate matching numbers on older or custom bikes.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Harley VIN reveals the factory build — year, model family and plant. It won't show post-sale events. For theft and title-brand records, run the same VIN through a history check; the National Insurance Crime Bureau's free VINCheck covers theft and total-loss records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Harley-Davidson?", a: "Stamped on the steering head (the frame neck), on the right side, and listed on the title. Older models may carry matching engine and frame numbers." },
+      { q: "What does a Harley VIN starting with 1HD mean?", a: "1HD is the World Manufacturer Identifier for a US-built Harley-Davidson. 5HD is also used for US-built Harleys." },
+      { q: "Can I decode the model year of a Harley from the VIN?", a: "Yes. Position 10 of the 17-character VIN encodes the model year, which the decoder reads along with the model family and plant." },
+    ],
+    related: ["yamaha", "suzuki", "classic-car"],
+  },
+
+  // ───────────────────────── TYPE: RV ─────────────────────────
+  {
+    slug: "rv",
+    category: "type",
+    badge: "RV VIN Decoder",
+    h1: "RV VIN Decoder —",
+    h1Accent: "Decode a Motorhome or Camper VIN",
+    metaTitle: "RV VIN Decoder — Free Motorhome & Camper VIN Lookup",
+    metaDescription:
+      "Free RV VIN decoder. Decode the chassis VIN of a motorhome or camper for year, engine and plant — and learn why the coach builder uses a separate serial. No signup.",
+    keywords: [
+      "rv vin decoder",
+      "motorhome vin decoder",
+      "camper vin decoder",
+      "camper vin number decoder",
+      "rv vin lookup",
+      "motorhome vin number decoder",
+    ],
+    intro:
+      "Decoding an RV VIN free in seconds. The 17-character VIN on a motorhome or camper is the chassis manufacturer's — enter it and the decoder returns the year, engine and plant of the underlying chassis, then read below for how the coach builder's separate serial fits in. No signup, no charge.",
+    table: {
+      caption: "Common motorhome chassis WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1FD", "Ford E/F-series chassis (Class C, cutaway)"],
+        ["4UZ", "Freightliner Custom Chassis (Class A)"],
+        ["W1Y / WD3", "Mercedes-Benz Sprinter chassis (Class B/C)"],
+        ["5B4 / 53F", "Workhorse / Chevrolet motorhome chassis"],
+      ],
+    },
+    sections: [
+      {
+        h2: "Chassis VIN vs. coach serial — what you're actually decoding",
+        paras: [
+          "An RV has two identities. The 17-character VIN comes from the chassis manufacturer — Ford, Freightliner, Mercedes-Benz or Workhorse for a motorhome — and that's what a VIN decoder reads: the year, engine and plant of the running gear. The coach builder (Winnebago, Thor, Forest River, Jayco and others) adds the living quarters and assigns its own separate serial number, which the VIN does not decode.",
+          "So for a Class A, B or C motorhome, decoding the VIN tells you about the drivetrain and chassis year, not the brand of the coach on top. For towable campers and travel trailers, the VIN is the trailer manufacturer's own 17-character number identifying the trailer itself.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an RV's chassis VIN reveals the factory build of the chassis — year, engine and plant. It won't show title brands, accidents or odometer history, and it won't identify the coach builder's options. For salvage, flood and accident records, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an RV or motorhome?", a: "On a motorhome, the chassis VIN is on the driver-side dash (visible through the windshield) and the doorjamb. On a towable camper or travel trailer, the VIN is on a plate at the front of the frame, often on the A-frame near the hitch." },
+      { q: "Why doesn't my RV VIN show the coach brand?", a: "Because the VIN belongs to the chassis manufacturer (Ford, Freightliner, Mercedes, Workhorse). The coach builder assigns a separate serial number that isn't encoded in the VIN." },
+      { q: "Can I decode a travel trailer VIN here?", a: "Yes. A towable trailer carries the trailer manufacturer's own 17-character VIN, which this decoder reads — see also the dedicated trailer VIN guide." },
+    ],
+    related: ["trailer", "ford", "north-america"],
+  },
+
+  // ───────────────────────── FORMAT: CHART ─────────────────────────
+  {
+    slug: "chart",
+    category: "format",
+    badge: "VIN Decoder Chart",
+    h1: "VIN Decoder Chart —",
+    h1Accent: "What Each VIN Position Means",
+    metaTitle: "VIN Decoder Chart — What Every VIN Position Means (Free Guide)",
+    metaDescription:
+      "Free VIN decoder chart. See what each of the 17 VIN positions encodes — WMI, descriptor, check digit, model year and plant — and how to decode a VIN by hand.",
+    keywords: [
+      "vin decoder chart",
+      "vehicle vin decoder chart",
+      "vin number decoding chart",
+      "how to decode a vin",
+      "how to decode a vin number",
+      "vin year decoder",
+      "decoding vin numbers",
+      "vin decoder year",
+    ],
+    intro:
+      "A VIN decoder chart maps each of the 17 characters in a modern VIN to what it encodes. Use the chart below to read any VIN by hand — manufacturer, vehicle attributes, check digit, model year and plant — or enter a VIN above to decode it automatically and validate the check digit. Free, no signup.",
+    table: {
+      caption: "VIN position chart (ISO 3779, 1981–present)",
+      head: ["VIN position", "What it encodes"],
+      rows: [
+        ["1–3 (WMI)", "World Manufacturer Identifier — country, maker, type"],
+        ["4–8 (VDS)", "Vehicle Descriptor — model, body, engine, restraints"],
+        ["9", "Check digit — validates the whole VIN by formula"],
+        ["10", "Model year (e.g. A=2010, B=2011 … 1=2031)"],
+        ["11", "Assembly plant code"],
+        ["12–17 (VIS)", "Sequential production / serial number"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How to decode a VIN by hand",
+        paras: [
+          "Read a 17-character VIN left to right in three blocks. The first three characters are the World Manufacturer Identifier: character 1 is the country of origin (1, 4 and 5 are the USA; 2 is Canada; 3 is Mexico; J is Japan; W is Germany; S is the UK), characters 2–3 narrow it to the manufacturer and vehicle type. Characters 4 through 8 are the Vehicle Descriptor Section, which encodes the model, body style, engine and restraint system — the detail that separates trims of the same model.",
+          "Character 9 is the check digit, a single value (0–9 or X) calculated from all the other characters; if your math doesn't produce it, the VIN is mistyped or invalid. Character 10 is the model year, character 11 is the assembly plant, and characters 12–17 are the unique sequential build number.",
+        ],
+      },
+      {
+        h2: "Reading the model-year character",
+        paras: [
+          "Position 10 carries the model year on a 30-year cycle: the letters A–Y (skipping I, O, Q, U and Z) cover 1980–2000, the digits 1–9 cover 2001–2009, then the letters begin again (A=2010, B=2011, and so on). Because the codes repeat every 30 years, the 7th character disambiguates: it's a digit on 1981–2009 vehicles and a letter on 2010-and-later vehicles.",
+          "That's why a VIN year decoder reads positions 10 and 7 together rather than position 10 alone — it's the only way to tell, say, a 1985 from a 2015 when both show the same year letter.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "What does each digit of a VIN mean?", a: "Positions 1–3 are the World Manufacturer Identifier (country and maker), 4–8 the Vehicle Descriptor (model, body, engine), 9 the check digit, 10 the model year, 11 the assembly plant, and 12–17 the sequential serial number." },
+      { q: "Which VIN digit is the year?", a: "Position 10 encodes the model year on a 30-year cycle. It's read together with position 7 (a digit before 2010, a letter from 2010) to resolve which cycle the year belongs to." },
+      { q: "How do I decode a VIN myself?", a: "Read it in three blocks: characters 1–3 for the manufacturer and country, 4–8 for the model/body/engine, and 10–17 for the year, plant and serial. Character 9 is a check digit that validates the rest." },
+      { q: "What is the check digit in a VIN?", a: "Position 9 is a single character (0–9 or X) calculated from a weighted sum of the other 16 characters. It catches typos: if the math doesn't match, the VIN was entered wrong or is invalid." },
+    ],
+    related: ["10-digit", "13-digit", "north-america"],
+  },
+
+  // ───────────────────────── COMPARE: AUTOZONE ─────────────────────────
+  {
+    slug: "autozone",
+    category: "compare",
+    badge: "AutoZone VIN Decoder Alternative",
+    h1: "AutoZone VIN Decoder Alternative —",
+    h1Accent: "Decode Your VIN Free for Parts",
+    metaTitle: "AutoZone VIN Decoder Alternative — Free VIN Decoder for Parts",
+    metaDescription:
+      "Need to decode your VIN for parts like AutoZone? Decode any 17-character VIN free here to get the exact year, make, model and engine for fitment. No signup.",
+    keywords: [
+      "vin decoder autozone",
+      "autozone vin decoder",
+      "autozone vin lookup",
+      "vin decoder for parts",
+    ],
+    intro:
+      "Decoding your VIN to order the right parts (the way AutoZone and other retailers look it up)? Our free decoder turns any 17-character VIN into the exact year, make, model and engine you need for fitment — instantly, with no account.",
+    sections: [
+      {
+        h2: "Why parts lookups start with the VIN",
+        paras: [
+          "Parts retailers like AutoZone use the VIN because it pins down the precise engine and configuration that determine fitment — the same model year can have multiple engines, and the wrong one means the wrong part. Decoding the VIN gives you the year, make, model and the engine code from position 8, which is the information a parts counter or online catalog needs.",
+          "Our decoder reads all of that from the VIN for free and validates the check digit so you don't transpose a character. Take the decoded year/make/model/engine to any parts catalog for an exact match.",
+        ],
+      },
+      {
+        h2: "Decode for fitment, then verify the vehicle",
+        paras: [
+          "If you're buying the car (not just parts for one you own), the same VIN can be run through a full history report to check title brands, accidents and odometer — useful before you invest in repairs.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How do I decode my VIN to find the right parts?", a: "Enter the 17-character VIN in the decoder above. It returns the year, make, model and engine code — the configuration details a parts catalog needs for exact fitment." },
+      { q: "Which VIN character is the engine code for parts?", a: "On most vehicles, position 8 (the last character of the descriptor section) is the engine code. Combine it with position 10 (model year) for an exact match." },
+    ],
+    related: ["oreilly", "faxvin", "transmission"],
+  },
+
+  // ───────────────────────── COMPARE: CARVERTICAL ─────────────────────────
+  {
+    slug: "carvertical",
+    category: "compare",
+    badge: "carVertical VIN Decoder Alternative",
+    h1: "carVertical VIN Decoder Alternative —",
+    h1Accent: "Decode & Check Any VIN Free",
+    metaTitle: "carVertical Alternative — Free VIN Decoder & History Check",
+    metaDescription:
+      "Looking at carVertical to decode and check a VIN? Decode any 17-character VIN free here for year, make, model and engine, then run a history check. No signup to decode.",
+    keywords: [
+      "carvertical vin decoder",
+      "carvertical alternative",
+      "carvertical vin check",
+      "vin decoder and check",
+    ],
+    intro:
+      "Considering carVertical to decode and check a vehicle? Our decoder reads any 17-character VIN free — year, make, model, engine and plant — and validates the check digit, with a full history report available when you're ready to check title brands, accidents and odometer.",
+    sections: [
+      {
+        h2: "Decode free, then check the history",
+        paras: [
+          "carVertical is known for paid vehicle history reports that combine a VIN decode with records from various national sources. The decode itself — turning the 17-character VIN into year, make, model, engine and plant — is something you can do here free and instantly, with no account.",
+          "When you need the history layer (title brands, salvage, accidents, odometer readings), a full report keyed to the same VIN pulls NMVTIS and state-DMV records. Decoding first confirms you're checking the right vehicle before you run a report.",
+        ],
+      },
+      {
+        h2: "What a decode covers vs. what a history report adds",
+        paras: [
+          "A decode reads only what the VIN itself encodes under ISO 3779: manufacturer, model attributes, check digit, model year and plant. It cannot show what happened to the vehicle after it left the factory. A history report adds the post-sale record — brands, accidents, total-loss declarations and odometer history — which is where services like carVertical focus.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I decode a VIN for free instead of using carVertical?", a: "Yes. The VIN decode — year, make, model, engine and plant — is free and instant here, with no account. A paid history report is only needed for the post-sale record." },
+      { q: "What's the difference between a VIN decode and a carVertical report?", a: "A decode reads what the VIN encodes (the factory build). A history report like carVertical's adds title brands, accidents, total-loss and odometer records from external databases." },
+    ],
+    related: ["faxvin", "hagerty", "jd-power"],
+  },
+
+  // ───────────────────────── BRAND: KIA ─────────────────────────
+  {
+    slug: "kia",
+    category: "brand",
+    badge: "Kia VIN Decoder",
+    h1: "Kia VIN Decoder —",
+    h1Accent: "Decode Any Kia VIN Free",
+    metaTitle: "Kia VIN Decoder — Free Kia VIN Number Lookup",
+    metaDescription:
+      "Free Kia VIN decoder. Enter any 17-character Kia VIN to decode the year, engine, plant and trim — Telluride, Sorento, Sportage and more. Instant, no signup.",
+    keywords: [
+      "kia vin decoder",
+      "kia vin number decoder",
+      "vin decoder kia",
+      "kia vin lookup",
+      "telluride vin decoder",
+      "sorento vin decoder",
+    ],
+    intro:
+      "Decode any Kia VIN free in seconds. Enter the 17-character VIN from your Kia Telluride, Sorento, Sportage, Forte or Soul and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Kia WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["KNA", "Kia passenger car, built in South Korea"],
+        ["KND", "Kia SUV/MPV, built in South Korea"],
+        ["5XY", "Kia SUV, built in the USA (West Point, Georgia)"],
+        ["3KP", "Kia car, built in Mexico"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Kia VIN breaks down",
+        paras: [
+          "Every Kia built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Korea-built Kia car commonly opens KNA, a Korea-built SUV KND, and a US-built SUV such as the Telluride or Sorento 5XY. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because the engine and trim are described in positions 4–8, two same-year Sportage or Telluride models can carry different descriptor characters depending on drivetrain and equipment.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Kia VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Kia?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Kia VIN starting with 5XY mean?", a: "5XY is the World Manufacturer Identifier for a Kia SUV built in the USA at West Point, Georgia. KNA indicates a Korea-built Kia car and KND a Korea-built SUV." },
+      { q: "Can I decode a Kia VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, engine, plant and trim — no account needed." },
+    ],
+    related: ["hyundai", "genesis", "toyota"],
+  },
+
+  // ───────────────────────── BRAND: HYUNDAI ─────────────────────────
+  {
+    slug: "hyundai",
+    category: "brand",
+    badge: "Hyundai VIN Decoder",
+    h1: "Hyundai VIN Decoder —",
+    h1Accent: "Decode Any Hyundai VIN Free",
+    metaTitle: "Hyundai VIN Decoder — Free Hyundai VIN Number Lookup",
+    metaDescription:
+      "Free Hyundai VIN decoder. Enter any 17-character Hyundai VIN to decode the year, engine, plant and trim — Santa Fe, Tucson, Elantra and more. Instant, no signup.",
+    keywords: [
+      "hyundai vin decoder",
+      "hyundai vin number decoder",
+      "vin decoder hyundai",
+      "hyundai vin lookup",
+      "santa fe vin decoder",
+      "tucson vin decoder",
+    ],
+    intro:
+      "Decode any Hyundai VIN free in seconds. Enter the 17-character VIN from your Hyundai Santa Fe, Tucson, Elantra, Sonata or Palisade and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Hyundai WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["KMH", "Hyundai passenger car, built in South Korea"],
+        ["KM8", "Hyundai SUV, built in South Korea"],
+        ["5NP", "Hyundai car, built in the USA (Montgomery, Alabama)"],
+        ["5NM", "Hyundai SUV, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Hyundai VIN breaks down",
+        paras: [
+          "Every Hyundai built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Korea-built Hyundai car commonly opens KMH, a Korea-built SUV KM8, and a US-built car such as the Sonata or Elantra 5NP. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because the engine and trim are described in positions 4–8, two same-year Tucson or Santa Fe models can carry different descriptor characters depending on drivetrain and equipment.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Hyundai VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Hyundai?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Hyundai VIN starting with 5NP mean?", a: "5NP is the World Manufacturer Identifier for a Hyundai car built in the USA at Montgomery, Alabama. KMH indicates a Korea-built Hyundai car and KM8 a Korea-built SUV." },
+      { q: "Can I decode a Hyundai VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, engine, plant and trim — no account needed." },
+    ],
+    related: ["kia", "genesis", "toyota"],
+  },
+
+  // ───────────────────────── BRAND: GENESIS ─────────────────────────
+  {
+    slug: "genesis",
+    category: "brand",
+    badge: "Genesis VIN Decoder",
+    h1: "Genesis VIN Decoder —",
+    h1Accent: "Decode Any Genesis VIN Free",
+    metaTitle: "Genesis VIN Decoder — Free Genesis VIN Number Lookup",
+    metaDescription:
+      "Free Genesis VIN decoder. Enter any 17-character Genesis VIN to decode the year, engine, plant and trim — G70, G80, GV70, GV80. Instant, no signup.",
+    keywords: [
+      "genesis vin decoder",
+      "genesis vin number decoder",
+      "vin decoder genesis",
+      "genesis vin lookup",
+      "g80 vin decoder",
+      "gv70 vin decoder",
+    ],
+    intro:
+      "Decode any Genesis VIN free in seconds. Enter the 17-character VIN from your Genesis G70, G80, G90, GV70 or GV80 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    sections: [
+      {
+        h2: "How a Genesis VIN breaks down",
+        paras: [
+          "Genesis is Hyundai Motor's luxury division, and its VINs are issued under Hyundai's manufacturer codes following the 17-character ISO 3779 standard. Genesis models such as the G70, G80 and G90 sedans are built in South Korea, so their VINs begin with a Korea-assigned World Manufacturer Identifier. The GV70 and GV80 SUVs are also Korea-built, with select electrified GV70 production added in the USA.",
+          "Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number. Because Genesis launched as a standalone brand in 2017, every Genesis-badged vehicle uses the full 17-character format.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Genesis VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Genesis?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "Is a Genesis VIN decoded like a Hyundai VIN?", a: "Yes. Genesis is Hyundai's luxury brand and its VINs are issued under Hyundai Motor codes, so the 17-character structure reads the same way." },
+      { q: "Where are Genesis vehicles built?", a: "The G70, G80, G90, GV70 and GV80 are built in South Korea, with select electrified GV70 production in the USA. The VIN's WMI and plant code reflect the assembly origin." },
+    ],
+    related: ["hyundai", "kia", "lexus"],
+  },
+
+  // ───────────────────────── BRAND: AUDI ─────────────────────────
+  {
+    slug: "audi",
+    category: "brand",
+    badge: "Audi VIN Decoder",
+    h1: "Audi VIN Decoder —",
+    h1Accent: "Decode Any Audi VIN Free",
+    metaTitle: "Audi VIN Decoder — Free Audi VIN Number Lookup",
+    metaDescription:
+      "Free Audi VIN decoder. Enter any 17-character Audi VIN to decode the year, engine, plant and trim — A4, Q5, Q7 and more. Instant, no signup.",
+    keywords: [
+      "audi vin decoder",
+      "audi vin number decoder",
+      "vin decoder audi",
+      "audi vin lookup",
+      "q5 vin decoder",
+      "a4 vin decoder",
+    ],
+    intro:
+      "Decode any Audi VIN free in seconds. Enter the 17-character VIN from your Audi A3, A4, A6, Q5 or Q7 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Audi WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["WAU", "Audi passenger car, built in Germany"],
+        ["WA1", "Audi SUV (Q5, Q7), built in Germany"],
+        ["WUA", "Audi Sport (RS) model, built in Germany"],
+        ["TRU", "Audi sports car, built in Hungary"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How an Audi VIN breaks down",
+        paras: [
+          "Every Audi built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a German-built Audi car commonly opens WAU, a German-built SUV WA1, and an RS performance model WUA. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because the engine and trim are described in positions 4–8, two same-year A4 or Q5 models can carry different descriptor characters depending on engine (40 TFSI vs 45 TFSI) and quattro drivetrain.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an Audi VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an Audi?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does an Audi VIN starting with WAU mean?", a: "WAU is the World Manufacturer Identifier for a German-built Audi passenger car. WA1 indicates a German-built Audi SUV such as the Q5 or Q7." },
+      { q: "Can I decode an Audi VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, engine, plant and trim — no account needed." },
+    ],
+    related: ["volkswagen", "bmw", "mercedes-benz"],
+  },
+
+  // ───────────────────────── BRAND: LEXUS ─────────────────────────
+  {
+    slug: "lexus",
+    category: "brand",
+    badge: "Lexus VIN Decoder",
+    h1: "Lexus VIN Decoder —",
+    h1Accent: "Decode Any Lexus VIN Free",
+    metaTitle: "Lexus VIN Decoder — Free Lexus VIN Number Lookup",
+    metaDescription:
+      "Free Lexus VIN decoder. Enter any 17-character Lexus VIN to decode the year, engine, plant and trim — RX, ES, GX and more. Instant, no signup.",
+    keywords: [
+      "lexus vin decoder",
+      "lexus vin number decoder",
+      "vin decoder lexus",
+      "lexus vin lookup",
+      "rx vin decoder",
+      "es vin decoder",
+    ],
+    intro:
+      "Decode any Lexus VIN free in seconds. Enter the 17-character VIN from your Lexus RX, ES, NX, GX or IS and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Lexus / Toyota WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JTH", "Lexus car, built in Japan"],
+        ["JTJ", "Lexus SUV, built in Japan"],
+        ["2T2", "Lexus SUV (RX), built in Canada"],
+        ["58A", "Lexus car (ES), built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Lexus VIN breaks down",
+        paras: [
+          "Lexus is Toyota's luxury division, so its VINs follow Toyota's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Japan-built Lexus car commonly opens JTH, a Japan-built SUV JTJ, and a Canada-built RX 2T2. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because the engine and trim are described in positions 4–8, two same-year RX or ES models can carry different descriptor characters depending on hybrid vs gas powertrain and trim.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Lexus VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Lexus?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Lexus VIN starting with JTH mean?", a: "JTH is the World Manufacturer Identifier for a Japan-built Lexus car. JTJ indicates a Japan-built Lexus SUV, and 2T2 a Canada-built RX." },
+      { q: "Is a Lexus VIN decoded like a Toyota VIN?", a: "Yes. Lexus is Toyota's luxury brand and shares the same VIN structure, so the descriptor section reads the same way." },
+    ],
+    related: ["toyota", "acura", "infiniti"],
+  },
+
+  // ───────────────────────── BRAND: MAZDA ─────────────────────────
+  {
+    slug: "mazda",
+    category: "brand",
+    badge: "Mazda VIN Decoder",
+    h1: "Mazda VIN Decoder —",
+    h1Accent: "Decode Any Mazda VIN Free",
+    metaTitle: "Mazda VIN Decoder — Free Mazda VIN Number Lookup",
+    metaDescription:
+      "Free Mazda VIN decoder. Enter any 17-character Mazda VIN to decode the year, engine, plant and trim — CX-5, Mazda3, MX-5 and more. Instant, no signup.",
+    keywords: [
+      "mazda vin decoder",
+      "mazda vin number decoder",
+      "vin decoder mazda",
+      "mazda vin lookup",
+      "cx-5 vin decoder",
+      "mazda3 vin decoder",
+    ],
+    intro:
+      "Decode any Mazda VIN free in seconds. Enter the 17-character VIN from your Mazda CX-5, CX-30, Mazda3, MX-5 Miata or CX-9 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Mazda WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JM1", "Mazda passenger car, built in Japan"],
+        ["JM3", "Mazda SUV/MPV, built in Japan"],
+        ["3MZ / 3MV", "Mazda, built in Mexico (Salamanca)"],
+        ["4F2 / 4F4", "Mazda, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Mazda VIN breaks down",
+        paras: [
+          "Every Mazda built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Japan-built Mazda car commonly opens JM1, a Japan-built SUV JM3, and a Mexico-built model 3MZ or 3MV. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because the engine and trim are described in positions 4–8, two same-year CX-5 or Mazda3 models can carry different descriptor characters depending on Skyactiv engine and drivetrain.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Mazda VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Mazda?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Mazda VIN starting with JM1 mean?", a: "JM1 is the World Manufacturer Identifier for a Japan-built Mazda passenger car. JM3 indicates a Japan-built Mazda SUV or MPV, and 3MZ a Mexico-built model." },
+      { q: "Can I decode a Mazda VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, engine, plant and trim — no account needed." },
+    ],
+    related: ["toyota", "honda", "subaru"],
+  },
+
+  // ───────────────────────── BRAND: LINCOLN ─────────────────────────
+  {
+    slug: "lincoln",
+    category: "brand",
+    badge: "Lincoln VIN Decoder",
+    h1: "Lincoln VIN Decoder —",
+    h1Accent: "Decode Any Lincoln VIN Free",
+    metaTitle: "Lincoln VIN Decoder — Free Lincoln VIN Number Lookup",
+    metaDescription:
+      "Free Lincoln VIN decoder. Enter any 17-character Lincoln VIN to decode the year, engine, plant and trim — Navigator, Aviator, Corsair and more. Instant, no signup.",
+    keywords: [
+      "lincoln vin decoder",
+      "lincoln vin number decoder",
+      "vin decoder lincoln",
+      "lincoln vin lookup",
+      "navigator vin decoder",
+      "aviator vin decoder",
+    ],
+    intro:
+      "Decode any Lincoln VIN free in seconds. Enter the 17-character VIN from your Lincoln Navigator, Aviator, Corsair, Nautilus or MKZ and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Lincoln / Ford WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1LN", "Lincoln car, built in the USA"],
+        ["5LM", "Lincoln SUV (Navigator, Aviator), built in the USA"],
+        ["2LM", "Lincoln SUV (Nautilus), built in Canada"],
+        ["3LN", "Lincoln car, built in Mexico"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Lincoln VIN breaks down",
+        paras: [
+          "Lincoln is Ford's luxury division, so its VINs follow Ford's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a US-built Lincoln car commonly opens 1LN, a US-built SUV such as the Navigator or Aviator 5LM, and a Canada-built Nautilus 2LM. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because the engine and trim are described in positions 4–8, two same-year Navigator or Corsair models can carry different descriptor characters depending on engine and drivetrain.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Lincoln VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Lincoln?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Lincoln VIN starting with 5LM mean?", a: "5LM is the World Manufacturer Identifier for a US-built Lincoln SUV such as the Navigator or Aviator. 1LN indicates a US-built Lincoln car." },
+      { q: "Is a Lincoln VIN decoded like a Ford VIN?", a: "Yes. Lincoln is Ford's luxury brand and shares the same VIN structure, so the descriptor section reads the same way." },
+    ],
+    related: ["ford", "buick", "mercury"],
+  },
+
+  // ───────────────────────── BRAND: ISUZU ─────────────────────────
+  {
+    slug: "isuzu",
+    category: "brand",
+    badge: "Isuzu VIN Decoder",
+    h1: "Isuzu VIN Decoder —",
+    h1Accent: "Decode Any Isuzu VIN Free",
+    metaTitle: "Isuzu VIN Decoder — Free Isuzu VIN Number Lookup",
+    metaDescription:
+      "Free Isuzu VIN decoder. Enter any 17-character Isuzu VIN to decode the year, engine, plant and trim — NPR, Rodeo, Trooper and more. Instant, no signup.",
+    keywords: [
+      "isuzu vin decoder",
+      "isuzu vin number decoder",
+      "vin decoder isuzu",
+      "isuzu vin lookup",
+      "npr vin decoder",
+      "isuzu truck vin decoder",
+    ],
+    intro:
+      "Decode any Isuzu VIN free in seconds. Enter the 17-character VIN from your Isuzu NPR, NQR commercial truck or a classic Rodeo or Trooper, and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Isuzu WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JAA", "Isuzu light vehicle, built in Japan"],
+        ["JAL", "Isuzu truck, built in Japan"],
+        ["JAC", "Isuzu, built in Japan"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How an Isuzu VIN breaks down",
+        paras: [
+          "Every Isuzu built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — Japan-built Isuzu vehicles commonly open JAA, JAL or JAC. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "In the US market Isuzu today is primarily a commercial-truck brand (the N-series NPR/NQR), though it also sold the Rodeo, Trooper and Ascender SUVs in earlier decades. Some N-series cabover trucks are assembled in North America, in which case the WMI and plant code reflect that origin.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an Isuzu VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an Isuzu?", a: "On the windshield corner and doorjamb on light vehicles; on commercial cabover trucks, check the driver-door pillar, the frame rail and the title and registration." },
+      { q: "What does an Isuzu VIN starting with JAL mean?", a: "JAL is the World Manufacturer Identifier for a Japan-built Isuzu truck. JAA and JAC indicate other Japan-built Isuzu vehicles." },
+      { q: "Can I decode an Isuzu commercial truck VIN?", a: "Yes. Isuzu N-series trucks use the same 17-character VIN format — enter it in the decoder above for the year, engine and plant breakdown." },
+    ],
+    related: ["toyota", "honda", "international"],
+  },
+
+  // ───────────────────────── BRAND: SAAB ─────────────────────────
+  {
+    slug: "saab",
+    category: "brand",
+    badge: "Saab VIN Decoder",
+    h1: "Saab VIN Decoder —",
+    h1Accent: "Decode Any Saab VIN Free",
+    metaTitle: "Saab VIN Decoder — Free Saab VIN Number Lookup",
+    metaDescription:
+      "Free Saab VIN decoder. Enter any 17-character Saab VIN to decode the year, engine, plant and trim — 9-3, 9-5 and more. Instant, no signup.",
+    keywords: [
+      "saab vin decoder",
+      "saab vin number decoder",
+      "vin decoder saab",
+      "saab vin lookup",
+      "9-3 vin decoder",
+      "9-5 vin decoder",
+    ],
+    intro:
+      "Decode any Saab VIN free in seconds. Enter the 17-character VIN from your Saab 9-3, 9-5, 900 or 9-7X and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Saab WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["YS3", "Saab passenger car, built in Sweden"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Saab VIN breaks down",
+        paras: [
+          "Every Saab built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Sweden-built Saab car opens YS3. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Saab production ended in 2011, so all Saab VINs cover the brand's final 9-3, 9-5 and 900 generations. The 9-7X SUV was an exception, built in the USA on a GM platform, and its VIN reflects that US origin rather than the Swedish YS3 prefix.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Saab VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records — especially useful on an out-of-production brand.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Saab?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Saab VIN starting with YS3 mean?", a: "YS3 is the World Manufacturer Identifier for a Sweden-built Saab passenger car. The following characters narrow it to the model line, body and engine." },
+      { q: "Can I still decode a Saab VIN now that the brand is gone?", a: "Yes. The VIN format doesn't expire — enter the 17-character VIN in the decoder above for the year, engine and plant breakdown." },
+    ],
+    related: ["volvo", "volkswagen", "audi"],
+  },
+
+  // ───────────────────────── BRAND: FIAT ─────────────────────────
+  {
+    slug: "fiat",
+    category: "brand",
+    badge: "Fiat VIN Decoder",
+    h1: "Fiat VIN Decoder —",
+    h1Accent: "Decode Any Fiat VIN Free",
+    metaTitle: "Fiat VIN Decoder — Free Fiat VIN Number Lookup",
+    metaDescription:
+      "Free Fiat VIN decoder. Enter any 17-character Fiat VIN to decode the year, engine, plant and trim — 500, 500X, 124 Spider. Instant, no signup.",
+    keywords: [
+      "fiat vin decoder",
+      "fiat vin number decoder",
+      "vin decoder fiat",
+      "fiat vin lookup",
+      "fiat 500 vin decoder",
+    ],
+    intro:
+      "Decode any Fiat VIN free in seconds. Enter the 17-character VIN from your Fiat 500, 500X, 500L or 124 Spider and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Fiat WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["ZFA", "Fiat passenger car, built in Italy"],
+        ["3C3", "Fiat (500), built in Mexico"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Fiat VIN breaks down",
+        paras: [
+          "Every Fiat built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — an Italy-built Fiat opens ZFA, while the US-market 500 built in Mexico (Toluca) opens 3C3. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Fiat returned to the US market in 2011 under Fiat Chrysler, so most US Fiat VINs cover the 500 family and the 124 Spider, the latter built by Mazda in Japan and badged as a Fiat.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Fiat VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Fiat?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Fiat VIN starting with ZFA mean?", a: "ZFA is the World Manufacturer Identifier for an Italy-built Fiat passenger car. A US-market 500 built in Mexico opens 3C3 instead." },
+      { q: "Can I decode a Fiat 500 VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, engine, plant and trim — no account needed." },
+    ],
+    related: ["alfa-romeo", "chrysler", "mazda"],
+  },
+
+  // ───────────────────────── BRAND: ALFA ROMEO ─────────────────────────
+  {
+    slug: "alfa-romeo",
+    category: "brand",
+    badge: "Alfa Romeo VIN Decoder",
+    h1: "Alfa Romeo VIN Decoder —",
+    h1Accent: "Decode Any Alfa Romeo VIN Free",
+    metaTitle: "Alfa Romeo VIN Decoder — Free Alfa Romeo VIN Lookup",
+    metaDescription:
+      "Free Alfa Romeo VIN decoder. Enter any 17-character Alfa Romeo VIN to decode the year, engine, plant and trim — Giulia, Stelvio, 4C. Instant, no signup.",
+    keywords: [
+      "alfa romeo vin decoder",
+      "alfa romeo vin number decoder",
+      "vin decoder alfa romeo",
+      "alfa romeo vin lookup",
+      "giulia vin decoder",
+      "stelvio vin decoder",
+    ],
+    intro:
+      "Decode any Alfa Romeo VIN free in seconds. Enter the 17-character VIN from your Alfa Romeo Giulia, Stelvio, 4C or Giulietta and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Alfa Romeo WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["ZAR", "Alfa Romeo passenger car, built in Italy"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How an Alfa Romeo VIN breaks down",
+        paras: [
+          "Every Alfa Romeo built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — an Italy-built Alfa Romeo opens ZAR. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Alfa Romeo re-entered the US market with the 4C in 2014, followed by the Giulia sedan and Stelvio SUV, all built in Italy. Because the engine and trim live in positions 4–8, a Giulia and a Giulia Quadrifoglio of the same year carry different descriptor characters.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an Alfa Romeo VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an Alfa Romeo?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does an Alfa Romeo VIN starting with ZAR mean?", a: "ZAR is the World Manufacturer Identifier for an Italy-built Alfa Romeo passenger car. The following characters narrow it to the model line, body and engine." },
+      { q: "Can I decode an Alfa Romeo VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, engine, plant and trim — no account needed." },
+    ],
+    related: ["fiat", "maserati", "ferrari"],
+  },
+
+  // ───────────────────────── BRAND: OLDSMOBILE ─────────────────────────
+  {
+    slug: "oldsmobile",
+    category: "brand",
+    badge: "Oldsmobile VIN Decoder",
+    h1: "Oldsmobile VIN Decoder —",
+    h1Accent: "Decode Any Oldsmobile VIN Free",
+    metaTitle: "Oldsmobile VIN Decoder — Free Oldsmobile VIN Lookup",
+    metaDescription:
+      "Free Oldsmobile VIN decoder. Enter any 17-character Oldsmobile VIN to decode the year, engine, plant and trim — Cutlass, Alero, Intrigue. Instant, no signup.",
+    keywords: [
+      "oldsmobile vin decoder",
+      "oldsmobile vin number decoder",
+      "vin decoder oldsmobile",
+      "oldsmobile vin lookup",
+      "cutlass vin decoder",
+    ],
+    intro:
+      "Decode any Oldsmobile VIN free in seconds. Enter the 17-character VIN from your Oldsmobile Cutlass, Alero, Intrigue, Bravada or 88 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Oldsmobile WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1G3", "Oldsmobile, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How an Oldsmobile VIN breaks down",
+        paras: [
+          "Oldsmobile was a General Motors division, so its VINs follow GM's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a US-built Oldsmobile commonly opens 1G3. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Oldsmobile production ended in 2004, so all Oldsmobile VINs cover models up to that year, including the Alero, Intrigue, Aurora and Silhouette. For pre-1981 Oldsmobiles such as classic Cutlass and 442 models, the shorter manufacturer-specific format applies — see our classic-car VIN decoder.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an Oldsmobile VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records — especially useful on an out-of-production brand.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an Oldsmobile?", a: "On the lower-left corner of the windshield and the driver-side doorjamb on 1981-and-newer models; on pre-1981 classics, check the dash plate, doorjamb and title." },
+      { q: "What does an Oldsmobile VIN starting with 1G3 mean?", a: "1G3 is the World Manufacturer Identifier for a US-built Oldsmobile under General Motors. The following characters narrow it to the model line, body and engine." },
+      { q: "Can I still decode an Oldsmobile VIN?", a: "Yes. The VIN format doesn't expire — enter the 17-character VIN in the decoder above. For pre-1981 Oldsmobiles, see the classic-car VIN decoder." },
+    ],
+    related: ["buick", "pontiac", "gm"],
+  },
+
+  // ───────────────────────── BRAND: SATURN ─────────────────────────
+  {
+    slug: "saturn",
+    category: "brand",
+    badge: "Saturn VIN Decoder",
+    h1: "Saturn VIN Decoder —",
+    h1Accent: "Decode Any Saturn VIN Free",
+    metaTitle: "Saturn VIN Decoder — Free Saturn VIN Number Lookup",
+    metaDescription:
+      "Free Saturn VIN decoder. Enter any 17-character Saturn VIN to decode the year, engine, plant and trim — Ion, Vue, Outlook, Sky. Instant, no signup.",
+    keywords: [
+      "saturn vin decoder",
+      "saturn vin number decoder",
+      "vin decoder saturn",
+      "saturn vin lookup",
+      "saturn vue vin decoder",
+    ],
+    intro:
+      "Decode any Saturn VIN free in seconds. Enter the 17-character VIN from your Saturn Ion, Vue, Aura, Outlook or Sky and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Saturn WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1G8", "Saturn car, built in the USA"],
+        ["5GZ", "Saturn SUV (Outlook), built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Saturn VIN breaks down",
+        paras: [
+          "Saturn was a General Motors division, so its VINs follow GM's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a US-built Saturn car commonly opens 1G8, and the Outlook SUV 5GZ. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Saturn production ended in 2010, so all Saturn VINs cover models up to that year. Later Saturns such as the Aura, Vue and Astra were rebadged Opel and Daewoo designs, which can show in the engine and plant descriptors.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Saturn VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records — especially useful on an out-of-production brand.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Saturn?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Saturn VIN starting with 1G8 mean?", a: "1G8 is the World Manufacturer Identifier for a US-built Saturn car under General Motors. The Outlook SUV uses 5GZ." },
+      { q: "Can I still decode a Saturn VIN?", a: "Yes. The VIN format doesn't expire — enter the 17-character VIN in the decoder above for the year, engine and plant breakdown." },
+    ],
+    related: ["pontiac", "gm", "oldsmobile"],
+  },
+
+  // ───────────────────────── BRAND: MERCURY ─────────────────────────
+  {
+    slug: "mercury",
+    category: "brand",
+    badge: "Mercury VIN Decoder",
+    h1: "Mercury VIN Decoder —",
+    h1Accent: "Decode Any Mercury VIN Free",
+    metaTitle: "Mercury VIN Decoder — Free Mercury VIN Number Lookup",
+    metaDescription:
+      "Free Mercury VIN decoder. Enter any 17-character Mercury VIN to decode the year, engine, plant and trim — Grand Marquis, Mountaineer, Milan. Instant, no signup.",
+    keywords: [
+      "mercury vin decoder",
+      "mercury vin number decoder",
+      "vin decoder mercury",
+      "mercury vin lookup",
+      "grand marquis vin decoder",
+    ],
+    intro:
+      "Decode any Mercury VIN free in seconds. Enter the 17-character VIN from your Mercury Grand Marquis, Mountaineer, Milan, Sable or Mariner and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Mercury / Ford WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1ME", "Mercury car, built in the USA"],
+        ["4M2", "Mercury SUV (Mountaineer), built in the USA"],
+        ["2ME", "Mercury car, built in Canada"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Mercury VIN breaks down",
+        paras: [
+          "Mercury was a Ford division, so its VINs follow Ford's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a US-built Mercury car commonly opens 1ME, the Mountaineer SUV 4M2, and a Canada-built Grand Marquis 2ME. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Mercury production ended in 2011, so all Mercury VINs cover models up to that year. Many late Mercurys were close siblings of Ford models (Milan/Fusion, Mariner/Escape), which can show in shared engine and plant descriptors.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Mercury VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records — especially useful on an out-of-production brand.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Mercury?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Mercury VIN starting with 1ME mean?", a: "1ME is the World Manufacturer Identifier for a US-built Mercury car under Ford. The Mountaineer SUV uses 4M2, and a Canada-built car 2ME." },
+      { q: "Can I still decode a Mercury VIN?", a: "Yes. The VIN format doesn't expire — enter the 17-character VIN in the decoder above for the year, engine and plant breakdown." },
+    ],
+    related: ["ford", "lincoln", "plymouth"],
+  },
+
+  // ───────────────────────── BRAND: PLYMOUTH ─────────────────────────
+  {
+    slug: "plymouth",
+    category: "brand",
+    badge: "Plymouth VIN Decoder",
+    h1: "Plymouth VIN Decoder —",
+    h1Accent: "Decode Any Plymouth VIN Free",
+    metaTitle: "Plymouth VIN Decoder — Free Plymouth VIN Number Lookup",
+    metaDescription:
+      "Free Plymouth VIN decoder. Enter any 17-character Plymouth VIN to decode the year, engine, plant and trim — Neon, Voyager, Prowler. Instant, no signup.",
+    keywords: [
+      "plymouth vin decoder",
+      "plymouth vin number decoder",
+      "vin decoder plymouth",
+      "plymouth vin lookup",
+      "plymouth prowler vin decoder",
+    ],
+    intro:
+      "Decode any Plymouth VIN free in seconds. Enter the 17-character VIN from your Plymouth Neon, Voyager, Breeze, Prowler or Barracuda and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Plymouth / Chrysler WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1P3", "Plymouth car, built in the USA"],
+        ["2P4", "Plymouth van/MPV, built in Canada"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Plymouth VIN breaks down",
+        paras: [
+          "Plymouth was a Chrysler division, so its 1981-and-newer VINs follow Chrysler's structure under the 17-character ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a US-built Plymouth car commonly opens 1P3, and a Canada-built van 2P4. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Plymouth production ended in 2001, so its modern VINs cover models such as the Neon, Voyager, Breeze and the Prowler. For pre-1981 muscle-era Plymouths like the Barracuda, Road Runner and GTX, the shorter manufacturer-specific format applies — see our classic-car VIN decoder.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Plymouth VIN reveals the factory build — year, engine, plant and trim. It won't show what happened after the sale. For salvage, accident, flood and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records — especially useful on an out-of-production brand.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Plymouth?", a: "On the lower-left corner of the windshield and the driver-side doorjamb on 1981-and-newer models; on pre-1981 classics, check the dash plate, doorjamb and fender tag." },
+      { q: "What does a Plymouth VIN starting with 1P3 mean?", a: "1P3 is the World Manufacturer Identifier for a US-built Plymouth car under Chrysler. A Canada-built Plymouth van uses 2P4." },
+      { q: "Can I decode a classic Plymouth VIN?", a: "Pre-1981 Plymouths use a shorter manufacturer-specific format decoded against a year-specific chart — see our classic-car VIN decoder. Modern 17-character VINs decode in the tool above." },
+    ],
+    related: ["chrysler", "dodge", "mercury"],
+  },
+
+  // ───────────────────────── BRAND: FERRARI ─────────────────────────
+  {
+    slug: "ferrari",
+    category: "brand",
+    badge: "Ferrari VIN Decoder",
+    h1: "Ferrari VIN Decoder —",
+    h1Accent: "Decode Any Ferrari VIN Free",
+    metaTitle: "Ferrari VIN Decoder — Free Ferrari VIN Number Lookup",
+    metaDescription:
+      "Free Ferrari VIN decoder. Enter any 17-character Ferrari VIN to decode the year, engine, plant and model — 488, F8, Roma and more. Instant, no signup.",
+    keywords: [
+      "ferrari vin decoder",
+      "ferrari vin number decoder",
+      "vin decoder ferrari",
+      "ferrari vin lookup",
+      "488 vin decoder",
+    ],
+    intro:
+      "Decode any Ferrari VIN free in seconds. Enter the 17-character VIN from your Ferrari 488, F8 Tributo, Roma, Portofino or 812 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Ferrari WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["ZFF", "Ferrari, built in Italy (Maranello)"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Ferrari VIN breaks down",
+        paras: [
+          "Every Ferrari built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Ferrari built in Maranello, Italy opens ZFF. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because every road Ferrari shares the ZFF prefix, the descriptor in positions 4–8 is what separates a 488 from an F8 or a Roma. On a six- or seven-figure car, confirming the VIN matches the title, engine number and build records is a core part of authentication.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Ferrari VIN reveals the factory build — year, model, engine and plant. It won't show what happened after the sale. For salvage, accident, total-loss and odometer brands — and provenance that matters on a collectible — run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Ferrari?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration; the chassis number is also stamped on the body and engine." },
+      { q: "What does a Ferrari VIN starting with ZFF mean?", a: "ZFF is the World Manufacturer Identifier for a Ferrari built in Maranello, Italy. The descriptor characters that follow identify the specific model and engine." },
+      { q: "Can I decode a Ferrari VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, model, engine and plant — no account needed." },
+    ],
+    related: ["lamborghini", "maserati", "porsche"],
+  },
+
+  // ───────────────────────── BRAND: LAMBORGHINI ─────────────────────────
+  {
+    slug: "lamborghini",
+    category: "brand",
+    badge: "Lamborghini VIN Decoder",
+    h1: "Lamborghini VIN Decoder —",
+    h1Accent: "Decode Any Lamborghini VIN Free",
+    metaTitle: "Lamborghini VIN Decoder — Free Lamborghini VIN Lookup",
+    metaDescription:
+      "Free Lamborghini VIN decoder. Enter any 17-character Lamborghini VIN to decode the year, engine, plant and model — Huracán, Urus, Aventador. Instant, no signup.",
+    keywords: [
+      "lamborghini vin decoder",
+      "lamborghini vin number decoder",
+      "vin decoder lamborghini",
+      "lamborghini vin lookup",
+      "huracan vin decoder",
+    ],
+    intro:
+      "Decode any Lamborghini VIN free in seconds. Enter the 17-character VIN from your Lamborghini Huracán, Urus, Aventador or Gallardo and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Lamborghini WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["ZHW", "Lamborghini, built in Italy (Sant'Agata Bolognese)"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Lamborghini VIN breaks down",
+        paras: [
+          "Every Lamborghini built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Lamborghini built in Sant'Agata Bolognese, Italy opens ZHW. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because every Lamborghini shares the ZHW prefix, the descriptor in positions 4–8 is what separates a Huracán from an Aventador or the Urus SUV. On a car at this value, matching the VIN to the title, engine number and factory records is central to authentication.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Lamborghini VIN reveals the factory build — year, model, engine and plant. It won't show what happened after the sale. For salvage, accident, total-loss and odometer brands — and provenance that matters on a collectible — run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Lamborghini?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration; the chassis number is also stamped on the body." },
+      { q: "What does a Lamborghini VIN starting with ZHW mean?", a: "ZHW is the World Manufacturer Identifier for a Lamborghini built in Sant'Agata Bolognese, Italy. The descriptor characters that follow identify the specific model and engine." },
+      { q: "Can I decode a Lamborghini VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, model, engine and plant — no account needed." },
+    ],
+    related: ["ferrari", "porsche", "audi"],
+  },
+
+  // ───────────────────────── BRAND: MASERATI ─────────────────────────
+  {
+    slug: "maserati",
+    category: "brand",
+    badge: "Maserati VIN Decoder",
+    h1: "Maserati VIN Decoder —",
+    h1Accent: "Decode Any Maserati VIN Free",
+    metaTitle: "Maserati VIN Decoder — Free Maserati VIN Number Lookup",
+    metaDescription:
+      "Free Maserati VIN decoder. Enter any 17-character Maserati VIN to decode the year, engine, plant and model — Ghibli, Levante, Quattroporte. Instant, no signup.",
+    keywords: [
+      "maserati vin decoder",
+      "maserati vin number decoder",
+      "vin decoder maserati",
+      "maserati vin lookup",
+      "ghibli vin decoder",
+    ],
+    intro:
+      "Decode any Maserati VIN free in seconds. Enter the 17-character VIN from your Maserati Ghibli, Levante, Quattroporte, GranTurismo or Grecale and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Maserati WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["ZAM", "Maserati, built in Italy"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Maserati VIN breaks down",
+        paras: [
+          "Every Maserati built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — an Italy-built Maserati opens ZAM. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because every Maserati shares the ZAM prefix, the descriptor in positions 4–8 is what separates a Ghibli from a Levante SUV or a Quattroporte. Confirming the VIN matches the title and engine number is part of verifying a higher-value car.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Maserati VIN reveals the factory build — year, model, engine and plant. It won't show what happened after the sale. For salvage, accident, total-loss and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Maserati?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Maserati VIN starting with ZAM mean?", a: "ZAM is the World Manufacturer Identifier for an Italy-built Maserati. The descriptor characters that follow identify the specific model and engine." },
+      { q: "Can I decode a Maserati VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, model, engine and plant — no account needed." },
+    ],
+    related: ["ferrari", "alfa-romeo", "bentley"],
+  },
+
+  // ───────────────────────── BRAND: BENTLEY ─────────────────────────
+  {
+    slug: "bentley",
+    category: "brand",
+    badge: "Bentley VIN Decoder",
+    h1: "Bentley VIN Decoder —",
+    h1Accent: "Decode Any Bentley VIN Free",
+    metaTitle: "Bentley VIN Decoder — Free Bentley VIN Number Lookup",
+    metaDescription:
+      "Free Bentley VIN decoder. Enter any 17-character Bentley VIN to decode the year, engine, plant and model — Continental, Bentayga, Flying Spur. Instant, no signup.",
+    keywords: [
+      "bentley vin decoder",
+      "bentley vin number decoder",
+      "vin decoder bentley",
+      "bentley vin lookup",
+      "continental gt vin decoder",
+    ],
+    intro:
+      "Decode any Bentley VIN free in seconds. Enter the 17-character VIN from your Bentley Continental GT, Bentayga, Flying Spur or Mulsanne and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Bentley WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["SCB", "Bentley, built in the United Kingdom (Crewe)"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Bentley VIN breaks down",
+        paras: [
+          "Every Bentley built since 1981 carries a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Bentley built in Crewe, England opens SCB. Positions 4–8 encode the model line, body and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential build number.",
+          "Because every Bentley shares the SCB prefix, the descriptor in positions 4–8 is what separates a Continental GT from a Bentayga SUV or a Flying Spur. As part of the Volkswagen Group, modern Bentleys share some engine and platform technology, which can show in the descriptor.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Bentley VIN reveals the factory build — year, model, engine and plant. It won't show what happened after the sale. For salvage, accident, total-loss and odometer brands, run the same VIN through a history report drawing on NMVTIS and state-DMV records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Bentley?", a: "On the lower-left corner of the windshield, the driver-side doorjamb sticker, and the title and registration." },
+      { q: "What does a Bentley VIN starting with SCB mean?", a: "SCB is the World Manufacturer Identifier for a Bentley built in Crewe, United Kingdom. The descriptor characters that follow identify the specific model and engine." },
+      { q: "Can I decode a Bentley VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, model, engine and plant — no account needed." },
+    ],
+    related: ["maserati", "porsche", "mercedes-benz"],
+  },
+
+  // ───────────────────────── TYPE: INTERNATIONAL ─────────────────────────
+  {
+    slug: "international",
+    category: "type",
+    badge: "International VIN Decoder",
+    h1: "International Truck VIN Decoder —",
+    h1Accent: "Decode Any International VIN Free",
+    metaTitle: "International Truck VIN Decoder — Free VIN Lookup",
+    metaDescription:
+      "Free International truck VIN decoder. Enter any 17-character International / Navistar VIN to decode the year, engine, plant and model. Instant, no signup.",
+    keywords: [
+      "international vin decoder",
+      "international truck vin decoder",
+      "navistar vin decoder",
+      "international vin lookup",
+      "durastar vin decoder",
+    ],
+    intro:
+      "Decode any International truck VIN free in seconds. Enter the 17-character VIN from your International (Navistar) DuraStar, ProStar, LoneStar, MV or HV and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common International / Navistar WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1HT", "International truck, built in the USA"],
+        ["1HS", "International truck, built in the USA"],
+        ["3HA", "International medium-duty truck"],
+        ["3HS", "International truck, built in Mexico"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How an International truck VIN breaks down",
+        paras: [
+          "International (built by Navistar) uses the 17-character VIN standard like all road vehicles, but as a commercial-truck maker the descriptor section carries heavy-duty specifics. Positions 1–3 are the World Manufacturer Identifier — a US-built International truck commonly opens 1HT or 1HS. Positions 4–8 encode the model, GVWR class, brake system, cab and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "On a Class 6–8 truck, the engine descriptor is especially important because the same chassis can be ordered with different International or Cummins engines. Confirm the VIN against the door sticker, the frame stamp and the title.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding an International VIN reveals the factory build — year, model, GVWR class, engine and plant. It won't show what happened after the sale. For title brands, accidents, total-loss and odometer records, run the same VIN through a history report drawing on NMVTIS and state-DMV data.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an International truck?", a: "On the windshield base, the driver-door pillar sticker, the frame rail, and the title and registration." },
+      { q: "What does an International VIN starting with 1HT mean?", a: "1HT is a World Manufacturer Identifier for a US-built International (Navistar) truck. 1HS is also common; 3HA and 3HS indicate other Navistar plants." },
+      { q: "Can I decode a commercial truck VIN for free?", a: "Yes. International trucks use the same 17-character VIN — enter it in the decoder above for the year, engine class and plant breakdown." },
+    ],
+    related: ["mack", "kenworth", "peterbilt"],
+  },
+
+  // ───────────────────────── TYPE: KENWORTH ─────────────────────────
+  {
+    slug: "kenworth",
+    category: "type",
+    badge: "Kenworth VIN Decoder",
+    h1: "Kenworth VIN Decoder —",
+    h1Accent: "Decode Any Kenworth Truck VIN Free",
+    metaTitle: "Kenworth VIN Decoder — Free Kenworth Truck VIN Lookup",
+    metaDescription:
+      "Free Kenworth VIN decoder. Enter any 17-character Kenworth VIN to decode the year, engine, plant and model — T680, W900, T880. Instant, no signup.",
+    keywords: [
+      "kenworth vin decoder",
+      "kenworth truck vin decoder",
+      "vin decoder kenworth",
+      "kenworth vin lookup",
+      "t680 vin decoder",
+    ],
+    intro:
+      "Decode any Kenworth VIN free in seconds. Enter the 17-character VIN from your Kenworth T680, W900, T880 or T370 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Kenworth WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1XK", "Kenworth truck, built in the USA"],
+        ["1NK", "Kenworth truck, built in the USA"],
+        ["2NK", "Kenworth truck, built in Canada"],
+        ["3BK", "Kenworth truck, built in Mexico"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Kenworth VIN breaks down",
+        paras: [
+          "Kenworth, a PACCAR brand, uses the 17-character VIN standard with a heavy-duty descriptor section. Positions 1–3 are the World Manufacturer Identifier — a US-built Kenworth commonly opens 1XK or 1NK, a Canada-built truck 2NK, and a Mexico-built truck 3BK. Positions 4–8 encode the model, GVWR class, brake system, cab and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "On a Class 8 tractor, the engine descriptor matters because the same chassis can be specced with PACCAR, Cummins or other engines. Confirm the VIN against the door sticker, the frame stamp and the title.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Kenworth VIN reveals the factory build — year, model, GVWR class, engine and plant. It won't show what happened after the sale. For title brands, accidents, total-loss and odometer records, run the same VIN through a history report drawing on NMVTIS and state-DMV data.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Kenworth?", a: "On the driver-door pillar sticker, the frame rail, the windshield base, and the title and registration." },
+      { q: "What does a Kenworth VIN starting with 1XK mean?", a: "1XK is a World Manufacturer Identifier for a US-built Kenworth truck (PACCAR). 1NK is also common; 2NK indicates Canada and 3BK Mexico." },
+      { q: "Can I decode a Kenworth truck VIN for free?", a: "Yes. Kenworth trucks use the same 17-character VIN — enter it in the decoder above for the year, engine class and plant breakdown." },
+    ],
+    related: ["peterbilt", "international", "mack"],
+  },
+
+  // ───────────────────────── TYPE: PETERBILT ─────────────────────────
+  {
+    slug: "peterbilt",
+    category: "type",
+    badge: "Peterbilt VIN Decoder",
+    h1: "Peterbilt VIN Decoder —",
+    h1Accent: "Decode Any Peterbilt Truck VIN Free",
+    metaTitle: "Peterbilt VIN Decoder — Free Peterbilt Truck VIN Lookup",
+    metaDescription:
+      "Free Peterbilt VIN decoder. Enter any 17-character Peterbilt VIN to decode the year, engine, plant and model — 579, 389, 567. Instant, no signup.",
+    keywords: [
+      "peterbilt vin decoder",
+      "peterbilt truck vin decoder",
+      "vin decoder peterbilt",
+      "peterbilt vin lookup",
+      "379 vin decoder",
+    ],
+    intro:
+      "Decode any Peterbilt VIN free in seconds. Enter the 17-character VIN from your Peterbilt 579, 389, 567 or 367 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Peterbilt WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1XP", "Peterbilt truck, built in the USA"],
+        ["1NP", "Peterbilt truck, built in the USA"],
+        ["2NP", "Peterbilt truck, built in Canada"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Peterbilt VIN breaks down",
+        paras: [
+          "Peterbilt, a PACCAR brand, uses the 17-character VIN standard with a heavy-duty descriptor section. Positions 1–3 are the World Manufacturer Identifier — a US-built Peterbilt commonly opens 1XP or 1NP, and a Canada-built truck 2NP. Positions 4–8 encode the model, GVWR class, brake system, cab and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "On a Class 8 tractor, the engine descriptor matters because the same model can be ordered with PACCAR, Cummins or other engines. Confirm the VIN against the door sticker, the frame stamp and the title.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Peterbilt VIN reveals the factory build — year, model, GVWR class, engine and plant. It won't show what happened after the sale. For title brands, accidents, total-loss and odometer records, run the same VIN through a history report drawing on NMVTIS and state-DMV data.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Peterbilt?", a: "On the driver-door pillar sticker, the frame rail, the windshield base, and the title and registration." },
+      { q: "What does a Peterbilt VIN starting with 1XP mean?", a: "1XP is a World Manufacturer Identifier for a US-built Peterbilt truck (PACCAR). 1NP is also common, and 2NP indicates a Canada-built truck." },
+      { q: "Can I decode a Peterbilt truck VIN for free?", a: "Yes. Peterbilt trucks use the same 17-character VIN — enter it in the decoder above for the year, engine class and plant breakdown." },
+    ],
+    related: ["kenworth", "international", "mack"],
+  },
+
+  // ───────────────────────── TYPE: MACK ─────────────────────────
+  {
+    slug: "mack",
+    category: "type",
+    badge: "Mack VIN Decoder",
+    h1: "Mack Truck VIN Decoder —",
+    h1Accent: "Decode Any Mack VIN Free",
+    metaTitle: "Mack Truck VIN Decoder — Free Mack VIN Number Lookup",
+    metaDescription:
+      "Free Mack truck VIN decoder. Enter any 17-character Mack VIN to decode the year, engine, plant and model — Anthem, Granite, Pinnacle. Instant, no signup.",
+    keywords: [
+      "mack vin decoder",
+      "mack truck vin decoder",
+      "vin decoder mack",
+      "mack vin lookup",
+      "mack anthem vin decoder",
+    ],
+    intro:
+      "Decode any Mack truck VIN free in seconds. Enter the 17-character VIN from your Mack Anthem, Granite, Pinnacle or LR and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Mack WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["1M1", "Mack truck, built in the USA"],
+        ["1M2", "Mack truck, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Mack truck VIN breaks down",
+        paras: [
+          "Mack Trucks, part of the Volvo Group, uses the 17-character VIN standard with a heavy-duty descriptor section. Positions 1–3 are the World Manufacturer Identifier — a US-built Mack commonly opens 1M1 or 1M2. Positions 4–8 encode the model, GVWR class, brake system, cab and engine; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "On a Class 8 truck, the engine descriptor matters because Mack offers its own MP-series engines. Confirm the VIN against the door sticker, the frame stamp and the title.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Mack VIN reveals the factory build — year, model, GVWR class, engine and plant. It won't show what happened after the sale. For title brands, accidents, total-loss and odometer records, run the same VIN through a history report drawing on NMVTIS and state-DMV data.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Mack truck?", a: "On the driver-door pillar sticker, the frame rail, the windshield base, and the title and registration." },
+      { q: "What does a Mack VIN starting with 1M1 mean?", a: "1M1 is a World Manufacturer Identifier for a US-built Mack truck (Volvo Group). 1M2 is also common." },
+      { q: "Can I decode a Mack truck VIN for free?", a: "Yes. Mack trucks use the same 17-character VIN — enter it in the decoder above for the year, engine class and plant breakdown." },
+    ],
+    related: ["international", "kenworth", "peterbilt"],
+  },
+
+  // ───────────────────────── BRAND: KTM ─────────────────────────
+  {
+    slug: "ktm",
+    category: "brand",
+    badge: "KTM VIN Decoder",
+    h1: "KTM VIN Decoder —",
+    h1Accent: "Decode Any KTM Motorcycle VIN Free",
+    metaTitle: "KTM VIN Decoder — Free KTM Motorcycle VIN Lookup",
+    metaDescription:
+      "Free KTM VIN decoder. Enter any 17-character KTM motorcycle VIN to decode the year, engine, plant and model — Duke, Adventure, SX. Instant, no signup.",
+    keywords: [
+      "ktm vin decoder",
+      "ktm motorcycle vin decoder",
+      "vin decoder ktm",
+      "ktm vin lookup",
+      "duke vin decoder",
+    ],
+    intro:
+      "Decode any KTM motorcycle VIN free in seconds. Enter the 17-character VIN from your KTM Duke, RC, Adventure, SX or EXC and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common KTM WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["VBK", "KTM motorcycle, built in Austria"],
+        ["MD2", "KTM small-displacement motorcycle, built in India"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a KTM VIN breaks down",
+        paras: [
+          "Street-legal KTM motorcycles carry a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — an Austria-built KTM commonly opens VBK, while smaller-displacement models built in India (in partnership with Bajaj) open MD2. Positions 4–8 describe the model and engine family; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "Closed-course competition models (pure motocross and enduro bikes not built for road registration) may carry a manufacturer frame serial rather than a road VIN, so always read the stamping on the steering head and compare it to any title or MSO before you rely on it.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a KTM VIN reveals the factory build — year, model and engine family. It won't show what happened after the sale. For theft records, total-loss and lien checks, run the same VIN through a history report drawing on NMVTIS and state-DMV data where the bike is titled.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a KTM motorcycle?", a: "Stamped on the steering head (frame neck) and shown on the title or MSO; street models also carry a VIN sticker on the frame." },
+      { q: "What does a KTM VIN starting with VBK mean?", a: "VBK is the World Manufacturer Identifier for a KTM motorcycle built in Austria. MD2 indicates a smaller KTM built in India." },
+      { q: "Do off-road-only KTMs have a VIN?", a: "Competition-only models may carry a frame serial rather than a 17-character road VIN. Street-legal and dual-sport KTMs use the full VIN you can decode above." },
+    ],
+    related: ["ducati", "triumph", "kawasaki"],
+  },
+
+  // ───────────────────────── BRAND: KAWASAKI ─────────────────────────
+  {
+    slug: "kawasaki",
+    category: "brand",
+    badge: "Kawasaki VIN Decoder",
+    h1: "Kawasaki VIN Decoder —",
+    h1Accent: "Decode Any Kawasaki VIN Free",
+    metaTitle: "Kawasaki VIN Decoder — Free Kawasaki Motorcycle VIN Lookup",
+    metaDescription:
+      "Free Kawasaki VIN decoder. Enter any 17-character Kawasaki VIN to decode the year, engine, plant and model — Ninja, Z, Vulcan, KLR. Instant, no signup.",
+    keywords: [
+      "kawasaki vin decoder",
+      "kawasaki motorcycle vin decoder",
+      "vin decoder kawasaki",
+      "kawasaki vin lookup",
+      "ninja vin decoder",
+    ],
+    intro:
+      "Decode any Kawasaki VIN free in seconds. Enter the 17-character VIN from your Kawasaki Ninja, Z, Vulcan, KLR or Versys and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Kawasaki WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["JKA", "Kawasaki motorcycle, built in Japan"],
+        ["JKB", "Kawasaki motorcycle, built in Japan"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Kawasaki VIN breaks down",
+        paras: [
+          "Street-legal Kawasaki motorcycles carry a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Japan-built Kawasaki motorcycle commonly opens JKA or JKB. Positions 4–8 describe the model and engine family; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "Kawasaki also builds some products (including side-by-sides and certain models) at its US plant in Lincoln, Nebraska, in which case the WMI and plant code reflect that origin. Off-road-only machines may carry a frame serial rather than a road VIN.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Kawasaki VIN reveals the factory build — year, model and engine family. It won't show what happened after the sale. For theft records, total-loss and lien checks, run the same VIN through a history report drawing on NMVTIS and state-DMV data where the bike is titled.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Kawasaki motorcycle?", a: "Stamped on the steering head (frame neck) and shown on the title; street models also carry a VIN sticker on the frame." },
+      { q: "What does a Kawasaki VIN starting with JKA mean?", a: "JKA is a World Manufacturer Identifier for a Japan-built Kawasaki motorcycle. JKB is also common." },
+      { q: "Do off-road-only Kawasakis have a VIN?", a: "Competition and off-road-only models may carry a frame serial rather than a 17-character road VIN. Street-legal Kawasakis use the full VIN you can decode above." },
+    ],
+    related: ["ktm", "ducati", "yamaha"],
+  },
+
+  // ───────────────────────── BRAND: DUCATI ─────────────────────────
+  {
+    slug: "ducati",
+    category: "brand",
+    badge: "Ducati VIN Decoder",
+    h1: "Ducati VIN Decoder —",
+    h1Accent: "Decode Any Ducati VIN Free",
+    metaTitle: "Ducati VIN Decoder — Free Ducati Motorcycle VIN Lookup",
+    metaDescription:
+      "Free Ducati VIN decoder. Enter any 17-character Ducati VIN to decode the year, engine, plant and model — Panigale, Monster, Multistrada. Instant, no signup.",
+    keywords: [
+      "ducati vin decoder",
+      "ducati motorcycle vin decoder",
+      "vin decoder ducati",
+      "ducati vin lookup",
+      "panigale vin decoder",
+    ],
+    intro:
+      "Decode any Ducati VIN free in seconds. Enter the 17-character VIN from your Ducati Panigale, Monster, Multistrada, Scrambler or Diavel and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Ducati WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["ZDM", "Ducati motorcycle, built in Italy (Bologna)"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Ducati VIN breaks down",
+        paras: [
+          "Ducati motorcycles carry a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a Ducati built in Bologna, Italy opens ZDM. Positions 4–8 describe the model and engine family; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "Because every Ducati shares the ZDM prefix, the descriptor in positions 4–8 is what separates a Panigale from a Monster or a Multistrada. As part of the Audi/Lamborghini group, Ducati shares some development resources, but its VINs remain Bologna-issued.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Ducati VIN reveals the factory build — year, model and engine family. It won't show what happened after the sale. For theft records, total-loss and lien checks, run the same VIN through a history report drawing on NMVTIS and state-DMV data where the bike is titled.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Ducati?", a: "Stamped on the steering head (frame neck) and shown on the title; the engine number is stamped separately on the cases." },
+      { q: "What does a Ducati VIN starting with ZDM mean?", a: "ZDM is the World Manufacturer Identifier for a Ducati motorcycle built in Bologna, Italy. The descriptor characters that follow identify the model and engine." },
+      { q: "Can I decode a Ducati VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for an instant breakdown of year, model and engine family — no account needed." },
+    ],
+    related: ["ktm", "triumph", "kawasaki"],
+  },
+
+  // ───────────────────────── BRAND: TRIUMPH ─────────────────────────
+  {
+    slug: "triumph",
+    category: "brand",
+    badge: "Triumph VIN Decoder",
+    h1: "Triumph VIN Decoder —",
+    h1Accent: "Decode Any Triumph Motorcycle VIN Free",
+    metaTitle: "Triumph VIN Decoder — Free Triumph Motorcycle VIN Lookup",
+    metaDescription:
+      "Free Triumph VIN decoder. Enter any 17-character Triumph VIN to decode the year, engine, plant and model — Bonneville, Tiger, Street Triple. Instant, no signup.",
+    keywords: [
+      "triumph vin decoder",
+      "triumph motorcycle vin decoder",
+      "vin decoder triumph",
+      "triumph vin lookup",
+      "bonneville vin decoder",
+    ],
+    intro:
+      "Decode any Triumph motorcycle VIN free in seconds. Enter the 17-character VIN from your Triumph Bonneville, Tiger, Street Triple, Speed Triple or Rocket 3 and the decoder breaks it down position by position — manufacturer, model year, engine and plant — then validates the check digit. No signup, no charge.",
+    table: {
+      caption: "Common Triumph WMI prefixes (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["SMT", "Triumph motorcycle, built in the United Kingdom"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Triumph VIN breaks down",
+        paras: [
+          "Modern Triumph motorcycles carry a 17-character VIN under the ISO 3779 standard. Positions 1–3 are the World Manufacturer Identifier — a UK-issued Triumph opens SMT. Positions 4–8 describe the model and engine family; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number.",
+          "Triumph builds many models at its facilities in Thailand alongside UK operations, but the VINs remain issued under the SMT manufacturer code. Note this is the modern Hinckley Triumph; pre-1983 Meriden-era classics use older, non-standard formats.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Triumph VIN reveals the factory build — year, model and engine family. It won't show what happened after the sale. For theft records, total-loss and lien checks, run the same VIN through a history report drawing on NMVTIS and state-DMV data where the bike is titled.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Triumph?", a: "Stamped on the steering head (frame neck) and shown on the title; the engine number is stamped separately on the crankcase." },
+      { q: "What does a Triumph VIN starting with SMT mean?", a: "SMT is the World Manufacturer Identifier for a modern (Hinckley) Triumph motorcycle, issued in the United Kingdom even for Thailand-built models." },
+      { q: "Can I decode a Triumph VIN for free?", a: "Yes, for 1983-and-newer Triumphs with a 17-character VIN. Enter it in the decoder above. Classic Meriden-era Triumphs use an older format." },
+    ],
+    related: ["ducati", "ktm", "kawasaki"],
+  },
+
+  // ───────────────────────── TYPE: POLARIS ─────────────────────────
+  {
+    slug: "polaris",
+    category: "type",
+    badge: "Polaris VIN Decoder",
+    h1: "Polaris VIN Decoder —",
+    h1Accent: "Decode a Polaris ATV, RZR or Ranger VIN",
+    metaTitle: "Polaris VIN Decoder — Free Polaris ATV & UTV VIN Lookup",
+    metaDescription:
+      "Free Polaris VIN decoder. Decode a 17-character Polaris RZR, Ranger, Sportsman or Slingshot VIN for year, model and plant — and learn where to find it. No signup.",
+    keywords: [
+      "polaris vin decoder",
+      "polaris ranger vin decoder",
+      "rzr vin decoder",
+      "polaris atv vin lookup",
+      "polaris vin lookup",
+    ],
+    intro:
+      "Decode a Polaris VIN free in seconds. Most road- or trail-registered Polaris RZR, Ranger, Sportsman, General and Slingshot machines carry a 17-character VIN you can break down position by position — manufacturer, model year, model and plant. This guide also shows where the number is stamped, since powersports VINs are easy to mislocate.",
+    table: {
+      caption: "Common Polaris WMI prefix (VIN positions 1–3)",
+      head: ["WMI prefix", "What it identifies"],
+      rows: [
+        ["4XA", "Polaris off-road vehicle, built in the USA"],
+      ],
+    },
+    sections: [
+      {
+        h2: "How a Polaris VIN works",
+        paras: [
+          "Off-road vehicles registered for trail or road use carry a 17-character VIN under the ISO 3779 standard, and Polaris off-road machines commonly open with the 4XA World Manufacturer Identifier. Positions 4–8 describe the model and configuration; position 9 is the check digit; position 10 the model year; position 11 the plant; and 12–17 the sequential number. The Slingshot autocycle also uses a full 17-character VIN.",
+          "Polaris stamps the VIN on the frame — typically on the left frame rail near the engine on RZR and Ranger models, and on the frame below the engine on Sportsman ATVs. The engine carries its own separate serial number, which is not the same as the VIN. Always read the stamped frame VIN rather than relying on a sticker that could be replaced.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Polaris VIN reveals the factory build — year, model and plant. It won't show what happened after the sale. Because off-road vehicles are frequent theft targets, running the VIN through a history and theft check (NMVTIS and state records where the machine is titled) is worth doing before you buy.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Polaris RZR or Ranger?", a: "Stamped on the frame — commonly the left frame rail near the engine. Sportsman ATVs carry it on the frame below the engine. The engine serial number is separate." },
+      { q: "Do all Polaris vehicles have a 17-character VIN?", a: "Road- and trail-registered models (RZR, Ranger, Sportsman, General, Slingshot) use a 17-character VIN. Some machines may also carry a separate model/serial number — read the frame stamp." },
+      { q: "Can I decode a Polaris VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for the year, model and plant breakdown — no account needed." },
+    ],
+    related: ["can-am", "arctic-cat", "ski-doo"],
+  },
+
+  // ───────────────────────── TYPE: CAN-AM ─────────────────────────
+  {
+    slug: "can-am",
+    category: "type",
+    badge: "Can-Am VIN Decoder",
+    h1: "Can-Am VIN Decoder —",
+    h1Accent: "Decode a Can-Am Maverick, Spyder or Ryker VIN",
+    metaTitle: "Can-Am VIN Decoder — Free Can-Am VIN Number Lookup",
+    metaDescription:
+      "Free Can-Am VIN decoder. Decode a 17-character Can-Am Maverick, Defender, Spyder or Ryker VIN for year, model and plant — and learn where to find it. No signup.",
+    keywords: [
+      "can-am vin decoder",
+      "can am vin decoder",
+      "maverick vin decoder",
+      "can-am spyder vin lookup",
+      "can-am vin lookup",
+    ],
+    intro:
+      "Decode a Can-Am VIN free in seconds. Can-Am machines from BRP — the Maverick and Defender side-by-sides, Outlander ATVs, and the road-going Spyder and Ryker — carry a 17-character VIN you can break down position by position. This guide also shows where the number is stamped.",
+    sections: [
+      {
+        h2: "How a Can-Am VIN works",
+        paras: [
+          "Can-Am is the powersports brand of BRP (Bombardier Recreational Products). Road-registered three-wheelers (Spyder, Ryker) and off-road vehicles registered for trail use carry a 17-character VIN under the ISO 3779 standard: positions 1–3 are the manufacturer identifier, 4–8 the model and configuration descriptor, position 9 the check digit, position 10 the model year, position 11 the plant, and 12–17 the sequential number.",
+          "Can-Am stamps the VIN on the frame. On Maverick and Defender side-by-sides it is typically on a frame rail; on the Spyder and Ryker it is on the frame near the front. The engine (Rotax, also a BRP brand) carries its own serial number, which is distinct from the vehicle VIN. Read the stamped frame VIN and confirm it matches the title or MSO.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "Decoding a Can-Am VIN reveals the factory build — year, model and plant. It won't show what happened after the sale. Off-road vehicles are common theft targets, so running the VIN through a history and theft check (NMVTIS and state records where the machine is titled) is worth doing before you buy.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Can-Am?", a: "Stamped on the frame — on a frame rail on Maverick and Defender side-by-sides, and near the front of the frame on the Spyder and Ryker. The Rotax engine serial is separate." },
+      { q: "Do Can-Am vehicles have a 17-character VIN?", a: "Road-registered (Spyder, Ryker) and trail-registered Can-Am models carry a 17-character VIN. Always read the frame stamp and compare it to the title or MSO." },
+      { q: "Can I decode a Can-Am VIN for free?", a: "Yes. Enter the 17-character VIN in the decoder above for the year, model and plant breakdown — no account needed." },
+    ],
+    related: ["ski-doo", "polaris", "arctic-cat"],
+  },
+
+  // ───────────────────────── TYPE: SKI-DOO ─────────────────────────
+  {
+    slug: "ski-doo",
+    category: "type",
+    badge: "Ski-Doo VIN Decoder",
+    h1: "Ski-Doo VIN Decoder —",
+    h1Accent: "Decode or Locate a Ski-Doo Snowmobile VIN",
+    metaTitle: "Ski-Doo VIN Decoder — Find & Decode a Snowmobile VIN",
+    metaDescription:
+      "How to find and read a Ski-Doo snowmobile VIN. Snowmobiles use a VIN/serial stamped on the tunnel plus a separate engine serial — here's how to decode and verify it.",
+    keywords: [
+      "ski-doo vin decoder",
+      "ski doo vin decoder",
+      "snowmobile vin decoder",
+      "ski-doo serial number lookup",
+      "ski-doo vin lookup",
+    ],
+    intro:
+      "Need to read or locate a Ski-Doo VIN? Ski-Doo snowmobiles from BRP carry a vehicle identification number, but where it lives and how it is structured differs from a car. This guide explains where to find the VIN and the engine serial, and how to verify them before a sale.",
+    sections: [
+      {
+        h2: "Where a Ski-Doo VIN lives",
+        paras: [
+          "Snowmobiles are not road vehicles, so their identification is stamped on the chassis rather than displayed at a windshield. On a Ski-Doo the VIN is typically stamped into the tunnel on the right side toward the rear, and is also shown on the registration. The engine (Rotax) carries its own separate serial number stamped on the engine case — that is not the same as the vehicle VIN.",
+          "Because snowmobile VIN formats have varied over the years and by model, the most reliable approach is to record the exact characters from the tunnel stamp and confirm they match the title or registration. Modern BRP snowmobiles use a 17-character VIN; older sleds may use a shorter manufacturer serial that decodes only against BRP records.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the VIN can and can't tell you",
+        paras: [
+          "A Ski-Doo VIN identifies the machine and, on modern 17-character formats, the model year. It won't show what happened after the sale. Snowmobiles are common theft targets, so verifying the tunnel VIN against the title and running a theft/history check where the sled is registered is the key step before buying.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on a Ski-Doo snowmobile?", a: "Stamped into the tunnel, usually on the right side toward the rear, and shown on the registration. The Rotax engine serial is stamped separately on the engine case." },
+      { q: "Do snowmobiles have a 17-character VIN?", a: "Modern BRP snowmobiles use a 17-character VIN. Older sleds may carry a shorter manufacturer serial that decodes only against BRP records." },
+      { q: "How do I verify a used Ski-Doo's identity?", a: "Match the tunnel VIN to the title and registration exactly, note the separate engine serial, and run a theft/history check where the sled is registered." },
+    ],
+    related: ["can-am", "arctic-cat", "polaris"],
+  },
+
+  // ───────────────────────── TYPE: ARCTIC CAT ─────────────────────────
+  {
+    slug: "arctic-cat",
+    category: "type",
+    badge: "Arctic Cat VIN Decoder",
+    h1: "Arctic Cat VIN Decoder —",
+    h1Accent: "Find & Decode an Arctic Cat VIN or Serial",
+    metaTitle: "Arctic Cat VIN Decoder — Find a Snowmobile or ATV Serial",
+    metaDescription:
+      "How to find and read an Arctic Cat VIN or serial number on a snowmobile or ATV. Where it's stamped, the separate engine serial, and how to verify it before buying.",
+    keywords: [
+      "arctic cat vin decoder",
+      "arctic cat serial number lookup",
+      "arctic cat snowmobile vin",
+      "arctic cat atv vin lookup",
+      "arctic cat vin lookup",
+    ],
+    intro:
+      "Need to read or locate an Arctic Cat VIN? Arctic Cat (now part of Textron) builds snowmobiles and off-road ATVs and side-by-sides, and where the identification number lives — and whether it's a full 17-character VIN or a shorter serial — depends on the machine. This guide shows where to find it and how to verify it.",
+    sections: [
+      {
+        h2: "Where an Arctic Cat number lives",
+        paras: [
+          "On Arctic Cat snowmobiles the identification number is stamped into the tunnel, typically on the right side toward the rear, and is also shown on the registration. On Arctic Cat ATVs and Wildcat/Prowler side-by-sides registered for trail use, a 17-character VIN is stamped on the frame, with the engine carrying its own separate serial.",
+          "Snowmobile serial formats have varied across model years, so record the exact characters from the tunnel stamp and confirm they match the title or registration. For off-road vehicles with a 17-character VIN, positions 10 (model year) and 1–3 (manufacturer) follow the ISO 3779 standard and can be read in the decoder above.",
+        ],
+      },
+      {
+        h2: "Decode vs. history: what the number can and can't tell you",
+        paras: [
+          "An Arctic Cat VIN or serial identifies the machine and, on 17-character formats, the model year. It won't show post-sale history. Because sleds and ATVs are common theft targets, matching the stamped number to the title and running a theft/history check where the machine is registered is the essential pre-purchase step.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Where is the VIN on an Arctic Cat?", a: "On snowmobiles, stamped into the tunnel (usually right side, rear). On ATVs and side-by-sides, stamped on the frame. The engine serial is separate in both cases." },
+      { q: "Does an Arctic Cat have a 17-character VIN?", a: "Trail-registered ATVs and side-by-sides typically use a 17-character VIN. Snowmobiles may use a shorter manufacturer serial depending on the model year." },
+      { q: "How do I verify a used Arctic Cat?", a: "Match the stamped VIN or serial to the title and registration exactly, note the separate engine serial, and run a theft/history check where it's registered." },
+    ],
+    related: ["ski-doo", "polaris", "can-am"],
+  },
+
+  // ───────────────────────── TYPE: JOHN DEERE ─────────────────────────
+  {
+    slug: "john-deere",
+    category: "type",
+    badge: "John Deere PIN Decoder",
+    h1: "John Deere VIN / PIN Decoder —",
+    h1Accent: "Find & Read a John Deere Serial Number",
+    metaTitle: "John Deere VIN Decoder — Find a PIN / Serial Number",
+    metaDescription:
+      "John Deere equipment uses a 13- or 17-character PIN (Product Identification Number), not a car VIN. Learn where to find it, how it's structured, and how to verify it.",
+    keywords: [
+      "john deere vin decoder",
+      "john deere serial number lookup",
+      "john deere pin decoder",
+      "john deere tractor vin",
+      "john deere vin lookup",
+    ],
+    intro:
+      "Looking to decode a John Deere VIN? John Deere off-road equipment doesn't use a road-vehicle VIN — it uses a PIN (Product Identification Number), a 13- or 17-character code, plus separate engine and component serials. This guide explains where to find the PIN, how it's structured, and how to verify a used machine.",
+    sections: [
+      {
+        h2: "Why John Deere uses a PIN, not a car VIN",
+        paras: [
+          "The 17-character VIN standard applies to road vehicles. Off-road equipment — tractors, mowers, gators, excavators, combines — is identified by a Product Identification Number (PIN) instead. Modern John Deere PINs are commonly 17 characters and, like a VIN, encode the manufacturer, product and a sequential number, but the structure follows John Deere's own scheme rather than the automotive ISO 3779 layout. Older machines use a shorter 13-character serial.",
+          "The PIN is stamped on a plate or directly into the frame — location varies by product, but it's often on the right side of the frame, the rear frame, or under the operator station. The engine carries its own separate serial number, and major components (transmission, hydrostatic unit) may have their own serials too. For a Gator utility vehicle registered for road or trail use, a 17-character identification number applies.",
+        ],
+      },
+      {
+        h2: "How to verify a used John Deere",
+        paras: [
+          "Record the exact PIN from the frame plate and the separate engine serial, then confirm they match the bill of sale and any title or registration. A John Deere dealer can look up the build and parts configuration from the PIN. Because equipment is a frequent theft target, verifying the stamped PIN (not just a plate that could be swapped) and checking it against equipment-theft databases is the key pre-purchase step. This site's decoder reads 17-character road VINs; a John Deere PIN should be verified against John Deere records.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Does a John Deere have a VIN?", a: "John Deere equipment uses a PIN (Product Identification Number), not a road-vehicle VIN. Modern PINs are often 17 characters; older machines use a 13-character serial." },
+      { q: "Where is the PIN on a John Deere tractor?", a: "Stamped on a frame plate or directly into the frame — location varies, but commonly the right or rear frame or under the operator station. The engine serial is separate." },
+      { q: "How do I decode a John Deere PIN?", a: "A John Deere dealer can decode the build from the PIN. The automotive 17-character VIN decoder here applies to road vehicles, not equipment PINs." },
+    ],
+    related: ["trailer", "boat", "rv"],
+  },
+
+  // ───────────────────────── FORMAT: 11-DIGIT ─────────────────────────
+  {
+    slug: "11-digit",
+    category: "format",
+    badge: "11-Digit VIN Decoder",
+    h1: "11-Digit VIN Decoder —",
+    h1Accent: "Decode a Pre-1981 11-Character VIN",
+    metaTitle: "11-Digit VIN Decoder — Decode an 11-Character VIN",
+    metaDescription:
+      "Got an 11-digit VIN? Modern VINs are 17 characters, so an 11-digit number is usually a pre-1981 VIN or a partial. Learn how to decode it and check a full VIN free.",
+    keywords: [
+      "11 digit vin decoder",
+      "11 digit vin number decoder",
+      "eleven digit vin decoder",
+    ],
+    intro:
+      "Have an 11-digit VIN number? Modern VINs are exactly 17 characters, so an 11-digit number is almost always a pre-1981 VIN, a partial VIN with characters missing, or a non-automotive serial. This guide explains how to decode a short VIN — and the tool below decodes any full 17-character VIN instantly.",
+    sections: [
+      {
+        h2: "What an 11-digit VIN usually means",
+        paras: [
+          "Since 1981 every road vehicle uses a fixed 17-character VIN. An 11-character number is most likely one of three things: a pre-1981 VIN (older vehicles used shorter, manufacturer-specific schemes commonly in the 9–13 character range), a partial VIN where some characters were dropped or worn off, or the serial number of equipment, an engine, or a part rather than the whole-vehicle VIN.",
+          "A genuine 11-character pre-1981 VIN is decoded against that brand's year-specific chart, because there is no universal standard before 1981. If you expected 17 characters and only counted 11, re-check the doorjamb sticker and title — missing characters and confusing O for 0 or I for 1 are common transcription errors.",
+        ],
+      },
+      {
+        h2: "Decode a full VIN here",
+        paras: [
+          "If you can find the complete 17-character VIN, enter it in the decoder above for an instant breakdown — WMI, VDS, check digit, model year, plant and sequence. For a true vintage 11-character VIN, see our classic-car VIN decoder guide.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Why is my VIN only 11 digits?", a: "Modern VINs are 17 characters, so an 11-digit number is usually a pre-1981 VIN, a partial VIN with characters missing, or the serial number of a part or piece of equipment rather than the full vehicle VIN." },
+      { q: "Can an 11-digit VIN be decoded?", a: "A pre-1981 short VIN can be decoded against the manufacturer's year-specific chart, but not by the universal 17-character standard. If it should be 17 characters, re-check for missing or misread characters." },
+    ],
+    related: ["10-digit", "13-digit", "classic-car"],
+  },
 ];
 
 /** Find a decoder page entry by slug. */

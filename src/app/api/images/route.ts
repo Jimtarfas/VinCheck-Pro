@@ -15,8 +15,22 @@ export async function POST(req: NextRequest) {
   const results = await Promise.all(
     limited.map(async (url: string) => {
       try {
+        // Browser-like headers. Auction/manufacturer CDNs display fine in the
+        // browser but reject bare server-side fetches (hotlink protection),
+        // which would leave the PDF's photo grid blank. Sending a real
+        // User-Agent, an image Accept, and a same-origin Referer makes those
+        // CDNs serve the image to our proxy too.
+        const headers: Record<string, string> = {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+          Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+        };
+        try {
+          headers["Referer"] = new URL(url).origin + "/";
+        } catch {
+          // non-absolute URL; skip Referer
+        }
         // Add auth header for api.auto.dev photo URLs
-        const headers: Record<string, string> = {};
         if (url.includes("api.auto.dev") && apiKey) {
           headers["Authorization"] = `Bearer ${apiKey}`;
         }
