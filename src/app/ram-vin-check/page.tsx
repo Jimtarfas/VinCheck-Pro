@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "free RAM VIN check",
     "RAM history report",
     "RAM salvage check",
+    "vin lookup ram",
+    "ram vin number lookup",
+    "ram vin lookup free",
   ],
   alternates: { canonical: "/ram-vin-check" },
   openGraph: {

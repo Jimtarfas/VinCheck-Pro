@@ -48,6 +48,7 @@ export const metadata: Metadata = {
     "decode factory options by VIN",
     "free build sheet",
     "matching numbers verification",
+    "vin build sheet lookup",
   ],
   alternates: { canonical: "/build-sheet" },
   openGraph: {

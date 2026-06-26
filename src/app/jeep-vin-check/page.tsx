@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "free Jeep VIN check",
     "Jeep history report",
     "Jeep salvage check",
+    "jeep vin lookup free",
+    "vin number lookup jeep",
+    "jeep lookup by vin",
   ],
   alternates: { canonical: "/jeep-vin-check" },
   openGraph: {

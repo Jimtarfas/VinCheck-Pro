@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "free Dodge VIN check",
     "Dodge history report",
     "Dodge salvage check",
+    "dodge vin number lookup",
+    "vin number lookup dodge",
+    "dodge vin number lookup free",
   ],
   alternates: { canonical: "/dodge-vin-check" },
   openGraph: {

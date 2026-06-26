@@ -18,6 +18,11 @@ export const metadata: Metadata = {
     "free motorcycle VIN",
     "motorcycle title check",
     "motorcycle theft check",
+    "how to lookup a vin number for a motorcycle",
+    "free vin lookup motorcycle",
+    "kbb motorcycle vin lookup",
+    "nada motorcycle vin lookup",
+    "free vin number lookup motorcycle",
   ],
   alternates: hreflangAlternates("/motorcycle-vin-check"),
   openGraph: {

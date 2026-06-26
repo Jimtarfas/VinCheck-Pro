@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "decode ATV VIN",
     "ATV history report",
     "ATV theft check",
+    "atv vin number lookup",
+    "utv vin lookup",
+    "4 wheeler vin number lookup",
   ],
   alternates: { canonical: "/atv-vin-check" },
   openGraph: {

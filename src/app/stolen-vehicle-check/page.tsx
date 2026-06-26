@@ -10,7 +10,7 @@ const SITE = "https://www.carcheckervin.com";
 export const metadata: Metadata = {
   title: "Stolen Vehicle Check by VIN — Is This Car Stolen? (Free)",
   description: "Run a stolen vehicle check by VIN against the NICB and NMVTIS theft databases. Find out if a car is reported stolen, theft-recovery, or salvage before you buy, in seconds.",
-  keywords: ["stolen vehicle check", "is this car stolen", "stolen car VIN check", "check if car is stolen by VIN", "NICB stolen vehicle lookup", "stolen VIN check free", "report stolen car VIN", "stolen car database search", "theft recovery title", "cloned VIN check"],
+  keywords: ["stolen vehicle check", "is this car stolen", "stolen car VIN check", "check if car is stolen by VIN", "NICB stolen vehicle lookup", "stolen VIN check free", "report stolen car VIN", "stolen car database search", "theft recovery title", "cloned VIN check", "stolen vehicle vin lookup", "vin lookup stolen", "stolen car vin lookup", "stolen vin lookup", "theft vin lookup", "vin lookup for stolen vehicle"],
   alternates: { canonical: "/stolen-vehicle-check" },
   openGraph: { title: "Stolen Vehicle Check by VIN — Is This Car Stolen?", description: "Find out if a vehicle is reported stolen by checking the VIN against the NICB and NMVTIS national theft databases.", url: `${SITE}/stolen-vehicle-check`, type: "article", siteName: "CarCheckerVIN" },
   twitter: { card: "summary_large_image", title: "Stolen Vehicle Check by VIN — Is This Car Stolen?", description: "Check a VIN against NICB and NMVTIS theft databases before you buy a used car." },

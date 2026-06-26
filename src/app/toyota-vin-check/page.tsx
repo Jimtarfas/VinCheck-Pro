@@ -29,6 +29,13 @@ export const metadata: Metadata = {
     "free Toyota VIN check",
     "Toyota history report",
     "Toyota salvage check",
+    "vin number lookup toyota",
+    "toyota lookup by vin",
+    "lookup toyota vin",
+    "vin toyota lookup",
+    "toyota car vin lookup",
+    "toyota vin lookup tool",
+    "toyota vin number lookup free",
   ],
   alternates: { canonical: "/toyota-vin-check" },
   openGraph: {

@@ -42,6 +42,13 @@ export const metadata: Metadata = {
     "RV title check",
     "fifth wheel VIN check",
     "RV salvage title check",
+    "camper vin number lookup free",
+    "free rv vin lookup",
+    "motorhome vin lookup free",
+    "motorhome vin number lookup",
+    "lookup rv by vin",
+    "vin lookup free rv",
+    "rv lookup by vin number",
   ],
   alternates: hreflangAlternates("/rv-vin-check"),
   openGraph: {

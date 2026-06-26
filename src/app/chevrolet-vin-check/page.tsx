@@ -29,6 +29,10 @@ export const metadata: Metadata = {
     "free Chevrolet VIN check",
     "Chevrolet history report",
     "Chevy salvage check",
+    "chevrolet vin number lookup",
+    "chevy vin code lookup",
+    "vin lookup chevy",
+    "vin number lookup chevrolet",
   ],
   alternates: { canonical: "/chevrolet-vin-check" },
   openGraph: {

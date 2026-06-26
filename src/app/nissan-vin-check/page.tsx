@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     "free Nissan VIN check",
     "Nissan history report",
     "Nissan salvage check",
+    "vin lookup nissan",
   ],
   alternates: { canonical: "/nissan-vin-check" },
   openGraph: {

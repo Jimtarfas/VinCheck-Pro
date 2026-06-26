@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "GM VIN lookup",
     "free GM VIN check",
     "GM salvage check",
+    "gm vehicle vin number lookup",
+    "gm vin code lookup",
+    "general motors vin lookup",
   ],
   alternates: { canonical: "/gm-vin-check" },
   openGraph: {
