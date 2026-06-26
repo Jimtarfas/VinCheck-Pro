@@ -1687,6 +1687,149 @@ export const VIN_LOOKUP_PAGES: LookupPage[] = [
     ],
     relatedSlugs: ["digits", "specs", "year"],
   },
+
+  // ───────────────────────── ATTRIBUTE: TRANSMISSION ─────────────────────────
+  {
+    slug: "transmission",
+    category: "attribute",
+    badge: "Transmission Lookup by VIN",
+    h1: "Transmission Lookup by VIN —",
+    h1Accent: "What the VIN Reveals About Your Gearbox",
+    metaTitle: "Transmission Lookup by VIN — What a VIN Reveals (Free)",
+    metaDescription:
+      "Can you look up a transmission by VIN? The VIN decodes the engine and drive type, but most makers don't encode the exact gearbox. See where the transmission is actually documented. Free.",
+    keywords: [
+      "transmission lookup by vin number",
+      "lookup transmission by vin",
+      "vin transmission lookup",
+      "vin lookup transmission",
+      "transmission vin lookup",
+      "vin lookup for transmission",
+      "vin number transmission lookup",
+      "transmission vin number lookup",
+    ],
+    intro:
+      "Trying to look up a transmission by VIN? Here's the honest answer up front: a VIN decodes the engine family and often the drive type, but most manufacturers don't encode the specific transmission in the VIN. What you can do is decode the VIN, then use the exact year, make, model and engine to find the transmissions it shipped with — and read the build codes that pin it down. Enter a VIN to decode it free.",
+    quickAnswer:
+      "A VIN does not reliably identify the exact transmission. The Vehicle Descriptor Section (positions 4–8) encodes the engine family and, on many vehicles, the drive type (FWD/RWD/AWD), but only a few manufacturers encode a transmission attribute. The authoritative sources are the build/option codes (GM's RPO on the SPID label, Ford's door data plate or Marti Report) and the transmission's own ID tag or pan stamp. A transmission lookup by VIN gets you the engine and drivetrain; the exact gearbox comes from those build records.",
+    reveals: [
+      { title: "Engine family (positions 4–8)", body: "The VDS reliably decodes the engine, which narrows the transmissions that were paired with it." },
+      { title: "Drive type, often", body: "Many VINs encode FWD, RWD or AWD — a key input for matching the right transmission and drivetrain parts." },
+      { title: "What the VIN usually omits", body: "Most manufacturers don't break out the specific gearbox in the VIN, so any tool promising an exact transmission for every VIN is overstating it." },
+      { title: "Where it's documented", body: "Build/option codes (GM RPO, Ford Marti), the transmission ID tag and the pan stamp are the authoritative record." },
+    ],
+    table: {
+      caption: "Where to find your exact transmission",
+      head: ["Source", "What it tells you"],
+      rows: [
+        ["VIN (positions 4–8)", "Engine family, often the drive type"],
+        ["Build/option codes", "GM RPO on SPID label; Ford door plate / Marti Report"],
+        ["Transmission ID tag / pan stamp", "The specific transmission model"],
+        ["Emissions label & owner's manual", "Drivetrain and fluid specification"],
+      ],
+    },
+    sections: [
+      {
+        h2: "Does a VIN tell you the transmission?",
+        paras: [
+          "Usually not directly. The VIN's Vehicle Descriptor Section (positions 4–8) reliably encodes the engine family and, on many vehicles, the drive configuration, but most manufacturers do not encode the specific gearbox. So reading the transmission 'from the VIN' is only partly possible. A handful of makers do carry a transmission attribute in the VDS, but it isn't universal — which is why a tool that claims an exact transmission for every VIN is overstating what the standard carries.",
+          "The practical workflow is to decode the engine and drive type from the VIN, then use the exact year, make, model and engine to look up which transmissions that configuration was offered with. That narrows it reliably, and the build codes confirm it.",
+        ],
+      },
+      {
+        h2: "How to find the exact transmission by VIN",
+        paras: [
+          "The authoritative record is the vehicle's build/option data, not the VIN itself. GM encodes the transmission as an RPO code on the SPID (Service Parts Identification) label, usually in the glovebox or trunk. Ford documents it on the door data plate and, for older cars, the Marti Report. The transmission also carries its own ID tag, and many automatics have a pan stamp identifying the unit.",
+          "If you only have the VIN, decode it first to get the engine and drivetrain, then pull the build sheet or window sticker by VIN to read the option codes. Those codes are what dependably identify the exact transmission your vehicle left the factory with.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I find my exact transmission from the VIN?", a: "Only partially. The VIN encodes the engine family and often the drive type, but most manufacturers don't encode the specific transmission. Use the decoded year, make, model and engine to look up the transmissions offered, or read the build/option codes and the transmission's ID tag." },
+      { q: "Why doesn't the VIN show the transmission?", a: "The ISO 3779 VIN standard prioritizes the engine, body, restraint system and model identity in positions 4–8. The specific gearbox isn't a required field, so most makers leave it to the build/option records instead of the VIN." },
+      { q: "Where is the transmission documented if not in the VIN?", a: "In the build/option codes — GM's RPO on the SPID label, Ford's door data plate or Marti Report — and on the transmission's own ID tag or pan stamp. The emissions label and owner's manual list the drivetrain too." },
+      { q: "Does the VIN at least show automatic vs. manual?", a: "Sometimes. A few manufacturers encode a transmission or drive-type attribute in the VDS, but it isn't universal. The reliable way to confirm automatic vs. manual is the build codes or the transmission ID tag." },
+      { q: "Is a transmission lookup by VIN free?", a: "Yes. Decoding the engine and drivetrain from a VIN is free here with no signup. From there you can pull the build sheet to confirm the exact transmission." },
+    ],
+    related: [
+      { href: "/vin-decoder/transmission", label: "Full VIN Transmission Decoder" },
+      { href: "/build-sheet", label: "Build Sheet by VIN" },
+      { href: "/window-sticker", label: "Window Sticker Lookup" },
+    ],
+    relatedSlugs: ["engine", "specs", "options"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: CALIFORNIA ─────────────────────────
+  {
+    slug: "california",
+    category: "attribute",
+    badge: "California VIN Lookup",
+    h1: "California VIN Lookup —",
+    h1Accent: "Check a CA Vehicle's Title & History by VIN",
+    metaTitle: "California VIN Lookup — Check a CA Vehicle by VIN (Free)",
+    metaDescription:
+      "Is there a free California DMV VIN lookup? The CA DMV has no public name-by-VIN portal, but CA title and brand data flows through NMVTIS. Check a California vehicle's title, salvage brands and smog status by VIN.",
+    keywords: [
+      "california vin lookup",
+      "vin number lookup california",
+      "ca dmv vin lookup",
+      "free vin lookup california",
+      "california dmv vin lookup",
+      "vin lookup ca",
+      "california vin lookup free",
+      "dmv california vin lookup",
+    ],
+    intro:
+      "Checking a car in California by VIN? The California DMV doesn't run a public website where you enter a VIN and see an owner — but the title and brand data California reports flows into NMVTIS, the federal title database, and that's what a VIN check reads. On top of that, California has its own salvage and smog rules worth confirming before you buy. Enter a VIN to check it free.",
+    quickAnswer:
+      "There's no public California DMV portal for looking up a vehicle by VIN. California title status and brands are reported to NMVTIS (the federal title database), so a VIN check returns the CA title status, salvage and junk/non-repairable brands, and any out-of-state title trail. California also requires a smog certification for most transfers and brands non-repairable vehicles under the state Vehicle Code. Owner names and addresses aren't released — the federal DPPA restricts that to permissible uses requested directly from the CA DMV.",
+    reveals: [
+      { title: "California title status", body: "Whether the CA title is clean or branded — reported by the California DMV through NMVTIS." },
+      { title: "Salvage & non-repairable brands", body: "California brands total-loss vehicles salvage, and severely damaged ones as non-repairable, which can never be re-titled for road use." },
+      { title: "Smog & transfer flags", body: "Most California transfers require a current smog certification; a gap can stall registration. Verify the vehicle's smog status before you buy." },
+      { title: "What the CA DMV keeps private", body: "Owner names and addresses aren't released by VIN. The DPPA limits that to permissible uses you request directly from the California DMV." },
+    ],
+    table: {
+      caption: "California VIN records: what's free by VIN vs. the CA DMV",
+      head: ["Record", "How to get it"],
+      rows: [
+        ["Title status & brands", "Free by VIN here (NMVTIS-sourced)"],
+        ["Salvage / non-repairable brand", "Free by VIN here (NMVTIS-sourced)"],
+        ["Current owner name/address", "CA DMV, with a DPPA permissible use (form INF 70)"],
+        ["Smog certification status", "California BAR / DMV records"],
+        ["Certified CA title copy", "California DMV (form REG 227 for transfers)"],
+      ],
+    },
+    sections: [
+      {
+        h2: "Is there a free California DMV VIN lookup?",
+        paras: [
+          "Not as a public DMV website. The California DMV holds its own vehicle records, but it doesn't offer a page where you type a VIN and see a car's full history or owner. What it does is report title and brand data to NMVTIS, the federal title database. A VIN check reads that California-reported data, so you can confirm the CA title status and brands free, without visiting a DMV office.",
+          "So when people search for a 'free California DMV VIN lookup', the workable answer is a VIN check against NMVTIS-sourced records. It draws on the same title and brand data California files, surfaced by the 17-character VIN, with no signup needed to see the title status.",
+        ],
+      },
+      {
+        h2: "California title brands and smog rules to check by VIN",
+        paras: [
+          "California brands vehicles an insurer totals as salvage, and it brands severely damaged vehicles non-repairable — a non-repairable certificate means the vehicle can never be registered for road use again in California. Both brands follow the VIN and appear in a VIN check through NMVTIS, even if the car was later moved or re-titled in another state.",
+          "California also enforces strict smog rules: most ownership transfers require a current smog certification (with some exemptions for newer vehicles and certain transfers). A car that can't pass smog can be expensive or impossible to register, so it's worth confirming the smog status alongside the title before money changes hands. For owner information, California restricts release under the DPPA, so you'd request it from the CA DMV with a permissible use rather than through a public lookup.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Is there a free California DMV VIN lookup website?", a: "There's no public CA DMV site for VIN lookups, but California reports title and brand data to NMVTIS. A free VIN check here returns that California-sourced title status and brands without visiting a DMV." },
+      { q: "Can I find a car's owner with a California VIN lookup?", a: "No. The Driver's Privacy Protection Act restricts owner names and addresses. You'd request that record from the California DMV with a permissible use (form INF 70) — it isn't available through a public VIN search." },
+      { q: "What is a California non-repairable brand?", a: "California brands severely damaged vehicles non-repairable, meaning they can never be registered for road use again in the state. The brand follows the VIN and appears in a VIN check through NMVTIS." },
+      { q: "Does a California VIN check show smog status?", a: "A VIN check focuses on title and brands. California requires a current smog certification for most transfers, so confirm the smog status through the California BAR/DMV alongside the VIN's title record before you buy." },
+      { q: "Will a California VIN lookup show out-of-state brands?", a: "Yes. Because the data is keyed to the VIN and flows through NMVTIS nationwide, a salvage or flood brand from another state appears even if the car was later titled in California." },
+    ],
+    related: [
+      { href: "/salvage-title-check", label: "Salvage Title Check" },
+      { href: "/vehicle-history-report", label: "Full Vehicle History Report" },
+      { href: "/florida-vin-check", label: "Florida VIN Check" },
+    ],
+    relatedSlugs: ["dmv", "title", "canada"],
+  },
 ];
 
 export function findLookupPage(slug: string): LookupPage | undefined {
