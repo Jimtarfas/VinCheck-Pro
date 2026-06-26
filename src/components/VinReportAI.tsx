@@ -23,49 +23,65 @@ const money = (n?: number) =>
     ? `$${Math.round(n).toLocaleString()}`
     : undefined;
 
-function describeEngine(data: VinData): string {
+/**
+ * Joins phrases into a natural English list ("a, b, and c"). Used so the AI
+ * sentences read cleanly no matter how many data points we actually have.
+ */
+function joinList(items: string[]): string {
+  if (items.length === 0) return "";
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+}
+
+/**
+ * The describe* helpers return `null` when the field isn't present in the
+ * (free-preview) data set rather than a sentence fragment. Callers then either
+ * omit the clause or tell the reader the detail is in the full paid report —
+ * never splice a "not decoded" phrase into the middle of a sentence.
+ */
+function describeEngine(data: VinData): string | null {
   const e = data.engine;
-  if (!e) return "engine details were not decoded for this VIN";
+  if (!e) return null;
   const parts: string[] = [];
   if (e.size) parts.push(`${e.size}L`);
   if (e.cylinder) parts.push(`${e.cylinder}-cylinder`);
   if (e.configuration) parts.push(e.configuration);
   if (e.fuelType) parts.push(e.fuelType.toLowerCase());
   const base = parts.join(" ");
+  if (!base) return null;
   const hp = e.horsepower ? `${e.horsepower} hp` : "";
   const tq = e.torque ? `${e.torque} lb-ft` : "";
   const power = [hp, tq].filter(Boolean).join(" / ");
   return power ? `${base} producing ${power}` : base;
 }
 
-function describeTransmission(data: VinData): string {
+function describeTransmission(data: VinData): string | null {
   const t = data.transmission;
-  if (!t?.transmissionType) return "transmission type not reported";
+  if (!t?.transmissionType) return null;
   const speeds = t.numberOfSpeeds ? `${t.numberOfSpeeds}-speed ` : "";
   return `${speeds}${t.transmissionType.toLowerCase()} gearbox`;
 }
 
-function describeDrivetrain(data: VinData): string {
-  return data.drivenWheels
-    ? data.drivenWheels.toLowerCase()
-    : "drivetrain not reported";
+function describeDrivetrain(data: VinData): string | null {
+  return data.drivenWheels ? data.drivenWheels.toLowerCase() : null;
 }
 
-function describeMpg(data: VinData): string {
+function describeMpg(data: VinData): string | null {
   const m = data.mpg;
-  if (!m?.city && !m?.highway) return "EPA fuel-economy data is unavailable";
+  if (!m?.city && !m?.highway) return null;
   return `EPA-rated at ${m.city ?? "?"} city / ${m.highway ?? "?"} highway MPG`;
 }
 
-function describePrice(data: VinData): string {
+function describePrice(data: VinData): string | null {
   const p = data.price;
-  if (!p) return "no factory pricing data was returned";
+  if (!p) return null;
   const msrp = money(p.baseMsrp);
   const tmv = money(p.usedTmvRetail);
   if (msrp && tmv) return `MSRP ${msrp}, current typical retail around ${tmv}`;
   if (msrp) return `original MSRP ${msrp}`;
   if (tmv) return `typical retail ${tmv}`;
-  return "pricing data is incomplete";
+  return null;
 }
 
 function currentYear(): number {
@@ -113,25 +129,49 @@ function buildConciergeAnswers(data: VinData, fullName: string): ConciergeAnswer
     });
   }
 
-  // Powertrain summary
-  answers.push({
-    q: "What's under the hood?",
-    a: `This ${fullName} is equipped with a ${describeEngine(
-      data,
-    )}, paired with a ${describeTransmission(
-      data,
-    )} sending power to the ${describeDrivetrain(data)}.`,
-  });
+  // Powertrain summary — only state what we actually decoded; route the rest
+  // to the full report instead of splicing "not reported" into the sentence.
+  {
+    const engine = describeEngine(data);
+    const trans = describeTransmission(data);
+    const drive = describeDrivetrain(data);
+    const have: string[] = [];
+    if (engine) have.push(`a ${engine}`);
+    if (trans) have.push(`a ${trans}`);
+    if (drive) have.push(`power going to the ${drive}`);
+    const missing: string[] = [];
+    if (!engine) missing.push("engine");
+    if (!trans) missing.push("transmission");
+    if (!drive) missing.push("drivetrain");
+
+    let a: string;
+    if (have.length) {
+      a = `This ${fullName} comes with ${joinList(have)}.`;
+      if (missing.length) {
+        a += ` Full ${joinList(
+          missing,
+        )} specifications are included in the complete report.`;
+      }
+    } else {
+      a = `Detailed engine, transmission, and drivetrain specifications for this ${fullName} are available in the complete report.`;
+    }
+    answers.push({ q: "What's under the hood?", a });
+  }
 
   // Fuel economy
-  answers.push({
-    q: "How good is the fuel economy?",
-    a: `${describeMpg(data)}. ${
-      data.engine?.fuelType
-        ? `It runs on ${data.engine.fuelType.toLowerCase()}.`
-        : ""
-    }`.trim(),
-  });
+  {
+    const mpg = describeMpg(data);
+    answers.push({
+      q: "How good is the fuel economy?",
+      a: mpg
+        ? `${mpg}.${
+            data.engine?.fuelType
+              ? ` It runs on ${data.engine.fuelType.toLowerCase()}.`
+              : ""
+          }`
+        : `EPA fuel-economy ratings for this ${fullName} are included in the complete report.`,
+    });
+  }
 
   // Value vs MSRP
   if (msrp && listingPrice) {
@@ -186,12 +226,20 @@ function AIConcierge({ data, fullName }: { data: VinData; fullName: string }) {
 
   const handleAskCustom = () => {
     if (!custom.trim()) return;
+    const engine = describeEngine(data);
+    const trans = describeTransmission(data);
+    const mpg = describeMpg(data);
+    const price = describePrice(data);
+    const known: string[] = [];
+    if (engine) known.push(`a ${engine}`);
+    if (trans) known.push(`a ${trans}`);
+    if (mpg) known.push(mpg);
+    if (price) known.push(price);
+    const summary = known.length
+      ? `From the decoded VIN I can see ${joinList(known)}.`
+      : `This free preview confirms the core identity of the ${fullName} — the full mechanical, pricing, and history details are in the complete report.`;
     setCustomAnswered(
-      `Based on this report, the ${fullName} is a ${describeEngine(
-        data,
-      )} vehicle with a ${describeTransmission(data)}, ${describeMpg(data)}, and ${describePrice(
-        data,
-      )}. For the specific question "${custom.trim()}", I've highlighted the closest relevant data I can see in the decoded VIN. For anything involving accident or title history, run a full premium report for the authoritative record.`,
+      `${summary} For the specific question "${custom.trim()}", I've highlighted the closest data available here. For accident or title history, the full premium report holds the authoritative record.`,
     );
   };
 
@@ -456,13 +504,22 @@ function buildStory(data: VinData, fullName: string): string[] {
     trim ? ` in ${trim} trim` : ""
   } — a ${body} built for the ${data.categories?.market?.toLowerCase() || "retail"} market.`;
 
-  const power = `Under the hood sits a ${describeEngine(data)}, mated to a ${describeTransmission(
-    data,
-  )} driving the ${describeDrivetrain(data)}.`;
+  const engine = describeEngine(data);
+  const trans = describeTransmission(data);
+  const drive = describeDrivetrain(data);
+  const powerParts: string[] = [];
+  if (engine) powerParts.push(`a ${engine}`);
+  if (trans) powerParts.push(`a ${trans}`);
+  if (drive) powerParts.push(`driving the ${drive}`);
+  const power = powerParts.length
+    ? `Under the hood sits ${joinList(powerParts)}.`
+    : `Its full engine and drivetrain specifications are detailed in the complete report.`;
 
-  const economy = `${describeMpg(data).charAt(0).toUpperCase()}${describeMpg(data).slice(1)}.`;
+  const mpg = describeMpg(data);
+  const economy = mpg ? `${mpg.charAt(0).toUpperCase()}${mpg.slice(1)}.` : "";
 
-  const value = `From the factory, ${describePrice(data)}.`;
+  const price = describePrice(data);
+  const value = price ? `From the factory, ${price}.` : "";
 
   const listing = data.listing
     ? `Today it is actively listed${
