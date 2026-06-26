@@ -976,6 +976,321 @@ export const VIN_LOOKUP_PAGES: LookupPage[] = [
     ],
     relatedSlugs: ["title", "owner"],
   },
+
+  // ───────────────────────── ATTRIBUTE: YEAR ─────────────────────────
+  {
+    slug: "year",
+    category: "attribute",
+    badge: "VIN Year Lookup",
+    h1: "VIN Year Lookup —",
+    h1Accent: "Find the Model Year by VIN",
+    metaTitle: "VIN Year Lookup — Find the Model Year by VIN Number (Free)",
+    metaDescription:
+      "Look up a vehicle's model year by VIN. The 10th character of a 17-character VIN encodes the model year — decode it instantly and free, with no signup.",
+    keywords: [
+      "vin year lookup",
+      "vin number year lookup",
+      "model year by vin",
+      "what year is my vin",
+      "vin model year lookup",
+      "year by vin number",
+      "decode vin year",
+      "vin lookup year",
+    ],
+    intro:
+      "Need to confirm a vehicle's model year from the VIN? On every 17-character VIN the 10th character encodes the model year — a single position that settles the age of the vehicle when a title, listing or odometer claim is unclear. Enter a VIN to decode the year free.",
+    quickAnswer:
+      "On a 17-character VIN, the model year is encoded in the 10th character. Under the ISO 3779 standard used since 1981, that position follows a fixed cycle — letters A–Y (skipping I, O, Q, U, Z) and digits 1–9 — that repeats every 30 years. The 7th character (a letter vs. a digit) distinguishes the cycles, so a decoder returns the exact model year, not just a 30-year range.",
+    reveals: [
+      { title: "Model year from position 10", body: "The 10th VIN character is the model-year code — the single position that fixes the vehicle's year." },
+      { title: "Cycle disambiguation", body: "Because year codes repeat every 30 years, the 7th character resolves which cycle applies." },
+      { title: "Model year vs. build date", body: "The VIN encodes the model year, which can differ from the calendar month the vehicle was actually built." },
+      { title: "Standard since 1981", body: "The fixed-position model-year code applies to every VIN issued under ISO 3779 from 1981 onward." },
+    ],
+    sections: [
+      {
+        h2: "How the 10th character encodes the year",
+        paras: [
+          "Since 1981 the VIN's 10th position has carried the model year on a defined cycle: the letters A through Y (omitting I, O, Q, U and Z because they're confused with numbers) cover 1980 through 2000, then the digits 1 through 9 cover 2001 through 2009, and the letters begin again. Because the sequence repeats every 30 years, an 'A' could mean 1980 or 2010 — which is why the rest of the VIN matters.",
+          "The 7th character resolves the ambiguity: on 1981–2009 vehicles it's a digit, and on 2010-and-later vehicles it's a letter. A decoder reads both positions together and returns the exact model year rather than a range.",
+        ],
+      },
+      {
+        h2: "Model year is not the same as the build date",
+        paras: [
+          "The model year a VIN encodes is the year the manufacturer assigned to that production run — it isn't necessarily the calendar year the vehicle rolled off the line. A car built in late 2023 is commonly a 2024 model. The certification label on the driver-side door jamb shows the actual month and year of manufacture if you need the build date as well.",
+          "For everything else the year sits within — make, model, trim, engine and plant — decoding the full VIN returns the complete factory specification alongside the year.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Which VIN digit is the year?", a: "The 10th character of a 17-character VIN encodes the model year. A decoder reads it together with the 7th character to return the exact year." },
+      { q: "Can two different years share the same VIN year code?", a: "Yes. Year codes repeat every 30 years, so the same 10th-character code can mean two years 30 years apart. The 7th character (a digit before 2010, a letter from 2010) tells the cycles apart." },
+      { q: "Is the model year the same as the year it was built?", a: "Not always. The VIN encodes the model year the manufacturer assigned, which can differ from the calendar build date. The door-jamb certification label shows the actual month and year of manufacture." },
+      { q: "Why are some letters missing from year codes?", a: "The letters I, O, Q, U and Z are skipped because they're easily confused with the numbers 1, 0 and 2. That's why the model-year sequence runs A–Y rather than A–Z." },
+      { q: "Is a VIN year lookup free?", a: "Yes. Decoding the model year from a VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/classic-car-vin", label: "Classic Car VIN Check" },
+      { href: "/window-sticker", label: "Window Sticker Lookup" },
+    ],
+    relatedSlugs: ["specs", "digits"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: DIGITS ─────────────────────────
+  {
+    slug: "digits",
+    category: "attribute",
+    badge: "VIN Digit Lookup",
+    h1: "VIN Digit Lookup —",
+    h1Accent: "11-, 13- & 17-Digit VINs Explained",
+    metaTitle: "VIN Digit Lookup — 11, 13 & 17-Character VINs Explained (Free)",
+    metaDescription:
+      "Look up a VIN whatever its length. Why modern VINs have 17 characters, what 11- and 13-character VINs mean on older vehicles, and how to use the last 8 of a VIN. Free.",
+    keywords: [
+      "13 digit vin lookup",
+      "11 digit vin lookup",
+      "vin lookup 13 digit",
+      "last 8 of vin lookup",
+      "short vin lookup",
+      "old vin number lookup",
+      "vin digit lookup",
+      "partial vin lookup",
+    ],
+    intro:
+      "Got a VIN that isn't 17 characters, or only the last 8? VIN length tells you the era: every VIN since 1981 is exactly 17 characters, while shorter 11- and 13-character VINs belong to older vehicles built before the standard. Enter a VIN to decode whatever you have.",
+    quickAnswer:
+      "Every VIN issued since 1981 is exactly 17 characters under the ISO 3779 standard. Shorter VINs — commonly 11 or 13 characters — belong to vehicles built before 1981, when length and format varied by manufacturer. The last 8 characters of a 17-character VIN cover the check digit, model year, plant and the unique sequential production number, which is why some services accept the last 8 to identify a specific vehicle.",
+    reveals: [
+      { title: "17 characters = 1981 onward", body: "The modern ISO 3779 VIN is fixed at 17 characters for every vehicle built from 1981." },
+      { title: "11–13 characters = pre-1981", body: "Shorter VINs are older, manufacturer-specific formats from before the standard." },
+      { title: "The last 8 characters", body: "Positions 10–17 carry the year, plant and the unique sequential serial that pins down one vehicle." },
+      { title: "Why length matters", body: "The character count alone places the vehicle on one side of the 1981 standard." },
+    ],
+    table: {
+      caption: "VIN length by era",
+      head: ["VIN length", "Era & meaning"],
+      rows: [
+        ["17 characters", "1981–present — standardized ISO 3779 format"],
+        ["13 characters", "Typically pre-1981 — manufacturer-specific format"],
+        ["11 characters", "Typically pre-1981 — manufacturer-specific format"],
+        ["Last 8 only", "Year, plant and unique serial of a 17-character VIN"],
+      ],
+    },
+    sections: [
+      {
+        h2: "Why modern VINs are 17 characters",
+        paras: [
+          "The 17-character VIN became the standard for vehicles built from 1981, when the ISO 3779 format set a fixed structure: a 3-character World Manufacturer Identifier, a 6-character Vehicle Descriptor Section (positions 4–9), and an 8-character Vehicle Identifier Section (positions 10–17) that carries the model year, plant and sequential serial. That uniform layout is what lets a decoder read any modern VIN consistently.",
+          "Before 1981 there was no single standard. Manufacturers used their own formats, and lengths of 11 or 13 characters were common — which is why a shorter VIN almost always signals an older, pre-standard vehicle.",
+        ],
+      },
+      {
+        h2: "Older VINs and the 'last 8' question",
+        paras: [
+          "Pre-1981 VINs can't be decoded by the modern position rules because the format varies by make and year. For those vehicles, the manufacturer's records, a marque registry or a classic-vehicle specialist is usually the better route, and the VIN is often stamped on the frame or firewall rather than the windshield.",
+          "On a modern 17-character VIN, the 'last 8' refers to positions 10 through 17 — the model year, plant code and the unique sequential production number. Because that block identifies a specific vehicle, some lookups accept the last 8 characters, though the full 17 is always the most reliable.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "How many characters should a VIN have?", a: "Every VIN issued since 1981 is exactly 17 characters under the ISO 3779 standard. A shorter VIN — often 11 or 13 characters — belongs to a vehicle built before 1981." },
+      { q: "Why is my VIN only 13 (or 11) digits?", a: "Because the vehicle predates the 1981 standard. Before then manufacturers used their own VIN formats, and 11- and 13-character VINs were common. They can't be decoded by modern 17-character rules." },
+      { q: "What is the 'last 8' of a VIN?", a: "On a 17-character VIN it's positions 10–17: the model year, plant code and the unique sequential production number. That block identifies a specific vehicle, so some services accept it — though the full VIN is most reliable." },
+      { q: "Can I decode a pre-1981 VIN here?", a: "Modern decoding rules apply to 17-character VINs. For older, shorter VINs, manufacturer records, a marque registry or a classic-vehicle specialist is the better source." },
+      { q: "Is a VIN digit lookup free?", a: "Yes. Decoding a VIN and understanding its length and structure is free here, with no signup." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/classic-car-vin", label: "Classic Car VIN Check" },
+      { href: "/vehicle-history-report", label: "Vehicle History Report" },
+    ],
+    relatedSlugs: ["antique", "year"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: COLOR ─────────────────────────
+  {
+    slug: "color",
+    category: "attribute",
+    badge: "VIN Color Lookup",
+    h1: "VIN Color Lookup —",
+    h1Accent: "Find the Factory Color by VIN",
+    metaTitle: "VIN Color Lookup — Find the Original Factory Color by VIN (Free)",
+    metaDescription:
+      "Look up a vehicle's original factory color by VIN. Why color isn't in the 17-character VIN, and where the paint and trim codes actually live. Free, instant.",
+    keywords: [
+      "vin lookup for color",
+      "vin color lookup",
+      "color by vin",
+      "factory color by vin",
+      "original color by vin",
+      "paint color by vin",
+      "exterior color by vin",
+      "vin lookup color code",
+    ],
+    intro:
+      "Want to confirm the color a vehicle left the factory in? For most makes the exterior color isn't stored in the 17-character VIN itself — it lives in the paint and trim codes tied to the same VIN. Enter a VIN to decode the build, then read where the color code is below.",
+    quickAnswer:
+      "For most manufacturers the exterior paint color is not encoded in the 17-character VIN. The original factory color and its paint code are recorded on the vehicle's paint/trim code label — usually on the driver-side door jamb, in the trunk or under the hood — and on the original window sticker and build sheet, both keyed to the VIN. The VIN identifies the vehicle; those documents and the paint code confirm the exact factory color.",
+    reveals: [
+      { title: "Where the color code lives", body: "The paint/trim code label on the door jamb, trunk or firewall carries the factory color code." },
+      { title: "Window sticker & build sheet", body: "Both keyed to the VIN, they record the original exterior and interior colors." },
+      { title: "Paint code, not VIN", body: "For most makes the 17-character VIN doesn't encode color — the paint code does." },
+      { title: "Original vs. current", body: "These sources show the factory color, which a respray may have changed." },
+    ],
+    sections: [
+      {
+        h2: "Why color usually isn't in the VIN",
+        paras: [
+          "The VIN encodes the structural build — make, model, trim, body, engine, drivetrain, plant and year — but for the large majority of manufacturers it does not carry the exterior paint color. Color is recorded separately on the paint/trim code label the factory applies to the body, typically on the driver-side door jamb, in the trunk, or under the hood, depending on the make.",
+          "That label lists the manufacturer's paint code — the alphanumeric reference a body shop matches to mix the exact color. The window sticker and build sheet keyed to the same VIN also state the original exterior and interior colors in plain words, which is the easiest way to confirm what a vehicle should look like.",
+        ],
+      },
+      {
+        h2: "Factory color vs. the color it is now",
+        paras: [
+          "A color lookup tells you the color the vehicle was built in — not necessarily the color it wears today. A vehicle can be resprayed, and a repaint that doesn't match the original code can be a sign of prior body work or accident repair. Comparing the paint code on the door-jamb label against the body is a quick way to spot a color change.",
+          "If you want the precise paint code for touch-up or refinishing, the door-jamb paint/trim label is authoritative; the build sheet and window sticker keyed to the VIN confirm the original color in writing.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I find a car's original color from the VIN?", a: "For most makes the 17-character VIN doesn't encode color. The original factory color and paint code are on the door-jamb paint/trim label and on the window sticker and build sheet keyed to the same VIN." },
+      { q: "Where is the paint code on a car?", a: "On the paint/trim code label — usually the driver-side door jamb, but also the trunk, glovebox or under the hood depending on the manufacturer. It lists the factory color code." },
+      { q: "Does the window sticker show the color?", a: "Yes. The original window sticker and the build sheet, both keyed to the VIN, state the exterior and interior colors the vehicle was built with." },
+      { q: "Why doesn't the color match the records?", a: "The vehicle may have been resprayed. A color that differs from the factory paint code can indicate prior body or accident repair — worth checking against the history." },
+      { q: "Is a VIN color lookup free?", a: "Yes. Decoding the build and finding where the factory color code lives is free here, with no signup." },
+    ],
+    related: [
+      { href: "/paint-code-finder", label: "Paint Code Finder" },
+      { href: "/window-sticker", label: "Window Sticker Lookup" },
+      { href: "/build-sheet", label: "Build Sheet by VIN" },
+    ],
+    relatedSlugs: ["options", "specs"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: TIRE SIZE ─────────────────────────
+  {
+    slug: "tire-size",
+    category: "attribute",
+    badge: "VIN Tire Size Lookup",
+    h1: "VIN Tire Size Lookup —",
+    h1Accent: "Find the Factory Tire Size by VIN",
+    metaTitle: "Tire Size Lookup by VIN — Find Factory Tire & Wheel Size (Free)",
+    metaDescription:
+      "Look up a vehicle's factory tire size by VIN. Decode the trim that sets the OEM tire and wheel size, and find the tire placard that lists it exactly. Free, instant.",
+    keywords: [
+      "tire size by vin lookup",
+      "tire size lookup by vin",
+      "vin lookup tire size",
+      "vin lookup for tire size",
+      "factory tire size by vin",
+      "oem tire size by vin",
+      "wheel size by vin",
+      "tire size vin lookup",
+    ],
+    intro:
+      "Need the factory tire size for a vehicle? The original tire and wheel size is set by the trim and options the VIN decodes, and the exact figure is printed on the tire information placard on the driver-side door jamb. Enter a VIN to decode the build, then read where the tire size lives below.",
+    quickAnswer:
+      "A vehicle's factory tire size is determined by its trim and wheel package, which the VIN decodes, and the exact original size is printed on the tire information placard — the federally required sticker on the driver-side door jamb. The VIN identifies which build and trim a vehicle is, and the placard lists the OEM tire size, wheel size and the correct inflation pressures for that build.",
+    reveals: [
+      { title: "Trim sets the tire size", body: "The VIN decodes the trim and wheel package that determine the factory tire and wheel size." },
+      { title: "The door-jamb tire placard", body: "The federally required tire information placard lists the exact OEM tire size and pressures." },
+      { title: "Wheel diameter & package", body: "Different trims of the same model often ran different wheel diameters — the VIN distinguishes them." },
+      { title: "Recommended pressures", body: "The placard also gives the manufacturer's cold inflation pressures for the original tires." },
+    ],
+    sections: [
+      {
+        h2: "How the VIN points to the right tire size",
+        paras: [
+          "Tire size isn't a free-standing field in the 17-character VIN, but it's determined by the build the VIN describes: the same model often shipped in several trims with different wheel and tire packages, and the VIN's descriptor section identifies which trim and configuration a vehicle is. Decoding it narrows the vehicle to the exact build the factory tire size belongs to.",
+          "The authoritative figure is the tire information placard — the sticker on the driver-side door jamb that U.S. regulations require on every passenger vehicle. It lists the original equipment tire size, the wheel size and the recommended cold inflation pressures the vehicle was specified with.",
+        ],
+      },
+      {
+        h2: "OEM size vs. what's fitted now",
+        paras: [
+          "A tire size lookup gives the original equipment size the vehicle was built to use. A previous owner may have fitted a different size — a plus-size wheel, a wider tire — so the tires on the vehicle today won't always match the placard. The placard is the reference for the manufacturer's intended fitment.",
+          "If you're replacing tires, match the placard size unless you're deliberately changing the fitment, and confirm the build the VIN decodes so the wheel package matches the vehicle you actually have.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I find tire size from a VIN?", a: "The factory tire size is set by the trim and wheel package the VIN decodes, and the exact original size is printed on the tire information placard on the driver-side door jamb. Decoding the VIN confirms the build the size applies to." },
+      { q: "Where is the tire size sticker on a car?", a: "On the tire information placard — a federally required label on the driver-side door jamb. It lists the OEM tire size, wheel size and the recommended cold inflation pressures." },
+      { q: "Why doesn't the VIN list the tire size directly?", a: "Tire size isn't a standalone VIN field, but it follows the trim and wheel package the VIN encodes. The door-jamb placard gives the exact original size for that build." },
+      { q: "Do different trims have different tire sizes?", a: "Yes. The same model often shipped in trims with different wheel diameters and tire sizes. The VIN distinguishes which trim a vehicle is, and the placard lists its original size." },
+      { q: "Is a VIN tire size lookup free?", a: "Yes. Decoding the build and finding where the factory tire size is listed is free here, with no signup." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/window-sticker", label: "Window Sticker Lookup" },
+      { href: "/build-sheet", label: "Build Sheet by VIN" },
+    ],
+    relatedSlugs: ["specs", "options"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: TSB ─────────────────────────
+  {
+    slug: "tsb",
+    category: "attribute",
+    badge: "VIN TSB Lookup",
+    h1: "VIN TSB Lookup —",
+    h1Accent: "Find Technical Service Bulletins by VIN",
+    metaTitle: "TSB Lookup by VIN — Find Technical Service Bulletins (Free)",
+    metaDescription:
+      "Look up Technical Service Bulletins for a vehicle by VIN. Decode the year, make and model the VIN identifies, then find the manufacturer TSBs catalogued by NHTSA. Free.",
+    keywords: [
+      "tsb lookup by vin",
+      "vin tsb lookup",
+      "technical service bulletin by vin",
+      "tsb by vin number",
+      "service bulletin lookup vin",
+      "vin lookup tsb",
+      "manufacturer tsb lookup",
+      "tsb vin lookup",
+    ],
+    intro:
+      "Want the Technical Service Bulletins for a vehicle? TSBs are issued by manufacturers and catalogued by year, make and model — the build a VIN decodes. A VIN identifies the exact vehicle, then the TSBs for that year/make/model show the known issues and fixes. Enter a VIN to decode it free.",
+    quickAnswer:
+      "A TSB lookup finds the Technical Service Bulletins a manufacturer has issued for a vehicle. TSBs are guidance documents that tell dealer technicians how to diagnose and repair known, recurring problems — they aren't recalls. They're catalogued by year, make and model, which the VIN decodes, and NHTSA maintains a public database of bulletins reported to it. The VIN identifies the vehicle; the bulletins reveal its documented common issues.",
+    reveals: [
+      { title: "Known, recurring issues", body: "TSBs document problems a manufacturer has seen often enough to publish a fix for." },
+      { title: "The factory repair procedure", body: "Each bulletin gives technicians the diagnosis and corrective steps for a specific symptom." },
+      { title: "Matched by year/make/model", body: "TSBs are catalogued to the build the VIN decodes — so the decode points to the right bulletins." },
+      { title: "NHTSA's public catalogue", body: "NHTSA maintains a searchable record of manufacturer bulletins reported to it." },
+    ],
+    sections: [
+      {
+        h2: "TSBs vs. recalls — what's the difference",
+        paras: [
+          "A recall addresses a safety defect or a failure to meet a federal safety standard, and the manufacturer must fix it free of charge. A Technical Service Bulletin is different: it's manufacturer guidance to dealers on how to diagnose and repair a known, recurring problem that usually isn't a safety defect. TSBs aren't mandatory free fixes — but they're a valuable signal of the issues a model is prone to.",
+          "Reading the TSBs for a year/make/model tells you what tends to go wrong and how the factory says to fix it — useful before buying a used vehicle or when chasing a recurring fault. For safety recalls specifically, check the recall record by VIN separately, since recalls are tracked per-vehicle.",
+        ],
+      },
+      {
+        h2: "How the VIN connects to the bulletins",
+        paras: [
+          "TSBs are published against a year, make, model and often a specific engine or trim — exactly the attributes the VIN decodes. Decoding the VIN fixes the precise build, which is what you match the bulletins to. NHTSA's public database catalogues bulletins manufacturers report, searchable by vehicle.",
+          "Because bulletins target specific configurations, the VIN decode matters: a TSB may apply only to one engine or one build year. Confirming the exact decoded build keeps you from chasing a bulletin that doesn't apply to the vehicle in front of you.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "What is a TSB?", a: "A Technical Service Bulletin — manufacturer guidance to dealer technicians on how to diagnose and repair a known, recurring problem. It documents a common issue and the factory's recommended fix, but it isn't a recall." },
+      { q: "Can I look up TSBs by VIN?", a: "TSBs are catalogued by year, make and model, which the VIN decodes. Decoding the VIN identifies the exact build, and NHTSA's public database lists the bulletins reported for that vehicle." },
+      { q: "Are TSBs the same as recalls?", a: "No. A recall addresses a safety defect and must be fixed free of charge. A TSB is repair guidance for a known issue that usually isn't a safety defect, so it isn't a mandatory free repair." },
+      { q: "Where do TSBs come from?", a: "Manufacturers issue them to their dealer networks. NHTSA maintains a public catalogue of bulletins reported to it, searchable by year, make and model." },
+      { q: "Is a TSB lookup free?", a: "Yes. Decoding the vehicle by VIN to find the year, make and model its bulletins are catalogued under is free here, with no signup." },
+    ],
+    related: [
+      { href: "/recall-check", label: "Recall Check by VIN" },
+      { href: "/vehicle-history-report", label: "Vehicle History Report" },
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+    ],
+    relatedSlugs: ["specs", "year"],
+  },
 ];
 
 export function findLookupPage(slug: string): LookupPage | undefined {

@@ -163,3 +163,8 @@ https://www.carcheckervin.com/vin-lookup/gvwr
 https://www.carcheckervin.com/vin-lookup/registration
 https://www.carcheckervin.com/vin-lookup/owner
 https://www.carcheckervin.com/vin-lookup/insurance
+https://www.carcheckervin.com/vin-lookup/year
+https://www.carcheckervin.com/vin-lookup/color
+https://www.carcheckervin.com/vin-lookup/tire-size
+https://www.carcheckervin.com/vin-lookup/tsb
+https://www.carcheckervin.com/vin-lookup/digits
