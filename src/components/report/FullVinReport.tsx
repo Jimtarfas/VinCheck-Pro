@@ -19,6 +19,7 @@ import {
   X, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import type { NormalizedReport } from "@/lib/clearvin-report";
+import Logo from "@/components/Logo";
 import {
   ReportSection, Badge, StatTile, DataGrid, EmptyState, CheckRow, DataTable,
 } from "./primitives";
@@ -615,6 +616,17 @@ export default function FullVinReport({
 
             <div id="report-export" className="min-w-0 space-y-5">
               {!exporting && <SectionNav items={navItems} variant="mobile" />}
+
+              {/* ══ 0. BRAND BAR (logo + site link, baked into the PDF) ═══ */}
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-outline-variant/40 bg-surface-container-lowest dark:bg-slate-900 px-4 py-3">
+                <Logo variant={dark ? "onDark" : "onLight"} size="md" href="/" />
+                <a
+                  href="https://www.carcheckervin.com"
+                  className="text-xs font-semibold text-primary dark:text-slate-300 hover:underline"
+                >
+                  www.carcheckervin.com
+                </a>
+              </div>
 
               {/* ══ 1. REPORT HEADER ══════════════════════════════════════ */}
               <header className="overflow-hidden rounded-2xl bg-primary text-white shadow-lg print:shadow-none">
