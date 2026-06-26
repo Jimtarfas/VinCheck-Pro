@@ -483,16 +483,16 @@ function AIRiskInsights({ data }: { data: VinData }) {
 ───────────────────────────────────────────────────────────── */
 
 function buildStory(data: VinData, fullName: string): string[] {
-  const year = data.years?.[0]?.year;
-  const trim = data.years?.[0]?.styles?.[0]?.trim;
   const body =
     data.categories?.primaryBodyType?.toLowerCase() ||
     data.categories?.vehicleStyle?.toLowerCase() ||
     "vehicle";
 
-  const opening = `This ${fullName} began life as a ${year ?? ""} ${data.make?.name ?? ""} ${data.model?.name ?? ""}${
-    trim ? ` in ${trim} trim` : ""
-  } — a ${body} built for the ${data.categories?.market?.toLowerCase() || "retail"} market.`;
+  // fullName already carries year/make/model/trim, so the opening describes the
+  // car's character (body + market) instead of restating its name verbatim.
+  const opening = `This ${fullName} is a ${body} built for the ${
+    data.categories?.market?.toLowerCase() || "retail"
+  } market.`;
 
   const engine = describeEngine(data);
   const trans = describeTransmission(data);
@@ -511,6 +511,9 @@ function buildStory(data: VinData, fullName: string): string[] {
   const price = describePrice(data);
   const value = price ? `From the factory, ${price}.` : "";
 
+  // Listing & market comps are paid-report data — when absent in the free
+  // preview, route to the full report rather than asserting the car isn't
+  // listed (which reads as a finding rather than a withheld field).
   const listing = data.listing
     ? `Today it is actively listed${
         data.listing.dealerName ? ` at ${data.listing.dealerName}` : ""
@@ -521,15 +524,24 @@ function buildStory(data: VinData, fullName: string): string[] {
       } for ${data.listing.price} with ${data.listing.mileage} on the clock${
         data.listing.displayColor ? `, wearing ${data.listing.displayColor}` : ""
       }.`
-    : `It does not currently appear on any of our monitored retail listings.`;
+    : "";
 
   const market = data.marketData
     ? `Across ${data.marketData.totalListings} similar listings we are tracking, comparable cars average ${money(
         data.marketData.averagePrice,
       )} and ${data.marketData.averageMileage.toLocaleString()} miles.`
-    : ``;
+    : "";
 
-  return [opening, power, economy, value, listing, market].filter(Boolean);
+  // Closing line shown only in the free preview (no live listing/market data)
+  // so the narrative ends on the paid-report value rather than trailing off.
+  const closing =
+    !data.listing && !data.marketData
+      ? `Live market listings, pricing comparisons and the full history record for this ${fullName} are available in the complete report.`
+      : "";
+
+  return [opening, power, economy, value, listing, market, closing].filter(
+    Boolean,
+  );
 }
 
 function AIStoryteller({ data, fullName }: { data: VinData; fullName: string }) {
