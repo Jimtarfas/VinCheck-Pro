@@ -1291,6 +1291,128 @@ export const VIN_LOOKUP_PAGES: LookupPage[] = [
     ],
     relatedSlugs: ["specs", "year"],
   },
+
+  // ───────────────────────── ATTRIBUTE: CANADA ─────────────────────────
+  {
+    slug: "canada",
+    category: "attribute",
+    badge: "VIN Lookup Canada",
+    h1: "VIN Lookup Canada —",
+    h1Accent: "Decode & Check a Canadian VIN",
+    metaTitle: "VIN Lookup Canada — Decode a Canadian VIN Number (Free)",
+    metaDescription:
+      "Look up a Canadian vehicle by VIN. The 17-character VIN decodes the same worldwide, while Canadian history comes from provincial registries and CarFax Canada. Free, instant.",
+    keywords: [
+      "vin lookup canada",
+      "vehicle vin lookup canada",
+      "vin number lookup canada",
+      "canadian vin lookup",
+      "canada vin decoder",
+      "vin check canada",
+      "free vin lookup canada",
+      "decode canadian vin",
+    ],
+    intro:
+      "Looking up a vehicle in Canada? The 17-character VIN decodes the same everywhere under the worldwide ISO 3779 standard, so the year, make, model, engine and trim come back instantly. Canadian title and history records, though, live in provincial registries rather than the U.S. system. Enter a VIN to decode it free.",
+    quickAnswer:
+      "A VIN lookup works in Canada because the 17-character VIN follows the same worldwide ISO 3779 standard used in the U.S. — so decoding the year, make, model, engine and trim is identical. What differs is history data: Canada does not use the U.S. NMVTIS system. Canadian title, brand and registration history comes from provincial registries (such as ICBC, Service Ontario and the SAAQ) and services like CarFax Canada, while stolen-vehicle records are held by the Canadian Police Information Centre (CPIC).",
+    reveals: [
+      { title: "VIN decoding is universal", body: "The ISO 3779 17-character VIN decodes the same in Canada and the U.S. — year, make, model, engine and trim." },
+      { title: "Canadian history is provincial", body: "Title and registration records come from provincial registries, not the U.S. NMVTIS database." },
+      { title: "Cross-border vehicles", body: "Cars imported between Canada and the U.S. may carry history on both sides — check each country's records." },
+      { title: "Theft records via CPIC", body: "Stolen-vehicle status in Canada is held by the Canadian Police Information Centre, separate from U.S. theft databases." },
+    ],
+    sections: [
+      {
+        h2: "What decodes the same — and what doesn't",
+        paras: [
+          "Because the VIN is an international standard, the structural decode is country-agnostic: a Canadian-market vehicle's 17-character VIN returns the same year, make, model, body, engine and trim a decoder reads anywhere. The World Manufacturer Identifier, the descriptor section (positions 4–8) and the model-year character (position 10) all follow the same ISO 3779 rules.",
+          "History is where the systems diverge. The U.S. consolidates title and brand data through NMVTIS; Canada does not participate in that system. Canadian title status, brands and registration are recorded by each province's registry, and consumer history reports north of the border are typically pulled through CarFax Canada rather than U.S. providers.",
+        ],
+      },
+      {
+        h2: "Checking a vehicle that crossed the border",
+        paras: [
+          "Vehicles are frequently imported between Canada and the United States, and a car that lived in both countries can have a history record on each side. A U.S. VIN check surfaces the U.S.-titled portion of that history; the Canadian portion sits in provincial records and CarFax Canada. For an imported vehicle, checking both is the only way to see the full picture.",
+          "This matters most for branded titles: a vehicle written off or salvage-branded in one country can be re-titled in the other. Decoding the VIN confirms exactly what the vehicle is, then cross-referencing both countries' records confirms its history end to end.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I look up a Canadian VIN?", a: "Yes. The 17-character VIN decodes the same worldwide under ISO 3779, so the year, make, model, engine and trim come back instantly for a Canadian vehicle. History records, though, come from Canadian provincial registries rather than the U.S. system." },
+      { q: "Does NMVTIS cover Canadian vehicles?", a: "No. NMVTIS is the U.S. title database and Canada doesn't participate in it. Canadian title and brand history is held by provincial registries, with consumer reports typically pulled through CarFax Canada." },
+      { q: "Where does Canadian VIN history come from?", a: "Provincial registries such as ICBC (British Columbia), Service Ontario and the SAAQ (Quebec), plus CarFax Canada. Stolen-vehicle status is held by the Canadian Police Information Centre (CPIC)." },
+      { q: "What about a car imported from the U.S. to Canada?", a: "It can have history in both countries. A U.S. VIN check shows the U.S.-titled portion; the Canadian portion is in provincial records. For an imported vehicle, check both sides to see the full history." },
+      { q: "Is a Canadian VIN lookup free?", a: "Decoding a Canadian VIN's year, make, model, engine and trim is free here, with no signup." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/vehicle-history-report", label: "Vehicle History Report" },
+      { href: "/stolen-vehicle-check", label: "Stolen Vehicle Check" },
+    ],
+    relatedSlugs: ["specs", "title"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: AUCTION ─────────────────────────
+  {
+    slug: "auction",
+    category: "attribute",
+    badge: "VIN Auction Lookup",
+    h1: "VIN Auction Lookup —",
+    h1Accent: "Check Salvage-Auction History by VIN",
+    metaTitle: "VIN Auction Lookup — Check Salvage-Auction History (Free)",
+    metaDescription:
+      "Look up a vehicle's salvage-auction history by VIN. See the total-loss, salvage-brand and theft records that send a car to auction — sourced from NMVTIS and NICB. Free.",
+    keywords: [
+      "auction vin lookup",
+      "vin auction lookup",
+      "salvage auction vin lookup",
+      "vin lookup auction history",
+      "copart vin lookup",
+      "iaai vin lookup",
+      "auction history by vin",
+      "vin salvage auction check",
+    ],
+    intro:
+      "Want to know if a vehicle has been through a salvage auction? The events that send a car to auction — a total-loss declaration, a salvage or junk title brand, a theft record — are exactly what a VIN check surfaces. Enter a VIN to check its auction-related history free.",
+    quickAnswer:
+      "A VIN auction lookup checks the records that indicate a vehicle passed through a salvage auction: insurer-reported total-loss declarations (held by the NICB), salvage and junk title brands filed to NMVTIS, and theft records. Salvage auctions like Copart and IAAI sell vehicles insurers have written off, so those underlying records are the reliable signal. The VIN reveals the title brands and total-loss events — not the specific auction lot or final sale price, which aren't public record.",
+    reveals: [
+      { title: "Total-loss declarations", body: "Insurer-reported total-loss events — the most common reason a vehicle ends up at a salvage auction." },
+      { title: "Salvage & junk brands", body: "Salvage, junk and rebuilt title brands filed to NMVTIS, which follow a car through auction and resale." },
+      { title: "Theft records", body: "Recovered-theft and theft history, another path a vehicle takes to the auction block." },
+      { title: "What's not public", body: "The specific auction lot and final hammer price aren't public record by VIN — but the title and loss events are." },
+    ],
+    sections: [
+      {
+        h2: "Why title brands are the real auction signal",
+        paras: [
+          "Salvage auctions such as Copart and IAAI exist to sell vehicles that insurers have declared a total loss. So rather than chasing an auction listing, the dependable way to tell whether a car has an auction past is to check the records that put it there: a total-loss declaration reported to the National Insurance Crime Bureau, and salvage, junk or rebuilt brands filed to NMVTIS by state DMVs.",
+          "Those brands are permanent and follow the vehicle. A car sold at a salvage auction and then repaired and re-titled still carries the brand in its history — which is why a VIN check, not an auction-site search, is the reliable record of an auction past.",
+        ],
+      },
+      {
+        h2: "What a VIN can and can't tell you about an auction",
+        paras: [
+          "A VIN check reveals the title brands, total-loss declarations and theft records tied to a vehicle — the substance of an auction history. It does not return the specific auction lot number, the photos from the sale, or the final hammer price, because that transactional data isn't public record keyed to the VIN. Some paid third-party services aggregate past Copart and IAAI listings, but the title and loss records are the authoritative history.",
+          "If a vehicle shows a clean title with no total-loss or theft records, that's the strongest signal it hasn't been through a salvage auction. If it carries a salvage or rebuilt brand, the VIN history is where that shows up — well before any auction listing would.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I check a vehicle's auction history by VIN?", a: "You can check the records that indicate an auction past — total-loss declarations, salvage and junk title brands, and theft records — all surfaced by a VIN check from NMVTIS and NICB data. The specific auction lot and sale price aren't public record by VIN." },
+      { q: "How do I tell if a car was at a Copart or IAAI auction?", a: "Those auctions sell insurer total-loss vehicles, so check for a total-loss declaration (NICB) and salvage or junk title brands (NMVTIS) by VIN. Those underlying records are the reliable signal a car was written off and auctioned." },
+      { q: "Does a VIN show the auction sale price?", a: "No. The final hammer price and lot details aren't public record keyed to the VIN. The title brands and total-loss records are what a VIN check reveals, and they're the authoritative auction-history signal." },
+      { q: "Does a salvage brand stay on the title after auction?", a: "Yes. Salvage, junk and rebuilt brands are permanent and follow the vehicle through repair, resale and re-titling, which is why a VIN check surfaces an auction past long after the sale." },
+      { q: "Is a VIN auction lookup free?", a: "Yes. Checking total-loss, salvage-brand and theft records by VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/salvage-title-check", label: "Salvage Title Check" },
+      { href: "/total-loss-check", label: "Total Loss Check" },
+      { href: "/stolen-vehicle-check", label: "Stolen Vehicle Check" },
+    ],
+    relatedSlugs: ["title", "insurance"],
+  },
 ];
 
 export function findLookupPage(slug: string): LookupPage | undefined {

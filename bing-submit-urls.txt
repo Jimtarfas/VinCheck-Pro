@@ -168,3 +168,5 @@ https://www.carcheckervin.com/vin-lookup/color
 https://www.carcheckervin.com/vin-lookup/tire-size
 https://www.carcheckervin.com/vin-lookup/tsb
 https://www.carcheckervin.com/vin-lookup/digits
+https://www.carcheckervin.com/vin-lookup/canada
+https://www.carcheckervin.com/vin-lookup/auction

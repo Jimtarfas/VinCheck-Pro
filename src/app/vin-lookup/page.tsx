@@ -87,6 +87,8 @@ const DIRECTORY: { heading: string; links: { href: string; label: string }[] }[]
       { href: "/vin-lookup/registration", label: "Registration Lookup by VIN" },
       { href: "/vin-lookup/owner", label: "Owner Lookup by VIN" },
       { href: "/vin-lookup/insurance", label: "Insurance Lookup by VIN" },
+      { href: "/vin-lookup/auction", label: "Salvage-Auction History by VIN" },
+      { href: "/vin-lookup/canada", label: "VIN Lookup Canada" },
       { href: "/vin-decoder", label: "Full VIN Decoder (specs)" },
       { href: "/window-sticker", label: "Window Sticker Lookup" },
       { href: "/build-sheet", label: "Build Sheet by VIN" },
