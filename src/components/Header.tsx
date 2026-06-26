@@ -215,7 +215,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                 Log in
               </Link>
               <Link
-                href="/signup"
+                href="/vin-check"
                 className="group flex items-center gap-1.5 px-5 py-2.5 text-sm font-bold text-on-primary bg-primary rounded-full hover:bg-primary-container transition-all shadow-md shadow-primary/20"
               >
                 Check VIN <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
