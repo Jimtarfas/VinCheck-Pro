@@ -467,35 +467,6 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       // ClearVin's free preview carries no live-listings market data, so the
       // Market Analysis panel still comes from auto.dev when it's configured.
       reportData.marketData = decoded.marketData;
-
-      // Enrich the report with auto.dev's decoded SPEC sheet (engine,
-      // transmission, fuel economy, drivetrain, doors, colors, classification)
-      // so the preview shows the full vehicle build — the same depth the older
-      // preview had. ClearVin stays authoritative for identity, photos, pricing
-      // and the paid history records; only the freely-available factory specs
-      // are filled in here. These cards (Engine & Performance, Transmission,
-      // Fuel Economy, Colors) are not paywalled — only the history is.
-      if (decoded.engine) reportData.engine = decoded.engine;
-      if (decoded.transmission) reportData.transmission = decoded.transmission;
-      if (decoded.mpg) reportData.mpg = decoded.mpg;
-      if (decoded.colors?.length) reportData.colors = decoded.colors;
-      if (!reportData.drivenWheels && decoded.drivenWheels)
-        reportData.drivenWheels = decoded.drivenWheels;
-      if (!reportData.numOfDoors && decoded.numOfDoors)
-        reportData.numOfDoors = decoded.numOfDoors;
-      if (!reportData.manufacturerCode && decoded.manufacturerCode)
-        reportData.manufacturerCode = decoded.manufacturerCode;
-      if (!reportData.squishVin && decoded.squishVin)
-        reportData.squishVin = decoded.squishVin;
-      if (decoded.categories) {
-        reportData.categories = {
-          ...decoded.categories,
-          // Keep ClearVin's decoded body type when it supplied one.
-          primaryBodyType:
-            reportData.categories?.primaryBodyType ||
-            decoded.categories.primaryBodyType,
-        };
-      }
     }
   } else if (decoded) {
     // No ClearVin preview for this VIN. Fall back to auto.dev, but reduce it to
