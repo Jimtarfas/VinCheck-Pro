@@ -17,121 +17,96 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
-  title: { absolute: "VIN Lookup — Free VIN Number Lookup & Vehicle Search" },
+  title: {
+    absolute: "VIN Check by Vehicle Type — Powersports, Trailers & Boats",
+  },
   description:
-    "Free VIN lookup for any vehicle. Enter a 17-character VIN or U.S. license plate to look up specs, title brands, accidents, recalls and history. Cars, trucks, trailers, classics and more.",
+    "Free VIN check by vehicle type. Verify a used snowmobile, dirt bike, UTV, trailer or boat by VIN (or HIN) — confirm the year and check theft and title records before you buy.",
   keywords: [
-    "vin lookup",
-    "vin number lookup",
-    "lookup vehicle by vin",
-    "vin info lookup",
-    "vehicle by vin number lookup",
-    "lookup my vin number",
-    "vin no lookup",
-    "vin number information lookup",
+    "vin check by vehicle type",
+    "powersports vin check",
+    "snowmobile vin check",
+    "dirt bike vin check",
+    "utv vin check",
+    "trailer vin check",
+    "boat vin check",
   ],
-  alternates: { canonical: "/vin-lookup" },
+  alternates: { canonical: "/vin-check/type" },
   openGraph: {
-    title: "VIN Lookup — Free VIN Number Lookup & Vehicle Search",
+    title: "VIN Check by Vehicle Type — Powersports, Trailers & Boats",
     description:
-      "Free VIN lookup for any vehicle. Enter a VIN or U.S. plate to look up specs, title brands, accidents, recalls and history.",
-    url: `${SITE}/vin-lookup`,
+      "Free VIN check by vehicle type. Verify a used snowmobile, dirt bike, UTV, trailer or boat before you buy.",
+    url: `${SITE}/vin-check/type`,
     type: "website",
     siteName: "CarCheckerVIN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "VIN Lookup — Free VIN Number Lookup & Vehicle Search",
+    title: "VIN Check by Vehicle Type — Powersports, Trailers & Boats",
     description:
-      "Free VIN lookup for any vehicle — specs, title brands, accidents, recalls and history.",
+      "Free VIN check by vehicle type — snowmobiles, dirt bikes, UTVs, trailers and boats.",
   },
   robots: { index: true, follow: true },
 };
 
 const QUICK_ANSWER =
-  "A VIN lookup uses a vehicle's 17-character Vehicle Identification Number to retrieve its details and history. Entering the VIN returns the year, make, model, engine and trim, plus title status and brands, reported accidents, odometer history and open recalls — drawing on NMVTIS title data and NHTSA recall records. A U.S. license plate can also be used to find the VIN first.";
+  "A VIN check by vehicle type verifies a specific class of used vehicle — a snowmobile, dirt bike, UTV/side-by-side, trailer or boat — before you buy it. Off-road and powersports vehicles built since 1981 carry the standard 17-character VIN, which confirms the make and model year and surfaces theft and title records. Boats and personal watercraft are the exception: they use a 12-character Hull Identification Number (HIN), not a VIN. National theft and title coverage of powersports is uneven by state, so verification often also runs through the manufacturer and the state registration agency.";
 
-// Curated directory — cluster spokes plus the existing fuller lookups, so the
-// hub passes link equity to every "vin lookup" surface without duplicating it.
-const DIRECTORY: { heading: string; links: { href: string; label: string }[] }[] = [
+// Directory — cluster spokes plus existing dedicated check pages, so the hub
+// passes link equity to every vehicle-type "vin check" surface without
+// duplicating the ones that already have a page (ATV, motorcycle, RV, etc.).
+const DIRECTORY: {
+  heading: string;
+  links: { href: string; label: string }[];
+}[] = [
   {
-    heading: "By vehicle type",
+    heading: "Powersports",
     links: [
-      { href: "/vin-lookup/truck", label: "Truck VIN Lookup" },
-      { href: "/vin-lookup/trailer", label: "Trailer VIN Lookup" },
-      { href: "/vin-lookup/antique", label: "Antique & Vintage VIN Lookup" },
-      { href: "/vin-lookup/snowmobile", label: "Snowmobile VIN Lookup" },
-      { href: "/vin-lookup/mobile-home", label: "Mobile Home VIN Lookup" },
-      { href: "/motorcycle-vin-check", label: "Motorcycle VIN Check" },
-      { href: "/rv-vin-check", label: "RV VIN Check" },
+      { href: "/vin-check/type/snowmobile", label: "Snowmobile VIN Check" },
+      { href: "/vin-check/type/dirt-bike", label: "Dirt Bike VIN Check" },
+      { href: "/vin-check/type/utv", label: "UTV & Side-by-Side VIN Check" },
       { href: "/atv-vin-check", label: "ATV VIN Check" },
+      { href: "/motorcycle-vin-check", label: "Motorcycle VIN Check" },
+      { href: "/harley-davidson-vin-check", label: "Harley-Davidson VIN Check" },
+    ],
+  },
+  {
+    heading: "Towable & RV",
+    links: [
+      { href: "/vin-check/type/trailer", label: "Trailer VIN Check" },
+      { href: "/rv-vin-check", label: "RV VIN Check" },
       { href: "/semi-truck-vin-lookup", label: "Semi Truck VIN Lookup" },
+      { href: "/golf-cart-vin-lookup", label: "Golf Cart VIN Lookup" },
+    ],
+  },
+  {
+    heading: "Marine & specialty",
+    links: [
+      { href: "/vin-check/type/boat", label: "Boat VIN Check (HIN)" },
       { href: "/hin-lookup", label: "Boat HIN Lookup" },
       { href: "/classic-car-vin", label: "Classic Car VIN Check" },
-      { href: "/vin-check/type", label: "VIN Check by Vehicle Type" },
-    ],
-  },
-  {
-    heading: "By detail",
-    links: [
-      { href: "/vin-lookup/parts", label: "VIN Parts Lookup" },
-      { href: "/vin-lookup/title", label: "Title Lookup by VIN" },
-      { href: "/vin-lookup/engine", label: "Engine Lookup by VIN" },
-      { href: "/vin-lookup/transmission", label: "Transmission Lookup by VIN" },
-      { href: "/vin-lookup/specs", label: "VIN Specs & Trim Lookup" },
-      { href: "/vin-lookup/options", label: "Factory Options by VIN" },
-      { href: "/vin-lookup/year", label: "Model Year by VIN" },
-      { href: "/vin-lookup/color", label: "Factory Color by VIN" },
-      { href: "/vin-lookup/tire-size", label: "Tire Size by VIN" },
-      { href: "/vin-lookup/gvwr", label: "GVWR Lookup by VIN" },
-      { href: "/vin-lookup/tsb", label: "TSB Lookup by VIN" },
-      { href: "/vin-lookup/digits", label: "11, 13 & 17-Digit VINs" },
-      { href: "/vin-lookup/partial", label: "Partial VIN Lookup" },
-      { href: "/vin-lookup/registration", label: "Registration Lookup by VIN" },
-      { href: "/vin-lookup/owner", label: "Owner Lookup by VIN" },
-      { href: "/vin-lookup/insurance", label: "Insurance Lookup by VIN" },
-      { href: "/vin-lookup/auction", label: "Salvage-Auction History by VIN" },
-      { href: "/vin-lookup/canada", label: "VIN Lookup Canada" },
-      { href: "/vin-decoder", label: "Full VIN Decoder (specs)" },
-      { href: "/window-sticker", label: "Window Sticker Lookup" },
-      { href: "/build-sheet", label: "Build Sheet by VIN" },
-      { href: "/paint-code-finder", label: "Paint Code Finder" },
-    ],
-  },
-  {
-    heading: "By plate, state & history",
-    links: [
-      { href: "/license-plate-lookup", label: "License Plate Lookup" },
-      { href: "/look-up-car-plates-free", label: "Free Plate Lookup" },
-      { href: "/vin-lookup/reverse", label: "Reverse VIN Lookup" },
-      { href: "/vin-lookup/dmv", label: "DMV VIN Lookup" },
-      { href: "/vin-lookup/nmvtis", label: "NMVTIS VIN Lookup" },
-      { href: "/vin-lookup/california", label: "California VIN Lookup" },
-      { href: "/florida-vin-check", label: "Florida VIN Check" },
-      { href: "/vin-check/state", label: "VIN Check by State" },
-      { href: "/vehicle-history-report", label: "Full Vehicle History Report" },
-      { href: "/salvage-title-check", label: "Salvage Title Check" },
       { href: "/stolen-vehicle-check", label: "Stolen Vehicle Check" },
     ],
   },
 ];
 
-export default function VinLookupHubPage() {
-  const pageUrl = `${SITE}/vin-lookup`;
+export default function VinCheckTypeHubPage() {
+  const pageUrl = `${SITE}/vin-check/type`;
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE },
-      { "@type": "ListItem", position: 2, name: "VIN Lookup", item: pageUrl },
+      { "@type": "ListItem", position: 2, name: "VIN Check", item: `${SITE}/vin-check` },
+      { "@type": "ListItem", position: 3, name: "By Vehicle Type", item: pageUrl },
     ],
   };
 
   const appSchema = {
     "@context": "https://schema.org",
     "@type": ["WebApplication", "SoftwareApplication"],
-    name: "VIN Lookup",
+    name: "VIN Check by Vehicle Type",
     description: metadata.description as string,
     url: pageUrl,
     applicationCategory: "AutomotiveApplication",
@@ -143,7 +118,7 @@ export default function VinLookupHubPage() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "VIN lookup tools",
+    name: "VIN check tools by vehicle type",
     itemListElement: DIRECTORY.flatMap((g) => g.links).map((l, i) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -154,24 +129,20 @@ export default function VinLookupHubPage() {
 
   const faqs = [
     {
-      q: "What is a VIN lookup?",
-      a: "A VIN lookup uses a vehicle's 17-character VIN to retrieve its specifications and history — year, make, model, engine and trim, plus title status, accidents, odometer history and open recalls, drawing on NMVTIS and NHTSA records.",
+      q: "Do off-road vehicles have a VIN I can check?",
+      a: "Yes. Snowmobiles, dirt bikes and UTVs built since 1981 carry the standard 17-character VIN, so a VIN check confirms the make and model year and validates the number. Theft and title database coverage of powersports is thinner than for cars and varies by state.",
     },
     {
-      q: "How do I look up a vehicle by VIN for free?",
-      a: "Enter the 17-character VIN in the search box above. It returns the decoded vehicle details instantly and lets you pull a full history report — free, with no signup.",
+      q: "Can I check a boat by VIN?",
+      a: "No — boats use a 12-character Hull Identification Number (HIN) under U.S. Coast Guard rules, not a VIN. The HIN does the same identity job. If the boat is on a trailer, the trailer has its own separate 17-character VIN to check.",
     },
     {
-      q: "Where do I find my VIN?",
-      a: "On the lower-left corner of the windshield, the driver-side door-jamb sticker, and your title and registration. On many trucks and trailers it's also stamped on the frame.",
+      q: "How do I check a powersports vehicle for theft?",
+      a: "Run the VIN to surface reported theft records, then confirm the stamped VIN matches the title and paperwork. Because national databases cover powersports unevenly, also verify with the manufacturer and the state agency that registers the vehicle.",
     },
     {
-      q: "Can I look up a VIN from a license plate?",
-      a: "Yes. Switch the search to 'By U.S. License Plate', enter the plate and issuing state, and it resolves the VIN first, then runs the same lookup.",
-    },
-    {
-      q: "What can a VIN lookup tell me?",
-      a: "The decoded build (year, make, model, engine, transmission, trim, plant), title status and brands (salvage, rebuilt, flood, junk, lemon), reported accidents, odometer history, theft records and open recalls.",
+      q: "Is the vehicle-type VIN check free?",
+      a: "Yes. Decoding the VIN to confirm the make, model year and number validity is free here, with no signup. You can then pull a fuller title and history report.",
     },
   ];
 
@@ -208,26 +179,29 @@ export default function VinLookupHubPage() {
         <div className="bg-primary text-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
             <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "VIN Lookup" }]}
+              items={[
+                { label: "Home", href: "/" },
+                { label: "VIN Check", href: "/vin-check" },
+                { label: "By Vehicle Type" },
+              ]}
               onDark
             />
 
             <div className="mt-6 inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 text-sm font-bold mb-4">
-              <Search className="w-4 h-4" /> Free VIN Lookup
+              <Search className="w-4 h-4" /> VIN Check by Vehicle Type
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-headline font-extrabold leading-tight mb-4">
-              VIN Lookup —{" "}
+              VIN Check by Vehicle Type —{" "}
               <span style={{ color: "var(--color-secondary-container)" }}>
-                Look Up Any Vehicle by VIN
+                Powersports, Trailers &amp; Boats
               </span>
             </h1>
 
             <p className="speakable-intro page-description text-base sm:text-xl text-white/85 max-w-3xl mb-8 leading-relaxed">
-              Enter a 17-character VIN or U.S. license plate to look up a
-              vehicle&apos;s specs, title status and full history — instantly and
-              free. Works for cars, trucks, trailers, classics and specialty
-              vehicles.
+              Buying a used snowmobile, dirt bike, UTV, trailer or boat? Check it
+              first. Enter a 17-character VIN or U.S. license plate to confirm the
+              year and check theft and title records — instantly and free.
             </p>
 
             <VinSearchForm size="lg" onDark withPlateToggle />
@@ -254,11 +228,11 @@ export default function VinLookupHubPage() {
           {/* Directory */}
           <section className="py-12 sm:py-16 border-b border-outline-variant">
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">
-              Every VIN lookup, in one place
+              Check a VIN by vehicle type
             </h2>
             <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">
-              Pick the lookup that fits your vehicle or what you need to check.
-              Every one runs on the same VIN you enter above.
+              Pick the vehicle you&apos;re checking. Every one runs on the same
+              VIN you enter above — boats use a HIN instead.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {DIRECTORY.map((group) => (
@@ -311,9 +285,9 @@ export default function VinLookupHubPage() {
                 Get your full vehicle history report
               </h2>
               <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">
-                A lookup confirms the basics. A full report adds accidents, title
-                brands, odometer fraud, theft records and open recalls — sourced
-                from NMVTIS and every state DMV.
+                A quick check confirms the basics. A full report adds accidents,
+                title brands, odometer fraud, theft records and open recalls —
+                sourced from NMVTIS and every state DMV.
               </p>
               <Link
                 href="/vin-check"
@@ -333,7 +307,7 @@ export default function VinLookupHubPage() {
             <VinCheckBanner />
           </section>
 
-          <RelatedChecks exclude="/vin-lookup" />
+          <RelatedChecks exclude="/vin-check" />
         </div>
       </article>
     </>

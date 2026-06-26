@@ -23,6 +23,7 @@ import { GM_DIVISIONS } from "@/lib/gm-models";
 import { ATV_BRANDS } from "@/lib/atv-models";
 import { VIN_DECODER_PAGES } from "@/lib/vin-decoder-pages";
 import { VIN_LOOKUP_PAGES } from "@/lib/vin-lookup-pages";
+import { VIN_CHECK_TYPE_PAGES } from "@/lib/vin-check-type-pages";
 import { sanityClient } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { LOCALES, DEFAULT_LOCALE, type Locale } from "@/i18n/config";
@@ -345,6 +346,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // VIN check by vehicle type cluster (/vin-check/type/[type]) — one canonical
+  // "check" page per vehicle class the brand/state/check pages don't already own
+  // (snowmobile, dirt-bike, utv, trailer, boat/HIN).
+  const vinCheckTypePages: MetadataRoute.Sitemap = VIN_CHECK_TYPE_PAGES.map(
+    (p) => ({
+      url: `${baseUrl}/vin-check/type/${p.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }),
+  );
+
   let blogPages: MetadataRoute.Sitemap = [];
   let categoryPages: MetadataRoute.Sitemap = [];
   let tagPages: MetadataRoute.Sitemap = [];
@@ -409,6 +422,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ("CarCheckerVIN reviews", "is CarCheckerVIN legit", etc.).
     { url: "https://reviews.carcheckervin.com", lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${baseUrl}/vin-check/state`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/vin-check/type`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     ...makePages,
     ...statePages,
     ...marketplacePages,
@@ -493,6 +507,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // VIN lookup cluster — hub + type/attribute spokes under /vin-lookup.
     { url: `${baseUrl}/vin-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     ...vinLookupPages,
+    ...vinCheckTypePages,
     // Chassis Number Lookup — international "chassis number = VIN" SEO landing page.
     { url: `${baseUrl}/chassis-number-lookup`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
     // Florida VIN Check — state-targeted SEO landing page.
