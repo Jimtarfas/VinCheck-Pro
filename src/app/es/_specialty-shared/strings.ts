@@ -1563,7 +1563,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Cruce contra NICB para autos robados",
       "Retiros NHTSA pendientes",
       "Confirmación de marca/modelo/año vs anuncio",
-      "Reporte completo opcional desde $9.99",
+      "Reporte completo opcional desde $14.99",
     ],
     whyItMatters: [
       "Facebook Marketplace tiene 3× más estafas de auto que sitios profesionales",

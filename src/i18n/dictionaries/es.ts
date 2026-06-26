@@ -11,7 +11,7 @@
  *     ranks better than "informe" across LATAM keyword data.
  *   - "Title brand" → "marca de título" (literal). "Salvage" stays as
  *     "salvage" when referring to US legal status.
- *   - Currency stays "$9.99" — USD. We never sell in pesos or euros.
+ *   - Currency stays "$14.99" — USD. We never sell in pesos or euros.
  *   - DMV-style acronyms (NMVTIS, NICB, NHTSA, DHSMV, DPPA) stay in
  *     English — they're US-specific agencies.
  *
@@ -134,7 +134,7 @@ export const es: Dictionary = {
   pricing: {
     metaTitle: "Precios — Decodificación VIN gratis + Reportes completos",
     metaDescription:
-      "Decodificación VIN gratis para cada vehículo. Reporte completo del historial respaldado por NMVTIS opcional por $9.99 — marcas de título, accidentes, historial del odómetro, retiros del mercado.",
+      "Decodificación VIN gratis para cada vehículo. Reporte completo del historial respaldado por NMVTIS opcional por $14.99 — marcas de título, accidentes, historial del odómetro, retiros del mercado.",
     heroEyebrow: "Precios simples y honestos",
     heroHeadline: "Paga solo cuando necesites la historia completa.",
     heroSub:
@@ -151,7 +151,7 @@ export const es: Dictionary = {
     ],
     freeCta: "Decodificar un VIN",
     paidTitle: "Reporte completo del historial del vehículo",
-    paidPrice: "$9.99",
+    paidPrice: "$14.99",
     paidUnit: "pago único, por VIN",
     paidBullets: [
       "Todo lo del plan gratis",

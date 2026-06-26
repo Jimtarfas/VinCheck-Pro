@@ -87,7 +87,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
         heading: "Qué hacemos",
         paragraphs: [
           "Decodificamos VINs y entregamos reportes completos del historial vehicular para compradores, vendedores y profesionales del sector. Cada reporte cruza fuentes oficiales: NMVTIS (Departamento de Justicia), NHTSA (retiros de seguridad), NICB (robos), y bases de datos de los principales fabricantes.",
-          "Nuestra prioridad es la transparencia: cualquier VIN se decodifica gratis con datos básicos del vehículo. Los reportes premium con historial completo cuestan $9.99 — una fracción de lo que cobran Carfax ($44.99) y AutoCheck ($24.99) por la misma información.",
+          "Nuestra prioridad es la transparencia: cualquier VIN se decodifica gratis con datos básicos del vehículo. Los reportes premium con historial completo cuestan $14.99 — una fracción de lo que cobran Carfax ($44.99) y AutoCheck ($24.99) por la misma información.",
         ],
       },
       {
@@ -178,7 +178,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
         paragraphs: [
           "1. Encuentra el VIN de 17 caracteres en el tablero (visible a través del parabrisas), en la calcomanía del marco de la puerta del conductor o en tu registro o título.",
           "2. Ingresa el VIN en el cuadro de búsqueda en cualquier página del sitio. Verás los datos básicos al instante: año, marca, modelo, motor, retiros NHTSA.",
-          "3. Para historial completo (accidentes, marcas de título, odómetro, propietarios anteriores) pide el reporte premium por $9.99. Entrega instantánea, sin suscripción.",
+          "3. Para historial completo (accidentes, marcas de título, odómetro, propietarios anteriores) pide el reporte premium por $14.99. Entrega instantánea, sin suscripción.",
         ],
       },
       {
@@ -267,7 +267,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
         heading: "Lo que más mencionan nuestros clientes",
         paragraphs: [
           "• Velocidad de entrega del reporte (menos de 60 segundos)",
-          "• Precio justo vs Carfax y AutoCheck ($9.99 vs $24.99–$44.99)",
+          "• Precio justo vs Carfax y AutoCheck ($14.99 vs $24.99–$44.99)",
           "• Datos completos cruzados con NMVTIS, NHTSA y NICB",
           "• Casos de \"me salvó de comprar un auto con daño por inundación oculto\"",
           "• Sin suscripción ni cuotas mensuales — pago único por reporte",
@@ -643,7 +643,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
       {
         heading: "Cuándo ofrecemos reembolso completo",
         paragraphs: [
-          "Si compras un reporte premium ($9.99 o pack prepagado) y el reporte vuelve sin datos del historial para el VIN consultado, ofrecemos 100% de reembolso. Esto puede ocurrir con: autos pre-1981 (antes del estándar VIN de 17 caracteres), algunos vehículos privados que nunca tuvieron historial reportado, o VINs inválidos.",
+          "Si compras un reporte premium ($14.99 o pack prepagado) y el reporte vuelve sin datos del historial para el VIN consultado, ofrecemos 100% de reembolso. Esto puede ocurrir con: autos pre-1981 (antes del estándar VIN de 17 caracteres), algunos vehículos privados que nunca tuvieron historial reportado, o VINs inválidos.",
         ],
       },
       {

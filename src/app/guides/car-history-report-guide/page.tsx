@@ -155,7 +155,7 @@ const faqSchema = {
       name: "How much does a vehicle history report cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Prices range widely. As of early 2026, single reports run about $44.99 at Carfax, $24.99 at AutoCheck, $14.99 at ClearVIN, and $9.99 at VINAudit, while Bumper uses a roughly $19.99 monthly subscription. CarCheckerVIN sells single reports for $7.99 with no subscription or auto-renewal. A free VIN decode confirms basic specs, but title brands, accident records, the odometer chain, and recalls require a paid report.",
+        text: "Prices range widely. As of early 2026, single reports run about $44.99 at Carfax, $24.99 at AutoCheck, $14.99 at ClearVIN, and $9.99 at VINAudit, while Bumper uses a roughly $19.99 monthly subscription. CarCheckerVIN sells single reports for $14.99 with no subscription or auto-renewal. A free VIN decode confirms basic specs, but title brands, accident records, the odometer chain, and recalls require a paid report.",
       },
     },
     {
@@ -1004,7 +1004,7 @@ export default function CarHistoryReportGuidePage() {
               during the period.
             </li>
             <li>
-              <strong>CarCheckerVIN</strong> &mdash; $7.99
+              <strong>CarCheckerVIN</strong> &mdash; $14.99
               single report, no subscription, no
               auto-renewal.
             </li>

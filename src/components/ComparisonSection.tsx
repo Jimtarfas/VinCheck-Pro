@@ -5,8 +5,8 @@ import type { Locale } from "@/i18n/config";
 type ColVal = "check" | "cross" | "partial" | string;
 
 // Per-report price — kept in sync with the pricing section and Stripe checkout,
-// which read the same env var (defaults to 999 ¢ = $9.99).
-const PRICE_CENTS = Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999");
+// which read the same env var (defaults to 1499 ¢ = $14.99).
+const PRICE_CENTS = Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499");
 const PER_REPORT = PRICE_CENTS / 100;
 const money = (n: number) => `$${n.toFixed(2)}`;
 

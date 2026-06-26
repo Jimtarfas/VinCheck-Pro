@@ -147,7 +147,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "How does CarCheckerVIN pricing compare to Carfax or AutoCheck?",
-    a: "Carfax single reports start around $44.99 (with unlimited plans at $99.99/mo); AutoCheck is around $24.99 for a single report. During our limited-time promotion every CarCheckerVIN report is $0, and our paid pricing (shown crossed out on the cards above) starts at $7.99 — well below either competitor.",
+    a: "Carfax single reports start around $44.99 (with unlimited plans at $99.99/mo); AutoCheck is around $24.99 for a single report. During our limited-time promotion every CarCheckerVIN report is $0, and our paid pricing (shown crossed out on the cards above) starts at $14.99 — well below either competitor.",
   },
   {
     q: "Is my data secure?",
@@ -256,8 +256,8 @@ export default function PricingPage() {
                 </tr>
                 <tr className="border-t border-outline-variant/30">
                   <td className="px-4 py-3 font-bold">CarCheckerVIN (regular)</td>
-                  <td className="px-4 py-3">$7.99</td>
-                  <td className="px-4 py-3">$34.99 (10-pack)</td>
+                  <td className="px-4 py-3">$14.99</td>
+                  <td className="px-4 py-3">$89.99 (10-pack)</td>
                   <td className="px-4 py-3">Real photos</td>
                 </tr>
                 <tr className="border-t border-outline-variant/30">

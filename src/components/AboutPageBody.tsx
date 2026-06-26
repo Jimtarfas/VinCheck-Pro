@@ -23,7 +23,7 @@ const COPY = {
       "CarCheckerVIN exists to close that gap. Our mission is to make the same authoritative title, brand, theft, and recall data that insurance companies and franchise dealers rely on available to anyone buying a car, for less than the price of a tank of gas. We believe transparency is the single most powerful tool a buyer has, and we believe it should not be reserved for the people who can afford a thirty-dollar premium report.",
     missionP3Pre: "That mission shapes every decision we make. It is why our",
     missionP3LinkVin: "free VIN check",
-    missionP3Mid: "is genuinely free, why our paid reports start at $7.99, and why we publish a growing library of",
+    missionP3Mid: "is genuinely free, why our paid reports start at $14.99, and why we publish a growing library of",
     missionP3LinkGuides: "car-buying guides",
     missionP3Suffix:
       "without paywalls. Informed buyers make better decisions, and better decisions make for a healthier used-car market for everyone.",
@@ -102,7 +102,7 @@ const COPY = {
       "Common questions about who we are, where our data comes from, and how our vehicle history reports work.",
     ctaHeading: "Ready to Check a Vehicle?",
     ctaBody:
-      "Run a free VIN decode in seconds, or unlock a full history report for $7.99.",
+      "Run a free VIN decode in seconds, or unlock a full history report for $14.99.",
     faqs: [
       {
         q: "Where does CarCheckerVIN get its vehicle data?",
@@ -122,7 +122,7 @@ const COPY = {
       },
       {
         q: "How much does a CarCheckerVIN report cost?",
-        a: "A basic VIN decode is genuinely free with no signup required. Full paid history reports start at $7.99. Our car-buying guides are also free to read with no paywall, because we believe informed buyers make better decisions.",
+        a: "A basic VIN decode is genuinely free with no signup required. Full paid history reports start at $14.99. Our car-buying guides are also free to read with no paywall, because we believe informed buyers make better decisions.",
       },
       {
         q: "Who is behind CarCheckerVIN?",
@@ -148,7 +148,7 @@ const COPY = {
     missionP3Pre: "Esa misión moldea cada decisión que tomamos. Es por eso que nuestra",
     missionP3LinkVin: "revisión VIN gratis",
     missionP3Mid:
-      "es genuinamente gratis, por qué nuestros reportes pagados empiezan en $7.99, y por qué publicamos una biblioteca creciente de",
+      "es genuinamente gratis, por qué nuestros reportes pagados empiezan en $14.99, y por qué publicamos una biblioteca creciente de",
     missionP3LinkGuides: "guías de compra de autos",
     missionP3Suffix:
       "sin paywalls. Los compradores informados toman mejores decisiones, y las mejores decisiones crean un mercado de autos usados más saludable para todos.",
@@ -227,7 +227,7 @@ const COPY = {
       "Preguntas comunes sobre quiénes somos, de dónde vienen nuestros datos y cómo funcionan nuestros reportes de historial vehicular.",
     ctaHeading: "¿Listo para revisar un vehículo?",
     ctaBody:
-      "Ejecuta una decodificación VIN gratis en segundos, o desbloquea un reporte completo de historial por $7.99.",
+      "Ejecuta una decodificación VIN gratis en segundos, o desbloquea un reporte completo de historial por $14.99.",
     faqs: [
       {
         q: "¿De dónde obtiene CarCheckerVIN sus datos vehiculares?",
@@ -247,7 +247,7 @@ const COPY = {
       },
       {
         q: "¿Cuánto cuesta un reporte de CarCheckerVIN?",
-        a: "Una decodificación VIN básica es genuinamente gratis sin necesidad de registro. Los reportes pagados de historial completo empiezan en $7.99. Nuestras guías de compra de autos también son gratis para leer sin paywall, porque creemos que los compradores informados toman mejores decisiones.",
+        a: "Una decodificación VIN básica es genuinamente gratis sin necesidad de registro. Los reportes pagados de historial completo empiezan en $14.99. Nuestras guías de compra de autos también son gratis para leer sin paywall, porque creemos que los compradores informados toman mejores decisiones.",
       },
       {
         q: "¿Quién está detrás de CarCheckerVIN?",

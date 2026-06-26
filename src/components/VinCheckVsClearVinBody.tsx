@@ -11,7 +11,7 @@ import RelatedChecks from "@/components/RelatedChecks";
 import type { Locale } from "@/i18n/config";
 
 const ROWS_EN: { feature: string; us: boolean | string; them: boolean | string }[] = [
-  { feature: "Single report price", us: "$7.99", them: "$14.99" },
+  { feature: "Single report price", us: "$14.99", them: "$14.99" },
   { feature: "Unlimited 30-day access", us: "$24.99", them: "$19.99" },
   { feature: "Free VIN decode (no account)", us: true, them: true },
   { feature: "NMVTIS title brand data", us: true, them: true },
@@ -31,7 +31,7 @@ const ROWS_EN: { feature: string; us: boolean | string; them: boolean | string }
 ];
 
 const ROWS_ES: typeof ROWS_EN = [
-  { feature: "Precio de reporte único", us: "$7.99", them: "$14.99" },
+  { feature: "Precio de reporte único", us: "$14.99", them: "$14.99" },
   { feature: "Acceso ilimitado por 30 días", us: "$24.99", them: "$19.99" },
   { feature: "Decodificación VIN gratis (sin cuenta)", us: true, them: true },
   { feature: "Datos de marca de título de NMVTIS", us: true, them: true },
@@ -62,7 +62,7 @@ const COPY = {
     pricingNote: "Pricing reflects the publicly listed retail price for individual consumer reports as of April 2026.",
     rows: ROWS_EN,
     h2Price: "Pricing — A Tight Race",
-    price1: "ClearVin currently lists a single report at $14.99 and an unlimited package at $19.99. CarCheckerVIN charges $7.99 for a single report and $24.99 for a 30-day unlimited tier. Translation: if you need exactly one report, CarCheckerVIN is roughly half the price. If you plan to run more than three reports in a month, ClearVin's $19.99 unlimited has a slight edge.",
+    price1: "ClearVin currently lists a single report at $14.99 and an unlimited package at $19.99. CarCheckerVIN charges $14.99 for a single report and $24.99 for a 30-day unlimited tier. Translation: if you need exactly one report, CarCheckerVIN is roughly half the price. If you plan to run more than three reports in a month, ClearVin's $19.99 unlimited has a slight edge.",
     price2: "For most private-party buyers evaluating one to three cars, the single-report price wins out, which is where CarCheckerVIN is intentionally positioned.",
     h2Title: "Title Brand Coverage — Where ClearVin Shines",
     t1: "ClearVin has built a reputation specifically around title brand checks: salvage, rebuilt, junk, flood, hail, and manufacturer buyback flags. The reports do a good job calling out these brands clearly. That focus is genuinely valuable for buyers shopping the wholesale and re-export market, where title brand ambiguity is a real concern.",
@@ -91,7 +91,7 @@ const COPY = {
     ],
     h2Choose: "When to Choose CarCheckerVIN",
     chooseBullets: [
-      { text: "You want a single report at the lowest possible price ($7.99 vs $14.99).", linkText: null, linkHref: null, after: null },
+      { text: "You want a single report at the lowest possible price ($14.99 vs $14.99).", linkText: null, linkHref: null, after: null },
       { text: "You want a built-in market value estimate alongside the title and accident history.", linkText: null, linkHref: null, after: null },
       { text: "You want real photos to confirm the vehicle matches the seller's listing photos.", linkText: null, linkHref: null, after: null },
       { text: "You want a free instant decode without an account — see our ", linkText: "free VIN check guide", linkHref: "/guides/free-vin-check", after: "." },
@@ -109,7 +109,7 @@ const COPY = {
     bottom2Suffix: ".",
     faqHeading: "Frequently Asked Questions",
     ctaBottomHeading: "Try a Smarter, Cheaper Alternative",
-    ctaBottomSub: "Enter a 17-character VIN and see what a $7.99 report looks like.",
+    ctaBottomSub: "Enter a 17-character VIN and see what a $14.99 report looks like.",
   },
   es: {
     home: "Inicio", crumb: "CarCheckerVIN vs ClearVin",
@@ -122,7 +122,7 @@ const COPY = {
     pricingNote: "El precio refleja el precio minorista listado públicamente para reportes individuales de consumidor a abril de 2026.",
     rows: ROWS_ES,
     h2Price: "Precio — Una carrera reñida",
-    price1: "ClearVin actualmente lista un reporte único en $14.99 y un paquete ilimitado en $19.99. CarCheckerVIN cobra $7.99 por un reporte único y $24.99 por un nivel ilimitado de 30 días. Traducción: si necesitas exactamente un reporte, CarCheckerVIN es aproximadamente la mitad del precio. Si planeas ejecutar más de tres reportes en un mes, el ilimitado de $19.99 de ClearVin tiene una ligera ventaja.",
+    price1: "ClearVin actualmente lista un reporte único en $14.99 y un paquete ilimitado en $19.99. CarCheckerVIN cobra $14.99 por un reporte único y $24.99 por un nivel ilimitado de 30 días. Traducción: si necesitas exactamente un reporte, CarCheckerVIN es aproximadamente la mitad del precio. Si planeas ejecutar más de tres reportes en un mes, el ilimitado de $19.99 de ClearVin tiene una ligera ventaja.",
     price2: "Para la mayoría de compradores privados evaluando uno a tres autos, el precio de reporte único gana, que es donde CarCheckerVIN está intencionalmente posicionado.",
     h2Title: "Cobertura de marcas de título — Donde ClearVin brilla",
     t1: "ClearVin ha construido una reputación específicamente alrededor de verificaciones de marcas de título: indicadores de salvamento, reconstruido, chatarra, inundación, granizo y recompra por fabricante. Los reportes hacen un buen trabajo señalando estas marcas claramente. Ese enfoque es genuinamente valioso para compradores en el mercado mayorista y de re-exportación, donde la ambigüedad de marca de título es una preocupación real.",
@@ -151,7 +151,7 @@ const COPY = {
     ],
     h2Choose: "Cuándo elegir CarCheckerVIN",
     chooseBullets: [
-      { text: "Quieres un reporte único al precio más bajo posible ($7.99 vs $14.99).", linkText: null, linkHref: null, after: null },
+      { text: "Quieres un reporte único al precio más bajo posible ($14.99 vs $14.99).", linkText: null, linkHref: null, after: null },
       { text: "Quieres una estimación de valor de mercado integrada junto con el historial de título y accidentes.", linkText: null, linkHref: null, after: null },
       { text: "Quieres fotos reales para confirmar que el vehículo coincide con las fotos del listado del vendedor.", linkText: null, linkHref: null, after: null },
       { text: "Quieres una decodificación instantánea gratuita sin una cuenta — consulta nuestra ", linkText: "guía de verificación VIN gratis", linkHref: "/guides/free-vin-check", after: "." },
@@ -169,26 +169,26 @@ const COPY = {
     bottom2Suffix: ".",
     faqHeading: "Preguntas frecuentes",
     ctaBottomHeading: "Prueba una alternativa más inteligente y económica",
-    ctaBottomSub: "Ingresa un VIN de 17 caracteres y ve cómo se ve un reporte de $7.99.",
+    ctaBottomSub: "Ingresa un VIN de 17 caracteres y ve cómo se ve un reporte de $14.99.",
   },
 } as const;
 
 const FAQS_EN = [
-  { question: "What is the difference between CarCheckerVIN and ClearVin?", answer: "Both are value-tier vehicle history report services that pull NMVTIS title brand data. ClearVin is known for thorough title brand coverage and is well-suited to wholesale, export, and salvage-rebuild buyers. CarCheckerVIN covers the same NMVTIS brand categories but adds a built-in market value estimate in the standard report and charges a lower single-report price of $7.99 versus ClearVin's $14.99." },
-  { question: "Is CarCheckerVIN cheaper than ClearVin?", answer: "For a single report, yes. CarCheckerVIN lists a single report at $7.99 versus ClearVin's $14.99, roughly half the price. For unlimited access the picture flips: ClearVin's unlimited package is $19.99 while CarCheckerVIN's 30-day unlimited tier is $24.99. If you need just one to three reports, CarCheckerVIN wins; if you run more than three a month, ClearVin's unlimited is slightly cheaper." },
+  { question: "What is the difference between CarCheckerVIN and ClearVin?", answer: "Both are value-tier vehicle history report services that pull NMVTIS title brand data. ClearVin is known for thorough title brand coverage and is well-suited to wholesale, export, and salvage-rebuild buyers. CarCheckerVIN covers the same NMVTIS brand categories but adds a built-in market value estimate in the standard report and charges a lower single-report price of $14.99 versus ClearVin's $14.99." },
+  { question: "Is CarCheckerVIN cheaper than ClearVin?", answer: "For a single report, yes. CarCheckerVIN lists a single report at $14.99 versus ClearVin's $14.99, roughly half the price. For unlimited access the picture flips: ClearVin's unlimited package is $19.99 while CarCheckerVIN's 30-day unlimited tier is $24.99. If you need just one to three reports, CarCheckerVIN wins; if you run more than three a month, ClearVin's unlimited is slightly cheaper." },
   { question: "Do CarCheckerVIN and ClearVin use the same data (NMVTIS)?", answer: "Yes. Both providers source title brand history from NMVTIS, the federally mandated National Motor Vehicle Title Information System that pulls from all 50 state DMVs. Because the underlying NMVTIS feed is the same, salvage, rebuilt, junk, flood, and manufacturer buyback brand data quality is essentially equivalent between the two services. The differences are in pricing, presentation, and extras like market value." },
   { question: "Is ClearVin good for auction or dealer cars?", answer: "Yes. ClearVin has built a strong reputation specifically around title brand verification, which is genuinely valuable for buyers shopping the wholesale, auction, re-export, and salvage-rebuild market where title brand ambiguity is a real concern. It clearly calls out salvage, rebuilt, junk, flood, hail, and manufacturer buyback flags, making it a solid fit for auction and dealer-oriented purchases." },
-  { question: "Which is better for a typical used-car buyer, CarCheckerVIN or ClearVin?", answer: "For the typical private-party buyer evaluating one to three cars, CarCheckerVIN is the better pick. It delivers equivalent NMVTIS title brand data plus a built-in market value estimate, real vehicle photos, and a lower single-report price of $7.99. ClearVin remains a respected choice if your main concern is title brand verification for export or salvage rebuilds, or you want the cheapest unlimited plan." },
-  { question: "Is there a free alternative to ClearVin?", answer: "Yes. Both CarCheckerVIN and ClearVin offer a free VIN decode without an account, which returns factory build data. For full history including title brands, accidents, odometer timeline, and recalls, a paid report is required. CarCheckerVIN's free instant decode and $7.99 full report make it a low-cost alternative; see the free VIN check guide for what the free decode includes." },
+  { question: "Which is better for a typical used-car buyer, CarCheckerVIN or ClearVin?", answer: "For the typical private-party buyer evaluating one to three cars, CarCheckerVIN is the better pick. It delivers equivalent NMVTIS title brand data plus a built-in market value estimate, real vehicle photos, and a lower single-report price of $14.99. ClearVin remains a respected choice if your main concern is title brand verification for export or salvage rebuilds, or you want the cheapest unlimited plan." },
+  { question: "Is there a free alternative to ClearVin?", answer: "Yes. Both CarCheckerVIN and ClearVin offer a free VIN decode without an account, which returns factory build data. For full history including title brands, accidents, odometer timeline, and recalls, a paid report is required. CarCheckerVIN's free instant decode and $14.99 full report make it a low-cost alternative; see the free VIN check guide for what the free decode includes." },
 ];
 
 const FAQS_ES = [
-  { question: "¿Cuál es la diferencia entre CarCheckerVIN y ClearVin?", answer: "Ambos son servicios de reporte de historial vehicular de nivel de valor que extraen datos de marca de título de NMVTIS. ClearVin es conocido por cobertura exhaustiva de marcas de título y es muy adecuado para compradores mayoristas, de exportación y de reconstrucción de salvamento. CarCheckerVIN cubre las mismas categorías de marcas de NMVTIS pero agrega una estimación de valor de mercado integrada en el reporte estándar y cobra un precio de reporte único más bajo de $7.99 versus los $14.99 de ClearVin." },
-  { question: "¿CarCheckerVIN es más barato que ClearVin?", answer: "Para un reporte único, sí. CarCheckerVIN lista un reporte único en $7.99 versus los $14.99 de ClearVin, aproximadamente la mitad del precio. Para acceso ilimitado el panorama cambia: el paquete ilimitado de ClearVin es $19.99 mientras el nivel ilimitado de 30 días de CarCheckerVIN es $24.99. Si necesitas solo uno a tres reportes, CarCheckerVIN gana; si ejecutas más de tres al mes, el ilimitado de ClearVin es ligeramente más barato." },
+  { question: "¿Cuál es la diferencia entre CarCheckerVIN y ClearVin?", answer: "Ambos son servicios de reporte de historial vehicular de nivel de valor que extraen datos de marca de título de NMVTIS. ClearVin es conocido por cobertura exhaustiva de marcas de título y es muy adecuado para compradores mayoristas, de exportación y de reconstrucción de salvamento. CarCheckerVIN cubre las mismas categorías de marcas de NMVTIS pero agrega una estimación de valor de mercado integrada en el reporte estándar y cobra un precio de reporte único más bajo de $14.99 versus los $14.99 de ClearVin." },
+  { question: "¿CarCheckerVIN es más barato que ClearVin?", answer: "Para un reporte único, sí. CarCheckerVIN lista un reporte único en $14.99 versus los $14.99 de ClearVin, aproximadamente la mitad del precio. Para acceso ilimitado el panorama cambia: el paquete ilimitado de ClearVin es $19.99 mientras el nivel ilimitado de 30 días de CarCheckerVIN es $24.99. Si necesitas solo uno a tres reportes, CarCheckerVIN gana; si ejecutas más de tres al mes, el ilimitado de ClearVin es ligeramente más barato." },
   { question: "¿CarCheckerVIN y ClearVin usan los mismos datos (NMVTIS)?", answer: "Sí. Ambos proveedores extraen el historial de marca de título de NMVTIS, el Sistema Nacional de Información de Títulos de Vehículos Motorizados federalmente obligatorio que extrae de los 50 DMV estatales. Como el feed subyacente de NMVTIS es el mismo, la calidad de datos de marca de salvamento, reconstruido, chatarra, inundación y recompra por fabricante es esencialmente equivalente entre los dos servicios. Las diferencias están en precio, presentación y extras como valor de mercado." },
   { question: "¿ClearVin es bueno para autos de subasta o concesionario?", answer: "Sí. ClearVin ha construido una sólida reputación específicamente alrededor de la verificación de marcas de título, lo cual es genuinamente valioso para compradores en el mercado mayorista, de subastas, de re-exportación y de reconstrucción de salvamento donde la ambigüedad de marca de título es una preocupación real. Señala claramente los indicadores de salvamento, reconstruido, chatarra, inundación, granizo y recompra por fabricante, haciéndolo una buena opción para compras orientadas a subastas y concesionarios." },
-  { question: "¿Cuál es mejor para un comprador típico de auto usado, CarCheckerVIN o ClearVin?", answer: "Para el comprador privado típico evaluando uno a tres autos, CarCheckerVIN es la mejor opción. Entrega datos equivalentes de marca de título de NMVTIS más una estimación de valor de mercado integrada, fotos reales del vehículo y un precio de reporte único más bajo de $7.99. ClearVin sigue siendo una opción respetada si tu preocupación principal es la verificación de marcas de título para exportación o reconstrucciones de salvamento, o quieres el plan ilimitado más económico." },
-  { question: "¿Hay una alternativa gratuita a ClearVin?", answer: "Sí. Tanto CarCheckerVIN como ClearVin ofrecen una decodificación VIN gratuita sin cuenta, que devuelve datos de construcción de fábrica. Para el historial completo incluyendo marcas de título, accidentes, línea de tiempo de odómetro y recalls, se requiere un reporte pagado. La decodificación instantánea gratuita de CarCheckerVIN y el reporte completo de $7.99 lo convierten en una alternativa de bajo costo; consulta la guía de verificación VIN gratis para ver lo que incluye la decodificación gratuita." },
+  { question: "¿Cuál es mejor para un comprador típico de auto usado, CarCheckerVIN o ClearVin?", answer: "Para el comprador privado típico evaluando uno a tres autos, CarCheckerVIN es la mejor opción. Entrega datos equivalentes de marca de título de NMVTIS más una estimación de valor de mercado integrada, fotos reales del vehículo y un precio de reporte único más bajo de $14.99. ClearVin sigue siendo una opción respetada si tu preocupación principal es la verificación de marcas de título para exportación o reconstrucciones de salvamento, o quieres el plan ilimitado más económico." },
+  { question: "¿Hay una alternativa gratuita a ClearVin?", answer: "Sí. Tanto CarCheckerVIN como ClearVin ofrecen una decodificación VIN gratuita sin cuenta, que devuelve datos de construcción de fábrica. Para el historial completo incluyendo marcas de título, accidentes, línea de tiempo de odómetro y recalls, se requiere un reporte pagado. La decodificación instantánea gratuita de CarCheckerVIN y el reporte completo de $14.99 lo convierten en una alternativa de bajo costo; consulta la guía de verificación VIN gratis para ver lo que incluye la decodificación gratuita." },
 ];
 
 interface Props { locale: Locale; }

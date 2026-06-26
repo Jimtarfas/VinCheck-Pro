@@ -81,7 +81,7 @@ function Laurel({ className = "" }: { className?: string }) {
 
 export const dynamic = "force-dynamic";
 
-const SINGLE_PRICE = Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999") / 100;
+const SINGLE_PRICE = Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499") / 100;
 
 interface Props {
   params: Promise<{ vin: string }>;

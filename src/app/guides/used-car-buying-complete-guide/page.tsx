@@ -878,7 +878,7 @@ export default function UsedCarBuyingCompleteGuidePage() {
               down for three years.
             </li>
             <li>
-              <strong>Skipping the VIN check.</strong> A $7.99 report
+              <strong>Skipping the VIN check.</strong> A $14.99 report
               prevents a $7,000 mistake. Decode it on our{" "}
               <Link
                 href="/vin-check"

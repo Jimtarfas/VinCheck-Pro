@@ -11,7 +11,7 @@ import RelatedChecks from "@/components/RelatedChecks";
 import type { Locale } from "@/i18n/config";
 
 const ROWS_EN: { feature: string; carchecker: boolean | string; competitor: boolean | string }[] = [
-  { feature: "Single report price", carchecker: "$7.99", competitor: "$14.99" },
+  { feature: "Single report price", carchecker: "$14.99", competitor: "$14.99" },
   { feature: "Unlimited 30-day access", carchecker: "$24.99", competitor: "$24.99" },
   { feature: "Free VIN decode (no account)", carchecker: true, competitor: true },
   { feature: "NMVTIS authorized data provider", carchecker: true, competitor: true },
@@ -31,7 +31,7 @@ const ROWS_EN: { feature: string; carchecker: boolean | string; competitor: bool
 ];
 
 const ROWS_ES: typeof ROWS_EN = [
-  { feature: "Precio de reporte único", carchecker: "$7.99", competitor: "$14.99" },
+  { feature: "Precio de reporte único", carchecker: "$14.99", competitor: "$14.99" },
   { feature: "Acceso ilimitado por 30 días", carchecker: "$24.99", competitor: "$24.99" },
   { feature: "Decodificación VIN gratis (sin cuenta)", carchecker: true, competitor: true },
   { feature: "Proveedor de datos autorizado por NMVTIS", carchecker: true, competitor: true },
@@ -62,7 +62,7 @@ const COPY = {
     pricingNote: "Pricing reflects the publicly listed retail price for individual consumer reports as of April 2026.",
     rows: ROWS_EN,
     h2Pricing: "Pricing — Where the Gap Is",
-    price1: "VinAudit currently lists a single vehicle history report at $14.99 and an unlimited 30-day plan at $24.99. CarCheckerVIN charges $7.99 for a single report and matches the $24.99 unlimited tier. For a one-off purchase, that means you can run the same NMVTIS-backed report for roughly half the price.",
+    price1: "VinAudit currently lists a single vehicle history report at $14.99 and an unlimited 30-day plan at $24.99. CarCheckerVIN charges $14.99 for a single report and matches the $24.99 unlimited tier. For a one-off purchase, that means you can run the same NMVTIS-backed report for roughly half the price.",
     price2: "For unlimited buyers the prices are essentially even, so the decision shifts to which platform you actually enjoy using — how the report is laid out, whether photos are included, and how quickly the result loads on your phone.",
     h2Nmvtis: "NMVTIS — The Same Authoritative Source",
     nm1Pre: "VinAudit is an NMVTIS-approved data provider, and that is genuinely a strength: NMVTIS is the only federally mandated repository of vehicle title data in the United States. Every insurance carrier, junk and salvage operator, and state DMV is required to report into it. CarCheckerVIN sources the same NMVTIS title brand records, including ",
@@ -104,7 +104,7 @@ const COPY = {
     bottom2Suffix: ".",
     faqHeading: "Frequently Asked Questions",
     ctaBottomHeading: "Try a Smarter, Cheaper Alternative",
-    ctaBottomSub: "Enter a 17-character VIN and see what a $7.99 report looks like.",
+    ctaBottomSub: "Enter a 17-character VIN and see what a $14.99 report looks like.",
   },
   es: {
     home: "Inicio", crumb: "CarCheckerVIN vs VinAudit",
@@ -117,7 +117,7 @@ const COPY = {
     pricingNote: "El precio refleja el precio minorista listado públicamente para reportes individuales de consumidor a abril de 2026.",
     rows: ROWS_ES,
     h2Pricing: "Precio — Dónde está la diferencia",
-    price1: "VinAudit lista actualmente un reporte único de historial vehicular en $14.99 y un plan ilimitado de 30 días en $24.99. CarCheckerVIN cobra $7.99 por un reporte único e iguala el nivel ilimitado de $24.99. Para una compra única, eso significa que puedes ejecutar el mismo reporte respaldado por NMVTIS por aproximadamente la mitad del precio.",
+    price1: "VinAudit lista actualmente un reporte único de historial vehicular en $14.99 y un plan ilimitado de 30 días en $24.99. CarCheckerVIN cobra $14.99 por un reporte único e iguala el nivel ilimitado de $24.99. Para una compra única, eso significa que puedes ejecutar el mismo reporte respaldado por NMVTIS por aproximadamente la mitad del precio.",
     price2: "Para compradores de ilimitado los precios son esencialmente iguales, así que la decisión se desplaza a qué plataforma realmente disfrutas usar — cómo está diseñado el reporte, si incluye fotos y qué tan rápido carga el resultado en tu teléfono.",
     h2Nmvtis: "NMVTIS — La misma fuente autoritativa",
     nm1Pre: "VinAudit es un proveedor de datos aprobado por NMVTIS, y eso es genuinamente una fortaleza: NMVTIS es el único repositorio federalmente obligatorio de datos de título vehicular en Estados Unidos. Cada aseguradora, operador de chatarra y salvamento, y DMV estatal está obligado a reportar a él. CarCheckerVIN obtiene los mismos registros de marca de título de NMVTIS, incluyendo ",
@@ -159,26 +159,26 @@ const COPY = {
     bottom2Suffix: ".",
     faqHeading: "Preguntas frecuentes",
     ctaBottomHeading: "Prueba una alternativa más inteligente y económica",
-    ctaBottomSub: "Ingresa un VIN de 17 caracteres y ve cómo se ve un reporte de $7.99.",
+    ctaBottomSub: "Ingresa un VIN de 17 caracteres y ve cómo se ve un reporte de $14.99.",
   },
 } as const;
 
 const FAQS_EN = [
-  { question: "What is the difference between CarCheckerVIN and VinAudit?", answer: "Both are NMVTIS-authorized vehicle history providers that pull title brand, salvage, accident, odometer, and stolen-vehicle data from the same federal NMVTIS backbone. The difference is presentation and price: VinAudit is known for accurate raw data and a clean developer API, while CarCheckerVIN layers in real vehicle photos, a market value estimate, and a faster, photo-rich, mobile-first report at $7.99 versus VinAudit's $14.99 single report." },
-  { question: "Is CarCheckerVIN cheaper than VinAudit?", answer: "For a single report, yes. CarCheckerVIN charges $7.99 for one report compared to VinAudit's publicly listed $14.99, so you can run the same NMVTIS-backed history for roughly half the price. On the unlimited 30-day plan the two are even at $24.99 each, so at that tier the decision comes down to report layout, photos, and mobile speed rather than cost." },
+  { question: "What is the difference between CarCheckerVIN and VinAudit?", answer: "Both are NMVTIS-authorized vehicle history providers that pull title brand, salvage, accident, odometer, and stolen-vehicle data from the same federal NMVTIS backbone. The difference is presentation and price: VinAudit is known for accurate raw data and a clean developer API, while CarCheckerVIN layers in real vehicle photos, a market value estimate, and a faster, photo-rich, mobile-first report at $14.99 versus VinAudit's $14.99 single report." },
+  { question: "Is CarCheckerVIN cheaper than VinAudit?", answer: "For a single report, yes. CarCheckerVIN charges $14.99 for one report compared to VinAudit's publicly listed $14.99, so you can run the same NMVTIS-backed history for roughly half the price. On the unlimited 30-day plan the two are even at $24.99 each, so at that tier the decision comes down to report layout, photos, and mobile speed rather than cost." },
   { question: "Do CarCheckerVIN and VinAudit use the same NMVTIS data?", answer: "Yes. Both are NMVTIS-approved data providers, and NMVTIS is the only federally mandated repository of U.S. vehicle title data, fed by every state DMV, insurance carrier, and salvage operator. The underlying title brand, salvage, flood, and total-loss records are functionally the same. What differs is enrichment: CarCheckerVIN adds real vehicle photos, a clearer market value estimate, and a more readable on-screen presentation." },
   { question: "Does VinAudit offer an API?", answer: "Yes. VinAudit offers a clean, well-documented NMVTIS-backed API and data services, which is one of its genuine strengths for developers and data buyers building integrations. CarCheckerVIN is built primarily for individual consumers buying a single readable report rather than for API integration, so if you need raw programmatic data access, VinAudit is the established choice in that area." },
-  { question: "Which is better for a single used-car buyer?", answer: "For one used-car purchase, CarCheckerVIN is usually the more comfortable fit: it pulls the same NMVTIS title data at $7.99 instead of $14.99 and pairs it with real photos, a market value estimate, and a fast mobile-first layout you can read in about 30 seconds before paying a deposit. VinAudit remains a solid pick if you only need raw title and odometer data or already use its report format." },
-  { question: "Is there a free alternative to VinAudit?", answer: "Yes. CarCheckerVIN offers a free instant VIN decode with no account required, letting you confirm year, make, model, engine, and basic specs before deciding whether to buy a full report. Both services also provide free VIN decoding. For complete NMVTIS title brand, salvage, accident, and odometer history, a paid report is still required, but CarCheckerVIN's full report starts at $7.99." },
+  { question: "Which is better for a single used-car buyer?", answer: "For one used-car purchase, CarCheckerVIN is usually the more comfortable fit: it pulls the same NMVTIS title data at $14.99 instead of $14.99 and pairs it with real photos, a market value estimate, and a fast mobile-first layout you can read in about 30 seconds before paying a deposit. VinAudit remains a solid pick if you only need raw title and odometer data or already use its report format." },
+  { question: "Is there a free alternative to VinAudit?", answer: "Yes. CarCheckerVIN offers a free instant VIN decode with no account required, letting you confirm year, make, model, engine, and basic specs before deciding whether to buy a full report. Both services also provide free VIN decoding. For complete NMVTIS title brand, salvage, accident, and odometer history, a paid report is still required, but CarCheckerVIN's full report starts at $14.99." },
 ];
 
 const FAQS_ES = [
-  { question: "¿Cuál es la diferencia entre CarCheckerVIN y VinAudit?", answer: "Ambos son proveedores de historial vehicular autorizados por NMVTIS que extraen datos de marca de título, salvamento, accidentes, odómetro y vehículos robados del mismo backbone federal NMVTIS. La diferencia es presentación y precio: VinAudit es conocido por datos brutos precisos y una API limpia para desarrolladores, mientras CarCheckerVIN agrega fotos reales del vehículo, una estimación de valor de mercado y un reporte más rápido, rico en fotos, móvil primero a $7.99 contra el reporte único de $14.99 de VinAudit." },
-  { question: "¿CarCheckerVIN es más barato que VinAudit?", answer: "Para un reporte único, sí. CarCheckerVIN cobra $7.99 por un reporte comparado con los $14.99 listados públicamente de VinAudit, así que puedes ejecutar el mismo historial respaldado por NMVTIS por aproximadamente la mitad del precio. En el plan ilimitado de 30 días los dos están iguales en $24.99 cada uno, así que en ese nivel la decisión se reduce a diseño del reporte, fotos y velocidad móvil en lugar de costo." },
+  { question: "¿Cuál es la diferencia entre CarCheckerVIN y VinAudit?", answer: "Ambos son proveedores de historial vehicular autorizados por NMVTIS que extraen datos de marca de título, salvamento, accidentes, odómetro y vehículos robados del mismo backbone federal NMVTIS. La diferencia es presentación y precio: VinAudit es conocido por datos brutos precisos y una API limpia para desarrolladores, mientras CarCheckerVIN agrega fotos reales del vehículo, una estimación de valor de mercado y un reporte más rápido, rico en fotos, móvil primero a $14.99 contra el reporte único de $14.99 de VinAudit." },
+  { question: "¿CarCheckerVIN es más barato que VinAudit?", answer: "Para un reporte único, sí. CarCheckerVIN cobra $14.99 por un reporte comparado con los $14.99 listados públicamente de VinAudit, así que puedes ejecutar el mismo historial respaldado por NMVTIS por aproximadamente la mitad del precio. En el plan ilimitado de 30 días los dos están iguales en $24.99 cada uno, así que en ese nivel la decisión se reduce a diseño del reporte, fotos y velocidad móvil en lugar de costo." },
   { question: "¿CarCheckerVIN y VinAudit usan los mismos datos de NMVTIS?", answer: "Sí. Ambos son proveedores de datos aprobados por NMVTIS, y NMVTIS es el único repositorio federalmente obligatorio de datos de título vehicular de EE. UU., alimentado por cada DMV estatal, aseguradora y operador de salvamento. Los registros subyacentes de marca de título, salvamento, inundación y pérdida total son funcionalmente los mismos. Lo que difiere es el enriquecimiento: CarCheckerVIN agrega fotos reales del vehículo, una estimación más clara del valor de mercado y una presentación en pantalla más legible." },
   { question: "¿VinAudit ofrece una API?", answer: "Sí. VinAudit ofrece una API limpia y bien documentada respaldada por NMVTIS y servicios de datos, lo cual es una de sus fortalezas genuinas para desarrolladores y compradores de datos construyendo integraciones. CarCheckerVIN está construido principalmente para consumidores individuales comprando un reporte legible único en lugar de para integración API, así que si necesitas acceso programático a datos brutos, VinAudit es la opción establecida en esa área." },
-  { question: "¿Cuál es mejor para un solo comprador de auto usado?", answer: "Para una compra de auto usado, CarCheckerVIN suele ser el ajuste más cómodo: extrae los mismos datos de título de NMVTIS a $7.99 en lugar de $14.99 y los combina con fotos reales, una estimación de valor de mercado y un diseño rápido móvil primero que puedes leer en unos 30 segundos antes de pagar un depósito. VinAudit sigue siendo una opción sólida si solo necesitas datos brutos de título y odómetro o ya usas su formato de reporte." },
-  { question: "¿Hay una alternativa gratuita a VinAudit?", answer: "Sí. CarCheckerVIN ofrece una decodificación VIN instantánea gratuita sin cuenta requerida, permitiéndote confirmar año, marca, modelo, motor y especificaciones básicas antes de decidir si compras un reporte completo. Ambos servicios también proporcionan decodificación VIN gratuita. Para historial completo de marca de título de NMVTIS, salvamento, accidentes y odómetro, todavía se requiere un reporte de pago, pero el reporte completo de CarCheckerVIN comienza en $7.99." },
+  { question: "¿Cuál es mejor para un solo comprador de auto usado?", answer: "Para una compra de auto usado, CarCheckerVIN suele ser el ajuste más cómodo: extrae los mismos datos de título de NMVTIS a $14.99 en lugar de $14.99 y los combina con fotos reales, una estimación de valor de mercado y un diseño rápido móvil primero que puedes leer en unos 30 segundos antes de pagar un depósito. VinAudit sigue siendo una opción sólida si solo necesitas datos brutos de título y odómetro o ya usas su formato de reporte." },
+  { question: "¿Hay una alternativa gratuita a VinAudit?", answer: "Sí. CarCheckerVIN ofrece una decodificación VIN instantánea gratuita sin cuenta requerida, permitiéndote confirmar año, marca, modelo, motor y especificaciones básicas antes de decidir si compras un reporte completo. Ambos servicios también proporcionan decodificación VIN gratuita. Para historial completo de marca de título de NMVTIS, salvamento, accidentes y odómetro, todavía se requiere un reporte de pago, pero el reporte completo de CarCheckerVIN comienza en $14.99." },
 ];
 
 interface Props { locale: Locale; }

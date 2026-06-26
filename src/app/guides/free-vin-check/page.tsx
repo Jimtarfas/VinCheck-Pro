@@ -80,7 +80,7 @@ const faqSchema = {
       name: "What does a free VIN check show versus a paid report?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "A free VIN check decodes factory-build specifications: year, make, model, engine, transmission, body style, drivetrain, and country of manufacture. A paid report adds depth a free decode cannot: the full factory equipment list, real vehicle photos, market value estimates, comparable dealer listings, recall details, and detailed trim and options. On CarCheckerVIN the premium report starts at $7.99 with no subscription.",
+        text: "A free VIN check decodes factory-build specifications: year, make, model, engine, transmission, body style, drivetrain, and country of manufacture. A paid report adds depth a free decode cannot: the full factory equipment list, real vehicle photos, market value estimates, comparable dealer listings, recall details, and detailed trim and options. On CarCheckerVIN the premium report starts at $14.99 with no subscription.",
       },
     },
     {
@@ -120,7 +120,7 @@ const faqSchema = {
       name: "How do I avoid fake \"free\" VIN report scams?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Choose a service that decodes the VIN with no credit card required, shows transparent pricing for any premium report, and sources data from verified databases such as NMVTIS and manufacturer records. Avoid sites that demand a card for a \"free\" report, enroll you in recurring charges, or serve outdated data. CarCheckerVIN's free decode is genuinely free, and premium reports are priced clearly at $7.99 with no auto-renewals.",
+        text: "Choose a service that decodes the VIN with no credit card required, shows transparent pricing for any premium report, and sources data from verified databases such as NMVTIS and manufacturer records. Avoid sites that demand a card for a \"free\" report, enroll you in recurring charges, or serve outdated data. CarCheckerVIN's free decode is genuinely free, and premium reports are priced clearly at $14.99 with no auto-renewals.",
       },
     },
   ],
@@ -303,7 +303,7 @@ export default function FreeVinCheckPage() {
             </table>
           </div>
           <p className="mt-4 text-sm text-slate-700">
-            Premium reports start at just $7.99 &mdash; a fraction of what major
+            Premium reports start at just $14.99 &mdash; a fraction of what major
             competitors charge.
           </p>
 
@@ -422,7 +422,7 @@ export default function FreeVinCheckPage() {
           <p className="mt-4 text-slate-600 leading-relaxed">
             CarCheckerVIN meets all of these criteria. Our free VIN decode is
             genuinely free with no strings attached, and our premium reports are
-            priced clearly at $7.99 with no subscriptions or auto-renewals.
+            priced clearly at $14.99 with no subscriptions or auto-renewals.
           </p>
 
           {/* --- Seller benefits --- */}

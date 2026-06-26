@@ -138,7 +138,7 @@ export const en = {
   pricing: {
     metaTitle: "Pricing — Free VIN Decode + Full History Reports",
     metaDescription:
-      "Free VIN decode for every vehicle. Optional full NMVTIS-backed vehicle history report for $9.99 — title brands, accidents, odometer history, recalls.",
+      "Free VIN decode for every vehicle. Optional full NMVTIS-backed vehicle history report for $14.99 — title brands, accidents, odometer history, recalls.",
     heroEyebrow: "Simple, honest pricing",
     heroHeadline: "Pay only when you need the full story.",
     heroSub:
@@ -155,7 +155,7 @@ export const en = {
     ],
     freeCta: "Decode a VIN",
     paidTitle: "Full vehicle history report",
-    paidPrice: "$9.99",
+    paidPrice: "$14.99",
     paidUnit: "one-time, per VIN",
     paidBullets: [
       "Everything in the free tier",

@@ -12,7 +12,7 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/es/vin-check-vs-carfax`;
 const alt = hreflangAlternatesForLocale("/vin-check-vs-carfax", "es");
 const title = "CarCheckerVIN vs Carfax — Alternativa más económica y rápida de verificación VIN";
-const description = "CarCheckerVIN vs Carfax comparados lado a lado. Mira precios ($7.99 vs $44.99), fuentes de datos, reportes incluidos y por qué los conductores están cambiando a una alternativa más inteligente a Carfax.";
+const description = "CarCheckerVIN vs Carfax comparados lado a lado. Mira precios ($14.99 vs $44.99), fuentes de datos, reportes incluidos y por qué los conductores están cambiando a una alternativa más inteligente a Carfax.";
 
 export const metadata: Metadata = {
   title, description,

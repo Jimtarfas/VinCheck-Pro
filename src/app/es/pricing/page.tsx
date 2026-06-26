@@ -41,7 +41,7 @@ const productSchema = {
     "Reporte completo del historial del vehículo respaldado por NMVTIS.",
   offers: {
     "@type": "Offer",
-    price: "9.99",
+    price: "14.99",
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
     url: `${SITE}/es/precios`,

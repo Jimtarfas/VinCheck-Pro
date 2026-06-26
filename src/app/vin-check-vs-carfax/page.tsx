@@ -6,7 +6,7 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 export const metadata: Metadata = {
   title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative",
   description:
-    "CarCheckerVIN vs Carfax compared side-by-side. See pricing ($7.99 vs $44.99), data sources, included reports, and why drivers are switching to a smarter Carfax alternative.",
+    "CarCheckerVIN vs Carfax compared side-by-side. See pricing ($14.99 vs $44.99), data sources, included reports, and why drivers are switching to a smarter Carfax alternative.",
   keywords: ["carfax alternative", "cheaper than carfax", "vin check vs carfax", "best vin check service", "carfax vs autocheck alternative", "affordable vehicle history report", "best carfax alternative 2026", "vin report comparison"],
   alternates: hreflangAlternates("/vin-check-vs-carfax"),
   openGraph: { title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative", description: "Compare CarCheckerVIN with Carfax on price, data sources, and report contents. See why drivers are switching to a smarter alternative.", url: "https://www.carcheckervin.com/vin-check-vs-carfax", type: "article" },

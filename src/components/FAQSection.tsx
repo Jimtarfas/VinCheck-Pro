@@ -43,7 +43,7 @@ const COPY = {
       },
       {
         question: "Is this VIN check service really free?",
-        answer: "Yes — and for a limited time every single plan is completely free, including full premium reports with history, market values, photos, and detailed analysis. No credit card required. Regular pricing (starting at $7.99) resumes when the promotion ends.",
+        answer: "Yes — and for a limited time every single plan is completely free, including full premium reports with history, market values, photos, and detailed analysis. No credit card required. Regular pricing (starting at $14.99) resumes when the promotion ends.",
       },
     ],
   },
@@ -85,7 +85,7 @@ const COPY = {
       },
       {
         question: "¿Este servicio de revisión VIN es realmente gratis?",
-        answer: "Sí — y por tiempo limitado todos los planes son completamente gratis, incluyendo reportes premium completos con historial, valor de mercado, fotos y análisis detallado. Sin tarjeta de crédito. Los precios regulares (desde $7.99) se reanudan al terminar la promoción.",
+        answer: "Sí — y por tiempo limitado todos los planes son completamente gratis, incluyendo reportes premium completos con historial, valor de mercado, fotos y análisis detallado. Sin tarjeta de crédito. Los precios regulares (desde $14.99) se reanudan al terminar la promoción.",
       },
     ],
   },

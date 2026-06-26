@@ -18,7 +18,7 @@ const GOOGLE_ADS_BEGIN_CHECKOUT_SEND_TO =
   "AW-18237007044/3x3_CJ6q_b4cEMTJivhD";
 
 const REPORT_VALUE_USD =
-  Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999") / 100;
+  Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499") / 100;
 
 function fireBeginCheckout() {
   const gtag = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;

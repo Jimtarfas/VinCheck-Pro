@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 // Single source of truth for report price (mirrors src/lib/stripe.ts).
 const REPORT_VALUE =
-  Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999") / 100;
+  Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499") / 100;
 
 // Google Ads conversion action ("Purchase") send-to label. Overridable via env.
 const GOOGLE_ADS_PURCHASE_SEND_TO =

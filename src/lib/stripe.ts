@@ -9,14 +9,14 @@
  *   STRIPE_SECRET_KEY             — server secret (sk_test_... or sk_live_...)
  *   STRIPE_WEBHOOK_SECRET         — for webhook signature verification
  *   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY — client publishable key (not used server-side)
- *   NEXT_PUBLIC_REPORT_PRICE_CENTS — int, defaults to 999 ($9.99)
+ *   NEXT_PUBLIC_REPORT_PRICE_CENTS — int, defaults to 1499 ($14.99)
  *   NEXT_PUBLIC_SITE_URL          — for redirect URLs
  */
 
 import { getBundle } from "./pricing";
 
 const SECRET = () => process.env.STRIPE_SECRET_KEY || "";
-const PRICE_CENTS = () => Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999");
+const PRICE_CENTS = () => Number(process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499");
 
 // Checkout success/cancel URLs live on the main site (www.carcheckervin.com) —
 // that's where the /order flow is publicly served. We hit the canonical

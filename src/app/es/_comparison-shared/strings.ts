@@ -21,7 +21,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "CarCheckerVIN vs Carfax — Alternativa más barata y rápida",
     metaTitle: "CarCheckerVIN vs Carfax — Comparación 2026",
     metaDescription:
-      "Compara CarCheckerVIN vs Carfax: mismos datos NMVTIS, NICB y NHTSA pero a $9.99 vs $44.99. Vista previa gratis sin tarjeta, fotos reales del auto y reportes al instante.",
+      "Compara CarCheckerVIN vs Carfax: mismos datos NMVTIS, NICB y NHTSA pero a $14.99 vs $44.99. Vista previa gratis sin tarjeta, fotos reales del auto y reportes al instante.",
     keywords: [
       "Carfax vs CarCheckerVIN",
       "alternativa Carfax",
@@ -31,7 +31,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
       "competidor Carfax",
     ],
     intro:
-      "Carfax es la marca más conocida de reportes de historial vehicular, pero también la más cara ($44.99 por reporte). CarCheckerVIN entrega los mismos datos centrales — NMVTIS, NICB, NHTSA, marcas de título, accidentes, odómetro — por $9.99 con vista previa gratis sin tarjeta de crédito. Comparemos punto por punto.",
+      "Carfax es la marca más conocida de reportes de historial vehicular, pero también la más cara ($44.99 por reporte). CarCheckerVIN entrega los mismos datos centrales — NMVTIS, NICB, NHTSA, marcas de título, accidentes, odómetro — por $14.99 con vista previa gratis sin tarjeta de crédito. Comparemos punto por punto.",
     whatYouGet: [
       "Mismos datos NMVTIS (título, salvage, marcas) que Carfax",
       "Misma cobertura NICB de robos y pérdida total",
@@ -39,7 +39,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Fotos reales del vehículo (Carfax solo a veces incluye)",
       "Fotos de subastas salvage (Carfax no las incluye)",
       "Equipamiento y opciones de fábrica completas",
-      "Precio único: $9.99 vs $44.99 de Carfax",
+      "Precio único: $14.99 vs $44.99 de Carfax",
       "Vista previa gratis sin registrarse ni dar tarjeta",
     ],
     whyItMatters: [
@@ -61,7 +61,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "CarCheckerVIN vs AutoCheck — Comparación 2026",
     metaTitle: "CarCheckerVIN vs AutoCheck — Comparación 2026",
     metaDescription:
-      "AutoCheck cobra $24.99 por reporte, CarCheckerVIN $9.99. Datos NMVTIS, NICB, NHTSA equivalentes — más fotos reales, fotos de subastas salvage y vista previa gratis.",
+      "AutoCheck cobra $24.99 por reporte, CarCheckerVIN $14.99. Datos NMVTIS, NICB, NHTSA equivalentes — más fotos reales, fotos de subastas salvage y vista previa gratis.",
     keywords: [
       "AutoCheck vs CarCheckerVIN",
       "AutoCheck precio español",
@@ -71,7 +71,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Experian AutoCheck",
     ],
     intro:
-      "AutoCheck (de Experian) es popular entre dealers por su 'AutoCheck Score' propietario, pero cobra $24.99 por reporte. CarCheckerVIN entrega los mismos datos centrales de NMVTIS, NICB y NHTSA por $9.99 con fotos reales del vehículo, fotos de subastas salvage y vista previa gratis sin tarjeta.",
+      "AutoCheck (de Experian) es popular entre dealers por su 'AutoCheck Score' propietario, pero cobra $24.99 por reporte. CarCheckerVIN entrega los mismos datos centrales de NMVTIS, NICB y NHTSA por $14.99 con fotos reales del vehículo, fotos de subastas salvage y vista previa gratis sin tarjeta.",
     whatYouGet: [
       "Mismos datos NMVTIS y NHTSA que AutoCheck",
       "Marcas de título en los 50 estados",
@@ -79,7 +79,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Fotos reales del auto (AutoCheck no las incluye)",
       "Fotos de subastas salvage (AutoCheck rara vez)",
       "Equipamiento y opciones de fábrica detallado",
-      "Precio único: $9.99 vs $24.99 de AutoCheck",
+      "Precio único: $14.99 vs $24.99 de AutoCheck",
       "Vista previa gratis antes de pagar",
     ],
     whyItMatters: [
@@ -101,7 +101,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "CarCheckerVIN vs Bumper — Precios y funciones",
     metaTitle: "CarCheckerVIN vs Bumper — Comparación 2026",
     metaDescription:
-      "Bumper usa modelo de suscripción ($19.99/mes); CarCheckerVIN cobra solo $9.99 por reporte sin suscripción. Compara datos, fotos, cobertura y precio.",
+      "Bumper usa modelo de suscripción ($19.99/mes); CarCheckerVIN cobra solo $14.99 por reporte sin suscripción. Compara datos, fotos, cobertura y precio.",
     keywords: [
       "Bumper vs CarCheckerVIN",
       "Bumper precio español",
@@ -111,9 +111,9 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Bumper review español",
     ],
     intro:
-      "Bumper.com ofrece reportes ilimitados por suscripción mensual de $19.99 — buen modelo si revisas 5+ autos al mes, pésimo si solo necesitas 1 reporte. CarCheckerVIN cobra $9.99 por reporte único sin suscripción, con vista previa gratis y los mismos datos centrales.",
+      "Bumper.com ofrece reportes ilimitados por suscripción mensual de $19.99 — buen modelo si revisas 5+ autos al mes, pésimo si solo necesitas 1 reporte. CarCheckerVIN cobra $14.99 por reporte único sin suscripción, con vista previa gratis y los mismos datos centrales.",
     whatYouGet: [
-      "Pago único de $9.99 vs $19.99/mes recurrente de Bumper",
+      "Pago único de $14.99 vs $19.99/mes recurrente de Bumper",
       "Mismas fuentes de datos NMVTIS, NICB, NHTSA",
       "Sin auto-renovación que olvides cancelar",
       "Vista previa gratis del reporte antes de pagar",
@@ -123,7 +123,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
     ],
     whyItMatters: [
       "Las suscripciones son trampas comunes — usuarios olvidan cancelar y pagan meses sin usar",
-      "Si compras solo 1 auto, $9.99 una vez es 50% más barato que el primer mes de Bumper",
+      "Si compras solo 1 auto, $14.99 una vez es 50% más barato que el primer mes de Bumper",
       "Bumper exige cuenta para ver cualquier reporte; nosotros permitimos vista previa anónima",
       "Para dealers con volumen alto (>10 reportes/mes), Bumper puede salir mejor — para todos los demás, no",
     ],
@@ -140,7 +140,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "CarCheckerVIN vs ClearVin — Comparación lado a lado",
     metaTitle: "CarCheckerVIN vs ClearVin — Lado a lado 2026",
     metaDescription:
-      "ClearVin cobra $14.99 por reporte; CarCheckerVIN $9.99. Comparte fuentes y autoridad pero con interfaz más rápida, vista previa gratis y mejores fotos.",
+      "ClearVin cobra $14.99 por reporte; CarCheckerVIN $14.99. Comparte fuentes y autoridad pero con interfaz más rápida, vista previa gratis y mejores fotos.",
     keywords: [
       "ClearVin vs CarCheckerVIN",
       "ClearVin precio español",
@@ -150,14 +150,14 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
       "ClearVin auction",
     ],
     intro:
-      "ClearVin es respetado entre compradores de subastas (Copart, IAA) por incluir fotos de salvage de subastas, pero cobra $14.99 por reporte. CarCheckerVIN entrega el mismo dato de salvage y subasta por $9.99, con vista previa gratis e interfaz más rápida.",
+      "ClearVin es respetado entre compradores de subastas (Copart, IAA) por incluir fotos de salvage de subastas, pero cobra $14.99 por reporte. CarCheckerVIN entrega el mismo dato de salvage y subasta por $14.99, con vista previa gratis e interfaz más rápida.",
     whatYouGet: [
       "Mismas fotos de subastas salvage (Copart, IAA) que ClearVin",
       "Mismos datos NMVTIS, NICB y NHTSA",
       "Reporte al instante (ClearVin a veces tarda hasta 10 min)",
       "Vista previa gratis del reporte antes de pagar",
       "Equipamiento de fábrica y MSRP detallado",
-      "Precio único: $9.99 vs $14.99 de ClearVin",
+      "Precio único: $14.99 vs $14.99 de ClearVin",
       "Interfaz móvil más rápida y limpia",
     ],
     whyItMatters: [
@@ -197,7 +197,7 @@ export const COMPARISON_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Fotos reales del auto (VinAudit no muestra)",
       "Equipamiento de fábrica completo (VinAudit solo specs básicos)",
       "Vista previa gratis (VinAudit exige pago primero)",
-      "Mismo precio $9.99",
+      "Mismo precio $14.99",
     ],
     whyItMatters: [
       "NMVTIS solo no cubre todos los riesgos — necesitas también NHTSA (retiros) y NICB (robo)",

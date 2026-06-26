@@ -4,7 +4,7 @@
  *
  * Rules:
  *   - The SINGLE price comes from NEXT_PUBLIC_REPORT_PRICE_CENTS (defaults to
- *     999 = $9.99) so it stays consistent with the rest of the app.
+ *     1499 = $14.99) so it stays consistent with the rest of the app.
  *   - Bundle prices are server-authoritative. The client only ever sends a
  *     bundle SIZE; the price is looked up here so a tampered request can't
  *     change what Stripe charges.
@@ -13,7 +13,7 @@
  */
 
 export const SINGLE_PRICE_CENTS = Number(
-  process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "999"
+  process.env.NEXT_PUBLIC_REPORT_PRICE_CENTS || "1499"
 );
 
 /** How long bundle credits stay redeemable after purchase. */
@@ -29,15 +29,15 @@ export interface Bundle {
 }
 
 /**
- * The multi-report packs. Margins at a $2.50/report ClearVin cost:
- *   3 → $8.00/report ($5.50 margin) · 5 → $7.00 ($4.50) · 10 → $6.00 ($3.50).
+ * The multi-report packs, priced off the $14.99 single report:
+ *   3 → $35.99 ($12.00/report) · 5 → $54.99 ($11.00) · 10 → $89.99 ($9.00).
  * The single report (size 1) is intentionally NOT here — it stays the existing
  * anonymous one-off flow and is added to the selector from SINGLE_PRICE_CENTS.
  */
 export const BUNDLES: Bundle[] = [
-  { size: 3, priceCents: 2399 },
-  { size: 5, priceCents: 3499, bestValue: true },
-  { size: 10, priceCents: 5999 },
+  { size: 3, priceCents: 3599 },
+  { size: 5, priceCents: 5499, bestValue: true },
+  { size: 10, priceCents: 8999 },
 ];
 
 /** Valid bundle sizes a checkout request may ask for. */
@@ -56,7 +56,7 @@ export function perReportCents(b: Bundle): number {
 
 /**
  * How much a buyer saves vs. paying the single price for each report,
- * in cents. e.g. 5 × $9.99 = $49.95, bundle $34.99 → saves $14.96.
+ * in cents. e.g. 5 × $14.99 = $74.95, bundle $54.99 → saves $19.96.
  */
 export function bundleSavingsCents(b: Bundle): number {
   return Math.max(0, b.size * SINGLE_PRICE_CENTS - b.priceCents);

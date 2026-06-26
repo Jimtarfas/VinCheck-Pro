@@ -11,7 +11,7 @@ import RelatedChecks from "@/components/RelatedChecks";
 import type { Locale } from "@/i18n/config";
 
 const ROWS_EN: { feature: string; us: boolean | string; them: boolean | string }[] = [
-  { feature: "Single report price", us: "$7.99", them: "$44.99" },
+  { feature: "Single report price", us: "$14.99", them: "$44.99" },
   { feature: "Three-report bundle", us: "$14.99", them: "$84.99" },
   { feature: "Unlimited 30-day access", us: "$24.99", them: "$99.99" },
   { feature: "Free VIN decode (specs)", us: true, them: false },
@@ -30,7 +30,7 @@ const ROWS_EN: { feature: string; us: boolean | string; them: boolean | string }
 ];
 
 const ROWS_ES: typeof ROWS_EN = [
-  { feature: "Precio de reporte único", us: "$7.99", them: "$44.99" },
+  { feature: "Precio de reporte único", us: "$14.99", them: "$44.99" },
   { feature: "Paquete de tres reportes", us: "$14.99", them: "$84.99" },
   { feature: "Acceso ilimitado por 30 días", us: "$24.99", them: "$99.99" },
   { feature: "Decodificación VIN gratis (especificaciones)", us: true, them: false },
@@ -60,7 +60,7 @@ const COPY = {
     pricingNote: "Pricing reflects the publicly listed retail price for individual consumer reports as of April 2026. Bundles and dealer pricing differ.",
     rows: ROWS_EN,
     h2Price: "Price Comparison — The Headline Difference",
-    price1: "The single biggest difference between the two services is what you pay. Carfax charges $44.99 for one report, $84.99 for three, and $99.99 for unlimited access for one month. CarCheckerVIN charges $7.99 for a single report, $14.99 for three, and $24.99 for unlimited 30-day access. Across every tier, the savings are roughly 75–85%.",
+    price1: "The single biggest difference between the two services is what you pay. Carfax charges $44.99 for one report, $84.99 for three, and $99.99 for unlimited access for one month. CarCheckerVIN charges $14.99 for a single report, $35.99 for three, and $24.99 for unlimited 30-day access. Across every tier, the savings are roughly 75–85%.",
     price2: "For a buyer evaluating three or four candidate vehicles before making a purchase, that price gap can mean spending $15 instead of $85. For a small dealer or an enthusiast who runs reports regularly, the savings add up fast.",
     h2Data: "Data Sources — Where the Reports Come From",
     data1: "Both services pull from the same backbone of public and industry data. The most important sources include the National Motor Vehicle Title Information System (NMVTIS), all 50 state DMVs, the National Insurance Crime Bureau (NICB) for stolen vehicle records, the National Highway Traffic Safety Administration (NHTSA) for recalls, and various insurance industry data feeds for accident and total-loss records.",
@@ -101,7 +101,7 @@ const COPY = {
     bottom2Suffix: ".",
     faqHeading: "Frequently Asked Questions",
     ctaBottomHeading: "Try a Smarter, Cheaper Alternative",
-    ctaBottomSub: "Enter a 17-character VIN and see what a $7.99 report looks like.",
+    ctaBottomSub: "Enter a 17-character VIN and see what a $14.99 report looks like.",
   },
   es: {
     home: "Inicio", crumb: "CarCheckerVIN vs Carfax",
@@ -114,7 +114,7 @@ const COPY = {
     pricingNote: "El precio refleja el precio minorista listado públicamente para reportes individuales de consumidor a abril de 2026. Los paquetes y precios para concesionarios difieren.",
     rows: ROWS_ES,
     h2Price: "Comparación de precios — La diferencia principal",
-    price1: "La diferencia más grande entre los dos servicios es lo que pagas. Carfax cobra $44.99 por un reporte, $84.99 por tres y $99.99 por acceso ilimitado por un mes. CarCheckerVIN cobra $7.99 por un reporte único, $14.99 por tres y $24.99 por acceso ilimitado de 30 días. En cada nivel, el ahorro es de aproximadamente 75-85%.",
+    price1: "La diferencia más grande entre los dos servicios es lo que pagas. Carfax cobra $44.99 por un reporte, $84.99 por tres y $99.99 por acceso ilimitado por un mes. CarCheckerVIN cobra $14.99 por un reporte único, $35.99 por tres y $24.99 por acceso ilimitado de 30 días. En cada nivel, el ahorro es de aproximadamente 75-85%.",
     price2: "Para un comprador evaluando tres o cuatro vehículos candidatos antes de hacer una compra, esa diferencia de precio puede significar gastar $15 en lugar de $85. Para un pequeño concesionario o un entusiasta que hace reportes regularmente, los ahorros se acumulan rápido.",
     h2Data: "Fuentes de datos — De dónde vienen los reportes",
     data1: "Ambos servicios extraen del mismo backbone de datos públicos y de la industria. Las fuentes más importantes incluyen el Sistema Nacional de Información de Títulos de Vehículos Motorizados (NMVTIS), los 50 DMV estatales, la Oficina Nacional de Crímenes Aseguradores (NICB) para registros de vehículos robados, la Administración Nacional de Seguridad del Tráfico en Carreteras (NHTSA) para recalls, y varios feeds de datos de la industria aseguradora para registros de accidentes y pérdida total.",
@@ -155,24 +155,24 @@ const COPY = {
     bottom2Suffix: ".",
     faqHeading: "Preguntas frecuentes",
     ctaBottomHeading: "Prueba una alternativa más inteligente y económica",
-    ctaBottomSub: "Ingresa un VIN de 17 caracteres y ve cómo se ve un reporte de $7.99.",
+    ctaBottomSub: "Ingresa un VIN de 17 caracteres y ve cómo se ve un reporte de $14.99.",
   },
 } as const;
 
 const FAQS_EN = [
-  { question: "What is the difference between CarCheckerVIN and Carfax?", answer: "Both deliver vehicle history reports covering title brands, accidents, odometer history, theft records, recalls, and lemon flags. The core differences are price and service-record depth: CarCheckerVIN charges $7.99 per report versus Carfax's $44.99, while Carfax maintains a larger franchise-dealer service-record network built since 1984. For most private-party buyers, the critical data is essentially identical; Carfax's edge is in dealer service records." },
-  { question: "Is CarCheckerVIN cheaper than Carfax?", answer: "Yes. CarCheckerVIN costs $7.99 for a single report, $14.99 for three, and $24.99 for unlimited 30-day access. Carfax charges $44.99 for one report, $84.99 for three, and $99.99 for one month of unlimited access. Across every tier the savings run roughly 75–85%, so a buyer evaluating several cars might spend $15 instead of $85." },
+  { question: "What is the difference between CarCheckerVIN and Carfax?", answer: "Both deliver vehicle history reports covering title brands, accidents, odometer history, theft records, recalls, and lemon flags. The core differences are price and service-record depth: CarCheckerVIN charges $14.99 per report versus Carfax's $44.99, while Carfax maintains a larger franchise-dealer service-record network built since 1984. For most private-party buyers, the critical data is essentially identical; Carfax's edge is in dealer service records." },
+  { question: "Is CarCheckerVIN cheaper than Carfax?", answer: "Yes. CarCheckerVIN costs $14.99 for a single report, $35.99 for three, and $24.99 for unlimited 30-day access. Carfax charges $44.99 for one report, $84.99 for three, and $99.99 for one month of unlimited access. Across every tier the savings run roughly 75–85%, so a buyer evaluating several cars might spend $15 instead of $85." },
   { question: "Does CarCheckerVIN use the same data as Carfax?", answer: "Largely yes for the core data. Both draw on NMVTIS title records, all 50 state DMVs, NICB stolen-vehicle data, NHTSA recall records, and insurance-industry accident feeds. The main difference is Carfax's proprietary franchise-dealer service-record network, which CarCheckerVIN does not match. For title brands, accidents, theft, odometer, and recalls, the underlying data is essentially the same between both providers." },
-  { question: "Is there a free alternative to Carfax?", answer: "CarCheckerVIN offers a free VIN decode that returns factory specs and build data without entering a credit card, which Carfax does not provide. Full history data (title brands, accidents, odometer, theft, recalls, lemon flags) requires a paid CarCheckerVIN report at $7.99 — still far below Carfax's $44.99. Use the free decode for basic spec verification, then upgrade only if you need the full report." },
+  { question: "Is there a free alternative to Carfax?", answer: "CarCheckerVIN offers a free VIN decode that returns factory specs and build data without entering a credit card, which Carfax does not provide. Full history data (title brands, accidents, odometer, theft, recalls, lemon flags) requires a paid CarCheckerVIN report at $14.99 — still far below Carfax's $44.99. Use the free decode for basic spec verification, then upgrade only if you need the full report." },
   { question: "What does Carfax include that CarCheckerVIN doesn't, and vice versa?", answer: "Carfax includes a proprietary franchise-dealer service-record network built since 1984, which CarCheckerVIN does not offer — valuable if a car was always serviced at the same dealer chain. CarCheckerVIN includes a free no-signup VIN decode and requires no subscription, neither of which Carfax provides. Both cover NMVTIS title brands, accidents, odometer, theft, recalls, lemon flags, market value, and real photos." },
   { question: "Which is better for buying a used car, CarCheckerVIN or Carfax?", answer: "For most private-party buyers, CarCheckerVIN delivers the data that matters — title brands, accidents, odometer, theft, recalls, lemon status — for a fraction of Carfax's price. Carfax retains an edge for franchise-dealer trade-ins that were always serviced at one dealer chain, where its service-record depth shines. Either way, pair any VIN report with an independent pre-purchase mechanic inspection." },
 ];
 
 const FAQS_ES = [
-  { question: "¿Cuál es la diferencia entre CarCheckerVIN y Carfax?", answer: "Ambos entregan reportes de historial vehicular cubriendo marcas de título, accidentes, historial de odómetro, registros de robo, recalls e indicadores de limón. Las diferencias principales son precio y profundidad de registros de servicio: CarCheckerVIN cobra $7.99 por reporte versus los $44.99 de Carfax, mientras Carfax mantiene una red más grande de registros de servicio de concesionarios franquicia construida desde 1984. Para la mayoría de compradores privados, los datos críticos son esencialmente idénticos; la ventaja de Carfax está en los registros de servicio de concesionarios." },
-  { question: "¿CarCheckerVIN es más barato que Carfax?", answer: "Sí. CarCheckerVIN cuesta $7.99 por un reporte único, $14.99 por tres y $24.99 por acceso ilimitado de 30 días. Carfax cobra $44.99 por un reporte, $84.99 por tres y $99.99 por un mes de acceso ilimitado. En cada nivel los ahorros son de aproximadamente 75-85%, así que un comprador evaluando varios autos podría gastar $15 en lugar de $85." },
+  { question: "¿Cuál es la diferencia entre CarCheckerVIN y Carfax?", answer: "Ambos entregan reportes de historial vehicular cubriendo marcas de título, accidentes, historial de odómetro, registros de robo, recalls e indicadores de limón. Las diferencias principales son precio y profundidad de registros de servicio: CarCheckerVIN cobra $14.99 por reporte versus los $44.99 de Carfax, mientras Carfax mantiene una red más grande de registros de servicio de concesionarios franquicia construida desde 1984. Para la mayoría de compradores privados, los datos críticos son esencialmente idénticos; la ventaja de Carfax está en los registros de servicio de concesionarios." },
+  { question: "¿CarCheckerVIN es más barato que Carfax?", answer: "Sí. CarCheckerVIN cuesta $14.99 por un reporte único, $35.99 por tres y $24.99 por acceso ilimitado de 30 días. Carfax cobra $44.99 por un reporte, $84.99 por tres y $99.99 por un mes de acceso ilimitado. En cada nivel los ahorros son de aproximadamente 75-85%, así que un comprador evaluando varios autos podría gastar $15 en lugar de $85." },
   { question: "¿CarCheckerVIN usa los mismos datos que Carfax?", answer: "En gran parte sí para los datos clave. Ambos extraen de registros de título de NMVTIS, los 50 DMV estatales, datos de robo de vehículos de NICB, registros de recall de NHTSA y feeds de accidentes de la industria aseguradora. La diferencia principal es la red propietaria de registros de servicio de concesionarios franquicia de Carfax, que CarCheckerVIN no iguala. Para marcas de título, accidentes, robos, odómetro y recalls, los datos subyacentes son esencialmente los mismos entre ambos proveedores." },
-  { question: "¿Hay una alternativa gratuita a Carfax?", answer: "CarCheckerVIN ofrece una decodificación VIN gratuita que devuelve especificaciones de fábrica y datos de construcción sin ingresar tarjeta de crédito, lo cual Carfax no proporciona. Los datos completos de historial (marcas de título, accidentes, odómetro, robos, recalls, indicadores de limón) requieren un reporte CarCheckerVIN de pago a $7.99 — aún muy por debajo de los $44.99 de Carfax. Usa la decodificación gratuita para verificación básica de especificaciones, luego actualiza solo si necesitas el reporte completo." },
+  { question: "¿Hay una alternativa gratuita a Carfax?", answer: "CarCheckerVIN ofrece una decodificación VIN gratuita que devuelve especificaciones de fábrica y datos de construcción sin ingresar tarjeta de crédito, lo cual Carfax no proporciona. Los datos completos de historial (marcas de título, accidentes, odómetro, robos, recalls, indicadores de limón) requieren un reporte CarCheckerVIN de pago a $14.99 — aún muy por debajo de los $44.99 de Carfax. Usa la decodificación gratuita para verificación básica de especificaciones, luego actualiza solo si necesitas el reporte completo." },
   { question: "¿Qué incluye Carfax que CarCheckerVIN no, y viceversa?", answer: "Carfax incluye una red propietaria de registros de servicio de concesionarios franquicia construida desde 1984, que CarCheckerVIN no ofrece — valiosa si un auto siempre fue mantenido en la misma cadena de concesionarios. CarCheckerVIN incluye una decodificación VIN gratuita sin registro y no requiere suscripción, ninguno de los cuales Carfax proporciona. Ambos cubren marcas de título de NMVTIS, accidentes, odómetro, robos, recalls, indicadores de limón, valor de mercado y fotos reales." },
   { question: "¿Cuál es mejor para comprar un auto usado, CarCheckerVIN o Carfax?", answer: "Para la mayoría de compradores privados, CarCheckerVIN entrega los datos que importan — marcas de título, accidentes, odómetro, robos, recalls, estado de limón — por una fracción del precio de Carfax. Carfax mantiene una ventaja para intercambios de concesionarios franquicia que siempre fueron mantenidos en una cadena de concesionarios, donde brilla su profundidad de registros de servicio. De cualquier manera, combina cualquier reporte VIN con una inspección de mecánico previa a la compra independiente." },
 ];
