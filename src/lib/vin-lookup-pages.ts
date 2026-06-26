@@ -525,6 +525,457 @@ export const VIN_LOOKUP_PAGES: LookupPage[] = [
     ],
     relatedSlugs: ["trailer", "snowmobile"],
   },
+
+  // ───────────────────────── ATTRIBUTE: ENGINE ─────────────────────────
+  {
+    slug: "engine",
+    category: "attribute",
+    badge: "VIN Engine Lookup",
+    h1: "VIN Engine Lookup —",
+    h1Accent: "Decode the Engine by VIN",
+    metaTitle: "VIN Engine Lookup — Decode Engine by VIN Number (Free)",
+    metaDescription:
+      "Look up a vehicle's engine by VIN. Decode the engine family, displacement, cylinder count, configuration and fuel type from a 17-character VIN — free and instant.",
+    keywords: [
+      "engine vin lookup",
+      "engine vin number lookup",
+      "vin motor lookup",
+      "vin engine lookup",
+      "vin lookup engine",
+      "engine lookup by vin",
+      "ford engine lookup by vin",
+      "motor vin number lookup",
+    ],
+    intro:
+      "Need to know exactly which engine a vehicle left the factory with? A VIN engine lookup decodes the engine details built into the 17-character VIN — family, displacement, cylinders, configuration and fuel type — so you order the right parts or confirm a listing's claim. Enter a VIN to decode it free.",
+    quickAnswer:
+      "A VIN engine lookup decodes the engine details encoded in a vehicle's 17-character VIN. The Vehicle Descriptor Section (positions 4–8) identifies the factory engine, and on many domestic makes the 8th character is the engine code, letting a decoder return the displacement, cylinder count, configuration and fuel type. The VIN identifies the engine the vehicle was built with — not the engine's own stamped serial number.",
+    reveals: [
+      { title: "Engine family & displacement", body: "The VIN decodes the engine family and displacement in liters — the detail that separates two otherwise-identical models." },
+      { title: "Cylinders & configuration", body: "Cylinder count and layout (inline, V, flat) come straight from the decoded build." },
+      { title: "Fuel type", body: "Gas, diesel, hybrid or electric — the powertrain class encoded in the VIN." },
+      { title: "The 8th-digit engine code", body: "On many domestic makes the 8th VIN character is the engine code parts catalogs match against." },
+    ],
+    sections: [
+      {
+        h2: "How the VIN encodes the engine",
+        paras: [
+          "The engine is recorded in the Vehicle Descriptor Section — VIN positions 4 through 8 — which the factory uses to describe the powertrain, body and restraint system. On many domestic manufacturers (GM, Ford, Chrysler) the 8th character is specifically the engine code, which is why parts catalogs ask for the full VIN rather than just the year and model.",
+          "Decoding those positions returns the engine family, displacement, cylinder count and fuel type the vehicle was assembled with. That's the reliable way to tell a 2.0L from a 2.5L, or a V6 from a V8, on a car where the badge alone won't say.",
+        ],
+      },
+      {
+        h2: "VIN engine code vs. the engine serial number",
+        paras: [
+          "A VIN decodes the engine the vehicle was originally built with. It does not contain the engine's own stamped serial number, and it can't tell you whether the engine was later swapped or rebuilt. If a vehicle has had an engine replaced, the VIN still reflects the factory-installed unit — so confirm the physical engine stamp matches when originality matters.",
+          "For the fuller factory picture — options, packages and the exact build — the window sticker and build sheet keyed to the same VIN go beyond what the engine code alone shows.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I find a car's engine by its VIN?", a: "Yes. The engine family, displacement, cylinder count, configuration and fuel type are encoded in the VIN's Vehicle Descriptor Section (positions 4–8), and a decoder returns them instantly." },
+      { q: "Which VIN digit is the engine code?", a: "On many domestic makes (GM, Ford, Chrysler) the 8th character is the engine code. Across all makes the engine is described within positions 4–8, which is why parts catalogs need the full VIN." },
+      { q: "Does the VIN show the engine's serial number?", a: "No. The VIN identifies the engine the vehicle was built with, not the engine's own stamped serial number, and it won't reveal a later engine swap." },
+      { q: "Can a VIN tell me if the engine was replaced?", a: "Not directly. The VIN reflects the original factory engine. To confirm a swap, compare the physical engine stamping against the decoded build." },
+      { q: "Is a VIN engine lookup free?", a: "Yes. Decoding the engine family, displacement, cylinders and fuel type from a VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/vin-decoder/transmission", label: "Transmission Decoder" },
+      { href: "/window-sticker", label: "Window Sticker Lookup" },
+    ],
+    relatedSlugs: ["specs", "parts"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: SPECS ─────────────────────────
+  {
+    slug: "specs",
+    category: "attribute",
+    badge: "VIN Specs Lookup",
+    h1: "VIN Specs Lookup —",
+    h1Accent: "Decode Full Specs by VIN",
+    metaTitle: "VIN Specs Lookup — Decode Vehicle Specs & Trim by VIN (Free)",
+    metaDescription:
+      "Look up a vehicle's full specifications by VIN. Decode year, make, model, trim, body, engine, transmission and drivetrain from a 17-character VIN — free and instant.",
+    keywords: [
+      "vin spec lookup",
+      "vin specifications lookup",
+      "vin number lookup specs",
+      "vin number model lookup",
+      "vin to model lookup",
+      "vin trim lookup",
+      "vin lookup trim",
+      "vin information lookup",
+    ],
+    intro:
+      "A VIN specs lookup turns a 17-character VIN into the vehicle's full factory specification — year, make, model, trim, body, engine, transmission, drivetrain and plant. It's the fastest way to confirm exactly what a vehicle is before you buy parts or trust a listing. Enter a VIN to decode the specs free.",
+    quickAnswer:
+      "A VIN specs lookup decodes a 17-character VIN into a vehicle's factory specifications using the ISO 3779 structure: model year, make, model, trim, body style, engine, transmission, drivetrain and assembly plant. Because the VIN is keyed to the exact build, it confirms the precise trim and configuration where the year, make and model alone leave it ambiguous.",
+    reveals: [
+      { title: "Year, make, model & trim", body: "The VIN fixes the model year (position 10) and decodes the make, model and trim the vehicle shipped as." },
+      { title: "Body & drivetrain", body: "Body style, number of doors and 2WD/AWD/4WD drivetrain, decoded from the descriptor section." },
+      { title: "Engine & transmission", body: "Engine family, displacement and transmission type — the mechanical heart of the spec sheet." },
+      { title: "Plant & origin", body: "The assembly plant and country of manufacture, from the VIN's plant and WMI characters." },
+    ],
+    sections: [
+      {
+        h2: "Why the VIN beats year, make and model for specs",
+        paras: [
+          "The same year/make/model often shipped in several trims with different engines, drivetrains and equipment. The VIN resolves that: positions 4–8 (the Vehicle Descriptor Section) encode the body, engine and trim, and position 10 fixes the model year exactly. Decoding them returns the real configuration rather than the marketing name.",
+          "That precision matters when a small spec difference changes the answer — a base trim versus a sport trim, front-wheel versus all-wheel drive, a four-cylinder versus a six. The VIN carries those distinctions where a listing title rarely does.",
+        ],
+      },
+      {
+        h2: "What the spec decode does and doesn't include",
+        paras: [
+          "A VIN decode reliably returns the structural spec: year, make, model, trim, body, engine, transmission, drivetrain and plant. It does not list every individual factory option or the original MSRP — for those, the window sticker and build sheet keyed to the same VIN are the fuller record.",
+          "For exterior and interior color codes, the door-jamb or trunk service label is authoritative; for current market value, a VIN-based valuation compares the decoded build against live listings.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I look up a car's specs with the VIN?", a: "Yes. A VIN decodes the year, make, model, trim, body, engine, transmission, drivetrain and plant — the full factory specification — instantly and free." },
+      { q: "Does a VIN show the exact trim level?", a: "Yes. Trim is encoded in the VIN's Vehicle Descriptor Section, so a decode confirms the exact trim where the year, make and model alone are ambiguous." },
+      { q: "Will a VIN spec lookup show every factory option?", a: "Not every option. The decode returns the structural spec; for the complete list of factory options and packages, use the window sticker or build sheet keyed to the same VIN." },
+      { q: "Can I get the original MSRP from the VIN?", a: "The standard decode doesn't include MSRP. The original window sticker shows the as-built MSRP and options, and a VIN-based valuation estimates current market value." },
+      { q: "Is a VIN specs lookup free?", a: "Yes. Decoding a vehicle's full specifications from its VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/window-sticker", label: "Window Sticker Lookup" },
+      { href: "/market-value", label: "Market Value by VIN" },
+    ],
+    relatedSlugs: ["engine", "options"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: OPTIONS ─────────────────────────
+  {
+    slug: "options",
+    category: "attribute",
+    badge: "VIN Options Lookup",
+    h1: "VIN Options Lookup —",
+    h1Accent: "Find Factory Options by VIN",
+    metaTitle: "VIN Options Lookup — Find Factory Options & Features by VIN",
+    metaDescription:
+      "Look up a vehicle's factory options and features by VIN. See the original equipment, packages and trim a vehicle was built with from its window sticker and build sheet. Free.",
+    keywords: [
+      "vin options lookup",
+      "options by vin lookup",
+      "lookup vehicle options by vin",
+      "vin number options lookup",
+      "vin feature lookup",
+      "vin lookup for features",
+      "lookup options by vin",
+      "factory options by vin",
+    ],
+    intro:
+      "Want to know exactly how a vehicle was equipped from the factory — packages, features and options? A VIN options lookup pulls the original build: the window sticker and build sheet keyed to the VIN list the equipment the vehicle left the line with. Enter a VIN to start free.",
+    quickAnswer:
+      "A VIN options lookup finds the factory options, packages and features a vehicle was originally built with. While the VIN itself decodes the core build (trim, engine, body), the complete list of installed options comes from the original window sticker (Monroney label) and the factory build sheet, both keyed to the 17-character VIN. Together they show the equipment and packages the vehicle left the factory with.",
+    reveals: [
+      { title: "Factory packages", body: "Optional equipment groups and packages the vehicle was ordered with, from the original build record." },
+      { title: "Installed features", body: "Audio, safety, convenience and appearance features fitted at the factory — not dealer add-ons." },
+      { title: "Trim & build basis", body: "The trim and core build the options sit on top of, decoded directly from the VIN." },
+      { title: "As-built reference", body: "The window sticker and build sheet reconstruct what the original buyer ordered." },
+    ],
+    sections: [
+      {
+        h2: "Where factory options actually live",
+        paras: [
+          "The VIN decodes the vehicle's core build — trim, engine, body and drivetrain — but it doesn't spell out every individual option. The full equipment list comes from two factory documents keyed to the VIN: the window sticker (the Monroney label, the price sheet on a new car's window) and the build sheet (the factory order record). Reconstructing either from the VIN shows the packages and features the vehicle was assembled with.",
+          "That distinction matters when a buyer wants to confirm a specific feature — a tow package, a sound system, a driver-assistance group. The VIN points to the build; the window sticker and build sheet confirm the exact options on it.",
+        ],
+      },
+      {
+        h2: "Factory options vs. later additions",
+        paras: [
+          "An options lookup reflects how the vehicle left the factory. It won't capture aftermarket parts, dealer-installed accessories or anything added by a later owner. If a listing advertises a feature, matching it against the factory build is the way to tell original equipment from an add-on.",
+          "For the mechanical specification underneath the options — engine, transmission, drivetrain — the VIN decode covers it directly.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I look up a vehicle's factory options by VIN?", a: "Yes. The VIN decodes the core build, and the original window sticker and build sheet keyed to the VIN list the factory options, packages and features the vehicle was assembled with." },
+      { q: "Does the VIN itself list every option?", a: "No. The VIN encodes the core build (trim, engine, body), but the complete option list comes from the window sticker (Monroney label) and build sheet tied to the VIN." },
+      { q: "What's the difference between a window sticker and a build sheet?", a: "The window sticker is the factory price label listing options and MSRP; the build sheet is the factory order record. Both are keyed to the VIN and together show the as-built equipment." },
+      { q: "Will an options lookup show aftermarket or dealer add-ons?", a: "No. It reflects factory-installed equipment only. Aftermarket parts and dealer-added accessories won't appear in the original build record." },
+      { q: "Is a VIN options lookup free?", a: "Yes. Looking up a vehicle's factory build and options by VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/build-sheet", label: "Build Sheet by VIN" },
+      { href: "/window-sticker", label: "Window Sticker Lookup" },
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+    ],
+    relatedSlugs: ["specs", "parts"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: GVWR ─────────────────────────
+  {
+    slug: "gvwr",
+    category: "attribute",
+    badge: "GVWR Lookup by VIN",
+    h1: "GVWR Lookup by VIN —",
+    h1Accent: "Find the Weight Rating & Class",
+    metaTitle: "GVWR Lookup by VIN — Find Gross Weight Rating & Class (Free)",
+    metaDescription:
+      "Look up a vehicle's GVWR by VIN. Decode the Gross Vehicle Weight Rating and weight class (1–8) that determine registration, licensing and towing. Free, instant.",
+    keywords: [
+      "gvwr lookup by vin",
+      "gvwr by vin",
+      "vin gvwr lookup",
+      "weight rating by vin",
+      "vehicle weight class by vin",
+      "gross vehicle weight rating vin",
+      "truck weight class lookup vin",
+      "lookup gvwr by vin",
+    ],
+    intro:
+      "A vehicle's GVWR — its Gross Vehicle Weight Rating — sets its weight class, which drives registration, licensing and towing rules. A GVWR lookup ties that rating to the build the VIN decodes. Enter a VIN to decode the vehicle, then read the weight-class reference below.",
+    quickAnswer:
+      "A GVWR lookup by VIN finds a vehicle's Gross Vehicle Weight Rating — the maximum loaded weight the manufacturer rates it for, including the vehicle, passengers and cargo. The rating is set by the vehicle's build, which the VIN decodes, and it places the vehicle in a weight class from 1 to 8. That class determines registration fees, license requirements and towing limits.",
+    reveals: [
+      { title: "Gross Vehicle Weight Rating", body: "The manufacturer's maximum loaded-weight rating — vehicle plus passengers plus cargo." },
+      { title: "Weight class (1–8)", body: "The FHWA class the GVWR places the vehicle in, from light-duty Class 1 to heavy Class 8." },
+      { title: "Duty category", body: "Whether the vehicle is light-, medium- or heavy-duty — the line that changes licensing and registration." },
+      { title: "Build basis", body: "The configuration the rating sits on — cab, drivetrain and chassis the VIN decodes." },
+    ],
+    table: {
+      caption: "GVWR weight classes (FHWA)",
+      head: ["Class", "GVWR range"],
+      rows: [
+        ["Class 1", "Up to 6,000 lb"],
+        ["Class 2", "6,001 – 10,000 lb"],
+        ["Class 3", "10,001 – 14,000 lb"],
+        ["Class 4", "14,001 – 16,000 lb"],
+        ["Class 5", "16,001 – 19,500 lb"],
+        ["Class 6", "19,501 – 26,000 lb"],
+        ["Class 7", "26,001 – 33,000 lb"],
+        ["Class 8", "Over 33,000 lb"],
+      ],
+    },
+    sections: [
+      {
+        h2: "What GVWR is — and what it isn't",
+        paras: [
+          "GVWR is the maximum total weight the manufacturer rates a vehicle to operate at: the vehicle itself plus passengers, fuel and cargo. It's a fixed rating set at the factory, not the vehicle's current weight. It's also different from payload (GVWR minus curb weight) and from GCWR, which adds a trailer — so don't confuse the rating with what the vehicle weighs on a given day.",
+          "Because GVWR follows the build, the VIN is the starting point: decoding the configuration confirms which variant of a model you're looking at, and the GVWR is recorded on the manufacturer's certification label on the driver-side door jamb.",
+        ],
+      },
+      {
+        h2: "Why GVWR matters for registration and towing",
+        paras: [
+          "Weight class drives real rules. Registration fees in many states scale with GVWR; some classes require a different license or commercial registration; and tow ratings, bridge laws and inspection requirements all key off the rating. A pickup that crosses from one class into the next can change what's legally required to register and drive it.",
+          "If you're buying a work truck or a vehicle to tow with, confirm the GVWR and class against the door-jamb certification label, and check the build the VIN decodes so the rating matches the configuration you think you're getting.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I find a vehicle's GVWR from the VIN?", a: "The GVWR follows the vehicle's build, which the VIN decodes, and the exact figure is printed on the manufacturer's certification label on the driver-side door jamb. Decoding the VIN confirms the configuration the rating applies to." },
+      { q: "What is GVWR?", a: "Gross Vehicle Weight Rating — the maximum total weight the manufacturer rates a vehicle to operate at, including the vehicle, passengers, fuel and cargo. It's a fixed factory rating, not the current weight." },
+      { q: "What weight class is my truck?", a: "It depends on the GVWR: Class 1 is up to 6,000 lb and the classes rise to Class 8 over 33,000 lb. The table above maps each class to its GVWR range." },
+      { q: "Is GVWR the same as payload?", a: "No. Payload is GVWR minus the vehicle's curb weight — how much you can add. GVWR is the total rated weight, and GCWR adds a trailer on top." },
+      { q: "Why does GVWR matter when registering a vehicle?", a: "Weight class affects registration fees, license and commercial-registration requirements, and tow ratings. Crossing into a higher class can change what's legally required." },
+    ],
+    related: [
+      { href: "/vin-decoder", label: "Full VIN Decoder" },
+      { href: "/vin-lookup/truck", label: "Truck VIN Lookup" },
+      { href: "/semi-truck-vin-lookup", label: "Semi Truck VIN Lookup" },
+    ],
+    relatedSlugs: ["truck", "specs"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: REGISTRATION ─────────────────────────
+  {
+    slug: "registration",
+    category: "attribute",
+    badge: "VIN Registration Lookup",
+    h1: "VIN Registration Lookup —",
+    h1Accent: "Check Title & Registration States",
+    metaTitle: "VIN Registration Lookup — Check Title & Registration States",
+    metaDescription:
+      "Look up a vehicle's registration history by VIN. See the states where it was titled and registered and its title status — without exposing private owner data (DPPA-protected). Free.",
+    keywords: [
+      "vin registration lookup",
+      "vin number registration lookup",
+      "lookup registration by vin",
+      "dmv vin number lookup",
+      "registration lookup by vin",
+      "vehicle registration lookup vin",
+      "title and registration by vin",
+      "registration history by vin",
+    ],
+    intro:
+      "You can't pull a stranger's registration record from a VIN — that's protected personal data — but you can check where a vehicle has been titled and registered, and its title status. A VIN registration lookup reveals the registration trail and title brands across states. Enter a VIN to start free.",
+    quickAnswer:
+      "A VIN registration lookup checks where a vehicle has been titled and registered and its title status. It does not return a current owner's private registration record — that personal information is protected by the federal Driver's Privacy Protection Act (DPPA, 18 U.S.C. §2721). What a VIN-based history check does reveal is the states where the vehicle was titled and registered, the title status and any brands, drawn from NMVTIS.",
+    reveals: [
+      { title: "Registration & title states", body: "The states where the vehicle has been titled and registered — the trail that exposes title washing." },
+      { title: "Title status & brands", body: "Whether the title is clean or carries a salvage, flood, junk or lemon brand from any state." },
+      { title: "Registration timeline", body: "When the vehicle moved between states, reconstructed from title and registration events." },
+      { title: "Plate ↔ VIN tie", body: "A U.S. plate can be resolved to the VIN first, then run through the same history check." },
+    ],
+    sections: [
+      {
+        h2: "What a VIN can tell you about registration",
+        paras: [
+          "A VIN-keyed history check reads the title and registration events filed against the vehicle across states. That reveals where it has been registered, when it moved, and the title status at each step — including brands that a current paper title may no longer show. Most of this data flows through NMVTIS, the National Motor Vehicle Title Information System operated by the U.S. Department of Justice.",
+          "That state-by-state trail is what makes a VIN registration check useful before a purchase: a vehicle re-titled across several states, or one carrying a brand dropped on re-registration, shows a pattern the paper in front of you won't.",
+        ],
+      },
+      {
+        h2: "Why you can't look up a private registration record",
+        paras: [
+          "A vehicle's registration record — the registered owner's name and address — is held by the state DMV and is not public. The federal Driver's Privacy Protection Act (DPPA, 18 U.S.C. §2721) restricts who can access personal information from motor vehicle records and for what purpose, so no legitimate VIN tool hands out a current owner's details to the general public.",
+          "What you can get without crossing that line is the vehicle-level history: registration states, title status, brands and the ownership count. If you need to reach the registered owner directly, that runs through the DMV under a DPPA-permitted purpose, not a VIN lookup.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I look up a vehicle's registration by VIN?", a: "You can check the states where it was titled and registered and its title status. You can't retrieve the current owner's private registration record — that's protected by the federal DPPA and held by the state DMV." },
+      { q: "Why can't I get the owner's registration details?", a: "The registered owner's name and address are personal information protected by the Driver's Privacy Protection Act (DPPA, 18 U.S.C. §2721), so no public VIN tool releases them." },
+      { q: "What registration information can a VIN reveal?", a: "The states where the vehicle was titled and registered, the title status and any brands, and the registration timeline — drawn from NMVTIS, without exposing personal data." },
+      { q: "Can the DMV look up a vehicle by VIN?", a: "State DMVs hold the registration records and can access owner data under DPPA-permitted purposes. The public can use a VIN to check vehicle-level history, not private owner details." },
+      { q: "Is a VIN registration lookup free?", a: "Yes. Checking a vehicle's registration states and title status by VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/license-plate-lookup", label: "License Plate Lookup" },
+      { href: "/vehicle-history-report", label: "Full Vehicle History Report" },
+      { href: "/salvage-title-check", label: "Salvage Title Check" },
+    ],
+    relatedSlugs: ["title", "owner"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: OWNER ─────────────────────────
+  {
+    slug: "owner",
+    category: "attribute",
+    badge: "VIN Owner Lookup",
+    h1: "VIN Owner Lookup —",
+    h1Accent: "What a VIN Reveals About Ownership",
+    metaTitle: "VIN Owner Lookup — Can You Find the Owner by VIN? (Honest Guide)",
+    metaDescription:
+      "Can you look up a vehicle's owner by VIN? Not the name or address — that's DPPA-protected. But a VIN reveals the number of prior owners, the ownership timeline and usage. Free.",
+    keywords: [
+      "vin to owner lookup",
+      "owner lookup by vin",
+      "car owner lookup by vin",
+      "vehicle owner vin lookup",
+      "vin number lookup owner",
+      "find owner by vin",
+      "lookup owner by vin number",
+      "who owns this vin",
+    ],
+    intro:
+      "Can you find a vehicle's owner from the VIN? Not the name or address — that personal data is protected by federal law. But a VIN does reveal how many owners a vehicle has had, the ownership timeline, the states it was titled in and how it was used. Enter a VIN to see the ownership history free.",
+    quickAnswer:
+      "You generally can't look up a vehicle's current owner by VIN. An owner's name and address are personal information protected by the federal Driver's Privacy Protection Act (DPPA, 18 U.S.C. §2721), so no public VIN tool returns them. What a VIN history check does reveal is the number of previous owners, the ownership timeline, the states of title, and how the vehicle was used — personal, lease, rental or fleet.",
+    reveals: [
+      { title: "Number of prior owners", body: "How many owners the vehicle has had — a count, not their identities." },
+      { title: "Ownership timeline", body: "When ownership changed hands and roughly how long each owner kept it." },
+      { title: "Title states", body: "The states the vehicle was titled in across its ownership history." },
+      { title: "Usage type", body: "Whether it was used personally or as a lease, rental or fleet vehicle." },
+    ],
+    table: {
+      caption: "What an owner lookup can and can't reveal",
+      head: ["You can see", "You can't see"],
+      rows: [
+        ["Number of previous owners", "Owner's name"],
+        ["Ownership timeline", "Owner's address"],
+        ["States of title & registration", "Owner's phone or email"],
+        ["Usage type (personal, lease, rental, fleet)", "Any contact details"],
+      ],
+    },
+    sections: [
+      {
+        h2: "Why you can't get the owner's name from a VIN",
+        paras: [
+          "An owner's name, address and contact details are personal information protected by the federal Driver's Privacy Protection Act (DPPA, 18 U.S.C. §2721). The law restricts who can access personal data from motor vehicle records and for what purpose, so no legitimate VIN service hands a current owner's identity to the general public. Any site promising to 'find the owner by VIN' for anyone is either misleading or operating outside that law.",
+          "This protects you as much as anyone else — it's why a stranger can't pull your address from your plate or VIN. Reaching a registered owner directly runs through the state DMV under a DPPA-permitted purpose, not a public lookup.",
+        ],
+      },
+      {
+        h2: "What you can learn about ownership",
+        paras: [
+          "A VIN history check returns the ownership picture without the personal details: how many owners the vehicle has had, when it changed hands, the states it was titled in, and whether it served as a personal vehicle, a lease, a rental or part of a fleet. For a buyer, that's usually the part that matters — a long single-owner history reads very differently from a quick succession of owners or prior rental-fleet use.",
+          "If you need to contact a previous owner — for a maintenance question or a title issue — the practical routes are the selling dealer, the auction record, or the DMV under a permitted purpose, not a VIN owner-finder.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I find out who owns a car by its VIN?", a: "Not the name or address. A current owner's personal information is protected by the federal Driver's Privacy Protection Act (DPPA), so no public VIN tool returns it. You can see the number of owners and the ownership history." },
+      { q: "What ownership information can a VIN reveal?", a: "The number of previous owners, the ownership timeline, the states of title, and the usage type (personal, lease, rental or fleet) — without exposing any personal details." },
+      { q: "Are sites that promise an owner's name by VIN legitimate?", a: "Be skeptical. Releasing a current owner's name and address to the general public would violate the DPPA. Legitimate services return vehicle-level ownership history, not personal identities." },
+      { q: "How can I actually contact a previous owner?", a: "Through the selling dealer, the auction record, or the state DMV under a DPPA-permitted purpose — not a VIN owner-finder. The VIN gives you the history, not contact details." },
+      { q: "Is a VIN ownership history check free?", a: "Yes. Checking the number of owners, the ownership timeline and usage type by VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/vehicle-history-report", label: "Full Vehicle History Report" },
+      { href: "/license-plate-lookup", label: "License Plate Lookup" },
+      { href: "/accident-history-check", label: "Accident History Check" },
+    ],
+    relatedSlugs: ["registration", "title"],
+  },
+
+  // ───────────────────────── ATTRIBUTE: INSURANCE ─────────────────────────
+  {
+    slug: "insurance",
+    category: "attribute",
+    badge: "Insurance Lookup by VIN",
+    h1: "Insurance Lookup by VIN —",
+    h1Accent: "What Insurance Records a VIN Reveals",
+    metaTitle: "Insurance Lookup by VIN — Total-Loss & Theft Records (Free)",
+    metaDescription:
+      "Can you look up insurance by VIN? Not someone's policy — that's private. But a VIN reveals insurer-reported total-loss declarations, salvage brands and theft records. Free check.",
+    keywords: [
+      "insurance lookup by vin",
+      "vin insurance lookup",
+      "insurance by vin number",
+      "total loss lookup by vin",
+      "vin total loss check",
+      "nicb vin check",
+      "insurance history by vin",
+      "vehicle insurance lookup vin",
+    ],
+    intro:
+      "An insurance lookup by VIN won't tell you who insures a vehicle — a policy is private — but it does reveal the insurance-reported history that matters before you buy: total-loss declarations, salvage brands and theft records. Enter a VIN to run a free check.",
+    quickAnswer:
+      "An insurance lookup by VIN doesn't reveal who insures a vehicle or their policy details — that's private. What a VIN does reveal is insurance-reported history: total-loss declarations and salvage brands that insurers file to NMVTIS, plus theft records. Insurers also use the VIN itself to rate and quote a policy, because it identifies the exact vehicle and its risk profile.",
+    reveals: [
+      { title: "Total-loss declarations", body: "When an insurer declared the vehicle a total loss — often the event behind a salvage title." },
+      { title: "Salvage & branded titles", body: "Insurer-reported salvage, flood and junk brands filed to NMVTIS." },
+      { title: "Theft records", body: "Reported theft and recovery records, which insurers and the NICB track by VIN." },
+      { title: "Why insurers use the VIN", body: "The VIN identifies the exact build insurers rate, which is why it's required to quote a policy." },
+    ],
+    sections: [
+      {
+        h2: "What insurance data a VIN reveals",
+        paras: [
+          "The insurance history tied to a VIN is the part that affects a buying decision: total-loss declarations and salvage brands that insurers are required to report, and theft records. When an insurer pays out a total loss, that event flows into NMVTIS and typically precedes a salvage title — so a VIN check surfaces it even when a later 'clean' paper title doesn't.",
+          "Insurers also rely on the VIN themselves: it identifies the exact year, make, model and build they rate, which is why you're asked for a VIN to get an accurate quote. The same identifier that prices a policy is the one that exposes a vehicle's insurance-reported past.",
+        ],
+      },
+      {
+        h2: "What a VIN can't tell you — and the free NICB check",
+        paras: [
+          "A VIN won't return who currently insures a vehicle, their policy number, or their coverage — that's private policyholder information, not public record. Anyone claiming to look up an active insurance policy by VIN for the general public is overstating what's available.",
+          "For the insurance-reported events that are checkable, the National Insurance Crime Bureau (NICB) offers a free VINCheck that shows insurance total-loss and theft records reported by participating members. A fuller history report adds the title brands, accidents and ownership around those events for the complete picture.",
+        ],
+      },
+    ],
+    faqs: [
+      { q: "Can I find out who insures a car by its VIN?", a: "No. A current insurance policy and policyholder details are private and not public record. A VIN reveals insurance-reported events — total-loss declarations, salvage brands and theft records — not who holds the policy." },
+      { q: "What insurance records can a VIN reveal?", a: "Insurer-reported total-loss declarations, salvage and branded titles filed to NMVTIS, and theft records. These are the insurance events that affect a vehicle's value and history." },
+      { q: "What is the NICB VINCheck?", a: "A free service from the National Insurance Crime Bureau that shows insurance total-loss and theft records reported by participating member insurers, searched by VIN." },
+      { q: "Why do insurers ask for a VIN to quote?", a: "Because the VIN identifies the exact year, make, model and build they rate. The same identifier used to price a policy is the one that exposes a vehicle's insurance-reported past." },
+      { q: "Is an insurance history check by VIN free?", a: "Yes. Checking insurance-reported total-loss and theft records by VIN is free here, with no signup." },
+    ],
+    related: [
+      { href: "/total-loss-check", label: "Total Loss Check" },
+      { href: "/salvage-title-check", label: "Salvage Title Check" },
+      { href: "/stolen-vehicle-check", label: "Stolen Vehicle Check" },
+    ],
+    relatedSlugs: ["title", "owner"],
+  },
 ];
 
 export function findLookupPage(slug: string): LookupPage | undefined {

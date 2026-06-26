@@ -75,6 +75,13 @@ const DIRECTORY: { heading: string; links: { href: string; label: string }[] }[]
     links: [
       { href: "/vin-lookup/parts", label: "VIN Parts Lookup" },
       { href: "/vin-lookup/title", label: "Title Lookup by VIN" },
+      { href: "/vin-lookup/engine", label: "Engine Lookup by VIN" },
+      { href: "/vin-lookup/specs", label: "VIN Specs & Trim Lookup" },
+      { href: "/vin-lookup/options", label: "Factory Options by VIN" },
+      { href: "/vin-lookup/gvwr", label: "GVWR Lookup by VIN" },
+      { href: "/vin-lookup/registration", label: "Registration Lookup by VIN" },
+      { href: "/vin-lookup/owner", label: "Owner Lookup by VIN" },
+      { href: "/vin-lookup/insurance", label: "Insurance Lookup by VIN" },
       { href: "/vin-decoder", label: "Full VIN Decoder (specs)" },
       { href: "/window-sticker", label: "Window Sticker Lookup" },
       { href: "/build-sheet", label: "Build Sheet by VIN" },
