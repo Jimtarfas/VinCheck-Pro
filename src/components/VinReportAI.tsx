@@ -407,20 +407,10 @@ function buildRisks(data: VinData): Risk[] {
     }
   }
 
-  // Data completeness
-  const missingCount = [
-    !data.photos || data.photos.length === 0,
-    !data.mpg,
-    !data.price,
-    !data.marketData,
-  ].filter(Boolean).length;
-  if (missingCount >= 2) {
-    risks.push({
-      level: "medium",
-      title: "Incomplete Record",
-      detail: `Some data fields (photos, MPG, pricing, or market comps) were not returned for this VIN. Coverage gaps aren't themselves red flags, but make independent verification more important.`,
-    });
-  }
+  // NOTE: we intentionally do NOT raise a risk for "missing" MPG / pricing /
+  // market / photo fields. In the free preview those are deliberately withheld
+  // (they live in the paid report), so flagging their absence would mislabel the
+  // paywall as a data-quality red flag — the same confusion the AI copy avoids.
 
   return risks;
 }
