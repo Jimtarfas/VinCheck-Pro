@@ -45,7 +45,19 @@ export default function ReportView({ orderId }: Props) {
     setLoading(true);
     setErrorMessage(null);
     try {
-      const res = await fetch(`/api/order/report/${orderId}`, {
+      // Forward the Dodo `payment_id` (passed from the success page as
+      // `?dodo_payment=…`) so the API can confirm the payment directly with
+      // Dodo when no webhook reached us (the no-tunnel local fallback).
+      let url = `/api/order/report/${orderId}`;
+      if (typeof window !== "undefined") {
+        const dodoPayment = new URLSearchParams(window.location.search).get(
+          "dodo_payment"
+        );
+        if (dodoPayment) {
+          url += `?dodo_payment=${encodeURIComponent(dodoPayment)}`;
+        }
+      }
+      const res = await fetch(url, {
         cache: "no-store",
       });
       const json = (await res.json().catch(() => null)) as ApiResponse | null;

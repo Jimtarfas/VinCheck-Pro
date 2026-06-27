@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReport, rebrandReportHtml, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig } from "@/lib/stripe";
+import { dodoConfig } from "@/lib/dodo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -86,7 +87,11 @@ export async function GET(
     );
   }
 
-  const result = await fetchFullReport(order.vin, orderId);
+  // Dodo active = LOCAL/SANDBOX test (absent in production) → free sandbox
+  // token so a test HTML view never bills a real ClearVin credit.
+  const result = await fetchFullReport(order.vin, orderId, {
+    sandbox: dodoConfig.isConfigured(),
+  });
   if (!("ok" in result) || result.ok !== true) {
     return NextResponse.json(
       { ok: false, error: result.message },

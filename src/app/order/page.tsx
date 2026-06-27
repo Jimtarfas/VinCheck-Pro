@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import OrderVinForm from "./_components/OrderVinForm";
 import { stripeConfig } from "@/lib/stripe";
+import { dodoConfig } from "@/lib/dodo";
 
 export const metadata: Metadata = {
   title: "Order a Vehicle History Report",
@@ -182,7 +183,7 @@ export default async function OrderPage({ searchParams }: OrderPageProps) {
           <div className="max-w-2xl mx-auto animate-fade-in-up-delay-3">
             <OrderVinForm
               priceCents={stripeConfig.priceCents()}
-              mockMode={!stripeConfig.isConfigured()}
+              mockMode={!stripeConfig.isConfigured() && !dodoConfig.isConfigured()}
               locale={locale}
             />
           </div>

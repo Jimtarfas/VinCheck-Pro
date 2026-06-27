@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReport, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig, fetchCheckoutSession } from "@/lib/stripe";
+import { dodoConfig, fetchDodoPayment } from "@/lib/dodo";
 import { provisionAccountForOrder } from "@/lib/account-provisioning";
 import {
   extractReportData,
@@ -93,7 +94,7 @@ export const dynamic = "force-dynamic";
  * demand so the user isn't stranded.
  */
 export async function GET(
-  _req: Request,
+  req: Request,
   ctx: { params: Promise<{ orderId: string }> }
 ) {
   const { orderId } = await ctx.params;
@@ -115,7 +116,9 @@ export async function GET(
   }
 
   // ─── Authorization ───
-  const isMock = !stripeConfig.isConfigured();
+  // Mock mode = no payment provider configured at all. With Dodo configured
+  // locally (but Stripe absent) this is NOT mock — we still verify payment.
+  const isMock = !stripeConfig.isConfigured() && !dodoConfig.isConfigured();
   let authorized = isMock; // mock mode lets anyone view (for ClearVin review)
 
   // (1) Buyer cookie set at checkout time — covers the anonymous-buyer
@@ -173,6 +176,50 @@ export async function GET(
         })
         .eq("id", order.id);
       order.status = "paid";
+    } else if (dodoConfig.isConfigured()) {
+      // ── Dodo redirect-based confirmation fallback ──
+      // No tunnel locally means Dodo's webhook can't reach this host, so the
+      // order is still `pending` when the buyer lands here. Dodo appends
+      // `payment_id` to the return_url; the success page forwards it as
+      // `?dodo_payment=…`. Verify that payment directly with Dodo and, if it
+      // succeeded for THIS order, promote it. The metadata.order_id match
+      // stops a buyer from promoting someone else's order with a guessed id.
+      const dodoPaymentId = new URL(req.url).searchParams.get("dodo_payment");
+      const pay = dodoPaymentId ? await fetchDodoPayment(dodoPaymentId) : null;
+      if (
+        pay &&
+        pay.status === "succeeded" &&
+        pay.metadata?.order_id === order.id
+      ) {
+        await admin
+          .from("report_orders")
+          .update({
+            status: "paid",
+            paid_at: new Date().toISOString(),
+            stripe_payment_intent_id: pay.payment_id,
+          })
+          .eq("id", order.id);
+        order.status = "paid";
+        order.stripe_payment_intent_id = pay.payment_id;
+        // Webhook never reached us, so provision the buyer's account here.
+        await provisionAccountForOrder(admin, {
+          orderId: order.id,
+          email: order.user_email,
+        });
+      } else {
+        return NextResponse.json({
+          ok: true,
+          status: "pending",
+          message: "Payment not yet confirmed. Refresh this page shortly.",
+          order: {
+            id: order.id,
+            vin: order.vin,
+            vehicleLabel: order.vehicle_label,
+            amountCents: order.amount_cents,
+            currency: order.currency,
+          },
+        });
+      }
     } else if (order.stripe_session_id) {
       // ── Webhook fallback ──
       // The order is still `pending` even though the buyer is sitting on the
@@ -275,7 +322,15 @@ export async function GET(
 
   // Either no report yet, OR a cached mock that needs to be replaced now
   // that real credentials are available. Hit ClearVin again.
-  const refetch = await fetchFullReport(order.vin, order.id);
+  //
+  // When Dodo is the active provider this is a LOCAL/SANDBOX test (Dodo env
+  // vars are absent in production), so fetch from ClearVin's FREE sandbox
+  // token instead of the billed production account — a test purchase must
+  // never spend a real ClearVin credit. Sandbox only knows the
+  // CLEARVIN_TEST_VINS, so test orders must use one of those VINs.
+  const refetch = await fetchFullReport(order.vin, order.id, {
+    sandbox: dodoConfig.isConfigured(),
+  });
   if (!("ok" in refetch) || refetch.ok !== true) {
     await admin
       .from("report_orders")

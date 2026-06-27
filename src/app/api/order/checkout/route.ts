@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createCheckoutSession, stripeConfig } from "@/lib/stripe";
+import { createDodoCheckoutSession, dodoConfig } from "@/lib/dodo";
 import { getBundle } from "@/lib/pricing";
 import { fetchPreview } from "@/lib/clearvin";
 
@@ -84,9 +85,9 @@ export async function POST(req: Request) {
   // 422 with a buyer-friendly message when the VIN is positively
   // confirmed unsupported.
   //
-  // Skipped when Stripe isn't configured (mock mode) so local dev /
+  // Skipped when no payment provider is configured (mock mode) so local dev /
   // preview flows still work end-to-end against arbitrary VINs.
-  if (stripeConfig.isConfigured()) {
+  if (stripeConfig.isConfigured() || dodoConfig.isConfigured()) {
     try {
       const previewResult = await fetchPreview(vin);
       if (
@@ -193,19 +194,37 @@ export async function POST(req: Request) {
     // generic app homepage. Validated same-origin to avoid an open redirect.
     const cancelUrl = safeCancelUrl(body.returnTo, origin);
 
-    const session = await createCheckoutSession({
-      orderId: orderRow.id,
-      vin,
-      vehicleLabel: body.vehicleLabel,
-      customerEmail: userEmail,
-      couponCode: (body.coupon || "").trim() || undefined,
-      origin,
-      cancelUrl,
-      locale: body.locale === "es" ? "es" : "en",
-      bundleSize: bundle ? bundle.size : undefined,
-    });
+    // Provider selection: prefer Dodo when configured (test-only path —
+    // its env vars are absent in production, so the live site keeps Stripe).
+    // The Dodo session id is stashed in the same `stripe_session_id` column
+    // (a generic text id field) so the report route can reference it.
+    let session: { id: string; url: string; mock?: boolean };
+    if (dodoConfig.isConfigured()) {
+      session = await createDodoCheckoutSession({
+        orderId: orderRow.id,
+        vin,
+        vehicleLabel: body.vehicleLabel,
+        customerEmail: userEmail,
+        couponCode: (body.coupon || "").trim() || undefined,
+        origin,
+        cancelUrl,
+        bundleSize: bundle ? bundle.size : undefined,
+      });
+    } else {
+      session = await createCheckoutSession({
+        orderId: orderRow.id,
+        vin,
+        vehicleLabel: body.vehicleLabel,
+        customerEmail: userEmail,
+        couponCode: (body.coupon || "").trim() || undefined,
+        origin,
+        cancelUrl,
+        locale: body.locale === "es" ? "es" : "en",
+        bundleSize: bundle ? bundle.size : undefined,
+      });
+    }
 
-    // Stash the session id on the order so the webhook can match it.
+    // Stash the session id on the order so the webhook / fallback can match it.
     await admin
       .from("report_orders")
       .update({ stripe_session_id: session.id })

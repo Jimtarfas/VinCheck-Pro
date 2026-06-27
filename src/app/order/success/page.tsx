@@ -15,6 +15,9 @@ interface SearchParams {
   session_id?: string;
   mock?: string;
   lang?: string;
+  // Dodo Payments appends these to the return_url on redirect.
+  payment_id?: string;
+  status?: string;
 }
 
 // Wave 10: Spanish copy for the post-Stripe success screen.
@@ -67,7 +70,15 @@ export default async function OrderSuccessPage({
   // Send the buyer to the actual report view on this same host (no app.
   // subdomain, no proxy rewrite). We keep this page mounted as a fallback in
   // case JS-disabled clients need a manual link.
-  const reportHref = `/order/report/${orderId}${locale === "es" ? "?lang=es" : ""}`;
+  //
+  // Dodo Payments redirects here with `?payment_id=…&status=succeeded`. Forward
+  // the payment id to the report view so its poller can confirm the payment
+  // directly with Dodo (the no-tunnel fallback for the webhook).
+  const reportParams = new URLSearchParams();
+  if (locale === "es") reportParams.set("lang", "es");
+  if (sp.payment_id) reportParams.set("dodo_payment", sp.payment_id);
+  const reportQuery = reportParams.toString();
+  const reportHref = `/order/report/${orderId}${reportQuery ? `?${reportQuery}` : ""}`;
   return (
     <div className="bg-surface min-h-[calc(100vh-200px)]">
       {/* Fire the Reddit Purchase conversion only for real (non-mock) orders. */}
