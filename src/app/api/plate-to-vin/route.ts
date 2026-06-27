@@ -11,6 +11,7 @@
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { vinByPlate } from "@/lib/clearvin";
+import { goodcarPlateToVin } from "@/lib/goodcar";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -105,58 +106,82 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // ── 3. Resolve via ClearVin ──
+  // ── 3. Resolve via ClearVin (primary) ──
+  // ClearVin is the long-term provider — same vendor account as the
+  // VIN preview + paid report, no per-call fee. When that endpoint
+  // isn't enabled on the account yet (ENDPOINT_DISABLED / TOKEN_MISSING)
+  // or the call hits an upstream/timeout glitch, we fall through to
+  // GoodCar (Step 4) instead of surfacing the failure to the buyer.
   const result = await vinByPlate(plate, state);
-
   if (result.ok) {
-    return NextResponse.json({ ok: true, vin: result.vin });
+    return NextResponse.json({ ok: true, vin: result.vin, source: "clearvin" });
   }
 
-  // Map the typed ClearVin error onto the UI's LookupResult contract.
-  switch (result.code) {
-    case "VIN_NOT_FOUND":
-      return NextResponse.json(
-        {
-          ok: false,
-          error: "no-match",
-          message:
-            "We couldn't find a vehicle for that plate and state. Double-check the plate or try a different state.",
-        },
-        { status: 404 }
-      );
-    case "TOKEN_MISSING":
-    case "ENDPOINT_DISABLED":
-      return NextResponse.json(
-        {
-          ok: false,
-          error: "service-unavailable",
-          message: "Plate lookup is being onboarded. Please search by VIN for now.",
-        },
-        { status: 503 }
-      );
-    case "RATE_LIMITED":
-    case "MONTHLY_LIMIT":
-      return NextResponse.json(
-        {
-          ok: false,
-          error: "rate-limited",
-          message: "Too many lookups right now — please try again in a minute.",
-        },
-        { status: 429 }
-      );
-    case "VIN_INVALID":
-      return NextResponse.json(
-        { ok: false, error: "invalid-plate", message: result.message },
-        { status: 400 }
-      );
-    default:
-      return NextResponse.json(
-        {
-          ok: false,
-          error: "upstream-error",
-          message: "The plate lookup service is temporarily unavailable.",
-        },
-        { status: 502 }
-      );
+  // A genuine "we don't have this plate" miss from ClearVin shouldn't
+  // immediately spend a paid GoodCar call — ClearVin's coverage is
+  // broader, so a miss there is usually a miss everywhere. Surface the
+  // friendly no-match message directly.
+  if (result.code === "VIN_NOT_FOUND") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "no-match",
+        message:
+          "We couldn't find a vehicle for that plate and state. Double-check the plate or try a different state.",
+      },
+      { status: 404 }
+    );
   }
+  if (result.code === "VIN_INVALID") {
+    return NextResponse.json(
+      { ok: false, error: "invalid-plate", message: result.message },
+      { status: 400 }
+    );
+  }
+  if (result.code === "RATE_LIMITED" || result.code === "MONTHLY_LIMIT") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "rate-limited",
+        message: "Too many lookups right now — please try again in a minute.",
+      },
+      { status: 429 }
+    );
+  }
+
+  // ── 4. Fall through to GoodCar (temporary) ──
+  // Triggered when ClearVin returns TOKEN_MISSING, ENDPOINT_DISABLED,
+  // or UPSTREAM_ERROR. GoodCar charges $0.10/call with no-hit-no-fee,
+  // so a genuine miss here doesn't bill us. Remove this fallback once
+  // ClearVin enables vinByPlate on vendor 469.
+  const goodcar = await goodcarPlateToVin(plate, state);
+  if (goodcar.ok) {
+    return NextResponse.json({ ok: true, vin: goodcar.vin, source: "goodcar" });
+  }
+
+  if (goodcar.code === "NOT_FOUND") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "no-match",
+        message:
+          "We couldn't find a vehicle for that plate and state. Double-check the plate or try a different state.",
+      },
+      { status: 404 }
+    );
+  }
+
+  // Neither provider could resolve the plate — surface the "service
+  // being onboarded" copy rather than leaking provider details to the
+  // buyer. GoodCar's NOT_CONFIGURED / AUTH_FAILED / UPSTREAM_ERROR all
+  // funnel here.
+  return NextResponse.json(
+    {
+      ok: false,
+      error: "service-unavailable",
+      message:
+        "Plate lookup is temporarily unavailable. Please search by VIN for now.",
+    },
+    { status: 503 }
+  );
 }
