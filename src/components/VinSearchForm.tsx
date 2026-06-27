@@ -130,12 +130,6 @@ export default function VinSearchForm({
         body: JSON.stringify({ plate: cleanedPlate, state: plateState }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; vin?: string; message?: string };
-      if (res.status === 401) {
-        // Guests must sign in (DPPA abuse-prevention gate). The dedicated
-        // plate page handles the full signup flow.
-        router.push("/plate-to-vin");
-        return;
-      }
       if (data.ok && data.vin) {
         router.push(`/report-preview/${data.vin}${query}`);
         return;

@@ -2,16 +2,14 @@
  * License-plate → VIN lookup endpoint.
  *
  * Backed by ClearVin's vinByPlate endpoint (see src/lib/clearvin.ts →
- * `vinByPlate`), which reuses the same production JWT auth/token cache as
- * our preview + report calls. The client sends { plate, state }; we
- * validate, resolve the VIN, and return the LookupResult the UI expects.
- * The UI then decodes the VIN's specs via /api/vin/<vin>.
+ * `vinByPlate`). Uses CLEARVIN_PLATE_API_TOKEN when set (dedicated plate
+ * token), otherwise falls back to the shared production JWT.
  *
- * Auth-gated to a signed-in user — matches our other paid-feel tools and
- * protects the upstream ClearVin quota from abuse.
+ * Open to anonymous callers — the homepage CTA needs to work in one
+ * click without a sign-in wall. Abuse / quota protection is handled by
+ * a per-IP rolling-window rate limit declared below.
  */
 import { NextResponse, type NextRequest } from "next/server";
-import { createClient as createServerClient } from "@/lib/supabase/server";
 import { vinByPlate } from "@/lib/clearvin";
 
 export const runtime = "nodejs";
@@ -25,6 +23,41 @@ const VALID_STATES = new Set([
   "VT","VA","WA","WV","WI","WY","PR","VI","GU",
 ]);
 
+// ── Per-IP rate limit ────────────────────────────────────────────────
+// In-memory rolling window: 10 lookups per IP per 60 seconds. ClearVin
+// itself caps the vendor at 25 req/min total across the whole account
+// (per Plate API doc v2.0), so we keep individual buckets well below
+// that to avoid a single noisy IP burning the global quota.
+//
+// Module-scoped Map — survives across requests within a single Vercel
+// function instance. Different instances have independent buckets, which
+// is fine: this is abuse protection, not a hard accounting cap.
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 10;
+const ipBuckets = new Map<string, number[]>();
+
+function getClientIp(req: NextRequest): string {
+  const fwd = req.headers.get("x-forwarded-for");
+  if (fwd) return fwd.split(",")[0].trim();
+  return req.headers.get("x-real-ip") || "unknown";
+}
+
+/** Returns true when the IP is over the limit; otherwise records the hit. */
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const cutoff = now - RATE_WINDOW_MS;
+  const arr = ipBuckets.get(ip) ?? [];
+  // Drop expired entries up front so the array doesn't grow forever.
+  const recent = arr.filter((t) => t > cutoff);
+  if (recent.length >= RATE_MAX) {
+    ipBuckets.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  ipBuckets.set(ip, recent);
+  return false;
+}
+
 function sanitizePlate(raw: string): string {
   // Plates are uppercase alphanumerics, sometimes with dashes/spaces. Strip
   // anything else so we don't pass injection chars upstream.
@@ -32,19 +65,20 @@ function sanitizePlate(raw: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  // Require an authenticated user — this matches our other paid-feel tools
-  // (window sticker, etc.) and protects the upstream API quota from abuse.
-  const supabase = await createServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
+  // ── 1. Rate-limit ──
+  const ip = getClientIp(req);
+  if (rateLimited(ip)) {
     return NextResponse.json(
-      { ok: false, error: "auth-required", message: "Please sign in to look up plates." },
-      { status: 401 }
+      {
+        ok: false,
+        error: "rate-limited",
+        message: "Too many lookups from your network — wait a minute and try again.",
+      },
+      { status: 429 }
     );
   }
 
+  // ── 2. Parse + validate body ──
   let body: { plate?: string; state?: string };
   try {
     body = (await req.json()) as { plate?: string; state?: string };
@@ -71,6 +105,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // ── 3. Resolve via ClearVin ──
   const result = await vinByPlate(plate, state);
 
   if (result.ok) {
