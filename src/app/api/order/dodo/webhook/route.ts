@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { verifyDodoWebhook } from "@/lib/dodo";
+import { verifyDodoWebhook, dodoConfig } from "@/lib/dodo";
 import { fetchFullReport } from "@/lib/clearvin";
 import { provisionAccountForOrder } from "@/lib/account-provisioning";
 
@@ -68,10 +68,13 @@ export async function POST(req: Request) {
     // 2) Provision the buyer's account (best-effort, never blocks delivery).
     await provisionAccountForOrder(admin, { orderId, email: data.metadata?.user_email });
 
-    // 3) Fetch the full ClearVin report. Dodo is a LOCAL/SANDBOX test path
-    //    (its env vars are absent in production), so use ClearVin's FREE
-    //    sandbox token — a test payment must never bill a real credit.
-    const report = await fetchFullReport(vin, orderId, { sandbox: true });
+    // 3) Fetch the full ClearVin report. In Dodo TEST mode use ClearVin's
+    //    FREE sandbox token (a test payment must never bill a real credit);
+    //    in LIVE mode the buyer paid real money, so hit the billed production
+    //    account to deliver a real report.
+    const report = await fetchFullReport(vin, orderId, {
+      sandbox: !dodoConfig.isLiveMode(),
+    });
     if (!("ok" in report) || report.ok !== true) {
       await admin
         .from("report_orders")

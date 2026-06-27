@@ -323,13 +323,14 @@ export async function GET(
   // Either no report yet, OR a cached mock that needs to be replaced now
   // that real credentials are available. Hit ClearVin again.
   //
-  // When Dodo is the active provider this is a LOCAL/SANDBOX test (Dodo env
-  // vars are absent in production), so fetch from ClearVin's FREE sandbox
-  // token instead of the billed production account — a test purchase must
-  // never spend a real ClearVin credit. Sandbox only knows the
-  // CLEARVIN_TEST_VINS, so test orders must use one of those VINs.
+  // Use ClearVin's FREE sandbox token only when Dodo is in TEST mode — a
+  // test purchase must never spend a real ClearVin credit. In LIVE mode the
+  // buyer paid real money, so we must hit the billed production account to
+  // deliver a real report (sandbox only knows the CLEARVIN_TEST_VINS and
+  // would 404 any real VIN). Stripe path is unaffected (isLiveMode false).
+  const useSandbox = dodoConfig.isConfigured() && !dodoConfig.isLiveMode();
   const refetch = await fetchFullReport(order.vin, order.id, {
-    sandbox: dodoConfig.isConfigured(),
+    sandbox: useSandbox,
   });
   if (!("ok" in refetch) || refetch.ok !== true) {
     await admin

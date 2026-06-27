@@ -106,12 +106,14 @@ export async function GET(
   const stored = (order.clearvin_report || {}) as { reportId?: string };
   const reportId = stored.reportId;
 
-  // Dodo active = LOCAL/SANDBOX test (absent in production) → free sandbox
-  // token so a test PDF download never bills a real ClearVin credit.
+  // Free sandbox token only when Dodo is in TEST mode, so a test PDF download
+  // never bills a real ClearVin credit. In LIVE mode the buyer paid real
+  // money → hit the billed production account to deliver the real PDF.
+  const useSandbox = dodoConfig.isConfigured() && !dodoConfig.isLiveMode();
   const result = await fetchFullReportPdf(order.vin, {
     reportId,
     orderId,
-    sandbox: dodoConfig.isConfigured(),
+    sandbox: useSandbox,
   });
   if (!("ok" in result) || result.ok !== true) {
     return NextResponse.json(
