@@ -21,10 +21,10 @@ import {
   ArrowRight,
   Zap,
 } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 
 /* ─── Reference data ─────────────────────────────────────── */
 
-// US state gas prices + sales tax rates (2025 estimates)
 interface StateRow {
   state: string;
   abbr: string;
@@ -32,74 +32,130 @@ interface StateRow {
   taxRate: number;
 }
 
-const STATE_DATA: StateRow[] = [
-  { state: "National Average", abbr: "US", gasPrice: 3.45, taxRate: 5.0 },
-  { state: "Alabama", abbr: "AL", gasPrice: 3.05, taxRate: 2.0 },
-  { state: "Alaska", abbr: "AK", gasPrice: 3.95, taxRate: 0 },
-  { state: "Arizona", abbr: "AZ", gasPrice: 3.50, taxRate: 5.6 },
-  { state: "Arkansas", abbr: "AR", gasPrice: 3.00, taxRate: 6.5 },
-  { state: "California", abbr: "CA", gasPrice: 4.75, taxRate: 7.25 },
-  { state: "Colorado", abbr: "CO", gasPrice: 3.35, taxRate: 2.9 },
-  { state: "Connecticut", abbr: "CT", gasPrice: 3.55, taxRate: 6.35 },
-  { state: "Delaware", abbr: "DE", gasPrice: 3.20, taxRate: 0 },
-  { state: "Florida", abbr: "FL", gasPrice: 3.30, taxRate: 6.0 },
-  { state: "Georgia", abbr: "GA", gasPrice: 3.10, taxRate: 6.6 },
-  { state: "Hawaii", abbr: "HI", gasPrice: 4.85, taxRate: 4.0 },
-  { state: "Idaho", abbr: "ID", gasPrice: 3.40, taxRate: 6.0 },
-  { state: "Illinois", abbr: "IL", gasPrice: 3.65, taxRate: 6.25 },
-  { state: "Indiana", abbr: "IN", gasPrice: 3.20, taxRate: 7.0 },
-  { state: "Iowa", abbr: "IA", gasPrice: 3.15, taxRate: 5.0 },
-  { state: "Kansas", abbr: "KS", gasPrice: 3.10, taxRate: 6.5 },
-  { state: "Kentucky", abbr: "KY", gasPrice: 3.05, taxRate: 6.0 },
-  { state: "Louisiana", abbr: "LA", gasPrice: 3.00, taxRate: 4.45 },
-  { state: "Maine", abbr: "ME", gasPrice: 3.40, taxRate: 5.5 },
-  { state: "Maryland", abbr: "MD", gasPrice: 3.45, taxRate: 6.0 },
-  { state: "Massachusetts", abbr: "MA", gasPrice: 3.50, taxRate: 6.25 },
-  { state: "Michigan", abbr: "MI", gasPrice: 3.30, taxRate: 6.0 },
-  { state: "Minnesota", abbr: "MN", gasPrice: 3.25, taxRate: 6.5 },
-  { state: "Mississippi", abbr: "MS", gasPrice: 3.00, taxRate: 5.0 },
-  { state: "Missouri", abbr: "MO", gasPrice: 3.05, taxRate: 4.225 },
-  { state: "Montana", abbr: "MT", gasPrice: 3.45, taxRate: 0 },
-  { state: "Nebraska", abbr: "NE", gasPrice: 3.15, taxRate: 5.5 },
-  { state: "Nevada", abbr: "NV", gasPrice: 3.90, taxRate: 6.85 },
-  { state: "New Hampshire", abbr: "NH", gasPrice: 3.35, taxRate: 0 },
-  { state: "New Jersey", abbr: "NJ", gasPrice: 3.35, taxRate: 6.625 },
-  { state: "New Mexico", abbr: "NM", gasPrice: 3.20, taxRate: 4.0 },
-  { state: "New York", abbr: "NY", gasPrice: 3.70, taxRate: 4.0 },
-  { state: "North Carolina", abbr: "NC", gasPrice: 3.15, taxRate: 3.0 },
-  { state: "North Dakota", abbr: "ND", gasPrice: 3.20, taxRate: 5.0 },
-  { state: "Ohio", abbr: "OH", gasPrice: 3.25, taxRate: 5.75 },
-  { state: "Oklahoma", abbr: "OK", gasPrice: 2.95, taxRate: 3.25 },
-  { state: "Oregon", abbr: "OR", gasPrice: 3.85, taxRate: 0 },
-  { state: "Pennsylvania", abbr: "PA", gasPrice: 3.55, taxRate: 6.0 },
-  { state: "Rhode Island", abbr: "RI", gasPrice: 3.50, taxRate: 7.0 },
-  { state: "South Carolina", abbr: "SC", gasPrice: 3.05, taxRate: 5.0 },
-  { state: "South Dakota", abbr: "SD", gasPrice: 3.15, taxRate: 4.0 },
-  { state: "Tennessee", abbr: "TN", gasPrice: 3.05, taxRate: 7.0 },
-  { state: "Texas", abbr: "TX", gasPrice: 3.00, taxRate: 6.25 },
-  { state: "Utah", abbr: "UT", gasPrice: 3.45, taxRate: 4.85 },
-  { state: "Vermont", abbr: "VT", gasPrice: 3.45, taxRate: 6.0 },
-  { state: "Virginia", abbr: "VA", gasPrice: 3.25, taxRate: 4.15 },
-  { state: "Washington", abbr: "WA", gasPrice: 4.00, taxRate: 6.5 },
-  { state: "West Virginia", abbr: "WV", gasPrice: 3.20, taxRate: 6.0 },
-  { state: "Wisconsin", abbr: "WI", gasPrice: 3.25, taxRate: 5.0 },
-  { state: "Wyoming", abbr: "WY", gasPrice: 3.30, taxRate: 4.0 },
+const STATE_DATA_BASE: { abbr: string; gasPrice: number; taxRate: number }[] = [
+  { abbr: "US", gasPrice: 3.45, taxRate: 5.0 },
+  { abbr: "AL", gasPrice: 3.05, taxRate: 2.0 },
+  { abbr: "AK", gasPrice: 3.95, taxRate: 0 },
+  { abbr: "AZ", gasPrice: 3.50, taxRate: 5.6 },
+  { abbr: "AR", gasPrice: 3.00, taxRate: 6.5 },
+  { abbr: "CA", gasPrice: 4.75, taxRate: 7.25 },
+  { abbr: "CO", gasPrice: 3.35, taxRate: 2.9 },
+  { abbr: "CT", gasPrice: 3.55, taxRate: 6.35 },
+  { abbr: "DE", gasPrice: 3.20, taxRate: 0 },
+  { abbr: "FL", gasPrice: 3.30, taxRate: 6.0 },
+  { abbr: "GA", gasPrice: 3.10, taxRate: 6.6 },
+  { abbr: "HI", gasPrice: 4.85, taxRate: 4.0 },
+  { abbr: "ID", gasPrice: 3.40, taxRate: 6.0 },
+  { abbr: "IL", gasPrice: 3.65, taxRate: 6.25 },
+  { abbr: "IN", gasPrice: 3.20, taxRate: 7.0 },
+  { abbr: "IA", gasPrice: 3.15, taxRate: 5.0 },
+  { abbr: "KS", gasPrice: 3.10, taxRate: 6.5 },
+  { abbr: "KY", gasPrice: 3.05, taxRate: 6.0 },
+  { abbr: "LA", gasPrice: 3.00, taxRate: 4.45 },
+  { abbr: "ME", gasPrice: 3.40, taxRate: 5.5 },
+  { abbr: "MD", gasPrice: 3.45, taxRate: 6.0 },
+  { abbr: "MA", gasPrice: 3.50, taxRate: 6.25 },
+  { abbr: "MI", gasPrice: 3.30, taxRate: 6.0 },
+  { abbr: "MN", gasPrice: 3.25, taxRate: 6.5 },
+  { abbr: "MS", gasPrice: 3.00, taxRate: 5.0 },
+  { abbr: "MO", gasPrice: 3.05, taxRate: 4.225 },
+  { abbr: "MT", gasPrice: 3.45, taxRate: 0 },
+  { abbr: "NE", gasPrice: 3.15, taxRate: 5.5 },
+  { abbr: "NV", gasPrice: 3.90, taxRate: 6.85 },
+  { abbr: "NH", gasPrice: 3.35, taxRate: 0 },
+  { abbr: "NJ", gasPrice: 3.35, taxRate: 6.625 },
+  { abbr: "NM", gasPrice: 3.20, taxRate: 4.0 },
+  { abbr: "NY", gasPrice: 3.70, taxRate: 4.0 },
+  { abbr: "NC", gasPrice: 3.15, taxRate: 3.0 },
+  { abbr: "ND", gasPrice: 3.20, taxRate: 5.0 },
+  { abbr: "OH", gasPrice: 3.25, taxRate: 5.75 },
+  { abbr: "OK", gasPrice: 2.95, taxRate: 3.25 },
+  { abbr: "OR", gasPrice: 3.85, taxRate: 0 },
+  { abbr: "PA", gasPrice: 3.55, taxRate: 6.0 },
+  { abbr: "RI", gasPrice: 3.50, taxRate: 7.0 },
+  { abbr: "SC", gasPrice: 3.05, taxRate: 5.0 },
+  { abbr: "SD", gasPrice: 3.15, taxRate: 4.0 },
+  { abbr: "TN", gasPrice: 3.05, taxRate: 7.0 },
+  { abbr: "TX", gasPrice: 3.00, taxRate: 6.25 },
+  { abbr: "UT", gasPrice: 3.45, taxRate: 4.85 },
+  { abbr: "VT", gasPrice: 3.45, taxRate: 6.0 },
+  { abbr: "VA", gasPrice: 3.25, taxRate: 4.15 },
+  { abbr: "WA", gasPrice: 4.00, taxRate: 6.5 },
+  { abbr: "WV", gasPrice: 3.20, taxRate: 6.0 },
+  { abbr: "WI", gasPrice: 3.25, taxRate: 5.0 },
+  { abbr: "WY", gasPrice: 3.30, taxRate: 4.0 },
 ];
+
+const STATE_NAMES_EN: Record<string, string> = {
+  US: "National Average", AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas",
+  CA: "California", CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Florida",
+  GA: "Georgia", HI: "Hawaii", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa",
+  KS: "Kansas", KY: "Kentucky", LA: "Louisiana", ME: "Maine", MD: "Maryland",
+  MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri",
+  MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+  NM: "New Mexico", NY: "New York", NC: "North Carolina", ND: "North Dakota", OH: "Ohio",
+  OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvania", RI: "Rhode Island", SC: "South Carolina",
+  SD: "South Dakota", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
+  VA: "Virginia", WA: "Washington", WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming",
+};
+
+const STATE_NAMES_ES: Record<string, string> = {
+  US: "Promedio nacional", AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas",
+  CA: "California", CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Florida",
+  GA: "Georgia", HI: "Hawái", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa",
+  KS: "Kansas", KY: "Kentucky", LA: "Luisiana", ME: "Maine", MD: "Maryland",
+  MA: "Massachusetts", MI: "Míchigan", MN: "Minnesota", MS: "Misisipi", MO: "Misuri",
+  MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "Nuevo Hampshire", NJ: "Nueva Jersey",
+  NM: "Nuevo México", NY: "Nueva York", NC: "Carolina del Norte", ND: "Dakota del Norte", OH: "Ohio",
+  OK: "Oklahoma", OR: "Oregón", PA: "Pensilvania", RI: "Rhode Island", SC: "Carolina del Sur",
+  SD: "Dakota del Sur", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
+  VA: "Virginia", WA: "Washington", WV: "Virginia Occidental", WI: "Wisconsin", WY: "Wyoming",
+};
+
+function getStateData(locale: Locale): StateRow[] {
+  const names = locale === "es" ? STATE_NAMES_ES : STATE_NAMES_EN;
+  return STATE_DATA_BASE.map((s) => ({
+    abbr: s.abbr,
+    state: names[s.abbr] ?? s.abbr,
+    gasPrice: s.gasPrice,
+    taxRate: s.taxRate,
+  }));
+}
 
 // Vehicle types with depreciation multiplier
 const VEHICLE_TYPES = [
-  { id: "Sedan", label: "Sedan", multiplier: 1.00 },
-  { id: "SUV", label: "SUV", multiplier: 1.02 },
-  { id: "Truck", label: "Truck", multiplier: 1.05 },
-  { id: "EV", label: "Electric (EV)", multiplier: 0.92 },
-  { id: "Luxury", label: "Luxury", multiplier: 0.92 },
-  { id: "Sports", label: "Sports", multiplier: 0.95 },
-  { id: "Minivan", label: "Minivan", multiplier: 0.95 },
+  { id: "Sedan", multiplier: 1.00 },
+  { id: "SUV", multiplier: 1.02 },
+  { id: "Truck", multiplier: 1.05 },
+  { id: "EV", multiplier: 0.92 },
+  { id: "Luxury", multiplier: 0.92 },
+  { id: "Sports", multiplier: 0.95 },
+  { id: "Minivan", multiplier: 0.95 },
 ] as const;
 
 type VehicleTypeId = (typeof VEHICLE_TYPES)[number]["id"];
 
-// Retention curve (residual value as % of MSRP) — interpolate between known points
+const VEHICLE_TYPE_LABELS_EN: Record<VehicleTypeId, string> = {
+  Sedan: "Sedan",
+  SUV: "SUV",
+  Truck: "Truck",
+  EV: "Electric (EV)",
+  Luxury: "Luxury",
+  Sports: "Sports",
+  Minivan: "Minivan",
+};
+
+const VEHICLE_TYPE_LABELS_ES: Record<VehicleTypeId, string> = {
+  Sedan: "Sedán",
+  SUV: "SUV",
+  Truck: "Camioneta",
+  EV: "Eléctrico (EV)",
+  Luxury: "Lujo",
+  Sports: "Deportivo",
+  Minivan: "Minivan",
+};
+
+// Retention curve (residual value as % of MSRP)
 const RETENTION_CURVE: Record<number, number> = {
   0: 1.00,
   1: 0.80,
@@ -125,25 +181,19 @@ function retentionAt(years: number, typeMultiplier: number): number {
       const hiVal = RETENTION_CURVE[hi];
       const t = (years - lo) / (hi - lo);
       const interp = loVal + (hiVal - loVal) * t;
-      // EVs/Luxury depreciate faster, Trucks/SUVs slower — invert sign of multiplier delta
-      // Multiplier > 1 means RETAINS more (better residual); < 1 means depreciates faster (worse residual)
-      // residualAdjusted = interp * multiplier (capped at 1.0)
       return Math.min(interp * typeMultiplier, 1.0);
     }
   }
   return RETENTION_CURVE[10] * typeMultiplier;
 }
 
-// Maintenance levels
 const MAINTENANCE_BASE: Record<"Low" | "Average" | "High", number> = {
   Low: 500,
   Average: 800,
   High: 1400,
 };
 
-// Repair cost by year (unscheduled)
 function repairCostForYear(yearIndex: number): number {
-  // yearIndex is 1-based (Year 1 = 1)
   if (yearIndex === 1) return 0;
   if (yearIndex === 2) return 200;
   if (yearIndex === 3) return 400;
@@ -239,39 +289,32 @@ function calculateTCO(
   const typeMult =
     VEHICLE_TYPES.find((t) => t.id === inputs.type)?.multiplier ?? 1.0;
 
-  // Depreciation = price - residual at end of period
   const residualPct = retentionAt(years, typeMult);
   const residual = price * residualPct;
   const depreciationTotal = Math.max(price - residual, 0);
 
-  // Financing
   const principal = Math.max(price - down, 0);
   const monthlyRate = apr / 100 / 12;
   const { rows: amort } = buildAmortization(principal, monthlyRate, termMonths);
-  // Sum interest paid during the analysis period (cap at termMonths)
   const monthsInPeriod = Math.min(years * 12, termMonths);
   let interestPaid = 0;
   for (let i = 0; i < monthsInPeriod; i++) {
     interestPaid += amort[i]?.interest ?? 0;
   }
-  // Opportunity cost on down payment (5%/yr simple)
   const oppCost = down * 0.05 * years;
   const financingTotal = interestPaid + oppCost;
 
-  // Fuel — for EVs, treat MPG as MPGe and apply a ~0.35x cost factor (electricity vs gas)
   const totalMiles = annualMiles * years;
   const fuelTotal =
     inputs.type === "EV"
       ? (totalMiles / Math.max(mpg, 1)) * gasPrice * 0.35
       : (totalMiles / Math.max(mpg, 1)) * gasPrice;
 
-  // Insurance — 2% annual inflation
   let insuranceTotal = 0;
   for (let y = 1; y <= years; y++) {
     insuranceTotal += insuranceAnnual * Math.pow(1.02, y - 1);
   }
 
-  // Maintenance — base × age multiplier (years > 5 cost 40% more)
   const maintBase = MAINTENANCE_BASE[inputs.maintenance];
   let maintenanceTotal = 0;
   for (let y = 1; y <= years; y++) {
@@ -279,13 +322,11 @@ function calculateTCO(
     maintenanceTotal += maintBase * ageMult;
   }
 
-  // Repairs (unscheduled)
   let repairsTotal = 0;
   for (let y = 1; y <= years; y++) {
     repairsTotal += repairCostForYear(y);
   }
 
-  // Sales tax (one-time) + registration ($200/yr)
   const salesTax = price * (taxRatePct / 100);
   const registrationTotal = 200 * years;
   const taxesFeesTotal = salesTax + registrationTotal;
@@ -299,22 +340,19 @@ function calculateTCO(
     repairsTotal +
     taxesFeesTotal;
 
-  // Year-by-year breakdown
   const yearByYear: YearRow[] = [];
   for (let y = 1; y <= years; y++) {
-    // Depreciation per year — use difference in retention between y-1 and y
     const residualAtY = price * retentionAt(y, typeMult);
     const residualAtYminus1 = price * retentionAt(y - 1, typeMult);
     const depYear = Math.max(residualAtYminus1 - residualAtY, 0);
 
-    // Financing per year — sum of 12 months of interest within the loan term
     let finYear = 0;
     const startMonth = (y - 1) * 12;
     const endMonth = Math.min(y * 12, termMonths);
     for (let m = startMonth; m < endMonth; m++) {
       finYear += amort[m]?.interest ?? 0;
     }
-    finYear += down * 0.05; // opp cost spread evenly
+    finYear += down * 0.05;
 
     const fuelYear =
       inputs.type === "EV"
@@ -356,9 +394,196 @@ function calculateTCO(
   };
 }
 
+/* ─── COPY ───────────────────────────────────────────────── */
+
+const WIDGET_COPY = {
+  en: {
+    analysisSettings: "Analysis Settings",
+    state: "State",
+    setsGasAndTax: (g: string, t: string) => `Sets gas price ($${g}) & sales tax (${t}%)`,
+    annualMiles: "Annual Miles Driven",
+    yearsAnalysis: "Years of Analysis",
+    years: (y: number) => `${y} years`,
+    gasOverride: "Gas Price Override ($/gal)",
+    taxOverride: "Sales Tax Override (%)",
+    usingGasTax: (g: string, t: string) => ({ g, t, prefix: "Using ", mid: "/gal · ", suffix: " sales tax" }),
+    vehicleA: "Vehicle A",
+    vehicleB: "Vehicle B",
+    hideB: "Hide Vehicle B comparison",
+    showB: "Compare with another vehicle (optional)",
+    calculate: "Calculate Total Cost of Ownership",
+    reset: "Reset",
+    makeModel: "Make / Model",
+    makeModelPlaceholder: "e.g. 2024 Toyota Camry",
+    vehicleType: "Vehicle Type",
+    purchasePrice: "Purchase Price",
+    downPayment: "Down Payment",
+    aprLabel: "APR (%)",
+    loanTerm: "Loan Term",
+    months: (m: number) => `${m} months`,
+    mpgCombined: "MPG (combined)",
+    mpgeCombined: "MPGe (combined)",
+    annualInsurance: "Annual Insurance",
+    maintenanceLevel: "Maintenance Level",
+    maintLow: "Low ($500/yr)",
+    maintAverage: "Average ($800/yr)",
+    maintHigh: "High ($1,400/yr)",
+    tcoHeader: (y: number, name: string) => `${y}-Year Total Cost of Ownership · ${name}`,
+    vehicleDefault: "Vehicle",
+    perYearLine: (perYear: string, perMile: string, totalMiles: string) =>
+      `That\u2019s ${perYear}/year · ${perMile}/mile driven · ${totalMiles} total miles`,
+    perDay: "Per Day",
+    perMonth: "Per Month",
+    perMile: "Per Mile",
+    costComposition: "Cost Composition",
+    biggestCost: "is your biggest cost",
+    biggestOf: (val: string, pct: string, years: number) => ` at ${val} (${pct}% of ${years}-year TCO).`,
+    depreciationTip:
+      " Depreciation is unavoidable but slows after year 3 — buying a 2-3 year old used vehicle dramatically reduces this cost.",
+    fuelTip:
+      " Switching to a hybrid or EV could cut fuel costs by 50–70% on the same annual mileage.",
+    financingTip:
+      " A larger down payment or a shorter loan term can sharply reduce interest paid.",
+    evSavingsLead: "EV fuel savings:",
+    evSavingsMid: (miles: string) => ` at ${miles} miles/year, this EV saves you roughly `,
+    evSavingsSuffix: "/year",
+    evSavingsTail:
+      " on fuel vs. an equivalent gas vehicle, plus reduced maintenance from fewer moving parts.",
+    costBreakdownByYear: "Cost Breakdown by Year",
+    yearAnalysis: (y: number) => `${y}-year analysis`,
+    category: "Category",
+    year: "Year",
+    yearTotal: "Year Total",
+    total: "Total",
+    perMo: "/mo",
+    netWinner: "Net Winner",
+    winnerSaves: (name: string, savings: string, years: number) =>
+      `${name} saves you ${savings} over ${years} years`,
+    winnerSub: (loser: string, perYear: string, perMonth: string) =>
+      `vs. ${loser} · that\u2019s ${perYear}/year or ${perMonth}/month`,
+    sideBySide: "Side-by-Side Comparison",
+    costCategory: "Cost Category",
+    difference: "Difference",
+    yearTotalLabel: (y: number) => `${y}-Year Total`,
+    breakEvenLead: "Break-even analysis:",
+    breakEvenMid: (winner: string, priceDiff: string, months: number, years: string) =>
+      ` ${winner} costs ${priceDiff} more upfront, but its lower running costs recoup the premium in `,
+    breakEvenMonths: (m: number) => `${m} months`,
+    breakEvenParen: (years: string) => ` (${years} years).`,
+    breakEvenWithin: (y: number) =>
+      ` Within your ${y}-year window — the higher-priced vehicle wins.`,
+    breakEvenLonger: (y: number) =>
+      ` Longer than your ${y}-year window — the cheaper vehicle wins on TCO.`,
+    foundVehicle: "Found a vehicle?",
+    verifyHistory: "Verify its history before you buy.",
+    freeVinCheck: "Free VIN Check",
+    costLabels: {
+      depreciation: "Depreciation",
+      financing: "Financing",
+      fuel: "Fuel",
+      insurance: "Insurance",
+      maintenance: "Maintenance",
+      repairs: "Repairs",
+      taxesFees: "Taxes & Fees",
+    },
+    vinHref: "/vin-check",
+  },
+  es: {
+    analysisSettings: "Configuración de análisis",
+    state: "Estado",
+    setsGasAndTax: (g: string, t: string) => `Define precio gasolina ($${g}) e impuesto sobre ventas (${t}%)`,
+    annualMiles: "Millas anuales conducidas",
+    yearsAnalysis: "Años de análisis",
+    years: (y: number) => `${y} años`,
+    gasOverride: "Anular precio de gasolina ($/gal)",
+    taxOverride: "Anular impuesto sobre ventas (%)",
+    usingGasTax: (g: string, t: string) => ({ g, t, prefix: "Usando ", mid: "/gal · ", suffix: " de impuesto sobre ventas" }),
+    vehicleA: "Vehículo A",
+    vehicleB: "Vehículo B",
+    hideB: "Ocultar comparación con Vehículo B",
+    showB: "Comparar con otro vehículo (opcional)",
+    calculate: "Calcular costo total de propiedad",
+    reset: "Restablecer",
+    makeModel: "Marca / Modelo",
+    makeModelPlaceholder: "p. ej. 2024 Toyota Camry",
+    vehicleType: "Tipo de vehículo",
+    purchasePrice: "Precio de compra",
+    downPayment: "Enganche",
+    aprLabel: "APR (%)",
+    loanTerm: "Plazo del préstamo",
+    months: (m: number) => `${m} meses`,
+    mpgCombined: "MPG (combinado)",
+    mpgeCombined: "MPGe (combinado)",
+    annualInsurance: "Seguro anual",
+    maintenanceLevel: "Nivel de mantenimiento",
+    maintLow: "Bajo ($500/año)",
+    maintAverage: "Promedio ($800/año)",
+    maintHigh: "Alto ($1,400/año)",
+    tcoHeader: (y: number, name: string) => `Costo total de propiedad a ${y} años · ${name}`,
+    vehicleDefault: "Vehículo",
+    perYearLine: (perYear: string, perMile: string, totalMiles: string) =>
+      `Eso es ${perYear}/año · ${perMile}/milla conducida · ${totalMiles} millas totales`,
+    perDay: "Por día",
+    perMonth: "Por mes",
+    perMile: "Por milla",
+    costComposition: "Composición del costo",
+    biggestCost: "es tu mayor costo",
+    biggestOf: (val: string, pct: string, years: number) => ` con ${val} (${pct}% del TCO a ${years} años).`,
+    depreciationTip:
+      " La depreciación es inevitable pero se desacelera después del año 3 — comprar un vehículo usado de 2-3 años reduce drásticamente este costo.",
+    fuelTip:
+      " Cambiar a un híbrido o EV podría recortar los costos de combustible 50–70% con el mismo kilometraje anual.",
+    financingTip:
+      " Un enganche más grande o un plazo de préstamo más corto puede reducir bruscamente los intereses pagados.",
+    evSavingsLead: "Ahorros de combustible del EV:",
+    evSavingsMid: (miles: string) => ` con ${miles} millas/año, este EV te ahorra aproximadamente `,
+    evSavingsSuffix: "/año",
+    evSavingsTail:
+      " en combustible vs. un vehículo de gasolina equivalente, además de mantenimiento reducido por menos partes móviles.",
+    costBreakdownByYear: "Desglose de costos por año",
+    yearAnalysis: (y: number) => `análisis a ${y} años`,
+    category: "Categoría",
+    year: "Año",
+    yearTotal: "Total del año",
+    total: "Total",
+    perMo: "/mes",
+    netWinner: "Ganador neto",
+    winnerSaves: (name: string, savings: string, years: number) =>
+      `${name} te ahorra ${savings} durante ${years} años`,
+    winnerSub: (loser: string, perYear: string, perMonth: string) =>
+      `vs. ${loser} · eso es ${perYear}/año o ${perMonth}/mes`,
+    sideBySide: "Comparación lado a lado",
+    costCategory: "Categoría de costo",
+    difference: "Diferencia",
+    yearTotalLabel: (y: number) => `Total a ${y} años`,
+    breakEvenLead: "Análisis de punto de equilibrio:",
+    breakEvenMid: (winner: string, priceDiff: string, months: number, years: string) =>
+      ` ${winner} cuesta ${priceDiff} más por adelantado, pero sus costos operativos más bajos recuperan la prima en `,
+    breakEvenMonths: (m: number) => `${m} meses`,
+    breakEvenParen: (years: string) => ` (${years} años).`,
+    breakEvenWithin: (y: number) =>
+      ` Dentro de tu ventana de ${y} años — el vehículo de mayor precio gana.`,
+    breakEvenLonger: (y: number) =>
+      ` Más larga que tu ventana de ${y} años — el vehículo más barato gana en TCO.`,
+    foundVehicle: "¿Encontraste un vehículo?",
+    verifyHistory: "Verifica su historial antes de comprar.",
+    freeVinCheck: "Verificación VIN gratis",
+    costLabels: {
+      depreciation: "Depreciación",
+      financing: "Financiamiento",
+      fuel: "Combustible",
+      insurance: "Seguro",
+      maintenance: "Mantenimiento",
+      repairs: "Reparaciones",
+      taxesFees: "Impuestos y tarifas",
+    },
+    vinHref: "/es/vin-check",
+  },
+} as const;
+
 /* ─── Color tokens for cost categories ───────────────────── */
 
-const COST_CATEGORIES: {
+interface CostCategory {
   key: keyof Pick<
     CostBreakdown,
     "depreciation" | "financing" | "fuel" | "insurance" | "maintenance" | "repairs" | "taxesFees"
@@ -368,22 +593,35 @@ const COST_CATEGORIES: {
   bg: string;
   text: string;
   icon: typeof Car;
-}[] = [
-  { key: "depreciation", label: "Depreciation", color: "bg-rose-500", bg: "bg-rose-50", text: "text-rose-700", icon: TrendingDown },
-  { key: "financing", label: "Financing", color: "bg-amber-500", bg: "bg-amber-50", text: "text-amber-700", icon: Percent },
-  { key: "fuel", label: "Fuel", color: "bg-orange-500", bg: "bg-orange-50", text: "text-orange-700", icon: Fuel },
-  { key: "insurance", label: "Insurance", color: "bg-blue-500", bg: "bg-blue-50", text: "text-blue-700", icon: Shield },
-  { key: "maintenance", label: "Maintenance", color: "bg-emerald-500", bg: "bg-emerald-50", text: "text-emerald-700", icon: Wrench },
-  { key: "repairs", label: "Repairs", color: "bg-purple-500", bg: "bg-purple-50", text: "text-purple-700", icon: AlertTriangle },
-  { key: "taxesFees", label: "Taxes & Fees", color: "bg-slate-500", bg: "bg-slate-50", text: "text-slate-700", icon: Receipt },
-];
+}
+
+function getCostCategories(locale: Locale): CostCategory[] {
+  const L = WIDGET_COPY[locale].costLabels;
+  return [
+    { key: "depreciation", label: L.depreciation, color: "bg-rose-500", bg: "bg-rose-50", text: "text-rose-700", icon: TrendingDown },
+    { key: "financing", label: L.financing, color: "bg-amber-500", bg: "bg-amber-50", text: "text-amber-700", icon: Percent },
+    { key: "fuel", label: L.fuel, color: "bg-orange-500", bg: "bg-orange-50", text: "text-orange-700", icon: Fuel },
+    { key: "insurance", label: L.insurance, color: "bg-blue-500", bg: "bg-blue-50", text: "text-blue-700", icon: Shield },
+    { key: "maintenance", label: L.maintenance, color: "bg-emerald-500", bg: "bg-emerald-50", text: "text-emerald-700", icon: Wrench },
+    { key: "repairs", label: L.repairs, color: "bg-purple-500", bg: "bg-purple-50", text: "text-purple-700", icon: AlertTriangle },
+    { key: "taxesFees", label: L.taxesFees, color: "bg-slate-500", bg: "bg-slate-50", text: "text-slate-700", icon: Receipt },
+  ];
+}
 
 /* ─── Component ─────────────────────────────────────────── */
 
-export default function TotalCostOfOwnership() {
-  // Vehicle A
+interface Props {
+  locale?: Locale;
+}
+
+export default function TotalCostOfOwnership({ locale = "en" }: Props) {
+  const C = WIDGET_COPY[locale];
+  const STATE_DATA = getStateData(locale);
+  const COST_CATEGORIES = getCostCategories(locale);
+  const VEHICLE_TYPE_LABELS = locale === "es" ? VEHICLE_TYPE_LABELS_ES : VEHICLE_TYPE_LABELS_EN;
+
   const [vehicleA, setVehicleA] = useState<VehicleInputs>({
-    name: "Vehicle A",
+    name: C.vehicleA,
     type: "Sedan",
     price: "32000",
     downPayment: "3000",
@@ -394,10 +632,9 @@ export default function TotalCostOfOwnership() {
     maintenance: "Average",
   });
 
-  // Vehicle B
   const [showB, setShowB] = useState(false);
   const [vehicleB, setVehicleB] = useState<VehicleInputs>({
-    name: "Vehicle B",
+    name: C.vehicleB,
     type: "EV",
     price: "42000",
     downPayment: "5000",
@@ -408,7 +645,6 @@ export default function TotalCostOfOwnership() {
     maintenance: "Low",
   });
 
-  // Shared params
   const [stateIdx, setStateIdx] = useState(0);
   const [annualMiles, setAnnualMiles] = useState("12000");
   const [years, setYears] = useState(5);
@@ -437,7 +673,7 @@ export default function TotalCostOfOwnership() {
 
   function reset() {
     setVehicleA({
-      name: "Vehicle A",
+      name: C.vehicleA,
       type: "Sedan",
       price: "32000",
       downPayment: "3000",
@@ -448,7 +684,7 @@ export default function TotalCostOfOwnership() {
       maintenance: "Average",
     });
     setVehicleB({
-      name: "Vehicle B",
+      name: C.vehicleB,
       type: "EV",
       price: "42000",
       downPayment: "5000",
@@ -468,19 +704,19 @@ export default function TotalCostOfOwnership() {
     setResultsB(null);
   }
 
+  const usingLine = C.usingGasTax(gasPrice.toFixed(2), `${taxRate}%`);
+
   return (
     <div className="space-y-6">
-      {/* ── Inputs Card ── */}
+      {/* Inputs Card */}
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7 space-y-7">
-        {/* Shared parameters */}
         <div>
           <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">
-            Analysis Settings
+            {C.analysisSettings}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {/* State */}
             <div>
-              <label className="block text-[11px] text-slate-500 mb-1">State</label>
+              <label className="block text-[11px] text-slate-500 mb-1">{C.state}</label>
               <select
                 value={stateIdx}
                 onChange={(e) => setStateIdx(Number(e.target.value))}
@@ -493,13 +729,12 @@ export default function TotalCostOfOwnership() {
                 ))}
               </select>
               <p className="mt-0.5 text-[10px] text-slate-400">
-                Sets gas price (${stateRow.gasPrice.toFixed(2)}) & sales tax ({stateRow.taxRate}%)
+                {C.setsGasAndTax(stateRow.gasPrice.toFixed(2), stateRow.taxRate.toString())}
               </p>
             </div>
-            {/* Annual miles */}
             <div>
               <label className="block text-[11px] text-slate-500 mb-1">
-                Annual Miles Driven
+                {C.annualMiles}
               </label>
               <div className="relative">
                 <Gauge className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
@@ -513,9 +748,8 @@ export default function TotalCostOfOwnership() {
                 />
               </div>
             </div>
-            {/* Years */}
             <div>
-              <label className="block text-[11px] text-slate-500 mb-1">Years of Analysis</label>
+              <label className="block text-[11px] text-slate-500 mb-1">{C.yearsAnalysis}</label>
               <select
                 value={years}
                 onChange={(e) => setYears(Number(e.target.value))}
@@ -523,15 +757,14 @@ export default function TotalCostOfOwnership() {
               >
                 {[3, 5, 7, 10].map((y) => (
                   <option key={y} value={y}>
-                    {y} years
+                    {C.years(y)}
                   </option>
                 ))}
               </select>
             </div>
-            {/* Custom gas price */}
             <div>
               <label className="block text-[11px] text-slate-500 mb-1">
-                Gas Price Override ($/gal)
+                {C.gasOverride}
               </label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
@@ -550,7 +783,7 @@ export default function TotalCostOfOwnership() {
           <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-[11px] text-slate-500 mb-1">
-                Sales Tax Override (%)
+                {C.taxOverride}
               </label>
               <div className="relative">
                 <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
@@ -567,21 +800,21 @@ export default function TotalCostOfOwnership() {
             </div>
             <div className="flex items-end">
               <p className="text-[11px] text-slate-500">
-                Using <strong>${gasPrice.toFixed(2)}/gal</strong> &middot;{" "}
-                <strong>{taxRate}% sales tax</strong>
+                {usingLine.prefix}<strong>${usingLine.g}{usingLine.mid}</strong>
+                <strong>{usingLine.t}{usingLine.suffix}</strong>
               </p>
             </div>
           </div>
         </div>
 
-        {/* Vehicle A inputs */}
         <VehicleInputCard
-          title="Vehicle A"
+          title={C.vehicleA}
           inputs={vehicleA}
           onChange={setVehicleA}
+          C={C}
+          vehicleTypeLabels={VEHICLE_TYPE_LABELS}
         />
 
-        {/* Compare with Vehicle B toggle */}
         <div>
           <button
             type="button"
@@ -591,15 +824,17 @@ export default function TotalCostOfOwnership() {
             <ChevronDown
               className={`w-4 h-4 transition-transform ${showB ? "rotate-180" : ""}`}
             />
-            {showB ? "Hide Vehicle B comparison" : "Compare with another vehicle (optional)"}
+            {showB ? C.hideB : C.showB}
           </button>
 
           {showB && (
             <div className="mt-4">
               <VehicleInputCard
-                title="Vehicle B"
+                title={C.vehicleB}
                 inputs={vehicleB}
                 onChange={setVehicleB}
+                C={C}
+                vehicleTypeLabels={VEHICLE_TYPE_LABELS}
               />
             </div>
           )}
@@ -611,26 +846,28 @@ export default function TotalCostOfOwnership() {
             onClick={calculate}
             className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition-colors cursor-pointer"
           >
-            <Car className="w-4 h-4" /> Calculate Total Cost of Ownership
+            <Car className="w-4 h-4" /> {C.calculate}
           </button>
           <button
             type="button"
             onClick={reset}
             className="px-4 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl transition-colors cursor-pointer"
-            title="Reset"
+            title={C.reset}
           >
             <RefreshCcw className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* ── Results ── */}
+      {/* Results */}
       {resultsA && (
         <ResultsBlock
           inputs={vehicleA}
           results={resultsA}
           years={years}
           annualMiles={parseFloat(annualMiles.replace(/,/g, "")) || 12000}
+          C={C}
+          COST_CATEGORIES={COST_CATEGORIES}
         />
       )}
 
@@ -641,6 +878,8 @@ export default function TotalCostOfOwnership() {
             results={resultsB}
             years={years}
             annualMiles={parseFloat(annualMiles.replace(/,/g, "")) || 12000}
+            C={C}
+            COST_CATEGORIES={COST_CATEGORIES}
           />
           <ComparisonBlock
             a={vehicleA}
@@ -648,6 +887,8 @@ export default function TotalCostOfOwnership() {
             ra={resultsA}
             rb={resultsB}
             years={years}
+            C={C}
+            COST_CATEGORIES={COST_CATEGORIES}
           />
         </>
       )}
@@ -655,13 +896,13 @@ export default function TotalCostOfOwnership() {
       {resultsA && (
         <div className="flex items-center justify-between gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
           <p className="text-sm text-slate-700">
-            Found a vehicle? <strong className="text-slate-900">Verify its history before you buy.</strong>
+            {C.foundVehicle} <strong className="text-slate-900">{C.verifyHistory}</strong>
           </p>
           <Link
-            href="/vin-check"
+            href={C.vinHref}
             className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold rounded-lg transition-colors"
           >
-            Free VIN Check <ArrowRight className="w-3.5 h-3.5" />
+            {C.freeVinCheck} <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       )}
@@ -671,14 +912,20 @@ export default function TotalCostOfOwnership() {
 
 /* ─── Vehicle input card ────────────────────────────────── */
 
+type WidgetCopy = (typeof WIDGET_COPY)[Locale];
+
 function VehicleInputCard({
   title,
   inputs,
   onChange,
+  C,
+  vehicleTypeLabels,
 }: {
   title: string;
   inputs: VehicleInputs;
   onChange: (v: VehicleInputs) => void;
+  C: WidgetCopy;
+  vehicleTypeLabels: Record<VehicleTypeId, string>;
 }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-4 sm:p-5">
@@ -686,16 +933,16 @@ function VehicleInputCard({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Field
           id={`${title}-name`}
-          label="Make / Model"
+          label={C.makeModel}
           icon={<Car className="w-4 h-4 text-slate-400" />}
           value={inputs.name}
           onChange={(v) => onChange({ ...inputs, name: v })}
           type="text"
-          placeholder="e.g. 2024 Toyota Camry"
+          placeholder={C.makeModelPlaceholder}
         />
         <div>
           <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-            Vehicle Type
+            {C.vehicleType}
           </label>
           <select
             value={inputs.type}
@@ -704,14 +951,14 @@ function VehicleInputCard({
           >
             {VEHICLE_TYPES.map((t) => (
               <option key={t.id} value={t.id}>
-                {t.label}
+                {vehicleTypeLabels[t.id]}
               </option>
             ))}
           </select>
         </div>
         <Field
           id={`${title}-price`}
-          label="Purchase Price"
+          label={C.purchasePrice}
           icon={<DollarSign className="w-4 h-4 text-slate-400" />}
           value={inputs.price}
           onChange={(v) => onChange({ ...inputs, price: v })}
@@ -721,7 +968,7 @@ function VehicleInputCard({
         />
         <Field
           id={`${title}-down`}
-          label="Down Payment"
+          label={C.downPayment}
           icon={<DollarSign className="w-4 h-4 text-slate-400" />}
           value={inputs.downPayment}
           onChange={(v) => onChange({ ...inputs, downPayment: v })}
@@ -731,7 +978,7 @@ function VehicleInputCard({
         />
         <Field
           id={`${title}-apr`}
-          label="APR (%)"
+          label={C.aprLabel}
           icon={<Percent className="w-4 h-4 text-slate-400" />}
           value={inputs.apr}
           onChange={(v) => onChange({ ...inputs, apr: v })}
@@ -742,7 +989,7 @@ function VehicleInputCard({
         />
         <div>
           <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-            Loan Term
+            {C.loanTerm}
           </label>
           <div className="relative">
             <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -753,7 +1000,7 @@ function VehicleInputCard({
             >
               {[36, 48, 60, 72, 84].map((t) => (
                 <option key={t} value={t}>
-                  {t} months
+                  {C.months(t)}
                 </option>
               ))}
             </select>
@@ -761,7 +1008,7 @@ function VehicleInputCard({
         </div>
         <Field
           id={`${title}-mpg`}
-          label={inputs.type === "EV" ? "MPGe (combined)" : "MPG (combined)"}
+          label={inputs.type === "EV" ? C.mpgeCombined : C.mpgCombined}
           icon={<Fuel className="w-4 h-4 text-slate-400" />}
           value={inputs.mpg}
           onChange={(v) => onChange({ ...inputs, mpg: v })}
@@ -771,7 +1018,7 @@ function VehicleInputCard({
         />
         <Field
           id={`${title}-insurance`}
-          label="Annual Insurance"
+          label={C.annualInsurance}
           icon={<Shield className="w-4 h-4 text-slate-400" />}
           value={inputs.insurance}
           onChange={(v) => onChange({ ...inputs, insurance: v })}
@@ -781,7 +1028,7 @@ function VehicleInputCard({
         />
         <div>
           <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-            Maintenance Level
+            {C.maintenanceLevel}
           </label>
           <div className="relative">
             <Wrench className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -795,9 +1042,9 @@ function VehicleInputCard({
               }
               className="w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              <option value="Low">Low ($500/yr)</option>
-              <option value="Average">Average ($800/yr)</option>
-              <option value="High">High ($1,400/yr)</option>
+              <option value="Low">{C.maintLow}</option>
+              <option value="Average">{C.maintAverage}</option>
+              <option value="High">{C.maintHigh}</option>
             </select>
           </div>
         </div>
@@ -813,42 +1060,45 @@ function ResultsBlock({
   results,
   years,
   annualMiles,
+  C,
+  COST_CATEGORIES,
 }: {
   inputs: VehicleInputs;
   results: CostBreakdown;
   years: number;
   annualMiles: number;
+  C: WidgetCopy;
+  COST_CATEGORIES: CostCategory[];
 }) {
-  // Find biggest cost
   const biggest = COST_CATEGORIES.reduce((max, cat) =>
     results[cat.key] > results[max.key] ? cat : max
   );
 
   return (
     <div className="space-y-4">
-      {/* Big TCO header */}
       <div className="rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 p-6 sm:p-8 text-white">
         <p className="text-xs font-bold uppercase tracking-wide text-primary-200 mb-2">
-          {years}-Year Total Cost of Ownership &middot; {inputs.name || "Vehicle"}
+          {C.tcoHeader(years, inputs.name || C.vehicleDefault)}
         </p>
         <p className="text-5xl sm:text-6xl font-bold tracking-tight">{fmt0(results.total)}</p>
         <p className="mt-2 text-sm text-primary-100">
-          That&rsquo;s {fmt0(results.perYear)}/year &middot; {fmt2(results.perMile)}/mile
-          driven &middot; {(annualMiles * years).toLocaleString()} total miles
+          {C.perYearLine(
+            fmt0(results.perYear),
+            fmt2(results.perMile),
+            (annualMiles * years).toLocaleString()
+          )}
         </p>
       </div>
 
-      {/* Cost-per pills */}
       <div className="grid grid-cols-3 gap-3">
-        <Pill label="Per Day" value={fmt2(results.perDay)} />
-        <Pill label="Per Month" value={fmt0(results.perMonth)} />
-        <Pill label="Per Mile" value={fmt2(results.perMile)} />
+        <Pill label={C.perDay} value={fmt2(results.perDay)} />
+        <Pill label={C.perMonth} value={fmt0(results.perMonth)} />
+        <Pill label={C.perMile} value={fmt2(results.perMile)} />
       </div>
 
-      {/* Stacked bar */}
       <div className="bg-white border border-slate-200 rounded-xl p-5">
         <p className="text-xs font-bold text-slate-600 uppercase tracking-wide mb-3">
-          Cost Composition
+          {C.costComposition}
         </p>
         <div className="flex rounded-full overflow-hidden h-5">
           {COST_CATEGORIES.map((cat) => {
@@ -880,63 +1130,59 @@ function ResultsBlock({
         </div>
       </div>
 
-      {/* Insight: biggest cost */}
       <div className={`flex items-start gap-3 p-4 rounded-xl border ${biggest.bg} border-slate-200`}>
         <biggest.icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${biggest.text}`} />
         <p className="text-sm text-slate-700">
           <strong className="text-slate-900">
-            {biggest.label} is your biggest cost
-          </strong>{" "}
-          at {fmt0(results[biggest.key])} (
-          {((results[biggest.key] / results.total) * 100).toFixed(1)}% of {years}-year TCO).
-          {biggest.key === "depreciation" &&
-            " Depreciation is unavoidable but slows after year 3 — buying a 2-3 year old used vehicle dramatically reduces this cost."}
-          {biggest.key === "fuel" &&
-            " Switching to a hybrid or EV could cut fuel costs by 50–70% on the same annual mileage."}
-          {biggest.key === "financing" &&
-            " A larger down payment or a shorter loan term can sharply reduce interest paid."}
+            {biggest.label} {C.biggestCost}
+          </strong>
+          {C.biggestOf(
+            fmt0(results[biggest.key]),
+            ((results[biggest.key] / results.total) * 100).toFixed(1),
+            years
+          )}
+          {biggest.key === "depreciation" && C.depreciationTip}
+          {biggest.key === "fuel" && C.fuelTip}
+          {biggest.key === "financing" && C.financingTip}
         </p>
       </div>
 
-      {/* EV insight */}
       {inputs.type === "EV" && (
         <div className="flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-800">
           <Zap className="w-5 h-5 flex-shrink-0 mt-0.5 text-emerald-600" />
           <p>
-            <strong>EV fuel savings:</strong> at {annualMiles.toLocaleString()} miles/year, this
-            EV saves you roughly{" "}
+            <strong>{C.evSavingsLead}</strong>
+            {C.evSavingsMid(annualMiles.toLocaleString())}
             <strong>
               {fmt0(
                 (annualMiles / Math.max(parseFloat(inputs.mpg) || 100, 1)) *
                   3.45 *
                   0.65
               )}
-              /year
-            </strong>{" "}
-            on fuel vs. an equivalent gas vehicle, plus reduced maintenance from fewer
-            moving parts.
+              {C.evSavingsSuffix}
+            </strong>
+            {C.evSavingsTail}
           </p>
         </div>
       )}
 
-      {/* Year-by-year breakdown table */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
-          <h3 className="text-sm font-bold text-slate-900">Cost Breakdown by Year</h3>
-          <span className="text-xs text-slate-500">{years}-year analysis</span>
+          <h3 className="text-sm font-bold text-slate-900">{C.costBreakdownByYear}</h3>
+          <span className="text-xs text-slate-500">{C.yearAnalysis(years)}</span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-slate-50 text-slate-600 text-xs">
               <tr>
-                <th className="text-left px-4 py-2.5 font-medium">Category</th>
+                <th className="text-left px-4 py-2.5 font-medium">{C.category}</th>
                 {results.yearByYear.map((yr) => (
                   <th key={yr.year} className="text-right px-4 py-2.5 font-medium">
-                    Year {yr.year}
+                    {C.year} {yr.year}
                   </th>
                 ))}
                 <th className="text-right px-4 py-2.5 font-medium bg-primary-50 text-primary-700">
-                  Total
+                  {C.total}
                 </th>
               </tr>
             </thead>
@@ -963,7 +1209,7 @@ function ResultsBlock({
                 </tr>
               ))}
               <tr className="bg-slate-100 font-bold">
-                <td className="px-4 py-3 text-slate-900">Year Total</td>
+                <td className="px-4 py-3 text-slate-900">{C.yearTotal}</td>
                 {results.yearByYear.map((yr) => (
                   <td
                     key={yr.year}
@@ -981,7 +1227,6 @@ function ResultsBlock({
         </div>
       </div>
 
-      {/* Annual cost cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         {results.yearByYear.map((yr) => (
           <div
@@ -989,11 +1234,11 @@ function ResultsBlock({
             className="rounded-xl border border-slate-200 bg-white p-4"
           >
             <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 mb-1">
-              Year {yr.year}
+              {C.year} {yr.year}
             </p>
             <p className="text-lg font-bold text-slate-900">{fmt0(yr.total)}</p>
             <p className="text-[10px] text-slate-400 mt-1">
-              {fmt0(yr.total / 12)}/mo
+              {fmt0(yr.total / 12)}{C.perMo}
             </p>
           </div>
         ))}
@@ -1010,20 +1255,23 @@ function ComparisonBlock({
   ra,
   rb,
   years,
+  C,
+  COST_CATEGORIES,
 }: {
   a: VehicleInputs;
   b: VehicleInputs;
   ra: CostBreakdown;
   rb: CostBreakdown;
   years: number;
+  C: WidgetCopy;
+  COST_CATEGORIES: CostCategory[];
 }) {
   const winner = ra.total <= rb.total ? "A" : "B";
   const savings = Math.abs(ra.total - rb.total);
   const winnerName =
-    winner === "A" ? a.name || "Vehicle A" : b.name || "Vehicle B";
-  const loserName = winner === "A" ? b.name || "Vehicle B" : a.name || "Vehicle A";
+    winner === "A" ? a.name || C.vehicleA : b.name || C.vehicleB;
+  const loserName = winner === "A" ? b.name || C.vehicleB : a.name || C.vehicleA;
 
-  // Break-even: if winner has higher purchase price but lower TCO, calculate when monthly savings equal price diff
   const aPrice = parseFloat(a.price.replace(/,/g, "")) || 0;
   const bPrice = parseFloat(b.price.replace(/,/g, "")) || 0;
   const winnerPrice = winner === "A" ? aPrice : bPrice;
@@ -1037,38 +1285,35 @@ function ComparisonBlock({
 
   return (
     <div className="space-y-4">
-      {/* Winner banner */}
       <div className="rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-6 sm:p-8 text-white">
         <div className="flex items-start gap-3">
           <Award className="w-7 h-7 flex-shrink-0 mt-1 text-emerald-200" />
           <div>
             <p className="text-xs font-bold uppercase tracking-wide text-emerald-200 mb-1">
-              Net Winner
+              {C.netWinner}
             </p>
             <p className="text-2xl sm:text-3xl font-bold">
-              {winnerName} saves you {fmt0(savings)} over {years} years
+              {C.winnerSaves(winnerName, fmt0(savings), years)}
             </p>
             <p className="mt-2 text-sm text-emerald-100">
-              vs. {loserName} &middot; that&rsquo;s {fmt0(savings / years)}/year or{" "}
-              {fmt0(savings / (years * 12))}/month
+              {C.winnerSub(loserName, fmt0(savings / years), fmt0(savings / (years * 12)))}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Side-by-side breakdown */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <div className="px-5 py-3.5 border-b border-slate-100">
-          <h3 className="text-sm font-bold text-slate-900">Side-by-Side Comparison</h3>
+          <h3 className="text-sm font-bold text-slate-900">{C.sideBySide}</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-slate-50 text-slate-600 text-xs">
               <tr>
-                <th className="text-left px-4 py-2.5 font-medium">Cost Category</th>
-                <th className="text-right px-4 py-2.5 font-medium">{a.name || "Vehicle A"}</th>
-                <th className="text-right px-4 py-2.5 font-medium">{b.name || "Vehicle B"}</th>
-                <th className="text-right px-4 py-2.5 font-medium">Difference</th>
+                <th className="text-left px-4 py-2.5 font-medium">{C.costCategory}</th>
+                <th className="text-right px-4 py-2.5 font-medium">{a.name || C.vehicleA}</th>
+                <th className="text-right px-4 py-2.5 font-medium">{b.name || C.vehicleB}</th>
+                <th className="text-right px-4 py-2.5 font-medium">{C.difference}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -1101,7 +1346,7 @@ function ComparisonBlock({
                 );
               })}
               <tr className="bg-slate-100 font-bold">
-                <td className="px-4 py-3 text-slate-900">{years}-Year Total</td>
+                <td className="px-4 py-3 text-slate-900">{C.yearTotalLabel(years)}</td>
                 <td className="px-4 py-3 text-right text-slate-900 tabular-nums">
                   {fmt0(ra.total)}
                 </td>
@@ -1122,17 +1367,17 @@ function ComparisonBlock({
         </div>
       </div>
 
-      {/* Break-even analysis */}
       {breakEvenMonths !== null && (
         <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
           <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-600" />
           <p>
-            <strong>Break-even analysis:</strong> {winnerName} costs {fmt0(priceDiff)} more
-            upfront, but its lower running costs recoup the premium in{" "}
-            <strong>{breakEvenMonths} months</strong> ({(breakEvenMonths / 12).toFixed(1)} years).
+            <strong>{C.breakEvenLead}</strong>
+            {C.breakEvenMid(winnerName, fmt0(priceDiff), breakEvenMonths, (breakEvenMonths / 12).toFixed(1))}
+            <strong>{C.breakEvenMonths(breakEvenMonths)}</strong>
+            {C.breakEvenParen((breakEvenMonths / 12).toFixed(1))}
             {breakEvenMonths <= years * 12
-              ? ` Within your ${years}-year window — the higher-priced vehicle wins.`
-              : ` Longer than your ${years}-year window — the cheaper vehicle wins on TCO.`}
+              ? C.breakEvenWithin(years)
+              : C.breakEvenLonger(years)}
           </p>
         </div>
       )}

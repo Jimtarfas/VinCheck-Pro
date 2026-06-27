@@ -12,6 +12,134 @@ import {
   CheckCircle2,
   DollarSign,
 } from "lucide-react";
+import type { Locale } from "@/i18n/config";
+
+const COPY = {
+  en: {
+    modeHeading: "Calculator Mode",
+    modeDaily: "Daily Driving Cost",
+    modeDailySub: "weekly & annual",
+    modeTrip: "Road Trip Cost",
+    modeTripSub: "one-way or round-trip",
+    yourVehicle: "Your Vehicle",
+    mpgLabel: "Fuel Economy (MPG)",
+    mpgHint: "Find on window sticker or fueleconomy.gov",
+    milesPerDay: "Miles Per Day",
+    drivingDays: "Driving Days / Week",
+    dayUnit: (d: number) => `${d} day${d !== 1 ? "s" : ""}`,
+    tripDistance: "Trip Distance (miles)",
+    gasPrice: "Gas Price",
+    stateAverage: "State Average",
+    customPrice: "Or Enter Custom Price",
+    usingPrice: "Using:",
+    perGallon: "/gallon",
+    customLabel: "(custom)",
+    hideCompare: "Hide",
+    showCompare: "Compare with another vehicle (optional)",
+    vehicleBMpg: "Vehicle B — MPG",
+    priceDiff: "Price Difference ($)",
+    priceDiffHint: "How much more Vehicle B costs to buy",
+    calculate: "Calculate Fuel Cost",
+    reset: "Reset",
+    tripCost: "Trip Cost",
+    dailyCost: "Daily Cost",
+    gallons: "gallons",
+    galPerDay: "gal/day",
+    monthlyCost: "Monthly Cost",
+    monthlySub: "based on annual avg",
+    annualCost: "Annual Cost",
+    gallonsPerYear: "gallons/yr",
+    costPerMile: "Cost Per Mile",
+    fuelOnly: "fuel only",
+    co2Pre: "At",
+    co2Mid: "MPG, your vehicle emits approximately",
+    co2LbsLabel: "lbs of CO₂",
+    co2PerYear: "per year",
+    co2Tons: "metric tons",
+    co2Compare: "). The EPA average passenger car emits about 4.6 metric tons per year.",
+    comparison: "Vehicle Comparison",
+    vehicleA: "Vehicle A",
+    vehicleB: "Vehicle B",
+    annualSavings: "Annual Savings",
+    perYear: "/yr",
+    payOffPre: "Vehicle B pays for its",
+    payOffPremium: "premium",
+    payOffMid: "in fuel savings after",
+    payOffMonths: "months",
+    payOffYears: "years).",
+    longPaybackPre: "At current fuel prices it would take",
+    longPaybackMid: "months",
+    longPaybackEnd: "to recoup the price premium — longer than most people keep a vehicle.",
+    lowMpgTitle: "Your MPG is below average",
+    lowMpgBody1: "The average US passenger car gets about 28 MPG. Improving to 35 MPG would save approximately",
+    lowMpgBody2: "/year at current gas prices. Consider checking tire pressure, replacing air filters, and avoiding hard acceleration.",
+    crossLinkLead: "Planning to buy a more fuel-efficient car?",
+    crossLinkBold: "Calculate what you can afford.",
+    crossLinkBtn: "Affordability Calc",
+  },
+  es: {
+    modeHeading: "Modo de calculadora",
+    modeDaily: "Costo de manejo diario",
+    modeDailySub: "semanal y anual",
+    modeTrip: "Costo de viaje por carretera",
+    modeTripSub: "ida o ida y vuelta",
+    yourVehicle: "Tu vehículo",
+    mpgLabel: "Eficiencia de combustible (MPG)",
+    mpgHint: "Encuéntralo en la calcomanía o en fueleconomy.gov",
+    milesPerDay: "Millas por día",
+    drivingDays: "Días de manejo / semana",
+    dayUnit: (d: number) => `${d} día${d !== 1 ? "s" : ""}`,
+    tripDistance: "Distancia del viaje (millas)",
+    gasPrice: "Precio de gasolina",
+    stateAverage: "Promedio estatal",
+    customPrice: "O ingresa precio personalizado",
+    usingPrice: "Usando:",
+    perGallon: "/galón",
+    customLabel: "(personalizado)",
+    hideCompare: "Ocultar",
+    showCompare: "Comparar con otro vehículo (opcional)",
+    vehicleBMpg: "Vehículo B — MPG",
+    priceDiff: "Diferencia de precio ($)",
+    priceDiffHint: "Cuánto más cuesta comprar el Vehículo B",
+    calculate: "Calcular costo de combustible",
+    reset: "Reiniciar",
+    tripCost: "Costo del viaje",
+    dailyCost: "Costo diario",
+    gallons: "galones",
+    galPerDay: "gal/día",
+    monthlyCost: "Costo mensual",
+    monthlySub: "basado en el promedio anual",
+    annualCost: "Costo anual",
+    gallonsPerYear: "galones/año",
+    costPerMile: "Costo por milla",
+    fuelOnly: "solo combustible",
+    co2Pre: "A",
+    co2Mid: "MPG, tu vehículo emite aproximadamente",
+    co2LbsLabel: "lbs de CO₂",
+    co2PerYear: "por año",
+    co2Tons: "toneladas métricas",
+    co2Compare: "). El auto de pasajeros promedio de la EPA emite alrededor de 4.6 toneladas métricas por año.",
+    comparison: "Comparación de vehículos",
+    vehicleA: "Vehículo A",
+    vehicleB: "Vehículo B",
+    annualSavings: "Ahorro anual",
+    perYear: "/año",
+    payOffPre: "El Vehículo B paga su",
+    payOffPremium: "extra",
+    payOffMid: "en ahorro de combustible después de",
+    payOffMonths: "meses",
+    payOffYears: "años).",
+    longPaybackPre: "A los precios actuales de combustible tomaría",
+    longPaybackMid: "meses",
+    longPaybackEnd: "recuperar el precio extra — más tiempo del que la mayoría conserva un vehículo.",
+    lowMpgTitle: "Tu MPG está debajo del promedio",
+    lowMpgBody1: "El auto de pasajeros promedio en EE. UU. obtiene aproximadamente 28 MPG. Mejorar a 35 MPG ahorraría aproximadamente",
+    lowMpgBody2: "/año a los precios actuales de gasolina. Considera revisar la presión de llantas, reemplazar filtros de aire y evitar aceleración brusca.",
+    crossLinkLead: "¿Planeas comprar un auto más eficiente en combustible?",
+    crossLinkBold: "Calcula cuánto puedes pagar.",
+    crossLinkBtn: "Calc. asequibilidad",
+  },
+} as const;
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
@@ -95,7 +223,9 @@ function fmt0(n: number) {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 }
 
-export default function GasMileageCalculator() {
+export default function GasMileageCalculator({ locale = "en" }: { locale?: Locale } = {}) {
+  const t = COPY[locale];
+  const affordabilityHref = locale === "es" ? "/es/car-affordability-calculator" : "/car-affordability-calculator";
   // Vehicle A
   const [mpgA, setMpgA] = useState("28");
   const [milesPerDay, setMilesPerDay] = useState("40");
@@ -179,11 +309,11 @@ export default function GasMileageCalculator() {
 
         {/* Mode toggle */}
         <div>
-          <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">Calculator Mode</p>
+          <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">{t.modeHeading}</p>
           <div className="grid grid-cols-2 gap-2">
             {([
-              { id: "daily", label: "Daily Driving Cost", sub: "weekly & annual" },
-              { id: "trip", label: "Road Trip Cost", sub: "one-way or round-trip" },
+              { id: "daily", label: t.modeDaily, sub: t.modeDailySub },
+              { id: "trip", label: t.modeTrip, sub: t.modeTripSub },
             ] as const).map(({ id, label, sub }) => (
               <button
                 key={id}
@@ -204,10 +334,10 @@ export default function GasMileageCalculator() {
 
         {/* Vehicle MPG */}
         <div>
-          <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">Your Vehicle</p>
+          <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">{t.yourVehicle}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-[11px] text-slate-500 mb-1">Fuel Economy (MPG)</label>
+              <label className="block text-[11px] text-slate-500 mb-1">{t.mpgLabel}</label>
               <div className="relative">
                 <Fuel className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                 <input
@@ -217,13 +347,13 @@ export default function GasMileageCalculator() {
                   className="w-full pl-9 pr-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
-              <p className="mt-0.5 text-[10px] text-slate-400">Find on window sticker or fueleconomy.gov</p>
+              <p className="mt-0.5 text-[10px] text-slate-400">{t.mpgHint}</p>
             </div>
 
             {mode === "daily" ? (
               <>
                 <div>
-                  <label className="block text-[11px] text-slate-500 mb-1">Miles Per Day</label>
+                  <label className="block text-[11px] text-slate-500 mb-1">{t.milesPerDay}</label>
                   <input
                     type="number" min="0" value={milesPerDay}
                     onChange={(e) => setMilesPerDay(e.target.value)}
@@ -232,21 +362,21 @@ export default function GasMileageCalculator() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] text-slate-500 mb-1">Driving Days / Week</label>
+                  <label className="block text-[11px] text-slate-500 mb-1">{t.drivingDays}</label>
                   <select
                     value={drivingDays}
                     onChange={(e) => setDrivingDays(e.target.value)}
                     className="w-full px-3 py-2.5 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                   >
                     {[1, 2, 3, 4, 5, 6, 7].map((d) => (
-                      <option key={d} value={d}>{d} day{d !== 1 ? "s" : ""}</option>
+                      <option key={d} value={d}>{t.dayUnit(d)}</option>
                     ))}
                   </select>
                 </div>
               </>
             ) : (
               <div className="col-span-2">
-                <label className="block text-[11px] text-slate-500 mb-1">Trip Distance (miles)</label>
+                <label className="block text-[11px] text-slate-500 mb-1">{t.tripDistance}</label>
                 <input
                   type="number" min="0" value={tripMiles}
                   onChange={(e) => setTripMiles(e.target.value)}
@@ -260,10 +390,10 @@ export default function GasMileageCalculator() {
 
         {/* Gas price */}
         <div>
-          <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">Gas Price</p>
+          <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">{t.gasPrice}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[11px] text-slate-500 mb-1">State Average</label>
+              <label className="block text-[11px] text-slate-500 mb-1">{t.stateAverage}</label>
               <select
                 value={stateIdx}
                 onChange={(e) => { setStateIdx(Number(e.target.value)); setUseCustomPrice(false); }}
@@ -277,7 +407,7 @@ export default function GasMileageCalculator() {
               </select>
             </div>
             <div>
-              <label className="block text-[11px] text-slate-500 mb-1">Or Enter Custom Price</label>
+              <label className="block text-[11px] text-slate-500 mb-1">{t.customPrice}</label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                 <input
@@ -290,8 +420,8 @@ export default function GasMileageCalculator() {
             </div>
           </div>
           <p className="mt-1 text-[11px] text-slate-500">
-            Using: <strong>${gasPrice.toFixed(2)}/gallon</strong>
-            {useCustomPrice ? " (custom)" : ` — ${STATE_GAS_PRICES[stateIdx].state}`}
+            {t.usingPrice} <strong>${gasPrice.toFixed(2)}{t.perGallon}</strong>
+            {useCustomPrice ? ` ${t.customLabel}` : ` — ${STATE_GAS_PRICES[stateIdx].state}`}
           </p>
         </div>
 
@@ -303,13 +433,13 @@ export default function GasMileageCalculator() {
             className="inline-flex items-center gap-2 text-sm font-bold text-primary-600 hover:text-primary-700 cursor-pointer"
           >
             <ChevronDown className={`w-4 h-4 transition-transform ${showComparison ? "rotate-180" : ""}`} />
-            {showComparison ? "Hide" : "Compare with another vehicle (optional)"}
+            {showComparison ? t.hideCompare : t.showCompare}
           </button>
 
           {showComparison && (
             <div className="mt-3 grid grid-cols-2 gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
               <div>
-                <label className="block text-[11px] text-slate-500 mb-1">Vehicle B — MPG</label>
+                <label className="block text-[11px] text-slate-500 mb-1">{t.vehicleBMpg}</label>
                 <div className="relative">
                   <Fuel className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                   <input
@@ -321,7 +451,7 @@ export default function GasMileageCalculator() {
                 </div>
               </div>
               <div>
-                <label className="block text-[11px] text-slate-500 mb-1">Price Difference ($)</label>
+                <label className="block text-[11px] text-slate-500 mb-1">{t.priceDiff}</label>
                 <div className="relative">
                   <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                   <input
@@ -331,7 +461,7 @@ export default function GasMileageCalculator() {
                     className="w-full pl-9 pr-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
                   />
                 </div>
-                <p className="mt-0.5 text-[10px] text-slate-400">How much more Vehicle B costs to buy</p>
+                <p className="mt-0.5 text-[10px] text-slate-400">{t.priceDiffHint}</p>
               </div>
             </div>
           )}
@@ -343,13 +473,13 @@ export default function GasMileageCalculator() {
             onClick={calculate}
             className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition-colors cursor-pointer"
           >
-            <Fuel className="w-4 h-4" /> Calculate Fuel Cost
+            <Fuel className="w-4 h-4" /> {t.calculate}
           </button>
           <button
             type="button"
             onClick={reset}
             className="px-4 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl transition-colors cursor-pointer"
-            title="Reset"
+            title={t.reset}
           >
             <RefreshCcw className="w-4 h-4" />
           </button>
@@ -362,25 +492,25 @@ export default function GasMileageCalculator() {
           {/* Main metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <CostCard
-              label={mode === "trip" ? "Trip Cost" : "Daily Cost"}
+              label={mode === "trip" ? t.tripCost : t.dailyCost}
               value={fmt2(mode === "trip" ? results.tripCost : results.tripCost / (parseInt(drivingDays) || 5))}
-              sub={mode === "trip" ? `${results.tripGallons.toFixed(1)} gallons` : `${(results.tripGallons / (parseInt(drivingDays) || 5)).toFixed(1)} gal/day`}
+              sub={mode === "trip" ? `${results.tripGallons.toFixed(1)} ${t.gallons}` : `${(results.tripGallons / (parseInt(drivingDays) || 5)).toFixed(1)} ${t.galPerDay}`}
               highlight
             />
             <CostCard
-              label="Monthly Cost"
+              label={t.monthlyCost}
               value={fmt2(results.monthlyCost)}
-              sub="based on annual avg"
+              sub={t.monthlySub}
             />
             <CostCard
-              label="Annual Cost"
+              label={t.annualCost}
               value={fmt0(results.annualCost)}
-              sub={`${results.annualGallons.toFixed(0)} gallons/yr`}
+              sub={`${results.annualGallons.toFixed(0)} ${t.gallonsPerYear}`}
             />
             <CostCard
-              label="Cost Per Mile"
+              label={t.costPerMile}
               value={`$${results.costPerMile.toFixed(3)}`}
-              sub="fuel only"
+              sub={t.fuelOnly}
             />
           </div>
 
@@ -388,10 +518,9 @@ export default function GasMileageCalculator() {
           <div className="flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-800">
             <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5 text-emerald-600" />
             <p>
-              At {mpgA} MPG, your vehicle emits approximately{" "}
-              <strong>{Math.round(results.annualCO2lbs).toLocaleString()} lbs of CO₂</strong> per year
-              ({(results.annualCO2lbs / 2204.6).toFixed(1)} metric tons).
-              The EPA average passenger car emits about 4.6 metric tons per year.
+              {t.co2Pre} {mpgA} {t.co2Mid}{" "}
+              <strong>{Math.round(results.annualCO2lbs).toLocaleString()} {t.co2LbsLabel}</strong> {t.co2PerYear}
+              {" "}({(results.annualCO2lbs / 2204.6).toFixed(1)} {t.co2Tons}{t.co2Compare}
             </p>
           </div>
 
@@ -399,21 +528,21 @@ export default function GasMileageCalculator() {
           {results.savingsPerYear !== undefined && (
             <div className={`p-5 rounded-xl border ${results.savingsPerYear > 0 ? "bg-emerald-50 border-emerald-200" : "bg-amber-50 border-amber-200"}`}>
               <p className={`text-xs font-bold uppercase tracking-wide mb-2 ${results.savingsPerYear > 0 ? "text-emerald-700" : "text-amber-700"}`}>
-                Vehicle Comparison
+                {t.comparison}
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div>
-                  <p className="text-[11px] text-slate-500 uppercase tracking-wide">Vehicle A ({mpgA} MPG)</p>
-                  <p className="text-xl font-bold text-slate-900">{fmt0(results.annualCost)}/yr</p>
+                  <p className="text-[11px] text-slate-500 uppercase tracking-wide">{t.vehicleA} ({mpgA} MPG)</p>
+                  <p className="text-xl font-bold text-slate-900">{fmt0(results.annualCost)}{t.perYear}</p>
                 </div>
                 <div>
-                  <p className="text-[11px] text-slate-500 uppercase tracking-wide">Vehicle B ({mpgB} MPG)</p>
-                  <p className="text-xl font-bold text-slate-900">{fmt0(results.annualCost - (results.savingsPerYear ?? 0))}/yr</p>
+                  <p className="text-[11px] text-slate-500 uppercase tracking-wide">{t.vehicleB} ({mpgB} MPG)</p>
+                  <p className="text-xl font-bold text-slate-900">{fmt0(results.annualCost - (results.savingsPerYear ?? 0))}{t.perYear}</p>
                 </div>
                 <div>
-                  <p className="text-[11px] text-slate-500 uppercase tracking-wide">Annual Savings</p>
+                  <p className="text-[11px] text-slate-500 uppercase tracking-wide">{t.annualSavings}</p>
                   <p className={`text-xl font-bold ${results.savingsPerYear > 0 ? "text-emerald-700" : "text-red-600"}`}>
-                    {results.savingsPerYear > 0 ? "+" : ""}{fmt0(Math.abs(results.savingsPerYear))}/yr
+                    {results.savingsPerYear > 0 ? "+" : ""}{fmt0(Math.abs(results.savingsPerYear))}{t.perYear}
                   </p>
                 </div>
               </div>
@@ -421,12 +550,10 @@ export default function GasMileageCalculator() {
                 <p className="mt-3 text-sm text-slate-700">
                   {results.breakEvenMonths <= 60 ? (
                     <><CheckCircle2 className="w-4 h-4 inline text-emerald-600 mr-1" />
-                    Vehicle B pays for its <strong>${parseInt(priceDiffB).toLocaleString()} premium</strong> in fuel savings
-                    after <strong>{results.breakEvenMonths} months</strong> ({(results.breakEvenMonths / 12).toFixed(1)} years).</>
+                    {t.payOffPre} <strong>${parseInt(priceDiffB).toLocaleString()} {t.payOffPremium}</strong> {t.payOffMid} <strong>{results.breakEvenMonths} {t.payOffMonths}</strong> ({(results.breakEvenMonths / 12).toFixed(1)} {t.payOffYears}</>
                   ) : (
                     <><AlertTriangle className="w-4 h-4 inline text-amber-600 mr-1" />
-                    At current fuel prices it would take <strong>{results.breakEvenMonths} months</strong> to recoup the
-                    price premium — longer than most people keep a vehicle.</>
+                    {t.longPaybackPre} <strong>{results.breakEvenMonths} {t.longPaybackMid}</strong> {t.longPaybackEnd}</>
                   )}
                 </p>
               )}
@@ -438,12 +565,9 @@ export default function GasMileageCalculator() {
             <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
               <TrendingUp className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-600" />
               <div>
-                <p className="font-bold text-amber-900 mb-1">Your MPG is below average</p>
+                <p className="font-bold text-amber-900 mb-1">{t.lowMpgTitle}</p>
                 <p>
-                  The average US passenger car gets about 28 MPG. Improving to 35 MPG would save
-                  approximately {fmt0((results.annualGallons - (results.annualGallons * 28 / 35)) * gasPrice)}/year
-                  at current gas prices. Consider checking tire pressure, replacing air filters,
-                  and avoiding hard acceleration.
+                  {t.lowMpgBody1} {fmt0((results.annualGallons - (results.annualGallons * 28 / 35)) * gasPrice)}{t.lowMpgBody2}
                 </p>
               </div>
             </div>
@@ -452,14 +576,14 @@ export default function GasMileageCalculator() {
           {/* Cross-link */}
           <div className="flex items-center justify-between gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
             <p className="text-sm text-slate-700">
-              Planning to buy a more fuel-efficient car?{" "}
-              <strong className="text-slate-900">Calculate what you can afford.</strong>
+              {t.crossLinkLead}{" "}
+              <strong className="text-slate-900">{t.crossLinkBold}</strong>
             </p>
             <Link
-              href="/car-affordability-calculator"
+              href={affordabilityHref}
               className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold rounded-lg transition-colors"
             >
-              Affordability Calc <ArrowRight className="w-3.5 h-3.5" />
+              {t.crossLinkBtn} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

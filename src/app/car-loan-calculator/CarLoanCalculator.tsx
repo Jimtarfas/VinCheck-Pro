@@ -3,6 +3,8 @@
 import { useState, useCallback } from "react";
 import { DollarSign, Percent, Calendar, RefreshCcw, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
 
+type Locale = "en" | "es";
+
 interface AmortizationRow {
   month: number;
   payment: number;
@@ -18,6 +20,97 @@ interface Results {
   principal: number;
   amortization: AmortizationRow[];
 }
+
+const COPY = {
+  en: {
+    vehiclePrice: "Vehicle Price",
+    vehiclePriceHint: "Total purchase price before down payment",
+    downPayment: "Down Payment",
+    downPaymentHint: "Cash you pay upfront",
+    tradeIn: "Trade-In Value",
+    tradeInHint: "Dealer credit for your current vehicle",
+    apr: "Annual Interest Rate (APR)",
+    aprHint: "Check your bank or credit union pre-approval",
+    loanTerm: "Loan Term",
+    loanTermHint: "Shorter = less interest; longer = lower payment",
+    months: "months",
+    year: "year",
+    years: "years",
+    stateSalesTax: "State Sales Tax",
+    stateSalesTaxHint: "Applied to (price − trade-in)",
+    docFees: "Dealer / Doc Fees",
+    docFeesHint: "Documentation, registration, and title fees",
+    calculateBtn: "Calculate Monthly Payment",
+    resetTitle: "Reset",
+    monthlyPayment: "Monthly Payment",
+    loanPrincipal: "Loan Principal",
+    totalInterest: "Total Interest",
+    totalCost: "Total Cost",
+    costBreakdown: "Cost Breakdown",
+    principalLabel: "Principal",
+    interestLabel: "Interest",
+    interestTipPre: "You\u2019re paying ",
+    interestTipMid: " in interest",
+    interestTipSuffix:
+      " over the life of this loan. Consider a shorter term or a larger down payment to reduce the total cost.",
+    amortizationSchedule: "Amortization Schedule",
+    payments: "payments",
+    colMonth: "Month",
+    colPayment: "Payment",
+    colPrincipal: "Principal",
+    colInterest: "Interest",
+    colBalance: "Balance",
+    paymentsOmitted: "payments omitted",
+    showLess: "Show less",
+    showAll: "Show all",
+    rows: "rows",
+    noStateTax: "No state tax",
+  },
+  es: {
+    vehiclePrice: "Precio del vehículo",
+    vehiclePriceHint: "Precio total de compra antes del pago inicial",
+    downPayment: "Pago inicial",
+    downPaymentHint: "Efectivo que pagas por adelantado",
+    tradeIn: "Valor del intercambio",
+    tradeInHint: "Crédito del concesionario por tu vehículo actual",
+    apr: "Tasa anual de interés (APR)",
+    aprHint: "Revisa la pre-aprobación de tu banco o cooperativa de crédito",
+    loanTerm: "Plazo del préstamo",
+    loanTermHint: "Más corto = menos interés; más largo = pago más bajo",
+    months: "meses",
+    year: "año",
+    years: "años",
+    stateSalesTax: "Impuesto estatal sobre ventas",
+    stateSalesTaxHint: "Aplicado a (precio − intercambio)",
+    docFees: "Tarifas del concesionario y documentación",
+    docFeesHint: "Tarifas de documentación, registro y título",
+    calculateBtn: "Calcular pago mensual",
+    resetTitle: "Restablecer",
+    monthlyPayment: "Pago mensual",
+    loanPrincipal: "Capital del préstamo",
+    totalInterest: "Interés total",
+    totalCost: "Costo total",
+    costBreakdown: "Desglose de costo",
+    principalLabel: "Capital",
+    interestLabel: "Interés",
+    interestTipPre: "Estás pagando ",
+    interestTipMid: " en interés",
+    interestTipSuffix:
+      " durante la vida de este préstamo. Considera un plazo más corto o un pago inicial más grande para reducir el costo total.",
+    amortizationSchedule: "Calendario de amortización",
+    payments: "pagos",
+    colMonth: "Mes",
+    colPayment: "Pago",
+    colPrincipal: "Capital",
+    colInterest: "Interés",
+    colBalance: "Saldo",
+    paymentsOmitted: "pagos omitidos",
+    showLess: "Mostrar menos",
+    showAll: "Mostrar las",
+    rows: "filas",
+    noStateTax: "Sin impuesto estatal",
+  },
+} as const;
 
 function buildAmortization(principal: number, monthlyRate: number, months: number): AmortizationRow[] {
   const rows: AmortizationRow[] = [];
@@ -53,8 +146,9 @@ function fmtShort(n: number) {
 
 const TERM_OPTIONS = [12, 24, 36, 48, 60, 72, 84];
 
-const US_STATE_TAXES: [string, number][] = [
-  ["No state tax", 0],
+// State names stay English (proper nouns). Only the "No state tax" label is localized.
+const US_STATE_TAXES_RAW: [string, number][] = [
+  ["__NO_TAX__", 0],
   ["Alabama (AL)", 2.0],
   ["Alaska (AK)", 0],
   ["Arizona (AZ)", 5.6],
@@ -107,7 +201,12 @@ const US_STATE_TAXES: [string, number][] = [
   ["Wyoming (WY)", 4.0],
 ];
 
-export default function CarLoanCalculator() {
+interface Props {
+  locale?: Locale;
+}
+
+export default function CarLoanCalculator({ locale = "en" }: Props) {
+  const t = COPY[locale];
   const [price, setPrice] = useState("30000");
   const [downPayment, setDownPayment] = useState("3000");
   const [tradeIn, setTradeIn] = useState("0");
@@ -117,6 +216,11 @@ export default function CarLoanCalculator() {
   const [fees, setFees] = useState("500");
   const [results, setResults] = useState<Results | null>(null);
   const [showFullAmort, setShowFullAmort] = useState(false);
+
+  const stateTaxOptions: [string, number][] = US_STATE_TAXES_RAW.map(([label, rate]) => [
+    label === "__NO_TAX__" ? t.noStateTax : label,
+    rate,
+  ]);
 
   const calculate = useCallback(() => {
     const vehiclePrice = parseFloat(price.replace(/,/g, "")) || 0;
@@ -131,7 +235,6 @@ export default function CarLoanCalculator() {
     const monthlyRate = annualRate / 100 / 12;
 
     const amortization = buildAmortization(principal, monthlyRate, term);
-    const last = amortization[amortization.length - 1];
     const monthlyPayment = amortization[0]?.payment ?? 0;
     const totalPaid = monthlyPayment * term;
     const totalInterest = totalPaid - principal;
@@ -177,43 +280,43 @@ export default function CarLoanCalculator() {
           {/* Vehicle price */}
           <Field
             id="price"
-            label="Vehicle Price"
+            label={t.vehiclePrice}
             icon={<DollarSign className="w-4 h-4 text-slate-400" />}
             value={price}
             onChange={setPrice}
             type="number"
             min="0"
             placeholder="30,000"
-            hint="Total purchase price before down payment"
+            hint={t.vehiclePriceHint}
           />
           {/* Down payment */}
           <Field
             id="down"
-            label="Down Payment"
+            label={t.downPayment}
             icon={<DollarSign className="w-4 h-4 text-slate-400" />}
             value={downPayment}
             onChange={setDownPayment}
             type="number"
             min="0"
             placeholder="3,000"
-            hint="Cash you pay upfront"
+            hint={t.downPaymentHint}
           />
           {/* Trade-in */}
           <Field
             id="trade"
-            label="Trade-In Value"
+            label={t.tradeIn}
             icon={<DollarSign className="w-4 h-4 text-slate-400" />}
             value={tradeIn}
             onChange={setTradeIn}
             type="number"
             min="0"
             placeholder="0"
-            hint="Dealer credit for your current vehicle"
+            hint={t.tradeInHint}
           />
           {/* APR */}
           <Field
             id="apr"
-            label="Annual Interest Rate (APR)"
+            label={t.apr}
             icon={<Percent className="w-4 h-4 text-slate-400" />}
             value={apr}
             onChange={setApr}
@@ -221,12 +324,12 @@ export default function CarLoanCalculator() {
             min="0"
             step="0.1"
             placeholder="6.5"
-            hint="Check your bank or credit union pre-approval"
+            hint={t.aprHint}
           />
           {/* Loan Term */}
           <div>
             <label htmlFor="term" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-              Loan Term
+              {t.loanTerm}
             </label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -236,19 +339,19 @@ export default function CarLoanCalculator() {
                 onChange={(e) => setTerm(Number(e.target.value))}
                 className="w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
-                {TERM_OPTIONS.map((t) => (
-                  <option key={t} value={t}>
-                    {t} months ({(t / 12).toFixed(t % 12 === 0 ? 0 : 1)} {t === 12 ? "year" : "years"})
+                {TERM_OPTIONS.map((tm) => (
+                  <option key={tm} value={tm}>
+                    {tm} {t.months} ({(tm / 12).toFixed(tm % 12 === 0 ? 0 : 1)} {tm === 12 ? t.year : t.years})
                   </option>
                 ))}
               </select>
             </div>
-            <p className="mt-1 text-[11px] text-slate-500">Shorter = less interest; longer = lower payment</p>
+            <p className="mt-1 text-[11px] text-slate-500">{t.loanTermHint}</p>
           </div>
           {/* State sales tax */}
           <div>
             <label htmlFor="statetax" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
-              State Sales Tax
+              {t.stateSalesTax}
             </label>
             <div className="relative">
               <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -258,26 +361,26 @@ export default function CarLoanCalculator() {
                 onChange={(e) => setStateTaxPct(e.target.value)}
                 className="w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
-                {US_STATE_TAXES.map(([label, rate]) => (
+                {stateTaxOptions.map(([label, rate]) => (
                   <option key={label} value={rate}>
                     {label} — {rate}%
                   </option>
                 ))}
               </select>
             </div>
-            <p className="mt-1 text-[11px] text-slate-500">Applied to (price − trade-in)</p>
+            <p className="mt-1 text-[11px] text-slate-500">{t.stateSalesTaxHint}</p>
           </div>
           {/* Doc fees */}
           <Field
             id="fees"
-            label="Dealer / Doc Fees"
+            label={t.docFees}
             icon={<DollarSign className="w-4 h-4 text-slate-400" />}
             value={fees}
             onChange={setFees}
             type="number"
             min="0"
             placeholder="500"
-            hint="Documentation, registration, and title fees"
+            hint={t.docFeesHint}
           />
         </div>
 
@@ -287,13 +390,13 @@ export default function CarLoanCalculator() {
             onClick={calculate}
             className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition-colors cursor-pointer"
           >
-            Calculate Monthly Payment
+            {t.calculateBtn}
           </button>
           <button
             type="button"
             onClick={reset}
             className="px-4 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-medium rounded-xl transition-colors cursor-pointer"
-            title="Reset"
+            title={t.resetTitle}
           >
             <RefreshCcw className="w-4 h-4" />
           </button>
@@ -306,19 +409,19 @@ export default function CarLoanCalculator() {
           {/* Summary metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Metric
-              label="Monthly Payment"
+              label={t.monthlyPayment}
               value={fmt(results.monthlyPayment)}
               highlight
             />
-            <Metric label="Loan Principal" value={fmtShort(results.principal)} />
-            <Metric label="Total Interest" value={fmtShort(results.totalInterest)} muted />
-            <Metric label="Total Cost" value={fmtShort(results.totalPaid)} />
+            <Metric label={t.loanPrincipal} value={fmtShort(results.principal)} />
+            <Metric label={t.totalInterest} value={fmtShort(results.totalInterest)} muted />
+            <Metric label={t.totalCost} value={fmtShort(results.totalPaid)} />
           </div>
 
           {/* Visual bar: principal vs interest */}
           <div className="bg-white border border-slate-200 rounded-xl p-5">
             <p className="text-xs font-bold text-slate-600 uppercase tracking-wide mb-3">
-              Cost Breakdown
+              {t.costBreakdown}
             </p>
             <div className="flex rounded-full overflow-hidden h-4">
               <div
@@ -326,24 +429,24 @@ export default function CarLoanCalculator() {
                 style={{
                   width: `${(results.principal / results.totalPaid) * 100}%`,
                 }}
-                title={`Principal: ${fmtShort(results.principal)}`}
+                title={`${t.principalLabel}: ${fmtShort(results.principal)}`}
               />
               <div
                 className="bg-rose-400"
                 style={{
                   width: `${(results.totalInterest / results.totalPaid) * 100}%`,
                 }}
-                title={`Interest: ${fmtShort(results.totalInterest)}`}
+                title={`${t.interestLabel}: ${fmtShort(results.totalInterest)}`}
               />
             </div>
             <div className="flex gap-5 mt-2 text-xs text-slate-600">
               <span className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-sm bg-primary-500 inline-block" />
-                Principal {((results.principal / results.totalPaid) * 100).toFixed(1)}%
+                {t.principalLabel} {((results.principal / results.totalPaid) * 100).toFixed(1)}%
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-sm bg-rose-400 inline-block" />
-                Interest {((results.totalInterest / results.totalPaid) * 100).toFixed(1)}%
+                {t.interestLabel} {((results.totalInterest / results.totalPaid) * 100).toFixed(1)}%
               </span>
             </div>
           </div>
@@ -353,12 +456,11 @@ export default function CarLoanCalculator() {
             <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
               <TrendingDown className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-600" />
               <p>
-                You&rsquo;re paying{" "}
+                {t.interestTipPre}
                 <strong>
-                  {fmt(results.totalInterest)} in interest
-                </strong>{" "}
-                over the life of this loan. Consider a shorter term or a larger down payment
-                to reduce the total cost.
+                  {fmt(results.totalInterest)}{t.interestTipMid}
+                </strong>
+                {t.interestTipSuffix}
               </p>
             </div>
           )}
@@ -366,18 +468,18 @@ export default function CarLoanCalculator() {
           {/* Amortization table */}
           <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
             <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-900">Amortization Schedule</h3>
-              <span className="text-xs text-slate-500">{term} payments</span>
+              <h3 className="text-sm font-bold text-slate-900">{t.amortizationSchedule}</h3>
+              <span className="text-xs text-slate-500">{term} {t.payments}</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 text-slate-600 text-xs">
                   <tr>
-                    <th className="text-left px-4 py-2.5 font-medium">Month</th>
-                    <th className="text-right px-4 py-2.5 font-medium">Payment</th>
-                    <th className="text-right px-4 py-2.5 font-medium">Principal</th>
-                    <th className="text-right px-4 py-2.5 font-medium">Interest</th>
-                    <th className="text-right px-4 py-2.5 font-medium">Balance</th>
+                    <th className="text-left px-4 py-2.5 font-medium">{t.colMonth}</th>
+                    <th className="text-right px-4 py-2.5 font-medium">{t.colPayment}</th>
+                    <th className="text-right px-4 py-2.5 font-medium">{t.colPrincipal}</th>
+                    <th className="text-right px-4 py-2.5 font-medium">{t.colInterest}</th>
+                    <th className="text-right px-4 py-2.5 font-medium">{t.colBalance}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -390,7 +492,7 @@ export default function CarLoanCalculator() {
                         {showGap && (
                           <tr key={`gap-${row.month}`} className="bg-slate-50">
                             <td colSpan={5} className="px-4 py-2 text-center text-xs text-slate-500">
-                              ···  {row.month - prevRow.month - 1} payments omitted
+                              ···  {row.month - prevRow.month - 1} {t.paymentsOmitted}
                             </td>
                           </tr>
                         )}
@@ -415,9 +517,9 @@ export default function CarLoanCalculator() {
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 hover:text-primary-700 cursor-pointer"
                 >
                   {showFullAmort ? (
-                    <><ChevronUp className="w-3.5 h-3.5" /> Show less</>
+                    <><ChevronUp className="w-3.5 h-3.5" /> {t.showLess}</>
                   ) : (
-                    <><ChevronDown className="w-3.5 h-3.5" /> Show all {term} rows</>
+                    <><ChevronDown className="w-3.5 h-3.5" /> {t.showAll} {term} {t.rows}</>
                   )}
                 </button>
               </div>

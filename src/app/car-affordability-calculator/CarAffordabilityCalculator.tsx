@@ -37,6 +37,139 @@ function fmtD(n: number) {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 });
 }
 
+const COPY = {
+  en: {
+    incomeLabel: "Your Income",
+    annual: "Annual (yearly)",
+    monthly: "Monthly",
+    debtsLabel: "Existing Monthly Debt Payments",
+    rentMortgage: "Rent / Mortgage",
+    creditCards: "Credit Cards",
+    studentLoans: "Student Loans",
+    otherDebts: "Other Debts",
+    vehicleCostsLabel: "Estimated Monthly Vehicle Costs",
+    autoInsurance: "Auto Insurance",
+    insHint: "US avg ~$150/mo",
+    fuelCharging: "Fuel / Charging",
+    fuelHint: "US avg ~$200/mo",
+    loanParams: "Loan Parameters",
+    apr: "APR (%)",
+    loanTerm: "Loan Term",
+    months: "months",
+    downPayment: "Down Payment ($)",
+    tradeIn: "Trade-In Value ($)",
+    budgetRule: "Budget Rule",
+    budgetRuleTip: "The rule determines what percentage of gross monthly income can go to vehicle costs.",
+    methods: [
+      { id: "20/4/10", label: "20/4/10", sub: "10% of income" },
+      { id: "15pct", label: "15% Rule", sub: "15% of income" },
+      { id: "custom", label: "Custom %", sub: "set your own" },
+    ],
+    calculate: "Calculate My Car Budget",
+    reset: "Reset",
+    withinBudget: "✓ Within Budget",
+    stretched: "⚠ Slightly Stretched",
+    overLimit: "✗ Over Recommended Limit",
+    maxPriceSub: "Maximum recommended vehicle price based on your income and debts",
+    metricMaxPayment: "Max Monthly Payment",
+    metricGrossIncome: "Gross Monthly Income",
+    metricDti: "Debt-to-Income Ratio",
+    dtiHigh: "Above 43% — risky",
+    dtiMid: "36–43% — stretched",
+    dtiLow: "Below 36% — healthy",
+    breakdownTitle: "Monthly Budget Breakdown",
+    breakdownRent: "Rent / Mortgage",
+    breakdownCC: "Credit Cards",
+    breakdownSL: "Student Loans",
+    breakdownOther: "Other Debts",
+    breakdownCar: "Car Payment (max)",
+    breakdownIns: "Insurance + Fuel",
+    breakdownRemaining: "Remaining",
+    breakdownAvailable: "Available after all obligations",
+    overTitle: "Your debt-to-income ratio exceeds lender limits",
+    stretchedTitle: "You're approaching the recommended debt ceiling",
+    dtiWarnPre: "Most lenders cap total monthly debt (including the new car payment) at ",
+    dtiWarnBold: "43% of gross income",
+    dtiWarnSuffix: ". Consider a larger down payment, shorter loan term, or paying down existing debt before financing a vehicle.",
+    ctaText: "Found your price range? ",
+    ctaTextBold: "Calculate the exact monthly payment.",
+    ctaButton: "Loan Calculator",
+    howCalculated: "How was this calculated?",
+    step1: "Step 1 — Monthly income:",
+    step2: (pct: string) => `Step 2 — Max vehicle cost (${pct} of income):`,
+    step3: "Step 3 — Subtract insurance + fuel:",
+    step4: "Step 4 — Max loan payment:",
+    step5: "Step 5 — Reverse loan formula → max principal:",
+    step6: "Step 6 — Add down payment + trade-in:",
+    stepFinal: "= Max vehicle price:",
+  },
+  es: {
+    incomeLabel: "Tus ingresos",
+    annual: "Anual",
+    monthly: "Mensual",
+    debtsLabel: "Pagos mensuales de deudas existentes",
+    rentMortgage: "Renta / Hipoteca",
+    creditCards: "Tarjetas de crédito",
+    studentLoans: "Préstamos estudiantiles",
+    otherDebts: "Otras deudas",
+    vehicleCostsLabel: "Costos mensuales estimados del vehículo",
+    autoInsurance: "Seguro de auto",
+    insHint: "Promedio EE. UU. ~$150/mes",
+    fuelCharging: "Combustible / Carga",
+    fuelHint: "Promedio EE. UU. ~$200/mes",
+    loanParams: "Parámetros del préstamo",
+    apr: "APR (%)",
+    loanTerm: "Plazo del préstamo",
+    months: "meses",
+    downPayment: "Pago inicial ($)",
+    tradeIn: "Valor de trade-in ($)",
+    budgetRule: "Regla de presupuesto",
+    budgetRuleTip: "La regla determina qué porcentaje de tus ingresos brutos mensuales puede ir a costos del vehículo.",
+    methods: [
+      { id: "20/4/10", label: "20/4/10", sub: "10% de ingresos" },
+      { id: "15pct", label: "Regla 15%", sub: "15% de ingresos" },
+      { id: "custom", label: "% personalizado", sub: "establece el tuyo" },
+    ],
+    calculate: "Calcular mi presupuesto de auto",
+    reset: "Reiniciar",
+    withinBudget: "✓ Dentro del presupuesto",
+    stretched: "⚠ Ligeramente apretado",
+    overLimit: "✗ Sobre el límite recomendado",
+    maxPriceSub: "Precio máximo recomendado del vehículo según tus ingresos y deudas",
+    metricMaxPayment: "Pago mensual máximo",
+    metricGrossIncome: "Ingreso bruto mensual",
+    metricDti: "Ratio deuda-a-ingresos",
+    dtiHigh: "Sobre 43% — riesgoso",
+    dtiMid: "36–43% — apretado",
+    dtiLow: "Bajo 36% — saludable",
+    breakdownTitle: "Desglose del presupuesto mensual",
+    breakdownRent: "Renta / Hipoteca",
+    breakdownCC: "Tarjetas de crédito",
+    breakdownSL: "Préstamos estudiantiles",
+    breakdownOther: "Otras deudas",
+    breakdownCar: "Pago de auto (máx)",
+    breakdownIns: "Seguro + Combustible",
+    breakdownRemaining: "Restante",
+    breakdownAvailable: "Disponible después de todas las obligaciones",
+    overTitle: "Tu ratio deuda-a-ingresos excede los límites del prestamista",
+    stretchedTitle: "Te estás acercando al techo de deuda recomendado",
+    dtiWarnPre: "La mayoría de los prestamistas limitan la deuda mensual total (incluyendo el nuevo pago de auto) a ",
+    dtiWarnBold: "43% del ingreso bruto",
+    dtiWarnSuffix: ". Considera un pago inicial mayor, un plazo más corto, o pagar deuda existente antes de financiar un vehículo.",
+    ctaText: "¿Encontraste tu rango de precio? ",
+    ctaTextBold: "Calcula el pago mensual exacto.",
+    ctaButton: "Calculadora de préstamo",
+    howCalculated: "¿Cómo se calculó esto?",
+    step1: "Paso 1 — Ingreso mensual:",
+    step2: (pct: string) => `Paso 2 — Costo máximo del vehículo (${pct} del ingreso):`,
+    step3: "Paso 3 — Restar seguro + combustible:",
+    step4: "Paso 4 — Pago máximo del préstamo:",
+    step5: "Paso 5 — Fórmula inversa del préstamo → principal máximo:",
+    step6: "Paso 6 — Sumar pago inicial + trade-in:",
+    stepFinal: "= Precio máximo del vehículo:",
+  },
+} as const;
+
 // Reverse the loan formula to find max principal from max payment
 function maxPrincipal(monthlyPayment: number, annualRate: number, months: number): number {
   if (annualRate === 0) return monthlyPayment * months;
@@ -46,7 +179,8 @@ function maxPrincipal(monthlyPayment: number, annualRate: number, months: number
 
 const TERM_OPTIONS = [24, 36, 48, 60, 72, 84];
 
-export default function CarAffordabilityCalculator() {
+export default function CarAffordabilityCalculator({ locale = "en" }: { locale?: "en" | "es" } = {}) {
+  const t = COPY[locale];
   // Income
   const [incomeType, setIncomeType] = useState<"monthly" | "annual">("annual");
   const [income, setIncome] = useState("75000");
@@ -133,12 +267,12 @@ export default function CarAffordabilityCalculator() {
       debtToIncomeRatio: Math.min(dti, 100),
       ruleResult,
       breakdown: [
-        { label: "Rent / Mortgage", amount: rent, color: "bg-slate-400" },
-        { label: "Credit Cards", amount: cc, color: "bg-amber-400" },
-        { label: "Student Loans", amount: sl, color: "bg-orange-400" },
-        { label: "Other Debts", amount: other, color: "bg-red-400" },
-        { label: "Car Payment (max)", amount: Math.max(effectiveMaxPayment, 0), color: "bg-primary-500" },
-        { label: "Insurance + Fuel", amount: ins + gas, color: "bg-primary-300" },
+        { label: t.breakdownRent, amount: rent, color: "bg-slate-400" },
+        { label: t.breakdownCC, amount: cc, color: "bg-amber-400" },
+        { label: t.breakdownSL, amount: sl, color: "bg-orange-400" },
+        { label: t.breakdownOther, amount: other, color: "bg-red-400" },
+        { label: t.breakdownCar, amount: Math.max(effectiveMaxPayment, 0), color: "bg-primary-500" },
+        { label: t.breakdownIns, amount: ins + gas, color: "bg-primary-300" },
       ].filter((b) => b.amount > 0),
     });
   }
@@ -177,7 +311,7 @@ export default function CarAffordabilityCalculator() {
         {/* Income */}
         <div>
           <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">
-            Your Income
+            {t.incomeLabel}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-[1fr_160px] gap-3">
             <div className="relative">
@@ -196,8 +330,8 @@ export default function CarAffordabilityCalculator() {
               onChange={(e) => setIncomeType(e.target.value as "monthly" | "annual")}
               className="px-3 py-3 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              <option value="annual">Annual (yearly)</option>
-              <option value="monthly">Monthly</option>
+              <option value="annual">{t.annual}</option>
+              <option value="monthly">{t.monthly}</option>
             </select>
           </div>
         </div>
@@ -205,35 +339,35 @@ export default function CarAffordabilityCalculator() {
         {/* Existing monthly debts */}
         <div>
           <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">
-            Existing Monthly Debt Payments
+            {t.debtsLabel}
           </p>
           <div className="grid grid-cols-2 gap-3">
-            <InputField label="Rent / Mortgage" value={rentMortgage} onChange={setRentMortgage} />
-            <InputField label="Credit Cards" value={creditCards} onChange={setCreditCards} />
-            <InputField label="Student Loans" value={studentLoans} onChange={setStudentLoans} />
-            <InputField label="Other Debts" value={otherDebts} onChange={setOtherDebts} />
+            <InputField label={t.rentMortgage} value={rentMortgage} onChange={setRentMortgage} />
+            <InputField label={t.creditCards} value={creditCards} onChange={setCreditCards} />
+            <InputField label={t.studentLoans} value={studentLoans} onChange={setStudentLoans} />
+            <InputField label={t.otherDebts} value={otherDebts} onChange={setOtherDebts} />
           </div>
         </div>
 
         {/* Vehicle running costs */}
         <div>
           <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">
-            Estimated Monthly Vehicle Costs
+            {t.vehicleCostsLabel}
           </p>
           <div className="grid grid-cols-2 gap-3">
-            <InputField label="Auto Insurance" value={insurance} onChange={setInsurance} hint="US avg ~$150/mo" />
-            <InputField label="Fuel / Charging" value={fuel} onChange={setFuel} hint="US avg ~$200/mo" />
+            <InputField label={t.autoInsurance} value={insurance} onChange={setInsurance} hint={t.insHint} />
+            <InputField label={t.fuelCharging} value={fuel} onChange={setFuel} hint={t.fuelHint} />
           </div>
         </div>
 
         {/* Loan params */}
         <div>
           <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3">
-            Loan Parameters
+            {t.loanParams}
           </p>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-[11px] text-slate-500 mb-1">APR (%)</label>
+              <label className="block text-[11px] text-slate-500 mb-1">{t.apr}</label>
               <div className="relative">
                 <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                 <input
@@ -244,7 +378,7 @@ export default function CarAffordabilityCalculator() {
               </div>
             </div>
             <div>
-              <label className="block text-[11px] text-slate-500 mb-1">Loan Term</label>
+              <label className="block text-[11px] text-slate-500 mb-1">{t.loanTerm}</label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
                 <select
@@ -252,40 +386,36 @@ export default function CarAffordabilityCalculator() {
                   onChange={(e) => setTerm(Number(e.target.value))}
                   className="w-full pl-9 pr-3 py-2.5 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
-                  {TERM_OPTIONS.map((t) => (
-                    <option key={t} value={t}>{t} months</option>
+                  {TERM_OPTIONS.map((termOpt) => (
+                    <option key={termOpt} value={termOpt}>{termOpt} {t.months}</option>
                   ))}
                 </select>
               </div>
             </div>
-            <InputField label="Down Payment ($)" value={downPayment} onChange={setDownPayment} />
-            <InputField label="Trade-In Value ($)" value={tradeIn} onChange={setTradeIn} />
+            <InputField label={t.downPayment} value={downPayment} onChange={setDownPayment} />
+            <InputField label={t.tradeIn} value={tradeIn} onChange={setTradeIn} />
           </div>
         </div>
 
         {/* Budget rule */}
         <div>
           <p className="text-xs font-bold text-slate-700 uppercase tracking-wide mb-3 flex items-center gap-1.5">
-            Budget Rule
+            {t.budgetRule}
             <span className="group relative inline-flex">
               <Info className="w-3.5 h-3.5 text-slate-400 cursor-help" />
               <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-56 p-2 bg-slate-800 text-white text-[11px] rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10">
-                The rule determines what percentage of gross monthly income can go to vehicle costs.
+                {t.budgetRuleTip}
               </span>
             </span>
           </p>
           <div className="grid grid-cols-3 gap-2">
-            {([
-              { id: "20/4/10", label: "20/4/10", sub: "10% of income" },
-              { id: "15pct", label: "15% Rule", sub: "15% of income" },
-              { id: "custom", label: "Custom %", sub: "set your own" },
-            ] as const).map(({ id, label, sub }) => (
+            {t.methods.map(({ id, label, sub }) => (
               <button
                 key={id}
                 type="button"
-                onClick={() => setMethod(id)}
+                onClick={() => setMethod(id as "20/4/10" | "15pct" | "custom")}
                 className={`px-3 py-2.5 rounded-xl border text-left transition-colors cursor-pointer ${
-                  method === id
+                  method === (id as string)
                     ? "bg-primary-50 border-primary-400 text-primary-700"
                     : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
                 }`}
@@ -314,13 +444,13 @@ export default function CarAffordabilityCalculator() {
             onClick={calculate}
             className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition-colors cursor-pointer"
           >
-            Calculate My Car Budget
+            {t.calculate}
           </button>
           <button
             type="button"
             onClick={reset}
             className="px-4 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl transition-colors cursor-pointer"
-            title="Reset"
+            title={t.reset}
           >
             <RefreshCcw className="w-4 h-4" />
           </button>
@@ -338,16 +468,16 @@ export default function CarAffordabilityCalculator() {
               <div className="flex-1 min-w-0">
                 <p className={`text-xs font-bold uppercase tracking-wide text-${ruleColor}-700 mb-1`}>
                   {results.ruleResult === "comfortable"
-                    ? "✓ Within Budget"
+                    ? t.withinBudget
                     : results.ruleResult === "stretched"
-                    ? "⚠ Slightly Stretched"
-                    : "✗ Over Recommended Limit"}
+                    ? t.stretched
+                    : t.overLimit}
                 </p>
                 <p className="text-3xl font-bold text-slate-900">
                   {fmt(results.maxCarPrice)}
                 </p>
                 <p className="text-sm text-slate-600 mt-1">
-                  Maximum recommended vehicle price based on your income and debts
+                  {t.maxPriceSub}
                 </p>
               </div>
             </div>
@@ -355,12 +485,12 @@ export default function CarAffordabilityCalculator() {
 
           {/* Key metrics grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <Metric label="Max Monthly Payment" value={fmtD(results.maxMonthlyPayment)} />
-            <Metric label="Gross Monthly Income" value={fmt(results.monthlyIncome)} />
+            <Metric label={t.metricMaxPayment} value={fmtD(results.maxMonthlyPayment)} />
+            <Metric label={t.metricGrossIncome} value={fmt(results.monthlyIncome)} />
             <Metric
-              label="Debt-to-Income Ratio"
+              label={t.metricDti}
               value={`${results.debtToIncomeRatio.toFixed(1)}%`}
-              sub={results.debtToIncomeRatio > 43 ? "Above 43% — risky" : results.debtToIncomeRatio > 36 ? "36–43% — stretched" : "Below 36% — healthy"}
+              sub={results.debtToIncomeRatio > 43 ? t.dtiHigh : results.debtToIncomeRatio > 36 ? t.dtiMid : t.dtiLow}
               warn={results.debtToIncomeRatio > 36}
             />
           </div>
@@ -368,7 +498,7 @@ export default function CarAffordabilityCalculator() {
           {/* Monthly budget bar */}
           <div className="bg-white border border-slate-200 rounded-xl p-5">
             <p className="text-xs font-bold text-slate-600 uppercase tracking-wide mb-4">
-              Monthly Budget Breakdown
+              {t.breakdownTitle}
             </p>
             <div className="flex rounded-full overflow-hidden h-4 mb-3">
               {results.breakdown.map((b) => {
@@ -383,7 +513,7 @@ export default function CarAffordabilityCalculator() {
                 );
               })}
               {/* Remaining */}
-              <div className="flex-1 bg-slate-100" title="Available after all obligations" />
+              <div className="flex-1 bg-slate-100" title={t.breakdownAvailable} />
             </div>
             <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-slate-600">
               {results.breakdown.map((b) => (
@@ -394,7 +524,7 @@ export default function CarAffordabilityCalculator() {
               ))}
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-sm inline-block bg-slate-100 border border-slate-300" />
-                Remaining — <strong>{fmt(Math.max(results.monthlyIncome - results.totalMonthlyObligations, 0))}</strong>
+                {t.breakdownRemaining} — <strong>{fmt(Math.max(results.monthlyIncome - results.totalMonthlyObligations, 0))}</strong>
               </span>
             </div>
           </div>
@@ -406,13 +536,13 @@ export default function CarAffordabilityCalculator() {
               <div>
                 <p className="font-bold text-amber-900 mb-1">
                   {results.ruleResult === "over"
-                    ? "Your debt-to-income ratio exceeds lender limits"
-                    : "You're approaching the recommended debt ceiling"}
+                    ? t.overTitle
+                    : t.stretchedTitle}
                 </p>
                 <p>
-                  Most lenders cap total monthly debt (including the new car payment) at{" "}
-                  <strong>43% of gross income</strong>. Consider a larger down payment, shorter
-                  loan term, or paying down existing debt before financing a vehicle.
+                  {t.dtiWarnPre}
+                  <strong>{t.dtiWarnBold}</strong>
+                  {t.dtiWarnSuffix}
                 </p>
               </div>
             </div>
@@ -421,31 +551,31 @@ export default function CarAffordabilityCalculator() {
           {/* CTA to loan calculator */}
           <div className="flex items-center justify-between gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
             <p className="text-sm text-slate-700">
-              Found your price range?{" "}
-              <span className="font-semibold text-slate-900">Calculate the exact monthly payment.</span>
+              {t.ctaText}
+              <span className="font-semibold text-slate-900">{t.ctaTextBold}</span>
             </p>
             <Link
-              href="/car-loan-calculator"
+              href={locale === "es" ? "/es/car-loan-calculator" : "/car-loan-calculator"}
               className="flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold rounded-lg transition-colors"
             >
-              Loan Calculator <ArrowRight className="w-3.5 h-3.5" />
+              {t.ctaButton} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Dropdown summary */}
           <details className="group bg-white border border-slate-200 rounded-xl overflow-hidden">
             <summary className="flex items-center justify-between px-5 py-3.5 cursor-pointer text-sm font-bold text-slate-900 select-none list-none">
-              How was this calculated?
+              {t.howCalculated}
               <ChevronDown className="w-4 h-4 text-slate-500 group-open:rotate-180 transition-transform" />
             </summary>
             <div className="px-5 pb-5 text-sm text-slate-600 leading-relaxed space-y-2 border-t border-slate-100 pt-4">
-              <p><strong>Step 1 — Monthly income:</strong> {fmtD(results.monthlyIncome)}</p>
-              <p><strong>Step 2 — Max vehicle cost ({method === "custom" ? customPct + "%" : method === "15pct" ? "15%" : "10%"} of income):</strong> {fmtD(results.monthlyIncome * (method === "custom" ? parseFloat(customPct) / 100 : method === "15pct" ? 0.15 : 0.10))}</p>
-              <p><strong>Step 3 — Subtract insurance + fuel:</strong> −{fmtD((parseFloat(insurance) || 0) + (parseFloat(fuel) || 0))}</p>
-              <p><strong>Step 4 — Max loan payment:</strong> {fmtD(results.maxMonthlyPayment)}</p>
-              <p><strong>Step 5 — Reverse loan formula → max principal:</strong> {fmt(results.maxCarPrice - (parseFloat(downPayment) || 0) - (parseFloat(tradeIn) || 0))}</p>
-              <p><strong>Step 6 — Add down payment + trade-in:</strong> + {fmt((parseFloat(downPayment) || 0) + (parseFloat(tradeIn) || 0))}</p>
-              <p className="font-bold text-slate-900 pt-1">= Max vehicle price: {fmt(results.maxCarPrice)}</p>
+              <p><strong>{t.step1}</strong> {fmtD(results.monthlyIncome)}</p>
+              <p><strong>{t.step2(method === "custom" ? customPct + "%" : method === "15pct" ? "15%" : "10%")}</strong> {fmtD(results.monthlyIncome * (method === "custom" ? parseFloat(customPct) / 100 : method === "15pct" ? 0.15 : 0.10))}</p>
+              <p><strong>{t.step3}</strong> −{fmtD((parseFloat(insurance) || 0) + (parseFloat(fuel) || 0))}</p>
+              <p><strong>{t.step4}</strong> {fmtD(results.maxMonthlyPayment)}</p>
+              <p><strong>{t.step5}</strong> {fmt(results.maxCarPrice - (parseFloat(downPayment) || 0) - (parseFloat(tradeIn) || 0))}</p>
+              <p><strong>{t.step6}</strong> + {fmt((parseFloat(downPayment) || 0) + (parseFloat(tradeIn) || 0))}</p>
+              <p className="font-bold text-slate-900 pt-1">{t.stepFinal} {fmt(results.maxCarPrice)}</p>
             </div>
           </details>
         </div>

@@ -12,6 +12,149 @@ import {
   AlertTriangle,
   Sparkles,
 } from "lucide-react";
+import type { Locale } from "@/i18n/config";
+
+/* ─── i18n strings ──────────────────────────────────────────── */
+
+const COPY = {
+  en: {
+    vehicleMake: "Vehicle Make",
+    makeHint: "Brand-specific retention multiplier applied",
+    vehicleType: "Vehicle Type",
+    typeHint: "Body style affects depreciation curve",
+    yearPurchased: "Year Purchased",
+    yearHint: "Used to project future-year values",
+    purchasePrice: "Purchase Price (USD)",
+    priceHint: "Original sticker / paid price",
+    annualMileage: "Annual Mileage",
+    mileageHint: "12k/yr is the industry baseline",
+    condition: "Condition Assumption",
+    conditionHint: "How well the vehicle is maintained over time",
+    calculate: "Calculate Depreciation",
+    reset: "Reset",
+    headline: "Your Car\u2019s Projected Value",
+    after1: "After 1 year",
+    after3: "After 3 years",
+    after5: "After 5 years",
+    after10: "After 10 years",
+    retainedShort: (pct: string) => `${pct}% retained`,
+    verdictGood: "Better than market average",
+    verdictBad: "Faster than market average",
+    verdictNeutral: "Roughly average depreciation",
+    verdictGoodDesc: (make: string) =>
+      `${make} historically retains more value than the average vehicle — a strong long-term financial choice.`,
+    verdictBadDesc: (make: string) =>
+      `${make} typically depreciates faster than the average vehicle. Consider buying used to let the prior owner absorb the steepest drop.`,
+    verdictNeutralDesc: (make: string) =>
+      `${make} depreciates close to the industry average for its segment.`,
+    curveTitle: "10-Year Depreciation Curve",
+    curveFooter: "Years from purchase \u00b7 Bar height = % of original price retained",
+    tooltipYear: (age: number, value: string, pct: string) =>
+      `Year ${age}: ${value} (${pct}%)`,
+    summaryTotalLost: "Total $ Lost (10 yrs)",
+    summaryWorstYear: "Worst Year",
+    summaryWorstYearLabel: (age: number) => `Year ${age}`,
+    summaryDropFmt: (pct: string) => `-${pct}% drop`,
+    summaryBrandMult: "Brand Multiplier",
+    summaryAbove: "Above average",
+    summaryBelow: "Below average",
+    summaryAvg: "Average",
+    tableTitle: "Year-by-Year Projected Value",
+    tableSpan: "10 years",
+    colCalendarYear: "Calendar Year",
+    colAge: "Age",
+    colProjectedValue: "Projected Value",
+    colLost: "$ Lost",
+    colRetained: "% Retained",
+    ageNew: "New",
+    ageYears: (age: number) => `${age} yr${age !== 1 ? "s" : ""}`,
+    disclaimer:
+      "Estimates use industry-composite depreciation curves with brand and body-type multipliers. Actual resale values vary by trim, region, mileage, and market conditions. For VIN-specific market value, run a free vehicle history report.",
+    vehicleTypeLabels: {
+      Sedan: "Sedan",
+      SUV: "SUV",
+      Truck: "Truck",
+      EV: "EV",
+      Luxury: "Luxury",
+      Sports: "Sports",
+      Minivan: "Minivan",
+    } as const,
+    conditionLabels: {
+      Excellent: "Excellent",
+      Good: "Good",
+      Fair: "Fair",
+    } as const,
+  },
+  es: {
+    vehicleMake: "Marca del vehículo",
+    makeHint: "Se aplica un multiplicador de retención específico por marca",
+    vehicleType: "Tipo de vehículo",
+    typeHint: "El tipo de carrocería afecta la curva de depreciación",
+    yearPurchased: "Año de compra",
+    yearHint: "Se usa para proyectar valores en años futuros",
+    purchasePrice: "Precio de compra (USD)",
+    priceHint: "Precio original / pagado",
+    annualMileage: "Kilometraje anual (millas)",
+    mileageHint: "12k/año es la base de la industria",
+    condition: "Suposición de condición",
+    conditionHint: "Qué tan bien se mantiene el vehículo con el tiempo",
+    calculate: "Calcular depreciación",
+    reset: "Reiniciar",
+    headline: "Valor proyectado de tu auto",
+    after1: "Después de 1 año",
+    after3: "Después de 3 años",
+    after5: "Después de 5 años",
+    after10: "Después de 10 años",
+    retainedShort: (pct: string) => `${pct}% retenido`,
+    verdictGood: "Mejor que el promedio del mercado",
+    verdictBad: "Más rápido que el promedio del mercado",
+    verdictNeutral: "Depreciación cercana al promedio",
+    verdictGoodDesc: (make: string) =>
+      `${make} históricamente retiene más valor que el vehículo promedio — una sólida elección financiera a largo plazo.`,
+    verdictBadDesc: (make: string) =>
+      `${make} normalmente se deprecia más rápido que el vehículo promedio. Considera comprar usado para dejar que el propietario anterior absorba la caída más fuerte.`,
+    verdictNeutralDesc: (make: string) =>
+      `${make} se deprecia cerca del promedio de la industria para su segmento.`,
+    curveTitle: "Curva de depreciación a 10 años",
+    curveFooter:
+      "Años desde la compra \u00b7 Altura de barra = % del precio original retenido",
+    tooltipYear: (age: number, value: string, pct: string) =>
+      `Año ${age}: ${value} (${pct}%)`,
+    summaryTotalLost: "Total perdido $ (10 años)",
+    summaryWorstYear: "Peor año",
+    summaryWorstYearLabel: (age: number) => `Año ${age}`,
+    summaryDropFmt: (pct: string) => `-${pct}% de caída`,
+    summaryBrandMult: "Multiplicador de marca",
+    summaryAbove: "Por encima del promedio",
+    summaryBelow: "Por debajo del promedio",
+    summaryAvg: "Promedio",
+    tableTitle: "Valor proyectado año por año",
+    tableSpan: "10 años",
+    colCalendarYear: "Año calendario",
+    colAge: "Edad",
+    colProjectedValue: "Valor proyectado",
+    colLost: "$ perdido",
+    colRetained: "% retenido",
+    ageNew: "Nuevo",
+    ageYears: (age: number) => `${age} año${age !== 1 ? "s" : ""}`,
+    disclaimer:
+      "Las estimaciones usan curvas de depreciación compuestas de la industria con multiplicadores de marca y tipo de carrocería. Los valores reales de reventa varían por versión, región, kilometraje y condiciones de mercado. Para el valor de mercado específico por VIN, ejecuta un reporte de historial gratis.",
+    vehicleTypeLabels: {
+      Sedan: "Sedán",
+      SUV: "SUV",
+      Truck: "Camioneta",
+      EV: "EV",
+      Luxury: "Lujo",
+      Sports: "Deportivo",
+      Minivan: "Minivan",
+    } as const,
+    conditionLabels: {
+      Excellent: "Excelente",
+      Good: "Buena",
+      Fair: "Regular",
+    } as const,
+  },
+} as const;
 
 /* ─── Data ──────────────────────────────────────────────────── */
 
@@ -134,14 +277,6 @@ function retentionAtAge(age: number): number {
   return AGE_RETENTION[age] ?? 0.28;
 }
 
-function fmtUSD(n: number) {
-  return n.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  });
-}
-
 interface YearRow {
   year: number;
   age: number;
@@ -163,7 +298,18 @@ interface DepreciationResult {
 
 /* ─── Component ─────────────────────────────────────────────── */
 
-export default function CarDepreciationCalculator() {
+interface CalcProps {
+  locale?: Locale;
+}
+
+export default function CarDepreciationCalculator({ locale = "en" }: CalcProps) {
+  const t = COPY[locale];
+  const fmtMoney = (n: number) =>
+    n.toLocaleString(locale === "es" ? "es-US" : "en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    });
   const [make, setMake] = useState<string>("Toyota");
   const [yearPurchased, setYearPurchased] = useState<string>(String(CURRENT_YEAR));
   const [purchasePrice, setPurchasePrice] = useState<string>("35000");
@@ -244,20 +390,20 @@ export default function CarDepreciationCalculator() {
   const verdict = result
     ? result.brandMult > 1.02
       ? {
-          label: "Better than market average",
+          label: t.verdictGood,
           tone: "good" as const,
-          desc: `${make} historically retains more value than the average vehicle — a strong long-term financial choice.`,
+          desc: t.verdictGoodDesc(make),
         }
       : result.brandMult < 0.95
         ? {
-            label: "Faster than market average",
+            label: t.verdictBad,
             tone: "bad" as const,
-            desc: `${make} typically depreciates faster than the average vehicle. Consider buying used to let the prior owner absorb the steepest drop.`,
+            desc: t.verdictBadDesc(make),
           }
         : {
-            label: "Roughly average depreciation",
+            label: t.verdictNeutral,
             tone: "neutral" as const,
-            desc: `${make} depreciates close to the industry average for its segment.`,
+            desc: t.verdictNeutralDesc(make),
           }
     : null;
 
@@ -272,7 +418,7 @@ export default function CarDepreciationCalculator() {
               htmlFor="make"
               className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5"
             >
-              Vehicle Make
+              {t.vehicleMake}
             </label>
             <div className="relative">
               <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -289,9 +435,7 @@ export default function CarDepreciationCalculator() {
                 ))}
               </select>
             </div>
-            <p className="mt-1 text-[11px] text-slate-500">
-              Brand-specific retention multiplier applied
-            </p>
+            <p className="mt-1 text-[11px] text-slate-500">{t.makeHint}</p>
           </div>
 
           {/* Vehicle Type */}
@@ -300,7 +444,7 @@ export default function CarDepreciationCalculator() {
               htmlFor="vtype"
               className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5"
             >
-              Vehicle Type
+              {t.vehicleType}
             </label>
             <div className="relative">
               <Sparkles className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -310,55 +454,53 @@ export default function CarDepreciationCalculator() {
                 onChange={(e) => setVehicleType(e.target.value as VehicleType)}
                 className="w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
-                {VEHICLE_TYPES.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
+                {VEHICLE_TYPES.map((vt) => (
+                  <option key={vt} value={vt}>
+                    {t.vehicleTypeLabels[vt]}
                   </option>
                 ))}
               </select>
             </div>
-            <p className="mt-1 text-[11px] text-slate-500">
-              Body style affects depreciation curve
-            </p>
+            <p className="mt-1 text-[11px] text-slate-500">{t.typeHint}</p>
           </div>
 
           {/* Year Purchased */}
           <Field
             id="year"
-            label="Year Purchased"
+            label={t.yearPurchased}
             icon={<Calendar className="w-4 h-4 text-slate-400" />}
             value={yearPurchased}
             onChange={setYearPurchased}
             type="number"
             min="1990"
             placeholder={String(CURRENT_YEAR)}
-            hint="Used to project future-year values"
+            hint={t.yearHint}
           />
 
           {/* Purchase Price */}
           <Field
             id="price"
-            label="Purchase Price (USD)"
+            label={t.purchasePrice}
             icon={<DollarSign className="w-4 h-4 text-slate-400" />}
             value={purchasePrice}
             onChange={setPurchasePrice}
             type="number"
             min="0"
             placeholder="35,000"
-            hint="Original sticker / paid price"
+            hint={t.priceHint}
           />
 
           {/* Annual Mileage */}
           <Field
             id="mileage"
-            label="Annual Mileage"
+            label={t.annualMileage}
             icon={<Gauge className="w-4 h-4 text-slate-400" />}
             value={annualMileage}
             onChange={setAnnualMileage}
             type="number"
             min="0"
             placeholder="12,000"
-            hint="12k/yr is the industry baseline"
+            hint={t.mileageHint}
           />
 
           {/* Condition */}
@@ -367,7 +509,7 @@ export default function CarDepreciationCalculator() {
               htmlFor="cond"
               className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5"
             >
-              Condition Assumption
+              {t.condition}
             </label>
             <div className="relative">
               <Sparkles className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
@@ -379,14 +521,12 @@ export default function CarDepreciationCalculator() {
               >
                 {CONDITIONS.map((c) => (
                   <option key={c} value={c}>
-                    {c}
+                    {t.conditionLabels[c]}
                   </option>
                 ))}
               </select>
             </div>
-            <p className="mt-1 text-[11px] text-slate-500">
-              How well the vehicle is maintained over time
-            </p>
+            <p className="mt-1 text-[11px] text-slate-500">{t.conditionHint}</p>
           </div>
         </div>
 
@@ -397,13 +537,13 @@ export default function CarDepreciationCalculator() {
             className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition-colors cursor-pointer"
           >
             <TrendingDown className="w-4 h-4" />
-            Calculate Depreciation
+            {t.calculate}
           </button>
           <button
             type="button"
             onClick={reset}
             className="px-4 py-3.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-medium rounded-xl transition-colors cursor-pointer"
-            title="Reset"
+            title={t.reset}
           >
             <RefreshCcw className="w-4 h-4" />
           </button>
@@ -414,22 +554,22 @@ export default function CarDepreciationCalculator() {
       {result && (
         <div className="space-y-5">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            Your Car&rsquo;s Projected Value
+            {t.headline}
           </h2>
 
           {/* Highlight cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: "After 1 year", row: result.rows[1], highlight: true },
-              { label: "After 3 years", row: result.rows[3] },
-              { label: "After 5 years", row: result.rows[5] },
-              { label: "After 10 years", row: result.rows[10], muted: true },
+              { label: t.after1, row: result.rows[1], highlight: true },
+              { label: t.after3, row: result.rows[3] },
+              { label: t.after5, row: result.rows[5] },
+              { label: t.after10, row: result.rows[10], muted: true },
             ].map(({ label, row, highlight, muted }) => (
               <HighlightCard
                 key={label}
                 label={label}
-                value={fmtUSD(row.value)}
-                sub={`${row.retainedPct.toFixed(0)}% retained`}
+                value={fmtMoney(row.value)}
+                sub={t.retainedShort(row.retainedPct.toFixed(0))}
                 highlight={highlight}
                 muted={muted}
               />
@@ -465,10 +605,10 @@ export default function CarDepreciationCalculator() {
           <div className="bg-white border border-slate-200 rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wide">
-                10-Year Depreciation Curve
+                {t.curveTitle}
               </p>
               <span className="text-[11px] text-slate-500">
-                {fmtUSD(result.purchasePrice)} → {fmtUSD(result.rows[10].value)}
+                {fmtMoney(result.purchasePrice)} → {fmtMoney(result.rows[10].value)}
               </span>
             </div>
             <div className="grid grid-cols-11 gap-1.5 items-end h-44">
@@ -479,7 +619,7 @@ export default function CarDepreciationCalculator() {
                   <div
                     key={row.age}
                     className="flex flex-col items-center justify-end h-full gap-1 group"
-                    title={`Year ${row.age}: ${fmtUSD(row.value)} (${row.retainedPct.toFixed(0)}%)`}
+                    title={t.tooltipYear(row.age, fmtMoney(row.value), row.retainedPct.toFixed(0))}
                   >
                     <div
                       className={`w-full rounded-t-md transition-colors ${
@@ -497,31 +637,31 @@ export default function CarDepreciationCalculator() {
               })}
             </div>
             <p className="mt-3 text-[11px] text-slate-500 text-center">
-              Years from purchase &middot; Bar height = % of original price retained
+              {t.curveFooter}
             </p>
           </div>
 
           {/* Summary metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <SummaryCard
-              label="Total $ Lost (10 yrs)"
-              value={fmtUSD(result.totalLost)}
+              label={t.summaryTotalLost}
+              value={fmtMoney(result.totalLost)}
               tone="bad"
             />
             <SummaryCard
-              label="Worst Year"
-              value={`Year ${result.worstYear.age}`}
-              sub={`-${result.worstYear.yoyDropPct.toFixed(0)}% drop`}
+              label={t.summaryWorstYear}
+              value={t.summaryWorstYearLabel(result.worstYear.age)}
+              sub={t.summaryDropFmt(result.worstYear.yoyDropPct.toFixed(0))}
             />
             <SummaryCard
-              label="Brand Multiplier"
+              label={t.summaryBrandMult}
               value={`${result.brandMult.toFixed(2)}x`}
               sub={
                 result.brandMult > 1
-                  ? "Above average"
+                  ? t.summaryAbove
                   : result.brandMult < 1
-                    ? "Below average"
-                    : "Average"
+                    ? t.summaryBelow
+                    : t.summaryAvg
               }
               tone={
                 result.brandMult > 1.02
@@ -536,20 +676,18 @@ export default function CarDepreciationCalculator() {
           {/* Year-by-year table */}
           <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
             <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-900">
-                Year-by-Year Projected Value
-              </h3>
-              <span className="text-xs text-slate-500">10 years</span>
+              <h3 className="text-sm font-bold text-slate-900">{t.tableTitle}</h3>
+              <span className="text-xs text-slate-500">{t.tableSpan}</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 text-slate-600 text-xs">
                   <tr>
-                    <th className="text-left px-4 py-2.5 font-medium">Calendar Year</th>
-                    <th className="text-left px-4 py-2.5 font-medium">Age</th>
-                    <th className="text-right px-4 py-2.5 font-medium">Projected Value</th>
-                    <th className="text-right px-4 py-2.5 font-medium">$ Lost</th>
-                    <th className="text-right px-4 py-2.5 font-medium">% Retained</th>
+                    <th className="text-left px-4 py-2.5 font-medium">{t.colCalendarYear}</th>
+                    <th className="text-left px-4 py-2.5 font-medium">{t.colAge}</th>
+                    <th className="text-right px-4 py-2.5 font-medium">{t.colProjectedValue}</th>
+                    <th className="text-right px-4 py-2.5 font-medium">{t.colLost}</th>
+                    <th className="text-right px-4 py-2.5 font-medium">{t.colRetained}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -570,13 +708,13 @@ export default function CarDepreciationCalculator() {
                           {row.year}
                         </td>
                         <td className="px-4 py-2.5 text-slate-600">
-                          {row.age === 0 ? "New" : `${row.age} yr${row.age !== 1 ? "s" : ""}`}
+                          {row.age === 0 ? t.ageNew : t.ageYears(row.age)}
                         </td>
                         <td className="px-4 py-2.5 text-right font-bold text-slate-900">
-                          {fmtUSD(row.value)}
+                          {fmtMoney(row.value)}
                         </td>
                         <td className="px-4 py-2.5 text-right text-rose-600">
-                          {row.lost > 0 ? `-${fmtUSD(row.lost)}` : "—"}
+                          {row.lost > 0 ? `-${fmtMoney(row.lost)}` : "—"}
                         </td>
                         <td className="px-4 py-2.5 text-right text-emerald-700 font-medium">
                           {row.retainedPct.toFixed(0)}%
@@ -589,11 +727,7 @@ export default function CarDepreciationCalculator() {
             </div>
           </div>
 
-          <p className="text-[11px] text-slate-500 leading-relaxed">
-            Estimates use industry-composite depreciation curves with brand and body-type
-            multipliers. Actual resale values vary by trim, region, mileage, and market
-            conditions. For VIN-specific market value, run a free vehicle history report.
-          </p>
+          <p className="text-[11px] text-slate-500 leading-relaxed">{t.disclaimer}</p>
         </div>
       )}
     </div>
