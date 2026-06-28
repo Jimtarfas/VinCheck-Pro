@@ -353,7 +353,7 @@ function PhotoGallery({
           {/* first thumb = the one real photo */}
           <div className="relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden ring-2 ring-primary">
             <div className="absolute inset-0" style={{ transform: "scale(1.08)" }}>
-              <Image src={photos[0]} alt="Photo 1" fill className="object-cover" sizes="80px" />
+              <Image src={photos[0]} alt="Photo 1" fill className={`object-cover${mainImageClassName ? ` ${mainImageClassName}` : ""}`} sizes="80px" />
             </div>
           </div>
           {Array.from({ length: Math.min((lockedPhotoCount ?? 1) - 1, 8) }).map((_, i, arr) => {
