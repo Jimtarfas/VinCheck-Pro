@@ -240,6 +240,113 @@ const COPY = {
       "Los códigos de problema recurrentes pueden insinuar daño oculto por accidente, historial de inundación o reconstrucciones de salvamento. Ejecuta una revisión VIN gratis para ver el historial completo del vehículo antes de comprar.",
     bottomCtaButton: "Ejecutar revisión VIN gratis",
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "Recherche de codes OBD-II",
+    h1: "Recherche de codes OBD-II gratuite",
+    heroLead:
+      "Décode instantanément n'importe quel code de check engine. Recherche par code ou mot-clé pour voir la signification, les symptômes, les causes probables, la sévérité, la difficulté DIY et le coût estimé de réparation. Gratuit, sans inscription, couvre tous les codes génériques et spécifiques aux fabricants courants.",
+    whatHeading: "Qu'est-ce qu'un code OBD-II ?",
+    whatP1:
+      "Un code OBD-II — également appelé Diagnostic Trouble Code ou DTC — est un code à 5 caractères stocké dans l'ordinateur de ton véhicule lorsqu'il détecte une défaillance. Chaque voiture vendue aux États-Unis depuis 1996 utilise ce même standard (défini dans SAE J2012), c'est pourquoi le même scanner fonctionne sur une Honda Civic, une Ford F-150 et une BMW Série 3.",
+    whatP2Pre: "Le format est toujours :",
+    whatP2Format: "une lettre + quatre chiffres",
+    whatP2Mid: ". La lettre identifie le système. Le premier chiffre (0 ou 1) te dit si le code est générique ou spécifique au fabricant. Les trois chiffres restants identifient la défaillance spécifique. Donc",
+    whatP2Code1: "P0420",
+    whatP2Middle2: "est un code générique de",
+    whatP2Powertrain: "groupe motopropulseur",
+    whatP2Middle3: ", tandis que",
+    whatP2Code2: "P1399",
+    whatP2Suffix: "est un code de groupe motopropulseur spécifique au fabricant (Honda, dans ce cas).",
+    categoriesHeading: "Catégories de codes expliquées",
+    categories: [
+      {
+        name: "Groupe motopropulseur",
+        catLabel: "Catégorie P",
+        desc: "Moteur, transmission, système de carburant, allumage, émissions. La plus grande catégorie — environ 70% des codes que la plupart des conducteurs rencontrent.",
+      },
+      {
+        name: "Carrosserie",
+        catLabel: "Catégorie B",
+        desc: "Airbags (SRS), contrôle climatique, éclairage, vitres électriques, sièges et électronique intérieure.",
+      },
+      {
+        name: "Châssis",
+        catLabel: "Catégorie C",
+        desc: "ABS, contrôle de traction, contrôle de stabilité, suspension, direction, pression des pneus (TPMS).",
+      },
+      {
+        name: "Réseau / Communication",
+        catLabel: "Catégorie U",
+        desc: "Défaillances du bus CAN et de la communication inter-modules — quand les modules ne peuvent pas se parler sur le réseau interne du véhicule.",
+      },
+    ],
+    examplesPrefix: "Exemples :",
+    topHeading: "Top 20 des codes OBD-II les plus courants",
+    topIntro: "Ce sont les codes que les mécaniciens voient le plus souvent. Clique sur n'importe quel code pour le décoder.",
+    severityHeading: "Niveaux de sévérité expliqués",
+    severityLow: "Faible",
+    severityLowDesc:
+      "Problème mineur. Continue à conduire normalement ; règle quand c'est pratique ou avant un test d'émissions. Exemples : bouchon de réservoir desserré, petite fuite EVAP, défaillance du chauffage du capteur O2.",
+    severityMod: "Modéré",
+    severityModDesc:
+      "Règle dans quelques semaines. Affecte l'économie de carburant ou les émissions mais pas la conduite. Exemples : MAF sale, capteur O2 lent, condition légère pauvre/riche.",
+    severityHigh: "Élevé",
+    severityHighDesc:
+      "Répare dès que possible. Continuer à conduire peut endommager des composants coûteux. Exemples : ratés d'allumage, défaillances de solénoïde de transmission, efficacité du catalyseur.",
+    severityCritical: "Critique",
+    severityCriticalDesc:
+      "Arrête de conduire. Remorque jusqu'à un atelier de réparation. Risque de défaillance du système de sécurité ou de dommages majeurs au moteur/transmission. Exemples : défaillances du circuit de déploiement d'airbag, perte de communication PCM.",
+    withoutScannerHeading: "Comment lire les codes OBD sans scanner",
+    withoutScannerIntro:
+      "La plupart des voitures modernes nécessitent un scanner pour lire les codes de problème — mais il existe quelques options gratuites avant de dépenser de l'argent :",
+    withoutScannerBullets: [
+      { title: "Utilise un scan gratuit en magasin", detail: "AutoZone, O'Reilly, Advance Auto Parts et la plupart des chaînes régionales scanneront tes codes gratuitement. Ils imprimeront les codes — ramène l'impression à la maison et décode chacun ici." },
+      { title: "Achète un dongle Bluetooth à 20 USD", detail: "Un dongle Bluetooth OBD-II compatible ELM327 plus une application gratuite comme Torque, Car Scanner ou OBD Auto Doctor peut lire les codes, les effacer et afficher les données en direct sur ton téléphone. Fortement recommandé si tu prévois de garder des véhicules plus anciens." },
+      { title: "Vérifie la méthode du cycle de clé (vieilles voitures uniquement)", detail: "Certains véhicules pré-2005 de GM, Chrysler et Honda affichent les codes sur le tableau de bord en cyclant la clé d'allumage (typiquement ON-OFF-ON-OFF-ON sans démarrer). Cela fonctionne rarement sur les véhicules modernes. Recherche ton année/marque/modèle spécifique pour confirmer." },
+      { title: "Utilise les applications iPhone ou Android du constructeur", detail: "Certains véhicules (nouvelles Tesla, voitures GM avec OnStar, Ford avec FordPass) affichent les codes de défaillance directement dans l'application du constructeur sans nécessiter de scanner." },
+    ],
+    driveHeading: "Quand conduire vs remorquer",
+    driveOkHeading: "OK pour conduire (avec prudence)",
+    driveOkBullets: [
+      "Voyant check engine fixe (non clignotant)",
+      "Codes EVAP / bouchon de réservoir (série P0440, P0455-P0457)",
+      "La plupart des défaillances du chauffage du capteur O2",
+      "Codes d'efficacité du catalyseur (P0420 / P0430)",
+      "Défaillances du circuit de température du liquide de refroidissement (P0117 / P0118)",
+    ],
+    driveTowHeading: "Arrête et remorque",
+    driveTowBullets: [
+      "Voyant check engine clignotant (raté d'allumage actif)",
+      "Codes airbag/SRS de sévérité critique (série B0001)",
+      "Avertissement de basse pression d'huile ou de surchauffe",
+      "Perte de communication avec le PCM (U0100)",
+      "Changements durs / codes de transmission en mode dégradé",
+    ],
+    driveRuleLabel: "Règle générale :",
+    driveRule:
+      "si le voyant check engine clignote, range-toi sur le côté dans un mile et coupe le moteur. Continuer à conduire avec un raté d'allumage actif peut détruire un catalyseur de 1 500 USD+ en moins de 10 minutes.",
+    crossLinks: [
+      { label: "Vérification VIN gratuite", sub: "Rapport complet d'historique véhiculaire" },
+      { label: "Recherche de rappels", sub: "Rappels de sécurité NHTSA ouverts" },
+      { label: "Étiquette Monroney", sub: "Équipement et options d'origine" },
+    ],
+    faqHeading: "Questions fréquemment posées",
+    faqs: [
+      { q: "Que signifie un code OBD-II ?", a: "C'est un code à 5 caractères (1 lettre + 4 chiffres) stocké par l'ordinateur de ta voiture lorsqu'il détecte une défaillance. La lettre identifie le système affecté : P=Groupe motopropulseur, B=Carrosserie, C=Châssis, U=Réseau." },
+      { q: "Est-il sûr de conduire avec le voyant check engine allumé ?", a: "Un CEL fixe est généralement OK pour rentrer à la maison, mais un CEL clignotant signifie un raté d'allumage actif — range-toi sur le côté et évite de conduire pour prévenir les dommages au catalyseur." },
+      { q: "Que signifie P0420 ?", a: "P0420 est 'Catalyst System Efficiency Below Threshold (Bank 1)' — ton catalyseur ne fonctionne pas efficacement. Souvent causé par un cat usé, un capteur O2 défectueux ou une fuite d'échappement. Réparation : 200 à 2 500 USD." },
+      { q: "Effacer les codes OBD passera-t-il un test d'émissions ?", a: "Non — effacer les codes réinitialise les moniteurs de préparation. La plupart des États exigent que les moniteurs soient 'définis' avant le test, ce qui prend 50 à 200 miles de conduite normale à travers plusieurs cycles de conduite." },
+      { q: "Un voyant check engine peut-il revenir après l'avoir effacé ?", a: "Oui, si le problème sous-jacent n'est pas corrigé. De nombreux codes reviendront dans 1 à 3 cycles de conduite. Toujours diagnostiquer et réparer la cause racine avant d'effacer." },
+      { q: "Quelle est la différence entre les codes génériques et spécifiques au fabricant ?", a: "Les codes génériques (P0XXX) sont les mêmes chez tous les fabricants. Les codes spécifiques au fabricant (P1XXX, B1XXX, C1XXX, U1XXX) sont définis par le constructeur automobile et peuvent signifier des choses différentes sur des marques différentes." },
+      { q: "Combien coûte la réparation d'un voyant check engine ?", a: "De 0 USD (serrer le bouchon du réservoir) à 4 000 USD+ (reconstruction de transmission). Décode d'abord le code spécifique pour établir la bonne attente — cet outil te donne une fourchette de coûts pour chaque code." },
+      { q: "Puis-je lire les codes OBD-II sans scanner ?", a: "Sur la plupart des véhicules modernes, non — tu as besoin d'un outil de scan. Un dongle Bluetooth de 20 à 40 USD couplé à une application téléphone gratuite est l'option la moins chère. La plupart des magasins de pièces automobiles scanneront aussi tes codes gratuitement." },
+    ],
+    bottomCtaHeading: "Tu achètes une voiture d'occasion avec des codes actifs ?",
+    bottomCtaBody:
+      "Des codes de problème récurrents peuvent suggérer des dommages d'accident cachés, un historique d'inondation ou des reconstructions salvage. Exécute une vérification VIN gratuite pour voir l'historique complet du véhicule avant d'acheter.",
+    bottomCtaButton: "Exécuter une vérification VIN gratuite",
+  },
 } as const;
 
 const TOP_20_CODES = [

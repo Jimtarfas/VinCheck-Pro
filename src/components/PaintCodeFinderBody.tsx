@@ -221,6 +221,107 @@ const COPY = {
     ctaBottomSub: "Ingresa un VIN de 17 caracteres para obtener el código de pintura de fábrica y el nombre del color — o navega el directorio de marcas arriba para coincidir un nombre con su código.",
     ctaBottomNote: "Sin tarjeta de crédito · Sin registro · Gratis",
   },
+  fr: {
+    home: "Accueil", crumb: "Recherche de code peinture",
+    badge: "Trouver un code couleur   ·   VIN · Marque · Nom de couleur",
+    h1Lead: "Recherche de code peinture — ",
+    h1Accent: "Trouve le code couleur de n'importe quelle voiture",
+    introPre: "Trois fa\u00E7ons de trouver le code peinture d'usine exact d'un v\u00E9hicule : saisis le VIN, parcours par marque, ou associe un nom de couleur d'usine \u00E0 son code. R\u00E9pertoire gratuit de couleurs OEM pour ",
+    introSuffix: "+ constructeurs \u2014 parfait pour la peinture de retouche, la correspondance en carrosserie ou pour v\u00E9rifier une repeinte.",
+    formHeading: "Trouve ton code peinture par VIN",
+    formSub: "Saisis n'importe quel VIN de 17 caract\u00E8res \u2014 nous renverrons le code peinture OEM et le nom de couleur d'usine",
+    formNote: "Gratuit · Sans inscription · R\u00E9sultat instantan\u00E9",
+    trustStats: [
+      { icon: Palette, value: "30+", label: "marques au r\u00E9pertoire" },
+      { icon: Shield, value: "OEM", label: "codes couleur d'usine" },
+      { icon: Zap, value: "3 fa\u00E7ons", label: "VIN · marque · nom" },
+      { icon: BadgeCheck, value: "Gratuit", label: "sans inscription" },
+    ],
+    h2Methods: "Trois fa\u00E7ons de trouver un code peinture",
+    methodsIntro: "Choisis la m\u00E9thode qui correspond \u00E0 ce que tu sais d\u00E9j\u00E0. Elles m\u00E8nent toutes au m\u00EAme endroit \u2014 le code d'usine exact dont ton fournisseur de peinture a besoin.",
+    methods: [
+      { tag: "M\u00E9thode 1", title: "Par VIN \u2014 le plus pr\u00E9cis", body: "Saisis le VIN de 17 caract\u00E8res et obtiens le code peinture d'usine et le nom de couleur en quelques secondes. Id\u00E9al quand l'autocollant du montant de porte est d\u00E9color\u00E9, d\u00E9coll\u00E9 ou remplac\u00E9 apr\u00E8s un travail de carrosserie. Le code est li\u00E9 au VIN, donc il ne dispara\u00EEt jamais." },
+      { tag: "M\u00E9thode 2", title: "Par autocollant du montant de porte", body: "Ouvre la porti\u00E8re conducteur et lis l'\u00E9tiquette de service. Le code peinture se trouve \u00E0 c\u00F4t\u00E9 d'une ligne marqu\u00E9e Color, Paint, EXT, PNT, BC/CC, Lack ou C/TR. Le r\u00E9pertoire de marques ci-dessous t'indique le mot exact de l'\u00E9tiquette et l'emplacement pour ta marque." },
+      { tag: "M\u00E9thode 3", title: "Par nom de couleur d'usine", body: "Tu connais d\u00E9j\u00E0 le nom commercial \u2014 'Magnetic Metallic', 'Soul Red Crystal', 'Pearl White' ? Associe-le \u00E0 son code OEM exact dans le r\u00E9pertoire des couleurs par marque ci-dessous, puis confirme par VIN avant de commander la peinture." },
+    ],
+    h2Directory: "Trouve ton code peinture par marque et nom de couleur",
+    directoryIntroPre: "Parcours les ",
+    directoryIntroMid: " constructeurs ci-dessous. Chaque carte indique o\u00F9 se cache l'autocollant, le format du code et de vrais noms de couleurs d'usine associ\u00E9s \u00E0 leurs codes OEM exacts. Trouve ta couleur, puis confirme le code pr\u00E9cis pour ton ann\u00E9e mod\u00E8le par VIN.",
+    paintCodesSuffix: "Codes peinture",
+    labelWord: "\u00C9tiquette :",
+    formatWord: "Format :",
+    seeFullPre: "Voir le localisateur complet d'autocollants ",
+    seeFullSuffix: "",
+    directoryFooterPre: "Les noms et codes de couleurs sont des exemples illustratifs tir\u00E9s de la litt\u00E9rature de service OEM \u2014 les codes r\u00E9els varient selon le mod\u00E8le, l'ann\u00E9e et la r\u00E9gion. Confirme toujours le code exact pour ton v\u00E9hicule via la ",
+    directoryFooterLink: "recherche de code peinture par VIN",
+    directoryFooterSuffix: " avant de commander la peinture.",
+    h2Why: "Pourquoi le nom de couleur seul ne suffit pas",
+    whyIntro: "Un nom de couleur t'approche. Le code te donne la correspondance exacte. Voici pourquoi trouver le code \u2014 pas seulement le nom \u2014 est l'\u00E9tape qui compte.",
+    colorNameTag: "Nom de couleur",
+    colorNameValue: "\u201CPearl White\u201D",
+    colorNameBullets: [
+      "Un terme marketing \u2014 r\u00E9utilis\u00E9 d'une ann\u00E9e et version \u00E0 l'autre.",
+      "Plusieurs marques utilisent des noms presque identiques pour des couleurs diff\u00E9rentes.",
+      "Peut correspondre \u00E0 plusieurs codes selon l'ann\u00E9e mod\u00E8le.",
+      "Pas assez pr\u00E9cis pour m\u00E9langer la peinture seul.",
+    ],
+    paintCodeTag: "Code peinture",
+    paintCodeValue: "QAB",
+    paintCodeBullets: [
+      "Li\u00E9 \u00E0 une formulation d'usine sp\u00E9cifique.",
+      "Ce que chaque fournisseur de peinture et carrossier utilise vraiment.",
+      "Unique par variante \u2014 m\u00EAme quand le nom est inchang\u00E9.",
+      "La seule entr\u00E9e fiable pour une r\u00E9paration invisible.",
+    ],
+    midCtaHeading: "Confirme le code exact par VIN",
+    midCtaSub: "Tu as trouv\u00E9 ta couleur ci-dessus ? Verrouille le code pr\u00E9cis pour ton ann\u00E9e mod\u00E8le. Recherche gratuite par VIN, directement depuis le dossier de fabrication du constructeur.",
+    h2TouchUp: "Tu as le code \u2014 trouve maintenant la bonne peinture",
+    touchUp1Pre: "Une fois que tu as le code d'usine, commander la bonne peinture est simple \u2014 \u00E0 condition de donner au fournisseur le ",
+    touchUp1Bold: "code, pas le nom de la couleur",
+    touchUp1Suffix: ". Le code identifie la formule de mani\u00E8re unique ; le nom est du marketing.",
+    touchUp2: "Pour les petits \u00E9clats de gravillons, un stylo de retouche au code d'usine convient. Pour quelque chose de plus grand, ou pour toute finition nacr\u00E9e/tri-couches, un stylo monocouche para\u00EEtra l\u00E9g\u00E8rement diff\u00E9rent \u2014 ces couleurs sont compos\u00E9es de plusieurs couches et n\u00E9cessitent un carrossier pour reproduire la profondeur.",
+    touchUp3Pre: "Tu ach\u00E8tes une voiture d'occasion et la couleur actuelle ne correspond pas au code d'usine ? Le v\u00E9hicule a \u00E9t\u00E9 repeint. Lance une ",
+    touchUp3Link: "v\u00E9rification de l'historique d'accidents",
+    touchUp3Suffix: " pour savoir si c'\u00E9tait une r\u00E9paration post-collision.",
+    checklistTitle: "Check-list rapide de retouche",
+    checklist: [
+      "Commande par code \u2014 jamais par nom de couleur seul",
+      "Associe le code \u00E0 ton ann\u00E9e mod\u00E8le exacte",
+      "Nacr\u00E9 ou tri-couches ? Utilise un carrossier, pas un stylo",
+      "Nettoie et d\u00E9graisse avant toute application",
+      "Applique en couches fines ; laisse chaque couche s\u00E9cher compl\u00E8tement",
+      "Photographie l'autocollant du montant de porte pour la prochaine fois",
+    ],
+    checklistCta: "Tu n'as pas encore le code ? Trouve-le par VIN :",
+    h2Elsewhere: "Autocollant disparu ? Autres endroits o\u00F9 le code se cache",
+    elsewhereIntro: "Si l'\u00E9tiquette du montant de porte conducteur est d\u00E9color\u00E9e ou absente, le code est g\u00E9n\u00E9ralement sauvegard\u00E9 ailleurs \u2014 ou enregistr\u00E9 de fa\u00E7on permanente contre le VIN.",
+    elsewhere: [
+      { title: "Logement de la roue de secours / plancher du coffre", body: "Audi, VW et certains mod\u00E8les europ\u00E9ens impriment ici l'autocollant du num\u00E9ro de laque plut\u00F4t qu'au montant de porte." },
+      { title: "Coupelle d'amortisseur du compartiment moteur", body: "BMW et Mini estampillent le code couleur de la carrosserie sur la coupelle d'amortisseur \u00E0 l'encre d'usine indestructible." },
+      { title: "Coffre avant (frunk)", body: "Porsche 911, Cayman et Boxster gardent l'\u00E9tiquette de donn\u00E9es \u00E0 l'int\u00E9rieur du compartiment \u00E0 bagages avant." },
+      { title: "Menu de la voiture / compte propri\u00E9taire", body: "Tesla et certains v\u00E9hicules \u00E9lectriques plus r\u00E9cents affichent le code peinture dans le menu de l'\u00E9cran tactile ou le compte propri\u00E9taire en ligne." },
+    ],
+    stillNothingBold: "Toujours rien ?",
+    stillNothingMid: " Le code peinture d'usine est li\u00E9 de fa\u00E7on permanente au VIN dans le dossier de fabrication du constructeur. Notre ",
+    stillNothingLink: "recherche gratuite de code peinture par VIN",
+    stillNothingSuffix: " le r\u00E9cup\u00E8re m\u00EAme quand chaque \u00E9tiquette physique a disparu.",
+    h2Internal: "Plus d'outils VIN qui s'associent au chercheur de code peinture",
+    internalIntro: "La couleur est une pi\u00E8ce de l'histoire d'un v\u00E9hicule. Ces v\u00E9rifications compl\u00E8tent le reste.",
+    internalLinks: [
+      { href: "/paint-code-lookup", label: "Recherche de code peinture par VIN", desc: "L'outil interactif par VIN avec un localisateur d'autocollants marque par marque \u2014 confirme le code exact instantan\u00E9ment." },
+      { href: "/vin-check", label: "V\u00E9rification compl\u00E8te de l'historique VIN", desc: "Titre, accidents, odom\u00E8tre, rappels et registres de peinture originale dans un seul rapport." },
+      { href: "/accident-history-check", label: "V\u00E9rification de l'historique d'accidents", desc: "La voiture a-t-elle \u00E9t\u00E9 repeinte apr\u00E8s une collision ? Sache pourquoi la couleur peut ne pas correspondre au code." },
+      { href: "/vin-decoder", label: "D\u00E9codeur VIN", desc: "D\u00E9code n'importe quel VIN de 17 caract\u00E8res en sp\u00E9cifications, version et options d'usine." },
+      { href: "/window-sticker", label: "G\u00E9n\u00E9rateur d'\u00E9tiquette Monroney", desc: "Recr\u00E9e l'\u00E9tiquette Monroney d'origine avec couleur, version et options d'usine." },
+      { href: "/build-sheet", label: "Fiche d'assemblage par VIN", desc: "Obtiens la fiche d'assemblage d'usine originale \u2014 code peinture, options et packs." },
+    ],
+    h2Faq: "Recherche de code peinture \u2014 Questions fr\u00E9quentes",
+    faqIntro: "Les questions que les gens posent le plus en essayant de trouver le code couleur d'une voiture.",
+    bottomBadge: "Gratuit · Instantan\u00E9 · Source OEM",
+    ctaBottomHeading: "Trouve le code peinture exact de n'importe quel v\u00E9hicule",
+    ctaBottomSub: "Saisis un VIN de 17 caract\u00E8res pour obtenir le code peinture d'usine et le nom de couleur \u2014 ou parcours le r\u00E9pertoire de marques ci-dessus pour associer un nom de couleur \u00E0 son code.",
+    ctaBottomNote: "Sans carte de cr\u00E9dit · Sans inscription · Gratuit",
+  },
 } as const;
 
 const FAQS_EN = [
@@ -245,11 +346,22 @@ const FAQS_ES = [
   { question: "¿Este buscador de código de pintura es gratis?", answer: "Sí. Navegar el directorio de marcas y coincidir nombres de colores con códigos es totalmente gratis y sin registro. La búsqueda por VIN también es gratis y devuelve el código de pintura de fábrica y el nombre del color al instante." },
 ];
 
+const FAQS_FR = [
+  { question: "Quelle est la fa\u00E7on la plus rapide de trouver le code peinture de ma voiture ?", answer: "Il existe trois fa\u00E7ons fiables. D'abord, v\u00E9rifie l'\u00E9tiquette de service \u00E0 l'int\u00E9rieur du montant de porte conducteur \u2014 le code est g\u00E9n\u00E9ralement une s\u00E9quence de 2 \u00E0 5 caract\u00E8res \u00E0 c\u00F4t\u00E9 du VIN. Ensuite, si l'\u00E9tiquette manque ou est d\u00E9color\u00E9e, lance une recherche gratuite par VIN, car le code d'usine est li\u00E9 de fa\u00E7on permanente au VIN. Enfin, si tu ne connais que le nom de couleur, utilise un r\u00E9pertoire nom-vers-code pour associer le nom commercial au code d'usine exact." },
+  { question: "Puis-je trouver un code peinture \u00E0 partir du seul nom de couleur ?", answer: "Souvent oui \u2014 mais avec une r\u00E9serve. Un nom comme 'Crystal Black Pearl' correspond g\u00E9n\u00E9ralement \u00E0 un code sp\u00E9cifique (NH731P chez Honda), mais le m\u00EAme nom peut \u00EAtre r\u00E9utilis\u00E9 sur plusieurs ann\u00E9es mod\u00E8les avec une formule l\u00E9g\u00E8rement diff\u00E9rente et un nouveau code. Utilise le nom pour restreindre, puis confirme le code exact par VIN ou autocollant de montant de porte avant de commander la peinture." },
+  { question: "Un chercheur de code peinture est-il diff\u00E9rent d'une recherche de code peinture ?", answer: "Ils r\u00E9solvent le m\u00EAme probl\u00E8me \u00E0 partir de points de d\u00E9part diff\u00E9rents. Une recherche par VIN est id\u00E9ale quand tu as le VIN et veux le code exact instantan\u00E9ment. Un chercheur est id\u00E9al quand tu veux parcourir par marque ou associer un nom de couleur connu \u00E0 son code. La plupart des gens utilisent les deux \u2014 trouve ici le nom probable, puis confirme le code pr\u00E9cis par VIN." },
+  { question: "O\u00F9 se trouve exactement l'autocollant du code peinture sur la plupart des voitures ?", answer: "Sur la majorit\u00E9 des v\u00E9hicules, il est sur le montant de porte conducteur, sur la m\u00EAme \u00E9tiquette blanche ou argent\u00E9e que le VIN et les pressions de pneus. Audi, VW et Porsche le placent g\u00E9n\u00E9ralement dans le logement de la roue de secours ou le coffre avant. BMW et Mini l'impriment souvent sur la coupelle d'amortisseur du compartiment moteur. Le r\u00E9pertoire de marques de cette page liste l'endroit exact pour plus de 30 constructeurs." },
+  { question: "Comment trouver la bonne peinture de retouche pour ma voiture ?", answer: "Trouve d'abord le code peinture d'usine \u2014 ne commande jamais seulement par nom de couleur. Donne le code \u00E0 n'importe quel d\u00E9taillant de retouche (concessionnaire, AutomotiveTouchup, PaintScratch) pour qu'ils m\u00E9langent la formule d'usine exacte. Pour les couleurs nacr\u00E9es et tri-couches, un seul stylo de retouche ne reproduira pas la profondeur ; celles-ci n\u00E9cessitent une application multi-\u00E9tapes par un carrossier." },
+  { question: "Que signifie le pr\u00E9fixe lettre ou chiffre dans un code peinture ?", answer: "Les pr\u00E9fixes encodent le syst\u00E8me de la marque. Honda et Acura utilisent une lettre de famille de couleur (NH = neutre/noir, R = rouge, B = bleu). Les codes VW et Audi commencent par 'L'. GM utilise un pr\u00E9fixe 'WA' ou un code RPO \u00E0 3 caract\u00E8res. Stellantis (Chrysler, Dodge, Jeep, Ram) utilise un pr\u00E9fixe 'P'. Conna\u00EEtre le pr\u00E9fixe aide \u00E0 rep\u00E9rer le code sur un autocollant d\u00E9color\u00E9." },
+  { question: "Un chercheur de code peinture peut-il me dire si ma voiture a \u00E9t\u00E9 repeinte ?", answer: "Indirectement, oui. Trouve le code d'usine enregistr\u00E9 contre le VIN, puis compare-le \u00E0 la couleur actuelle de la voiture. S'ils ne correspondent pas, le v\u00E9hicule a \u00E9t\u00E9 repeint \u2014 ce qui peut signaler une r\u00E9paration d'accident pr\u00E9c\u00E9dente. Associe ceci \u00E0 une v\u00E9rification de l'historique d'accidents pour en conna\u00EEtre la raison." },
+  { question: "Ce chercheur de code peinture est-il gratuit ?", answer: "Oui. Parcourir le r\u00E9pertoire de marques et associer les noms de couleurs aux codes est totalement gratuit et sans inscription. La recherche par VIN est aussi gratuite et renvoie le code peinture d'usine et le nom de couleur instantan\u00E9ment." },
+];
+
 interface Props { locale: Locale; }
 
 export default function PaintCodeFinderBody({ locale }: Props) {
   const c = COPY[locale];
-  const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const faqs = (locale as string) === "fr" ? FAQS_FR : locale === "es" ? FAQS_ES : FAQS_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
   const brandCount = PAINT_CODE_BRANDS.length;
 
@@ -537,4 +649,4 @@ export default function PaintCodeFinderBody({ locale }: Props) {
   );
 }
 
-export { FAQS_EN, FAQS_ES };
+export { FAQS_EN, FAQS_ES, FAQS_FR };

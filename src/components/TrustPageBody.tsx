@@ -279,6 +279,136 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "Confiance et sécurité",
+    h1: "Confiance, sécurité et confidentialité des données",
+    heroLead:
+      "Chaque rapport CarCheckerVIN est construit sur des données faisant autorité, chiffré en transit et au repos, et soutenu par un remboursement sans question. Voici exactement comment nous te protégeons, toi et les informations que tu nous confies.",
+
+    sourcesHeading: "Nos sources de données",
+    sourcesIntro:
+      "Un rapport d'historique véhiculaire n'est aussi fiable que les données qui le soutiennent. CarCheckerVIN ne fait pas de scraping de forums, d'annonces classées ou d'agrégateurs tiers non vérifiés. Chaque enregistrement de ton rapport provient directement d'un fournisseur fédéralement reconnu ou standard de l'industrie, puis est validé par notre couche de données interne avant d'atteindre ton écran.",
+    sourceNmvtisLabel: "NMVTIS",
+    sourceNmvtis:
+      "Le National Motor Vehicle Title Information System est la seule base de données fédéralement obligatoire qui consolide les enregistrements de titre, marques, junk et salvage dans toutes les juridictions américaines. NMVTIS est la référence pour l'historique de titre inter-États, et c'est l'épine dorsale de chaque rapport payant que nous émettons.",
+    sourceNicbLabel: "NICB",
+    sourceNicbPrefix:
+      "Le National Insurance Crime Bureau fournit des enregistrements de véhicules volés et des données de perte totale d'assureurs rapportés par les transporteurs membres. Nous intégrons les flux NICB pour alimenter notre",
+    sourceNicbLink: "vérification de véhicule volé",
+    sourceNicbSuffix: ".",
+    sourceNhtsaLabel: "NHTSA",
+    sourceNhtsa:
+      "La National Highway Traffic Safety Administration est notre source faisant autorité pour les rappels ouverts, les plaintes et les enquêtes de sécurité. Les données NHTSA sont mises à jour quotidiennement et apparaissent dans chaque rapport pour que tu ne manques jamais un rappel actif.",
+    sourceOemLabel: "API des fabricants",
+    sourceOem:
+      "Les intégrations OEM directes décodent les VIN au niveau de la finition, font remonter les Technical Service Bulletins et croisent les registres de construction directement depuis la source plutôt que de dépendre de copies tierces qui peuvent être obsolètes.",
+    sourcesClose:
+      "C'est la même chaîne de confiance sur laquelle les assureurs et les concessions franchisées comptent chaque jour. Nous la rendons simplement accessible à un prix que les acheteurs ordinaires peuvent se permettre.",
+
+    handlingHeading: "Comment nous gérons tes données",
+    handlingIntro:
+      "Nous suivons un principe strict de minimisation des données : nous collectons uniquement ce dont nous avons besoin pour livrer ton rapport et protéger ton compte, rien de plus. Toutes les données sont chiffrées en transit en utilisant TLS 1.3 et au repos en utilisant AES-256, le même standard utilisé par les principales institutions financières.",
+    collectLabel: "Ce que nous collectons :",
+    collectBody:
+      "les VIN que tu consultes, ton adresse e-mail (si tu crées un compte ou achètes un rapport), et les informations de journal standard telles que l'adresse IP et le type de navigateur utilisées pour prévenir les abus et améliorer la fiabilité du site.",
+    noCollectLabel: "Ce que nous ne collectons pas :",
+    noCollectPrefix:
+      "nous ne stockons jamais ta carte de crédit ou tes informations bancaires sur nos serveurs, nous ne vendons jamais tes données personnelles à des tiers, et nous ne partageons jamais ton historique VIN avec des marketeurs, concessionnaires ou assureurs. Les détails complets se trouvent dans notre",
+    noCollectLink: "Politique de confidentialité",
+    noCollectSuffix: ".",
+
+    rightsHeading: "Tes droits de confidentialité",
+    rightsP1:
+      "CarCheckerVIN respecte les lois sur la confidentialité qui s'appliquent partout où vivent nos clients, y compris le Règlement général sur la protection des données de l'UE (RGPD) et le California Consumer Privacy Act (CCPA). Tu as le droit de savoir quelles données nous détenons sur toi, le droit de demander une copie, le droit de corriger les informations inexactes, le droit de te retirer de tout traitement non essentiel, et le droit de demander la suppression à tout moment.",
+    rightsP2Pre: "Pour exercer ces droits, envoie un e-mail à",
+    rightsP2Mid:
+      'avec l\'objet "Demande de confidentialité". Nous répondons à chaque demande dans les 30 jours, souvent dans un jour ouvrable, et nous ne facturons jamais de frais pour les demandes vérifiées de données personnelles. Consulte nos',
+    rightsP2Link: "Conditions d'utilisation",
+    rightsP2Suffix: "complètes pour le cadre juridique complet.",
+
+    securityHeading: "Pratiques de sécurité",
+    securityIntro:
+      "La sécurité n'est pas une fonctionnalité que nous ajoutons à la fin. Elle est conçue dans chaque couche de notre plateforme, de la base de données vers le haut.",
+    securityBullets: [
+      {
+        label: "Chiffrement SSL 256 bits",
+        body: "protège chaque page que tu visites et chaque transaction que tu effectues sur carcheckervin.com. Cherche l'icône de cadenas dans la barre de ton navigateur pour confirmer.",
+      },
+      {
+        label: "Mots de passe hachés avec bcrypt",
+        body: "signifie que nous ne stockons jamais ton mot de passe sous une forme récupérable. Même nos ingénieurs ne peuvent pas le lire.",
+      },
+      {
+        label: "Aucune donnée de paiement stockée",
+        body: "sur les serveurs CarCheckerVIN. Tous les paiements sont tokenisés et traités par Stripe, un fournisseur certifié PCI-DSS Niveau 1.",
+      },
+      {
+        label: "Surveillance continue et accès au moindre privilège",
+        body: "sur toute notre infrastructure. L'accès à la base de données de production est restreint à un petit groupe d'astreinte et audité à chaque session.",
+      },
+      {
+        label: "Sauvegardes automatisées et reprise après sinistre",
+        body: "garantissent que ton historique de compte et tes rapports ne sont jamais à une panne matérielle de la perte.",
+      },
+    ],
+
+    complianceHeading: "Conformité et certifications",
+    complianceP1:
+      "CarCheckerVIN s'associe avec des fournisseurs de données approuvés par NMVTIS et se conforme aux exigences de divulgation et d'exactitude publiées par le Département de la Justice des États-Unis pour l'utilisation grand public des données NMVTIS. Chaque rapport payant inclut l'avertissement NMVTIS fédéralement requis et l'attribution de source.",
+    complianceP2Pre:
+      "Le traitement des paiements est géré exclusivement par Stripe, qui est certifié PCI-DSS Niveau 1, la certification la plus stricte disponible pour les processeurs de paiement. Notre pile d'authentification utilise les flux OAuth 2.0 standard de l'industrie et applique des contrôles de session stricts. Pour en savoir plus sur notre équipe et nos normes éditoriales, visite notre",
+    complianceP2Link: "page À propos",
+    complianceP2Suffix: ".",
+
+    refundHeading: "Garantie de remboursement et satisfaction",
+    refundIntro:
+      "Nous soutenons chaque rapport que nous vendons avec une garantie de remboursement de 100%. Si ton rapport ne contient pas de données utilisables, si un enregistrement est matériellement inexact, ou si tu n'es pas satisfait pour quelque raison que ce soit dans les 30 jours suivant l'achat, envoie un e-mail à notre équipe et nous émettrons un remboursement complet — pas de formulaires, pas d'arbres téléphoniques, pas de questions.",
+    refundCardTitle: "Garantie de remboursement à 100%",
+    refundCardPre: "Demande un remboursement à tout moment dans les 30 jours à",
+    refundCardSuffix: ". La plupart des remboursements sont traités le même jour ouvrable.",
+
+    faqHeading: "FAQ — Confiance et sécurité",
+    faqIntro:
+      "Réponses directes sur la provenance de nos données, comment nous sécurisons tes informations, et ce que ton rapport couvre et ne couvre pas.",
+    ctaHeading: "Exécute un rapport en lequel tu peux avoir confiance",
+    ctaBody:
+      "Données faisant autorité, livraison chiffrée et garantie de remboursement de 30 jours. Commence par un décodage gratuit.",
+    faqs: [
+      {
+        q: "D'où CarCheckerVIN obtient-il ses données véhiculaires ?",
+        a: "Chaque enregistrement provient de fournisseurs fédéralement reconnus ou standard de l'industrie, et non de forums scrapés ou d'agrégateurs non vérifiés. L'épine dorsale de chaque rapport payant est NMVTIS, la seule base de données fédéralement obligatoire consolidant les enregistrements de titre, marques, junk et salvage dans toutes les juridictions américaines. Nous intégrons également NICB pour les enregistrements de véhicules volés et de perte totale d'assureurs, NHTSA pour les rappels ouverts et les enquêtes de sécurité, et les API directes des fabricants pour le décodage VIN au niveau de la finition et les Technical Service Bulletins.",
+      },
+      {
+        q: "Mes informations de paiement sont-elles sécurisées ?",
+        a: "Oui. CarCheckerVIN ne stocke jamais ta carte de crédit ou tes informations bancaires sur ses serveurs. Tous les paiements sont tokenisés et traités exclusivement par Stripe, un fournisseur certifié PCI-DSS Niveau 1. Chaque page et transaction sur le site est protégée par un chiffrement SSL 256 bits.",
+      },
+      {
+        q: "Vendez-vous mes données personnelles ?",
+        a: "Non. Nous ne vendons jamais tes données personnelles à des tiers, et nous ne partageons jamais ton historique VIN avec des marketeurs, concessionnaires ou assureurs. Nous suivons un principe strict de minimisation des données et collectons uniquement ce qui est nécessaire pour livrer ton rapport et protéger ton compte — les VIN que tu consultes, ton e-mail si tu crées un compte ou achètes un rapport, et les informations de journal standard utilisées pour prévenir les abus.",
+      },
+      {
+        q: "Comment mes données sont-elles chiffrées ?",
+        a: "Toutes les données sont chiffrées en transit en utilisant TLS 1.3 et au repos en utilisant AES-256, le même standard utilisé par les principales institutions financières. Les mots de passe sont hachés avec bcrypt, de sorte qu'ils ne sont jamais stockés sous une forme récupérable — même nos propres ingénieurs ne peuvent pas les lire.",
+      },
+      {
+        q: "Quelle est la précision des rapports CarCheckerVIN ?",
+        a: "Les rapports sont construits sur des sources de données faisant autorité — NMVTIS, NICB, NHTSA et API des fabricants — et chaque enregistrement est validé par notre couche de données interne avant d'atteindre ton écran. NMVTIS est la référence pour l'historique de titre inter-États, la même chaîne de confiance sur laquelle les assureurs et les concessions franchisées comptent. Chaque rapport payant inclut l'avertissement NMVTIS fédéralement requis et l'attribution de source.",
+      },
+      {
+        q: "Un rapport d'historique véhiculaire est-il jamais 100% complet ?",
+        a: "Aucun rapport unique ne peut garantir qu'il capture chaque événement dans la vie d'un véhicule. Un rapport d'historique reflète ce qui a été rapporté aux bases de données sous-jacentes — par exemple, un accident jamais déclaré à l'assurance ou un enregistrement qu'un État n'a pas encore soumis à NMVTIS peuvent ne pas apparaître. C'est pourquoi nous tirons parti de multiples sources faisant autorité et recommandons de coupler tout rapport avec une inspection en personne avant l'achat.",
+      },
+      {
+        q: "Quels droits de confidentialité ai-je ?",
+        a: "CarCheckerVIN respecte les lois sur la confidentialité qui s'appliquent là où vivent nos clients, y compris le RGPD de l'UE et le CCPA de Californie. Tu as le droit de savoir quelles données nous détenons, demander une copie, corriger les informations inexactes, te retirer du traitement non essentiel, et demander la suppression à tout moment. Pour exercer ces droits, envoie un e-mail à contact@carcheckervin.com avec l'objet 'Demande de confidentialité'. Nous répondons dans les 30 jours, souvent dans un jour ouvrable, et ne facturons jamais de frais pour les demandes vérifiées.",
+      },
+      {
+        q: "Quelle est votre politique de remboursement ?",
+        a: "Nous soutenons chaque rapport avec une garantie de remboursement de 100%. Si ton rapport ne contient pas de données utilisables, qu'un enregistrement est matériellement inexact, ou que tu n'es pas satisfait pour quelque raison que ce soit dans les 30 jours suivant l'achat, envoie un e-mail à notre équipe pour un remboursement complet — pas de formulaires, pas d'arbres téléphoniques, pas de questions. La plupart des remboursements sont traités le même jour ouvrable.",
+      },
+    ],
+  },
 } as const;
 
 export default function TrustPageBody({

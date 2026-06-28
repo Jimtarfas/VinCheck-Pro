@@ -165,6 +165,74 @@ const COPY = {
     ctaHeading: (make: string) => `¿Listo para revisar tu VIN de ${make}?`,
     ctaSub: "Obtén acceso instantáneo a tu reporte completo del vehículo",
   },
+  fr: {
+    home: "Accueil",
+    crumbVinCheck: "V\u00E9rification VIN",
+    h1Suffix: "V\u00E9rification VIN et d\u00E9codeur",
+    heroSub: (make: string) =>
+      `Recherche n'importe quel num\u00E9ro VIN ${make} pour obtenir un rapport complet d'historique du v\u00E9hicule, les sp\u00E9cifications compl\u00E8tes, de vraies photos, les valeurs de march\u00E9 et les d\u00E9tails d'\u00E9quipement \u2014 instantan\u00E9ment.`,
+    aboutHeading: (make: string) => `\u00C0 propos des num\u00E9ros VIN ${make}`,
+    aboutP1: (make: string, desc: string, founded: string, country: string) =>
+      `${make} est ${desc}, fond\u00E9 en ${founded} en ${country.replace(/\.$/, "")}. Chaque v\u00E9hicule ${make} fabriqu\u00E9 depuis 1981 a un Num\u00E9ro d'Identification de V\u00E9hicule (VIN) unique de 17 caract\u00E8res qui contient des informations d\u00E9taill\u00E9es sur les sp\u00E9cifications, les d\u00E9tails de fabrication et l'historique du v\u00E9hicule.`,
+    aboutP2: (make: string, prefix: string) =>
+      `Les VIN ${make} commencent g\u00E9n\u00E9ralement par les caract\u00E8res "${prefix}", qui identifient le constructeur et le pays d'origine. En d\u00E9codant un VIN ${make} avec notre outil gratuit, tu peux acc\u00E9der instantan\u00E9ment aux sp\u00E9cifications compl\u00E8tes du v\u00E9hicule, \u00E0 l'\u00E9quipement install\u00E9 en usine, aux informations sur les rappels, aux \u00E9valuations de march\u00E9 et \u00E0 de vraies photos.`,
+    aboutP3: (make: string, m1: string, m2: string, m3: string) =>
+      `Que tu ach\u00E8tes une ${make} ${m1} d'occasion, que tu vendes ta ${make} ${m2} ou que tu v\u00E9rifies les sp\u00E9cifications d'une ${make} ${m3}, notre d\u00E9codeur VIN te fournit toutes les informations dont tu as besoin pour prendre une d\u00E9cision \u00E9clair\u00E9e.`,
+    whatToCheckHeading: (make: string) => `Quoi v\u00E9rifier sur une ${make} d'occasion`,
+    whatToCheckSub: (make: string) =>
+      `D\u00E9tails du VIN sp\u00E9cifiques \u00E0 ${make}, probl\u00E8mes connus du mod\u00E8le et historique des rappels que chaque acheteur devrait v\u00E9rifier.`,
+    cardDecoding: (make: string) => `D\u00E9coder un VIN ${make}`,
+    cardCommonIssues: (make: string) => `Probl\u00E8mes ${make} courants \u00E0 v\u00E9rifier`,
+    cardRecallHistory: (make: string) => `Historique des rappels ${make}`,
+    cardBuyingTip: (make: string) => `Acheter une ${make} d'occasion`,
+    reportIncludedHeading: (make: string) => `Ce qui est inclus dans un rapport VIN ${make}`,
+    reportIncludedSub: (make: string) =>
+      `Tout ce que tu dois savoir sur n'importe quel v\u00E9hicule ${make}`,
+    features: [
+      { titleEn: "D\u00E9codage VIN instantan\u00E9", descEn: "D\u00E9code n'importe quel VIN en moins de 60 secondes" },
+      { titleEn: "Sp\u00E9cifications compl\u00E8tes", descEn: "Moteur, transmission, transmission int\u00E9grale et plus" },
+      { titleEn: "Historique du v\u00E9hicule", descEn: "Propri\u00E9t\u00E9, accidents et registres de titre" },
+      { titleEn: "Alertes de rappels", descEn: "Rappels ouverts et campagnes de s\u00E9curit\u00E9" },
+    ],
+    popularHeading: (make: string) => `Mod\u00E8les ${make} populaires \u00E0 v\u00E9rifier par VIN`,
+    popularSub: (make: string) => `Lance une v\u00E9rification VIN sur n'importe lequel de ces mod\u00E8les ${make} populaires`,
+    howToHeading: (make: string) => `Comment v\u00E9rifier un num\u00E9ro VIN ${make}`,
+    step1Title: "Trouve le VIN",
+    step1Desc: (make: string) =>
+      `Localise le VIN de 17 caract\u00E8res sur ta ${make}. V\u00E9rifie le tableau de bord c\u00F4t\u00E9 conducteur, l'autocollant du montant de porte, l'immatriculation ou le titre.`,
+    step2Title: "Saisis le VIN ci-dessus",
+    step2Desc: () =>
+      `Tape ou colle le VIN dans la case de recherche ci-dessus. Assure-toi que les 17 caract\u00E8res sont saisis correctement.`,
+    step3Title: "Obtiens ton rapport",
+    step3Desc: (make: string) =>
+      `Consulte ton rapport complet du v\u00E9hicule ${make} instantan\u00E9ment \u2014 y compris sp\u00E9cifications, photos, valeurs de march\u00E9 et historique.`,
+    otherBrandsHeading: "V\u00E9rifie d'autres marques de v\u00E9hicules",
+    otherBrandsCta: "Voir toutes les marques",
+    sourcesHeading: (make: string) => `Donn\u00E9es VIN ${make} \u2014 Sources et r\u00E9f\u00E9rences`,
+    sourcesIntro: (make: string) =>
+      `Chaque affirmation sur cette page de v\u00E9rification VIN ${make} remonte \u00E0 une source publique et autoris\u00E9e. Les agences ci-dessous sont les principales origines de donn\u00E9es derri\u00E8re les registres de titre, rappels, vols et accidents ${make} aux \u00C9tats-Unis.`,
+    sourceItems: (make: string, prefix: string, model1: string) => [
+      { href: "https://vehiclehistory.bja.ojp.gov/", label: "NMVTIS \u2014 Bureau of Justice Assistance", note: `Base de donn\u00E9es f\u00E9d\u00E9rale couvrant chaque marque de titre ${make} dans les 50 \u00E9tats.` },
+      { href: "https://www.nhtsa.gov/recalls", label: "NHTSA \u2014 Rappels de s\u00E9curit\u00E9", note: `Recherche autoris\u00E9e des rappels ${make} par VIN.` },
+      { href: "https://www.nicb.org/vincheck", label: "NICB VINCheck", note: `Registres de vols et de salvage \u2014 la ${make} ${model1} est une cible de vol connue.` },
+      { href: "https://www.iihs.org/", label: "IIHS \u2014 \u00C9valuations de s\u00E9curit\u00E9", note: `R\u00E9sultats ind\u00E9pendants de crash tests pour chaque mod\u00E8le ${make} moderne.` },
+      { href: "https://vpic.nhtsa.dot.gov/decoder/", label: "D\u00E9codeur VIN NHTSA", note: `D\u00E9codeur f\u00E9d\u00E9ral de r\u00E9f\u00E9rence pour la structure du VIN ${make} (WMI ${prefix}).` },
+      { href: "https://www.fueleconomy.gov/", label: "EPA FuelEconomy.gov", note: `Donn\u00E9es officielles d'\u00E9conomie de carburant et d'\u00E9missions ${make} par ann\u00E9e mod\u00E8le.` },
+    ],
+    sourcesFootnote: (make: string, founded: string, country: string) =>
+      `Les donn\u00E9es VIN ${make} sont recoup\u00E9es avec NMVTIS, NHTSA, NICB et des fournisseurs d'assurance licenci\u00E9s au moment de chaque recherche. ${make} a \u00E9t\u00E9 fond\u00E9 en ${founded} en ${country.replace(/\.$/, "")}.`,
+    faqHeading: (make: string) => `V\u00E9rification VIN ${make} \u2014 Questions fr\u00E9quentes`,
+    faqs: (make: string, model1: string) => [
+      { q: `La v\u00E9rification VIN ${make} est-elle gratuite ?`, a: `Oui. Notre v\u00E9rification VIN ${make} est compl\u00E8tement gratuite. Saisis le VIN de 17 caract\u00E8res ci-dessus pour d\u00E9coder les sp\u00E9cifications et obtenir l'historique disponible \u2014 sans compte ni paiement.` },
+      { q: `Comment chercher un num\u00E9ro VIN ${make} ?`, a: `Trouve le VIN de 17 caract\u00E8res sur le tableau de bord c\u00F4t\u00E9 conducteur, l'autocollant du montant de porte ou le titre, puis tape-le ou colle-le dans la case de recherche ci-dessus. Notre recherche VIN ${make} renvoie les sp\u00E9cifications, l'\u00E9quipement d'usine, la valeur de march\u00E9 et l'historique en quelques secondes.` },
+      { q: `Que peut me dire un d\u00E9codeur VIN ${make} ?`, a: `D\u00E9coder un VIN ${make} r\u00E9v\u00E8le l'ann\u00E9e mod\u00E8le, le moteur, le niveau de finition, le style de carrosserie et l'usine d'assemblage, plus l'\u00E9quipement install\u00E9 en usine. Associ\u00E9 aux donn\u00E9es d'historique, il fait aussi appara\u00EEtre les marques de titre, les lectures d'odom\u00E8tre et les rappels ouverts.` },
+      { q: `Puis-je v\u00E9rifier les rappels ouverts ${make} par VIN ?`, a: `Oui. Les campagnes de rappel ${make} sont li\u00E9es au VIN, donc une v\u00E9rification montre les rappels de s\u00E9curit\u00E9 qui s'appliquent \u00E0 ce v\u00E9hicule sp\u00E9cifique et si la r\u00E9paration a \u00E9t\u00E9 effectu\u00E9e.` },
+      { q: `Comment savoir si une ${make} d'occasion a eu un accident ?`, a: `Lance le VIN ci-dessus. Un rapport d'historique ${make} signale les accidents rapport\u00E9s, les marques de titre salvage ou reconstruit, et les divergences d'odom\u00E8tre enregistr\u00E9es dans les bases de donn\u00E9es nationales \u2014 les registres qu'un vendeur peut ne pas divulguer.` },
+      { q: `Puis-je v\u00E9rifier si une ${make} est vol\u00E9e ou a un titre salvage ?`, a: `Un rapport d'historique VIN fait appara\u00EEtre les registres de salvage, vols et pertes totales rapport\u00E9s o\u00F9 qu'ils apparaissent dans les bases de donn\u00E9es nationales. Comme les mod\u00E8les comme la ${make} ${model1} sont des cibles courantes de vol, fais aussi correspondre le VIN du tableau de bord avec l'autocollant du montant de porte et le titre avant d'acheter.` },
+    ],
+    ctaHeading: (make: string) => `Pr\u00EAt \u00E0 v\u00E9rifier ton VIN ${make} ?`,
+    ctaSub: "Obtiens un acc\u00E8s instantan\u00E9 au rapport complet de ton v\u00E9hicule",
+  },
 } as const;
 
 const FEATURE_ICONS = [Search, FileText, Shield, Clock] as const;

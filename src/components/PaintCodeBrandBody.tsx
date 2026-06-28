@@ -277,6 +277,124 @@ const COPY = {
       ];
     },
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbHub: "Recherche de code peinture",
+    heroBadge: (name: string) => `Code peinture OEM ${name}`,
+    h1: (name: string) => `O\u00F9 se trouve le code peinture d'une ${name} ?`,
+    heroAnswerPre: (name: string) => `Sur une ${name}, le code peinture se trouve sur le `,
+    heroAnswerMid: (label: string, pattern: string) =>
+      `, imprim\u00E9 sur l'\u00E9tiquette marqu\u00E9e \u201C${label}\u201D. Le code suit le sch\u00E9ma ${pattern}. Si l'autocollant manque ou est d\u00E9color\u00E9, recherche-le par VIN ci-dessous.`,
+    searchHeading: (name: string) => `Obtiens ton code peinture ${name} par VIN`,
+    searchSub:
+      "Saisis n'importe quel VIN de 17 caract\u00E8res \u2014 nous te renverrons le code peinture OEM et le nom de couleur d'usine depuis le dossier de fabrication.",
+    trustNote: "Gratuit \u00B7 Sans inscription \u00B7 R\u00E9sultat instantan\u00E9",
+    whereHeading: (name: string) => `Emplacement du code peinture ${name} \u2014 chaque endroit \u00E0 v\u00E9rifier`,
+    whereIntro: (name: string) =>
+      `${name} imprime le code peinture \u00E0 un endroit principal et le sauvegarde \u00E0 quelques autres. Commence par le haut de cette liste et descends si l'\u00E9tiquette est difficile \u00E0 lire.`,
+    primaryLabel: "Emplacement principal",
+    backupLabel: "Emplacement secondaire",
+    labelCardHeading: "Ce que dit l'\u00E9tiquette",
+    labelCardBody: (label: string, name: string) => (
+      <>
+        Cherche la ligne marquée{" "}
+        <code className="font-mono text-xs bg-surface-container-low rounded px-1.5 py-0.5 text-primary">
+          {label}
+        </code>
+        . C&apos;est la ligne qui porte le code couleur {name}.
+      </>
+    ),
+    formatCardHeading: "Format du code",
+    formatCardBody: (format: string, pattern: string) => (
+      <>
+        {format}. Schéma :{" "}
+        <code className="font-mono text-xs bg-surface-container-low rounded px-1.5 py-0.5 text-primary">
+          {pattern}
+        </code>
+        .
+      </>
+    ),
+    examplesHeading: (name: string) => `Codes peinture et noms de couleur ${name} courants`,
+    examplesIntro: (name: string) =>
+      `Quelques codes d'usine ${name} bien connus pour que tu saches \u00E0 quoi t'attendre sur l'autocollant. Ton code exact d\u00E9pend de l'ann\u00E9e mod\u00E8le \u2014 confirme toujours sur ton propre v\u00E9hicule ou VIN.`,
+    examplesTableCode: "Code peinture",
+    examplesTableColor: "Nom de couleur d'usine",
+    tipsHeading: (name: string) => `Conseils code peinture ${name}`,
+    tipsIntro: (name: string) =>
+      `Les particularit\u00E9s \u00E0 conna\u00EEtre avant de commander de la peinture pour une ${name}.`,
+    missingHeading: (name: string) => `Autocollant ${name} manquant ou d\u00E9color\u00E9 ? Utilise le VIN.`,
+    missingP1: (name: string) =>
+      `Les autocollants du montant de porte se d\u00E9colorent au soleil, se d\u00E9collent lors du d\u00E9tailing, ou disparaissent quand une porte est remplac\u00E9e apr\u00E8s une collision. Quand l'\u00E9tiquette ${name} a disparu, le VIN est le moyen fiable de retrouver le code peinture d'usine.`,
+    missingP2: (name: string) =>
+      `Chaque dossier de fabrication ${name} porte le code peinture d'usine, li\u00E9 au VIN au moment de la production. Notre v\u00E9rification VIN gratuite r\u00E9cup\u00E8re ce dossier pour que tu puisses commander de la retouche, briefer un carrossier ou v\u00E9rifier que la couleur actuelle correspond \u00E0 l'originale d'usine.`,
+    missingP3Pre: (name: string) =>
+      `Tu ach\u00E8tes une ${name} d'occasion ? Si la couleur actuelle ne correspond pas au code d'usine, le v\u00E9hicule a \u00E9t\u00E9 repeint \u2014 cela vaut une `,
+    missingP3LinkLabel: "v\u00E9rification de l'historique d'accidents",
+    missingP3Suffix: " pour en conna\u00EEtre la raison.",
+    missingCardHeading: (name: string) => `Cherche ton code ${name} par VIN`,
+    missingCardBody:
+      "Pas besoin d'autocollant \u2014 le code d'usine vient directement du dossier de fabrication.",
+    whatHeading: (name: string) => `Quoi faire avec ton code peinture ${name}`,
+    whatIntro: "Une fois que tu as le code, voici comment l'exploiter.",
+    touchUpHeading: "Commande de la peinture de retouche",
+    touchUpBody: (name: string) =>
+      `Donne le code \u00E0 un comptoir de pi\u00E8ces ${name} ou \u00E0 un fournisseur de retouche. Pour les finitions nacr\u00E9es/m\u00E9tallis\u00E9es, demande la base + le vernis correspondants pour que la r\u00E9paration ne soit pas terne.`,
+    saveHeading: "Garde-le pour plus tard",
+    saveBody: (name: string) =>
+      `Photographie l'autocollant ${name} en bonne lumi\u00E8re et range-le avec tes documents. Le code reste le m\u00EAme pendant toute la vie de la voiture \u2014 plus d'allers-retours dans l'all\u00E9e.`,
+    othersHeading: "Emplacement du code peinture pour d'autres marques",
+    fullLocatorLink: "Voir le localisateur complet de codes peinture",
+    sourcesHeading: (name: string) => `Code peinture ${name} \u2014 Sources et r\u00E9f\u00E9rences`,
+    sourcesIntro: (name: string) =>
+      `Les codes couleur ${name} remontent aux dossiers de fabrication d'usine et \u00E0 la litt\u00E9rature de service OEM. Les r\u00E9f\u00E9rences ci-dessous sont les origines autoris\u00E9es derri\u00E8re les donn\u00E9es VIN, peinture et historique ${name} aux \u00C9tats-Unis.`,
+    sourceNote1: (name: string) => `D\u00E9codeur f\u00E9d\u00E9ral de r\u00E9f\u00E9rence pour la structure du VIN ${name}.`,
+    sourceLabel1: "D\u00E9codeur VIN NHTSA",
+    sourceNote2: (name: string) => `Recherche ouverte des rappels ${name} par VIN.`,
+    sourceLabel2: "NHTSA \u2014 Rappels de s\u00E9curit\u00E9",
+    sourceNote3: (name: string) =>
+      `Base de donn\u00E9es f\u00E9d\u00E9rale des marques de titre couvrant chaque ${name} dans les 50 \u00E9tats.`,
+    sourceLabel3: "NMVTIS \u2014 Bureau of Justice Assistance",
+    sourceNote4: (name: string) =>
+      `Normes de rev\u00EAtements et COV derri\u00E8re les formulations de peinture OEM ${name}.`,
+    sourceLabel4: "EPA",
+    faqHeading: (name: string) => `Code peinture ${name} \u2014 Questions fr\u00E9quentes`,
+    ctaBadge: "Gratuit \u00B7 Instantan\u00E9 \u00B7 Source OEM",
+    ctaHeading: (name: string) => `Obtiens ton code peinture ${name} en quelques secondes`,
+    ctaBody: (name: string) =>
+      `Saisis un VIN de 17 caract\u00E8res pour r\u00E9cup\u00E9rer le code peinture d'usine et le nom de couleur ${name} \u2014 pour la retouche, la correspondance en carrosserie ou pour v\u00E9rifier une repeinte sur un v\u00E9hicule d'occasion.`,
+    ctaNote: "Sans carte \u00B7 Sans inscription \u00B7 Gratuit",
+    faqBuilder(b: PaintCodeBrand) {
+      return [
+        {
+          q: `O\u00F9 se trouve le code peinture sur une ${b.name} ?`,
+          a: `Sur une ${b.name}, le code peinture se trouve sur le ${b.primaryLocation}. Cherche l'\u00E9tiquette marqu\u00E9e "${b.stickerLabel}". Si cet autocollant est d\u00E9color\u00E9 ou manquant, v\u00E9rifie ${b.secondaryLocations.join(" ou ").toLowerCase()}.`,
+        },
+        {
+          q: `\u00C0 quoi ressemble un code peinture ${b.name} ?`,
+          a: `${b.codeFormat}. Le sch\u00E9ma typique est ${b.codePattern}. Par exemple, ${b.examples
+            .slice(0, 2)
+            .map((e) => `${e.code} est ${e.colorName}`)
+            .join(", et ")}.`,
+        },
+        {
+          q: `Puis-je trouver mon code peinture ${b.name} avec le VIN uniquement ?`,
+          a: `Oui. Le code peinture d'usine est enregistr\u00E9 contre le VIN dans la base de donn\u00E9es de fabrication ${b.name}, donc une recherche bas\u00E9e sur le VIN renvoie le code couleur original m\u00EAme quand l'autocollant physique du montant de porte est endommag\u00E9, d\u00E9color\u00E9 ou a \u00E9t\u00E9 remplac\u00E9 lors d'une r\u00E9paration. Saisis ton VIN dans le formulaire ci-dessus.`,
+        },
+        {
+          q: `Quelle est la diff\u00E9rence entre le code peinture ${b.name} et le nom de la couleur ?`,
+          a: `Le nom de couleur (par ex. "${b.examples[0].colorName}") est du texte marketing que ${b.name} peut r\u00E9utiliser sur plusieurs ann\u00E9es mod\u00E8les avec de petits changements de formule. Le code peinture (${b.examples[0].code}) est li\u00E9 \u00E0 une formulation sp\u00E9cifique \u2014 c'est ce dont un fournisseur de peinture a besoin pour m\u00E9langer une correspondance exacte.`,
+        },
+        {
+          q: `Comment utiliser mon code peinture ${b.name} pour la retouche ?`,
+          a: `Donne le code \u2014 pas le nom de la couleur \u2014 \u00E0 tout fournisseur de peinture, comptoir de pi\u00E8ces de concessionnaire ou carrossier. Ils m\u00E9langent selon le code. Pour les finitions nacr\u00E9es ou tri-couches ${b.name}, un seul stylo de retouche ne correspondra pas \u00E0 la profondeur ; celles-ci n\u00E9cessitent un proc\u00E9d\u00E9 base + couche interm\u00E9diaire + vernis.`,
+        },
+        {
+          q: `Ma ${b.name} a \u00E9t\u00E9 repeinte et l'autocollant a disparu \u2014 que faire ?`,
+          a: `Lance une recherche de code peinture bas\u00E9e sur le VIN. Le code d'usine est li\u00E9 au VIN au moment de la fabrication, donc il survit \u00E0 une repeinte ou \u00E0 une porte remplac\u00E9e. Si la couleur actuelle de la voiture ne correspond pas au code d'usine renvoy\u00E9, le v\u00E9hicule a \u00E9t\u00E9 repeint \u2014 cela vaut la peine de combiner avec une v\u00E9rification de l'historique d'accidents pour en conna\u00EEtre la raison.`,
+        },
+      ];
+    },
+  },
 } as const;
 
 export default function PaintCodeBrandBody({

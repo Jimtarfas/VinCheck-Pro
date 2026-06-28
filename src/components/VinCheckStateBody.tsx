@@ -252,6 +252,122 @@ const COPY = {
     ctaSub: "Obtén un reporte instantáneo del historial vehicular para cualquier VIN.",
     ctaTrust: "Con la confianza de 50,000+ compradores en el país",
   },
+  fr: {
+    home: "Accueil",
+    crumbVinCheck: "V\u00E9rification VIN",
+    crumbByState: "Par \u00E9tat",
+    badgeFree: "Gratuit · Instantan\u00E9",
+    heroP: (state: string, dmv: string) =>
+      `V\u00E9rification VIN gratuite pour les v\u00E9hicules immatricul\u00E9s en ${state}. Obtiens un rapport complet de l'historique du v\u00E9hicule \u2014 y compris les marques de titre enregistr\u00E9es par le ${dmv}, l'historique des accidents, les registres de salvage et les donn\u00E9es de rappels \u2014 instantan\u00E9ment.`,
+    h1: (state: string) => `V\u00E9rification VIN ${state}`,
+    whyHeading: (state: string) => `Pourquoi les conducteurs de ${state} ont besoin d'une v\u00E9rification VIN`,
+    whyP1: (state: string, vehicles: string, population: string, dmv: string) =>
+      `Avec environ ${vehicles} v\u00E9hicules immatricul\u00E9s pour une population de ${population} en ${state}, le march\u00E9 de l'occasion ici est vaste et actif. Le ${dmv} maintient les registres de titre et d'immatriculation, mais ces registres peuvent ne pas suivre un v\u00E9hicule qui a \u00E9t\u00E9 achet\u00E9, vendu ou d\u00E9plac\u00E9 entre \u00E9tats.`,
+    whyP2: (state: string) =>
+      `Une v\u00E9rification VIN rassemble l'historique du titre, les lectures d'odom\u00E8tre, les \u00E9v\u00E9nements de salvage et de perte totale, les registres de vol, les rappels ouverts et les rapports d'accidents \u00E0 travers le pays \u2014 te donnant une image compl\u00E8te avant d'acheter un v\u00E9hicule d'occasion en ${state}.`,
+    whyP3:
+      "Que tu ach\u00E8tes \u00E0 un vendeur priv\u00E9, \u00E0 un concessionnaire ou sur un marketplace en ligne, une recherche VIN est l'\u00E9tape la plus importante que tu puisses prendre pour \u00E9viter le lavage de titre, les d\u00E9g\u00E2ts d'inondation cach\u00E9s ou l'historique de salvage non d\u00E9clar\u00E9.",
+    brandsHeading: (state: string) => `Marques de titre reconnues en ${state}`,
+    brandsSub: (dmv: string) =>
+      `Le ${dmv} utilise les marques suivantes pour signaler les v\u00E9hicules avec un historique significatif.`,
+    lemonHeading: (state: string) => `Aper\u00E7u de la Lemon Law en ${state}`,
+    lemonP1: (state: string) =>
+      `Les acheteurs en ${state} sont prot\u00E9g\u00E9s contre les v\u00E9hicules avec des d\u00E9fauts persistants qui ne peuvent pas \u00EAtre r\u00E9par\u00E9s apr\u00E8s un nombre raisonnable de tentatives. Si un v\u00E9hicule a \u00E9t\u00E9 pr\u00E9c\u00E9demment rachet\u00E9 comme lemon, cela devrait \u00EAtre marqu\u00E9 sur le titre \u2014 et une v\u00E9rification VIN est le moyen le plus rapide de v\u00E9rifier cet historique.`,
+    lemonP2:
+      "M\u00EAme si un v\u00E9hicule n'est l\u00E9galement pas un lemon, l'historique r\u00E9p\u00E9t\u00E9 de r\u00E9parations, les rappels r\u00E9currents ou les campagnes de s\u00E9curit\u00E9 ouvertes peuvent \u00EAtre d\u00E9couverts via un rapport d'historique de v\u00E9hicule bas\u00E9 sur le VIN.",
+    howHeading: (state: string) => `Comment lancer une v\u00E9rification VIN en ${state}`,
+    howSteps: (state: string) => [
+      {
+        step: "1",
+        title: "Localise le VIN",
+        desc: `Trouve le VIN de 17 caract\u00E8res sur le v\u00E9hicule. En ${state}, il est typiquement sur le tableau de bord c\u00F4t\u00E9 conducteur, l'autocollant du montant de porte, le titre, la carte d'immatriculation ou les documents d'assurance.`,
+      },
+      {
+        step: "2",
+        title: "Saisis le VIN",
+        desc: `Tape ou colle le VIN dans la case de recherche de cette page. V\u00E9rifie que les 17 caract\u00E8res sont corrects \u2014 les VIN ne contiennent pas les lettres I, O ou Q.`,
+      },
+      {
+        step: "3",
+        title: "Examine ton rapport",
+        desc: `Obtiens un rapport instantan\u00E9 couvrant l'historique du titre, les marques de ${state} et hors-\u00E9tat, les registres d'odom\u00E8tre, les donn\u00E9es d'accidents et les rappels ouverts.`,
+      },
+    ],
+    factsHeading: (state: string) => `Faits VIN uniques de ${state}`,
+    didYouKnow: "Le savais-tu ?",
+    factsAfter: (state: string) =>
+      `Les particularit\u00E9s locales comme celle-ci rendent particuli\u00E8rement important d'utiliser une v\u00E9rification VIN multi-\u00E9tats. Les v\u00E9hicules immatricul\u00E9s en ${state} peuvent avoir \u00E9t\u00E9 pr\u00E9c\u00E9demment titr\u00E9s \u2014 et possiblement endommag\u00E9s \u2014 dans d'autres \u00E9tats avec des r\u00E8gles de d\u00E9claration tr\u00E8s diff\u00E9rentes.`,
+    otherStatesHeading: "V\u00E9rification VIN dans d'autres \u00E9tats",
+    viewAll: "Voir les 50 \u00E9tats",
+    sourcesHeading: (state: string) =>
+      `Donn\u00E9es VIN ${state} \u2014 Sources et r\u00E9f\u00E9rences`,
+    sourcesIntro: (state: string) =>
+      `Chaque marque de titre, rappel, vol et accident ${state} sur cette page remonte \u00E0 une source publique et autoris\u00E9e. Les agences ci-dessous sont les principales origines de donn\u00E9es que notre v\u00E9rification VIN ${state} recoupe.`,
+    sourceItems: (state: string, dmv: string) => [
+      {
+        href: "https://vehiclehistory.bja.ojp.gov/",
+        label: "NMVTIS \u2014 Bureau of Justice Assistance",
+        note: `Registres f\u00E9d\u00E9raux de titre et de marques dans les 50 \u00E9tats des \u00C9tats-Unis, y compris ${state}.`,
+      },
+      {
+        href: "https://www.nhtsa.gov/recalls",
+        label: "NHTSA \u2014 Rappels de s\u00E9curit\u00E9",
+        note: `Recherche autoris\u00E9e de rappels ouverts pour chaque v\u00E9hicule immatricul\u00E9 en ${state}.`,
+      },
+      {
+        href: "https://www.nicb.org/vincheck",
+        label: "NICB VINCheck",
+        note: `Registres gratuits de v\u00E9hicules vol\u00E9s et de salvage des assureurs am\u00E9ricains.`,
+      },
+      {
+        href: "https://vpic.nhtsa.dot.gov/decoder/",
+        label: "D\u00E9codeur VIN NHTSA",
+        note: "D\u00E9codeur f\u00E9d\u00E9ral de r\u00E9f\u00E9rence pour la structure du VIN et les codes de constructeur.",
+      },
+      {
+        href: "https://www.iihs.org/",
+        label: "IIHS \u2014 \u00C9valuations de s\u00E9curit\u00E9 des v\u00E9hicules",
+        note: "Donn\u00E9es ind\u00E9pendantes de crash tests et Top Safety Pick.",
+      },
+      {
+        href: "https://www.ftc.gov/business-guidance/resources/dealers-guide-used-car-rule",
+        label: "FTC \u2014 Used Car Rule (Buyer's Guide)",
+        note: `R\u00E9glementation f\u00E9d\u00E9rale r\u00E9gissant la vente de v\u00E9hicules d'occasion en ${state}.`,
+      },
+    ],
+    sourcesFootnote: (state: string, dmv: string, vehicles: string) =>
+      `Les donn\u00E9es VIN ${state} sont v\u00E9rifi\u00E9es contre NMVTIS, NHTSA, NICB et les registres du ${dmv} au moment de la recherche. ${state} a environ ${vehicles} v\u00E9hicules immatricul\u00E9s.`,
+    relatedHeading: "V\u00E9rifications VIN connexes",
+    related: (state: string) => [
+      {
+        href: "/stolen-vehicle-check",
+        icon: Shield,
+        title: "V\u00E9rification de v\u00E9hicule vol\u00E9",
+        desc: `Regarde si un VIN ${state} est signal\u00E9 comme vol\u00E9.`,
+      },
+      {
+        href: "/salvage-title-check",
+        icon: FileText,
+        title: "V\u00E9rification de titre salvage",
+        desc: `V\u00E9rifie les marques de salvage et reconstruit dans tous les \u00E9tats.`,
+      },
+      {
+        href: "/accident-history-check",
+        icon: Car,
+        title: "V\u00E9rification de l'historique d'accidents",
+        desc: `Trouve les \u00E9v\u00E9nements d'accident enregistr\u00E9s li\u00E9s au VIN.`,
+      },
+      {
+        href: "/lemon-check",
+        icon: AlertTriangle,
+        title: "V\u00E9rification Lemon",
+        desc: `V\u00E9rifie l'historique de rachat lemon law \u00E0 l'\u00E9chelle nationale.`,
+      },
+    ],
+    ctaHeading: (state: string) => `Lance une v\u00E9rification VIN ${state} maintenant`,
+    ctaSub: "Obtiens un rapport d'historique du v\u00E9hicule instantan\u00E9 pour n'importe quel VIN.",
+    ctaTrust: "Plus de 50 000 acheteurs nous font confiance dans tout le pays",
+  },
 } as const;
 
 const otherPopularStateSlugs = [

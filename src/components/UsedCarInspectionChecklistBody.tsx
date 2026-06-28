@@ -162,6 +162,76 @@ const COPY = {
     ctaNote1: "Siempre inspecciona con luz de día",
     ctaNote2: "Nunca transfieras dinero sin ver el auto",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Liste d'inspection de voiture d'occasion",
+    h1: "Liste d'inspection avant achat de voiture d'occasion",
+    introPre: "Une inspection interactive gratuite de ",
+    introMid: " points en 8 catégories — extérieur, dessous, compartiment moteur, intérieur, essai routier, documents, pneus et freins, et HVAC. Repère les deal-breakers avant de payer, puis génère un rapport imprimable que tu peux partager avec ton mécanicien ou ton partenaire.",
+    h2WhyPpi: "Pourquoi une inspection avant achat est importante",
+    whyPpi1: "La vente moyenne de voiture d'occasion aux États-Unis comporte 1 400 USD de problèmes non divulgués. Les vendeurs chauffent le moteur, effacent les codes du tableau de bord et utilisent un détaillage poussé pour masquer les problèmes que tu repérerais en 30 secondes sous une bonne lumière. Une inspection DIY de 45 minutes élimine 70 à 80% des mauvais achats sans dépenser un sou.",
+    whyPpi2: "Le but n'est pas de trouver une voiture parfaite — chaque voiture d'occasion a des défauts. Le but est de trouver des défauts que le vendeur n'a pas divulgués, puis soit de négocier le prix soit de partir. Utilise cette liste d'inspection comme ton script.",
+    h2DiyVsMech: "Inspection DIY vs inspection avant achat par mécanicien",
+    tblAspect: "Aspect",
+    tblDiy: "Liste DIY",
+    tblMech: "PPI par mécanicien",
+    diyRows: [
+      ["Coût", "Gratuit", "120 à 250 USD"],
+      ["Temps", "45 à 60 min", "1 à 2 heures (plus la prise de rendez-vous)"],
+      ["Détecte les deal-breakers", "Oui — châssis, titre, fluides, odeur", "Oui, plus la compression interne"],
+      ["Détecte l'usure mécanique", "Quelques-uns — changements, freins, fuites", "La plupart — inspection sur pont, outils de scan"],
+      ["Quand utiliser", "Chaque voiture d'occasion, avant tout dépôt", "Candidat final, après réussite du DIY"],
+    ] as const,
+    diyAfter: "Utilise d'abord la liste DIY pour filtrer les mauvais achats évidents. Ne paie pour une PPI mécanicien que sur les 1 à 2 voitures finales que tu considères sérieusement.",
+    h2RedFlags: "Top 10 des signaux d'alerte que les acheteurs manquent",
+    topRedFlags: [
+      { title: "Résidu de mayonnaise sous le bouchon d'huile", detail: "Film crémeux blanc-beige = liquide de refroidissement dans l'huile. Presque toujours une défaillance du joint de culasse (2 500 à 6 000 USD)." },
+      { title: "Têtes de boulons dépareillées dans le compartiment moteur", detail: "Boulons remplacés sur l'aile, le radiateur ou le support central indiquent une réparation de collision avant non divulguée." },
+      { title: "Cordons de soudure ondulés sur le châssis", detail: "Les châssis d'usine sont soudés par points uniformément. Soudures MIG ondulées = réparation structurelle de collision. Pars." },
+      { title: "Rouille sur les supports de ceinture de sécurité ou les rails de siège", detail: "Le matériel métallique bas dans l'habitacle ne rouille pas à moins que la voiture n'ait été submergée. Signal classique de dommages par inondation." },
+      { title: "Usure qui ne correspond pas au kilométrage", detail: "Pédales usées, volant brillant, ou siège conducteur élimé sur une voiture de '40k miles' = probable recul du compteur kilométrique." },
+      { title: "Voyants d'avertissement persistants", detail: "Les vendeurs effacent souvent les codes la veille de la vente. Conduis 10+ minutes ; si le CEL ou ABS revient, les codes n'ont pas été réparés." },
+      { title: "Titre pas au nom du vendeur", detail: "Les curbstoners qui pratiquent le 'title-skipping' évitent la taxe de vente et l'historique enregistrable. Cela cache souvent salvage, vol ou fraude." },
+      { title: "Désodorisant fort masquant l'odeur", detail: "Le parfum lourd couvre la fumée de cigarette, la moisissure ou les dommages d'animaux — tout cela diminue la revente et signale la négligence." },
+      { title: "Pneus usés de manière inégale", detail: "Usure du bord intérieur = mauvais alignement ou suspension usée. Usure centrale = sur-gonflage chronique. Usure extérieure = conduite agressive." },
+      { title: "Peinture fraîche sur le moteur ou le dessous de caisse", detail: "Cache souvent des réparations de fuites ou des dommages d'accident. Sois sceptique de tout compartiment moteur 'fraîchement détaillé'." },
+    ],
+    h2DealBreakers: "Quand partir — La liste des deal-breakers",
+    dealBreakersIntro: "Certaines découvertes mettent fin à la négociation. Si l'une de celles-ci apparaît, le mouvement intelligent est de partir sans faire d'offre — il y a des millions de voitures d'occasion sur le marché, tu n'en as besoin que d'une.",
+    dealBreakers: [
+      "Le titre n'est pas au nom légal du vendeur",
+      "Le VIN sur le titre ne correspond pas à la plaque du tableau de bord ou à l'autocollant du montant de porte",
+      "Le châssis est tordu ou a des soudures aftermarket / plaques de remplacement",
+      "Résidu de mayonnaise sous le bouchon d'huile (défaillance du joint de culasse)",
+      "Boulons dépareillés sur les composants structurels / pertinents pour les collisions",
+      "La lecture du compteur kilométrique ne correspond pas au titre ou aux registres de service",
+      "Lourdes taches d'eau + rouille sur les supports de siège (dommages d'inondation)",
+    ],
+    h2CategoriesPre: "Ce qui se trouve dans la liste de ",
+    h2CategoriesSuffix: " points",
+    ptsLabel: "pts",
+    crossLinks: [
+      { href: "/vin-check", label: "Vérification VIN gratuite", sub: "Titre, accidents, compteur kilométrique" },
+      { href: "/total-cost-of-ownership-calculator", label: "Coût total de propriété", sub: "Coût réel sur 5 ans" },
+      { href: "/car-affordability-calculator", label: "Accessibilité", sub: "Ce que tu peux te permettre" },
+    ],
+    h2Faq: "Questions fréquemment posées",
+    faqs: [
+      { q: "Une inspection DIY peut-elle remplacer la PPI d'un mécanicien ?", a: "Elle détecte 70 à 80% des mauvais achats gratuitement. Utilise la liste d'inspection sur chaque voiture que tu regardes ; ne paie pour une PPI mécanicien que sur ton finaliste." },
+      { q: "Quelle est la chose la plus importante à vérifier ?", a: "Titre, VIN et châssis — dans cet ordre. Les problèmes mécaniques sont négociables ; les problèmes juridiques et structurels le sont rarement." },
+      { q: "Combien de temps doit durer une inspection ?", a: "Prévois 45 à 60 minutes incluant l'essai routier. Si un vendeur te presse, c'est son propre signal d'alerte." },
+      { q: "Qu'est-ce qu'un deal-breaker sur une voiture d'occasion ?", a: "Fraude de titre, VIN ne correspondant pas, soudures de châssis, défaillance du joint de culasse (mayo sur le bouchon d'huile), compteur kilométrique ne correspondant pas, et dommages d'inondation confirmés. Pars dans tous ces cas." },
+      { q: "Puis-je imprimer ou partager le rapport ?", a: "Oui. Tape 'Générer le rapport' pour voir un résumé adapté à l'impression, puis 'Imprimer' ou 'Copier en Markdown' pour partager avec qui que ce soit." },
+      { q: "Que signifie chaque sévérité ?", a: "Deal-breaker = pars. Majeur = réparation coûteuse, négocie ou obtiens une PPI mécanicien. Mineur = cosmétique / entretien de routine. Info = bon à savoir." },
+      { q: "Cela fonctionne-t-il pour les camions et SUV ?", a: "Oui — chaque vérification s'applique aux voitures de tourisme, SUV et camions. Pour les motocyclettes, utilise notre vérification VIN moto." },
+      { q: "Mon progrès est-il sauvegardé ?", a: "Oui. Tes réponses et les détails du véhicule sont stockés localement dans ton navigateur. Ferme l'onglet, reviens plus tard, reprends là où tu t'es arrêté." },
+    ],
+    ctaH2: "N'achète pas sans vérification VIN",
+    ctaSub: "Même une inspection parfaite ne peut pas révéler les accidents, les marques salvage ou les reculs de compteur kilométrique enfouis dans l'historique du titre. Une vérification VIN gratuite prend 60 secondes et extrait le registre fédéral NMVTIS pour chaque rapport.",
+    ctaButton: "Exécuter une vérification VIN gratuite",
+    ctaNote1: "Inspecte toujours à la lumière du jour",
+    ctaNote2: "Ne transfère jamais d'argent sans voir la voiture",
+  },
 } as const;
 
 interface Props { locale: Locale; }
@@ -359,7 +429,9 @@ export default function UsedCarInspectionChecklistBody({ locale }: Props) {
 }
 
 /* ── Section title/description translations (keyed by section id) ── */
-const SECTION_TRANSLATIONS: Record<Locale, Record<string, { title: string; description: string }>> = {
+// Pre-emptively widened to include fr; the Locale union still excludes "fr"
+// today but the dictionary is ready for the moment it widens.
+const SECTION_TRANSLATIONS: Record<Locale | "fr", Record<string, { title: string; description: string }>> = {
   en: {
     exterior: { title: "Walk-Around Exterior", description: "Body, paint, glass, and tires. Look for accident-repair signs, mismatched panels, and weather damage in good daylight." },
     underneath: { title: "Underneath the Vehicle", description: "The frame, exhaust, and suspension tell the truth about a car's life. Bring a flashlight and don't skip this section." },
@@ -379,6 +451,16 @@ const SECTION_TRANSLATIONS: Record<Locale, Record<string, { title: string; descr
     documents: { title: "Documentos", description: "El papeleo es donde usualmente se esconde el fraude. Verifica cada documento antes de que cambie de manos cualquier dinero." },
     "tires-brakes": { title: "Llantas y frenos", description: "Estas son las cosas más baratas de verificar y las más costosas de reemplazar si adivinas mal." },
     "hvac-electronics": { title: "A/C, calefacción y electrónicos", description: "Los gremlins eléctricos son la sorpresa más común de 'no sabía de eso'. Prueba cada interruptor, luz y accesorio." },
+  },
+  fr: {
+    exterior: { title: "Tour extérieur", description: "Carrosserie, peinture, vitres et pneus. Cherche les signes de réparation d'accident, les panneaux dépareillés et les dommages climatiques sous une bonne lumière du jour." },
+    underneath: { title: "Sous le véhicule", description: "Le châssis, l'échappement et la suspension racontent la vérité sur la vie d'une voiture. Apporte une lampe de poche et ne saute pas cette section." },
+    "engine-bay": { title: "Compartiment moteur", description: "Ouvre le capot avec le moteur froid. Beaucoup des pires problèmes sont visibles sans jamais tourner une clé." },
+    interior: { title: "Intérieur", description: "Les motifs d'usure, les odeurs et l'électronique révèlent la vraie histoire du véhicule — parfois plus que le vendeur ne le fait." },
+    "test-drive": { title: "Essai routier", description: "Conduis au moins 20 minutes incluant les arrêts et démarrages et les vitesses d'autoroute. Démarre toi-même le moteur à froid si possible." },
+    documents: { title: "Documents", description: "Les papiers sont là où la fraude se cache habituellement. Vérifie chaque document avant qu'aucun argent ne change de mains." },
+    "tires-brakes": { title: "Pneus et freins", description: "Ce sont les choses les moins chères à vérifier et les plus coûteuses à remplacer si tu te trompes." },
+    "hvac-electronics": { title: "HVAC et électronique", description: "Les gremlins électriques sont la surprise la plus courante de 'je ne savais pas'. Teste chaque interrupteur, lumière et accessoire." },
   },
 };
 
@@ -404,4 +486,15 @@ const FAQS_ES = [
   { question: "¿La lista funciona para camionetas, SUVs y motocicletas?", answer: "La mayoría de las revisiones aplican a todos los vehículos de pasajeros de 4 ruedas. Para motocicletas, usa nuestra herramienta de verificación VIN de motocicletas — los puntos de inspección del chasis, suspensión y cadena difieren lo suficiente como para que una lista dedicada funcione mejor." },
 ];
 
-export { FAQS_EN, FAQS_ES };
+const FAQS_FR = [
+  { question: "Une inspection DIY peut-elle remplacer l'inspection avant achat d'un m\u00e9canicien ?", answer: "Une liste DIY filtre 70 \u00e0 80\u00a0% des mauvais achats avant que tu paies 150-250\u00a0$ pour une PPI chez un m\u00e9canicien. Utilise cette liste d'abord \u2014 si un facteur r\u00e9dhibitoire appara\u00eet, va-t'en. Si tout semble bien, paie alors un m\u00e9canicien pour inspecter les syst\u00e8mes m\u00e9caniques que tu ne peux pas voir (compression, diagnostic au scanner, inspection de suspension sur \u00e9l\u00e9vateur)." },
+  { question: "Quelle est la chose la plus importante \u00e0 v\u00e9rifier sur une voiture d'occasion ?", answer: "Le titre, le VIN et le ch\u00e2ssis \u2014 dans cet ordre. Un VIN non concordant ou un titre salvage peut rendre la voiture sans valeur ou invendable. Un ch\u00e2ssis tordu ou soud\u00e9 compromet la s\u00e9curit\u00e9. Les probl\u00e8mes m\u00e9caniques sont n\u00e9gociables\u00a0; les probl\u00e8mes structurels et l\u00e9gaux ne le sont g\u00e9n\u00e9ralement pas." },
+  { question: "Combien de temps doit durer une inspection avant achat ?", answer: "Pr\u00e9vois 45-60 minutes au total\u00a0: 20 minutes \u00e0 inspecter le v\u00e9hicule et les fluides, 20 minutes d'essai routier, 10 minutes \u00e0 v\u00e9rifier les documents et rappels. Ne laisse pas un vendeur te bousculer \u2014 c'est un drapeau rouge en soi." },
+  { question: "Quels sont les facteurs r\u00e9dhibitoires sur une voiture d'occasion ?", answer: "Va-t'en pour un v\u00e9hicule avec\u00a0: titre pas au nom du vendeur, VIN qui ne correspond pas entre titre et v\u00e9hicule, titre salvage ou inondation non d\u00e9clar\u00e9, mayonnaise sur le bouchon d'huile (panne de joint de culasse), soudures de ch\u00e2ssis apr\u00e8s-march\u00e9 (r\u00e9paration de collision), ou kilom\u00e9trage qui ne concorde pas avec les dossiers d'entretien." },
+  { question: "Puis-je imprimer cette liste ?", answer: "Oui. Remplis l'inspection sur ton t\u00e9l\u00e9phone ou ordinateur, puis tape \u00ab\u00a0G\u00e9n\u00e9rer le rapport\u00a0\u00bb et \u00ab\u00a0Imprimer\u00a0\u00bb. Tu peux aussi copier une version Markdown pour l'envoyer par message ou courriel \u00e0 ton m\u00e9canicien, partenaire ou source de financement." },
+  { question: "Quel MPG, kilom\u00e9trage ou prix dois-je attendre sur une voiture d'occasion ?", answer: "Il n'y a pas de r\u00e9ponse unique \u2014 mais nos calculateurs compl\u00e9mentaires aident\u00a0: essaie le calculateur de consommation, le calculateur de co\u00fbt total de propri\u00e9t\u00e9 et le calculateur d'abordabilit\u00e9 auto. Fais toujours une v\u00e9rification d'historique VIN gratuite avant de verser tout acompte." },
+  { question: "Que signifie chaque s\u00e9v\u00e9rit\u00e9 ?", answer: "\u00ab\u00a0Facteur r\u00e9dhibitoire\u00a0\u00bb = va-t'en (soudures de ch\u00e2ssis, fraude au titre, panne de joint de culasse). \u00ab\u00a0Majeur\u00a0\u00bb = r\u00e9paration co\u00fbteuse ou probl\u00e8me cach\u00e9\u00a0; n\u00e9gocie ferme ou obtiens une PPI. \u00ab\u00a0Mineur\u00a0\u00bb = cosm\u00e9tique ou entretien de routine\u00a0; utilise-le comme levier de prix. \u00ab\u00a0Info\u00a0\u00bb = bon \u00e0 savoir, change rarement la donne." },
+  { question: "La liste fonctionne-t-elle pour camions, SUV et motos ?", answer: "La plupart des v\u00e9rifications s'appliquent \u00e0 tous les v\u00e9hicules de tourisme \u00e0 4 roues. Pour les motos, utilise notre outil de v\u00e9rification VIN moto \u2014 le ch\u00e2ssis, la suspension et l'inspection de la cha\u00eene diff\u00e8rent suffisamment pour qu'une liste d\u00e9di\u00e9e fonctionne mieux." },
+];
+
+export { FAQS_EN, FAQS_ES, FAQS_FR };
