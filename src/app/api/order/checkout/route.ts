@@ -21,7 +21,7 @@ interface CheckoutBody {
       exactly where they were rather than the generic homepage. */
   returnTo?: string;
   /** Wave 10: locale for Stripe Checkout UI + custom_text + product copy. */
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
   /** Prepaid bundle size (3 / 5 / 10). Absent/1 = a single report. The price
       is re-derived server-side from this size — the client never sets it. */
   bundleSize?: number;
@@ -163,7 +163,7 @@ export async function POST(req: Request) {
       bundle_size: bundle ? bundle.size : null,
       // Persist the buyer's locale so the post-purchase report renders in
       // the same language they checked out in. Used by /api/order/report.
-      locale: body.locale === "es" ? "es" : "en",
+      locale: body.locale === "es" || body.locale === "fr" ? body.locale : "en",
       ip_hash: ipHash,
       user_agent: userAgent.slice(0, 500),
     })
@@ -222,7 +222,7 @@ export async function POST(req: Request) {
         couponCode: (body.coupon || "").trim() || undefined,
         origin,
         cancelUrl,
-        locale: body.locale === "es" ? "es" : "en",
+        locale: body.locale === "es" || body.locale === "fr" ? body.locale : "en",
         bundleSize: bundle ? bundle.size : undefined,
       });
     }

@@ -40,6 +40,25 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    eyebrow: "Processus simple",
+    heading: "Comment ça marche",
+    sub: "Obtiens le rapport complet de l'historique de ton véhicule en trois étapes simples",
+    steps: [
+      {
+        title: "Trouve ton VIN",
+        description: "Repère le VIN de 17 caractères sur le tableau de bord (visible à travers le pare-brise), sur l'autocollant du montant de la portière côté conducteur, ou sur la carte grise du véhicule.",
+      },
+      {
+        title: "Décodage instantané",
+        description: "Nous interrogeons NMVTIS, les bases de données des constructeurs et les annonces de concessionnaires en temps réel — en croisant plus de 40 points de données en moins de 60 secondes.",
+      },
+      {
+        title: "Reçois ton rapport",
+        description: "Visualise un aperçu complet : spécifications complètes, vraies photos, valeurs de marché, liste d'équipements, alertes de rappel et historique de propriété — le tout sur un seul écran.",
+      },
+    ],
+  },
 } as const;
 
 const STEP_VISUALS = [

@@ -58,6 +58,34 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    eyebrow: "Propulsé par une IA avancée",
+    headlineLead: "Ne lis pas seulement les données.",
+    headlineAccent: "Laisse l'IA les comprendre pour toi.",
+    sub: "Nous sommes le premier fournisseur d'historique de véhicules à intégrer une architecture IA avancée directement dans chaque rapport — transformant les données VIN brutes en réponses claires, histoires et avertissements que tu peux réellement utiliser.",
+    cards: [
+      {
+        title: "Concierge IA VIN",
+        description:
+          "Pose des questions en langage naturel sur n'importe quel rapport VIN. Notre assistant croise les données du moteur, les rappels, la valeur de marché et l'équipement pour te donner une réponse claire et honnête en quelques secondes.",
+      },
+      {
+        title: "Analyses de risques IA",
+        description:
+          "Notation automatique de la gravité des accidents, anomalies du compteur, marques de titre et schémas de propriété — révélés comme des signaux d'alerte avant même que tu n'ouvres ton portefeuille.",
+      },
+      {
+        title: "Narrateur IA de véhicule",
+        description:
+          "Transforme des dossiers techniques denses en une biographie lisible de la voiture — quand et où elle a été construite, comment elle a été équipée, et comment elle a été conduite et entretenue.",
+      },
+      {
+        title: "Chercheur IA de véhicules",
+        description:
+          "Décris la voiture que tu veux dans un langage courant. Notre chercheur fait correspondre tes besoins aux annonces en direct, données MSRP et fiabilité réelle pour faire apparaître le bon VIN pour toi.",
+      },
+    ],
+  },
 } as const;
 
 const CARD_VISUALS = [

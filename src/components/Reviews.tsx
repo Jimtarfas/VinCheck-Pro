@@ -51,6 +51,28 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    heading: "Ce que disent nos clients",
+    trustpilotLabel: "Trustpilot",
+    reviews: [
+      {
+        name: "Carmen Liam",
+        text: "le rapport était excellent, le site fluide, j'ai comparé mon rapport avec celui du concessionnaire et j'ai eu les mêmes informations, tout était parfait",
+      },
+      {
+        name: "Adams Daniel Brook",
+        text: "je cherchais un SUV d'occasion, quand j'ai trouvé ce site sur Google j'ai vérifié le VIN dans leur outil gratuit, tout allait bien merci",
+      },
+      {
+        name: "David Franz Friedhof",
+        text: "m'a évité d'acheter une voiture avec des dégâts d'inondation cachés, le rapport montrait tout ce qu'il fallait, merci carcheckervin",
+      },
+      {
+        name: "regano jerom",
+        text: "j'ai entendu parler du site dans une communauté auto sur Reddit, je l'ai essayé, le rapport a des informations complètes et le prix est raisonnable",
+      },
+    ],
+  },
 } as const;
 
 const REVIEW_URLS = [

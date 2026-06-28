@@ -49,6 +49,24 @@ const COPY = {
       { value: "40+",   label: "Puntos de datos" },
     ],
   },
+  fr: {
+    eyebrow: "Aperçu gratuit — Résultats instantanés",
+    headlineLead: "Découvre l'histoire",
+    headlineAccent: "complète de ta voiture.",
+    sub: "Décode n'importe quel VIN pour obtenir les caractéristiques complètes du véhicule, de vraies photos, la valeur de marché et l'historique de propriété en quelques secondes.",
+    trustedSources: "Sources fiables :",
+    imageAlt: "SUV de luxe moderne — vérifie le VIN avant d'acheter",
+    badgeVehicleVerified: "Véhicule vérifié ✓",
+    badgeDataPoints: "40+ points de données",
+    badgeVinDecodedLabel: "VIN décodé",
+    badgeVinDecodedValue: "17 caractères vérifiés",
+    stats: [
+      { value: "50K+",  label: "Rapports téléchargés" },
+      { value: "4.9",   label: "Note moyenne" },
+      { value: "<60s",  label: "Vitesse du rapport" },
+      { value: "40+",   label: "Points de données" },
+    ],
+  },
 } as const;
 
 export default function HeroSection({

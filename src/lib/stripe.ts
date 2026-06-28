@@ -77,7 +77,7 @@ export interface CreateCheckoutSessionInput {
   // localises the entire Checkout UI — labels, error messages, country
   // names, card brand strings). Also drives the language of our
   // custom_text and the product name / description below.
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
   // Prepaid bundle size (3 / 5 / 10). When set to a valid bundle, the line
   // item is charged at the bundle's server-authoritative total instead of
   // the single-report price, and `metadata[bundle_size]` is set so the
@@ -134,8 +134,10 @@ export async function createCheckoutSession(
   // Valid values include "auto" (Accept-Language sniff) and explicit
   // language tags — "es" covers the LATAM + US Hispanic market.
   if (input.locale === "es") body.set("locale", "es");
+  if (input.locale === "fr") body.set("locale", "fr");
 
   const isEs = input.locale === "es";
+  const isFr = input.locale === "fr";
 
   // Server-authoritative pricing. The client only sends a bundle SIZE; we
   // look up the real total here so a tampered request can't change what
@@ -149,9 +151,15 @@ export async function createCheckoutSession(
   body.set(
     "line_items[0][price_data][product_data][name]",
     bundle
-      ? isEs
+      ? isFr
+        ? `Pack de ${bundle.size} rapports d'historique de v\u00e9hicule`
+        : isEs
         ? `Paquete de ${bundle.size} reportes de historial vehicular`
         : `${bundle.size}-Report Vehicle History Pack`
+      : isFr
+      ? input.vehicleLabel
+        ? `Rapport d'historique de v\u00e9hicule \u2014 ${input.vehicleLabel}`
+        : "Rapport d'historique de v\u00e9hicule"
       : isEs
       ? input.vehicleLabel
         ? `Reporte de historial vehicular — ${input.vehicleLabel}`
@@ -163,9 +171,13 @@ export async function createCheckoutSession(
   body.set(
     "line_items[0][price_data][product_data][description]",
     bundle
-      ? isEs
+      ? isFr
+        ? `Rapport pour le VIN ${input.vin} maintenant + ${bundle.size - 1} cr\u00e9dits pour tout VIN (valables 12 mois).`
+        : isEs
         ? `Reporte del VIN ${input.vin} ahora + ${bundle.size - 1} créditos para cualquier VIN (válidos 12 meses).`
         : `VIN ${input.vin} report now + ${bundle.size - 1} credits for any VIN (valid 12 months).`
+      : isFr
+      ? `Rapport complet soutenu par NMVTIS pour le VIN ${input.vin}.`
       : isEs
       ? `Reporte completo respaldado por NMVTIS para el VIN ${input.vin}.`
       : `Full NMVTIS-backed history report for VIN ${input.vin}.`
@@ -235,7 +247,13 @@ export async function createCheckoutSession(
   // does the legal heavy lifting.
   body.set(
     "custom_text[submit][message]",
-    isEs
+    isFr
+      ? `En cliquant sur Payer, tu acceptes les Conditions G\u00e9n\u00e9rales de CarCheckerVIN ` +
+          `(${site}/terms) et la Divulgation NMVTIS au Consommateur exig\u00e9e par la loi ` +
+          `f\u00e9d\u00e9rale (${site}/disclaimer). Les rapports sont r\u00e9serv\u00e9s \u00e0 un usage personnel. ` +
+          `Donn\u00e9es fournies par ClearVin LLC, un fournisseur de donn\u00e9es NMVTIS agr\u00e9\u00e9, ` +
+          `et affich\u00e9es sans modification.`
+      : isEs
       ? `Al hacer clic en Pagar aceptas los Términos y Condiciones de CarCheckerVIN ` +
           `(${site}/terms) y la Divulgación NMVTIS al Consumidor exigida por la ley ` +
           `federal (${site}/disclaimer). Los reportes son solo para uso personal. ` +
@@ -249,7 +267,9 @@ export async function createCheckoutSession(
   );
   body.set(
     "custom_text[after_submit][message]",
-    isEs
+    isFr
+      ? "Apr\u00e8s le paiement, tu seras redirig\u00e9 vers ton rapport complet d'historique de v\u00e9hicule."
+      : isEs
       ? "Tras el pago serás redirigido a tu reporte completo del historial del vehículo."
       : "After payment you'll be redirected to your full vehicle history report."
   );

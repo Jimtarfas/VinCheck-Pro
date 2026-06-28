@@ -54,6 +54,26 @@ const COPY = {
       mosTemplate: "hace {n} meses",
     },
   },
+  fr: {
+    eyebrow: "Tes rapports VIN récents",
+    heading: "Reprends là où tu t'étais arrêté",
+    sub: "Enregistrés dans ton compte — ouvre-les depuis n'importe quel appareil, à tout moment.",
+    viewAll: "Voir tout",
+    reopen: "Rouvrir le rapport",
+    vinLabel: "VIN :",
+    relative: {
+      justNow: "à l'instant",
+      minTemplate: "il y a {n} min",
+      hrTemplate: "il y a {n} h",
+      hrsTemplate: "il y a {n} h",
+      dayTemplate: "il y a {n} jour",
+      daysTemplate: "il y a {n} jours",
+      wkTemplate: "il y a {n} sem",
+      wksTemplate: "il y a {n} sem",
+      moTemplate: "il y a {n} mois",
+      mosTemplate: "il y a {n} mois",
+    },
+  },
 } as const;
 
 function relativeTime(iso: string, locale: Locale): string {

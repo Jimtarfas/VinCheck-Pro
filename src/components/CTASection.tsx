@@ -21,6 +21,15 @@ const COPY = {
     badgeLaunch: "Gratis durante el lanzamiento",
     sampleLink: "Ver reporte de muestra →",
   },
+  fr: {
+    headlineLine1: "Prêt à découvrir",
+    headlineLine2: "la vérité ?",
+    sub: "Ne laisse pas ton investissement au hasard. Rejoins les acheteurs qui prennent des décisions plus avisées avec CarCheckerVIN.",
+    badgeNmvtis: "Données fédérales NMVTIS",
+    badgeSpeed: "Moins de 60 secondes",
+    badgeLaunch: "Gratuit pendant le lancement",
+    sampleLink: "Voir un rapport d'exemple →",
+  },
 } as const;
 
 export default function CTASection({

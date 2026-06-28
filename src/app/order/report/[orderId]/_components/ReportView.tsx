@@ -24,7 +24,7 @@ interface OrderMeta {
   createdAt?: string;
   deliveredAt?: string;
   /** "en" or "es" — captured at checkout, drives report UI language. */
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }
 
 // Tiny copy block for the chrome states. The full report's translations live
@@ -51,6 +51,17 @@ const COPY = {
     networkError: "Error de red \u2014 intenta de nuevo.",
     couldNotLoad: (code: number) => `No se pudo cargar el reporte (error ${code}).`,
     couldNotLoadShort: "No se pudo cargar el reporte.",
+  },
+  fr: {
+    loading: "Chargement de ton rapport\u2026",
+    errorTitle: "Nous avons rencontr\u00e9 un probl\u00e8me en chargeant ce rapport",
+    tryAgain: "R\u00e9essayer",
+    emailSupport: "Contacter le support",
+    pendingTitle: "En attente de la confirmation du paiement",
+    pendingBody: "Stripe confirme encore la transaction. Cette page se rafra\u00eechira automatiquement.",
+    networkError: "Erreur r\u00e9seau \u2014 r\u00e9essaie.",
+    couldNotLoad: (code: number) => `Impossible de charger le rapport (erreur ${code}).`,
+    couldNotLoadShort: "Impossible de charger le rapport.",
   },
 } as const;
 
@@ -93,9 +104,9 @@ export default function ReportView({ orderId }: Props) {
 
       // Take the locale from whatever order data the API just returned so
       // subsequent error/loading copy speaks the buyer's language.
-      const incomingLocale = (json?.order?.locale === "es" ? "es" : "en") as
-        | "en"
-        | "es";
+      const incomingLocale = ((json?.order?.locale === "es" || json?.order?.locale === "fr")
+        ? json.order.locale
+        : "en") as "en" | "es" | "fr";
       if (!json) {
         setErrorMessage(COPY[incomingLocale].couldNotLoad(res.status));
         return;
@@ -115,8 +126,8 @@ export default function ReportView({ orderId }: Props) {
       setOrder(json.order || null);
       setStructured(json.structured || null);
     } catch {
-      const fallbackLocale: "en" | "es" =
-        order?.locale === "es" ? "es" : "en";
+      const fallbackLocale: "en" | "es" | "fr" =
+        order?.locale === "es" || order?.locale === "fr" ? order.locale : "en";
       setErrorMessage(COPY[fallbackLocale].networkError);
     } finally {
       setLoading(false);
@@ -137,7 +148,8 @@ export default function ReportView({ orderId }: Props) {
   // ── Loading / error / pending states ──
   // These render inside the standalone /order layout (which has its own sticky
   // header), so they carry top padding to clear it.
-  const locale: "en" | "es" = order?.locale === "es" ? "es" : "en";
+  const locale: "en" | "es" | "fr" =
+    order?.locale === "es" || order?.locale === "fr" ? order.locale : "en";
   const c = COPY[locale];
 
   if (loading) {

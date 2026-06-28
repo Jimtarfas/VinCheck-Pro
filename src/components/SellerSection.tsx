@@ -49,6 +49,29 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    soldIn: "Vendu en",
+    soldInValue: "3 jours",
+    eyebrow: "Pour les vendeurs",
+    heading: "Tu vends ton véhicule ?",
+    intro:
+      "Un rapport CarCheckerVIN t'aide à vendre plus vite et à meilleur prix. Donne aux acheteurs la transparence dont ils ont besoin pour dire oui en toute confiance.",
+    imageAlt: "Véhicule en vente",
+    benefits: [
+      {
+        title: "Obtiens le meilleur prix",
+        description: "Les véhicules avec rapports propres atteignent des prix 10 à 15 % plus élevés.",
+      },
+      {
+        title: "Attire plus d'acheteurs",
+        description: "Les annonces avec rapport véhicule reçoivent 3× plus de demandes sérieuses.",
+      },
+      {
+        title: "Réduis ta responsabilité",
+        description: "Documente l'état du véhicule dès le départ et inspire confiance aux acheteurs.",
+      },
+    ],
+  },
 } as const;
 
 const BENEFIT_VISUALS = [

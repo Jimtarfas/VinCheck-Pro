@@ -47,6 +47,27 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    toggle: "Où trouver mon VIN ?",
+    header: "Ton VIN à 17 caractères",
+    headerSub:
+      "Chaque véhicule fabriqué après 1981 a un VIN unique. Voici les endroits les plus courants pour le trouver :",
+    exampleLabel: "Exemple :",
+    locations: [
+      {
+        label: "Tableau de bord",
+        desc: "Côté conducteur, visible à travers le pare-brise à la base",
+      },
+      {
+        label: "Montant de porte conducteur",
+        desc: "À l'intérieur du cadre de porte — cherche l'autocollant blanc près du loquet",
+      },
+      {
+        label: "Documents",
+        desc: "Sur ta carte grise, titre ou carte d'assurance",
+      },
+    ],
+  },
 } as const;
 
 // Icon + color stay locale-independent — they're visual, not textual.

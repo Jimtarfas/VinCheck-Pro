@@ -154,6 +154,82 @@ const COPY = {
       "Registros de robo",
     ],
   },
+  fr: {
+    sectionAHeading: "Couverture complète de plus de 40 points",
+    sectionAIntro:
+      "Nous exploitons les données fédérales NMVTIS, les réseaux de concessionnaires et les bases de données des assureurs pour te fournir le dossier véhicule le plus exhaustif possible. Voici ce qui est inclus dans chaque rapport.",
+    coverageColumns: [
+      {
+        title: "Données d'état et de valeur",
+        items: [
+          "Valeur de marché (reprise et détail)",
+          "Vérification du compteur et reculs",
+          "Dommages structurels et perte totale",
+          "Historique d'accidents et gravité",
+          "Marques de casse, citron et inondation",
+        ],
+        more: "+ 7 vérifications supplémentaires",
+      },
+      {
+        title: "Propriété et dossiers légaux",
+        items: [
+          "Historique de propriété détaillé",
+          "Dossiers de marques de titre",
+          "Immatriculations de titre par État",
+          "Privilèges actifs et prêts auto",
+          "Dossiers de vol et de récupération",
+        ],
+        more: "+ 7 vérifications supplémentaires",
+      },
+      {
+        title: "Données techniques et cycle de vie",
+        items: [
+          "MSRP et spécifications d'origine",
+          "Liste complète d'équipements et options",
+          "Rappels de sécurité actifs",
+          "Détails moteur et groupe motopropulseur",
+          "Annonces de concessionnaires et marché",
+        ],
+        more: "+ 8 vérifications supplémentaires",
+      },
+    ],
+    sectionBEyebrow: "L'archive",
+    sectionBHeading: "Documentation centrale.",
+    bentoItems: [
+      {
+        title: "Historique d'accidents",
+        desc: "Dossiers détaillés des collisions, dommages au châssis et réparations structurelles documentés par les forces de l'ordre et les assureurs.",
+      },
+      {
+        title: "Dossiers de titre",
+        desc: "Marques de récupération, inondation, citron et reconstruction qui restent attachées à l'identité numérique permanente du véhicule.",
+      },
+      {
+        title: "Spécifications complètes",
+        desc: "Données originales du fabricant, ensembles d'équipements et fiches d'usine.",
+      },
+      {
+        title: "Rappels de sécurité",
+        desc: "Reste informé des rappels ouverts et avis de sécurité directement de la NHTSA et des fabricants.",
+      },
+    ],
+    sectionCEyebrow: "Tout ce dont tu as besoin",
+    sectionCHeading: "Plus de 40 points de données, un seul rapport",
+    featureGrid: [
+      "Photos réelles du véhicule",
+      "Valeur de marché",
+      "Spécifications complètes",
+      "Équipements et options",
+      "Comparaison de prix",
+      "Alertes de rappels",
+      "Moteur et groupe motopropulseur",
+      "Classification",
+      "Annonces de concessionnaires",
+      "Historique d'accidents",
+      "Titre et propriété",
+      "Dossiers de vol",
+    ],
+  },
 } as const;
 
 const COVERAGE_VISUALS = [

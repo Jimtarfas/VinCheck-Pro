@@ -58,6 +58,28 @@ const COPY = {
     badgeSecure: "100% Seguro",
     badgeInstant: "Resultados al instante",
   },
+  fr: {
+    toggleVin: "Par VIN",
+    togglePlate: "Par plaque US",
+    vinPlaceholder: "Saisis ton VIN à 17 caractères",
+    platePlaceholder: "Numéro de plaque",
+    stateLabelDefault: "État…",
+    stateAriaLabel: "État émetteur",
+    submitVin: "Vérifier VIN",
+    submitVinLoading: "Vérification…",
+    submitPlate: "Rechercher VIN",
+    submitPlateLoading: "Recherche…",
+    errorVinLength: "Un VIN valide doit comporter exactement 17 caractères.",
+    errorVinBanned: "Les VIN ne peuvent pas contenir les lettres I, O ou Q.",
+    errorPlateEmpty: "Saisis un numéro de plaque.",
+    errorPlateLong: "Les plaques font au maximum 8 caractères.",
+    errorPlateNoState: "Sélectionne l'État émetteur.",
+    errorPlateNotFound:
+      "Nous n'avons pas trouvé de VIN pour cette plaque. Essaie une recherche par VIN.",
+    errorNetwork: "Erreur réseau.",
+    badgeSecure: "100% Sécurisé",
+    badgeInstant: "Résultats instantanés",
+  },
 } as const;
 
 export default function VinSearchForm({

@@ -59,6 +59,30 @@ const COPY = {
     ctaSuffix: ". Empieza con una vista previa gratis, sin tarjeta de crédito.",
     ctaButton: "Revisión VIN gratis",
   },
+  fr: {
+    eyebrow: "Comparaison du marché",
+    heading: "Comment nous nous comparons aux géants",
+    sub: "Ne te contente pas de moins de données à un prix plus élevé. Nous livrons plus d'informations pour une fraction du coût.",
+    tableHeader: "Comparaison des fonctionnalités",
+    bestValue: "Meilleure valeur",
+    partial: "Partiel",
+    features: [
+      "Historique d'accidents et dommages",
+      "Dossiers de titre et marques",
+      "Photos réelles du véhicule",
+      "Photos d'enchères de récupération",
+      "Analyse de la valeur de marché",
+      "Vérification du compteur",
+      "Dossiers de vol et de récupération",
+      "Équipements et options complets",
+      "Aperçu gratuit (sans carte)",
+      "Tarif (rapport unique)",
+    ],
+    ctaPrefix: "Obtiens les mêmes informations que les géants facturent $25–$45 —",
+    ctaPriceTemplate: "seulement {price} par rapport",
+    ctaSuffix: ". Commence par un aperçu gratuit, sans carte de crédit.",
+    ctaButton: "Vérification VIN gratuite",
+  },
 } as const;
 
 export default function ComparisonSection({

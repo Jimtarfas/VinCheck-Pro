@@ -18,7 +18,7 @@
  */
 
 export const DEFAULT_LOCALE = "en" as const;
-export const LOCALES = ["en", "es"] as const;
+export const LOCALES = ["en", "es", "fr"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 /** Locales other than the default — used when generating hreflang chains. */
@@ -37,6 +37,7 @@ export const PICKER_LOCALES: ReadonlyArray<{
 }> = [
   { code: "en", label: "English", nativeLabel: "English", flag: "🇺🇸" },
   { code: "es", label: "Spanish", nativeLabel: "Español", flag: "🇪🇸" },
+  { code: "fr", label: "French",  nativeLabel: "Français", flag: "🇫🇷" },
 ];
 
 /**
@@ -49,6 +50,7 @@ export const PICKER_LOCALES: ReadonlyArray<{
 export const HTML_LANG: Record<Locale, string> = {
   en: "en",
   es: "es",
+  fr: "fr",
 };
 
 /**

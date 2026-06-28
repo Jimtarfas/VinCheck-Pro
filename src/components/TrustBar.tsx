@@ -20,6 +20,14 @@ const COPY = {
       { value: "24/7",  label: "Datos disponibles" },
     ],
   },
+  fr: {
+    stats: [
+      { value: "50K+",  label: "Rapports téléchargés" },
+      { value: "4.9",   label: "Note moyenne" },
+      { value: "<60s",  label: "Délai moyen" },
+      { value: "24/7",  label: "Données disponibles" },
+    ],
+  },
 } as const;
 
 export default function TrustBar({

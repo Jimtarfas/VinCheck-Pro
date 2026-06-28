@@ -89,6 +89,48 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    heading: "Questions fréquentes",
+    sub: "Tout ce que tu dois savoir sur les rapports CarCheckerVIN.",
+    faqs: [
+      {
+        question: "Qu'est-ce qu'un VIN et où puis-je le trouver ?",
+        answer: "Le Numéro d'Identification du Véhicule (VIN) est un code unique de 17 caractères attribué à chaque véhicule à moteur. Tu peux le trouver sur le tableau de bord côté conducteur (visible à travers le pare-brise), sur l'autocollant du montant de la portière conducteur, sur ta carte grise ou sur tes documents d'assurance.",
+      },
+      {
+        question: "Quelles informations sont incluses dans un rapport CarCheckerVIN ?",
+        answer: "Nos rapports incluent les spécifications complètes du véhicule (moteur, transmission, transmission intégrale), toutes les options et équipements d'usine, les estimations de valeur de marché, les informations de rappel, des vraies photos du véhicule et des données techniques détaillées issues de NMVTIS et des bases de données constructeurs.",
+      },
+      {
+        question: "À quelle vitesse vais-je recevoir mon rapport VIN ?",
+        answer: "Les rapports VIN sont générés instantanément — généralement en moins de 60 secondes. Une fois ton VIN décodé, tu verras immédiatement le rapport complet d'historique du véhicule à l'écran.",
+      },
+      {
+        question: "Quels véhicules sont couverts par votre décodeur VIN ?",
+        answer: "Nous couvrons les véhicules fabriqués à partir de 1981 (lorsque la norme VIN à 17 caractères a été adoptée). Cela inclut les voitures, camions, SUV et fourgonnettes de tous les grands constructeurs mondiaux, dont Toyota, Ford, Honda, Chevrolet, BMW, Mercedes-Benz et plus encore.",
+      },
+      {
+        question: "Une vérification VIN est-elle aussi utile pour les vendeurs ?",
+        answer: "Absolument ! Les vendeurs utilisent les rapports de vérification VIN pour documenter l'état du véhicule, renforcer la confiance des acheteurs et justifier les prix demandés. Un rapport de véhicule propre peut t'aider à vendre plus vite et à un meilleur prix.",
+      },
+      {
+        question: "En quoi votre vérification VIN diffère-t-elle des décodeurs VIN gratuits ?",
+        answer: "Les décodeurs VIN gratuits ne montrent généralement que les informations de base sur la marque/le modèle/l'année. Notre vérificateur VIN fournit des données complètes incluant la liste complète des équipements, les options d'usine, les spécifications moteur, les détails de transmission, de vraies photos du véhicule et des évaluations de marché issues de bases de données sectorielles fiables.",
+      },
+      {
+        question: "Une vérification VIN peut-elle me dire si une voiture a été volée ?",
+        answer: "Oui. Nos rapports croisent le VIN avec la base de données du National Insurance Crime Bureau (NICB). Si un véhicule est signalé volé et pas encore récupéré — ou s'il a été récupéré comme perte totale de sauvetage — le rapport le signalera.",
+      },
+      {
+        question: "Une vérification VIN me montrera-t-elle un retour en arrière du compteur ?",
+        answer: "Les rapports premium affichent toutes les lectures de kilométrage déclarées lors des inspections, transferts de titre et historiques de service. Les incohérences dans la chronologie sont un fort indicateur de fraude au compteur, qui coûte aux consommateurs américains plus d'un milliard de dollars par an.",
+      },
+      {
+        question: "Ce service de vérification VIN est-il vraiment gratuit ?",
+        answer: "Oui — et pour une durée limitée, chaque forfait est entièrement gratuit, y compris les rapports premium complets avec historique, valeurs de marché, photos et analyse détaillée. Aucune carte bancaire requise. Les tarifs normaux (à partir de $14.99) reprennent à la fin de la promotion.",
+      },
+    ],
+  },
 } as const;
 
 export default function FAQSection({

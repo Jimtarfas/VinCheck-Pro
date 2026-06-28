@@ -100,6 +100,51 @@ const COPY = {
     footnote:
       "Pago único · Entrega instantánea · 100% de reembolso si no tenemos datos de tu VIN.",
   },
+  fr: {
+    eyebrow: "Tarifs simples et honnêtes",
+    headlinePrefix: "Seulement ",
+    headlineSuffix: " par rapport.",
+    subPart1: "Commence par un ",
+    subPart1Bold: "aperçu gratuit",
+    subPart2Template:
+      " — visualise le véhicule, les photos et les dossiers que nous avons déjà, sans frais. Débloque le rapport d'historique complet pour seulement {price} par VIN.",
+    inlineSearchLabel: "Entre ton VIN pour commencer",
+    freeBadge: "Gratuit",
+    freeStartHere: "Commence ici",
+    freePrice: "GRATUIT",
+    freeUnit: "Aperçu — sans carte",
+    freeDesc:
+      "Entre n'importe quel VIN pour voir instantanément le véhicule décodé, les vraies photos d'enchères, le nombre de rappels ouverts et combien de dossiers d'historique nous avons en fichier — avant de payer un centime.",
+    freeBullets: [
+      "Année, marque, modèle et finition",
+      "Photos réelles du véhicule (si disponibles)",
+      "Nombre de rappels ouverts",
+      "Nombre de dossiers de titre et d'enchères",
+    ],
+    freeCta: "Obtenir un aperçu gratuit",
+    planMeta: {
+      1: { label: "Le Démarreur", desc: "Parfait pour l'achat d'une seule voiture" },
+      3: { label: "Le plus populaire", desc: "Idéal pour comparer quelques options" },
+      5: { label: "Meilleure valeur", desc: "Meilleure valeur pour les acheteurs sérieux" },
+      10: { label: "Le Pro", desc: "Pour les concessionnaires et acheteurs de flottes" },
+    } as Record<number, { label: string; desc: string }>,
+    features: [
+      "Spécifications complètes du véhicule",
+      "Liste d'équipements et options",
+      "Détails du moteur et de la transmission",
+      "Estimations de la valeur de marché",
+      "Informations sur les rappels",
+      "Photos réelles du véhicule",
+      "Données de coût de possession",
+    ],
+    reportSingular: "rapport",
+    reportPlural: "rapports",
+    eachWord: "chacun",
+    saveTemplate: "Économise {amount} · {desc}",
+    planCta: "Obtenir le rapport",
+    footnote:
+      "Paiement unique · Livraison instantanée · Remboursement à 100% si nous n'avons aucune donnée sur ton VIN.",
+  },
 } as const;
 
 export default function PricingSection({

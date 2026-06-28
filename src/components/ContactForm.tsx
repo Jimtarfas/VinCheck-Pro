@@ -81,6 +81,39 @@ const COPY = {
     errorNetwork:
       "Error de red. Verifica tu conexión e intenta de nuevo.",
   },
+  fr: {
+    subjects: {
+      general: "Question générale",
+      report: "Problème avec un rapport",
+      partnership: "Partenariat",
+      press: "Presse",
+      other: "Autre",
+    },
+    nameLabel: "Nom",
+    emailLabel: "E-mail",
+    subjectLabel: "Sujet",
+    messageLabel: "Message",
+    requiredMark: "*",
+    namePlaceholder: "Jean Dupont",
+    emailPlaceholder: "toi@exemple.com",
+    messagePlaceholder: "Comment pouvons-nous t'aider ?",
+    charCounterTemplate: "{n} / 5000 caractères (minimum 10)",
+    submit: "Envoyer le message",
+    submitLoading: "Envoi en cours...",
+    consent:
+      "En soumettant ce formulaire de contact, tu acceptes que nous utilisions les informations fournies pour répondre à ton message. Nous ne partageons jamais tes coordonnées avec des tiers.",
+    successHeading: "Merci ! Nous te répondrons sous 24 heures",
+    successBody:
+      "Ton message a bien été reçu. Un membre de notre équipe te répondra à l'adresse e-mail que tu as fournie.",
+    sendAnother: "Envoyer un autre message",
+    websiteLabel: "Site web",
+    errorName: "Merci d'indiquer ton nom.",
+    errorEmail: "Merci d'indiquer une adresse e-mail valide.",
+    errorMessageShort: "Le message doit contenir au moins 10 caractères.",
+    errorGeneric: "Une erreur s'est produite. Merci de réessayer.",
+    errorNetwork:
+      "Erreur réseau. Vérifie ta connexion et réessaie.",
+  },
 } as const;
 
 export default function ContactForm({
