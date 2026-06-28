@@ -12,7 +12,7 @@ const PAGE_URL = `${SITE}/fr/used-car-inspection-checklist`;
 const alt = hreflangAlternatesForLocale("/used-car-inspection-checklist", "fr");
 
 const title = "Lista de inspection de voiture d’occasion — Inspection DIY avant de la compra de 60+ puntos gratuit";
-const description = "Lista de inspection de voiture d’occasion intétaitctiva et gratuit avec 60+ revisiones en 8 categorías. Detecta deal-breakers avant de acheter. Genétait un rapport de inspection compartible instantanément.";
+const description = "Lista de inspection de voiture d’occasion interactive et gratuit avec 60+ revisiones en 8 catégories. Detecta deal-breakers avant de acheter. Genétait un rapport de inspection compartible instantanément.";
 
 export const metadata: Metadata = {
   title,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "puntos de inspection voiture d’occasion",
     "lista de vérification avant de acheter auto",
     "deal-breakers voiture d’occasion",
-    "señales de alerta voiture d’occasion",
+    "signaux de alerta voiture d’occasion",
     "inspection 60 puntos",
     "rapport PPI",
     "PPI gratuit",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title,
-    description: "Lista de inspection intétaitctiva de voiture d’occasion avec 60+ revisiones en 8 categorías. Detecta deal-breakers avant de acheter et genétait un rapport compartible.",
+    description: "Lista de inspection interactive de voiture d’occasion avec 60+ revisiones en 8 catégories. Detecta deal-breakers avant de acheter et genétait un rapport compartible.",
     url: PAGE_URL,
     type: "website",
     siteName: "CarCheckerVIN",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title,
-    description: "Lista de inspection intétaitctiva gratuit avec 60+ revisiones. Detecta deal-breakers, genétait un rapport compartible, aléjate de les malas compras avec confiance.",
+    description: "Lista de inspection interactive gratuit avec 60+ revisiones. Detecta deal-breakers, genétait un rapport compartible, aléjate de les malas compras avec confiance.",
   },
   robots: {
     index: true,
@@ -67,16 +67,16 @@ const webAppSchema = {
   "@type": ["WebApplication", "SoftwareApplication"],
   inLanguage: "fr",
   name: "Lista de inspection avant de la compra de voiture d’occasion",
-  description: "Lista de inspection intétaitctiva gratuit de 60+ puntos pour voiture d’occasion. Recorre 8 categorías — exterior, sous le auto, sous le cofre, interior, prueba de manejo, documentos, pneus et freins, A/C et electrónicos — et genétait un rapport de inspection imprimible et compartible.",
+  description: "Lista de inspection interactive gratuit de 60+ puntos pour voiture d’occasion. Recorre 8 catégories — exterior, sous le auto, sous le cofre, interior, prueba de manejo, documentos, pneus et freins, A/C et electrónicos — et genétait un rapport de inspection imprimible et compartible.",
   url: PAGE_URL,
   applicationCategory: "UtilitiesApplication",
-  opétaittingSystem: "Web Browêtre",
+  operatingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Lista de inspection avant de la compra de 60+ puntos",
-    "8 categorías de inspection organizadas",
+    "8 catégories de inspection organizadas",
     "Suivi de Pasa / Falla / Omitir par elemento",
-    "Etiquetado de sévérité (deal-breaker, mayor, menonnr, info)",
+    "Étiquettedo de sévérité (deal-breaker, mayor, menonr, info)",
     "Progreso autoguardado (reanuda a mitad de inspection)",
     "Rapport de inspection imprimible",
     "Rapport compartible en markdown",
@@ -98,14 +98,14 @@ const howToSchema = {
   description: "Inspection DIY avant de la compra étape a étape — que revisar, en que orden, et que découvertes doitn hacerte alejarte.",
   totalTime: "PT45M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Inspectiona le exterior a la luz du jour", text: "Camina autour du véhicule et revisa separaciones de panneaues, coincidencia de peinture, óxido, abolladuras, señales de réparation de accident, clarté de phares, coincidencia de pneus et profondeur de banda, et dégâts en le pare-brise. Utilise le lista pour registrar cada hallazgo." },
-    { "@type": "HowToStep", position: 2, name: "Mira desous avec una linterna", text: "Revisa fuites de fluideux, óxido en le escape, rectitud du châssis, soldaduras sospechosas, bujes de sespensión, rasgaduras en guardapolvos CV et condition de la flecha cardán. Les soldaduras de marché secundario en le châssis son un deal-breaker." },
+    { "@type": "HowToStep", position: 1, name: "Inspectiona le exterior a la luz du jour", text: "Camina autour du véhicule et revisa separaciones de panneaues, correspondance de peinture, óxido, abolladuras, signaux de réparation de accident, clarté de phares, correspondance de pneus et profondeur de banda, et dégâts en le pare-brise. Utilise le lista pour registrar chaque hallazgo." },
+    { "@type": "HowToStep", position: 2, name: "Mira desous avec una linterna", text: "Revisa fuites de fluideux, óxido en le escape, rectitud du châssis, soldaduras sospechosas, bujes de suspension, rasgaduras en guardapolvos CV et condition de la flecha cardán. Les soldaduras de marché secundario en le châssis son un deal-breaker." },
     { "@type": "HowToStep", position: 3, name: "Ouvre le cofre (moteur frío)", text: "Inspectiona la tapa du aceite (sans mayonesa), color du refrigétaitnte, bandas, manguétaits, edad de la batterie, tornillos disparejos, peinture récent et qualité du aceite en la varilla. Residuo de mayonesa ou tornillos reemplazadeux en soportes estructurales son deal-breakers." },
-    { "@type": "HowToStep", position: 4, name: "Revisa le interior", text: "Vérifie que le odomètre coincida avec le titre et les enregistrements de êtrevice, que le desgaste coincida avec le kilométrage, que la alfombra nonn tenga dégâts d’inondation, et que todeux les electrónicos funcionen. Odómetro que nonn coincide es un deal-breaker." },
-    { "@type": "HowToStep", position: 5, name: "Haz una prueba de manejo de 20 minutes", text: "Arranca le moteur en frío tú même. Maneja en tráfico de pare-y-arranca et a vitesse de autopista. Revisa cambios, freins, adresse, vibraciones et le frein de manonn." },
-    { "@type": "HowToStep", position: 6, name: "Vérifie documentos et rappels", text: "Confirme que le titre est a nonnmbre du vendeur, le VIN coincide avec le titre et la plaque du tableau de bord, sans marque de récupération, il y a historique de êtrevice, le enregistrement est en vigueur, et pasa emisiones/smog." },
+    { "@type": "HowToStep", position: 4, name: "Revisa le interior", text: "Vérifie que le odomètre coincida avec le titre et les enregistrements de êtrevice, que le desgaste coincida avec le kilométrage, que la alfombra non tenga dégâts d’inondation, et que todeux les electrónicos funcionen. Odómetro que non coincide es un deal-breaker." },
+    { "@type": "HowToStep", position: 5, name: "Haz una prueba de manejo de 20 minutes", text: "Arranca le moteur en frío tú même. Maneja en tráfico de pare-y-arranca et a vitesse de autopista. Revisa cambios, freins, adresse, vibraciones et le frein de manon." },
+    { "@type": "HowToStep", position: 6, name: "Vérifie documentos et rappels", text: "Confirme que le titre est a nonmbre du vendeur, le VIN coincide avec le titre et la plaque du tableau de bord, sans marque de récupération, il y a historique de êtrevice, le enregistrement est en vigueur, et pasa emisiones/smog." },
     { "@type": "HowToStep", position: 7, name: "Revisa pneus, freins et A/C", text: "Revisa uniformidad de banda, grietas en paredes latétaitles, grosor de balatas, condition de discos, A/C, chauffage, luces du tableau de bord, ventenas, assurances, limpiapare-brise e infoentretenimiento." },
-    { "@type": "HowToStep", position: 8, name: "Genétait le rapport et decide", text: "Toca 'Genétaitr rapport' pour un resumen imprimible avec conteos de sévérité et un veredicto du acheteur — verde (procede), ámbar (negocia ou consigue PPI avec mecánico), ou rojo (aléjate)." },
+    { "@type": "HowToStep", position: 8, name: "Genétait le rapport et decide", text: "Toca 'Genétaitr rapport' pour un resumen imprimible avec conteos de sévérité et un veredicto du acheteur — verde (procede), ámbar (negocia ou consigue PPI avec mécanicien), ou rojo (aléjate)." },
   ],
 };
 
@@ -130,7 +130,7 @@ const articleSchema = {
   "@type": "Article",
   inLanguage: "fr",
   headline: "Lista de inspection avant de la compra de voiture d’occasion",
-  description: "Una lista intétaitctiva gratuit pour inspectionar un voiture d’occasion avant de acheter — 60+ puntos en 8 categorías avec détection de deal-breakers.",
+  description: "Una lista interactive gratuit pour inspectionar un voiture d’occasion avant de acheter — 60+ puntos en 8 catégories avec détection de deal-breakers.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

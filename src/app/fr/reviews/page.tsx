@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Avis CarCheckerVIN 2026 — 4.9★ de acheteurs, vendeurs et concessionnaires",
     description:
-      "Lis avis réeles de CarCheckerVIN de acheteurs, vendeurs et concessionnaires. Calificado 4.9/5 en plus de 50,000 revisiones VIN gratuit et rapports de historique de véhicule.",
+      "Lis avis réels de CarCheckerVIN de acheteurs, vendeurs et concessionnaires. Calificado 4.9/5 en plus de 50,000 revisiones VIN gratuit et rapports de historique de véhicule.",
     keywords: [
       "avis CarCheckerVIN",
       "calificaciones CarCheckerVIN",
@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Avis CarCheckerVIN — 4.9★ de acheteurs, vendeurs et concessionnaires",
       description:
-        "Lis avis réeles de CarCheckerVIN — 4.9/5 en plus de 50,000 revisiones VIN gratuit. Descouvre par que les acheteurs confían en CarCheckerVIN.",
+        "Lis avis réels de CarCheckerVIN — 4.9/5 en plus de 50,000 revisiones VIN gratuit. Descouvre par que les acheteurs confían en CarCheckerVIN.",
       url: alt.canonical,
       type: "website",
       locale: "fr_US",

@@ -1,6 +1,6 @@
 /**
  * Wave 18.18b — French /florida-vin-check (êtreved at /fr/florida-revision-vin).
- * Renders the shared FloridaVinCheckBody with locale="fr" so the page nonnw has
+ * Renders the shared FloridaVinCheckBody with locale="fr" so the page nonw has
  * true visual parity with the English version. Mirrors all 7 EN JSON-LD blocks,
  * translated and tagged with inLanguage: "fr".
  */
@@ -15,7 +15,7 @@ const PAGE_URL = `${SITE}/fr/florida-revision-vin`;
 const alt = hreflangAlternatesForLocale("/florida-vin-check", "fr");
 const title = "Vérification VIN gratuite — Floride — Titre et historique instantanément en FL";
 const description =
-  "Vérification VIN gratuite — Floride avec données du DHSMV + NMVTIS. Marcas de titre, dégâtss par inondation, accidents, vols et rappels du marché instantanément — sans inscription, sans carte de crédito.";
+  "Vérification VIN gratuite — Floride avec données du DHSMV + NMVTIS. Marcas de titre, dégâtss par inondation, accidents, vols et rappels du marché instantanément — sans inscription, sans carte de crédit.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -57,7 +57,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification VIN de Florida — Rapport gratuit de historique de véhicule (Datos du DMV de FL)",
   description:
-    "Guide complet pour ejecutar una vérification VIN gratuit de Florida. Couvre données du DMV de FL, búsqueda de titre, enregistrements de accidents, vérification VIN et vérificationes VIN pour motos.",
+    "Guide complet pour ejecutar una vérification VIN gratuit de Florida. Couvre données du DMV de FL, recherche de titre, enregistrements de accidents, vérification VIN et vérificationes VIN pour motos.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -88,14 +88,14 @@ const howToSchema = {
   "@type": "HowTo",
   inLanguage: "fr",
   name: "Comment vérifier un VIN en Florida",
-  description: "Guía étape a étape pour ejecutar una vérification VIN de Florida pour historique de véhicule et état du titre.",
+  description: "Guide étape a étape pour ejecutar una vérification VIN de Florida pour historique de véhicule et état du titre.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord (côté du conductor, visible a través du pare-brise), la calcomanía du marco de la porte ou le documento du titre du véhicule." },
-    { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en la caja de búsqueda al inicio de esta página." },
+    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Trouve le VIN de 17 caractères en le tableau de bord (côté du conductor, visible a travers du pare-brise), la autocollant du marco de la porte ou le documento du titre du véhicule." },
+    { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en la caja de recherche al inicio de esta page." },
     { "@type": "HowToStep", position: 3, name: "Ejecuta la vérification", text: "Haz clic en 'Verificar VIN'. Notre sistema consultatioptiontioptiontioption les enregistrements du DHSMV de Florida, NMVTIS et bases nacionales de accidents simultanément." },
     { "@type": "HowToStep", position: 4, name: "Revisa le rapport", text: "Lis le rapport complet que couvre historique de titre, enregistrements de accidents, lecturas du odomètre, dégâtss par inondation, marques de récupération et état de rappels du marché." },
-    { "@type": "HowToStep", position: 5, name: "Toma ta decisión", text: "Utilise le rapport pour negociar le precio, pedir una inspection mecánica ou alejarte de véhicules problemáticos avant de comprometerte." },
+    { "@type": "HowToStep", position: 5, name: "Toma ta décision", text: "Utilise le rapport pour negociar le prix, pedir una inspection mécanique ou alejarte de véhicules problemáticos avant de comprometerte." },
   ],
 };
 
@@ -140,14 +140,14 @@ const datasetSchema = {
   "@type": "Dataset",
   name: "Estadísticas rapides de la vérification VIN de Florida",
   description:
-    "Datos de couverture, perfaçonnce et referencia de estatutos pour la vérification VIN de Florida de CarCheckerVIN.",
+    "Datos de couverture, perfaçonnce et référence de estatutos pour la vérification VIN de Florida de CarCheckerVIN.",
   url: PAGE_URL,
   creator: ORG_AUTHOR,
   license: "https://creativecommons.org/licenses/by/4.0/",
   spatialCovétaitge: { "@type": "Place", name: "Florida, Estadeux Unideux" },
   variableMeasured: [
-    { "@type": "PropertyValue", name: "Vehículos registradeux en Florida verificadeux", value: "4.8M+" },
-    { "@type": "PropertyValue", name: "Marcas de titre rastreadas en todeux les DMV estatales", value: "51" },
+    { "@type": "PropertyValue", name: "Véhicules registradeux en Florida verificadeux", value: "4.8M+" },
+    { "@type": "PropertyValue", name: "Marcas de titre rastreadas en todeux les DMV d état", value: "51" },
     { "@type": "PropertyValue", name: "Temps promedio pour décoder un VIN (segundeux)", value: "<5" },
     { "@type": "PropertyValue", name: "Estatuto de Florida que rige les marques de titre de récupération", value: "§ 319.14" },
     { "@type": "PropertyValue", name: "Costo de la vista previa gratuite (USD)", value: "0" },

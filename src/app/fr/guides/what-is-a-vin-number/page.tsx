@@ -14,7 +14,7 @@ const PAGE_URL = `${SITE}/fr/guides/what-is-a-vin-number`;
 const alt = hreflangAlternatesForLocale("/guides/what-is-a-vin-number", "fr");
 const title = "\u00bfQu\u00e9 es un n\u00famero VIN? Gu\u00eda complète de N\u00fameros de Identificaci\u00f3n Vehicular";
 const description =
-  "Apprends qu\u00e9 es un n\u00famero VIN, par qu\u00e9 importa et d\u00f3nde trouverlo en n’importe quel veh\u00edculo. Gu\u00eda complète de N\u00fameros de Identificaci\u00f3n Vehicular avec historia, estructura et usos pr\u00e1cticos.";
+  "Apprends qu\u00e9 es un n\u00famero VIN, par qu\u00e9 importa et d\u00f3nde trouverlo en n’importe quel veh\u00edculo. Gu\u00eda complète de N\u00fameros de Identificaci\u00f3n Vehicular avec histoire, estructura et usos pr\u00e1cticos.";
 
 export const metadata: Metadata = {
   title,

@@ -42,7 +42,7 @@ export function specialtySchemas(hook: SpecialtyHook) {
     url: `${SITE}/es${hook.esSlug}`,
     description: hook.metaDescription,
     applicationCategory: "UtilityApplication",
-    opétaittingSystem: "Web",
+    operatingSystem: "Web",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     author: ORG_AUTHOR,
     publisher: {

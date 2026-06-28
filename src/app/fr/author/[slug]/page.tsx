@@ -3,7 +3,7 @@
  * Renders the SAME full English author-profile layout via the shared
  * AuthorBody component. Replaces the Wave 15 SpecialtyToolPage stub
  * with true visual parity. Bio + name + role render verbatim from
- * Sanity (proper nonnuns / journalist credentials); only chrome translates.
+ * Sanity (proper nonuns / journalist credentials); only chrome translates.
  */
 
 import type { Metadata } from "next";

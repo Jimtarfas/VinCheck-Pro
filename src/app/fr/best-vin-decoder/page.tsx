@@ -12,8 +12,8 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/best-vin-decoder`;
 const alt = hreflangAlternatesForLocale("/best-vin-decoder", "fr");
-const title = "Meilleur décodeur VIN et êtrevice de rapport de historique de véhicule (Guía 2026)";
-const description = "Buscas le meilleur décodeur VIN? CarCheckerVIN entrega les rapports de historique de véhicule plus detalladeux — vérificationes de titre, accidents, odomètre, rappels, gravámenes, vol, récupération et garantie desde NMVTIS et NHTSA. Décodage gratuit, resultadeux instantanés.";
+const title = "Meilleur décodeur VIN et êtrevice de rapport de historique de véhicule (Guide 2026)";
+const description = "Buscas le meilleur décodeur VIN? CarCheckerVIN entrega les rapports de historique de véhicule plus detalladeux — vérificationes de titre, accidents, odomètre, rappels, privilèges, vol, récupération et garantie desde NMVTIS et NHTSA. Décodage gratuit, resultadeux instantanés.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "vérification VIN confiable pour voiture d’occasion",
     "décodeur VIN avec infaçoption de rappels",
     "décodage VIN instantanée titre et privilège",
-    "búsqueda VIN avec historique de accidents",
+    "recherche VIN avec historique de accidents",
     "vérification VIN du odomètre",
     "êtrevice de rapport VIN et enregistrements de entretien",
     "décodeur VIN enregistrements de vol et récupération",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Meilleur décodeur VIN et êtrevice de rapport de historique de véhicule",
     description:
-      "CarCheckerVIN entrega les rapports de historique de véhicule plus detalladeux — titre, accidents, odomètre, rappels, gravámenes, vol, récupération et garantie desde NMVTIS et NHTSA.",
+      "CarCheckerVIN entrega les rapports de historique de véhicule plus detalladeux — titre, accidents, odomètre, rappels, privilèges, vol, récupération et garantie desde NMVTIS et NHTSA.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Meilleur décodeur VIN et êtrevice de rapport de historique de véhicule",
     description:
-      "Les rapports VIN plus detalladeux — titre, accidents, odomètre, rappels, gravámenes, vol, récupération et garantie desde NMVTIS et NHTSA. Décodage gratuit.",
+      "Les rapports VIN plus detalladeux — titre, accidents, odomètre, rappels, privilèges, vol, récupération et garantie desde NMVTIS et NHTSA. Décodage gratuit.",
   },
   robots: { index: true, follow: true },
 };
@@ -63,7 +63,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Meilleur décodeur VIN et êtrevice de rapport de historique de véhicule",
   description:
-    "Una guide basada en evidencia pour elegir le meilleur décodeur VIN. Couvre que êtrevice ofrece les rapports plus detalladeux, données de rappels, vérificationes de titre et privilège, historique de accidents et odomètre, enregistrements de vol et récupération, état de garantie et especificaciones du véhiculees complètes.",
+    "Una guide basada en preuve pour elegir le meilleur décodeur VIN. Couvre que êtrevice ofrece les rapports plus detalladeux, données de rappels, vérificationes de titre et privilège, historique de accidents et odomètre, enregistrements de vol et récupération, état de garantie et especificaciones du véhiculees complètes.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -84,9 +84,9 @@ const webAppSchema = {
   name: "CarCheckerVIN — Décodeur VIN et rapports de historique de véhicule",
   url: PAGE_URL,
   applicationCategory: "AutomotiveApplication",
-  opétaittingSystem: "All",
+  operatingSystem: "All",
   description:
-    "Décode n’importe quel VIN de 17 caracteres et extrae un rapport complet de historique de véhicule — marques de titre, accidents, odomètre, rappels, vol, récupération, privilège, garantie et plus de 40 especificaciones. Datos provenientes de NMVTIS et NHTSA.",
+    "Décode n’importe quel VIN de 17 caractères et extrae un rapport complet de historique de véhicule — marques de titre, accidents, odomètre, rappels, vol, récupération, privilège, garantie et plus de 40 especificaciones. Datos provenientes de NMVTIS et NHTSA.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
 };
@@ -111,11 +111,11 @@ const howToSchema = {
     "Un proceso de cinq étapes pour décoder un VIN et revisar su historique complet avant de acheter un véhicule usado.",
   totalTime: "PT10M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Entre le VIN", text: "Escribe le VIN de 17 caracteres (o una plaque de EE. UU.) en la outil de búsqueda de CarCheckerVIN pour commencer la décodage et búsqueda de historique." },
-    { "@type": "HowToStep", position: 2, name: "Revisa la décodage et especificaciones", text: "Confirme que le année, marque, modelo, versión, moteur et options de fábrica coinciden avec le anuncio. Una discrepancia peut indicar un VIN clonado ou un véhicule mal descrito." },
-    { "@type": "HowToStep", position: 3, name: "Vérifie marques de titre et gravámenes", text: "Escanea la section de marque de titre NMVTIS par marques de récupération, reconstruido, inondation, citron ou chatarra, et vérifie n’importe quel titular de privilège en attente avant de payer." },
-    { "@type": "HowToStep", position: 4, name: "Revisa accidents, odomètre et rappels", text: "Lis le historique de accidents reportadeux, vérifie la línea de temps du odomètre par rollbacks et vérifie NHTSA par rappels de sécurité ouverts en ese VIN exacto." },
-    { "@type": "HowToStep", position: 5, name: "Vérifie la garantie et obtiens una inspection", text: "Vérifie le état restante de garantie du fabricante, luego haz que un mecánico indépendant réelice una inspection previa a la compra enfocada en n’importe quel sistema señacôté par le rapport." },
+    { "@type": "HowToStep", position: 1, name: "Entre le VIN", text: "Escribe le VIN de 17 caractères (o una plaque de EE. UU.) en la outil de recherche de CarCheckerVIN pour commencer la décodage et recherche de historique." },
+    { "@type": "HowToStep", position: 2, name: "Revisa la décodage et especificaciones", text: "Confirme que le année, marque, modèle, version, moteur et options de usine coinciden avec le anuncio. Una discrepancia peut indicar un VIN clonado ou un véhicule mal descrito." },
+    { "@type": "HowToStep", position: 3, name: "Vérifie marques de titre et privilèges", text: "Escanea la section de marque de titre NMVTIS par marques de récupération, reconstruido, inondation, citron ou chatarra, et vérifie n’importe quel titular de privilège en attente avant de payer." },
+    { "@type": "HowToStep", position: 4, name: "Revisa accidents, odomètre et rappels", text: "Lis le historique de accidents reportadeux, vérifie la ligne de temps du odomètre par rollbacks et vérifie NHTSA par rappels de sécurité ouverts en ese VIN exacto." },
+    { "@type": "HowToStep", position: 5, name: "Vérifie la garantie et obtiens una inspection", text: "Vérifie le état restante de garantie du fabricante, luego haz que un mécanicien indépendant réelice una inspection previa a la compra enfocada en n’importe quel sistema señacôté par le rapport." },
   ],
 };
 

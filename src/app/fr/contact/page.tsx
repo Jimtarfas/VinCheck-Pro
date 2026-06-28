@@ -8,9 +8,9 @@ const LOCALE = "fr" as const;
 export async function generateMetadata(): Promise<Metadata> {
   const alt = hreflangAlternatesForLocale(ENGLISH_PATH, LOCALE);
   return {
-    title: "Contact — Parle avec nonntre équipe",
+    title: "Contact — Parle avec nontre équipe",
     description:
-      "Contacte a CarCheckerVIN pour soporte, asociaciones, presse ou consultatioptiontioptiontioptions legales. Correo, teléfononn et formulario — nonntre équipe responde en moins de 24 heures.",
+      "Contacte a CarCheckerVIN pour soporte, asociaciones, presse ou consultatioptiontioptiontioptions legales. Correo, teléfonon et formulario — nontre équipe responde en moins de 24 heures.",
     keywords: [
       "contact CarCheckerVIN",
       "soporte VIN français",

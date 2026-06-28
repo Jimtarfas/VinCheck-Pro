@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const alt = hreflangAlternatesForLocale(`/blog/category/${category.slug}`, "fr");
   const description =
     category.description ||
-    `Lis les artículos plus récents de CarCheckerVIN en la categoría ${category.title} — guides, consejos et analyse.`;
+    `Lis les artículos plus récents de CarCheckerVIN en la catégorie ${category.title} — guides, consejos et analyse.`;
   const title = `${category.title} — Blog CarCheckerVIN`;
 
   return {

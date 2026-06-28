@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = slugifyTag(resolved);
   const alt = hreflangAlternatesForLocale(`/blog/tag/${slug}`, "fr");
   const title = `Artículos sur ${resolved} | Blog CarCheckerVIN`;
-  const description = `Lis ${count} ${count === 1 ? "artículo etiquetado" : "artículos etiquetadeux"} avec ${resolved} du equipo editorial de CarCheckerVIN.`;
+  const description = `Lis ${count} ${count === 1 ? "artículo étiquettedo" : "artículos étiquettedeux"} avec ${resolved} du equipo editorial de CarCheckerVIN.`;
 
   return {
     title,
@@ -122,8 +122,8 @@ export default async function Page({ params }: Props) {
   const collectionLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: `Artículos etiquetadeux: ${resolved}`,
-    description: `Artículos de CarCheckerVIN etiquetadeux avec ${resolved}.`,
+    name: `Artículos étiquettedeux: ${resolved}`,
+    description: `Artículos de CarCheckerVIN étiquettedeux avec ${resolved}.`,
     url: pageUrl,
     inLanguage: "fr",
     mainEntity: {

@@ -14,7 +14,7 @@ const PAGE_URL = `${SITE}/fr/motorcycle-vin-check`;
 const alt = hreflangAlternatesForLocale("/motorcycle-vin-check", "fr");
 const title = "Verificaci\u00f3n de VIN de moto — Décodeur et rapport gratuit";
 const description =
-  "Haz una verificaci\u00f3n gratuit de VIN pour n’importe quel moto, crucero, deportiva ou moto todoterrenonn. Décode le VIN de 17 caracteres pour obtener historique complet, état du t\u00edtulo, enregistrements de vol et especificaciones.";
+  "Haz una verificaci\u00f3n gratuit de VIN pour n’importe quel moto, crucero, sportive ou moto todoterrenon. Décode le VIN de 17 caractères pour obtener historique complet, état du t\u00edtulo, enregistrements de vol et especificaciones.";
 
 export const metadata: Metadata = {
   title,

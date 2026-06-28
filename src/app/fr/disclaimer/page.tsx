@@ -3,7 +3,7 @@
  * DisclaimerBody. French strings come from COPY.es inside the body.
  *
  * The English version of this NMVTIS disclosure remains the legal
- * canonical under US fedétaitl law; the ES page surfaces an amber
+ * canonical under US federal law; the ES page surfaces an amber
  * banner pointing buyers back to /disclaimer for full legal certainty.
  */
 
@@ -17,7 +17,7 @@ const alt = hreflangAlternatesForLocale("/disclaimer", "fr");
 export const metadata: Metadata = {
   title: "Mentions légales NMVTIS",
   description:
-    "Aviso du Sistema Nacional de Infaçoption de Titrois de Vehículos Moteurizadeux (NMVTIS) requerido fédéralement pour les rapports de historique de véhicule de CarCheckerVIN.",
+    "Aviso du Sistema Nacional de Infaçoption de Titrois de Véhicules Moteurizadeux (NMVTIS) requerido fédéralement pour les rapports de historique de véhicule de CarCheckerVIN.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Mentions légales NMVTIS",

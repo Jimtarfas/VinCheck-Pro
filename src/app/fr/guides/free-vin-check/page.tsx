@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/guides/free-vin-check`;
 const alt = hreflangAlternatesForLocale("/guides/free-vin-check", "fr");
 const title = "Vérification VIN gratuite — Décode n’importe quel numéro VIN gratuit";
 const description =
-  "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Mira que inclutn les vérificationes VIN gratuit, comment se comparan avec les rapports premium et par que cada acheteur doitría usar una.";
+  "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Mira que inclutn les vérificationes VIN gratuit, comment se comparan avec les rapports premium et par que chaque acheteur doitría usar una.";
 
 export const metadata: Metadata = {
   title,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "décodeur VIN gratuit",
     "vérifier VIN gratuit",
     "historique de véhicule gratuit",
-    "búsqueda VIN gratuit",
+    "recherche VIN gratuit",
     "décoder VIN gratuit",
     "vérification de auto gratuit",
     "rapport VIN gratuit",

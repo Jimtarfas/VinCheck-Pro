@@ -76,7 +76,7 @@ const webAppSchema = {
     "Comparaison gratuit côte à côte de louer vs financiar le même véhicule. Calcule mensuelité, dépense total de bolsillo, plusvalía al final du plazo, frais de financement avec factor de argent et la venteja neta de coût.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
-  opétaittingSystem: "Web Browêtre",
+  operatingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Paiement de lease avec factor de argent",
@@ -108,14 +108,14 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Entre le MSRP du véhicule et le precio negociado",
-      text: "El MSRP define le residual du lease; le precio negociado define tanto le coût capitalizado du lease como le principal du prêt. Entre ambos — a menudo son diferentes.",
+      name: "Entre le MSRP du véhicule et le prix negociado",
+      text: "El MSRP define le residual du lease; le prix negociado define tanto le coût capitalizado du lease como le principal du prêt. Entre ambos — a menudo son diferentes.",
     },
     {
       "@type": "HowToStep",
       position: 2,
       name: "Configura ta paiement inicial, auto a cambio et tasa de taxe",
-      text: "Estos insumos compartideux aplican a ambos ladeux. Agrega ta tasa combineda de taxe sur la vente estatal et local pour que la calculateur pueda gravar correctement cada mensuelité du lease et le principal du côté de compra.",
+      text: "Estos insumos compartideux aplican a ambos ladeux. Agrega ta tasa combineda de taxe sur la vente d état et local pour que la calculateur pueda gravar correctement chaque mensuelité du lease et le principal du côté de compra.",
     },
     {
       "@type": "HowToStep",
@@ -127,13 +127,13 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 4,
       name: "Entre les conditions de compra (APR et plazo du prêt)",
-      text: "Utilise un APR réel de una pre-approbation de coopétaittiva ou banco. Le plazo du prêt peut être plus largo que la ventena de comparaison — la calculateur maneja la amortissement de ventena parcial.",
+      text: "Utilise un APR réel de una pre-approbation de coopérative ou banco. Le plazo du prêt peut être plus largo que la ventena de comparaison — la calculateur maneja la amortissement de ventena parcial.",
     },
     {
       "@type": "HowToStep",
       position: 5,
       name: "Haz clic en Comparar et lis le veredicto",
-      text: "La calculateur devuelve cartes côte à côte, una tabla acumulada année par année et una sola píldora de veredicto de venteja neta: 'Comprar te ahorra $X' ou 'Arrendar te ahorra $X' basado en coût neto (dépense de bolsillo menonns plusvalía al final du plazo).",
+      text: "La calculateur devuelve cartes côte à côte, una tabla acumulada année par année et una sola píldora de veredicto de venteja neta: 'Comprar te ahorra $X' ou 'Arrendar te ahorra $X' basado en coût neto (dépense de bolsillo menons plusvalía al final du plazo).",
     },
   ],
 };

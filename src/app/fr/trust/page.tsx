@@ -8,14 +8,14 @@ const LOCALE = "fr" as const;
 export async function generateMetadata(): Promise<Metadata> {
   const alt = hreflangAlternatesForLocale(ENGLISH_PATH, LOCALE);
   return {
-    title: "Confiance et Sécurité — Comment nonnus protégeons tes données",
+    title: "Confiance et Sécurité — Comment nonus protégeons tes données",
     description:
-      "Apprends comment CarCheckerVIN oba données sur les véhicules de NMVTIS, NICB et APIs OEM, encripta cada transaction et protege ta confidentialité sous GDPR et CCPA.",
+      "Apprends comment CarCheckerVIN oba données sur les véhicules de NMVTIS, NICB et APIs OEM, encripta chaque transaction et protege ta confidentialité sous GDPR et CCPA.",
     keywords: [
       "confiance CarCheckerVIN",
       "sécurité VIN check",
       "confidentialité données NMVTIS",
-      "a éténtes données historique de véhicule",
+      "a éventes données historique de véhicule",
       "CCPA GDPR VIN check",
     ],
     alternates: { canonical: alt.canonical, languages: alt.languages },

@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/market-value`;
 const alt = hreflangAlternatesForLocale("/market-value", "fr");
 const title = "Valor de marché du auto par VIN — Herramienta gratuite de évaluation du véhicule";
 const description =
-  "Obtiens le valeur de marché actual de n’importe quel véhicule par VIN. Compare les valeures de intercambio, vente privada et minonnrista de concessionnaire según kilométrage, condition, options et données du marché regional.";
+  "Obtiens le valeur de marché actual de n’importe quel véhicule par VIN. Compare les valeures de intercambio, vente privada et minonrista de concessionnaire selon kilométrage, condition, options et données du marché regional.";
 
 export const metadata: Metadata = {
   title,
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     "évaluation véhicule par VIN",
     "valeur de intercambio par VIN",
     "consultatioptiontioptiontioption valeur auto",
-    "cuánto vale un auto par VIN",
-    "cuánto vale mi auto",
+    "combien vale un auto par VIN",
+    "combien vale mi auto",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
@@ -36,7 +36,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Valor de marché du auto par VIN",
   description:
-    "Apprends comment se calcule le valeur de marché de un véhicule par VIN, incluant valeures de intercambio vs. vente privada vs. minonnrista et comment le kilométrage, condition et región afectan les tarifs.",
+    "Apprends comment se calcule le valeur de marché de un véhicule par VIN, incluant valeures de intercambio vs. vente privada vs. minonrista et comment le kilométrage, condition et région afectan les tarifs.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

@@ -27,19 +27,19 @@ export async function generateMetadata({
   if (!b) return {};
 
   const alt = hreflangAlternatesForLocale(`/build-sheet/${b.slug}`, "fr");
-  const title = `Hoja de fábrica ${b.name} par VIN — Décodeur gratuit`;
-  const description = `Busca una hoja de fábrica ${b.name} par VIN, gratuit. Décode la ${b.docName}: options de fábrica, codes de peinture e interior, moteur, transmission et planta de ensamble du enregistrement original.`;
+  const title = `Hoja de usine ${b.name} par VIN — Décodeur gratuit`;
+  const description = `Busca una hoja de usine ${b.name} par VIN, gratuit. Décode la ${b.docName}: options de usine, codes de peinture e interior, moteur, transmission et planta de ensamble du enregistrement original.`;
 
   return {
     title: { absolute: `${title} | CarCheckerVIN` },
     description,
     keywords: [
-      `hoja de fábrica ${b.name}`,
+      `hoja de usine ${b.name}`,
       `${b.name} ${b.docName} VIN`,
       `${b.name} build sheet français`,
       `${b.name} codes de options`,
       `${b.name} configuration original`,
-      `${b.name} hoja de fábrica par VIN`,
+      `${b.name} hoja de usine par VIN`,
     ],
     alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {
@@ -74,13 +74,13 @@ export default async function Page({
       {
         "@type": "ListItem",
         position: 2,
-        name: "Hoja de fábrica",
+        name: "Hoja de usine",
         item: `${SITE}/fr/hoja-fabrica`,
       },
       {
         "@type": "ListItem",
         position: 3,
-        name: `Hoja de fábrica ${b.name}`,
+        name: `Hoja de usine ${b.name}`,
         item: pageUrl,
       },
     ],

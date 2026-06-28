@@ -10,9 +10,9 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/guides/vehicle-fraud-prevention`;
 const alt = hreflangAlternatesForLocale("/guides/vehicle-fraud-prevention", "fr");
-const title = "Prévention de fraude du véhicule: La guide definitiva 2026";
+const title = "Prévention de fraude du véhicule: La guide définitive 2026";
 const description =
-  "Comment detectar fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et fraude en línea — avec données réeles de NICB, NMVTIS, FTC et NHTSA.";
+  "Comment detectar fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et fraude en ligne — avec données réels de NICB, NMVTIS, FTC et NHTSA.";
 
 export const metadata: Metadata = {
   title,
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "lavado de titre de récupération",
     "fraude auto 2026",
     "estafas voitures d’occasion",
-    "estafas voitures en línea",
+    "estafas voitures en ligne",
     "fraude de concessionnaire",
     "vérification auto volé",
     "comment evitar fraude du véhicule",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description:
-      "Fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et estafas en línea — comment fonctionne cada una et comment defenderte.",
+      "Fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et estafas en ligne — comment fonctionne chaque una et comment defenderte.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -49,9 +49,9 @@ const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
   inLanguage: "fr",
-  headline: "Prévention de fraude du véhicule: La guide definitiva 2026",
+  headline: "Prévention de fraude du véhicule: La guide définitive 2026",
   description:
-    "Guide complet de les estafas de fraude du véhicule incluant fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et fraude en línea.",
+    "Guide complet de les estafas de fraude du véhicule incluant fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et fraude en ligne.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -72,10 +72,10 @@ const howToSchema = {
   description:
     "Un protocolo de six étapes pour detectar et prevenir le fraude du véhicule avant de la compra.",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Vérifie que le VIN coincida", text: "Revisa le VIN en le tableau de bord, la calcomanía du marco de la porte, le titre, le enregistrement et la factura de vente. Les discrepancias indican clonage." },
+    { "@type": "HowToStep", position: 1, name: "Vérifie que le VIN coincida", text: "Revisa le VIN en le tableau de bord, la autocollant du marco de la porte, le titre, le enregistrement et la factura de vente. Les discrepancias indican clonage." },
     { "@type": "HowToStep", position: 2, name: "Extrae un rapport de historique de véhicule complet", text: "Utilise données provenientes de NMVTIS pour vérifier marques de titre, enregistrements de accidents et cadena de propriété." },
-    { "@type": "HowToStep", position: 3, name: "Cruza les bases de données de véhicules volés et récupération de NICB", text: "Confirme que le véhicule nonn il y aa été reportado como volé et nonn sea un enregistrement de récupération reemitido en otro état." },
-    { "@type": "HowToStep", position: 4, name: "Valida la continuité du odomètre", text: "Confirme que cada lectura du odomètre registrada tienda hacia haut à travers la cadena de titrois." },
+    { "@type": "HowToStep", position: 3, name: "Cruza les bases de données de véhicules volés et récupération de NICB", text: "Confirme que le véhicule non il y aa été reportado como volé et non sea un enregistrement de récupération reemitido en otro état." },
+    { "@type": "HowToStep", position: 4, name: "Valida la continuité du odomètre", text: "Confirme que chaque lectura du odomètre registrada tienda hacia haut à travers la cadena de titrois." },
     { "@type": "HowToStep", position: 5, name: "Paga seul mediante métodeux rastreables", text: "Cheque de caja ou transfert bancaria desde ta banco, jamais cartes de regalo, criptomonedas ou êtrevices de escrow de troisièmes sugerideux par le vendeur." },
     { "@type": "HowToStep", position: 6, name: "Inspectiona le titre en personne", text: "Vérifie marques de agua, sellos en relieve, et que le titre sea du état de residencia du vendeur sans altétaitciones." },
   ],
@@ -97,7 +97,7 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` },
-    { "@type": "ListItem", position: 2, name: "Guías", item: `${SITE}/fr/guides` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/fr/guides` },
     { "@type": "ListItem", position: 3, name: "Prévention de fraude du véhicule", item: PAGE_URL },
   ],
 };

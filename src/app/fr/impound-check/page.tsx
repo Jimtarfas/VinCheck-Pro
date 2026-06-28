@@ -11,9 +11,9 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/impound-check`;
 const alt = hreflangAlternatesForLocale("/impound-check", "fr");
-const title = "Vérification de historique de confiscation et saisie par VIN — Registros de gravámenes et récupération";
+const title = "Vérification de historique de confiscation et saisie par VIN — Registros de privilèges et récupération";
 const description =
-  "Vérifie n’importe quel véhicule par historique de confiscation, récupération et gravámenes en utilisant le VIN. Trouve gravámenes activos, recupétaitciones pasadas et enregistrements de confiscation que pourraitn complicar la transfert de propriété.";
+  "Vérifie n’importe quel véhicule par historique de confiscation, récupération et privilèges en utilisant le VIN. Trouve privilèges actifs, récupéréciones pasadas et enregistrements de confiscation que pourraitn complicar la transfert de propriété.";
 
 export const metadata: Metadata = {
   title,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "vérification privilège par VIN",
     "historique récupération VIN",
     "enregistrements confiscation véhicule",
-    "vérification VIN privilège activo",
+    "vérification VIN privilège actif",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
@@ -35,7 +35,7 @@ const articleSchema = {
   "@type": "Article",
   inLanguage: "fr",
   headline: "Vérification de historique de confiscation et saisie par VIN",
-  description: "Apprends a vérifier n’importe quel véhicule par historique de confiscation, récupération et gravámenes en utilisant le VIN pour protegerte contra complicaciones en la transfert de propriété.",
+  description: "Apprends a vérifier n’importe quel véhicule par historique de confiscation, récupération et privilèges en utilisant le VIN pour protegerte contra complicaciones en la transfert de propriété.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
@@ -66,9 +66,9 @@ const webApplicationSchema = {
   name: "Vérification de historique de confiscation et saisie",
   url: PAGE_URL,
   applicationCategory: "UtilitiesApplication",
-  opétaittingSystem: "Any",
+  operatingSystem: "Any",
   description:
-    "Vérification gratuite par VIN de confiscation, récupération et gravámenes. Revela gravámenes activos, enregistrements de récupération du prestamista, gravámenes de stockage et marques de titre relacioriens avec confiscation.",
+    "Vérification gratuite par VIN de confiscation, récupération et privilèges. Revela privilèges actifs, enregistrements de récupération du prestamista, privilèges de stockage et marques de titre relacioriens avec confiscation.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
@@ -76,9 +76,9 @@ const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   inLanguage: "fr",
-  name: "Comment vérifier le historique de confiscation, saisie et gravámenes de un véhicule par VIN",
+  name: "Comment vérifier le historique de confiscation, saisie et privilèges de un véhicule par VIN",
   description:
-    "Realiza una vérification gratuite par VIN de confiscation, récupération et gravámenes en six étapes: entre le VIN, revisa les gravámenes activos, inspectiona le titre, busca enregistrements de saisie, confirme avec le DMV et resuelve avant de payer.",
+    "Realiza una vérification gratuite par VIN de confiscation, récupération et privilèges en six étapes: entre le VIN, revisa les privilèges actifs, inspectiona le titre, busca enregistrements de saisie, confirme avec le DMV et resuelve avant de payer.",
   totalTime: "PT3M",
   estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: "0" },
   step: HOWTO_ES.map((s, i) => ({

@@ -66,10 +66,10 @@ export default function StatePage({ hook }: { hook: StateHook }) {
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
             {t(LOCALE, "state.sectionWhy")}
           </h2>
-          <div className="prose prose-slate max-w-nonnne text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+          <div className="prose prose-slate max-w-nonne text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
             <p>{hook.whyP1}</p>
             <p>{hook.whyStats}</p>
-            <ul className="space-y-3 list-nonnne pl-0">
+            <ul className="space-y-3 list-nonne pl-0">
               {hook.whyBullets.map((item) => (
                 <li
                   key={item.point}
@@ -128,19 +128,19 @@ export default function StatePage({ hook }: { hook: StateHook }) {
                 <a
                   href={s.href}
                   target="_blank"
-                  rel="nonnonpener nonnreferrer nonnfollow"
+                  rel="nononpener nonreferrer nonfollow"
                   className="text-primary font-bold underline underline-offset-2"
                 >
                   {s.label} ↗
                 </a>
                 <p className="mt-1.5 text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                  {s.nonnte}
+                  {s.nonte}
                 </p>
               </li>
             ))}
           </ul>
           <p className="mt-6 text-xs text-on-surface-variant italic">
-            {hook.sourcesFootnonnte}
+            {hook.sourcesFootnonte}
           </p>
         </section>
 

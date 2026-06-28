@@ -1,7 +1,7 @@
 /**
  * Wave 18 batch 4 — /fr/refund-policy. Slim wrapper around the shared
  * RefundPolicyBody. French strings come from COPY.es inside the body
- * (compliance-sensitive — originally translated in Wave 18c, nonnw
+ * (compliance-sensitive — originally translated in Wave 18c, nonw
  * consolidated).
  */
 
@@ -15,13 +15,13 @@ const alt = hreflangAlternatesForLocale("/refund-policy", "fr");
 export const metadata: Metadata = {
   title: "Politique de remboursement",
   description:
-    "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel. Cononnce les criterios de éligibilité, requisitos de evidencia et le proceso de solicitud.",
+    "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule non coinciden avec le véhicule réel. Cononce les criterios de éligibilité, requisitos de preuve et le proceso de solicitud.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Politique de remboursement",
     description:
-      "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel.",
+      "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule non coinciden avec le véhicule réel.",
     url: `${SITE}/fr/refund-policy`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -36,7 +36,7 @@ const webPageSchema = {
   name: "Politique de remboursement",
   url: `${SITE}/fr/refund-policy`,
   description:
-    "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel.",
+    "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule non coinciden avec le véhicule réel.",
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

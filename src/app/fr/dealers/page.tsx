@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "API VIN pour concessionnaires et rapports en gros — À partir de $1",
     description:
-      "Tarifs en gros de vérification VIN desde $1/rapport. API REST, búsquedas masivas et rapports de historique de véhicule white-label pour concessionnaires, enchères et lotes BHPH.",
+      "Tarifs en gros de vérification VIN desde $1/rapport. API REST, recherches masivas et rapports de historique de véhicule white-label pour concessionnaires, enchères et lotes BHPH.",
     keywords: [
       "VIN check concessionnaire", "rapports VIN en gros", "API VIN check",
       "rapports VIN masivos", "alternative Carfax concessionnaire", "enchères VIN lookup",

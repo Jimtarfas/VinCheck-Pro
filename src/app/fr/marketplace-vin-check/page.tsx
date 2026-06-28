@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/marketplace-vin-check`;
 const alt = hreflangAlternatesForLocale("/marketplace-vin-check", "fr");
 const title = "Vérification VIN de marketplace — Vérifie avant de acheter";
 const description =
-  "Haz una vérification VIN avant de acheter en n’importe quel marketplace en línea. Vérifie véhicules listadeux en Facebook Marketplace, Craigslist, eBay Moteurs, Copart et plus avec un rapport complet de historique de véhicule.";
+  "Haz una vérification VIN avant de acheter en n’importe quel marketplace en ligne. Vérifie véhicules listadeux en Facebook Marketplace, Craigslist, eBay Moteurs, Copart et plus avec un rapport complet de historique de véhicule.";
 
 export const metadata: Metadata = {
   title,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "vérification VIN Craigslist",
     "vérification VIN eBay Moteurs",
     "vérification VIN Copart",
-    "historique de véhicule marketplace en línea",
+    "historique de véhicule marketplace en ligne",
     "vérification VIN voiture d’occasion",
     "vérification VIN vendeur privado",
     "vérification VIN enchère",

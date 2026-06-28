@@ -55,7 +55,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: title,
   description:
-    "Una guide complète, étape a étape, pour acheter un voiture d’occasion en 2026 couvrant presupuesto, financement, búsqueda, inspection, négociation et papeleo.",
+    "Una guide complète, étape a étape, pour acheter un voiture d’occasion en 2026 couvrant presupuesto, financement, recherche, inspection, négociation et papeleo.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -77,12 +77,12 @@ const howToSchema = {
     "Un proceso de sept étapes pour acheter un voiture d’occasion avec sécurité: establece un presupuesto, asegura financement, busca anuncios, décode le VIN, inspectiona, negocia et complète le papeleo.",
   totalTime: "P14D",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Establece un presupuesto réelista", text: "Calcule le coût mensuel total (paiement du prêt, assurance, carburant, entretien, enregistrement) et limítalo al 15% du salario neto." },
-    { "@type": "HowToStep", position: 2, name: "Obtiens financement pre-apvolé", text: "Asegura una oferta de prêt de una coopétaittiva de crédito ou banco avant de visitar concessionnaires pour que negocies desde la a étérza." },
+    { "@type": "HowToStep", position: 1, name: "Establece un presupuesto réaliste", text: "Calcule le coût mensuel total (paiement du prêt, assurance, carburant, entretien, enregistrement) et limítalo al 15% du salario neto." },
+    { "@type": "HowToStep", position: 2, name: "Obtiens financement pre-apvolé", text: "Asegura una oferta de prêt de una coopérative de crédit ou banco avant de visitar concessionnaires pour que negocies desde la a étérza." },
     { "@type": "HowToStep", position: 3, name: "Busca en les marchés corrects", text: "Utilise una mezcla de concessionnaires franquiciadeux, lotes indépendants, programas certificadeux pre-poseídeux et platafaçons particulares pour trouver le meilleur inventerio." },
     { "@type": "HowToStep", position: 4, name: "Ejecuta una vérification VIN", text: "Décode le VIN et obtiens un rapport de historique de véhicule pour vérifier le état du titre, historique de accidents, lecturas du odomètre et rappels avant de salir." },
     { "@type": "HowToStep", position: 5, name: "Inspectiona et prueba de manejo", text: "Realiza una inspection visuelle estructurada, paye par una inspection avant de la compra indépendant et complète una prueba de manejo de 30 minutes en condiciones mixtas." },
-    { "@type": "HowToStep", position: 6, name: "Negocia precio et conditions", text: "Ánclate en le precio total, nonn en le mensuelité, et aléjate si les tarifas du concessionnaire, extras ou tasas de intérêt exceden ta pre-approbation." },
+    { "@type": "HowToStep", position: 6, name: "Negocia prix et conditions", text: "Ánclate en le prix total, non en le mensuelité, et aléjate si les tarifas du concessionnaire, extras ou tasas de intérêt exceden ta pre-approbation." },
     { "@type": "HowToStep", position: 7, name: "Completa papeleo et enregistrement", text: "Vérifie le titre, factura de vente, divulgation du odomètre et papeleo de garantie; luego registra le véhicule et actualiza ta assurance." },
   ],
 };
@@ -103,7 +103,7 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` },
-    { "@type": "ListItem", position: 2, name: "Guías", item: `${SITE}/fr/guides` },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/fr/guides` },
     { "@type": "ListItem", position: 3, name: "Guide complet pour acheter un voiture d’occasion", item: PAGE_URL },
   ],
 };

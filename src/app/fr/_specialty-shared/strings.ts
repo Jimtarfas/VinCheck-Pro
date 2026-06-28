@@ -13,7 +13,7 @@
  * language slug to capture French SERPs directly. The intétaitctive
  * widgets (form, decoder, report) live on the English page; the
  * French landing sends qualified buyers there with a clear
- * "Ejecuta la búsqueda" CTA after they've read the value prop in
+ * "Ejecuta la recherche" CTA after they've read the value prop in
  * their own language.
  */
 
@@ -65,7 +65,7 @@ export interface SpecialtyHook {
   englishPath: string;
   /** Visual icon for the hero badge. */
   icon: LucideIcon;
-  /** Hero badge eyebrow ("Camión pesado · VIN 17 caracteres"). */
+  /** Hero badge eyebrow ("Camion pesado · VIN 17 caractères"). */
   badge: string;
   /** Page H1. */
   h1: string;
@@ -95,7 +95,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     esSlug: "/vin-camion-pesado",
     englishPath: "/semi-truck-vin-lookup",
     icon: Truck,
-    badge: "Camión pesado · VIN 17 caracteres",
+    badge: "Camion pesado · VIN 17 caractères",
     h1: "Recherche VIN pour camion lourd — Décodeur gratuit",
     metaTitle: "VIN camion lourd gratuit — Décodeur e historique",
     metaDescription:
@@ -109,24 +109,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "historique flota camion",
     ],
     intro:
-      "Les VIN de camiones comerciales Clase 8 siguen le même façonto de 17 caracteres que les voitures de pasajeros, pero codifican données críticos pour tractocamiones: peso bruto du véhicule (GVWR), modelo du moteur (Detroit DD13/DD15, Cummins ISX), configuration du chaouis et tipo de cabina. Una vérification par VIN revela le origen, historique de flota, accidents, rappels NHTSA et kilométrage réel avant de acheter.",
+      "Les VIN de camiones comerciales Clase 8 siguen le même façonto de 17 caractères que les voitures de pasajeros, pero codifican données críticos pour tractocamiones: peso bruto du véhicule (GVWR), modèle du moteur (Detroit DD13/DD15, Cummins ISX), configuration du chaouis et tipo de cabina. Una vérification par VIN revela le origen, historique de flota, accidents, rappels NHTSA et kilométrage réel avant de acheter.",
     whatYouGet: [
-      "Marca, modelo et année exactos du tractor (Cascadia, T680, 579, etc.)",
+      "Marca, modèle et année exactos du tractor (Cascadia, T680, 579, etc.)",
       "Configuration du moteur (Detroit, Cummins, PACCAR) et caja de cambios",
       "GVWR et classification de peso comercial",
       "Historique de propriété et enregistrement de flota",
       "Accidentes reportadeux et enregistrements de perte totale",
-      "Retiros activos de la NHTSA par freins, adresse et cableado",
+      "Retiros actifs de la NHTSA par freins, adresse et cableado",
       "Lecturas du odomètre de inspectiones DOT et entretien",
     ],
     whyItMatters: [
       "Les camiones comerciales acumulan desgaste 5–10× plus rapide que les voitures personneles — le rastro du odomètre es esencial",
       "Les flotas grands les venden tras 500K–800K millelas; vérifie historique de fleet/leasansg previo",
       "Les rappels DOT par freins peutn dejar à l’extérieur de êtrevice le tractor al inspectionar",
-      "El dégâts par accident en le bastidor (chaouis) compromete la sécurité estructural — le rapport le señala",
+      "El dégâts par accident en le bastidor (chaouis) compromete la sécurité estructural — le rapport le signala",
     ],
     trustNote:
-      "Les données de camiones comerciales se cruzan contra NMVTIS, NHTSA et les enregistrements DOT en le momento de cada búsqueda. Freightliner (Daimler), Kenworth et Peterbilt (PACCAR), Volvo et Mack publican rappels par VIN — les revisamos todeux.",
+      "Les données de camiones comerciales se cruzan contra NMVTIS, NHTSA et les enregistrements DOT en le momento de chaque recherche. Freightliner (Daimler), Kenworth et Peterbilt (PACCAR), Volvo et Mack publican rappels par VIN — les examinons todeux.",
     schemaName: "Décodeur VIN de camion lourd",
   },
 
@@ -138,33 +138,33 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Recherche VIN pour voiturette de golf — Décodeur de numéro de êtreie",
     metaTitle: "VIN voiturette de golf gratuit — Décodeur de êtreie",
     metaDescription:
-      "Décode le numéro de êtreie de n’importe quel voiturette de golf (Club Car, EZGO, Yamaha) gratuit. Año, modelo, moteur ou batterie, marcos eléctrico vs essence — instantanément.",
+      "Décode le numéro de êtreie de n’importe quel voiturette de golf (Club Car, EZGO, Yamaha) gratuit. Année, modèle, moteur ou batterie, marcos électrique vs essence — instantanément.",
     keywords: [
       "VIN voiturette de golf",
       "numéro êtreie Club Car",
       "numéro êtreie EZGO",
       "décodeur Yamaha golf cart",
-      "VIN carrito eléctrico",
-      "année modelo carrito golf",
+      "VIN carrito électrique",
+      "année modèle carrito golf",
     ],
     intro:
-      "A différence de les autos, les carritos de golf nonn usan VIN de 17 caracteres — usan un numéro de êtreie du fabricante que codifica année, modelo, planta et tipo de moteur. Club Car, EZGO (E-Z-GO) et Yamaha an sistemas distintos. Décoderlo correctement es clave pour identificar piezas, batteries et comprobar authenticité avant de acheter un carrito usado.",
+      "A différence de les autos, les carritos de golf non usan VIN de 17 caractères — usan un numéro de êtreie du fabricante que codifica année, modèle, planta et tipo de moteur. Club Car, EZGO (E-Z-GO) et Yamaha an sistemas distintos. Décoderlo correctement es clave pour identificar piezas, batteries et comprobar authenticité avant de acheter un carrito usado.",
     whatYouGet: [
-      "Año du modelo (quand a été fabricado)",
-      "Modelo exacto (DS, Precedent, Onward pour Club Car; RXV, TXT, Express pour EZGO)",
-      "Tipo de tren motriz: eléctrico (36V/48V/72V) ou essence",
+      "Année du modèle (quand a été fabricado)",
+      "Modèle exacto (DS, Precedent, Onward pour Club Car; RXV, TXT, Express pour EZGO)",
+      "Tipo de tren motriz: électrique (36V/48V/72V) ou essence",
       "Planta de fabrication et code de configuration",
       "Compatibilité avec piezas de repuesto et kits de lift",
-      "Referencia pour réclamations de garantie du fabricante",
+      "Référence pour réclamations de garantie du fabricante",
     ],
     whyItMatters: [
-      "Identificar le modelo correct evita acheter batteries ou controcôtéres equivocadeux",
-      "Les carritos eléctricos antiguos peutn requerir reemplazo de banco de batteries ($1,500–$3,000)",
-      "Les carritos modificadeux (lift, moteures upgrade) peutn haber altétaitdo la plaque de êtreie — vérifie authenticité",
+      "Identificar le modèle correct evita acheter batteries ou controcôtéres equivocadeux",
+      "Les carritos électriques antiguos peutn requerir reemplazo de banco de batteries ($1,500–$3,000)",
+      "Les carritos modificadeux (lift, moteures upgrade) peutn haber altéréé la plaque de êtreie — vérifie authenticité",
       "Esencial al acheter usado en marketplaces como Facebook ou Craigslist sans garantie",
     ],
     trustNote:
-      "Décodons numéros de êtreie de Club Car (desde 1981), E-Z-GO (desde 1976), Yamaha, Cushman, Star EV et otros fabricavant principales. Cada façonto es distinto — nonntre décodeur les detecta automatiquement.",
+      "Décodons numéros de êtreie de Club Car (desde 1981), E-Z-GO (desde 1976), Yamaha, Cushman, Star EV et otros fabricavant principales. Chaque façonto es distinto — nontre décodeur les detecta automatiquement.",
     schemaName: "Décodeur de voiturette de golf",
   },
 
@@ -172,87 +172,87 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     esSlug: "/buscar-codigo-peinture",
     englishPath: "/paint-code-finder",
     icon: Palette,
-    badge: "Código de peinture · OEM",
+    badge: "Code de peinture · OEM",
     h1: "Buscador de code de peinture par VIN",
     metaTitle: "Buscar code peinture par VIN — OEM gratuit",
     metaDescription:
-      "Trouve le code de peinture OEM exacto de ta auto par VIN. Nom du color, année de production et referencia pour retoque — gratuit, instantanément, sans inscription.",
+      "Trouve le code de peinture OEM exacto de ta auto par VIN. Nom du color, année de production et référence pour retoque — gratuit, instantanément, sans inscription.",
     keywords: [
       "code de peinture VIN",
       "buscar color peinture auto",
       "OEM code color",
       "peinture retoque par VIN",
       "code peinture Honda Toyota Ford",
-      "color de fábrica VIN",
+      "color de usine VIN",
     ],
     intro:
-      "El code de peinture de fábrica de ta auto est vincucôté al VIN — le fabricante asigna un code alfanumérico (ej. NH788P, 1G3, UA) que identifica exactement le color, tononn et proceso de application usado en la línea de ensamblaje. Saberlo es la única manétait de pedir le bote, bolígrafo ou peinture de retoque que combine perfectamente avec le resto de la carrosêtreie.",
+      "El code de peinture de usine de ta auto est vincucôté al VIN — le fabricante asigna un code alfanumérico (ej. NH788P, 1G3, UA) que identifica exactement le color, tonon et proceso de application usado en la ligne de ensamblaje. Saberlo es la única manétait de pedir le bote, bolígrafo ou peinture de retoque que combine perfectamente avec le resto de la carrosêtreie.",
     whatYouGet: [
-      "Código OEM exacto du fabricante",
+      "Code OEM exacto du fabricante",
       "Nom comercial du color (Lunar Silver Metallic, Magnetic Gray, etc.)",
-      "Años de production en que se ofreció ese color",
-      "Códigos équivalents pour botellas, bolígrafos et latas de aerosol de retoque",
-      "Indication de capas (base + transparente vs mononnetapa)",
+      "Années de production en que se ofreció ese color",
+      "Codes équivalents pour botellas, bolígrafos et latas de aerosol de retoque",
+      "Indication de capas (base + transparente vs mononetapa)",
       "Compatibilité avec sistemas de peinture PPG, Sherwin-Williams et BASF",
     ],
     whyItMatters: [
-      "Les codes genéricos (negro, blanco, plata) NO bastan — il y a docenas de tononns par marque",
+      "Les codes genéricos (negro, blanco, plata) NO bastan — il y a docenas de tonons par marque",
       "Aplicar le code equivocado deja parche visible sous le sol",
       "Les codes du marco de la porte a veces se borran avec sol ou lavado — le VIN toujours les conêtreva",
       "Esencial avant de acheter peinture de retoque (typiquement $20–$60) pour evitar reembolsos",
     ],
     trustNote:
-      "Décodons codes de peinture de fábrica pour todas les marques principales: Toyota, Honda, Ford, Chevrolet, BMW, Mercedes-Benz et plus. Les données vienen directement de les hojas de especificación du fabricante.",
+      "Décodons codes de peinture de usine pour todas les marques principales: Toyota, Honda, Ford, Chevrolet, BMW, Mercedes-Benz et plus. Les données vienen directement de les hojas de especificación du fabricante.",
     schemaName: "Buscador de code de peinture par VIN",
   },
 
   "window-sticker": {
-    esSlug: "/etiqueta-monroney",
+    esSlug: "/étiquette-monroney",
     englishPath: "/window-sticker-lookup",
     icon: FileText,
-    badge: "Etiqueta Monroney · Original de fábrica",
-    h1: "Buscar etiqueta Monroney (window sticker) par VIN",
-    metaTitle: "Etiqueta Monroney gratuit par VIN — Window sticker",
+    badge: "Étiquette Monroney · Original de usine",
+    h1: "Buscar étiquette Monroney (window sticker) par VIN",
+    metaTitle: "Étiquette Monroney gratuit par VIN — Window sticker",
     metaDescription:
-      "Recupétait la etiqueta Monroney (window sticker) original de fábrica par VIN. MSRP, équipement instacôté, eficiencia EPA et options — gratuit e instantané.",
+      "Récupéré la étiquette Monroney (window sticker) original de usine par VIN. MSRP, équipement instacôté, efficacité EPA et options — gratuit e instantané.",
     keywords: [
-      "etiqueta Monroney VIN",
+      "étiquette Monroney VIN",
       "window sticker français",
       "MSRP par VIN",
-      "ficha original fábrica auto",
-      "équipement de fábrica VIN",
-      "EPA a étél econonnmy par VIN",
+      "ficha original usine auto",
+      "équipement de usine VIN",
+      "EPA a étél econonmy par VIN",
     ],
     intro:
-      "La etiqueta Monroney — la ficha original que pegan en la ventena du auto nonnuveau en le lote du concessionnaire — lista le MSRP, le équipement instacôté de fábrica, les options agregadas, les ratings EPA de econonnmía de carburant et les créditos al consumidor. Recupétaitrla par VIN te da prueba documentada du precio et équipement original, esencial pour negociar le precio de un usado ou detectar accèsrios falsos.",
+      "La étiquette Monroney — la ficha original que pegan en la ventena du auto nonuveau en le lote du concessionnaire — lista le MSRP, le équipement instacôté de usine, les options agregadas, les ratings EPA de econonmía de carburant et les crédits al consumidor. Récupérérla par VIN te da prueba documentada du prix et équipement original, esencial pour negociar le prix de un usado ou detectar accèsrios falsos.",
     whatYouGet: [
-      "MSRP original (precio sugerido par le fabricante)",
-      "Lista complète de équipement de fábrica",
-      "Options et packs agregadeux avec su precio individual",
-      "Ratings EPA: millelas par galón ville/carretétait et emisiones",
-      "Datos de sécurité et características de asistencia al conductor",
-      "Infaçoption de procedencia et planta de ensamblaje",
+      "MSRP original (prix sugerido par le fabricante)",
+      "Lista complète de équipement de usine",
+      "Options et packs agregadeux avec su prix individual",
+      "Ratings EPA: millelas par gallon ville/route et emisiones",
+      "Datos de sécurité et características de assistance al conductor",
+      "Infaçoption de provenance et planta de ensamblaje",
     ],
     whyItMatters: [
-      "Te affiche le precio réel du auto quand salió de fábrica — base pour negociar usado",
-      "Detecta accèsrios 'post-vente' vendideux como 'incluideux de fábrica'",
+      "Te affiche le prix réel du auto quand salió de usine — base pour negociar usado",
+      "Detecta accèsrios 'post-vente' vendideux como 'incluideux de usine'",
       "Confirme si le auto a les packs premium que le vendeur afirma",
-      "Documenta le MPG réel du EPA, nonn les estimaciones du vendeur",
+      "Documenta le MPG réel du EPA, non les estimaciones du vendeur",
     ],
     trustNote:
-      "Les etiquetas Monroney provienen directement de bases de données du fabricante et le EPA. Nous couvrons Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz et plus de 30 marques avec données retroactivos hasta les modelos du année 2008.",
-    schemaName: "Buscador de etiqueta Monroney par VIN",
+      "Les étiquettes Monroney provienen directement de bases de données du fabricante et le EPA. Nous couvrons Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz et plus de 30 marques avec données retroactifs hasta les modèles du année 2008.",
+    schemaName: "Buscador de étiquette Monroney par VIN",
   },
 
   "motorcycle": {
     esSlug: "/vin-moto",
     englishPath: "/motorcycle-vin-check",
     icon: Bike,
-    badge: "Motocicleta · VIN 17 caracteres",
+    badge: "Motocicleta · VIN 17 caractères",
     h1: "Vérification VIN pour moto — Décodeur e historique",
     metaTitle: "Vérification VIN moto gratuit — Décodeur e historique",
     metaDescription:
-      "Décode n’importe quel VIN de moto (Harley, Honda, Yamaha, Kawasaki, Ducati) gratuit. Marca, modelo, cilindrada, rappels NHTSA et historique de vol — instantanément.",
+      "Décode n’importe quel VIN de moto (Harley, Honda, Yamaha, Kawasaki, Ducati) gratuit. Marca, modèle, cilindrada, rappels NHTSA et historique de vol — instantanément.",
     keywords: [
       "VIN moto",
       "VIN moto",
@@ -262,12 +262,12 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "rappels NHTSA moto",
     ],
     intro:
-      "Les motos usan VIN de 17 caracteres igual que les autos, pero la décodage es distinta: le VIN identifica la famillele du moteur (V-Twin, paralelo, sansgle), la cilindrada exacta (250cc, 600cc, 1200cc, etc.), le modelo et la configuration du marco. Verificar le VIN avant de acheter una moto usada es crítico — les motos estn entre les véhicules plus volés de EE. UU. et le clonado de plaques et marcos es común.",
+      "Les motos usan VIN de 17 caractères igual que les autos, pero la décodage es distinta: le VIN identifica la famillele du moteur (V-Twin, paralelo, sansgle), la cilindrada exacta (250cc, 600cc, 1200cc, etc.), le modèle et la configuration du marco. Verificar le VIN avant de acheter una moto usada es crítico — les motos estn entre les véhicules plus volés de EE. UU. et le clonado de plaques et marcos es común.",
     whatYouGet: [
-      "Marca, modelo et année du modelo exactos",
+      "Marca, modèle et année du modèle exactos",
       "Cilindrada du moteur et configuration (V-Twin, inline-four, sansgle)",
       "Tipo de transmission et características du chaouis",
-      "Retiros de sécurité activos de la NHTSA par VIN",
+      "Retiros de sécurité actifs de la NHTSA par VIN",
       "Registros reportadeux de vol (NICB)",
       "Marcas de titre: salvage, rebuilt, junk",
       "Lecturas du odomètre et enregistrements de propriété anteriores",
@@ -276,10 +276,10 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Harley-Davidson, Honda CBR/Civic Type R et Yamaha YZF estn entre les marques plus robadas",
       "Les motos chocadas se 'reconstruyen' facilemente avec marco et moteur de otra unité — le VIN doit coincidir",
       "Les rappels de Harley par adresse et freins afectan milleliers de unitées par année",
-      "Salvage ou rebuilt en una moto reduce le valeur de revente 30–50% — verifícalo avant de payer precio premium",
+      "Salvage ou rebuilt en una moto reduce le valeur de revente 30–50% — vérifie avant de payer prix premium",
     ],
     trustNote:
-      "Nous couvrons VIN de Harley-Davidson, Honda, Yamaha, Kawasaki, Suzuki, Ducati, BMW Moteurrad, KTM, Triumph, Indian et plus. Datos cruzadeux avec NMVTIS, NHTSA et NICB en cada búsqueda.",
+      "Nous couvrons VIN de Harley-Davidson, Honda, Yamaha, Kawasaki, Suzuki, Ducati, BMW Moteurrad, KTM, Triumph, Indian et plus. Datos cruzadeux avec NMVTIS, NHTSA et NICB en chaque recherche.",
     schemaName: "Décodeur VIN de moto",
   },
 
@@ -301,17 +301,17 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "historique RV usado",
     ],
     intro:
-      "Les RVs et moteurhomois usan VIN de 17 caracteres du chaouis base (Freightliner, Spartan, Ford, Mercedes Sprinter, Workhorse), nonn du fabricante de la conversión (Winnebago, Forest River, Thor). Décoderlo correctement revela le chaouis réel, le moteur, le GVWR et les rappels activos — données críticos avant de invertir $50,000+ en una unité usada.",
+      "Les RVs et moteurhomois usan VIN de 17 caractères du chaouis base (Freightliner, Spartan, Ford, Mercedes Sprinter, Workhorse), non du fabricante de la conversion (Winnebago, Forest River, Thor). Décoderlo correctement revela le chaouis réel, le moteur, le GVWR et les rappels actifs — données críticos avant de invertir $50,000+ en una unité usada.",
     whatYouGet: [
-      "Chaouis et moteur réeles (Ford F-53, Cummins ISB, Mercedes OM642)",
+      "Chaouis et moteur réels (Ford F-53, Cummins ISB, Mercedes OM642)",
       "GVWR et capacité de carga útil (payload)",
       "Tipo de RV: Class A diesel/gas, Class B (van), Class C, fifth-wheel",
-      "Año du chaouis vs année de la conversión (a veces difieren 1–2 années)",
-      "Retiros activos de la NHTSA par freins, adresse et sistemas eléctricos",
+      "Année du chaouis vs année de la conversion (a veces difieren 1–2 années)",
+      "Retiros actifs de la NHTSA par freins, adresse et sistemas électriques",
       "Historique de perte totale, dégâts par incendio et marques de inondation",
     ],
     whyItMatters: [
-      "Les dégâtss par agua en RVs son extremadamente coûtsos — le rapport señala marques Flood",
+      "Les dégâtss par agua en RVs son extremadamente coûtsos — le rapport signala marques Flood",
       "Les chaouis Ford F-53 avec adresse 'wander' tuvieron campañas de rappel — vérifierlas par VIN",
       "Les moteurhomois diésel avec sistemas DEF/SCR de emisiones an réparations de $5K+",
       "Salvage en un moteurhome peut significar incendio de cocina — invisible tras renouvellement cosmética",
@@ -329,7 +329,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Décodeur VIN de auto classique",
     metaTitle: "VIN auto classique gratuit — Décodeur pre-1981",
     metaDescription:
-      "Décode VIN de voitures classiques pre-1981 (5–13 caracteres). Confirme authenticité, moteur numbers-matching, année et planta — gratuit et instantanément.",
+      "Décode VIN de voitures classiques pre-1981 (5–13 caractères). Confirme authenticité, moteur numbers-matching, année et planta — gratuit et instantanément.",
     keywords: [
       "VIN auto classique",
       "VIN pre 1981",
@@ -339,23 +339,23 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "code moteur auto classique",
     ],
     intro:
-      "Les voitures classiques pre-1981 usan VIN de 5–13 caracteres avec un façonto distinto al modernonn de 17 caracteres. Cada fabricante tenía su propio esquema — Chevrolet codificaba année, planta et êtreie; Ford incluía code du moteur; Chrysler tenía un sistema híbrido. Décoder correctement un Camaro 1969, un Mustang 1965 ou un Chevelle SS es la única façon de vérifier authenticité numbers-matching avant de payer precio premium.",
+      "Les voitures classiques pre-1981 usan VIN de 5–13 caractères avec un façonto distinto al modernon de 17 caractères. Chaque fabricante tenía su propio esquema — Chevrolet codificaba année, planta et êtreie; Ford incluía code du moteur; Chrysler tenía un sistema híbrido. Décoder correctement un Camaro 1969, un Mustang 1965 ou un Chevelle SS es la única façon de vérifier authenticité numbers-matching avant de payer prix premium.",
     whatYouGet: [
-      "Año du modelo et planta de ensamblaje",
-      "Código de moteur original (SS396, 350-V8, 289 HiPo, 426 Hemi)",
-      "Código de transmission et eje (Muncie M21, Toploader 4-speed)",
-      "Código de color original et code de trim",
+      "Année du modèle et planta de ensamblaje",
+      "Code de moteur original (SS396, 350-V8, 289 HiPo, 426 Hemi)",
+      "Code de transmission et eje (Muncie M21, Toploader 4-speed)",
+      "Code de color original et code de trim",
       "Vérification numbers-matching pour moteur et caja",
-      "Año de production à l’intérieur du année modelo (early/late)",
+      "Année de production à l’intérieur du année modèle (early/late)",
     ],
     whyItMatters: [
-      "Un Camaro Z/28 1969 numbers-matching vale 3–5× plus que unonn avec moteur reemplazado",
+      "Un Camaro Z/28 1969 numbers-matching vale 3–5× plus que unon avec moteur reemplazado",
       "Les voitures 'restomod' a veces se venden como originales — le VIN revela la verdad",
       "Les réplicas de Shelby, Yenko et COPO usan VIN base + tags falsificadeux — vérifie authenticité",
       "Les assureurs de voitures classiques (Hagerty, Grundy) exigen vérification VIN pour couvertures Agreed Value",
     ],
     trustNote:
-      "Décodons VIN de GM (Chevy, Pontiac, Olds, Buick), Ford, Mopar (Chrysler, Plymouth, Dodge), AMC, Studebaker et plus, desde 1955 hasta 1980. Cada esquema de VIN a su propio décodeur.",
+      "Décodons VIN de GM (Chevy, Pontiac, Olds, Buick), Ford, Mopar (Chrysler, Plymouth, Dodge), AMC, Studebaker et plus, desde 1955 hasta 1980. Chaque esquema de VIN a su propio décodeur.",
     schemaName: "Décodeur VIN de auto classique",
   },
 
@@ -367,30 +367,30 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Vérification de VIN pour auto JDM importado",
     metaTitle: "VIN JDM gratuit — Import japonesa historique",
     metaDescription:
-      "Vérifie importationes JDM (Skyline GT-R, Supra, Land Cruiêtre) par numéro de chaouis japonés. Año, modelo, especificaciones, exportation et historique — gratuit.",
+      "Vérifie importationes JDM (Skyline GT-R, Supra, Land Cruiêtre) par numéro de chaouis japonés. Année, modèle, especificaciones, exportation et historique — gratuit.",
     keywords: [
       "VIN JDM",
       "numéro chaouis japonés",
       "Skyline GT-R VIN",
       "Toyota Supra MK4 VIN",
       "Land Cruiêtre JDM",
-      "import auto Japón",
+      "import auto Japon",
     ],
     intro:
-      "Les voitures JDM importadeux (Skyline GT-R R32/R33/R34, Supra MK4, Land Cruiêtre 70-êtreies, Silvia S13/S14/S15) usan un numéro de chaouis japonés distinto al VIN étatunidense de 17 caracteres. Le numéro commence avec un code de modelo (BNR32, JZA80, FZJ80) seguido de un numéro de êtreie. Verificarlo es esencial avant de invertir $40K–$200K+ en una import de 25 années sous la regla de import de EE. UU.",
+      "Les voitures JDM importadeux (Skyline GT-R R32/R33/R34, Supra MK4, Land Cruiêtre 70-êtreies, Silvia S13/S14/S15) usan un numéro de chaouis japonés distinto al VIN étatunidense de 17 caractères. Le numéro commence avec un code de modèle (BNR32, JZA80, FZJ80) seguido de un numéro de êtreie. Verificarlo es esencial avant de invertir $40K–$200K+ en una import de 25 années sous la regla de import de EE. UU.",
     whatYouGet: [
-      "Código de modelo exacto (BNR32 vs BNR33 vs BNR34 pour Skyline GT-R)",
-      "Año de production et mois de fabrication",
-      "Trim et options específicas du JDM (V-Spec, Nismo, TRD)",
+      "Code de modèle exacto (BNR32 vs BNR33 vs BNR34 pour Skyline GT-R)",
+      "Année de production et mois de fabrication",
+      "Trim et options spécifiques du JDM (V-Spec, Nismo, TRD)",
       "Moteur original (RB26DETT, 2JZ-GTE, 1HZ)",
       "Confirmation de éligibilité sous la regla de 25 années de EE. UU.",
-      "Historique de exportation de Japón et país de destinonn",
+      "Historique de exportation de Japon et pays de destinon",
     ],
     whyItMatters: [
       "Les Skyline GT-R falsificadeux (moteur swap, marco gris) inundan le marché — vérifie le châssis original",
-      "La regla de 25 années de la NHTSA exige fecha exacta de fabrication, nonn seul année modelo",
+      "La regla de 25 années de la NHTSA exige fecha exacta de fabrication, non seul année modèle",
       "Les importationes JDM avec titre 'lavado' en Canadá peutn tener historique de dégâts que le VIN japonés revela",
-      "El valeur de un Supra MK4 numbers-matching es 3× le de unonn avec moteur reemplazado",
+      "El valeur de un Supra MK4 numbers-matching es 3× le de unon avec moteur reemplazado",
     ],
     trustNote:
       "Décodons codes de chaouis de Nissan (Skyline, Silvia, GT-R), Toyota (Supra, Land Cruiêtre, Chaêtre), Honda (NSX, Civic Type R, Integra Type R), Mazda (RX-7), Mitsubishi (Lancer Evolution) et Subaru (WRX STI).",
@@ -417,24 +417,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "rappel Takata airbag",
     ],
     intro:
-      "La NHTSA (Administration Nacional de Sécurité du Tráfico en Carretétaits) publica rappels (rappels) par VIN cada semana. Más de 50 millelions de véhicules circulan en EE. UU. avec al menonns un rappel ouvert — freins, airbags Takata, sistemas eléctricos. Verificarlo gratuit par VIN avant de acheter usado, ou como propriétaire actual, es la única façon de saber si ta véhicule est sujeto a una réparation gratuite du fabricante.",
+      "La NHTSA (Administration Nacional de Sécurité du Tráfico en Routes) publica rappels (rappels) par VIN chaque semana. Más de 50 millelions de véhicules circulan en EE. UU. avec al menons un rappel ouvert — freins, airbags Takata, sistemas électriques. Verificarlo gratuit par VIN avant de acheter usado, ou como propriétaire actual, es la única façon de saber si ta véhicule est sujeto a una réparation gratuite du fabricante.",
     whatYouGet: [
-      "Lista complète de rappels activos et cerradeux par VIN",
+      "Lista complète de rappels actifs et cerradeux par VIN",
       "Description du defecto et risque de sécurité",
       "Numéro de campaña NHTSA (façonto 23V-456)",
       "Instrucciones de réparation et plazo du fabricante",
-      "Concesionario autorizado plus prèsnonn pour la réparation",
-      "Costo de réparation: GRATIS sous rappel fedétaitl",
+      "Concesionario autorizado plus prèsnon pour la réparation",
+      "Costo de réparation: GRATIS sous rappel federal",
       "Historique de rappels anteriores et si a étéron complètedeux",
     ],
     whyItMatters: [
       "Les rappels de airbags Takata han causado plus de 27 muertes et 400 lesiones — vérifie avant de acheter",
       "Un véhicule avec rappel ouvert peut negársele la inspection en quelqu’unns états",
       "Les réparations par rappel son gratuites sans importar année ou kilométrage, pero seul si les solicitas",
-      "Les assureurs peutn negar réclamations si le accident involucra un defecto sous rappel nonn reparado",
+      "Les assureurs peutn negar réclamations si le accident involucra un defecto sous rappel non reparado",
     ],
     trustNote:
-      "Les données se cruzan en temps réel contra la base oficial de la NHTSA. Nous couvrons todas les marques registradas en EE. UU. desde 1995. Si encuentras un rappel ouvert, llévalo al concessionnaire autorizado — la réparation es gratuite par ley fedétaitl.",
+      "Les données se cruzan en temps réel contra la base oficial de la NHTSA. Nous couvrons todas les marques registradas en EE. UU. desde 1995. Si encuentras un rappel ouvert, llévalo al concessionnaire autorizado — la réparation es gratuite par ley federal.",
     schemaName: "Vérification de rappels NHTSA par VIN",
   },
 
@@ -446,34 +446,34 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Vérification sous la Loi Citron par VIN",
     metaTitle: "Vérification Loi Citron gratuit par VIN",
     metaDescription:
-      "Revisa si ta auto est protegido sous la Loi Citron estatal ou fedétaitl Magnuson-Moss. Couverture par état, plazos et reembolsos — gratuit par VIN.",
+      "Revisa si ta auto est protegido sous la Loi Citron d état ou federal Magnuson-Moss. Couverture par état, plazos et reembolsos — gratuit par VIN.",
     keywords: [
       "Loi Citron VIN",
       "citron law français",
       "auto defectuoso reembolso",
       "Magnuson-Moss Act français",
       "ley citron Californie Texas Florida",
-      "auto nonnuveau defectuoso remboursement",
+      "auto nonuveau defectuoso remboursement",
     ],
     intro:
-      "Les leyes \"Lemon Law\" ou Loi Citron existen en les 50 états de EE. UU. et sous la ley fedétaitl Magnuson-Moss. Protegen al acheteur de un auto nonnuveau (y en beaucoups états, aussi usado sous garantie) que presenta un defecto sestancial que le fabricante nonn logra reparar tras un numéro razonable de intentos. Vérifie gratuit par VIN si ta véhicule respecte les criterios de protection en ta état.",
+      "Les leyes \"Lemon Law\" ou Loi Citron existen en les 50 états de EE. UU. et sous la ley federal Magnuson-Moss. Protegen al acheteur de un auto nonuveau (y en beaucoups états, aussi usado sous garantie) que presenta un defecto sestancial que le fabricante non logra reparar tras un numéro razonable de intentos. Vérifie gratuit par VIN si ta véhicule respecte les criterios de protection en ta état.",
     whatYouGet: [
-      "Couverture específica de la Loi Citron en ta état",
+      "Couverture spécifique de la Loi Citron en ta état",
       "Numéro de intentos de réparation requerideux avant de calificar",
-      "Plazo legal: jours en taller, moises desde la compra, millelas máximas",
+      "Plazo legal: jours en taller, moises desde la compra, millelas maximales",
       "Tipo de remedio: reembolso complet, reemplazo du véhicule, ou cash",
-      "Applicabilité a voitures d’occasion sous garantie de fábrica restante",
-      "Couverture adicional sous la ley fedétaitl Magnuson-Moss",
+      "Applicabilité a voitures d’occasion sous garantie de usine restante",
+      "Couverture adicional sous la ley federal Magnuson-Moss",
       "Recursos de abogadeux especializadeux en Loi Citron (sans coût si ganas)",
     ],
     whyItMatters: [
-      "Les abogadeux de Loi Citron cobran al fabricante, nonn al consumidor — ta réclamation nonn cuesta rien",
+      "Les abogadeux de Loi Citron cobran al fabricante, non al consumidor — ta réclamation non cuesta rien",
       "Californie, Florida et Texas an les leyes plus estrictas et reembolsos plus hauts",
-      "Les voitures eléctricos (Tesla, Rivian) genétaitn réclamations crécents par batteries et software",
+      "Les voitures électriques (Tesla, Rivian) genétaitn réclamations crécents par batteries et software",
       "Les plazos son cortos: en beaucoups états pierdes le derecho tras 12 ou 18 moises sans reclamar",
     ],
     trustNote:
-      "Nous couvrons les 50 états + Magnuson-Moss fedétaitl. La éligibilité se basa en la fecha de compra, kilométrage, numéro de réparations documentadas et tipo de defecto. La vérification par VIN te da le marco; un abogado certificado en ta état confirme le cas.",
+      "Nous couvrons les 50 états + Magnuson-Moss federal. La éligibilité se basa en la fecha de compra, kilométrage, numéro de réparations documentadas et tipo de defecto. La vérification par VIN te da le marco; un abogado certificado en ta état confirme le cas.",
     schemaName: "Vérification de Loi Citron par VIN",
   },
 
@@ -492,27 +492,27 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "rollback odomètre français",
       "kilométrage réel voiture d’occasion",
       "historique odomètre VIN",
-      "odomètre altétaitdo detectar",
+      "odomètre altéréé detectar",
     ],
     intro:
-      "El fraude de odomètre (\"rollback\") cuesta a les acheteurs étatunidenses plus de mille millelions de dólares al année, según la NHTSA. Cada inspection estatal, cambio de aceite documentado, enregistrement de DMV et orden de êtrevice queda registrado avec la lectura du odomètre en ese momento. Si les lecturas históricas nonn son monótonamente crécents, le odomètre a été retrocedido. Verifícalo gratuit par VIN avant de acheter.",
+      "El fraude de odomètre (\"rollback\") cuesta a les acheteurs étatunidenses plus de mille millelions de dólares al année, selon la NHTSA. Chaque inspection d état, cambio de aceite documentado, enregistrement de DMV et orden de êtrevice queda registrado avec la lectura du odomètre en ese momento. Si les lecturas históricas non son monótonamente crécents, le odomètre a été retrocedido. Vérifie gratuit par VIN avant de acheter.",
     whatYouGet: [
-      "Crononnlogía complète de lecturas históricas du odomètre",
+      "Crononlogía complète de lecturas históricas du odomètre",
       "Détection automática de retroceso (rollback) en n’importe quel punto",
-      "Lecturas de inspectiones estatales (smog, safety)",
-      "Lecturas de enregistrements DMV en cada transfert de titre",
+      "Lecturas de inspectiones d état (smog, safety)",
+      "Lecturas de enregistrements DMV en chaque transfert de titre",
       "Lecturas de talleres autorizadeux (Ford, Toyota, Honda dealers)",
       "Marcas \"Not Actual Mileage\" reportadas en le titre",
-      "Discrepancia estimada (millelas réeles vs millelas mostradas)",
+      "Discrepancia estimada (millelas réels vs millelas mostradas)",
     ],
     whyItMatters: [
-      "La NHTSA estima que 1 de cada 10 voitures d’occasion a la vente a le odomètre altétaitdo",
-      "Un rollback típico añade $4,000 al precio du véhicule — directo a la perte du acheteur",
-      "El fraude fedétaitl de odomètre peut être perseguido sous le Fedétaitl Odometer Act",
+      "La NHTSA estima que 1 de chaque 10 voitures d’occasion a la vente a le odomètre altéréé",
+      "Un rollback típico añade $4,000 al prix du véhicule — directo a la perte du acheteur",
+      "El fraude federal de odomètre peut être perseguido sous le Federal Odometer Act",
       "Les voitures sans historique de êtrevice récent son spécialement sospechosos",
     ],
     trustNote:
-      "Les lecturas se cruzan contra NMVTIS (Sistema Nacional du Titre de Vehículos), DMVs estatales, redes de talleres autorizadeux et assureurs. Si le odomètre a été altétaitdo, les lecturas plus antiguas suelen exceder les plus récents — le quelque choêtreitmo le detecta automatiquement.",
+      "Les lecturas se cruzan contra NMVTIS (Sistema Nacional du Titre de Véhicules), DMVs d état, redes de talleres autorizadeux et assureurs. Si le odomètre a été altéréé, les lecturas plus antiguas suelen exceder les plus récents — le quelque choêtreitmo le detecta automatiquement.",
     schemaName: "Vérification de fraude de odomètre par VIN",
   },
 
@@ -534,24 +534,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "auto perte totale titre",
     ],
     intro:
-      "Un \"salvage title\" ou titre de récupération se emite quand una assureur declara un véhicule como perte totale, normalement parce que le coût de réparation excede du 70% al 90% du valeur du auto. Estos véhicules peutn être reconstruideux et vendideux légalement, pero pierden 20–40% de su valeur de revente, son difficilees de asegurar a todo risque, et peutn tener dégâtss estructurales ocultos. Verifícalo gratuit par VIN avant de acheter.",
+      "Un \"salvage title\" ou titre de récupération se emite quand una assureur declara un véhicule como perte totale, normalement parce que le coût de réparation excede du 70% al 90% du valeur du auto. Estos véhicules peutn être reconstruideux et vendideux légalement, pero pierden 20–40% de su valeur de revente, son difficilees de asegurar a todo risque, et peutn tener dégâtss estructurales ocultos. Vérifie gratuit par VIN avant de acheter.",
     whatYouGet: [
       "Tipo exacto de marque: Salvage, Rebuilt, Reconstructed, Junk, Flood",
       "Estado où se emitió le titre dañado",
-      "Razón de la marque: colisión, inondation, vol recupétaitdo, grêle",
+      "Raison de la marque: collision, inondation, vol récupéré, grêle",
       "Fecha en que la assureur declaró perte totale",
       "Historique de enchères Copart ou IAA (Insurance Auto Auctions)",
-      "Antiguos états de enregistrement et fecha de cada transfert",
-      "Si le titre a été \"lavado\" (washed) croisant frontétaits estatales",
+      "Antiguos états de enregistrement et fecha de chaque transfert",
+      "Si le titre a été \"lavado\" (washed) croisant frontétaits d état",
     ],
     whyItMatters: [
-      "Un véhicule salvage vale 20–40% menonns — nonn pagues precio de auto limpio",
-      "Muchas assureurs seul ofrecen couverture básica (liability) pour voitures salvage",
+      "Un véhicule salvage vale 20–40% menons — non pagues prix de auto limpio",
+      "Muchas assureurs seul ofrecen couverture de base (liability) pour voitures salvage",
       "Les dégâtss estructurales (châssis) reconstruideux peutn comprometer airbags et zonas de impacto",
-      "El \"title washing\" entre états masque marques — NMVTIS les recupétait todas",
+      "El \"title washing\" entre états masque marques — NMVTIS les récupéré todas",
     ],
     trustNote:
-      "Les données provienen de NMVTIS, la base fedétaitl que consolida marques de titre de les 50 états. NMVTIS es administrada par le Departamento de Justicia (BJA) et es obligatoria pour todas les assureurs et desguazadoras desde 2009. Si il y a una marque, est en NMVTIS.",
+      "Les données provienen de NMVTIS, la base federal que consolida marques de titre de les 50 états. NMVTIS es administrada par le Departamento de Justicia (BJA) et es obligatoire pour todas les assureurs et desguazadoras desde 2009. Si il y a una marque, est en NMVTIS.",
     schemaName: "Vérification de titre de récupération par VIN",
   },
 
@@ -568,29 +568,29 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "dégâts inondation VIN",
       "flood damage français",
       "auto inundado VIN",
-      "huracán Harvey Ian Ida autos",
+      "ouragan Harvey Ian Ida autos",
       "auto agua salada dégâts",
       "flood title véhicule",
     ],
     intro:
-      "Après de cada huracán mayor (Harvey 2017, Florence 2018, Ian 2022, Helene 2024) decenas de milleliers de véhicules inundadeux se secan superficialmente, se limpian et se revenden a acheteurs desprevenideux — a menudo croisant frontétaits estatales pour \"lavar\" le titre. Le agua salada corroe componentes eléctricos, transmission et moteur a le largo de moises. Verifícalo gratuit par VIN avant de acheter.",
+      "Après de chaque ouragan mayor (Harvey 2017, Florence 2018, Ian 2022, Helene 2024) decenas de milleliers de véhicules inundadeux se secan superficialmente, se limpian et se revenden a acheteurs desprevenideux — a menudo croisant frontétaits d état pour \"lavar\" le titre. Le agua salada corroe componentes électriques, transmission et moteur a le largo de moises. Vérifie gratuit par VIN avant de acheter.",
     whatYouGet: [
       "Marcas \"Flood\" ou \"Water Damage\" en le titre (NMVTIS)",
       "Registros de perte totale par inondation reportadeux par assureurs",
       "Cruce avec codes postales declaradeux zona de desastre FEMA",
-      "Registros NICB (National Insurance Crime Bureau) de véhicules inundadeux recupétaitdeux",
-      "Historique de enchères Copart/IAA post-huracán",
-      "Estado de origen vs état de enregistrement actual (señal de title washing)",
-      "Recomendaciones pour inspection física (mecánico + inspector eléctrico)",
+      "Registros NICB (National Insurance Crime Bureau) de véhicules inundadeux récupérédeux",
+      "Historique de enchères Copart/IAA post-ouragan",
+      "Estado de origen vs état de enregistrement actual (signal de title washing)",
+      "Recomendaciones pour inspection física (mécanicien + inspector électrique)",
     ],
     whyItMatters: [
-      "Tras le huracán Harvey, FEMA estimó 500,000 véhicules dañadeux — beaucoups vueltos a vender",
+      "Tras le ouragan Harvey, FEMA estimó 500,000 véhicules dañadeux — beaucoups vueltos a vender",
       "El dégâts des eaux salada destruye módulos electrónicos moises après — à l’extérieur de garantie",
-      "Les airbags inundadeux peutn fallar al desplegarse ou desplegarse sans razón",
+      "Les airbags inundadeux peutn fallar al desplegarse ou desplegarse sans raison",
       "El moho à l’intérieur de panneaues cautilise problemas de salud crónicos al ocupante",
     ],
     trustNote:
-      "Les données provienen de NMVTIS (Departamento de Justicia), NICB, FEMA et assureurs participavant. Si le véhicule a été declarado perte totale par inondation en n’importe quel état, NMVTIS le rea. Nous couvrons eventos desde le huracán Katrina (2005) hasta les huracanes récents de 2024.",
+      "Les données provienen de NMVTIS (Departamento de Justicia), NICB, FEMA et assureurs participavant. Si le véhicule a été declarado perte totale par inondation en n’importe quel état, NMVTIS le rea. Nous couvrons eventos desde le ouragan Katrina (2005) hasta les huracanes récents de 2024.",
     schemaName: "Vérification de dégâts d’inondation par VIN",
   },
 
@@ -612,10 +612,10 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "auto avec accident vérifier",
     ],
     intro:
-      "Approximativement le 40% de les voitures d’occasion a la vente en EE. UU. han état en al menonns un accident reportado. Les accidents menonnres (parachoques, alcance traêtreo) peutn nonn afectar le valeur — pero accidents avec airbag desplegado, dégâts estructural du chaouis ou perte totale reconstruida oui le hacen. Vérifie gratuit par VIN cada incident reportado a assureurs, DMVs et talleres certificadeux avant de acheter.",
+      "Approximativement le 40% de les voitures d’occasion a la vente en EE. UU. han état en al menons un accident reportado. Les accidents menonres (parachoques, alcance traêtreo) peutn non afectar le valeur — pero accidents avec airbag desplegado, dégâts estructural du chaouis ou perte totale reconstruida oui le hacen. Vérifie gratuit par VIN chaque incident reportado a assureurs, DMVs et talleres certificadeux avant de acheter.",
     whatYouGet: [
       "Lista de accidents reportadeux avec fecha et emplacement genétaitl",
-      "Sévérité: menonnr, modétaitda, mayor ou perte totale",
+      "Sévérité: menonr, modétaitda, mayor ou perte totale",
       "Tipo de impacto: frontal, traêtreo, latétaitl, vuelco",
       "Si se se sont déployés airbags durante le accident",
       "Registros de réparation en talleres certificadeux",
@@ -624,12 +624,12 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     ],
     whyItMatters: [
       "Les accidents avec dégâts estructural reducen le valeur de revente 25–40%",
-      "Un airbag desplegado et mal reemplazado peut nonn fonctionner en le prochain accident",
+      "Un airbag desplegado et mal reemplazado peut non fonctionner en le prochain accident",
       "Les assureurs peutn cobrar primes plus hautes si descouvren le historique al asegurar",
-      "Les acheteurs infaçondeux peutn negociar $1,500–$5,000 de descuento sur le precio inicial",
+      "Les acheteurs infaçondeux peutn negociar $1,500–$5,000 de descuento sur le prix inicial",
     ],
     trustNote:
-      "Les données provienen de NMVTIS, rapports de assureurs participavant, DMVs estatales et enregistrements de talleres certificadeux par fabricante. Les accidents NO reportadeux a assureurs (réparations \"de bolsillo\") peutn nonn aparecer — una inspection mecánica avant de acheter toujours es recomendable.",
+      "Les données provienen de NMVTIS, rapports de assureurs participavant, DMVs d état et enregistrements de talleres certificadeux par fabricante. Les accidents NO reportadeux a assureurs (réparations \"de bolsillo\") peutn non aparecer — una inspection mécanique avant de acheter toujours es recomendable.",
     schemaName: "Vérification de historique de accidents par VIN",
   },
 
@@ -648,16 +648,16 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "auto volé consultatioptiontioptiontioptionr",
       "NICB français",
       "VIN clonado fraude",
-      "auto volé recupétaitdo",
+      "auto volé récupéré",
     ],
     intro:
-      "El National Insurance Crime Bureau (NICB) mana la base oficial de véhicules volés reportadeux par assureurs et a étérzas policiales en EE. UU. Comprar un véhicule volé — bien que sea sans saberlo — significa perderlo sans reembolso quand la policía le confisque. Les traficavant a veces clonan VINs de voitures limpios pour enmascarar les volés. Vérifie gratuit par VIN avant de payer.",
+      "El National Insurance Crime Bureau (NICB) mana la base oficial de véhicules volés reportadeux par assureurs et a étérzas policiales en EE. UU. Comprar un véhicule volé — bien que sea sans saberlo — significa perderlo sans reembolso quand la police le confisque. Les traficavant a veces clonan VINs de voitures limpios pour enmascarar les volés. Vérifie gratuit par VIN avant de payer.",
     whatYouGet: [
-      "Estado actual: limpio, reportado como volé, recupétaitdo",
+      "Estado actual: limpio, reportado como volé, récupéré",
       "Fecha du rapport de vol",
       "Juridiction où se reportó le vol",
-      "Si a été recupétaitdo et devuelto al propriétaire ou assureur",
-      "Cruce avec enregistrements de enchères (señales de \"titre lavado\" post-vol)",
+      "Si a été récupéré et devuelto al propriétaire ou assureur",
+      "Cruce avec enregistrements de enchères (signaux de \"titre lavado\" post-vol)",
       "Indicadores de possible clonage de VIN",
       "Recomendaciones si le véhicule aparece reportado",
     ],
@@ -668,12 +668,12 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Una vérification NICB toma 5 segundeux et previene una perte de $20,000–$80,000",
     ],
     trustNote:
-      "La base NICB (National Insurance Crime Bureau) consolida rapports de plus de 1,100 assureurs et agencias policiales. Si un véhicule aparece reportado, NO completes la compra et reporta le cas a la policía local. La vérification es gratuite et anónima.",
+      "La base NICB (National Insurance Crime Bureau) consolida rapports de plus de 1,100 assureurs et agences policiales. Si un véhicule aparece reportado, NO completes la compra et reporta le cas a la police local. La vérification es gratuite et anónima.",
     schemaName: "Vérification de véhicule volé par VIN",
   },
 
   "hail-damage-check": {
-    esSlug: "/danonn-grêle",
+    esSlug: "/danon-grêle",
     englishPath: "/hail-damage-check",
     icon: CloudHail,
     badge: "Dannée par grêle · Subastas + NMVTIS",
@@ -690,14 +690,14 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "enchère auto granizado",
     ],
     intro:
-      "Les tormentas de grêle en Texas, Colorado, Oklahoma et Nebraska genétaitn cada année decenas de milleliers de véhicules avec dégâts cosmético — abolladuras en le toit, capot et coffre. Les assureurs a menudo les declaran perte totale quand le coût de réparation excede su valeur de marché, les venden en enchères, et reaparecen en lotes de vente tras réparation PDR (Paintless Dent Repair) parcial. Verifícalo gratuit par VIN avant de acheter.",
+      "Les tormentas de grêle en Texas, Colorado, Oklahoma et Nebraska genétaitn chaque année decenas de milleliers de véhicules avec dégâts cosmético — abolladuras en le toit, capot et coffre. Les assureurs a menudo les declaran perte totale quand le coût de réparation excede su valeur de marché, les venden en enchères, et reaparecen en lotes de vente tras réparation PDR (Paintless Dent Repair) parcial. Vérifie gratuit par VIN avant de acheter.",
     whatYouGet: [
       "Marcas \"Hail Damage\" en le titre ou rapports de assureur",
       "Si le véhicule a été declarado perte totale par grêle",
       "Historique de enchères Copart/IAA avec classification \"Hail Damage\"",
       "Cruce avec eventos de grêle declaradeux zona de desastre",
       "Indicadores de réparation PDR (parcial vs complète)",
-      "Estado de origen vs état de vente actual (señal de title washing)",
+      "Estado de origen vs état de vente actual (signal de title washing)",
       "Recomendaciones de inspection sous luz directa",
     ],
     whyItMatters: [
@@ -729,24 +729,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "airbag reemplazado vérifier",
     ],
     intro:
-      "El rappel global de airbags Takata es le mayor de la historia automotriz: plus de 70 millelions de bolsas de aire defectuosas en EE. UU. que peutn explotar et enviar fragmentos metálicos al conductor ou pasajero. Más de 27 muertes confirmadas. Vérifie gratuit par VIN si tes airbags estn sous rappel Takata, ou si a étéron desplegadeux en un accident previo et reemplazadeux (o nonn).",
+      "El rappel global de airbags Takata es le mayor de la histoire automotriz: plus de 70 millelions de bolsas de aire defectuosas en EE. UU. que peutn explotar et enviar fragmentos metálicos al conductor ou pasajero. Más de 27 muertes confirmadas. Vérifie gratuit par VIN si tes airbags estn sous rappel Takata, ou si a étéron desplegadeux en un accident previo et reemplazadeux (o non).",
     whatYouGet: [
       "Estado du rappel Takata pour ta VIN (ouvert ou reparado)",
       "Si les airbags se se sont déployés en un accident previo",
       "Otros rappels de airbags (ARC, Joyson, ZF-TRW)",
-      "Concesionario autorizado plus prèsnonn pour la réparation gratuit",
-      "Lista de marques et modelos cubiertos par le rappel Takata",
+      "Concesionario autorizado plus prèsnon pour la réparation gratuit",
+      "Lista de marques et modèles cubiertos par le rappel Takata",
       "Fecha estimada de disponibilité de la pieza de reemplazo",
       "Risque \"alpha\" (calor + humedad): mayor risque de explosión",
     ],
     whyItMatters: [
       "Les airbags Takata defectuosos han matado a 27+ personnes et herido a 400+ en EE. UU.",
-      "Les véhicules en états calientes/húmedeux (FL, TX, HI, PR) an risque \"alpha\" — máxima prioridad",
+      "Les véhicules en états calientes/húmedeux (FL, TX, HI, PR) an risque \"alpha\" — maximale prioridad",
       "La réparation sous rappel es GRATIS sans importar année ou kilométrage",
-      "Un airbag mal reemplazado après de un accident peut nonn desplegarse en le siguiente",
+      "Un airbag mal reemplazado après de un accident peut non desplegarse en le siguiente",
     ],
     trustNote:
-      "Les données du rappel Takata se cruzan en temps réel avec la base oficial de la NHTSA. Si ta VIN aparece sous rappel, llévalo al concessionnaire autorizado de ta marque — la réparation es gratuite par ley fedétaitl. Le historique de despliegue se cruza avec rapports de assureur et talleres certificadeux.",
+      "Les données du rappel Takata se cruzan en temps réel avec la base oficial de la NHTSA. Si ta VIN aparece sous rappel, llévalo al concessionnaire autorizado de ta marque — la réparation es gratuite par ley federal. Le historique de despliegue se cruza avec rapports de assureur et talleres certificadeux.",
     schemaName: "Vérification de airbag et Takata par VIN",
   },
 
@@ -768,24 +768,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "salvage par perte totale",
     ],
     intro:
-      "Una assureur declara un véhicule \"perte totale\" (total loss) quand le coût de réparation plus le valeur du récupération excede le valeur de marché du auto avant du accident — typiquement du 70% al 90%. Le véhicule reçois un titre \"salvage\" y, si se repara, un titre \"rebuilt\". Estos voitures pierden 20–40% de valeur et son difficilees de asegurar a todo risque. Verifícalo gratuit par VIN avant de payer precio de auto limpio.",
+      "Una assureur declara un véhicule \"perte totale\" (total loss) quand le coût de réparation plus le valeur du récupération excede le valeur de marché du auto avant du accident — typiquement du 70% al 90%. Le véhicule reçois un titre \"salvage\" y, si se repara, un titre \"rebuilt\". Estos voitures pierden 20–40% de valeur et son difficilees de asegurar a todo risque. Vérifie gratuit par VIN avant de payer prix de auto limpio.",
     whatYouGet: [
       "Si una assureur declaró perte totale quelqu’une vez",
-      "Fecha et razón: colisión, inondation, grêle, vol recupétaitdo, incendio",
+      "Fecha et raison: collision, inondation, grêle, vol récupéré, incendio",
       "Estado où se emitió le titre salvage ou rebuilt",
       "Historique de enchères Copart/IAA avec classification de dégâts",
       "Si le véhicule a été reconstruido (rebuilt) ou sigue como salvage",
       "Cruce avec marques en le titre de les 50 états (NMVTIS)",
-      "Recomendaciones pour inspection estructural et mecánica",
+      "Recomendaciones pour inspection estructural et mécanique",
     ],
     whyItMatters: [
-      "Un véhicule avec historique de perte totale vale 20–40% menonns que unonn limpio",
+      "Un véhicule avec historique de perte totale vale 20–40% menons que unon limpio",
       "Muchas assureurs NO ofrecen couverture comprehensive pour voitures rebuilt",
       "Les bancos rara vez financian voitures avec titre salvage ou rebuilt",
       "Una perte totale reparada incorrectement peut tener fallos estructurales ocultos",
     ],
     trustNote:
-      "Les données provienen de NMVTIS, assureurs participavant et enregistrements de enchères Copart e IAA. Si le véhicule a été declarado perte totale en n’importe quel état, NMVTIS le rea — le \"title washing\" croisant états nonn masque esta marque.",
+      "Les données provienen de NMVTIS, assureurs participavant et enregistrements de enchères Copart e IAA. Si le véhicule a été declarado perte totale en n’importe quel état, NMVTIS le rea — le \"title washing\" croisant états non masque esta marque.",
     schemaName: "Vérification de perte totale par VIN",
   },
 
@@ -797,34 +797,34 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Historique de enchères par VIN (Copart, IAA)",
     metaTitle: "Historique enchères auto gratuit par VIN",
     metaDescription:
-      "Consulta historique de enchères Copart e IAA par VIN. Photos du dégâts, classification, precio de vente. Gratuit, instantanément, sans inscription.",
+      "Consulta historique de enchères Copart e IAA par VIN. Photos du dégâts, classification, prix de vente. Gratuit, instantanément, sans inscription.",
     keywords: [
       "historique enchère VIN",
       "Copart historique VIN",
       "IAA historique VIN",
       "auction history français",
-      "auto enchère Copart precio",
+      "auto enchère Copart prix",
       "enchère assurances véhicule",
     ],
     intro:
-      "Copart e IAA (Insurance Auto Auctions) son les deux principales casas de enchères de véhicules sansiestradeux en EE. UU. Les assureurs venden ahí les voitures declaradeux perte totale après de accidents, inondationes et grêle. Si un véhicule pasó par Copart ou IAA, il y a fotos, description du dégâts et precio de vente documentadeux. Verifícalo gratuit par VIN pour saber que le pasó réellement.",
+      "Copart e IAA (Insurance Auto Auctions) son les deux principales casas de enchères de véhicules sansiestradeux en EE. UU. Les assureurs venden ahí les voitures declaradeux perte totale après de accidents, inondationes et grêle. Si un véhicule pasó par Copart ou IAA, il y a fotos, description du dégâts et prix de vente documentadeux. Vérifie gratuit par VIN pour saber que le pasó réellement.",
     whatYouGet: [
       "Lista de enchères pasadas en Copart e IAA avec fecha",
       "Classification du dégâts: front-end, rear-end, side, hail, flood, vandalism",
-      "Lecturas du odomètre al momento de cada enchère",
-      "Precio final de vente (quand disponible)",
+      "Lecturas du odomètre al momento de chaque enchère",
+      "Prix final de vente (quand disponible)",
       "Photos du dégâts (quand disponibles sous licence)",
       "Emplacement de la enchère (enchère yard)",
       "Estado premierio du titre al momento de la vente",
     ],
     whyItMatters: [
       "Un véhicule vendido en Copart ou IAA a été declarado perte totale par una assureur — pierde 20–40% de valeur",
-      "Les photos de enchère revelan le dégâts réel, nonn le cosmético \"reparado\" avant de revender",
+      "Les photos de enchère revelan le dégâts réel, non le cosmético \"reparado\" avant de revender",
       "Les voitures vendideux en Copart como \"flood\" fréquemment reaparecen como \"clean\" en otros états",
       "Una enchère récent seguida de vente como \"like new\" es la mayor bandétait roja du marché usado",
     ],
     trustNote:
-      "Les données de enchères se cruzan avec NMVTIS et rapports públicos de Copart e IAA. Les photos estn sujetas a disponibilité et licence de imagen — quand existen, son evidencia objetiva du dégâts que le vendeur actual quizá nonn mencione.",
+      "Les données de enchères se cruzan avec NMVTIS et rapports públicos de Copart e IAA. Les photos estn sujetas a disponibilité et licence de imagen — quand existen, son preuve objetiva du dégâts que le vendeur actual quizá non mencione.",
     schemaName: "Historique de enchères Copart/IAA par VIN",
   },
 
@@ -841,29 +841,29 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "valeur marché auto VIN",
       "Kelley Blue Book français",
       "valeur voiture d’occasion VIN",
-      "precio justo voiture d’occasion",
+      "prix justo voiture d’occasion",
       "estimation auto par VIN",
       "valeur revente véhicule",
     ],
     intro:
-      "Saber le valeur de marché réel de un véhicule par VIN es le premier étape pour negociar le precio correct — ya sea pour acheter, vender ou cambiar (reprise). Les a éténtes oficiales (Kelley Blue Book, NADA Guides, Edmunds) calculan le valeur según année, modelo, équipement, kilométrage et región. Verifícalo gratuit par VIN pour tener la cifra exacta avant de n’importe quel négociation.",
+      "Saber le valeur de marché réel de un véhicule par VIN es le premier étape pour negociar le prix correct — ya sea pour acheter, vender ou cambiar (reprise). Les a éventes oficiales (Kelley Blue Book, NADA Guides, Edmunds) calculan le valeur selon année, modèle, équipement, kilométrage et région. Vérifie gratuit par VIN pour tener la cifra exacta avant de n’importe quel négociation.",
     whatYouGet: [
       "Valor de reprise (lo que le concessionnaire te dará al cambiarlo)",
-      "Valor de vente privada (lo que pedirías en Craigslist/Facebook Marketplace)",
+      "Valor de vente privada (lo que tu demanderais en Craigslist/Facebook Marketplace)",
       "Valor de vente du concessionnaire (\"retail value\")",
-      "Ajustes par équipement de fábrica (pack premium, AWD, etc.)",
-      "Ajustes par kilométrage vs le promedio du modelo",
-      "Comparaison de les 3 a éténtes principales: KBB, NADA, Edmunds",
+      "Ajustes par équipement de usine (pack premium, AWD, etc.)",
+      "Ajustes par kilométrage vs le promedio du modèle",
+      "Comparaison de les 3 a éventes principales: KBB, NADA, Edmunds",
       "Tendencia de valeur: dépréciation espétaitda en 12 moises",
     ],
     whyItMatters: [
-      "Les concessionnaires suelen ofrecer 10–20% menonns du valeur réel en reprise — saber la cifra réel protege ta bolsillo",
-      "Pedir le precio correct en vente privada acelétait la vente sans dejar argent en la moisa",
-      "Les assureurs peutn subestimar le valeur en cas de perte totale — KBB/NADA es la referencia pour apelar",
+      "Les concessionnaires suelen ofrecer 10–20% menons du valeur réel en reprise — saber la cifra réel protege ta bolsillo",
+      "Pedir le prix correct en vente privada acelétait la vente sans dejar argent en la moisa",
+      "Les assureurs peutn subestimar le valeur en cas de perte totale — KBB/NADA es la référence pour apelar",
       "El valeur varie 15–25% entre regiones (Californie vs Texas) — utilise le cifra local",
     ],
     trustNote:
-      "Les valuaciones se cruzan avec les a éténtes oficiales recononncidas par la industria (Kelley Blue Book, NADA, Edmunds) et tarifs de vente récents en marketplaces. Le valeur estimado par VIN considétait année, modelo, équipement opcional, kilométrage promedio du modelo et región de vente.",
+      "Les valuaciones se cruzan avec les a éventes oficiales recononcidas par la industria (Kelley Blue Book, NADA, Edmunds) et tarifs de vente récents en marketplaces. Le valeur estimado par VIN considétait année, modèle, équipement opcional, kilométrage promedio du modèle et région de vente.",
     schemaName: "Valor de marché de auto par VIN",
   },
 
@@ -871,11 +871,11 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     esSlug: "/vérification-privilège",
     englishPath: "/vehicle-lien-check",
     icon: Landmark,
-    badge: "Gravamen · Lien · DMV",
+    badge: "Privilège · Lien · DMV",
     h1: "Vérification de privilège (lien) par VIN",
     metaTitle: "Vérification privilège auto gratuit par VIN",
     metaDescription:
-      "Consulta si un véhicule a privilège activo (lien) par VIN. Si compras un auto avec lien, le banco peut recupétaitrlo. Gratuit, instantanément.",
+      "Consulta si un véhicule a privilège actif (lien) par VIN. Si compras un auto avec lien, le banco peut récupérérlo. Gratuit, instantanément.",
     keywords: [
       "privilège auto VIN",
       "lien français auto",
@@ -885,24 +885,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "lienholder français",
     ],
     intro:
-      "Un \"lien\" ou privilège es un prêt registrado en le titre du véhicule — un banco, financiétait ou crédito unión es le propriétaire legal hasta que le prêt se paye complet. Comprar un auto avec lien activo significa que le prestamista peut recupétaitrlo et dejarte sans auto et sans argent. Le privilège queda registrado en le titre estatal et en NMVTIS. Verifícalo gratuit par VIN avant de payer.",
+      "Un \"lien\" ou privilège es un prêt registrado en le titre du véhicule — un banco, financiétait ou crédit union es le propriétaire legal hasta que le prêt se paye complet. Comprar un auto avec lien actif significa que le prestamista peut récupérérlo et dejarte sans auto et sans argent. Le privilège queda registrado en le titre d état et en NMVTIS. Vérifie gratuit par VIN avant de payer.",
     whatYouGet: [
-      "Si il y a un privilège activo ou libétaitdo (\"released\")",
+      "Si il y a un privilège actif ou libétaitdo (\"released\")",
       "Nom du prestamista (lienholder): banco, financiétait, dealer",
       "Estado où se registró le privilège",
       "Fecha de enregistrement du privilège",
       "Si le titre original ha été entregado al acheteur ou sigue en poder du banco",
-      "Indication de gravámenes históricos payedeux",
-      "Recomendaciones si encuentras un privilège activo",
+      "Indication de privilèges históricos payedeux",
+      "Recomendaciones si encuentras un privilège actif",
     ],
     whyItMatters: [
-      "Comprar un auto avec privilège activo = le banco peut recupétaitrlo sans payerte rien",
+      "Comprar un auto avec privilège actif = le banco peut récupérérlo sans payerte rien",
       "El vendeur doit entregarte le titre limpio ou un \"lien release\" du banco avant de payer",
-      "Les estafas \"curbstoning\" venden voitures avec privilège activo a acheteurs sans vérifier",
+      "Les estafas \"curbstoning\" venden voitures avec privilège actif a acheteurs sans vérifier",
       "Una vérification de 5 segundeux previene una perte totale de $10,000–$50,000+",
     ],
     trustNote:
-      "Les données de gravámenes se cruzan avec NMVTIS et DMVs estatales. Si le véhicule a un lien activo, exige al vendeur le \"lien release\" du prestamista avant de payer — sans ese documento, le titre es transferible seul en papel, nonn en réelidad legal.",
+      "Les données de privilèges se cruzan avec NMVTIS et DMVs d état. Si le véhicule a un lien actif, exige al vendeur le \"lien release\" du prestamista avant de payer — sans ese documento, le titre es transferible seul en papel, non en réelidad legal.",
     schemaName: "Vérification de privilège par VIN",
   },
 
@@ -910,38 +910,38 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     esSlug: "/décodeur-vin",
     englishPath: "/vin-decoder",
     icon: Search,
-    badge: "Décodeur VIN · 17 caracteres",
-    h1: "Décodeur de VIN gratuit (17 caracteres)",
-    metaTitle: "Décodeur VIN gratuit — Marca, modelo, moteur",
+    badge: "Décodeur VIN · 17 caractères",
+    h1: "Décodeur de VIN gratuit (17 caractères)",
+    metaTitle: "Décodeur VIN gratuit — Marca, modèle, moteur",
     metaDescription:
-      "Décode n’importe quel VIN de 17 caracteres gratuit. Marca, modelo, année, planta, moteur, transmission et plus. Al instante, sans inscription.",
+      "Décode n’importe quel VIN de 17 caractères gratuit. Marca, modèle, année, planta, moteur, transmission et plus. Al instante, sans inscription.",
     keywords: [
       "décodeur VIN gratuit",
       "VIN decoder français",
       "que significa mi VIN",
-      "décoder 17 caracteres VIN",
+      "décoder 17 caractères VIN",
       "leer VIN auto",
-      "marque modelo VIN",
+      "marque modèle VIN",
     ],
     intro:
-      "El VIN (Vehicle Identification Number) es le code de 17 caracteres unique de cada véhicule fabricado desde 1981. Cada carácter codifica infaçoption específica: país de origen, fabricante, tipo de véhicule, moteur, année modelo, planta de ensamblaje et numéro de êtreie. Décoderlo gratuit revela toda la infaçoption de fábrica sans besoin du titre ou documentos. Útil al acheter usado, reportar al assurance ou pedir piezas correctes.",
+      "El VIN (Vehicle Identification Number) es le code de 17 caractères unique de chaque véhicule fabricado desde 1981. Chaque caractère codifica infaçoption spécifique: pays de origen, fabricante, tipo de véhicule, moteur, année modèle, planta de ensamblaje et numéro de êtreie. Décoderlo gratuit revela toda la infaçoption de usine sans besoin du titre ou documentos. Útil al acheter usado, reportar al assurance ou pedir piezas correctes.",
     whatYouGet: [
-      "Marca, modelo et année exactos du véhicule",
-      "País et planta de ensamblaje (WMI: World Manufacturer Identifier)",
+      "Marca, modèle et année exactos du véhicule",
+      "Pays et planta de ensamblaje (WMI: World Manufacturer Identifier)",
       "Configuration du moteur (cilindrada, numéro de cilindros, tipo de carburant)",
       "Transmission et traction (FWD, RWD, AWD, 4WD)",
       "Tipo de carrosêtreie (sedan, SUV, pickup, hatchback)",
-      "Équipement de sécurité de fábrica (airbags, ABS, ESC)",
-      "Numéro de êtreie de production à l’intérieur du année modelo",
+      "Équipement de sécurité de usine (airbags, ABS, ESC)",
+      "Numéro de êtreie de production à l’intérieur du année modèle",
     ],
     whyItMatters: [
       "Pedir piezas avec le VIN exacto evita errores de compatibilité ($50–$500 ahorradeux par evento)",
-      "Confirmar le moteur et transmission avant de acheter evita estafas de \"moteur swap\" nonn declarado",
-      "El année modelo en le VIN peut diferir du année calendario de vente — afecta valeur et assurance",
-      "La planta de ensamblaje (US, México, Japón) impacta la qualité histórica de quelqu’unns modelos",
+      "Confirmar le moteur et transmission avant de acheter evita estafas de \"moteur swap\" non declarado",
+      "El année modèle en le VIN peut diferir du année calendario de vente — afecta valeur et assurance",
+      "La planta de ensamblaje (US, México, Japon) impacta la qualité histórica de quelqu’unns modèles",
     ],
     trustNote:
-      "El décodeur VIN respecte avec le estndar ISO 3779/3780 et les reglas de la NHTSA (49 CFR Part 565). Décodons todeux les VINs de 17 caracteres de véhicules fabricadeux ou vendideux en EE. UU. desde 1981. Para voitures pre-1981 utilise le décodeur de auto classique.",
+      "El décodeur VIN respecte avec le estndar ISO 3779/3780 et les reglas de la NHTSA (49 CFR Part 565). Décodons todeux les VINs de 17 caractères de véhicules fabricadeux ou vendideux en EE. UU. desde 1981. Para voitures pre-1981 utilise le décodeur de auto classique.",
     schemaName: "Décodeur de VIN gratuit",
   },
 
@@ -949,161 +949,161 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     esSlug: "/meilleur-décodeur-vin",
     englishPath: "/best-vin-decoder",
     icon: Award,
-    badge: "Meilleur décodeur VIN · Comparativa",
+    badge: "Meilleur décodeur VIN · Comparative",
     h1: "Meilleur décodeur de VIN gratuit en 2026",
-    metaTitle: "Meilleur décodeur VIN gratuit 2026 — Comparativa",
+    metaTitle: "Meilleur décodeur VIN gratuit 2026 — Comparative",
     metaDescription:
-      "Comparativa de les meilleures décodeures de VIN gratuit en 2026: couverture, precisión, idiomas et données. Recomendaciones par cas de uso.",
+      "Comparative de les meilleures décodeurs de VIN gratuit en 2026: couverture, precisión, idiomas et données. Recomendaciones par cas de uso.",
     keywords: [
       "meilleur décodeur VIN",
       "meilleur VIN decoder français",
       "décodeur VIN gratuit vs payedo",
-      "VIN decoder comparativa 2026",
+      "VIN decoder comparative 2026",
       "décodeur VIN preciso",
       "VIN check gratuit français",
     ],
     intro:
-      "No todeux les décodeures de VIN son iguales. Algunonns couvren seul voitures de pasajeros, otros seul modelos récents, et beaucoups seul décoden les premieros 11 caracteres (WMI + descriptor) sans acceder a les données de configuration específica du véhicule. Esta guide comparativa lista les meilleures décodeures gratuit en 2026, que inclutn, que nonn, et quand conviene usar unonn payedo pour données críticos avant de acheter.",
+      "No todeux les décodeurs de VIN son iguales. Algunons couvren seul voitures de pasajeros, otros seul modèles récents, et beaucoups seul décoden les premieros 11 caractères (WMI + descriptor) sans acceder a les données de configuration spécifique du véhicule. Esta guide comparative lista les meilleures décodeurs gratuit en 2026, que inclutn, que non, et quand conviene usar unon payedo pour données críticos avant de acheter.",
     whatYouGet: [
-      "Comparativa de couverture par fabricante et année",
-      "Que données décode cada outil (seul básicos vs configuration complète)",
-      "Support pour voitures classiques pre-1981 (5–13 caracteres)",
+      "Comparative de couverture par fabricante et année",
+      "Que données décode chaque outil (seul de bases vs configuration complète)",
+      "Support pour voitures classiques pre-1981 (5–13 caractères)",
       "Support pour motos, camiones comerciales et JDM",
-      "Precisión vs a éténtes oficiales (NHTSA vPIC)",
+      "Precisión vs a éventes oficiales (NHTSA vPIC)",
       "Quand conviene un rapport payedo (historique NMVTIS + accidents)",
-      "Recomendaciones par cas de uso (acheteur, vendeur, mecánico)",
+      "Recomendaciones par cas de uso (acheteur, vendeur, mécanicien)",
     ],
     whyItMatters: [
       "Un décodeur débil te da seul \"Toyota Camry\" — les bons dan le moteur exacto, pack trim et planta",
       "Les données de configuration corrects previenen acheter piezas equivocadas et caer en estafas",
-      "Les voitures classiques requieren décodeures especializadeux — les genétaitlistas devuelven \"VIN inválido\"",
+      "Les voitures classiques requieren décodeurs especializadeux — les genétaitlistas devuelven \"VIN inválido\"",
       "Para decisiones de compra de $10K+ vale la pena un rapport payedo avec historique NMVTIS complet",
     ],
     trustNote:
-      "Les recomendaciones se basan en pruebas avec muestras réeles de les 50 états, todeux les fabricavant principales (Toyota, Ford, Honda, Chevrolet, BMW, Mercedes), et années modelo desde 1981 hasta 2026. Les données de a éténte oficial provienen du Vehicle API de la NHTSA (vPIC).",
+      "Les recomendaciones se basan en pruebas avec muestras réels de les 50 états, todeux les fabricavant principales (Toyota, Ford, Honda, Chevrolet, BMW, Mercedes), et années modèle desde 1981 hasta 2026. Les données de a éténte oficial provienen du Vehicle API de la NHTSA (vPIC).",
     schemaName: "Meilleur décodeur de VIN gratuit",
   },
 
   /* ── Wave 14 — tool variants (12) ───────────────────────────────── */
 
-  // Key is "window-sticker-maker" (nonnt "window-sticker") because the
+  // Key is "window-sticker-maker" (nont "window-sticker") because the
   // Wave 5 key "window-sticker" already maps to /window-sticker-lookup
   // (the Monroney lookup tool). This is the dedicated maker/genétaittor.
   "window-sticker-maker": {
-    esSlug: "/creador-etiqueta-monroney",
+    esSlug: "/creador-étiquette-monroney",
     englishPath: "/window-sticker",
     icon: Sticker,
     badge: "Creador de Monroney · Gratuit",
-    h1: "Creador de etiqueta Monroney (window sticker)",
-    metaTitle: "Creador etiqueta Monroney gratuit par VIN",
+    h1: "Creador de étiquette Monroney (window sticker)",
+    metaTitle: "Creador étiquette Monroney gratuit par VIN",
     metaDescription:
-      "Crea una etiqueta Monroney profesional pour n’importe quel auto, camion ou SUV en un minute. Auto-rellena desde le VIN, personneliza MSRP et options — gratuit.",
+      "Crea una étiquette Monroney profesional pour n’importe quel auto, camion ou SUV en un minute. Auto-rellena desde le VIN, personneliza MSRP et options — gratuit.",
     keywords: [
-      "crear etiqueta Monroney",
+      "crear étiquette Monroney",
       "window sticker maker français",
       "genétaitdor Monroney auto",
       "MSRP par VIN",
-      "etiqueta vente voiture d’occasion",
+      "étiquette vente voiture d’occasion",
       "Monroney label genétaittor",
     ],
     intro:
-      "Necesitas una etiqueta Monroney profesional pour vender ta voiture d’occasion en línea ou en le lote du concessionnaire, pero la original se perdió. Notre creador genétait una etiqueta estilo fábrica auto-remplissant desde le VIN — MSRP, équipement de fábrica, options agregadas, eficiencia EPA — lista pour descargar ou imprimir en moins de un minute.",
+      "Necesitas una étiquette Monroney profesional pour vender ta voiture d’occasion en ligne ou en le lote du concessionnaire, pero la original se perdió. Notre creador genétait una étiquette estilo usine auto-remplissant desde le VIN — MSRP, équipement de usine, options agregadas, efficacité EPA — lista pour descargar ou imprimir en moins de un minute.",
     whatYouGet: [
-      "Etiqueta Monroney estilo fábrica lista pour imprimir ou publicar en línea",
-      "Auto-rellenonn automático desde n’importe quel VIN de 17 caracteres",
-      "Lista complète de équipement de fábrica et options",
+      "Étiquette Monroney estilo usine lista pour imprimir ou publicar en ligne",
+      "Auto-rellenon automático desde n’importe quel VIN de 17 caractères",
+      "Lista complète de équipement de usine et options",
       "MSRP original et tarifs de les options",
-      "Ratings EPA: millelas par galón ville/carretétait",
+      "Ratings EPA: millelas par gallon ville/route",
       "Télécharge en PDF de haute résolution ou imagen pour anuncios",
       "Edita n’importe quel campo avant de exportar",
     ],
     whyItMatters: [
-      "Les acheteurs buscan etiquetas Monroney como prueba de équipement original — sans ella, ofrecen menonns",
-      "Les anuncios avec Monroney venden 23% plus rapide que les sans ella, según un analyse du marché usado",
-      "La etiqueta documenta MPG, options premium et MSRP — base sólida pour negociar le precio",
+      "Les acheteurs buscan étiquettes Monroney como prueba de équipement original — sans ella, ofrecen menons",
+      "Les anuncios avec Monroney venden 23% plus rapide que les sans ella, selon un analyse du marché usado",
+      "La étiquette documenta MPG, options premium et MSRP — base sólida pour negociar le prix",
       "Es gratuit pour crearla; le coût le paye la cuenta opcional al momento de descargar",
     ],
     trustNote:
-      "Les données provienen de bases de données du fabricante et du EPA. Nous couvrons modelos de Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz et plus de 30 marques avec données retroactivos hasta 2008. La etiqueta genétaitda sigue le façonto fedétaitl exigido par la ley Monroney (15 U.S.C. § 1232).",
-    schemaName: "Creador de etiqueta Monroney par VIN",
+      "Les données provienen de bases de données du fabricante et du EPA. Nous couvrons modèles de Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz et plus de 30 marques avec données retroactifs hasta 2008. La étiquette genétaitda sigue le façonto federal exigido par la ley Monroney (15 U.S.C. § 1232).",
+    schemaName: "Creador de étiquette Monroney par VIN",
   },
 
   "free-window-sticker-by-vin": {
-    esSlug: "/etiqueta-monroney-gratuit-por-vin",
+    esSlug: "/étiquette-monroney-gratuit-por-vin",
     englishPath: "/free-window-sticker-by-vin",
     icon: Sticker,
     badge: "Monroney gratuit · Par VIN",
-    h1: "Etiqueta Monroney gratuit par VIN",
-    metaTitle: "Etiqueta Monroney gratuit par VIN — Sin carte",
+    h1: "Étiquette Monroney gratuit par VIN",
+    metaTitle: "Étiquette Monroney gratuit par VIN — Sin carte",
     metaDescription:
-      "Recupétait la etiqueta Monroney original gratuit ingresando le VIN. MSRP, équipement, options, ratings EPA — instantanément, sans carte de crédito.",
+      "Récupéré la étiquette Monroney original gratuit ingresando le VIN. MSRP, équipement, options, ratings EPA — instantanément, sans carte de crédit.",
     keywords: [
-      "etiqueta Monroney gratuit",
+      "étiquette Monroney gratuit",
       "window sticker gratuit par VIN",
       "Monroney par VIN français",
-      "ficha original fábrica gratuit",
+      "ficha original usine gratuit",
       "MSRP gratuit par VIN",
       "Monroney label free",
     ],
     intro:
-      "Recupétait la etiqueta Monroney original de n’importe quel auto fabricado ou vendido en EE. UU. desde 2008, gratuit et instantanément par VIN. La etiqueta affiche le MSRP de fábrica, le équipement estndar, les options agregadas avec su precio individual et les ratings EPA — prueba documentada du valeur original du véhicule, útil pour acheter, vender ou tasar.",
+      "Récupéré la étiquette Monroney original de n’importe quel auto fabricado ou vendido en EE. UU. desde 2008, gratuit et instantanément par VIN. La étiquette affiche le MSRP de usine, le équipement estndar, les options agregadas avec su prix individual et les ratings EPA — prueba documentada du valeur original du véhicule, útil pour acheter, vender ou tasar.",
     whatYouGet: [
-      "Etiqueta Monroney original recupétaitda de bases du fabricante",
-      "MSRP de fábrica al momento du lanzamiento du modelo",
+      "Étiquette Monroney original récupéréda de bases du fabricante",
+      "MSRP de usine al momento du lanzamiento du modèle",
       "Lista complète du équipement estndar",
-      "Options et packs agregadeux avec su precio",
-      "Ratings EPA: ville/carretétait/combinedo et emisiones",
-      "Datos de sécurité e infaçoption de procedencia",
+      "Options et packs agregadeux avec su prix",
+      "Ratings EPA: ville/route/combinedo et emisiones",
+      "Datos de sécurité e infaçoption de provenance",
       "Télécharge gratuit sans besoin de cuenta",
     ],
     whyItMatters: [
-      "La etiqueta Monroney es la única referencia oficial du MSRP original — sans ella le vendeur peut inflarlo",
-      "Detecta accèsrios \"post-vente\" vendideux engannéesamente como \"équipement de fábrica\"",
-      "Confirme si le auto a les packs premium (Technonnlogy, Premium Plus, etc.) que le vendeur afirma",
-      "Documenta le MPG réel publicado par le EPA, nonn les estimaciones du vendeur",
+      "La étiquette Monroney es la única référence oficial du MSRP original — sans ella le vendeur peut inflarlo",
+      "Detecta accèsrios \"post-vente\" vendideux engannéesamente como \"équipement de usine\"",
+      "Confirme si le auto a les packs premium (Technonlogy, Premium Plus, etc.) que le vendeur afirma",
+      "Documenta le MPG réel publicado par le EPA, non les estimaciones du vendeur",
     ],
     trustNote:
-      "Les etiquetas provienen directement de bases de données du fabricante et du EPA. Nous couvrons Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz et plus de 30 marques avec données retroactivos hasta les modelos du année 2008. Le êtrevice es 100% gratuit sans carte de crédito requerida.",
-    schemaName: "Etiqueta Monroney gratuit par VIN",
+      "Les étiquettes provienen directement de bases de données du fabricante et du EPA. Nous couvrons Ford, Toyota, Honda, Chevrolet, BMW, Mercedes-Benz et plus de 30 marques avec données retroactifs hasta les modèles du année 2008. Le êtrevice es 100% gratuit sans carte de crédit requerida.",
+    schemaName: "Étiquette Monroney gratuit par VIN",
   },
 
   "build-sheet": {
     esSlug: "/hoja-fabrica",
     englishPath: "/build-sheet",
     icon: FileText,
-    badge: "Hoja de fábrica · Build sheet",
-    h1: "Hoja de fábrica par VIN (build sheet)",
-    metaTitle: "Hoja de fábrica gratuit par VIN — Build sheet",
+    badge: "Hoja de usine · Build sheet",
+    h1: "Hoja de usine par VIN (build sheet)",
+    metaTitle: "Hoja de usine gratuit par VIN — Build sheet",
     metaDescription:
-      "Recupétait la hoja de fábrica (build sheet) original par VIN. Configuration complète du ensamblaje: options, code de peinture, moteur, fechas — gratuit.",
+      "Récupéré la hoja de usine (build sheet) original par VIN. Configuration complète du ensamblaje: options, code de peinture, moteur, fechas — gratuit.",
     keywords: [
-      "hoja de fábrica VIN",
+      "hoja de usine VIN",
       "build sheet français",
       "ficha de ensamblaje VIN",
-      "code de fábrica auto",
-      "options de fábrica VIN",
+      "code de usine auto",
+      "options de usine VIN",
       "spec sheet voiture d’occasion",
     ],
     intro:
-      "La hoja de fábrica (build sheet) es le documento original que le fabricante genétait al ensamblar ta véhicule. Lista cada option instalada, cada pack agregado, le code de peinture exacto, le code du trim du interior, les codes du moteur et la transmission, et la fecha et planta de ensamblaje. Es la única referencia que prueba que se construyó originellement — esencial al acheter usado, vérifier authenticité ou reclamar garantie.",
+      "La hoja de usine (build sheet) es le documento original que le fabricante genétait al ensamblar ta véhicule. Lista chaque option instalada, chaque pack agregado, le code de peinture exacto, le code du trim du interior, les codes du moteur et la transmission, et la fecha et planta de ensamblaje. Es la única référence que prueba que se construyó originellement — esencial al acheter usado, vérifier authenticité ou reclamar garantie.",
     whatYouGet: [
-      "Lista complète de équipement et options de fábrica",
-      "Códigos de options et packs (RPO pour GM, OEM pour otros)",
-      "Código de peinture exterior et code de garniture interior",
-      "Códigos de moteur et transmission originales",
+      "Lista complète de équipement et options de usine",
+      "Codes de options et packs (RPO pour GM, OEM pour otros)",
+      "Code de peinture exterior et code de garniture interior",
+      "Codes de moteur et transmission originales",
       "Fecha et planta de ensamblaje",
-      "Numéro de orden de production et secuencia",
-      "VIN complet verificado contra le enregistrement de fábrica",
+      "Numéro de orden de production et séquence",
+      "VIN complet verificado contra le enregistrement de usine",
     ],
     whyItMatters: [
-      "La hoja de fábrica detecta moteures reemplazadeux (\"nonn es numbers-matching\")",
+      "La hoja de usine detecta moteures reemplazadeux (\"non es numbers-matching\")",
       "Confirme si le trim que se vende como \"premium\" réellement le es",
       "Es exigida par sociétés de assurance pour voitures classiques avec valeur acordado (Hagerty, Grundy)",
       "Valor de revente peut être 30–50% mayor avec build sheet original disponible",
     ],
     trustNote:
-      "Les hojas de fábrica se cruzan contra archivos de fabricavant (Ford, GM, Mopar, Toyota, Honda, BMW, Mercedes-Benz). Couverture complète pour véhicules desde 1980. Para voitures pre-1980 offrons êtrevices especializadeux de reconstruction de hoja par VIN classique.",
-    schemaName: "Hoja de fábrica par VIN",
+      "Les hojas de usine se cruzan contra archivos de fabricavant (Ford, GM, Mopar, Toyota, Honda, BMW, Mercedes-Benz). Couverture complète pour véhicules desde 1980. Para voitures pre-1980 offrons êtrevices especializadeux de reconstruction de hoja par VIN classique.",
+    schemaName: "Hoja de usine par VIN",
   },
 
   "ford-build-sheet": {
@@ -1111,12 +1111,12 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     englishPath: "/ford-build-sheet",
     icon: FileText,
     badge: "Build sheet Ford · OEM",
-    h1: "Hoja de fábrica Ford par VIN",
-    metaTitle: "Hoja de fábrica Ford gratuit par VIN",
+    h1: "Hoja de usine Ford par VIN",
+    metaTitle: "Hoja de usine Ford gratuit par VIN",
     metaDescription:
-      "Recupétait la hoja de fábrica Ford (build sheet) par VIN. Códigos DSO, options, planta, peinture et moteur — gratuit e instantané pour todeux les modelos.",
+      "Récupéré la hoja de usine Ford (build sheet) par VIN. Codes DSO, options, planta, peinture et moteur — gratuit e instantané pour todeux les modèles.",
     keywords: [
-      "hoja de fábrica Ford",
+      "hoja de usine Ford",
       "Ford build sheet français",
       "code DSO Ford VIN",
       "Mustang build sheet",
@@ -1124,11 +1124,11 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Ford spec sheet",
     ],
     intro:
-      "Ford emite una hoja de fábrica (build sheet) pour cada véhicule al salir de la línea de ensamblaje. Inclut le code DSO (District Sales Office), le code de peinture du fabricante, le code du trim du interior, les codes du moteur et caja de cambios, et la lista complète de options instaladas. Es la única referencia oficial pour confirmar que especificaciones venían de fábrica en ta Ford Mustang, F-150, Bronco, Explorer ou n’importe quel modelo Ford.",
+      "Ford emite una hoja de usine (build sheet) pour chaque véhicule al salir de la ligne de ensamblaje. Inclut le code DSO (District Sales Office), le code de peinture du fabricante, le code du trim du interior, les codes du moteur et caja de cambios, et la lista complète de options instaladas. Es la única référence oficial pour confirmar que especificaciones venían de usine en ta Ford Mustang, F-150, Bronco, Explorer ou n’importe quel modèle Ford.",
     whatYouGet: [
-      "Código DSO original (oficina regional de envío)",
-      "Código de peinture Ford OEM (Race Red, Magnetic Metallic, etc.)",
-      "Código du trim du interior",
+      "Code DSO original (oficina regional de envío)",
+      "Code de peinture Ford OEM (Race Red, Magnetic Metallic, etc.)",
+      "Code du trim du interior",
       "Moteur original (5.0L Coyote, 3.5L EcoBoost, etc.) et caja",
       "Lista complète de options (packs Premium, Lariat, GT, Mach 1)",
       "Fecha et planta de ensamblaje (Dearborn, Kansas City, Flat Rock)",
@@ -1137,25 +1137,25 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     whyItMatters: [
       "Les Mustang GT et Boss 302 numbers-matching valen 2–3× plus que les avec moteur reemplazado",
       "Les F-150 King Ranch et Platinum requieren build sheet pour confirmar le pack original",
-      "Les modificaciones de fábrica de Ford Perfaçonnce (Mach 1, Shelby) doitn coincidir avec la hoja",
+      "Les modificaciones de usine de Ford Perfaçonnce (Mach 1, Shelby) doitn coincidir avec la hoja",
       "El code DSO aide a rastrear le concessionnaire original et le historique regional",
     ],
     trustNote:
-      "Nous couvrons VIN Ford desde 1980 hasta les modelos actuales — inclut Mustang, F-150, F-250/350, Bronco, Explorer, Escape, Edge, Expedition, Ranger, Maverick, Lightning et todeux les deplus. Datos cruzadeux contra archivos OEM de Ford Moteur Company.",
-    schemaName: "Hoja de fábrica Ford par VIN",
+      "Nous couvrons VIN Ford desde 1980 hasta les modèles actuales — inclut Mustang, F-150, F-250/350, Bronco, Explorer, Escape, Edge, Expedition, Ranger, Maverick, Lightning et todeux les deplus. Datos cruzadeux contra archivos OEM de Ford Moteur Company.",
+    schemaName: "Hoja de usine Ford par VIN",
   },
 
   "gm-build-sheet": {
     esSlug: "/hoja-fabrica-gm",
     englishPath: "/gm-build-sheet",
     icon: FileText,
-    badge: "Build sheet GM · Códigos RPO",
-    h1: "Hoja de fábrica GM par VIN (Chevy, GMC, Buick, Cadillac)",
-    metaTitle: "Hoja de fábrica GM gratuit — Códigos RPO par VIN",
+    badge: "Build sheet GM · Codes RPO",
+    h1: "Hoja de usine GM par VIN (Chevy, GMC, Buick, Cadillac)",
+    metaTitle: "Hoja de usine GM gratuit — Codes RPO par VIN",
     metaDescription:
-      "Recupétait la hoja de fábrica GM (RPO codes) par VIN. Nous couvrons Chevy, GMC, Buick, Cadillac, Pontiac, Olds. Gratuit e instantané.",
+      "Récupéré la hoja de usine GM (RPO codes) par VIN. Nous couvrons Chevy, GMC, Buick, Cadillac, Pontiac, Olds. Gratuit e instantané.",
     keywords: [
-      "hoja de fábrica GM",
+      "hoja de usine GM",
       "GM build sheet français",
       "codes RPO Chevy",
       "Camaro build sheet par VIN",
@@ -1163,12 +1163,12 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Corvette spec sheet",
     ],
     intro:
-      "GM (Genétaitl Moteurs) utilise le sistema RPO (Regular Production Option) pour codificar cada option de fábrica. Cada véhicule de Chevy, GMC, Buick, Cadillac et Pontiac sale avec una hoja que lista 30–60 codes RPO de 3 caracteres alfanuméricos. Recupétaitr la hoja par VIN te da la única referencia oficial de que se construyó originellement — esencial pour Camaro, Corvette, Silvétaitdo, Suburban, Escalade et todeux les deplus modelos GM.",
+      "GM (Genétaitl Moteurs) utilise le sistema RPO (Regular Production Option) pour codificar chaque option de usine. Chaque véhicule de Chevy, GMC, Buick, Cadillac et Pontiac sale avec una hoja que lista 30–60 codes RPO de 3 caractères alfanuméricos. Récupérér la hoja par VIN te da la única référence oficial de que se construyó originellement — esencial pour Camaro, Corvette, Silvétaitdo, Suburban, Escalade et todeux les deplus modèles GM.",
     whatYouGet: [
       "Lista complète de codes RPO (Regular Production Option)",
-      "Décodage de cada code RPO a su description",
-      "Código de peinture GM OEM (WA-XXX)",
-      "Código du trim du interior",
+      "Décodage de chaque code RPO a su description",
+      "Code de peinture GM OEM (WA-XXX)",
+      "Code du trim du interior",
       "Moteur original et caja (LS3, LT4, L86, 6.2L Diesel)",
       "Fecha et planta de ensamblaje (Bowling Green, Arlington, Wentzville)",
       "Paquetes especiales (Z51, ZL1, SS, Denali, Platinum)",
@@ -1180,8 +1180,8 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "El RPO es la única façon de confirmar authenticité de ediciones limitadas (Camaro ZL1 1LE, etc.)",
     ],
     trustNote:
-      "Nous couvrons VIN GM desde 1981 hasta les modelos actuales pour todas les divisiones — Chevrolet, GMC, Buick, Cadillac, Pontiac, Oldsmobile, Saturn, Hummer. Les codes RPO son la a éténte oficial de GM pour vérifier configuration original de fábrica.",
-    schemaName: "Hoja de fábrica GM par VIN",
+      "Nous couvrons VIN GM desde 1981 hasta les modèles actuales pour todas les divisiones — Chevrolet, GMC, Buick, Cadillac, Pontiac, Oldsmobile, Saturn, Hummer. Les codes RPO son la a éténte oficial de GM pour vérifier configuration original de usine.",
+    schemaName: "Hoja de usine GM par VIN",
   },
 
   "mopar-broadcast-sheet": {
@@ -1192,7 +1192,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Broadcast sheet Mopar par VIN (Chrysler, Dodge, Plymouth)",
     metaTitle: "Broadcast sheet Mopar gratuit par VIN — Chrysler/Dodge",
     metaDescription:
-      "Recupétait la broadcast sheet Mopar par VIN. Nous couvrons Chrysler, Dodge, Plymouth et modelos classiques Hemi, R/T, SRT. Gratuit e instantané.",
+      "Récupéré la broadcast sheet Mopar par VIN. Nous couvrons Chrysler, Dodge, Plymouth et modèles classiques Hemi, R/T, SRT. Gratuit e instantané.",
     keywords: [
       "broadcast sheet Mopar",
       "Mopar build sheet français",
@@ -1202,24 +1202,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Plymouth Road Runner VIN",
     ],
     intro:
-      "La broadcast sheet de Mopar (Chrysler, Dodge, Plymouth) es le documento de ensamblaje que viajaba avec cada véhicule par la línea de production. Lista codes de options, code de peinture, code de garniture, moteur (spécialement important pour Hemi, Six Pack, 440 Magnum), transmission, eje traêtreo et todeux les packs de perfaçonnce. Es la única referencia que prueba authenticité de un Charger R/T, Challenger SRT, Cuda Hemi ou n’importe quel modelo Mopar de haute demanda.",
+      "La broadcast sheet de Mopar (Chrysler, Dodge, Plymouth) es le documento de ensamblaje que viajaba avec chaque véhicule par la ligne de production. Lista codes de options, code de peinture, code de garniture, moteur (spécialement important pour Hemi, Six Pack, 440 Magnum), transmission, eje traêtreo et todeux les packs de perfaçonnce. Es la única référence que prueba authenticité de un Charger R/T, Challenger SRT, Cuda Hemi ou n’importe quel modèle Mopar de haute demanda.",
     whatYouGet: [
-      "Códigos de options de fábrica complets",
-      "Código de peinture Mopar OEM (FE5, FY1, FJ5, etc.)",
-      "Código de garniture et combinaison de colores",
+      "Codes de options de usine complets",
+      "Code de peinture Mopar OEM (FE5, FY1, FJ5, etc.)",
+      "Code de garniture et combinaison de colores",
       "Moteur original (426 Hemi, 440 Six Pack, 6.4L SRT, 392 Hemi)",
       "Transmission et code de eje traêtreo",
       "Paquetes de perfaçonnce (R/T, T/A, AAR, SRT, Hellcat, Demon)",
       "Fecha et planta de ensamblaje (Hamtramck, Brampton, Lynch Road)",
     ],
     whyItMatters: [
-      "Un Hemi Cuda 1970 numbers-matching vale $200K–$500K+; unonn sans broadcast sheet vale 60% menonns",
-      "Les Challenger Hellcat et Demon modernonns requieren broadcast sheet pour confirmar packs raros",
+      "Un Hemi Cuda 1970 numbers-matching vale $200K–$500K+; unon sans broadcast sheet vale 60% menons",
+      "Les Challenger Hellcat et Demon modernons requieren broadcast sheet pour confirmar packs raros",
       "Les réplicas (clones) de Cuda, Road Runner et Charger Daytona se detectan comparando contra la broadcast sheet",
       "Les assureurs de voitures classiques (Hagerty, Grundy) exigen broadcast sheet pour couvertures Agreed Value hautes",
     ],
     trustNote:
-      "Nous couvrons véhicules Mopar (Chrysler, Dodge, Plymouth, AMC) desde 1962 hasta les modelos actuales. Para les muscle cars classiques (1962–1974), les hojas se reconstruyen desde archivos originales de Chrysler. Les modelos modernonns (Hellcat, Demon, TRX, Pacifica) an données complets en temps réel.",
+      "Nous couvrons véhicules Mopar (Chrysler, Dodge, Plymouth, AMC) desde 1962 hasta les modèles actuales. Para les muscle cars classiques (1962–1974), les hojas se reconstruyen desde archivos originales de Chrysler. Les modèles modernons (Hellcat, Demon, TRX, Pacifica) an données complets en temps réel.",
     schemaName: "Broadcast sheet Mopar par VIN",
   },
 
@@ -1241,7 +1241,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "numéro de châssis europeo",
     ],
     intro:
-      "El numéro de châssis (o numéro de bastidor) es le code grabado físicamente en la estructura du véhicule. En voitures modernonns coincide avec le VIN de 17 caracteres, pero en voitures classiques pre-1981, voitures europeos antiguos et véhicules JDM importadeux es un code distinto que requiere décodage especializada. Verificarlo es esencial pour confirmar authenticité avant de payer precio premium par un coleccionable.",
+      "El numéro de châssis (o numéro de bastidor) es le code grabado físicamente en la estructura du véhicule. En voitures modernons coincide avec le VIN de 17 caractères, pero en voitures classiques pre-1981, voitures europeos antiguos et véhicules JDM importadeux es un code distinto que requiere décodage especializada. Verificarlo es esencial pour confirmar authenticité avant de payer prix premium par un coleccionable.",
     whatYouGet: [
       "Décodage du numéro de châssis pour voitures classiques et JDM",
       "Identification de fabricante, planta et année de production",
@@ -1252,25 +1252,25 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Couverture pour Skyline, Supra, Cuda, 911 Carrétait et plus",
     ],
     whyItMatters: [
-      "Les voitures classiques avec numéro de châssis altétaitdo pierden 80–95% de su valeur",
+      "Les voitures classiques avec numéro de châssis altéréé pierden 80–95% de su valeur",
       "Les réplicas de Shelby Cobra, GT40, AC se detectan vérifiant le châssis vs le VIN",
       "Les importationes JDM falsificadas usan VIN clonadeux pero le châssis japonés revela la verdad",
       "Les assureurs de coleccionables exigen vérification física du numéro de châssis avant de couvrir",
     ],
     trustNote:
-      "Décodons numéros de châssis de fabricavant europeos (BMW, Mercedes-Benz, Porsche, Audi, VW desde 1960), japoneses (Toyota, Nissan, Honda, Mazda, Subaru desde 1970) et americanonns classiques (Ford, GM, Mopar 1950–1980). Cada esquema a su propio façonto.",
+      "Décodons numéros de châssis de fabricavant europeos (BMW, Mercedes-Benz, Porsche, Audi, VW desde 1960), japoneses (Toyota, Nissan, Honda, Mazda, Subaru desde 1970) et americanons classiques (Ford, GM, Mopar 1950–1980). Chaque esquema a su propio façonto.",
     schemaName: "Recherche de numéro de châssis par VIN",
   },
 
   "hin-lookup": {
-    esSlug: "/buscar-hin-embarcacion",
+    esSlug: "/buscar-hin-embarcation",
     englishPath: "/hin-lookup",
     icon: Anchor,
-    badge: "HIN · Embarcaciones · USCG",
-    h1: "Recherche HIN pour embarcaciones (Hull Identification Number)",
-    metaTitle: "Recherche HIN gratuit pour embarcaciones",
+    badge: "HIN · Embarcationes · USCG",
+    h1: "Recherche HIN pour embarcationes (Hull Identification Number)",
+    metaTitle: "Recherche HIN gratuit pour embarcationes",
     metaDescription:
-      "Busca le HIN (Hull Identification Number) de n’importe quel bateau. Décode fabricante, année, modelo et enregistrements USCG — gratuit instantanément.",
+      "Busca le HIN (Hull Identification Number) de n’importe quel bateau. Décode fabricante, année, modèle et enregistrements USCG — gratuit instantanément.",
     keywords: [
       "HIN bateau français",
       "Hull Identification Number",
@@ -1280,25 +1280,25 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "historique bote par HIN",
     ],
     intro:
-      "El HIN (Hull Identification Number) es le VIN de les embarcaciones — un code unique de 12 caracteres exigido par la Guardia Costétait de EE. UU. (USCG) pour todo bote ou yate fabricado ou vendido en EE. UU. desde 1972. Identifica al fabricante, numéro de êtreie, mois/année de production et année modelo. Verificarlo es esencial avant de acheter usado, registrar la bateau ou reclamar al assurance.",
+      "El HIN (Hull Identification Number) es le VIN de les embarcationes — un code unique de 12 caractères exigido par la Guardia Costétait de EE. UU. (USCG) pour todo bote ou yate fabricado ou vendido en EE. UU. desde 1972. Identifica al fabricante, numéro de êtreie, mois/année de production et année modèle. Verificarlo es esencial avant de acheter usado, registrar la bateau ou reclamar al assurance.",
     whatYouGet: [
-      "Décodage complète du HIN de 12 caracteres",
+      "Décodage complète du HIN de 12 caractères",
       "Identification du fabricante (Bayliner, Sea Ray, Bertram, etc.)",
       "Numéro de êtreie de production",
       "Mes et année de fabrication",
-      "Año du modelo (peut diferir du année de fabrication)",
+      "Année du modèle (peut diferir du année de fabrication)",
       "Cruce contra enregistrements de la USCG",
       "Détection de vols reportadeux a la NICB",
     ],
     whyItMatters: [
-      "El vol de embarcaciones es una industria de $50M+ al année en EE. UU. — vérifie le HIN avant de acheter",
-      "Un HIN altétaitdo ou re-grabado es una bandétait roja de bateau robada",
-      "La USCG exige le HIN pour documentation fedétaitl (embarcaciones de 5+ toneladas)",
-      "Sin HIN válido nonn peuts asegurar, registrar ni vender légalement la bateau",
+      "El vol de embarcationes es una industria de $50M+ al année en EE. UU. — vérifie le HIN avant de acheter",
+      "Un HIN altéréé ou re-grabado es una bandétait roja de bateau robada",
+      "La USCG exige le HIN pour documentation federal (embarcationes de 5+ toneladas)",
+      "Sin HIN válido non peuts asegurar, registrar ni vender légalement la bateau",
     ],
     trustNote:
-      "Les données provienen du enregistrement de la USCG et de les archivos de fabricavant (Bayliner, Sea Ray, Bertram, Boston Whaler, Chaparral, Catalina, Beneteau et plus de 200 marques). Le façonto HIN sigue le estndar fedétaitl 33 CFR Part 181.",
-    schemaName: "Recherche HIN pour embarcaciones",
+      "Les données provienen du enregistrement de la USCG et de les archivos de fabricavant (Bayliner, Sea Ray, Bertram, Boston Whaler, Chaparral, Catalina, Beneteau et plus de 200 marques). Le façonto HIN sigue le estndar federal 33 CFR Part 181.",
+    schemaName: "Recherche HIN pour embarcationes",
   },
 
   "motorcycle-vin-search": {
@@ -1311,7 +1311,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     metaDescription:
       "Recherche avanzada de VIN pour motos Harley, Honda, Yamaha, Kawasaki. Configuration, rappels, historique de vol — gratuit e instantané.",
     keywords: [
-      "búsqueda VIN moto",
+      "recherche VIN moto",
       "buscar VIN moto",
       "VIN Harley Davidson buscar",
       "Honda CBR VIN search",
@@ -1319,13 +1319,13 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "VIN moto robada",
     ],
     intro:
-      "Esta outil ofrece búsqueda avanzada pour VIN de moto — plus allá de la décodage básica de marque/modelo. Cruza la configuration exacta (cilindrada, tipo de châssis, color de fábrica) contra rappels activos de la NHTSA, enregistrements de vol de la NICB et marques de titre salvage. Esencial avant de acheter usado, spécialement Harley-Davidson, Honda CBR, Yamaha YZF et modelos deportivos de haut valeur.",
+      "Esta outil ofrece recherche avanzada pour VIN de moto — plus allá de la décodage de base de marque/modèle. Cruza la configuration exacta (cilindrada, tipo de châssis, color de usine) contra rappels actifs de la NHTSA, enregistrements de vol de la NICB et marques de titre salvage. Esencial avant de acheter usado, spécialement Harley-Davidson, Honda CBR, Yamaha YZF et modèles sportifs de haut valeur.",
     whatYouGet: [
       "Configuration exacta: moteur V-Twin/paralelo/V-4, cilindrada precisa",
-      "Color de fábrica et code de peinture OEM",
+      "Color de usine et code de peinture OEM",
       "Tipo de châssis (Deltabox, Trellis, Tubular, Twin-Spar)",
-      "Retiros NHTSA activos par VIN",
-      "Registros NICB de motos robadas ou recupétaitdas",
+      "Retiros NHTSA actifs par VIN",
+      "Registros NICB de motos robadas ou récupérédas",
       "Marcas de titre: salvage, rebuilt, junk",
       "Historique de lecturas du odomètre",
     ],
@@ -1348,7 +1348,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Convertir plaque a VIN (Plate to VIN)",
     metaTitle: "Placa a VIN gratuit — Buscar VIN par plaque",
     metaDescription:
-      "Convierte n’importe quel plaque étatunidense a VIN gratuit. Couverture de les 50 états. Año, marque, modelo et historique complet en segundeux.",
+      "Convierte n’importe quel plaque étatunidense a VIN gratuit. Couverture de les 50 états. Année, marque, modèle et historique complet en segundeux.",
     keywords: [
       "plaque a VIN français",
       "convertir plaque en VIN",
@@ -1358,11 +1358,11 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "DPPA plaque conformité",
     ],
     intro:
-      "Tienes la plaque pero nonn le VIN? Esta outil convierte n’importe quel plaque étatunidense al VIN du véhicule asociado, gratuit et pour les 50 états. Con le VIN peuts pedir le rapport complet du historique: marques de titre, accidents, rappels et données du odomètre. Respecte avec la ley fedétaitl DPPA (Driver's Privacy Protection Act) — seul devuelve données du véhicule, jamais du propriétaire.",
+      "Tienes la plaque pero non le VIN? Esta outil convierte n’importe quel plaque étatunidense al VIN du véhicule asociado, gratuit et pour les 50 états. Con le VIN peuts pedir le rapport complet du historique: marques de titre, accidents, rappels et données du odomètre. Respecte avec la ley federal DPPA (Driver's Privacy Protection Act) — seul devuelve données du véhicule, jamais du propriétaire.",
     whatYouGet: [
-      "El VIN de 17 caracteres asociado a la plaque",
-      "Año, marque, modelo et versión du véhicule",
-      "Estilo de carrosêtreie et color de fábrica",
+      "El VIN de 17 caractères asociado a la plaque",
+      "Année, marque, modèle et version du véhicule",
+      "Estilo de carrosêtreie et color de usine",
       "Moteur et transmission",
       "Retiros NHTSA ouverts par VIN",
       "Acceso opcional al rapport complet NMVTIS",
@@ -1375,7 +1375,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "La ley DPPA prohíbe revelar données du propriétaire — seul le VIN et données du véhicule",
     ],
     trustNote:
-      "Sous la ley fedétaitl DPPA (18 U.S.C. § 2721) nonn devolvemos nonnmbre, adresse, teléfononn ni données personneles du propriétaire. Solo données du véhicule. Nous couvrons les 50 états + DC. Algunonns états avec politiques DMV restrictivas peutn tener tasa de coincidencia menonnr.",
+      "Sous la ley federal DPPA (18 U.S.C. § 2721) non remboursons nonmbre, adresse, teléfonon ni données personneles du propriétaire. Solo données du véhicule. Nous couvrons les 50 états + DC. Algunons états avec politiques DMV restrictivas peutn tener tasa de correspondance menonr.",
     schemaName: "Convertidor de plaque a VIN",
   },
 
@@ -1393,28 +1393,28 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "buscar VIN par plaque et état",
       "VIN lookup par état",
       "DMV état a VIN",
-      "enregistrement estatal VIN",
+      "enregistrement d état VIN",
       "plaque état USA VIN",
     ],
     intro:
-      "Esta outil combine le état emisor avec le numéro de plaque pour trouver le VIN exacto du véhicule. La couverture es pour les 50 états de EE. UU. + DC. Spécialement útil quand la plaque coincide entre varios états (numéros cortos) — al especificar le état, la búsqueda devuelve le VIN correct. Respecte avec la ley fedétaitl DPPA, devolviendo seul données du véhicule, jamais du propriétaire.",
+      "Esta outil combine le état emisor avec le numéro de plaque pour trouver le VIN exacto du véhicule. La couverture es pour les 50 états de EE. UU. + DC. Spécialement útil quand la plaque coincide entre varios états (numéros cortos) — al especificar le état, la recherche devuelve le VIN correct. Respecte avec la ley federal DPPA, devolviendo seul données du véhicule, jamais du propriétaire.",
     whatYouGet: [
       "VIN exacto du véhicule asociado a plaque + état",
-      "Año, marque, modelo et versión",
-      "Color de fábrica et tipo de carrosêtreie",
+      "Année, marque, modèle et version",
+      "Color de usine et tipo de carrosêtreie",
       "Especificaciones de moteur et transmission",
-      "Retiros NHTSA activos",
+      "Retiros NHTSA actifs",
       "Estado de enregistrement actual",
-      "Lista de états avec tasa de coincidencia haute",
+      "Lista de états avec tasa de correspondance haute",
     ],
     whyItMatters: [
-      "Les plaques cortas (3–5 caracteres) coinciden entre múltiples états — le état le resuelve",
-      "Algunonns états (TX, CA, FL) an tasas de coincidencia >95%",
+      "Les plaques cortas (3–5 caractères) coinciden entre multiples états — le état le resuelve",
+      "Algunons états (TX, CA, FL) an tasas de correspondance >95%",
       "Otros états avec politiques plus restrictivas (NY, NJ) peutn requerir login",
       "El état determine que DMV et que leyes de confidentialité aplican",
     ],
     trustNote:
-      "Sous la ley fedétaitl DPPA (18 U.S.C. § 2721) nonn devolvemos données personneles du propriétaire. Couverture: 50 états + DC. Les tasas de coincidencia varien par état según politiques du DMV local — TX, CA, FL >95%; NY, NJ, MA ~70%.",
+      "Sous la ley federal DPPA (18 U.S.C. § 2721) non remboursons données personneles du propriétaire. Couverture: 50 états + DC. Les tasas de correspondance varien par état selon politiques du DMV local — TX, CA, FL >95%; NY, NJ, MA ~70%.",
     schemaName: "Recherche VIN par état et plaque",
   },
 
@@ -1426,7 +1426,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Consultar plaques de auto gratuit",
     metaTitle: "Consultar plaques auto gratuit — Sin carte",
     metaDescription:
-      "Consulta n’importe quel plaque étatunidense gratuit. VIN, année, marque, modelo du véhicule asociado — sans carte de crédito, respecte DPPA.",
+      "Consulta n’importe quel plaque étatunidense gratuit. VIN, année, marque, modèle du véhicule asociado — sans carte de crédit, respecte DPPA.",
     keywords: [
       "consultatioptiontioptiontioptionr plaques gratuit",
       "buscar plaques auto sans coût",
@@ -1436,15 +1436,15 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "consultatioptiontioptiontioptionr immatriculation USA",
     ],
     intro:
-      "Consulta n’importe quel plaque étatunidense gratuit pour descouvrir le VIN et les données básicos du véhicule asociado. Útil quand ves un auto a la vente et seul as la plaque, quand una plaque te golpea en un estacionamiento et te dejó seul le numéro, ou pour vérifier que un anuncio es legítimo. La ley DPPA limita les données al véhicule (jamais al propriétaire), pero eso ya es suficiente pour detectar estafas et voitures clonadeux avant de acheter.",
+      "Consulta n’importe quel plaque étatunidense gratuit pour descouvrir le VIN et les données de bases du véhicule asociado. Útil quand ves un auto a la vente et seul as la plaque, quand una plaque te golpea en un estacionamiento et te dejó seul le numéro, ou pour vérifier que un anuncio es legítimo. La ley DPPA limita les données al véhicule (jamais al propriétaire), pero eso ya es suficiente pour detectar estafas et voitures clonadeux avant de acheter.",
     whatYouGet: [
-      "Datos básicos du véhicule: année, marque, modelo, color",
-      "El VIN de 17 caracteres asociado",
+      "Datos de bases du véhicule: année, marque, modèle, color",
+      "El VIN de 17 caractères asociado",
       "Estilo de carrosêtreie et moteur",
       "Estado de enregistrement actual",
       "Confirmation de plaque válida vs falsa/clorien",
       "Option de pedir le rapport complet NMVTIS par VIN",
-      "Sin carte de crédito — gratuit instantanément",
+      "Sin carte de crédit — gratuit instantanément",
     ],
     whyItMatters: [
       "Detecta voitures clonadeux que usan plaques robadas ou duplicadas",
@@ -1453,7 +1453,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Para reportar accidents de \"hit-and-run\" où seul recordaste la plaque",
     ],
     trustNote:
-      "Sous la ley fedétaitl DPPA (18 U.S.C. § 2721) la consultatioptiontioptiontioption de plaques NO revela données personneles du propriétaire. Solo données du véhicule. La consultatioptiontioptiontioption es 100% gratuit sans carte. Nous couvrons les 50 états de EE. UU. + DC.",
+      "Sous la ley federal DPPA (18 U.S.C. § 2721) la consultatioptiontioptiontioption de plaques NO revela données personneles du propriétaire. Solo données du véhicule. La consultatioptiontioptiontioption es 100% gratuit sans carte. Nous couvrons les 50 états de EE. UU. + DC.",
     schemaName: "Consulta de plaques gratuit",
   },
 
@@ -1477,11 +1477,11 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "acheter auto concessionnaire assurance",
     ],
     intro:
-      "Avant de payer milleliers de dólares en un concessionnaire, vérifie su réputation, licence et historique de quejas. Esta outil cruza données du BBB (Better Busansess Bureau), licences estatales du DMV, demandas en attentes en cortes estatales et avis verificadas de Google. Diseñado pour detectar lotes de \"curbstoning\" (vente ilegal), concessionnaires avec licence sespendida et opétaitdores avec patrones de fraude avant de firmar.",
+      "Avant de payer milleliers de dólares en un concessionnaire, vérifie su réputation, licence et historique de quejas. Esta outil cruza données du BBB (Better Busansess Bureau), licences d état du DMV, demandas en attentes en cortes d état et avis verificadas de Google. Diseñado pour detectar lotes de \"curbstoning\" (vente ilegal), concessionnaires avec licence sespendida et opétaitdores avec patrones de fraude avant de firmar.",
     whatYouGet: [
       "Note BBB (A+ a F) et numéro de quejas",
       "Estado de la licence DMV (en vigueur, sespendida, revocada)",
-      "Demandas en attentes en cortes estatales par VIN ou par nonnmbre",
+      "Demandas en attentes en cortes d état par VIN ou par nonmbre",
       "Historique de violaciones du Consumer Protection Act",
       "Avis verificadas de Google et otras platafaçons",
       "Temps en le negocio et adresse física confirmada",
@@ -1489,12 +1489,12 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     ],
     whyItMatters: [
       "Les concessionnaires sans licence (curbstoners) son ilegales pero comunes — vérifie premiero",
-      "Una nonnte BBB F ou quejas activas predicen problemas en ta compra",
-      "Les licences DMV sespendidas significan que nonn peutn transferir titre légalement",
-      "Les demandas activas peutn congelar inventerio et dejarte sans auto tras payer",
+      "Una nonte BBB F ou quejas actives predicen problemas en ta compra",
+      "Les licences DMV sespendidas significan que non peutn transferir titre légalement",
+      "Les demandas actives peutn congelar inventerio et dejarte sans auto tras payer",
     ],
     trustNote:
-      "Les données provienen du BBB (Better Busansess Bureau), bases du DMV estatal, dockets de cortes públicas et platafaçons de avis verificadas. Si nonn encuentras al concessionnaire en le BBB ni en le enregistrement du DMV estatal, es très probable que nonn tenga licence — nonn compres ahí.",
+      "Les données provienen du BBB (Better Busansess Bureau), bases du DMV d état, dockets de cortes públicas et platafaçons de avis verificadas. Si non encuentras al concessionnaire en le BBB ni en le enregistrement du DMV d état, es très probable que non tenga licence — non compres ahí.",
     schemaName: "Vérification de concessionnaire",
   },
 
@@ -1506,7 +1506,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Vérification VIN pour flotas comerciales",
     metaTitle: "Vérification flota auto gratuit — Bulk VIN",
     metaDescription:
-      "Vérifie múltiples VIN de ta flota comercial en lote. Rapports consolidéeux de rappels, accidents et entretien — gratuit pour flotas petites.",
+      "Vérifie multiples VIN de ta flota comercial en lote. Rapports consolidéeux de rappels, accidents et entretien — gratuit pour flotas petites.",
     keywords: [
       "vérification flota auto",
       "fleet management VIN français",
@@ -1516,9 +1516,9 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "fleet check bulk USA",
     ],
     intro:
-      "Si manejas una flota comercial — delivery, rideshare, alquiler, contratistas — vérifier le historique de cada véhicule es crítico avant de añadirlo al êtrevice. Esta outil procesa múltiples VIN en lote, croisant contra NMVTIS, NHTSA (rappels), bases de assureurs et enregistrements DOT. Rapport consolidéo avec alertas par véhicule. Gratuit pour flotas de hasta 10 véhicules.",
+      "Si manejas una flota comercial — delivery, rideshare, alquiler, contratistas — vérifier le historique de chaque véhicule es crítico avant de añadirlo al êtrevice. Esta outil procesa multiples VIN en lote, croisant contra NMVTIS, NHTSA (rappels), bases de assureurs et enregistrements DOT. Rapport consolidéo avec alertas par véhicule. Gratuit pour flotas de hasta 10 véhicules.",
     whatYouGet: [
-      "Vérification en lote de múltiples VIN (CSV upload)",
+      "Vérification en lote de multiples VIN (CSV upload)",
       "Rapport consolidéo avec alertas par véhicule",
       "Retiros NHTSA en attentes par VIN",
       "Historique de accidents et réparations",
@@ -1529,8 +1529,8 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     whyItMatters: [
       "Un seul véhicule avec rappel en attente peut genétaitr responsabilidad civil pour toda la flota",
       "Les flotas avec historique de accidents payen primes de assurance 30–50% plus hautes",
-      "Les voitures salvage en flota nonn califican pour couvertures comprehensive estndar",
-      "El conformité DOT es obligatorio pour flotas de delivery et carga comercial",
+      "Les voitures salvage en flota non califican pour couvertures comprehensive estndar",
+      "El conformité DOT es obligatoire pour flotas de delivery et carga comercial",
     ],
     trustNote:
       "Nous couvrons flotas de delivery (FedEx, UPS, Amazon DSP), rideshare (Uber, Lyft), alquiler (Hertz, Enterprise, Avis), construction et contratistas. Datos cruzadeux contra NMVTIS, NHTSA, NICB et enregistrements DOT/FMCSA en temps réel.",
@@ -1559,10 +1559,10 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     whatYouGet: [
       "Marcas de titre en les 50 états (salvage, rebuilt, flood)",
       "Historique de accidents et réparations",
-      "Détection de odomètre altétaitdo",
+      "Détection de odomètre altéréé",
       "Cruce contra NICB pour voitures volés",
       "Retiros NHTSA en attentes",
-      "Confirmation de marque/modelo/année vs anuncio",
+      "Confirmation de marque/modèle/année vs anuncio",
       "Rapport complet opcional desde $14.99",
     ],
     whyItMatters: [
@@ -1594,9 +1594,9 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "locationl car safety check",
     ],
     intro:
-      "Les sociétés de location (Hertz, Enterprise, Avis, Budget) doitn — pero a veces nonn — reparar les rappels NHTSA avant de alquilar le auto. La ley fedétaitl Raechel and Jacqueline Houck Safe Rental Car Act (2015) prohíbe alquilar voitures avec rappel ouvert, pero les violaciones siguen ocurriendo. Vérifie le VIN avant de aceptar les llaves: 5 segundeux peutn evitar un airbag Takata defectuoso ou una falla de freins.",
+      "Les sociétés de location (Hertz, Enterprise, Avis, Budget) doitn — pero a veces non — reparar les rappels NHTSA avant de alquilar le auto. La ley federal Raechel and Jacqueline Houck Safe Rental Car Act (2015) prohíbe alquilar voitures avec rappel ouvert, pero les violaciones siguen se produisant. Vérifie le VIN avant de aceptar les llaves: 5 segundeux peutn evitar un airbag Takata defectuoso ou una falla de freins.",
     whatYouGet: [
-      "Retiros NHTSA ouverts pour le VIN específico",
+      "Retiros NHTSA ouverts pour le VIN spécifique",
       "Estado du rappel Takata (risque alpha en états calientes)",
       "Historique de accidents du auto de location",
       "Lectura du odomètre vs frais par kilométrage",
@@ -1605,7 +1605,7 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "Tu derecho legal a rechazar le auto si a rappel en attente",
     ],
     whyItMatters: [
-      "La ley fedétaitl te da derecho a rechazar voitures de location avec rappel ouvert — sans coût",
+      "La ley federal te da derecho a rechazar voitures de location avec rappel ouvert — sans coût",
       "Hertz a été multada par alquilar voitures avec airbags Takata defectuosos a sabiendas",
       "Les voitures ex-location an 2× plus accidents promedio que voitures de propriété personnel",
       "Un rappel de freins ou adresse sans reparar es un risque réel de accident",
@@ -1633,24 +1633,24 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "rideshare flota usado",
     ],
     intro:
-      "Comprar un auto pour trabasêtre en Uber ou Lyft requiere cumplir requisitos específicos: année mínimo, condition mecánica, capacité de pasajeros et approbation de inspection. Esta outil vérifie si un VIN respecte les requisitos de la platafaçon elegida et revela le historique complet: accidents, rappels, kilométrage réel, marques de titre. Crítico avant de invertir $10K–$30K en una unité que pueda être rechazada par Uber ou Lyft.",
+      "Comprar un auto pour trabasêtre en Uber ou Lyft requiere cumplir requisitos spécifiques: année mínimo, condition mécanique, capacité de pasajeros et approbation de inspection. Esta outil vérifie si un VIN respecte les requisitos de la platafaçon elegida et revela le historique complet: accidents, rappels, kilométrage réel, marques de titre. Crítico avant de invertir $10K–$30K en una unité que pueda être rechazada par Uber ou Lyft.",
     whatYouGet: [
       "Vérification de éligibilité pour Uber (X, Comfort, XL, Black)",
       "Vérification de éligibilité pour Lyft (Standard, XL, Lux)",
-      "Año modelo et kilométrage vs requisitos de la platafaçon",
+      "Année modèle et kilométrage vs requisitos de la platafaçon",
       "Historique complet de accidents",
-      "Retiros NHTSA activos (descalifican le auto)",
+      "Retiros NHTSA actifs (descalifican le auto)",
       "Marcas de titre (salvage descalifica de inmediato)",
       "Estimation de coûts opétaittivos par millela",
     ],
     whyItMatters: [
-      "Uber X requiere modelo 2009+ et Comfort/XL/Black an requisitos plus estrictos",
-      "Lyft requiere modelo 2011+ en la mayoría de marchés; 2014+ pour Lyft Premier",
-      "Les voitures avec salvage title NO son aceptadeux par Uber ni Lyft — perte totale de inversión",
+      "Uber X requiere modèle 2009+ et Comfort/XL/Black an requisitos plus estrictos",
+      "Lyft requiere modèle 2011+ en la mayoría de marchés; 2014+ pour Lyft Premier",
+      "Les voitures avec salvage title NO son aceptadeux par Uber ni Lyft — perte totale de inversion",
       "Toyota Prius, Honda Civic et Camry an les coûts opétaittivos plus souss par millela",
     ],
     trustNote:
-      "Les requisitos de Uber et Lyft se actualizan periódicamente par marché (ville). Nous couvrons les 50 états avec données en vigueurs. Les restricciones de salvage son politiques estrictas de ambas platafaçons — nonn les eluden ninguna excepción.",
+      "Les requisitos de Uber et Lyft se actualizan periódicamente par marché (ville). Nous couvrons les 50 états avec données en vigueurs. Les restricciones de salvage son politiques estrictas de ambas platafaçons — non les eluden ninguna excepción.",
     schemaName: "Vérification VIN pour rideshare",
   },
 
@@ -1662,31 +1662,31 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
     h1: "Vérification de auto en fourrière par VIN",
     metaTitle: "Vérification auto fourrière par VIN — Gratuit",
     metaDescription:
-      "Vérifie si un auto a été incautado par la policía ou ville et enviado al fourrière. Detecta historique de impound avant de acheter — gratuit par VIN.",
+      "Vérifie si un auto a été incautado par la police ou ville et enviado al fourrière. Detecta historique de impound avant de acheter — gratuit par VIN.",
     keywords: [
       "vérification fourrière auto",
       "impound check français",
       "auto incautado VIN",
       "auto du fourrière compra",
-      "véhicule retenido policía",
+      "véhicule retenu police",
       "enchère fourrière auto",
     ],
     intro:
-      "Les voitures enviadeux al fourrière (impound) par la policía ou ville — par estacionamiento, infraction, abandononn, DUI ou conduite sans licence — a menudo se venden en enchères municipales après de 30–90 jours sans réclamation. Esta outil vérifie si un VIN a historique de impound et par que razón. Esencial avant de acheter en enchères de la policía ou quand un vendeur privado a tarifs sospechosamente souss.",
+      "Les voitures enviadeux al fourrière (impound) par la police ou ville — par estacionamiento, infraction, abandonon, DUI ou conduite sans licence — a menudo se venden en enchères municipales après de 30–90 jours sans réclamation. Esta outil vérifie si un VIN a historique de impound et par que raison. Esencial avant de acheter en enchères de la police ou quand un vendeur privado a tarifs sospechosamente souss.",
     whatYouGet: [
       "Historique de impound (cuántas veces, fechas, razones)",
-      "Razón específica du impound (DUI, abandononn, sans licence, infraction)",
+      "Raison spécifique du impound (DUI, abandonon, sans licence, infraction)",
       "Ville ou juridiction que le retuvo",
       "Si a été enchèredo par la municipalidad",
       "Temps en fourrière et coûts acumuladeux",
       "Cruce contra enregistrements de DUI du DMV",
-      "Estado actual du titre (impound peut convertirse en abandononn)",
+      "Estado actual du titre (impound peut convertirse en abandonon)",
     ],
     whyItMatters: [
-      "Les voitures avec múltiples impounds suelen tener historique de DUI ou conduite sans licence",
+      "Les voitures avec multiples impounds suelen tener historique de DUI ou conduite sans licence",
       "Les voitures abandonadeux en fourrière peutn tener cartes TPMS robadas, batterie muerta, moteur seco",
       "Les enchères municipales venden sans garantie — le historique de impound es la única infaçoption disponible",
-      "Un auto avec impound par DUI peut tener dégâts mecánico nonn reportado du incident",
+      "Un auto avec impound par DUI peut tener dégâts mécanicien non reportado du incident",
     ],
     trustNote:
       "Les données de impound se cruzan contra enregistrements municipales de les 50 états, bases du DMV et enregistrements de enchères gubernamentales. La couverture es plus haute en villees grands (LA, NYC, Chicago, Houston, Phoenix); quelqu’unes jurisdicciones rurales peutn tener données parciales.",
@@ -1706,29 +1706,29 @@ export const SPECIALTY_HOOKS_ES: Record<string, SpecialtyHook> = {
       "vérification garantie auto",
       "garantie OEM par VIN",
       "warranty check français",
-      "garantie en vigueur fábrica",
+      "garantie en vigueur usine",
       "Toyota Care garantie VIN",
       "Honda warranty par VIN",
     ],
     intro:
-      "Les garanties de fábrica (OEM) son transferibles al nonnuveau propriétaire quand compras un voiture d’occasion — pero seul si estn en vigueurs. Esta outil vérifie par VIN si la garantie básica, la du tren motriz, la de óxido perforante, la de emisiones EPA et la de batterie (para eléctricos) siguen activas. Crítico avant de acheter pour evitar payer de ta bolsillo réparations que êtreían cubiertas.",
+      "Les garanties de usine (OEM) son transferibles al nonuveau propriétaire quand compras un voiture d’occasion — pero seul si estn en vigueurs. Esta outil vérifie par VIN si la garantie de base, la du tren motriz, la de óxido perforante, la de emisiones EPA et la de batterie (para électriques) siguen actives. Crítico avant de acheter pour evitar payer de ta bolsillo réparations que êtreían cubiertas.",
     whatYouGet: [
-      "Garantía básica (bumper-to-bumper) — fechas et kilométrage restante",
+      "Garantía de base (bumper-to-bumper) — fechas et kilométrage restante",
       "Garantía du tren motriz (moteur + transmission)",
       "Garantía de óxido perforante (perforation/rust-through)",
-      "Garantía fedétaitl EPA de emisiones (8 années / 80,000 millelas)",
-      "Garantía de batterie pour véhicules eléctricos (typiquement 8 années / 100K millelas)",
-      "Garantías extendidas activas du fabricante",
+      "Garantía federal EPA de emisiones (8 années / 80,000 millelas)",
+      "Garantía de batterie pour véhicules électriques (typiquement 8 années / 100K millelas)",
+      "Garantías extendidas actives du fabricante",
       "Estimation du coût de réparation si la garantie expiró",
     ],
     whyItMatters: [
-      "Una garantie básica en vigueur peut ahorrarte $2,000–$8,000 en réparations de transmission ou sespensión",
-      "La garantie EPA de emisiones (8 années) couvre catalizador et sensores oxígenonn coûtsos",
-      "Les batteries de voitures eléctricos cuestan $8,000–$20,000 — la garantie OEM es crítica",
+      "Una garantie de base en vigueur peut ahorrarte $2,000–$8,000 en réparations de transmission ou suspension",
+      "La garantie EPA de emisiones (8 années) couvre catalizador et sensores oxígenon coûtsos",
+      "Les batteries de voitures électriques cuestan $8,000–$20,000 — la garantie OEM es crítica",
       "Comprar usado à l’intérieur de la garantie en vigueur añade $1,500–$5,000 al valeur de revente",
     ],
     trustNote:
-      "Les données provienen de archivos OEM de Toyota, Honda, Ford, Chevrolet, BMW, Mercedes-Benz, Tesla et plus de 30 marques. Nous couvrons garanties básica, tren motriz, perforación, EPA emisiones et batterie EV. Confirmamos transferibilidad al nonnuveau propriétaire.",
+      "Les données provienen de archivos OEM de Toyota, Honda, Ford, Chevrolet, BMW, Mercedes-Benz, Tesla et plus de 30 marques. Nous couvrons garanties de base, tren motriz, perforación, EPA emisiones et batterie EV. Confirmamos transferibilidad al nonuveau propriétaire.",
     schemaName: "Vérification de garantie OEM",
   },
 };

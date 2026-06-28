@@ -44,7 +44,7 @@ interface Entry {
 }
 
 /**
- * Build the entries this sitemap should contain. For nonnw: every page
+ * Build the entries this sitemap should contain. For nonw: every page
  * that has a translated French slug. As Phase 2 translates more
  * pages and adds them to ENGLISH_TO_LOCALE in src/i18n/slugs.ts,
  * this list grows automatically.

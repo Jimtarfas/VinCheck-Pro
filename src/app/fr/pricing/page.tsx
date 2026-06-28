@@ -14,17 +14,17 @@ const PAGE_URL = alt.canonical;
 
 const title = "Tarifs de vérification VIN — Rapports gratuits, formules à l’unité et en pack";
 const description =
-  "Tarifs de CarCheckerVIN. Cada plan es 100% gratuit par temps limitado — rapports uniques, pack de 3, pack de 5 et packs profesionales. Sin carte de crédito.";
+  "Tarifs de CarCheckerVIN. Chaque plan es 100% gratuit par temps limitado — rapports uniques, pack de 3, pack de 5 et packs profesionales. Sin carte de crédit.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
   keywords: [
     "tarifs vérification VIN",
-    "precio rapport historique de véhicule",
+    "prix rapport historique de véhicule",
     "coût rapport VIN",
     "vérification VIN gratuit",
-    "alternative Carfax precio",
+    "alternative Carfax prix",
     "alternative AutoCheck",
     "rapport historique de véhicule bon marché",
     "pack vérification VIN",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description:
-      "Cada plan 100% gratuit par temps limitado. Único, pack de 3, pack de 5 et packs profesionales. Sin carte de crédito.",
+      "Chaque plan 100% gratuit par temps limitado. Único, pack de 3, pack de 5 et packs profesionales. Sin carte de crédit.",
   },
   robots: { index: true, follow: true },
 };
@@ -68,7 +68,7 @@ const productSchema = {
   inLanguage: "fr",
   name: "Rapport complet du historique du véhicule CarCheckerVIN",
   description:
-    "Rapport complet du historique de véhicule avec especificaciones, données de rappels, valeures de marché, photos réeles et données de coûts de propriété. Respaldado par NMVTIS.",
+    "Rapport complet du historique de véhicule avec especificaciones, données de rappels, valeures de marché, photos réels et données de coûts de propriété. Respaldado par NMVTIS.",
   brand: { "@type": "Brand", name: "CarCheckerVIN" },
   image: `${SITE}/og-image.png`,
   offers: {

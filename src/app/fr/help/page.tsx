@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Aide et Support — CarCheckerVIN FAQ",
       description:
-        "Trouve réponses sur consultatioptiontioptiontioptions VIN, contenideux du rapport, facturation et problemas técnicos, ou contacte a nonntre équipe de soporte.",
+        "Trouve réponses sur consultatioptiontioptiontioptions VIN, contenideux du rapport, facturation et problemas técnicos, ou contacte a nontre équipe de soporte.",
       url: alt.canonical,
       type: "article",
       locale: "fr_US",

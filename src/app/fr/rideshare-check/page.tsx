@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title,
-    description: "Vérifie si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Patrones de kilométrage, immatriculation comercial et señales de assurance que revelan uso comercial.",
+    description: "Vérifie si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Patrones de kilométrage, immatriculation comercial et signaux de assurance que revelan uso comercial.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title,
-    description: "Detecta un ex-Uber, Lyft ou taxi par VIN: patrones de kilométrage, immatriculation de uso comercial et señales de assurance comercial avant de acheter.",
+    description: "Detecta un ex-Uber, Lyft ou taxi par VIN: patrones de kilométrage, immatriculation de uso comercial et signaux de assurance comercial avant de acheter.",
   },
   robots: { index: true, follow: true },
 };
@@ -50,7 +50,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification de historique de viajes compartideux et taxi par VIN",
   description:
-    "Guía pour vérifier si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Couvre comment le uso comercial de pasajeros aparece en patrones de kilométrage, immatriculation comercial et enregistrements de assurance, que significa ese historique pour le desgaste et le valeur, et comment lire les señales avant de acheter.",
+    "Guide pour vérifier si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Couvre comment le uso comercial de pasajeros aparece en patrones de kilométrage, immatriculation comercial et enregistrements de assurance, que significa ese historique pour le desgaste et le valeur, et comment lire les signaux avant de acheter.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -81,14 +81,14 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment vérifier un VIN pour historique de rideshare ou taxi",
   description:
-    "Guía étape a étape pour detectar uso previo de Uber, Lyft, taxi et pasajeros comerciales à partir de un VIN.",
+    "Guide étape a étape pour detectar uso previo de Uber, Lyft, taxi et pasajeros comerciales à partir de un VIN.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord a través du pare-brise, le marco de porte du côté du conductor, ou le documento du titre." },
-    { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en le cuadro de búsqueda en la parte superior de esta página." },
-    { "@type": "HowToStep", position: 3, name: "Compare kilométrage avec la edad", text: "Revisa les lecturas du odomètre contra le année modelo. Cualocation mille millelas ou plus al année es un patrón a étérte de rideshare ou uso comercial." },
+    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Trouve le VIN de 17 caractères en le tableau de bord a travers du pare-brise, le marco de porte du côté du conductor, ou le documento du titre." },
+    { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en le cuadro de recherche en la parte superior de esta page." },
+    { "@type": "HowToStep", position: 3, name: "Compare kilométrage avec la edad", text: "Revisa les lecturas du odomètre contra le année modèle. Cualocation mille millelas ou plus al année es un patrón a étérte de rideshare ou uso comercial." },
     { "@type": "HowToStep", position: 4, name: "Lis les enregistrements de titre et assurance", text: "Busca immatriculation comercial ou de uso comercial, designaciones de transporte et n’importe quel entrada de assurance comercial ou avec endeuxo de rideshare vinculada al VIN." },
-    { "@type": "HowToStep", position: 5, name: "Inspectiona avant de acheter", text: "Trata les señales como una razón pour una inspection previa a la compra. Enfócate en freins, transmission, sespensión et desgaste interior, et confirme que le odomètre sea preciso." },
+    { "@type": "HowToStep", position: 5, name: "Inspectiona avant de acheter", text: "Trata les signaux como una raison pour una inspection previa a la compra. Enfócate en freins, transmission, suspension et desgaste interior, et confirme que le odomètre sea preciso." },
   ],
 };
 
@@ -134,7 +134,7 @@ const datasetSchema = {
   inLanguage: "fr",
   name: "Estadísticas rapides de vérification de viajes compartideux et taxi",
   description:
-    "Couverture et referencia de señales pour la vérification VIN de historique de rideshare et taxi de CarCheckerVIN.",
+    "Couverture et référence de signaux pour la vérification VIN de historique de rideshare et taxi de CarCheckerVIN.",
   url: PAGE_URL,
   creator: ORG_AUTHOR,
   license: "https://creativecommons.org/licenses/by/4.0/",

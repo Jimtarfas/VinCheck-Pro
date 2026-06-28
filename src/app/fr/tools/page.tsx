@@ -10,12 +10,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Outils VIN gratuits — Décodeur, vérificateur de odomètre et plus",
     description:
-      "Un hub gratuit de outils de recherche du véhicule: décodeur VIN, vérification de titre de récupération, búsqueda de véhicule volé, vérification de odomètre et plus.",
+      "Un hub gratuit de outils de recherche du véhicule: décodeur VIN, vérification de titre de récupération, recherche de véhicule volé, vérification de odomètre et plus.",
     keywords: [
       "outils VIN gratuit",
       "décodeur VIN gratuit",
       "vérification VIN gratuit",
-      "outils búsqueda VIN",
+      "outils recherche VIN",
       "décodeur VIN pour incrustar",
     ],
     alternates: { canonical: alt.canonical, languages: alt.languages },

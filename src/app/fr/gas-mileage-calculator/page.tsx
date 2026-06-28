@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/gas-milleeage-calculator`;
 const alt = hreflangAlternatesForLocale("/gas-milleeage-calculator", "fr");
 const title = "Calculateur de coût de carburant — Costo par millela, mois et année (gratuit)";
 const description =
-  "Calculateur gratuit de coût de carburant. Entre ta MPG, millelas recorridas et precio local de essence pour ver instantanément ta coût de carburant diario, mensuel et anual. Inclut calculateur de viaje par carretétait et comparaison de véhicules avec analyse du point d’équilibre. Tarifs de essence de les 50 états de EE. UU. incluideux.";
+  "Calculateur gratuit de coût de carburant. Entre ta MPG, millelas recorridas et prix local de essence pour ver instantanément ta coût de carburant diario, mensuel et anual. Inclut calculateur de viaje par route et comparaison de véhicules avec analyse du point d’équilibre. Tarifs de essence de les 50 états de EE. UU. incluideux.";
 
 export const metadata: Metadata = {
   title,
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     "calculateur coût par millela",
     "calculateur coût anual essence",
     "calculateur coût mensuel essence",
-    "calculateur coût viaje carretétait",
+    "calculateur coût viaje route",
     "calculateur perfaçonnce carburant",
-    "calculateur eficiencia carburant",
+    "calculateur efficacité carburant",
     "coût de essence par millela",
-    "cuánto cuesta la essence par mois",
+    "combien cuesta la essence par mois",
     "calculateur essence par état",
     "comparaison híbrido vs essence",
     "calculateur ahorro carburant",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description:
-      "Entre MPG, millelas recorridas et precio local de essence pour ver tes coûts diarios, mensueles et anuales de carburant. Inclut mode viaje et comparaison de véhicules.",
+      "Entre MPG, millelas recorridas et prix local de essence pour ver tes coûts diarios, mensueles et anuales de carburant. Inclut mode viaje et comparaison de véhicules.",
   },
   robots: {
     index: true,
@@ -67,20 +67,20 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Calculateur de coût de carburant",
   description:
-    "Calculateur gratuit de coût de carburant. Entre MPG, distancia de manejo et precio de essence pour calcular instantanément les coûts diarios, mensueles et anuales de carburant. Inclut mode de viaje par carretétait, promédias de precio de essence de les 50 états de EE. UU. et comparaison de véhicules avec analyse du point d’équilibre.",
+    "Calculateur gratuit de coût de carburant. Entre MPG, distancia de manejo et prix de essence pour calcular instantanément les coûts diarios, mensueles et anuales de carburant. Inclut mode de viaje par route, promédias de prix de essence de les 50 états de EE. UU. et comparaison de véhicules avec analyse du point d’équilibre.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
-  opétaittingSystem: "Web Browêtre",
+  operatingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Costo diario de carburant",
     "Costo mensuel et anual de carburant",
     "Cálculo de coût par millela",
-    "Mode de coût de viaje par carretétait",
-    "Promédias de precio de essence de les 50 états de EE. UU.",
-    "Entrada de precio de essence personnelizado",
+    "Mode de coût de viaje par route",
+    "Promédias de prix de essence de les 50 états de EE. UU.",
+    "Entrada de prix de essence personnelizado",
     "Comparaison de deux véhicules",
-    "Análisis de point d’équilibre pour meilleura de eficiencia",
+    "Análisis de point d’équilibre pour meilleura de efficacité",
     "Estimation anual de emisiones de CO₂",
   ],
   publisher: {
@@ -103,26 +103,26 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Elige mode diario ou viaje par carretétait",
-      text: "Sélectionne 'Costo de manejo diario' pour calcular le dépense semanal et anual de carburant, ou 'Costo de viaje par carretétait' pour estimar le carburant de un viaje específico.",
+      name: "Elige mode diario ou viaje par route",
+      text: "Sélectionne 'Costo de manejo diario' pour calcular le dépense semanal et anual de carburant, ou 'Costo de viaje par route' pour estimar le carburant de un viaje spécifique.",
     },
     {
       "@type": "HowToStep",
       position: 2,
       name: "Entre le MPG de ta véhicule",
-      text: "Escribe la eficiencia de carburant de ta auto en millelas par galón. Encuéntralo en la calcomanía de la ventena, en ta manual du propriétaire ou en a étélecononnmy.gov. Utilise le nonnte combineda de la EPA pour la estimation anual plus precisa.",
+      text: "Escribe la efficacité de carburant de ta auto en millelas par gallon. Encuéntralo en la autocollant de la ventena, en ta manual du propriétaire ou en a étélecononmy.gov. Utilise le nonte combineda de la EPA pour la estimation anual plus precisa.",
     },
     {
       "@type": "HowToStep",
       position: 3,
-      name: "Establece ta precio de essence",
-      text: "Sélectionne ta état pour un precio de essence promedio rellenado automatiquement, ou entre le precio exacto en ta estación local. Les tarifs estn actualizadeux a les promédias de 2025 pour les 50 états.",
+      name: "Establece ta prix de essence",
+      text: "Sélectionne ta état pour un prix de essence promedio rellenado automatiquement, ou entre le prix exacto en ta estación local. Les tarifs estn actualizadeux a les promédias de 2025 pour les 50 états.",
     },
     {
       "@type": "HowToStep",
       position: 4,
       name: "Opcionalmente compare deux véhicules",
-      text: "Expande la section de comparaison pour ingresar le MPG de un second véhicule et la différence de precio. La calculateur affiche le ahorro anual et le point d’équilibre en moises.",
+      text: "Expande la section de comparaison pour ingresar le MPG de un second véhicule et la différence de prix. La calculateur affiche le ahorro anual et le point d’équilibre en moises.",
     },
   ],
 };
@@ -131,27 +131,27 @@ const FAQS_FR = [
   {
     question: "Comment calculo mi coût de essence par millela?",
     answer:
-      "Costo de essence par millela = precio de essence par galón ÷ MPG. A $3.50/galón et 28 MPG, ta coût de carburant es $0.125 par millela, ou 12.5 centavos. Multiplica par ta kilométrage anual pour obtener la cuenta anual de carburant. Notre calculateur hace esto automatiquement et aussi affiche les coûts mensueles et diarios.",
+      "Costo de essence par millela = prix de essence par gallon ÷ MPG. A $3.50/gallon et 28 MPG, ta coût de carburant es $0.125 par millela, ou 12.5 centavos. Multiplica par ta kilométrage anual pour obtener la cuenta anual de carburant. Notre calculateur hace esto automatiquement et aussi affiche les coûts mensueles et diarios.",
   },
   {
-    question: "Cuánto cuesta la essence par mois pour le étatunidense promedio?",
+    question: "Combien cuesta la essence par mois pour le étatunidense promedio?",
     answer:
-      "El étatunidense promedio maneja approximativement 13,500 millelas par année en un véhicule que oba 28 MPG, gastando approximativement $1,660–$1,800 par année en essence a $3.45/galón — autour de $138–$150/mois. Les conductores de haut kilométrage ou aquellos avec véhicules menonns eficientes en carburant peutn gastar $200–$400/mois.",
+      "El étatunidense promedio maneja approximativement 13,500 millelas par année en un véhicule que oba 28 MPG, gastando approximativement $1,660–$1,800 par année en essence a $3.45/gallon — autour de $138–$150/mois. Les conductores de haut kilométrage ou aquellos avec véhicules menons efficaces en carburant peutn gastar $200–$400/mois.",
   },
   {
-    question: "Vale la pena acheter un auto plus eficiente en carburant pour ahorrar en essence?",
+    question: "Vale la pena acheter un auto plus efficace en carburant pour ahorrar en essence?",
     answer:
-      "Depende du precio extra et ta kilométrage anual. Utilise le mode comparaison: entre ta MPG actual et le MPG du nonnuveau véhicule, plus la différence de precio. La calculateur affiche le ahorro anual et le point d’équilibre en moises. Al kilométrage promedio de EE. UU., un precio extra de $5,000 par un véhicule que oba 15 MPG plus typiquement se recupétait en 4–7 années a les tarifs actuales de essence.",
+      "Depende du prix extra et ta kilométrage anual. Utilise le mode comparaison: entre ta MPG actual et le MPG du nonuveau véhicule, plus la différence de prix. La calculateur affiche le ahorro anual et le point d’équilibre en moises. Al kilométrage promedio de EE. UU., un prix extra de $5,000 par un véhicule que oba 15 MPG plus typiquement se récupéré en 4–7 années a les tarifs actuales de essence.",
   },
   {
-    question: "Comment calculo le coût de carburant pour un viaje par carretétait?",
+    question: "Comment calculo le coût de carburant pour un viaje par route?",
     answer:
-      "Cambia al mode de viaje par carretétait, entre la distancia total du viaje en millelas, le MPG de ta véhicule et le precio de la essence. La calculateur devuelve les galones totales nécessaires et le coût total de carburant. Para un viaje redondo, duplica la distancia de ida. Recuerda que le manejo en carretétait a menudo logra 10–20% meilleur eficiencia de carburant que la nonnte EPA combineda.",
+      "Cambia al mode de viaje par route, entre la distancia total du viaje en millelas, le MPG de ta véhicule et le prix de la essence. La calculateur devuelve les galones totales nécessaires et le coût total de carburant. Para un viaje rond, duplica la distancia de ida. Recuerda que le manejo en route a menudo logra 10–20% meilleur efficacité de carburant que la nonte EPA combineda.",
   },
   {
     question: "Que MPG doitría espétaitr de un voiture d’occasion?",
     answer:
-      "El MPG du monde réel typiquement corre 5–15% par desous de la etiqueta EPA debido a hábitos de manejo, terrenonn, clima et edad du véhicule. Vehículos plus antiguos avec bujías gastadas, filtros de aire sucios ou pneus avec basse presión peutn correr 10–20% par desous de su eficiencia calificada. Toujours vérifie le historique réel de eficiencia de carburant du véhicule — un rapport de historique VIN peut revelar patrones de entretien previos que afectan la eficiencia.",
+      "El MPG du monde réel typiquement corre 5–15% par desous de la étiquette EPA debido a hábitos de manejo, terrenon, clima et edad du véhicule. Véhicules plus antiguos avec bujías gastadas, filtros de aire sucios ou pneus avec basse pression peutn correr 10–20% par desous de su efficacité calificada. Toujours vérifie le historique réel de efficacité de carburant du véhicule — un rapport de historique VIN peut revelar patrones de entretien previos que afectan la efficacité.",
   },
 ];
 

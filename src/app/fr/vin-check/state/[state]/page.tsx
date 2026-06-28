@@ -26,7 +26,7 @@ const STATES_WITH_DEDICATED_ES_PAGE = new Set([
   "california",
   "texas",
   "new-york",
-  "illinonnis",
+  "illinonis",
   "pennsylvania",
   "florida",
 ]);
@@ -133,7 +133,7 @@ export default async function StatePageEs({ params }: Props) {
         name: `Que marques de titre utilise ${stateNameEs}?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `El ${dmvNameEs} señala véhicules avec marques como ${state.titleBrands.join(", ")}. ${brandDescEs}`,
+          text: `El ${dmvNameEs} signala véhicules avec marques como ${state.titleBrands.join(", ")}. ${brandDescEs}`,
         },
       },
       {

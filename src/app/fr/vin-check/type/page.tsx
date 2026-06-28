@@ -7,7 +7,7 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/vin-check/type`;
 const alt = hreflangAlternatesForLocale("/vin-check/type", "fr");
 const title =
-  "Vérification VIN par tipo de véhicule — Deportivos, remolques et botes";
+  "Vérification VIN par tipo de véhicule — Sportifs, remolques et botes";
 const description =
   "Vérification VIN gratuite par tipo de véhicule. Vérifie una motonieve, moto cross, UTV, remolque ou bote usado par VIN (o HIN) — confirme le année et revisa les enregistrements de vol et titre avant de acheter.";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description,
   keywords: [
     "vérification VIN par tipo de véhicule",
-    "vérification VIN deportiva",
+    "vérification VIN sportive",
     "vérification VIN motonieve",
     "vérification VIN moto cross",
     "vérification VIN UTV",
@@ -60,13 +60,13 @@ const appSchema = {
   description,
   url: PAGE_URL,
   applicationCategory: "AutomotiveApplication",
-  opétaittingSystem: "Web Browêtre",
+  operatingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: ORG_AUTHOR,
 };
 
 const DIRECTORY_ITEMS = [
-  { href: "/fr/vin-check/type/snonnwmobile", label: "Vérification VIN de motonieve" },
+  { href: "/fr/vin-check/type/snonwmobile", label: "Vérification VIN de motonieve" },
   { href: "/fr/vin-check/type/dirt-bike", label: "Vérification VIN de moto cross" },
   { href: "/fr/vin-check/type/utv", label: "Vérification VIN de UTV et Side-by-Side" },
   { href: "/fr/atv-vin-check", label: "Vérification VIN de ATV" },

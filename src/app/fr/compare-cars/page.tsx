@@ -6,7 +6,7 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/compare-cars`;
 const alt = hreflangAlternatesForLocale("/compare-cars", "fr");
 const title = "Herramienta gratuit de comparaci\u00f3n de voitures — Compare n’importe quel par côte à côte";
-const description = "Compare n’importe quel par de voitures côte à côte. Mira MPG, caballos de a étérza, precio, espacio de carga, capacité de remolque, sécurité et 30+ especificaciones pour 40+ modelos populares. Gratuit, instant\u00e1neo, sans inscription.";
+const description = "Compare n’importe quel par de voitures côte à côte. Mira MPG, caballos de a étérza, prix, espacio de carga, capacité de remolque, sécurité et 30+ especificaciones pour 40+ modèles populares. Gratuit, instant\u00e1neo, sans inscription.";
 
 export const metadata: Metadata = {
   title, description,
@@ -19,10 +19,10 @@ export const metadata: Metadata = {
 const webAppSchema = {
   "@context": "https://schema.org", "@type": ["WebApplication", "SoftwareApplication"], inLanguage: "fr",
   name: "Herramienta de comparaci\u00f3n de veh\u00edculos",
-  description: "Herramienta gratuit de comparaci\u00f3n de autos. Elige n’importe quel par de 40+ veh\u00edculos populares et mira instantanément les especificaciones côte à côte en tarifs, perfaçonnce, eficiencia, practicidad, sécurité, garant\u00eda et caracter\u00edsticas clave.",
+  description: "Herramienta gratuit de comparaci\u00f3n de autos. Elige n’importe quel par de 40+ veh\u00edculos populares et mira instantanément les especificaciones côte à côte en tarifs, perfaçonnce, efficacité, practicidad, sécurité, garant\u00eda et caracter\u00edsticas clave.",
   url: PAGE_URL,
   applicationCategory: "AutomotiveApplication",
-  opétaittingSystem: "Web Browêtre",
+  operatingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
 };

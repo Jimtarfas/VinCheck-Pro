@@ -81,7 +81,7 @@ export default async function Page({ params }: Props) {
       {
         "@type": "ListItem",
         position: 2,
-        name: "Guías",
+        name: "Guides",
         item: `${SITE}/fr/guides`,
       },
       {

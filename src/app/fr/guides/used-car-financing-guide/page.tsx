@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/guides/used-car-financing-guide`;
 const alt = hreflangAlternatesForLocale("/guides/used-car-financing-guide", "fr");
 const title = "Financement de voiture d’occasion: La guide complète 2026";
 const description =
-  "Comment financiar un voiture d’occasion en 2026: puntajes de crédito, concessionnaire vs banco vs coopétaittiva de crédito, preapprobation, APR vs coût total, louer vs acheter, refinanciar et trampas a evitar.";
+  "Comment financiar un voiture d’occasion en 2026: puntajes de crédit, concessionnaire vs banco vs coopérative de crédit, preapprobation, APR vs coût total, louer vs acheter, refinanciar et trampas a evitar.";
 
 export const metadata: Metadata = {
   title,
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "meilleur prêt voiture d’occasion",
     "tasas prêt voiture d’occasion 2026",
     "preapprobation prêt auto",
-    "prêt auto coopétaittiva de crédito",
+    "prêt auto coopérative de crédit",
     "refinanciar prêt auto",
     "louer vs acheter voiture d’occasion",
     "calculateur prêt voiture d’occasion",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description:
-      "Puntajes de crédito, prestamistas, preapprobation, APR vs. coût total, louer vs acheter et refinanciar — le manual complet pour financiar un voiture d’occasion en 2026.",
+      "Puntajes de crédit, prestamistas, preapprobation, APR vs. coût total, louer vs acheter et refinanciar — le manual complet pour financiar un voiture d’occasion en 2026.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description:
-      "Puntajes de crédito, prestamistas, preapprobation, APR vs. coût total, louer vs acheter et refinanciar — le manual complet pour financiar un voiture d’occasion en 2026.",
+      "Puntajes de crédit, prestamistas, preapprobation, APR vs. coût total, louer vs acheter et refinanciar — le manual complet pour financiar un voiture d’occasion en 2026.",
   },
   robots: { index: true, follow: true },
 };
@@ -57,7 +57,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Financement de voiture d’occasion: La guide complète 2026",
   description:
-    "Guide complet pour financiar un voiture d’occasion en 2026: crédito, prestamistas, preapprobation, APR, coût total, location, refinancement et comment evitar les trampas de la oficina de finances.",
+    "Guide complet pour financiar un voiture d’occasion en 2026: crédit, prestamistas, preapprobation, APR, coût total, location, refinancement et comment evitar les trampas de la oficina de finances.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -76,11 +76,11 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment financiar un voiture d’occasion",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Obtiens et revisa ta crédito", text: "Obtiens tes rapports de crédito gratuit de annualcreditreport.com et disputa n’importe quel error avant de aplicar." },
-    { "@type": "HowToStep", position: 2, name: "Calcule un prêt asequible", text: "Aplica la regla 20/4/10: al menonns 20% de paiement inicial, plazo máximo de 4 années, coût total de transporte par desous du 10% du ingreso bruto." },
-    { "@type": "HowToStep", position: 3, name: "Obtiens múltiples preaprobaciones", text: "Compare ofertas de al menonns una coopétaittiva de crédito, un banco et un prestamista en línea à l’intérieur de una ventena de 14 jours." },
+    { "@type": "HowToStep", position: 1, name: "Obtiens et revisa ta crédit", text: "Obtiens tes rapports de crédit gratuit de annualcreditreport.com et disputa n’importe quel error avant de aplicar." },
+    { "@type": "HowToStep", position: 2, name: "Calcule un prêt asequible", text: "Aplica la regla 20/4/10: al menons 20% de paiement inicial, plazo maximum de 4 années, coût total de transporte par desous du 10% du ingreso bruto." },
+    { "@type": "HowToStep", position: 3, name: "Obtiens multiples preaprobaciones", text: "Compare ofertas de al menons una coopérative de crédit, un banco et un prestamista en ligne à l’intérieur de una ventena de 14 jours." },
     { "@type": "HowToStep", position: 4, name: "Utilise le preapprobation como piso de négociation", text: "Deja que le concessionnaire intente vencer ta meilleur preapprobation; jamais aceptes una tasa pire seul parce que la ofrecen." },
-    { "@type": "HowToStep", position: 5, name: "Lis le contrato avant de firmar", text: "Vérifie APR, plazo, total de paiements et ausencia de extras nonn deseadeux avant de firmar le contrato de vente a plazos." },
+    { "@type": "HowToStep", position: 5, name: "Lis le contrato avant de firmar", text: "Vérifie APR, plazo, total de paiements et ausencia de extras non deseadeux avant de firmar le contrato de vente a plazos." },
   ],
 };
 
@@ -100,8 +100,8 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` },
-    { "@type": "ListItem", position: 2, name: "Guías", item: `${SITE}/fr/guides` },
-    { "@type": "ListItem", position: 3, name: "Guía de financement de voiture d’occasion", item: PAGE_URL },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/fr/guides` },
+    { "@type": "ListItem", position: 3, name: "Guide de financement de voiture d’occasion", item: PAGE_URL },
   ],
 };
 

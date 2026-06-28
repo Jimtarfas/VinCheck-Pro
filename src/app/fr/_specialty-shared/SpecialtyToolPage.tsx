@@ -50,7 +50,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
               href={hook.englishPath}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white text-primary font-bold text-base shadow-lg hover:bg-white/95 transition"
             >
-              Ejecuta la búsqueda <ArrowRight className="w-4 h-4" />
+              Ejecuta la recherche <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/fr/revision-vin"
@@ -103,7 +103,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
           </ul>
         </section>
 
-        {/* Trust nonnte */}
+        {/* Trust nonte */}
         <section className="py-12 sm:py-16 border-t border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
             Sources et couverture
@@ -113,7 +113,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
           </p>
           <p className="mt-4 text-xs sm:text-sm text-on-surface-variant italic">
             Les données VIN se cruzan contra NMVTIS, NHTSA, NICB et bases de données
-            du fabricante en le momento de cada búsqueda.
+            du fabricante en le momento de chaque recherche.
           </p>
         </section>
 
@@ -124,10 +124,10 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
             Gratuit · Al instante · Sin enregistrement
           </div>
           <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">
-            Ejecuta la búsqueda aheure
+            Ejecuta la recherche aheure
           </h2>
           <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">
-            La outil intétaitctiva est en inglés; les resultadeux son
+            La outil interactive est en anglais; les resultadeux son
             universales. Toma moins de 60 segundeux.
           </p>
           <Link

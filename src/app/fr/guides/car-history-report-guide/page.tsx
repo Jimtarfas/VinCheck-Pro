@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Rapports de historique de véhicule: todo le que necesitas saber",
     description:
-      "Guide complet sur rapports de historique de véhicule: a éténtes de données, que buscar, comment lire unonn et comment se comparan les proveedores.",
+      "Guide complet sur rapports de historique de véhicule: a éventes de données, que buscar, comment lire unon et comment se comparan les proveedores.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -80,26 +80,26 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Vérifie le VIN et les especificaciones básicas",
-      text: "Confirme que le VIN du encabezado du rapport coincida avec la plaque du tableau de bord du véhicule et la calcomanía du marco de la porte.",
+      name: "Vérifie le VIN et les especificaciones de bases",
+      text: "Confirme que le VIN du encabezado du rapport coincida avec la plaque du tableau de bord du véhicule et la autocollant du marco de la porte.",
     },
     {
       "@type": "HowToStep",
       position: 2,
       name: "Revisa le historique de titre et marques",
-      text: "Busca n’importe quel marque de récupération, reconstruido, inondation, chatarra ou citron en cada état de titre registrado.",
+      text: "Busca n’importe quel marque de récupération, reconstruido, inondation, chatarra ou citron en chaque état de titre registrado.",
     },
     {
       "@type": "HowToStep",
       position: 3,
       name: "Vérifie la cadena du odomètre",
-      text: "Vérifie que cada kilométrage registrado tienda al alza et coincida avec le que est en le odomètre actual.",
+      text: "Vérifie que chaque kilométrage registrado tienda al alza et coincida avec le que est en le odomètre actual.",
     },
     {
       "@type": "HowToStep",
       position: 4,
       name: "Revisa les enregistrements de accidents et dégâtss",
-      text: "Lis la gravedad, le despliegue de bolsas de aire et les indicadores de réparation estructural pour cada incident registrado.",
+      text: "Lis la gravedad, le despliegue de bolsas de aire et les indicadores de réparation estructural pour chaque incident registrado.",
     },
     {
       "@type": "HowToStep",
@@ -133,8 +133,8 @@ const breadcrumbSchema = {
   inLanguage: "fr",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` },
-    { "@type": "ListItem", position: 2, name: "Guías", item: `${SITE}/fr/guides` },
-    { "@type": "ListItem", position: 3, name: "Guía du rapport de historique de véhicule", item: PAGE_URL },
+    { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/fr/guides` },
+    { "@type": "ListItem", position: 3, name: "Guide du rapport de historique de véhicule", item: PAGE_URL },
   ],
 };
 

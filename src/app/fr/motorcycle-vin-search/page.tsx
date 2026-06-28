@@ -6,16 +6,16 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/motorcycle-vin-search`;
 const alt = hreflangAlternatesForLocale("/motorcycle-vin-search", "fr");
 const title = "Recherche et décodeur gratuit de VIN de moto — Décode n’importe quel VIN de moto instantanément";
-const description = "Recherche et décodeur gratuit de VIN de moto. Entre n’importe quel VIN de moto de 17 caracteres pour décoder instantanément le fabricante, país de origen, année modelo, code de planta et numéro de production. Fonctionne pour Harley-Davidson, Honda, Yamaha, Suzuki, Kawasaki, BMW, Ducati, Triumph, KTM et todas les marques.";
+const description = "Recherche et décodeur gratuit de VIN de moto. Entre n’importe quel VIN de moto de 17 caractères pour décoder instantanément le fabricante, pays de origen, année modèle, code de planta et numéro de production. Fonctionne pour Harley-Davidson, Honda, Yamaha, Suzuki, Kawasaki, BMW, Ducati, Triumph, KTM et todas les marques.";
 
 export const metadata: Metadata = {
   title, description,
   keywords: [
-    "búsqueda VIN moto", "décodeur VIN moto", "lookup VIN moto",
-    "búsqueda VIN moto gratuit", "décoder VIN moto", "VIN Harley-Davidson",
-    "décodeur VIN Honda moto", "búsqueda VIN Yamaha", "lookup VIN Suzuki moto",
+    "recherche VIN moto", "décodeur VIN moto", "lookup VIN moto",
+    "recherche VIN moto gratuit", "décoder VIN moto", "VIN Harley-Davidson",
+    "décodeur VIN Honda moto", "recherche VIN Yamaha", "lookup VIN Suzuki moto",
     "décodeur VIN Kawasaki", "VIN BMW moto", "décodeur VIN Ducati",
-    "búsqueda VIN Triumph", "búsqueda VIN KTM", "décodeur WMI moto",
+    "recherche VIN Triumph", "recherche VIN KTM", "décodeur WMI moto",
     "que année es mi moto", "comment lire un VIN de moto", "vérification VIN moto gratuit sans inscription",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image", title,
-    description: "Décode n’importe quel VIN de moto de 17 caracteres instantanément — fabricante, país, année, planta et numéro de production. 100% gratuit.",
+    description: "Décode n’importe quel VIN de moto de 17 caractères instantanément — fabricante, pays, année, planta et numéro de production. 100% gratuit.",
   },
   robots: { index: true, follow: true },
 };
@@ -36,9 +36,9 @@ const webApplicationSchema = {
   name: "Recherche de VIN de moto",
   url: PAGE_URL,
   applicationCategory: ["UtilitiesApplication", "BusansessApplication"],
-  opétaittingSystem: "Any (Web Browêtre)",
+  operatingSystem: "Any (Web Browêtre)",
   isAccessibleForFree: true,
-  description: "Herramienta gratuit en línea de búsqueda de VIN de moto. Entre n’importe quel VIN de moto de 17 caracteres pour décoder instantanément fabricante, país de origen, année modelo, code de planta et secuencia de production.",
+  description: "Herramienta gratuit en ligne de recherche de VIN de moto. Entre n’importe quel VIN de moto de 17 caractères pour décoder instantanément fabricante, pays de origen, année modèle, code de planta et séquence de production.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/icon.png` } },
 };

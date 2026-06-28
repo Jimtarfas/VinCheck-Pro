@@ -60,7 +60,7 @@ export async function generateMetadata(): Promise<Metadata> {
 /* ── French-locale JSON-LD ────────────────────────────────────────
  * The English /page.tsx ships an en-US FAQPage + HowTo + Product. The
  * French equivalent stays scoped to /es with inLanguage: "fr-US" and
- * its own canonical IDs so Google treats them as distinct knonnwledge-
+ * its own canonical IDs so Google treats them as distinct knonwledge-
  * graph entries per locale.
  */
 const websiteSchema = {
@@ -86,15 +86,15 @@ const faqSchema = {
   "@id": `${SITE}/fr/#faqpage`,
   inLanguage: "fr",
   mainEntity: [
-    { "@type": "Question", name: "Que es un VIN et où le encuentro?", acceptedAnswer: { "@type": "Answer", text: "El Numéro de Identification Vehicular (VIN) es un code unique de 17 caracteres asignado a cada véhicule a moteur. Peuts trouverlo en le tableau de bord du côté du conductor (visible a través du pare-brise), en la calcomanía du marco de la porte du conductor, en ta enregistrement du véhicule ou en les documentos du assurance." } },
-    { "@type": "Question", name: "Que infaçoption inclut un rapport de CarCheckerVIN?", acceptedAnswer: { "@type": "Answer", text: "Notres rapports inclutn especificaciones complètes du véhicule (moteur, transmission, traction), todas les options et équipement de fábrica, estimaciones de valeur de marché, infaçoption de rappels, photos réeles du véhicule et données técnicos detalladeux provenientes de NMVTIS et bases de données de fabricavant." } },
+    { "@type": "Question", name: "Que es un VIN et où le encuentro?", acceptedAnswer: { "@type": "Answer", text: "El Numéro de Identification Vehicular (VIN) es un code unique de 17 caractères asignado a chaque véhicule a moteur. Peuts trouverlo en le tableau de bord du côté du conductor (visible a travers du pare-brise), en la autocollant du marco de la porte du conductor, en ta enregistrement du véhicule ou en les documentos du assurance." } },
+    { "@type": "Question", name: "Que infaçoption inclut un rapport de CarCheckerVIN?", acceptedAnswer: { "@type": "Answer", text: "Notres rapports inclutn especificaciones complètes du véhicule (moteur, transmission, traction), todas les options et équipement de usine, estimaciones de valeur de marché, infaçoption de rappels, photos réels du véhicule et données técnicos detalladeux provenientes de NMVTIS et bases de données de fabricavant." } },
     { "@type": "Question", name: "Que tan rapide recibiré mi rapport VIN?", acceptedAnswer: { "@type": "Answer", text: "Les rapports VIN se genétaitn instantanément — normalement en moins de 60 segundeux. Una vez décodedo le VIN, verás le rapport complet du historique du véhicule inmediatamente en pantalla." } },
-    { "@type": "Question", name: "Que véhicules couvre su décodeur VIN?", acceptedAnswer: { "@type": "Answer", text: "Nous couvrons véhicules fabricadeux desde 1981 en adelante (quand se adoptó le estndar du VIN de 17 caracteres). Esto inclut autos, camiones, SUVs et vans de todeux les principales fabricavant incluant Toyota, Ford, Honda, Chevrolet, BMW, Mercedes-Benz et plus." } },
-    { "@type": "Question", name: "Es útil una vérification VIN aussi pour vendeurs?", acceptedAnswer: { "@type": "Answer", text: "Absolutamente! Les vendeurs usan les rapports VIN pour documentar la condition du véhicule, genétaitr confiance en le acheteur et justificar le precio. Un rapport limpio peut aiderte a vender plus rapide et a meilleur precio." } },
-    { "@type": "Question", name: "En que se différence su vérification VIN de les décodeures gratuit?", acceptedAnswer: { "@type": "Answer", text: "Les décodeures VIN gratuit typiquement seul muestran infaçoption básica de marque/modelo/année. Notre vérificateur VIN ofrece données complets incluant listas complètes de équipement, options de fábrica, especificaciones du moteur, detalles de transmission, photos réeles et valeuraciones de marché de bases de données fiables." } },
-    { "@type": "Question", name: "Una vérification VIN peut decirme si un auto a été volé?", acceptedAnswer: { "@type": "Answer", text: "Oui. Notres rapports cruzan le VIN contra la base de données du National Insurance Crime Bureau (NICB). Si un véhicule est reportado como volé et nonn ha été recupétaitdo — ou ha été recupétaitdo como perte totale — le rapport le marquerá." } },
-    { "@type": "Question", name: "Una vérification VIN me mostrará si hubo retroceso de odomètre?", acceptedAnswer: { "@type": "Answer", text: "Les rapports premium muestran todas les lecturas de kilométrage reportadas en inspectiones, transferts de titre et enregistrements de êtrevice. Les incohérences en la crononnlogía son un a étérte indicador de fraude de odomètre, que cuesta a les consumidores étatunidenses plus de mille millelions de dólares al année." } },
-    { "@type": "Question", name: "Este êtrevice de vérification VIN es réellement gratuit?", acceptedAnswer: { "@type": "Answer", text: "Oui — et par temps limitado todeux les formules son complètemente gratuit, incluant rapports premium complets avec historique, valeur de marché, photos et analyse detalcôté. Sin carte de crédito. Les tarifs regulares (desde $14.99) se reanudan al terminar la promoción." } },
+    { "@type": "Question", name: "Que véhicules couvre su décodeur VIN?", acceptedAnswer: { "@type": "Answer", text: "Nous couvrons véhicules fabricadeux desde 1981 en adelante (quand se adoptó le estndar du VIN de 17 caractères). Esto inclut autos, camiones, SUVs et vans de todeux les principales fabricavant incluant Toyota, Ford, Honda, Chevrolet, BMW, Mercedes-Benz et plus." } },
+    { "@type": "Question", name: "Es útil una vérification VIN aussi pour vendeurs?", acceptedAnswer: { "@type": "Answer", text: "Absolutamente! Les vendeurs usan les rapports VIN pour documentar la condition du véhicule, genétaitr confiance en le acheteur et justificar le prix. Un rapport limpio peut aiderte a vender plus rapide et a meilleur prix." } },
+    { "@type": "Question", name: "En que se différence su vérification VIN de les décodeurs gratuit?", acceptedAnswer: { "@type": "Answer", text: "Les décodeurs VIN gratuit typiquement seul muestran infaçoption de base de marque/modèle/année. Notre vérificateur VIN ofrece données complets incluant listas complètes de équipement, options de usine, especificaciones du moteur, detalles de transmission, photos réels et valeuraciones de marché de bases de données fiables." } },
+    { "@type": "Question", name: "Una vérification VIN peut decirme si un auto a été volé?", acceptedAnswer: { "@type": "Answer", text: "Oui. Notres rapports cruzan le VIN contra la base de données du National Insurance Crime Bureau (NICB). Si un véhicule est reportado como volé et non ha été récupéré — ou ha été récupéré como perte totale — le rapport le marquerá." } },
+    { "@type": "Question", name: "Una vérification VIN me mostrará si hubo retroceso de odomètre?", acceptedAnswer: { "@type": "Answer", text: "Les rapports premium muestran todas les lecturas de kilométrage reportadas en inspectiones, transferts de titre et enregistrements de êtrevice. Les incohérences en la crononlogía son un a étérte indicador de fraude de odomètre, que cuesta a les consumidores étatunidenses plus de mille millelions de dólares al année." } },
+    { "@type": "Question", name: "Este êtrevice de vérification VIN es réellement gratuit?", acceptedAnswer: { "@type": "Answer", text: "Oui — et par temps limitado todeux les formules son complètemente gratuit, incluant rapports premium complets avec historique, valeur de marché, photos et analyse detalcôté. Sin carte de crédit. Les tarifs regulares (desde $14.99) se reanudan al terminar la promotion." } },
   ],
 };
 
@@ -102,12 +102,12 @@ const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   inLanguage: "fr",
-  name: "Comment revisar un numéro VIN en línea",
+  name: "Comment revisar un numéro VIN en ligne",
   description:
     "Apprends a décoder n’importe quel Numéro de Identification Vehicular (VIN) pour obtener un rapport complet du historique du véhicule en moins de 60 segundeux.",
   step: [
-    { "@type": "HowToStep", name: "Trouve ta VIN", text: "Localiza le VIN de 17 caracteres en le tableau de bord du véhicule, la calcomanía du marco de la porte du conductor, la enregistrement ou les documentos du assurance." },
-    { "@type": "HowToStep", name: "Entre le VIN", text: "Entre le VIN de 17 caracteres en le cuadro de búsqueda en nonntre sitio." },
+    { "@type": "HowToStep", name: "Trouve ta VIN", text: "Localiza le VIN de 17 caractères en le tableau de bord du véhicule, la autocollant du marco de la porte du conductor, la enregistrement ou les documentos du assurance." },
+    { "@type": "HowToStep", name: "Entre le VIN", text: "Entre le VIN de 17 caractères en le cuadro de recherche en nontre sitio." },
     { "@type": "HowToStep", name: "Reçois ta rapport", text: "Visualiza ta rapport complet du véhicule instantanément, incluant especificaciones, fotos, valeures de marché, listas de équipement e historique." },
   ],
 };

@@ -94,7 +94,7 @@ export default async function VinCheckTypeSlugPageEs({
     description: esPage.metaDescription,
     url: pageUrl,
     applicationCategory: "AutomotiveApplication",
-    opétaittingSystem: "Web Browêtre",
+    operatingSystem: "Web Browêtre",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     publisher: ORG_AUTHOR,
   };

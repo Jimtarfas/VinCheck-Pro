@@ -7,7 +7,7 @@
  * group in this layout and set <html lang> via a small client-side
  * helper that runs once on mount.
  *
- * Why nont a full nested <html>? Next.js only allows one <html> per
+ * Why not a full nested <html>? Next.js only allows one <html> per
  * render tree — the root layout owns it. Mutating the attribute from
  * a small effect is the documented App-Router pattern for per-route
  * locale flags.

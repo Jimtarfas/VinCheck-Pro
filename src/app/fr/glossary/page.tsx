@@ -11,11 +11,11 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Glossaire VIN et historique de véhicule — 60+ termois définis",
     description:
       "Glossaire complet de VIN et historique de véhicule. Más de 60 conditions de compra de auto, marques de titre et automotrices definideux en français claro pour acheter plus inteligentemente.",
-    keywords: ["glossaire VIN", "conditions historique de véhicule", "terminonnlogía compra auto", "definiciones marques titre"],
+    keywords: ["glossaire VIN", "conditions historique de véhicule", "terminonlogía compra auto", "definiciones marques titre"],
     alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {
       title: "Glossaire VIN et historique de véhicule",
-      description: "Definiciones en français claro pour estructura VIN, marques de titre, inspection, évaluation et terminonnlogía de historique de véhicule.",
+      description: "Definiciones en français claro pour estructura VIN, marques de titre, inspection, évaluation et terminonlogía de historique de véhicule.",
       url: alt.canonical,
       type: "article",
       locale: "fr_US",

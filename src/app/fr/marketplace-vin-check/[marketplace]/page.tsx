@@ -47,7 +47,7 @@ export async function generateMetadata({
       `${mp.name} consultatioptiontioptiontioption VIN`,
       `${mp.name} voiture d’occasion vérification`,
       `vérification VIN marketplace`,
-      `historique de véhicule marketplace en línea`,
+      `historique de véhicule marketplace en ligne`,
     ],
     alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {

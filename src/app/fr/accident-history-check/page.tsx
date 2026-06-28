@@ -16,7 +16,7 @@ const PAGE_URL = `${SITE}/fr/accident-history-check`;
 const alt = hreflangAlternatesForLocale("/accident-history-check", "fr");
 const title = "Vérification du historique de accidents par VIN — Rapports de choques";
 const description =
-  "Vérifie le historique de accidents de un véhicule par VIN: choques reportadeux, réclamations de assurances et enregistrements de dégâtss. Detecta dégâtss ocultos par colisión avant de acheter.";
+  "Vérifie le historique de accidents de un véhicule par VIN: choques reportadeux, réclamations de assurances et enregistrements de dégâtss. Detecta dégâtss ocultos par collision avant de acheter.";
 
 export const metadata: Metadata = {
   title,
