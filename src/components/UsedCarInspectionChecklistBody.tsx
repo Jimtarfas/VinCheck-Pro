@@ -1,0 +1,407 @@
+/**
+ * Shared body for /used-car-inspection-checklist and /es/used-car-inspection-checklist.
+ * Wave 18.19 — full English layout in both locales via COPY={en,es}.
+ */
+
+import Link from "next/link";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  ClipboardList,
+  Eye,
+  ShieldAlert,
+  XCircle,
+} from "lucide-react";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import RelatedChecks from "@/components/RelatedChecks";
+import VinCheckBanner from "@/components/VinCheckBanner";
+import InspectionChecklist from "@/app/used-car-inspection-checklist/InspectionChecklist";
+import { inspectionChecklist } from "@/lib/inspection-checklist";
+import type { Locale } from "@/i18n/config";
+
+const TOTAL_ITEMS = inspectionChecklist.reduce((s, sec) => s + sec.items.length, 0);
+
+const COPY = {
+  en: {
+    home: "Home",
+    crumb: "Used Car Inspection Checklist",
+    h1: "Used Car Pre-Purchase Inspection Checklist",
+    introPre: "A free, interactive ",
+    introMid: "-point inspection across 8 categories — exterior, underneath, engine bay, interior, test drive, documents, tires & brakes, and HVAC. Spot deal-breakers before you pay, then generate a printable report you can share with your mechanic or partner.",
+    h2WhyPpi: "Why a Pre-Purchase Inspection Matters",
+    whyPpi1: "The average used car sale in the US carries $1,400 in undisclosed problems. Sellers warm up the engine, clear the dash codes, and use heavy detailing to mask issues you'd spot in 30 seconds in proper light. A 45-minute DIY inspection eliminates 70–80% of bad buys without spending a dime.",
+    whyPpi2: "The goal isn't to find a perfect car — every used car has flaws. The goal is to find flaws the seller hasn't disclosed, then either negotiate the price or walk away. Use this checklist as your script.",
+    h2DiyVsMech: "DIY vs Mechanic Pre-Purchase Inspection",
+    tblAspect: "Aspect",
+    tblDiy: "DIY Checklist",
+    tblMech: "Mechanic PPI",
+    diyRows: [
+      ["Cost", "Free", "$120–$250"],
+      ["Time", "45–60 min", "1–2 hours (plus scheduling)"],
+      ["Catches deal-breakers", "Yes — frame, title, fluids, smell", "Yes, plus internal compression"],
+      ["Catches mechanical wear", "Some — shifts, brakes, leaks", "Most — lift inspection, scan tools"],
+      ["When to use", "Every used car, before any deposit", "Final-round candidate, after DIY pass"],
+    ] as const,
+    diyAfter: "Use the DIY checklist first to filter out the obvious bad buys. Only pay for a mechanic PPI on the final 1–2 cars you're seriously considering.",
+    h2RedFlags: "Top 10 Red Flags Buyers Miss",
+    topRedFlags: [
+      { title: "Mayonnaise residue under the oil cap", detail: "Creamy white-tan film = coolant in the oil. Almost always head gasket failure ($2,500–$6,000)." },
+      { title: "Mismatched bolt heads in the engine bay", detail: "Replaced fender, radiator, or core support bolts indicate undisclosed front-end collision repair." },
+      { title: "Wavy weld beads on the frame", detail: "Factory frames are spot-welded uniformly. Wavy MIG welds = structural collision repair. Walk away." },
+      { title: "Rust on seat-belt brackets or seat tracks", detail: "Metal hardware low in the cabin doesn't rust unless the car was submerged. Classic flood-damage signal." },
+      { title: "Wear that doesn't match mileage", detail: "Worn pedals, shiny steering wheel, or threadbare driver seat on a '40k mile' car = likely odometer rollback." },
+      { title: "Persistent warning lights", detail: "Sellers often clear codes the day before sale. Drive 10+ minutes; if CEL or ABS comes back, codes weren't fixed." },
+      { title: "Title not in the seller's name", detail: "'Title-skipping' curbstoners avoid sales tax and recordable history. Often hides salvage, theft, or fraud." },
+      { title: "Strong air freshener masking smell", detail: "Heavy fragrance covers cigarette smoke, mildew, or pet damage — all of which lower resale and signal neglect." },
+      { title: "Tires worn unevenly", detail: "Inner-edge wear = bad alignment or worn suspension. Center wear = chronic over-inflation. Outer wear = aggressive driving." },
+      { title: "Fresh paint on the engine or undercarriage", detail: "Often hides leak repairs or accident damage. Be skeptical of any 'just detailed' engine bay." },
+    ],
+    h2DealBreakers: "When to Walk Away — The Deal-Breaker List",
+    dealBreakersIntro: "Some findings end the negotiation. If any of these come up, the smart move is to leave without making an offer — there are millions of used cars on the market, you only need one.",
+    dealBreakers: [
+      "Title is not in the seller's legal name",
+      "VIN on title doesn't match dash plate or door jamb sticker",
+      "Frame is bent or has aftermarket welds / replacement plates",
+      "Mayonnaise residue under the oil cap (head gasket failure)",
+      "Mismatched bolts on structural / collision-relevant components",
+      "Odometer reading doesn't match the title or service records",
+      "Heavy water staining + rust on seat brackets (flood damage)",
+    ],
+    h2CategoriesPre: "What's Inside the ",
+    h2CategoriesSuffix: "-Point Checklist",
+    ptsLabel: "pts",
+    crossLinks: [
+      { href: "/vin-check", label: "Free VIN Check", sub: "Title, accidents, odometer" },
+      { href: "/total-cost-of-ownership-calculator", label: "Cost of Ownership", sub: "5-year true cost" },
+      { href: "/car-affordability-calculator", label: "Affordability", sub: "What you can afford" },
+    ],
+    h2Faq: "Frequently Asked Questions",
+    faqs: [
+      { q: "Can a DIY inspection replace a mechanic's PPI?", a: "It catches 70–80% of bad buys for free. Use the checklist on every car you look at; only pay for a mechanic PPI on your top finalist." },
+      { q: "What's the most important thing to check?", a: "Title, VIN, and frame — in that order. Mechanical issues are negotiable; legal and structural issues rarely are." },
+      { q: "How long should an inspection take?", a: "Plan on 45–60 minutes including test drive. If a seller rushes you, that's its own red flag." },
+      { q: "What is a deal-breaker on a used car?", a: "Title fraud, VIN mismatch, frame welds, head-gasket failure (mayo on oil cap), odometer mismatch, and confirmed flood damage. Walk away in any of these cases." },
+      { q: "Can I print or share the report?", a: "Yes. Tap 'Generate Report' to see a print-friendly summary, then 'Print' or 'Copy as Markdown' to share with anyone." },
+      { q: "What does each severity mean?", a: "Deal-breaker = walk away. Major = costly fix, negotiate or get mechanic PPI. Minor = cosmetic / routine maintenance. Info = good to know." },
+      { q: "Does this work for trucks and SUVs?", a: "Yes — every check applies to passenger cars, SUVs, and trucks. For motorcycles, use our motorcycle VIN check." },
+      { q: "Is my progress saved?", a: "Yes. Your answers and vehicle details are stored locally in your browser. Close the tab, come back later, pick up where you left off." },
+    ],
+    ctaH2: "Don't Buy Without a VIN Check",
+    ctaSub: "Even a perfect inspection can't reveal accidents, salvage brands, or odometer rollbacks buried in the title history. A free VIN check takes 60 seconds and pulls the federal NMVTIS record for every report.",
+    ctaButton: "Run a Free VIN Check",
+    ctaNote1: "Always inspect in daylight",
+    ctaNote2: "Never wire money sight-unseen",
+  },
+  es: {
+    home: "Inicio",
+    crumb: "Lista de inspección de auto usado",
+    h1: "Lista de inspección antes de la compra de auto usado",
+    introPre: "Una inspección interactiva gratis de ",
+    introMid: " puntos en 8 categorías — exterior, bajo el auto, bajo el cofre, interior, prueba de manejo, documentos, llantas y frenos, y A/C y calefacción. Detecta deal-breakers antes de pagar, y luego genera un reporte imprimible que puedes compartir con tu mecánico o pareja.",
+    h2WhyPpi: "Por qué importa una inspección antes de la compra",
+    whyPpi1: "La venta promedio de auto usado en EE. UU. lleva $1,400 en problemas no declarados. Los vendedores calientan el motor, borran los códigos del tablero y usan detallado pesado para enmascarar problemas que detectarías en 30 segundos con buena luz. Una inspección DIY de 45 minutos elimina 70-80% de las malas compras sin gastar un centavo.",
+    whyPpi2: "El objetivo no es encontrar un auto perfecto — cada auto usado tiene fallas. El objetivo es encontrar fallas que el vendedor no haya declarado, y luego negociar el precio o irte. Usa esta lista de inspección como tu guion.",
+    h2DiyVsMech: "DIY vs inspección antes de la compra por mecánico",
+    tblAspect: "Aspecto",
+    tblDiy: "Lista DIY",
+    tblMech: "PPI por mecánico",
+    diyRows: [
+      ["Costo", "Gratis", "$120-$250"],
+      ["Tiempo", "45-60 min", "1-2 horas (más programación)"],
+      ["Detecta deal-breakers", "Sí — chasis, título, fluidos, olor", "Sí, más compresión interna"],
+      ["Detecta desgaste mecánico", "Algo — cambios, frenos, fugas", "Mayoría — inspección elevada, escáneres"],
+      ["Cuándo usar", "Cada auto usado, antes de cualquier depósito", "Candidato final, tras pasar el DIY"],
+    ] as const,
+    diyAfter: "Usa la lista DIY primero para filtrar las compras malas obvias. Solo paga por un PPI con mecánico en los 1-2 autos finales que estés considerando en serio.",
+    h2RedFlags: "Las 10 señales de alerta principales que los compradores pasan por alto",
+    topRedFlags: [
+      { title: "Residuo de mayonesa bajo la tapa del aceite", detail: "Película cremosa blanco-bronceada = refrigerante en el aceite. Casi siempre falla de empaque de cabeza ($2,500-$6,000)." },
+      { title: "Cabezas de tornillos disparejas bajo el cofre", detail: "Tornillos reemplazados en la salpicadera, radiador o soporte central indican reparación de colisión frontal no declarada." },
+      { title: "Cordones de soldadura ondulados en el chasis", detail: "Los chasis de fábrica se sueldan por puntos uniformemente. Soldaduras MIG onduladas = reparación estructural por colisión. Aléjate." },
+      { title: "Óxido en las hebillas del cinturón o rieles del asiento", detail: "El metal bajo en la cabina no se oxida a menos que el auto haya estado sumergido. Señal clásica de daño por inundación." },
+      { title: "Desgaste que no coincide con el kilometraje", detail: "Pedales gastados, volante brillante o asiento del conductor desgastado en un auto de '40 mil millas' = probable rollback de odómetro." },
+      { title: "Luces de advertencia persistentes", detail: "Los vendedores a menudo borran los códigos el día antes de la venta. Maneja 10+ minutos; si la luz de CEL o ABS regresa, los códigos no se arreglaron." },
+      { title: "Título que no está a nombre del vendedor", detail: "Los curbstoners de 'salto de título' evitan el impuesto a la venta y el historial registrable. A menudo ocultan salvamento, robo o fraude." },
+      { title: "Ambientador fuerte enmascarando el olor", detail: "La fragancia pesada cubre humo de cigarro, moho o daño de mascotas — todo lo cual baja la reventa y señala descuido." },
+      { title: "Llantas desgastadas de forma despareja", detail: "Desgaste de borde interior = mala alineación o suspensión gastada. Desgaste central = sobreinflado crónico. Desgaste exterior = manejo agresivo." },
+      { title: "Pintura fresca en el motor o bajo del auto", detail: "A menudo oculta reparaciones de fugas o daño por accidente. Sé escéptico con cualquier 'recién detallado' bajo el cofre." },
+    ],
+    h2DealBreakers: "Cuándo alejarte — La lista de deal-breakers",
+    dealBreakersIntro: "Algunos hallazgos terminan la negociación. Si aparece cualquiera de estos, lo inteligente es irte sin hacer oferta — hay millones de autos usados en el mercado, solo necesitas uno.",
+    dealBreakers: [
+      "El título no está a nombre legal del vendedor",
+      "El VIN del título no coincide con la placa del tablero ni la calcomanía del marco de puerta",
+      "El chasis está doblado o tiene soldaduras de mercado secundario / placas de reemplazo",
+      "Residuo de mayonesa bajo la tapa del aceite (falla de empaque de cabeza)",
+      "Tornillos disparejos en componentes estructurales / relevantes a colisión",
+      "La lectura del odómetro no coincide con el título o los registros de servicio",
+      "Manchas pesadas de agua + óxido en las hebillas del asiento (daño por inundación)",
+    ],
+    h2CategoriesPre: "Qué hay dentro de la lista de ",
+    h2CategoriesSuffix: " puntos",
+    ptsLabel: "pts",
+    crossLinks: [
+      { href: "/vin-check", label: "Verificación VIN gratis", sub: "Título, accidentes, odómetro" },
+      { href: "/total-cost-of-ownership-calculator", label: "Costo total de propiedad", sub: "Costo real a 5 años" },
+      { href: "/car-affordability-calculator", label: "Asequibilidad", sub: "Lo que puedes pagar" },
+    ],
+    h2Faq: "Preguntas frecuentes",
+    faqs: [
+      { q: "¿Una inspección DIY puede reemplazar la PPI de un mecánico?", a: "Detecta el 70-80% de las malas compras gratis. Usa la lista de inspección en cada auto que veas; solo paga por un PPI con mecánico en tu finalista." },
+      { q: "¿Qué es lo más importante que revisar?", a: "Título, VIN y chasis — en ese orden. Los problemas mecánicos son negociables; los problemas legales y estructurales rara vez lo son." },
+      { q: "¿Cuánto debe durar una inspección?", a: "Planea 45-60 minutos incluyendo prueba de manejo. Si un vendedor te apura, eso es su propia señal de alerta." },
+      { q: "¿Qué es un deal-breaker en un auto usado?", a: "Fraude de título, VIN no coincide, soldaduras en el chasis, falla de empaque de cabeza (mayonesa en la tapa del aceite), odómetro no coincide y daño por inundación confirmado. Aléjate en cualquiera de estos casos." },
+      { q: "¿Puedo imprimir o compartir el reporte?", a: "Sí. Toca 'Generar reporte' para ver un resumen apto para imprimir, luego 'Imprimir' o 'Copiar como Markdown' para compartirlo con cualquiera." },
+      { q: "¿Qué significa cada severidad?", a: "Deal-breaker = aléjate. Mayor = arreglo costoso, negocia o consigue PPI con mecánico. Menor = cosmético / mantenimiento de rutina. Info = bueno saberlo." },
+      { q: "¿Funciona para camionetas y SUVs?", a: "Sí — cada revisión aplica a autos de pasajeros, SUVs y camionetas. Para motocicletas, usa nuestra verificación VIN de motos." },
+      { q: "¿Se guarda mi progreso?", a: "Sí. Tus respuestas y los detalles del vehículo se guardan localmente en tu navegador. Cierra la pestaña, regresa después, retoma donde dejaste." },
+    ],
+    ctaH2: "No compres sin una verificación VIN",
+    ctaSub: "Incluso una inspección perfecta no puede revelar accidentes, marcas de salvamento o rollbacks de odómetro enterrados en el historial del título. Una verificación VIN gratis toma 60 segundos y extrae el registro federal NMVTIS para cada reporte.",
+    ctaButton: "Hacer una verificación VIN gratis",
+    ctaNote1: "Siempre inspecciona con luz de día",
+    ctaNote2: "Nunca transfieras dinero sin ver el auto",
+  },
+} as const;
+
+interface Props { locale: Locale; }
+
+export default function UsedCarInspectionChecklistBody({ locale }: Props) {
+  const c = COPY[locale];
+  const link = (en: string) => (locale === "es" ? `/es${en}` : en);
+
+  return (
+    <>
+      <main className="pt-28 pb-16 print:pt-0">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="print:hidden">
+            <Breadcrumbs
+              items={[
+                { label: c.home, href: locale === "es" ? "/es" : "/" },
+                { label: c.crumb },
+              ]}
+            />
+          </div>
+
+          <h1 className="mt-6 text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
+            {c.h1}
+          </h1>
+          <p className="mt-4 text-lg text-slate-700 leading-relaxed">
+            {c.introPre}{TOTAL_ITEMS}{c.introMid}
+          </p>
+
+          {/* ── VIN Check CTA (top) ── */}
+          <div className="mt-8 print:hidden">
+            <VinCheckBanner variant="card" />
+          </div>
+
+          {/* ── Interactive checklist ── */}
+          <div className="mt-10">
+            <InspectionChecklist locale={locale} />
+          </div>
+
+          {/* ── Why a PPI matters ── */}
+          <section id="why-ppi" className="mt-16 print:hidden">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">{c.h2WhyPpi}</h2>
+            <p className="text-slate-700 leading-relaxed mb-4">{c.whyPpi1}</p>
+            <p className="text-slate-700 leading-relaxed">{c.whyPpi2}</p>
+          </section>
+
+          {/* ── DIY vs Mechanic ── */}
+          <section id="diy-vs-mechanic" className="mt-12 print:hidden">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">{c.h2DiyVsMech}</h2>
+            <div className="overflow-x-auto rounded-xl border border-slate-200">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50 text-slate-600">
+                  <tr>
+                    <th className="text-left px-4 py-3 font-medium">{c.tblAspect}</th>
+                    <th className="text-left px-4 py-3 font-medium">{c.tblDiy}</th>
+                    <th className="text-left px-4 py-3 font-medium">{c.tblMech}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 bg-white">
+                  {c.diyRows.map(([aspect, diy, mech]) => (
+                    <tr key={aspect} className="hover:bg-slate-50">
+                      <td className="px-4 py-3 font-medium text-slate-800">{aspect}</td>
+                      <td className="px-4 py-3 text-slate-700">{diy}</td>
+                      <td className="px-4 py-3 text-slate-700">{mech}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 text-sm text-slate-600 leading-relaxed">{c.diyAfter}</p>
+          </section>
+
+          {/* ── Top 10 Red Flags ── */}
+          <section id="red-flags" className="mt-12 print:hidden">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">{c.h2RedFlags}</h2>
+            <ul className="space-y-3">
+              {c.topRedFlags.map(({ title, detail }) => (
+                <li key={title} className="flex gap-3 items-start">
+                  <Eye className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-700">
+                    <strong className="text-slate-900">{title}</strong> — {detail}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* ── Mid-page banner ── */}
+          <div className="mt-12 print:hidden">
+            <VinCheckBanner />
+          </div>
+
+          {/* ── Walk Away List ── */}
+          <section id="deal-breakers" className="mt-12 print:hidden">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">{c.h2DealBreakers}</h2>
+            <p className="text-slate-700 leading-relaxed mb-5">{c.dealBreakersIntro}</p>
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
+              <ul className="space-y-2.5">
+                {c.dealBreakers.map((d) => (
+                  <li key={d} className="flex gap-3 items-start text-sm text-red-900">
+                    <ShieldAlert className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          {/* ── Inspection categories overview ── */}
+          <section id="categories" className="mt-12 print:hidden">
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              {c.h2CategoriesPre}{TOTAL_ITEMS}{c.h2CategoriesSuffix}
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {inspectionChecklist.map((sec) => {
+                const t = SECTION_TRANSLATIONS[locale][sec.id] ?? { title: sec.title, description: sec.description };
+                return (
+                  <div key={sec.id} className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <ClipboardList className="w-4 h-4 text-primary-600" />
+                      <p className="font-bold text-slate-900 text-sm">{t.title}</p>
+                      <span className="ml-auto text-xs text-slate-500 font-mono">
+                        {sec.items.length} {c.ptsLabel}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed">{t.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* ── Cross-links ── */}
+          <div className="mt-12 grid sm:grid-cols-3 gap-3 print:hidden">
+            {c.crossLinks.map(({ href, label, sub }) => (
+              <Link
+                key={href}
+                href={link(href)}
+                className="flex items-center justify-between gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors"
+              >
+                <div>
+                  <p className="font-bold text-slate-900 text-sm">{label}</p>
+                  <p className="text-xs text-slate-600 mt-0.5">{sub}</p>
+                </div>
+                <span className="text-slate-500 font-bold text-xs flex-shrink-0">→</span>
+              </Link>
+            ))}
+          </div>
+
+          {/* ── FAQ ── */}
+          <section id="faq" className="mt-14 print:hidden">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">{c.h2Faq}</h2>
+            <dl className="space-y-6">
+              {c.faqs.map(({ q, a }) => (
+                <div key={q}>
+                  <dt className="font-bold text-slate-900">{q}</dt>
+                  <dd className="mt-1.5 text-slate-600 leading-relaxed">{a}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          {/* ── Related ── */}
+          <div className="mt-14 print:hidden">
+            <RelatedChecks exclude="/used-car-inspection-checklist" />
+          </div>
+        </div>
+      </main>
+
+      {/* ── Bottom CTA ── */}
+      <section className="py-14 bg-slate-50 border-t border-slate-200 print:hidden">
+        <div className="max-w-xl mx-auto px-4 text-center">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">{c.ctaH2}</h2>
+          <p className="text-slate-600 mb-6">{c.ctaSub}</p>
+          <Link
+            href={link("/vin-check")}
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-colors"
+          >
+            <CheckCircle2 className="w-5 h-5" />
+            {c.ctaButton}
+          </Link>
+          <div className="mt-6 flex items-center justify-center gap-4 text-xs text-slate-500">
+            <span className="inline-flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
+              {c.ctaNote1}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <XCircle className="w-3.5 h-3.5 text-red-500" />
+              {c.ctaNote2}
+            </span>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ── Section title/description translations (keyed by section id) ── */
+const SECTION_TRANSLATIONS: Record<Locale, Record<string, { title: string; description: string }>> = {
+  en: {
+    exterior: { title: "Walk-Around Exterior", description: "Body, paint, glass, and tires. Look for accident-repair signs, mismatched panels, and weather damage in good daylight." },
+    underneath: { title: "Underneath the Vehicle", description: "The frame, exhaust, and suspension tell the truth about a car's life. Bring a flashlight and don't skip this section." },
+    "engine-bay": { title: "Engine Bay", description: "Pop the hood with the engine cold. Many of the worst problems are visible without ever turning a wrench." },
+    interior: { title: "Interior", description: "Wear patterns, smells, and electronics reveal the vehicle's real story — sometimes more than the seller does." },
+    "test-drive": { title: "Test Drive", description: "Drive at least 20 minutes including stop-and-go and highway speeds. Cold-start the engine yourself if possible." },
+    documents: { title: "Documents", description: "Paperwork is where fraud usually hides. Verify every document before any money changes hands." },
+    "tires-brakes": { title: "Tires & Brakes", description: "These are the cheapest things to verify and the most expensive to replace if you guess wrong." },
+    "hvac-electronics": { title: "HVAC & Electronics", description: "Electrical gremlins are the most common 'I didn't know about that' surprise. Test every switch, light, and accessory." },
+  },
+  es: {
+    exterior: { title: "Recorrido exterior", description: "Carrocería, pintura, vidrios y llantas. Busca señales de reparación de accidentes, paneles disparejos y daño por clima con buena luz de día." },
+    underneath: { title: "Bajo el vehículo", description: "El chasis, el escape y la suspensión cuentan la verdad sobre la vida del auto. Trae una linterna y no te saltes esta sección." },
+    "engine-bay": { title: "Bajo el cofre", description: "Abre el cofre con el motor frío. Muchos de los peores problemas son visibles sin tocar una llave." },
+    interior: { title: "Interior", description: "Los patrones de desgaste, olores y electrónicos revelan la historia real del vehículo — a veces más que el vendedor." },
+    "test-drive": { title: "Prueba de manejo", description: "Maneja al menos 20 minutos incluyendo tráfico de pare-y-arranca y velocidades de autopista. Arranca el motor en frío tú mismo si es posible." },
+    documents: { title: "Documentos", description: "El papeleo es donde usualmente se esconde el fraude. Verifica cada documento antes de que cambie de manos cualquier dinero." },
+    "tires-brakes": { title: "Llantas y frenos", description: "Estas son las cosas más baratas de verificar y las más costosas de reemplazar si adivinas mal." },
+    "hvac-electronics": { title: "A/C, calefacción y electrónicos", description: "Los gremlins eléctricos son la sorpresa más común de 'no sabía de eso'. Prueba cada interruptor, luz y accesorio." },
+  },
+};
+
+const FAQS_EN = [
+  { question: "Can a DIY inspection replace a mechanic's pre-purchase inspection?", answer: "A DIY checklist filters out 70–80% of bad buys before you pay $150–$250 for a mechanic's PPI. We recommend using this checklist first — if any deal-breakers come up, walk away. If everything looks good, only then pay for a mechanic to inspect mechanical systems you can't see (compression, scan-tool diagnostics, suspension lift inspection)." },
+  { question: "What is the most important thing to check on a used car?", answer: "The title, VIN, and frame — in that order. A mismatched VIN or salvage title can make the car worthless or unsellable. A bent or welded frame compromises safety. Mechanical problems are negotiable; structural and legal problems usually aren't." },
+  { question: "How long should a pre-purchase inspection take?", answer: "Plan on 45–60 minutes total: 20 minutes walking the vehicle and looking at fluids, 20 minutes test driving, and 10 minutes verifying documents and recalls. Don't let a seller rush you — that's a red flag in itself." },
+  { question: "What are deal-breakers on a used car?", answer: "Walk away from a vehicle with: title not in the seller's name, VIN mismatch between title and vehicle, undisclosed salvage or flood title, mayonnaise on the oil cap (head gasket failure), aftermarket frame welds (collision repair), or odometer mismatch with service records." },
+  { question: "Can I print this checklist?", answer: "Yes. Fill out the inspection on your phone or laptop, then tap 'Generate Report' and 'Print'. You can also copy a markdown version to text or email to your mechanic, partner, or financing source." },
+  { question: "What MPG, mileage, or price should I expect on a used car?", answer: "There's no single answer — but our companion calculators help: try the gas mileage calculator, total cost of ownership calculator, and car affordability calculator. Always pull a free VIN history check before paying any deposit." },
+  { question: "What does each severity mean?", answer: "'Deal-breaker' = walk away (frame welds, title fraud, head gasket failure). 'Major' = expensive repair or hidden problem; negotiate hard or get a mechanic PPI. 'Minor' = cosmetic or routine maintenance; use as price leverage. 'Info' = good to know, rarely changes the deal." },
+  { question: "Does the checklist work for trucks, SUVs, and motorcycles?", answer: "Most checks apply to all 4-wheel passenger vehicles. For motorcycles, use our motorcycle VIN check tool — frame, suspension, and chain inspection points differ enough that a dedicated checklist works better." },
+];
+
+const FAQS_ES = [
+  { question: "¿Una inspección DIY puede reemplazar la inspección antes de la compra de un mecánico?", answer: "Una lista de inspección DIY filtra el 70-80% de las malas compras antes de que pagues $150-$250 por una PPI con mecánico. Recomendamos usar esta lista primero — si aparece algún deal-breaker, aléjate. Si todo se ve bien, solo entonces paga por un mecánico para inspeccionar los sistemas mecánicos que no puedes ver (compresión, diagnóstico con escáner, inspección de suspensión en elevador)." },
+  { question: "¿Qué es lo más importante que revisar en un auto usado?", answer: "El título, el VIN y el chasis — en ese orden. Un VIN que no coincide o un título de salvamento pueden hacer que el auto sea sin valor o invendible. Un chasis doblado o soldado compromete la seguridad. Los problemas mecánicos son negociables; los problemas estructurales y legales usualmente no." },
+  { question: "¿Cuánto debe durar una inspección antes de la compra?", answer: "Planea 45-60 minutos en total: 20 minutos recorriendo el vehículo y viendo fluidos, 20 minutos en prueba de manejo, y 10 minutos verificando documentos y recalls. No dejes que un vendedor te apure — eso es una señal de alerta en sí misma." },
+  { question: "¿Cuáles son los deal-breakers en un auto usado?", answer: "Aléjate de un vehículo con: título que no está a nombre del vendedor, VIN no coincide entre título y vehículo, título de salvamento o inundación no declarado, mayonesa en la tapa del aceite (falla de empaque de cabeza), soldaduras de mercado secundario en el chasis (reparación por colisión), u odómetro que no coincide con los registros de servicio." },
+  { question: "¿Puedo imprimir esta lista de inspección?", answer: "Sí. Llena la inspección en tu teléfono o laptop, luego toca 'Generar reporte' e 'Imprimir'. También puedes copiar una versión en markdown para enviarla por mensaje o correo a tu mecánico, pareja o fuente de financiamiento." },
+  { question: "¿Qué MPG, kilometraje o precio debo esperar en un auto usado?", answer: "No hay una sola respuesta — pero nuestras calculadoras complementarias ayudan: prueba la calculadora de consumo de gasolina, calculadora de costo total de propiedad y calculadora de asequibilidad de auto. Siempre haz una verificación de historial VIN gratis antes de pagar cualquier depósito." },
+  { question: "¿Qué significa cada severidad?", answer: "'Deal-breaker' = aléjate (soldaduras de chasis, fraude de título, falla de empaque de cabeza). 'Mayor' = reparación costosa o problema oculto; negocia fuerte o consigue PPI con mecánico. 'Menor' = cosmético o mantenimiento de rutina; úsalo como palanca de precio. 'Info' = bueno saberlo, rara vez cambia el trato." },
+  { question: "¿La lista funciona para camionetas, SUVs y motocicletas?", answer: "La mayoría de las revisiones aplican a todos los vehículos de pasajeros de 4 ruedas. Para motocicletas, usa nuestra herramienta de verificación VIN de motocicletas — los puntos de inspección del chasis, suspensión y cadena difieren lo suficiente como para que una lista dedicada funcione mejor." },
+];
+
+export { FAQS_EN, FAQS_ES };

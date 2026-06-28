@@ -20,10 +20,11 @@ import { states } from "@/lib/states";
  *   • All 50 states render as a responsive chip grid below; each chip is a real
  *     <Link> to /vin-check/state/[slug] so the grid is fully crawlable even
  *     before hydration (the filter is progressive enhancement on top of it).
+ *
+ * Wave 18.19 — accepts `locale` so the visible chrome strings localize while
+ * the state dropdown itself stays English (state names are proper nouns).
  */
 
-// Highest-population states — also the ones most likely to be the ad
-// destination, so they get pinned for one-tap access.
 const POPULAR_SLUGS = [
   "california",
   "texas",
@@ -43,8 +44,42 @@ const popularStates = POPULAR_SLUGS.map(
 
 const sortedStates = [...states].sort((a, b) => a.name.localeCompare(b.name));
 
-export default function StateFinder() {
+const COPY = {
+  en: {
+    heading: "Find Your State",
+    sub: "Pick your state for local DMV rules and title brands — or run a VIN below for an instant nationwide report.",
+    placeholder: "Type your state (e.g. California or CA)",
+    inputAria: "Search for your state",
+    clearAria: "Clear state search",
+    mostSearched: "Most-searched states",
+    all50: "All 50 states",
+    matchOne: (n: number) => `${n} match`,
+    matchMany: (n: number) => `${n} matches`,
+    noMatch: (q: string) =>
+      `No state matches "${q}". Try the full state name or its two-letter abbreviation.`,
+  },
+  es: {
+    heading: "Encuentra tu estado",
+    sub: "Elige tu estado para reglas locales del DMV y marcas de título — o ejecuta un VIN abajo para un reporte nacional al instante.",
+    placeholder: "Escribe tu estado (ej. California o CA)",
+    inputAria: "Buscar tu estado",
+    clearAria: "Limpiar búsqueda de estado",
+    mostSearched: "Estados más buscados",
+    all50: "Los 50 estados",
+    matchOne: (n: number) => `${n} coincidencia`,
+    matchMany: (n: number) => `${n} coincidencias`,
+    noMatch: (q: string) =>
+      `Ningún estado coincide con "${q}". Prueba el nombre completo del estado o su abreviatura de dos letras.`,
+  },
+} as const;
+
+interface Props {
+  locale?: "en" | "es";
+}
+
+export default function StateFinder({ locale = "en" }: Props) {
   const [query, setQuery] = useState("");
+  const c = COPY[locale];
 
   const q = query.trim().toLowerCase();
 
@@ -55,14 +90,16 @@ export default function StateFinder() {
     );
   }, [q]);
 
+  const stateHref = (slug: string) =>
+    locale === "es" ? `/es/vin-check/state/${slug}` : `/vin-check/state/${slug}`;
+
   return (
     <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl text-on-surface">
       <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">
-        Find Your State
+        {c.heading}
       </h2>
       <p className="text-xs sm:text-sm text-on-surface-variant mb-4">
-        Pick your state for local DMV rules and title brands — or run a VIN
-        below for an instant nationwide report.
+        {c.sub}
       </p>
 
       {/* Type-ahead */}
@@ -73,9 +110,9 @@ export default function StateFinder() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Type your state (e.g. California or CA)"
+            placeholder={c.placeholder}
             className="w-full bg-transparent border-none outline-none text-on-surface placeholder:text-outline/50 text-sm py-2"
-            aria-label="Search for your state"
+            aria-label={c.inputAria}
           />
         </div>
         {query && (
@@ -83,7 +120,7 @@ export default function StateFinder() {
             type="button"
             onClick={() => setQuery("")}
             className="mr-2 p-1.5 rounded-full text-outline hover:bg-surface-container transition-colors"
-            aria-label="Clear state search"
+            aria-label={c.clearAria}
           >
             <X className="w-4 h-4" />
           </button>
@@ -94,13 +131,13 @@ export default function StateFinder() {
       {!q && (
         <div className="mb-5">
           <p className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-2">
-            Most-searched states
+            {c.mostSearched}
           </p>
           <div className="flex flex-wrap gap-2">
             {popularStates.map((s) => (
               <Link
                 key={s.slug}
-                href={`/vin-check/state/${s.slug}`}
+                href={stateHref(s.slug)}
                 className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 hover:bg-primary/20 text-primary text-sm font-bold px-3.5 py-1.5 transition-colors"
               >
                 <MapPin className="w-3.5 h-3.5" />
@@ -113,19 +150,22 @@ export default function StateFinder() {
 
       {/* Full grid (filtered) */}
       <p className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-2">
-        {q ? `${filtered.length} match${filtered.length === 1 ? "" : "es"}` : "All 50 states"}
+        {q
+          ? filtered.length === 1
+            ? c.matchOne(filtered.length)
+            : c.matchMany(filtered.length)
+          : c.all50}
       </p>
       {filtered.length === 0 ? (
         <p className="text-sm text-on-surface-variant py-4">
-          No state matches &ldquo;{query}&rdquo;. Try the full state name or its
-          two-letter abbreviation.
+          {c.noMatch(query)}
         </p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-64 overflow-y-auto pr-1">
           {filtered.map((s) => (
             <Link
               key={s.slug}
-              href={`/vin-check/state/${s.slug}`}
+              href={stateHref(s.slug)}
               className="flex items-center gap-2 rounded-xl border border-outline-variant bg-surface-container-lowest hover:border-primary/40 hover:bg-primary/5 transition-colors px-3 py-2 group"
             >
               <span className="inline-flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 text-primary text-[11px] font-black flex-shrink-0">
