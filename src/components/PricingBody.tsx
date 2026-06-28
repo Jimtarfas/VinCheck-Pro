@@ -83,6 +83,40 @@ const COPY = {
     finalSub: "Ingresa cualquier VIN de 17 dígitos — obtén un reporte completo del historial vehicular en segundos. Sin tarjeta de crédito. Sin muro de registro.",
     finalCta: "Comienza la verificación VIN gratis",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Tarifs",
+    heroBadge: "Durée limitée — Tout est gratuit",
+    h1: "Tarifs de vérification VIN — Gratuit en ce moment",
+    heroLead: "Chaque plan CarCheckerVIN est ",
+    heroLeadBold: "$0 pendant notre promotion à durée limitée",
+    heroLeadSuffix:
+      ". Les mêmes données premium — spécifications complètes, photos, rappels, valeurs de marché, historique des propriétaires — pour les rapports uniques et les forfaits multi-rapports. Sans carte de crédit.",
+    heroCtaPrimary: "Réclame ton rapport gratuit",
+    heroCtaSecondary: "Voir la FAQ",
+    compareH2: "Comment se comparent les tarifs CarCheckerVIN",
+    compareIntro:
+      "Nos tarifs payants (affichés barrés sur les cartes ci-dessus) reviendront à la fin de la promotion. Voici comment ils se comparent aux plus grands services d'historique de véhicules aux États-Unis par rapport.",
+    tableHead: { service: "Service", single: "Rapport unique", bundle: "Forfait / illimité", photos: "Photos" },
+    tableRows: [
+      { service: "CarCheckerVIN (maintenant)", single: "GRATUIT", bundle: "GRATUIT (jusqu'au paquet de 10)", photos: "Vraies photos", highlight: true, regular: false },
+      { service: "CarCheckerVIN (régulier)", single: "$14.99", bundle: "$89.99 (paquet de 10)", photos: "Vraies photos", highlight: false, regular: true },
+      { service: "Carfax", single: "$44.99", bundle: "$99.99/mois illimité", photos: "Limitées", highlight: false, regular: false },
+      { service: "AutoCheck", single: "$24.99", bundle: "$49.99 (25 rapports)", photos: "Non", highlight: false, regular: false },
+    ],
+    tableNote:
+      "Les prix des concurrents reflètent les tarifs affichés publiquement et peuvent changer. Sources : carfax.com/pricing, autocheck.com.",
+    whyStrip: [
+      { icon: Sparkles, title: "Promotion gratuite à durée limitée", body: "Tous les plans temporairement à $0. Les mêmes données premium — rien n'est retenu." },
+      { icon: Shield, title: "Sans carte de crédit", body: "Réclame n'importe quel plan sans saisir de carte. Données soutenues par NMVTIS, livraison instantanée." },
+      { icon: Check, title: "Même niveau de rapport", body: "Rapport unique, paquet de 3, paquet de 5 et forfaits pro utilisent tous le rapport premium identique." },
+    ],
+    faqH2: "FAQ sur les tarifs",
+    faqIntro: "Réponses rapides aux questions les plus courantes sur les tarifs CarCheckerVIN.",
+    finalH2: "Prêt à réclamer un rapport gratuit ?",
+    finalSub: "Saisis n'importe quel VIN à 17 chiffres — obtiens un rapport complet d'historique de véhicule en quelques secondes. Sans carte de crédit. Sans mur d'inscription.",
+    finalCta: "Commence la vérification VIN gratuite",
+  },
 } as const;
 
 export const FAQS_EN = [

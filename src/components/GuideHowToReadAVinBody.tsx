@@ -178,6 +178,90 @@ const COPY = {
     ctaHeading: "Decodifica cualquier VIN al instante",
     ctaSub: "Pega un VIN de 17 caracteres a continuación para ver el desglose completo, especificaciones del vehículo y reporte de historial.",
   },
+  fr: {
+    home: "Accueil", guides: "Guides", crumb: "Comment lire un VIN",
+    h1: "Comment lire un num\u00e9ro VIN",
+    intro:
+      "Un num\u00e9ro d'identification du v\u00e9hicule (VIN) est un code de 17 caract\u00e8res qui sert d'empreinte digitale pour chaque voiture, camion et SUV sur la route. Chaque caract\u00e8re porte une signification sp\u00e9cifique. Ce guide d\u00e9compose chaque position pour que tu puisses lire n'importe quel VIN d'un coup d'\u0153il.",
+    glanceHeading: "Structure du VIN en un coup d'\u0153il",
+    legend: {
+      wmi: "WMI (1-3)",
+      vds: "VDS (4-8)",
+      check: "V\u00e9rification (9)",
+      vis: "VIS (10-11)",
+      serial: "S\u00e9rie (12-17)",
+    },
+    h2Sections: "Les trois sections d'un VIN",
+    sectionsIntro:
+      "Chaque VIN est divis\u00e9 en trois sections distinctes d\u00e9finies par les normes ISO 3779 et 3780. Comprendre ces sections est la premi\u00e8re \u00e9tape pour lire n'importe quel VIN.",
+    wmiH3: "1. Identifiant mondial du fabricant (WMI) - Positions 1 \u00e0 3",
+    wmiP1:
+      "Le WMI t'indique o\u00f9 le v\u00e9hicule a \u00e9t\u00e9 fabriqu\u00e9 et qui l'a fabriqu\u00e9. Le premier caract\u00e8re identifie le pays de fabrication. Par exemple, les v\u00e9hicules construits aux \u00c9tats-Unis commencent par 1, 4 ou 5. Les v\u00e9hicules canadiens commencent par 2, et les v\u00e9hicules mexicains par 3. Le Japon utilise J, l'Allemagne utilise W, la Cor\u00e9e du Sud utilise K et le Royaume-Uni utilise S.",
+    wmiP2:
+      "Le deuxi\u00e8me caract\u00e8re identifie le fabricant. G repr\u00e9sente General Motors, F pour Ford, T pour Toyota, H pour Honda, et ainsi de suite. Le troisi\u00e8me caract\u00e8re affine davantage, en sp\u00e9cifiant le type de v\u00e9hicule ou la division au sein du fabricant. Ensemble, ces trois caract\u00e8res te permettent d'identifier imm\u00e9diatement l'origine et le constructeur de n'importe quel v\u00e9hicule.",
+    vdsH3: "2. Section descriptive du v\u00e9hicule (VDS) - Positions 4 \u00e0 8",
+    vdsP1:
+      "Le VDS code les attributs sp\u00e9cifiques au v\u00e9hicule. Ces cinq caract\u00e8res d\u00e9crivent le style de carrosserie, le type de moteur, la ligne de mod\u00e8le, la s\u00e9rie et le syst\u00e8me de retenue. La signification exacte de chaque position varie selon le fabricant car les constructeurs ont une certaine flexibilit\u00e9 dans la fa\u00e7on dont ils attribuent ces codes.",
+    vdsP2Pre:
+      "Par exemple, un fabricant pourrait utiliser la position 4 pour le type de carrosserie et la position 5 pour le moteur, tandis qu'un autre inverse cet ordre. C'est pourquoi un ",
+    vdsP2Link: "outil d\u00e9codeur VIN",
+    vdsP2Suffix:
+      " est si pr\u00e9cieux : il conna\u00eet le sch\u00e9ma de codage de chaque fabricant et peut traduire ces positions en langage clair.",
+    visH3: "3. Section identifiant du v\u00e9hicule (VIS) - Positions 9 \u00e0 17",
+    visP1:
+      "Le VIS commence par le chiffre de contr\u00f4le \u00e0 la position 9. Il s'agit d'une valeur calcul\u00e9e math\u00e9matiquement utilis\u00e9e pour v\u00e9rifier que l'ensemble du VIN est valide. Elle aide \u00e0 d\u00e9tecter les fautes de frappe et les VIN frauduleux. Le chiffre de contr\u00f4le peut \u00eatre n'importe quel nombre de 0 \u00e0 9, ou la lettre X (qui repr\u00e9sente 10).",
+    visP2:
+      "La position 10 indique l'ann\u00e9e mod\u00e8le. Un syst\u00e8me rotatif de lettres et de chiffres est utilis\u00e9, parcourant l'alphabet (en sautant I, O, Q, U et Z) et les chiffres. Par exemple, R repr\u00e9sente 2024, S repr\u00e9sente 2025 et T repr\u00e9sente 2026. La position 11 identifie l'usine d'assemblage. Les six derni\u00e8res positions (12 \u00e0 17) sont le num\u00e9ro s\u00e9quentiel de production, un num\u00e9ro de s\u00e9rie unique attribu\u00e9 au v\u00e9hicule \u00e0 sa sortie de la cha\u00eene d'assemblage.",
+    h2Reference: "R\u00e9f\u00e9rence compl\u00e8te des positions du VIN",
+    referenceIntro: "Utilise ce tableau comme r\u00e9f\u00e9rence rapide pour chaque position dans un VIN de 17 caract\u00e8res.",
+    tableHead: { position: "Position", meaning: "Signification", details: "D\u00e9tails" },
+    positions: [
+      { positions: "1", label: "Pays d'origine", example: "1 = \u00c9.-U., 2 = Canada, J = Japon, W = Allemagne, K = Cor\u00e9e du Sud" },
+      { positions: "2", label: "Fabricant", example: "G = General Motors, F = Ford, T = Toyota, H = Honda, B = BMW" },
+      { positions: "3", label: "Type de v\u00e9hicule / Division", example: "Identifie le type de v\u00e9hicule (voiture de tourisme, camion, SUV) ou la division sp\u00e9cifique au sein du fabricant" },
+      { positions: "4 - 8", label: "Attributs du v\u00e9hicule (VDS)", example: "Style de carrosserie, type de moteur, ligne de mod\u00e8le, s\u00e9rie et syst\u00e8me de retenue. La signification varie selon le fabricant" },
+      { positions: "9", label: "Chiffre de contr\u00f4le", example: "Une valeur calcul\u00e9e (0-9 ou X) utilis\u00e9e pour d\u00e9tecter les VIN invalides ou frauduleux" },
+      { positions: "10", label: "Ann\u00e9e mod\u00e8le", example: "R = 2024, S = 2025, T = 2026, V = 2027" },
+      { positions: "11", label: "Usine d'assemblage", example: "Un code attribu\u00e9 par le fabricant pour l'emplacement de l'usine" },
+      { positions: "12 - 17", label: "Num\u00e9ro s\u00e9quentiel de production", example: "Un num\u00e9ro de s\u00e9rie unique attribu\u00e9 \u00e0 chaque v\u00e9hicule sur la ligne de production" },
+    ],
+    h2YearChart: "Tableau de l'ann\u00e9e du VIN \u2014 Code de l'ann\u00e9e mod\u00e8le (10e chiffre)",
+    yearChartIntroPre: "Le 10e caract\u00e8re d'un VIN code l'ann\u00e9e mod\u00e8le. Le tableau ci-dessous couvre chaque code de ",
+    yearChartA1980: "A (1980)",
+    yearChartIntroMid1: " \u00e0 ",
+    yearChart9_2009: "9 (2009)",
+    yearChartIntroMid2: ", puis se r\u00e9p\u00e8te de ",
+    yearChartA2010: "A (2010)",
+    yearChartIntroMid3: " \u00e0 ",
+    yearChart9_2039: "9 (2039)",
+    yearChartIntroMid4: ". Comme le code fonctionne sur un cycle de 30 ans, chaque caract\u00e8re correspond \u00e0 deux ann\u00e9es s\u00e9par\u00e9es de 30 ans \u2014 par exemple, ",
+    yearChartR: "R",
+    yearChartIntroMid5: " signifie 1994 ",
+    yearChartAnd: "et",
+    yearChartIntroMid6: " 2024 \u2014 utilise donc le style de carrosserie et l'\u00e9tat du v\u00e9hicule pour d\u00e9terminer quel cycle s'applique. Les lettres ",
+    yearChartExcludedLetters: "I, O, Q, U, Z",
+    yearChartIntroMid7: " et le chiffre ",
+    yearChartExcludedDigit: "0",
+    yearChartIntroSuffix: " ne sont jamais utilis\u00e9s.",
+    yearTableHead: { code: "Code VIN", year: "Ann\u00e9e mod\u00e8le", yearRepeat: "Ann\u00e9e mod\u00e8le (r\u00e9p\u00e9tition)" },
+    yearNotePre: "Note : le VIN moderne de 17 caract\u00e8res est devenu obligatoire pour l'ann\u00e9e mod\u00e8le 1981, donc ",
+    yearNoteBold: "A = 1980",
+    yearNoteSuffix: " n'appara\u00eet que sur une poign\u00e9e de v\u00e9hicules adopt\u00e9s pr\u00e9cocement.",
+    h2Excluded: "Caract\u00e8res jamais utilis\u00e9s dans un VIN",
+    excludedP:
+      "Les VIN ne contiennent jamais les lettres I, O ou Q. Ces caract\u00e8res ont \u00e9t\u00e9 exclus de la norme car ils peuvent facilement \u00eatre confondus avec les chiffres 1 et 0. Si tu vois l'une de ces lettres dans ce qui pr\u00e9tend \u00eatre un VIN, le num\u00e9ro est soit mal lu, soit frauduleux. Cette r\u00e8gle est en vigueur depuis l'adoption de la norme VIN \u00e0 17 caract\u00e8res en 1981.",
+    h2Why: "Pourquoi il est important de savoir lire un VIN",
+    whyP1:
+      "Comprendre la structure du VIN te donne du pouvoir de plusieurs mani\u00e8res importantes. Lorsque tu ach\u00e8tes une voiture d'occasion, tu peux v\u00e9rifier que le VIN sur le tableau de bord correspond \u00e0 celui du titre et du cadre de porte. Les divergences peuvent indiquer un v\u00e9hicule vol\u00e9 ou reconstruit \u00e0 partir de pi\u00e8ces de plusieurs voitures (connu sous le nom de VIN \u00ab clon\u00e9 \u00bb).",
+    whyP2:
+      "Tu peux \u00e9galement utiliser le chiffre de l'ann\u00e9e mod\u00e8le pour confirmer que le vendeur repr\u00e9sente la bonne ann\u00e9e, et le chiffre du pays d'origine pour v\u00e9rifier o\u00f9 le v\u00e9hicule a \u00e9t\u00e9 r\u00e9ellement fabriqu\u00e9. De nombreux acheteurs supposent qu'un v\u00e9hicule de marque nationale a \u00e9t\u00e9 construit localement, mais le VIN r\u00e9v\u00e8le la v\u00e9rit\u00e9.",
+    whyP3Pre: "Pour la vue la plus compl\u00e8te, associe tes comp\u00e9tences de lecture du VIN \u00e0 une ",
+    whyP3Link: "v\u00e9rification VIN compl\u00e8te",
+    whyP3Suffix: ". Notre outil d\u00e9code chaque position et apporte des donn\u00e9es suppl\u00e9mentaires, y compris les sp\u00e9cifications compl\u00e8tes, les listes d'\u00e9quipement, les informations sur les rappels et les valeurs de march\u00e9.",
+    h2Faq: "FAQ sur la lecture du VIN",
+    ctaHeading: "D\u00e9code n'importe quel VIN instantan\u00e9ment",
+    ctaSub: "Colle un VIN de 17 caract\u00e8res ci-dessous pour voir la ventilation compl\u00e8te, les sp\u00e9cifications du v\u00e9hicule et le rapport d'historique.",
+  },
 } as const;
 
 const FAQS_EN = [

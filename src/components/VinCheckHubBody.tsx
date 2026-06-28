@@ -123,6 +123,61 @@ const COPY = {
     ctaH2: "Verifica cualquier VIN ahora",
     ctaSub: "Funciona con todas las marcas y modelos desde 1981 en adelante",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Vérification VIN",
+    h1: "Vérification VIN gratuite et décodeur",
+    heroSub:
+      "Décode n'importe quel numéro d'identification de véhicule pour obtenir un rapport complet du véhicule. Sélectionne la marque de ton véhicule ci-dessous ou saisis un VIN directement.",
+    introH2: "Ce qu'une vérification VIN gratuite te montre",
+    introP1Pre:
+      "Une vérification VIN décode le numéro d'identification de véhicule à 17 caractères estampillé sur chaque voiture construite depuis 1981. Ces caractères ne sont pas aléatoires \u2014 ils encodent le fabricant, l'usine d'assemblage, l'année modèle et les spécifications de base du véhicule. Faire une vérification VIN gratuite est le moyen le plus rapide de confirmer qu'une annonce correspond à la voiture réelle devant toi avant de remettre de l'argent.",
+    introP2Pre: "Décoder le VIN est gratuit ici, et c'est la première étape que tout acheteur de voiture d'occasion devrait faire. Le décodage te dit ce que le véhicule ",
+    introP2Is: "est",
+    introP2Mid: " ; un rapport d'historique complet te dit ensuite ce qui lui est ",
+    introP2Happened: "arrivé",
+    introP2Suffix:
+      " \u2014 les marques de titre, les relevés d'odomètre et l'historique d'accidents que le VIN seul ne peut pas révéler. Voici exactement ce que chacun couvre.",
+    compareH2: "Vérification VIN gratuite vs rapport d'historique complet",
+    compareSub:
+      "Un décodage gratuit couvre les spécifications d'usine. Un rapport d'historique ajoute les registres qui s'accumulent au cours de la vie de la voiture.",
+    freeCardTitle: "Décodage VIN gratuit",
+    freeIncludes: [
+      "Marque, modèle, année et finition",
+      "Moteur, transmission et type d'entraînement",
+      "Type de carrosserie et pays de fabrication",
+      "Code d'usine et année encodée par le VIN",
+    ],
+    paidCardTitle: "Rapport d'historique complet",
+    paidIncludes: [
+      "Marques de titre (récupération, inondation, reconstruit)",
+      "Historique d'odomètre et de propriété",
+      "Registres d'accidents et de perte totale",
+      "Rappels de sécurité ouverts et valeur de marché",
+    ],
+    paidExtraNote: "Non disponible avec un décodage gratuit seul",
+    otherFreeTitle: "Autres ressources VIN gratuites",
+    otherFreeP:
+      "décode les VIN et liste les rappels ouverts, et l'organisation à but non lucratif",
+    otherFreePLead: "L'outil fédéral",
+    otherFreePMid:
+      "montre si un VIN a été déclaré volé ou déclaré perte totale par récupération par les assureurs participants. Ce sont des compléments utiles à un rapport d'historique complet \u2014 pas un remplacement, puisque ni l'un ni l'autre ne montre l'historique complet de titre ou d'odomètre.",
+    guideLink:
+      "Lis le guide complet : vérifications VIN gratuites vs payantes, arnaques à éviter et comment lire un rapport",
+    brandsH2: "Vérification VIN par marque de véhicule",
+    brandsSub: "Sélectionne un fabricant pour en apprendre plus sur son format VIN et décoder n'importe quel VIN",
+    regions: [
+      { label: "Américaines", country: ["USA"] },
+      { label: "Japonaises", country: ["Japan"] },
+      { label: "Coréennes", country: ["South Korea"] },
+      { label: "Allemandes", country: ["Germany"] },
+      { label: "Européennes", country: ["UK", "Sweden", "Italy"] },
+    ],
+    brandsSuffix: "marques",
+    faqH2: "FAQ sur la vérification VIN gratuite",
+    ctaH2: "Vérifie n'importe quel VIN maintenant",
+    ctaSub: "Fonctionne avec toutes les marques et modèles depuis 1981",
+  },
 } as const;
 
 const FAQS_EN = [

@@ -351,6 +351,149 @@ const COPY = {
       ];
     },
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbLemon: "Vérification Lemon Law",
+    heroBadge: (name: string) => `Recherche rachat Lemon Law ${name}`,
+    h1Lead: (name: string) => `Vérification Lemon Law ${name} par VIN —`,
+    h1Accent: "Détecte le rachat avant d'acheter",
+    heroLead: (name: string, brandTerm: string, period: string, dmv: string) =>
+      `Vérifie tout véhicule titré en ${name} pour une marque "${brandTerm}", un rachat Lemon Law ou un retour sous garantie. La Lemon Law de ${name} couvre les véhicules éligibles pendant ${period}. Aperçu gratuit, sans carte, résultats instantanés depuis NMVTIS et le ${dmv}.`,
+    searchHeading: (name: string) => `Lance une vérification Lemon Law gratuite en ${name}`,
+    searchSub: "Entre n'importe quel VIN de 17 caractères — voitures, camions, SUV, véhicules en location longue durée",
+    trustNote: "Chiffré 256 bits · Conforme DPPA · Données de titre de NMVTIS",
+    trustStatLabels: (name: string) => [
+      `Registres de titre de ${name}`,
+      "source fédérale",
+      "temps moyen de recherche",
+      "aperçu, sans inscription",
+      "véhicules immatriculés",
+    ],
+    statsAtAGlance: (name: string) => `Lemon Law de ${name} en un coup d'œil`,
+    headlineStatLabels: (name: string) => [
+      `Fenêtre de couverture de ${name}`,
+      "Seuil de tentatives de réparation",
+      "Protection Lemon Law voitures usagées",
+      "Marque de titre de rachat utilisée",
+    ],
+    howWorksHeading: (name: string) => `Comment fonctionne la Lemon Law de ${name}`,
+    rulesHeading: (name: string) => `Règles de rachat et divulgation de ${name}`,
+    coverageCardHeading: "Couverture et éligibilité",
+    coverageCoverageLabel: "Fenêtre de couverture",
+    coverageRepairLabel: "Seuil de réparation",
+    coverageUsedLabel: "Protection voitures usagées",
+    titleOfficeCardHeading: (name: string) => `Bureau des titres de ${name}`,
+    titleBrandTermLabel: "Terme de marque de rachat",
+    titleVehiclesLabel: "véhicules immatriculés",
+    factLabel: (name: string) => `Fait sur ${name} : `,
+    redFlagsHeading: (name: string) => `Drapeaux rouges qu'une voiture usagée de ${name} pourrait être un lemon caché`,
+    redFlagsIntro:
+      "Aucun drapeau seul n'est une preuve, mais deux ou trois ensemble devraient motiver une vérification VIN Lemon complète et une inspection avant achat.",
+    costHeading: (name: string) => `Ce que te coûte un titre de lemon en ${name}`,
+    costIntro:
+      "Même après réparation du défaut, la marque suit le VIN à vie et porte un vrai poids financier.",
+    howToHeading: (name: string) => `Comment vérifier la Lemon Law sur une voiture en ${name} — 6 étapes`,
+    howToIntro:
+      "Un dépistage complet avant achat prend environ 15 minutes entre ton bureau et le concessionnaire.",
+    federalHeading: (name: string) => `Quand la Lemon Law de ${name} s'épuise : filet fédéral`,
+    federalCardTitle: "Le Magnuson-Moss Warranty Act",
+    federalBody: (name: string, period: string) =>
+      `La Lemon Law de ${name} est limitée à la fenêtre de ${period}. Quand celle-ci se ferme, ou quand tu achètes à un particulier, le fédéral Magnuson-Moss Warranty Act (15 U.S.C. § 2301) peut encore aider de trois manières :`,
+    federalPoints: (name: string) => [
+      "Il crée une cause d'action privée pour rupture de toute garantie écrite ou implicite, incluant les garanties groupe motopropulseur et certified pre-owned.",
+      "Il permet la récupération d'honoraires raisonnables d'avocats, ce qui rend les réclamations consommateurs économiquement viables.",
+      `Il s'applique en ${name} et dans les 50 États, comblant les lacunes où la fenêtre étatique Lemon a expiré.`,
+    ],
+    federalDisclaimer:
+      "Ce résumé est informatif, pas un conseil juridique. Consulte un avocat qualifié en protection des consommateurs concernant ta situation.",
+    midCtaHeading: (name: string) => `N'achète pas un lemon de ${name} par erreur`,
+    midCtaBody: (dmv: string) =>
+      `Vérification Lemon Law gratuite et instantanée depuis NMVTIS et le ${dmv}. Sans carte. Sans inscription.`,
+    othersHeading: "Vérifications Lemon Law dans d'autres États",
+    othersIntro: (name: string) =>
+      `Les lois lemon varient largement d'un État à l'autre. Compare ${name} avec ces autres guides étatiques, ou consulte le tableau complet des 50 États.`,
+    otherCardTemplate: (name: string) => `Vérification Lemon Law ${name}`,
+    allStatesLink: "Tableau Lemon Law des 50 États",
+    allStatesSub: "Recherche, trie et compare chaque État au même endroit.",
+    faqHeading: (name: string) => `FAQ — Vérification Lemon Law ${name}`,
+    faqIntro: (name: string) =>
+      `Les questions les plus recherchées sur la Lemon Law de ${name}, les titres de rachat et la détection de lemon basée sur VIN.`,
+    bottomBadge: (name: string) => `Gratuit · Instantané · ${name}`,
+    bottomHeading: (name: string) => `Un VIN. Chaque marque de lemon de ${name}. Cinq secondes.`,
+    bottomBody: (brandTerm: string) =>
+      `Un registre "${brandTerm}" suit le VIN de manière permanente, même quand le titre papier semble propre. Lance la vérification gratuite avant de signer un chèque.`,
+    fullReportLink: "Ou obtiens le rapport complet d'historique VIN",
+    usedCarSentence(name: string, coverage: LemonLaw["usedCarCoverage"]): string {
+      if (coverage === "Yes")
+        return `${name} fait partie du petit groupe d'États qui étend la protection Lemon Law statutaire au-delà des voitures neuves aux ventes de véhicules usagés éligibles. Cela rend une vérification de rachat basée sur VIN particulièrement utile ici, car les rachats de voitures neuves et les réclamations sur voitures usagées peuvent tous deux laisser une marque sur le registre.`;
+      if (coverage === "Limited")
+        return `${name} étend une protection Lemon Law limitée à certains véhicules usagés, généralement ceux encore sous la garantie originale du constructeur. En dehors de cette fenêtre étroite, les acheteurs d'usagé en ${name} s'appuient sur le fédéral Magnuson-Moss Warranty Act et toute garantie implicite de qualité marchande.`;
+      return `La Lemon Law de ${name} ne s'applique qu'aux véhicules neufs. Si tu achètes d'occasion en ${name}, la protection pratique vient de la garantie originale du constructeur (si elle est toujours active), du fédéral Magnuson-Moss Warranty Act et d'une vérification minutieuse de l'historique VIN avant de signer.`;
+    },
+    disclosureSentence(name: string, brandTerm: string, disclosure: LemonLaw["disclosureRequired"]): string {
+      if (disclosure === "Yes")
+        return `Quand un constructeur rachète un véhicule en ${name}, le rachat doit être enregistré sur le titre comme "${brandTerm}" et divulgué au prochain acheteur par écrit. Cette piste papier peut quand même se rompre une fois qu'une voiture franchit des frontières d'État, c'est pourquoi le registre VIN sourcé NMVTIS est la source la plus fiable.`;
+      if (disclosure === "Limited")
+        return `${name} a des règles de divulgation de rachat plus faibles que la plupart des États, donc une mention "${brandTerm}" peut ne pas toujours suivre la voiture en avant sur papier. Une vérification VIN qui tire le registre fédéral NMVTIS est la manière la plus sûre de confirmer un rachat ici.`;
+      return `${name} enregistre les véhicules rachetés sous l'étiquette "${brandTerm}".`;
+    },
+    comparisonSentence(name: string, repairAttempts: string): string {
+      const lower = repairAttempts.toLowerCase();
+      let daysNote = "";
+      if (lower.includes("15 day") || lower.includes("15 business"))
+        daysNote = "Sa fenêtre hors service est plus courte que le standard commun de 30 jours, ce qui la rend comparativement favorable aux consommateurs.";
+      else if (lower.includes("40 day") || lower.includes("45 day") || lower.includes("90 day"))
+        daysNote = "Sa fenêtre hors service est plus longue que le standard commun de 30 jours, donc un défaut doit garder une voiture hors route pour une période étendue avant qu'elle ne soit éligible.";
+      else
+        daysNote = "Cela suit le standard de 30 jours hors service utilisé dans la majeure partie du pays.";
+      return `En ${name}, le constructeur obtient généralement ${repairAttempts.toLowerCase()} pour réparer le même défaut avant que le véhicule puisse se qualifier. ${daysNote}`;
+    },
+    intoLemonChecksLink: "vérification Lemon Law basée sur VIN",
+    intoLemonChecksPre: (name: string) =>
+      `Quand un véhicule de ${name} se qualifie, le constructeur doit le racheter ou le remplacer, et le titre est marqué comme "buyback". Une `,
+    intoLemonChecksSuffix: (dmv: string) =>
+      ` tire cette marque de NMVTIS, le système fédéral de titres qui rassemble les registres du ${dmv} et de chaque autre DMV étatique, donc un rachat ne peut pas discrètement disparaître en déplaçant la voiture à travers les frontières d'État.`,
+    redFlagBuilder(name: string, brandTerm: string, period: string): string[] {
+      return [
+        `Une mention "${brandTerm}" que le vendeur saute ou ne peut pas expliquer`,
+        `Tickets de service répétés en ${name} pour le même défaut dans la fenêtre ${period}`,
+        "Courte première période de propriété avec le bras financier du constructeur reprenant la voiture",
+        `La voiture re-titrée hors de ${name} dans les quelques mois suivant sa première immatriculation`,
+        "Historique d'enchères réservé concessionnaires immédiatement après la vente au détail originale",
+        "Un prix demandé bien sous celui des voitures comparables à titre propre dans la même finition",
+        "Photos d'annonce qui évitent le montant de porte côté conducteur et les gros plans du titre",
+        "Une garantie tierce offerte à la place de la couverture certifiée du constructeur",
+      ];
+    },
+    howToBuilder(name: string, brandTerm: string, period: string, repairAttempts: string, dmv: string) {
+      return [
+        { n: "01", icon: Search, title: "Lance le VIN", body: `Entre le VIN de 17 caractères ci-dessus. Nous tirons NMVTIS, les registres de titre DMV et les données nationales d'enchères en moins de 5 secondes pour tout véhicule de ${name}.` },
+        { n: "02", icon: FileText, title: "Trouve la marque", body: `Scanne la section d'historique de titre pour un registre "${brandTerm}" ou toute marque équivalente de rachat ou de reprise.` },
+        { n: "03", icon: CalendarClock, title: "Vérifie la fenêtre", body: `La protection de ${name} court ${period}. Vois si l'historique de défauts tombe dans cette période.` },
+        { n: "04", icon: Wrench, title: "Obtiens les registres de service", body: `Compte les visites de réparation pour le même défaut. Le seuil de ${name} est ${repairAttempts.toLowerCase()}.` },
+        { n: "05", icon: Building2, title: "Vérifie avec le DMV", body: `Confirme le statut du titre avec le ${dmv} avant que l'argent ne change de mains.` },
+        { n: "06", icon: ClipboardList, title: "Obtiens un PPI", body: "Fais inspecter la voiture par un mécanicien indépendant et cible tous les systèmes que le rapport VIN a signalés." },
+      ];
+    },
+    costBuilder(name: string, brandTerm: string) {
+      return [
+        { icon: TrendingDown, title: "La valeur de revente chute de 15-40%", body: `Une marque "${brandTerm}" est une décote permanente d'évaluation. La plupart des acheteurs au détail de ${name} s'en vont une fois la marque divulguée, et les guides d'évaluation appliquent une déduction fixe.` },
+        { icon: Shield, title: "Limites d'assurance", body: "De nombreux assureurs restreignent les voitures à titre marqué à la couverture responsabilité civile seulement et refusent la couverture étendue ou collision, de la même manière qu'ils traitent les titres d'épave." },
+        { icon: DollarSign, title: "Limites de financement", body: `Les prêteurs prime refusent généralement les titres marqués. Le financement subprime existe en ${name} mais à des TAEG plus élevés et des ratios prêt-valeur plus bas.` },
+      ];
+    },
+    faqBuilder(name: string, brandTerm: string, period: string, repairAttempts: string, summary: string, dmv: string, copyRefs: { usedCar: string; disclosure: string }) {
+      return [
+        { q: `La Lemon Law de ${name} couvre-t-elle les voitures usagées ?`, a: copyRefs.usedCar },
+        { q: `Combien de tentatives de réparation font qu'une voiture est un lemon en ${name} ?`, a: `Sous la Lemon Law de ${name}, le seuil est ${repairAttempts.toLowerCase()} pour le même défaut persistant. Une seule réparation échouée peut parfois suffire quand le défaut est un problème de sécurité sérieux comme les freins ou la direction. ${summary}` },
+        { q: `Combien de temps dure la protection de la Lemon Law de ${name} ?`, a: `${name} couvre les véhicules éligibles pendant ${period}. Une fois cette fenêtre fermée, tu ne peux généralement pas déposer une nouvelle réclamation étatique Lemon, bien que le fédéral Magnuson-Moss Warranty Act puisse encore s'appliquer aux défauts apparus pour la première fois dans la période de garantie.` },
+        { q: `Comment s'appelle un titre de rachat lemon en ${name} ?`, a: `En ${name} un lemon racheté est marqué comme "${brandTerm}". ${copyRefs.disclosure}` },
+        { q: `Comment vérifier si une voiture usagée est un lemon en ${name} ?`, a: `Entre le VIN de 17 caractères dans la zone de recherche ci-dessus. Nous interrogeons NMVTIS et les sources nationales de titre pour toute marque de rachat ou reprise, peu importe quel État a émis le titre papier actuel. Parce que NMVTIS agrège les registres du ${dmv} et de chaque autre DMV étatique, une voiture qui a été marquée en ${name} et ensuite re-titrée ailleurs fera quand même surface son historique.` },
+        { q: `Les rachats lemon sont-ils tenus d'être divulgués en ${name} ?`, a: copyRefs.disclosure },
+        { q: `Que se passe-t-il si le vendeur en ${name} ne m'a jamais dit que la voiture était un rachat ?`, a: `Si un vendeur en ${name} a échoué à divulguer une marque de rachat connue, tu peux avoir une réclamation sous la loi étatique des pratiques commerciales trompeuses, la fraude common-law ou le fédéral Magnuson-Moss Warranty Act. Garde le titre, l'annonce et chaque registre de réparation, et consulte un avocat qualifié en protection des consommateurs. Cette page est informative, pas un conseil juridique.` },
+      ];
+    },
+  },
 } as const;
 
 const TRUST_ICONS = [MapPin, Shield, Clock, BadgeCheck, Car] as const;

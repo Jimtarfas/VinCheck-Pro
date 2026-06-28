@@ -431,6 +431,226 @@ const COPY = {
     ctaSub:
       "Ingresa un VIN de 17 caracteres para obtener al instante tu reporte gratis del vehículo.",
   },
+  fr: {
+    crumbHome: "Accueil",
+    crumbGuides: "Guides",
+    crumbFree: "V\u00e9rification VIN gratuite",
+    h1: "V\u00e9rification VIN gratuite",
+    lede: (
+      <>
+        Une v\u00e9rification VIN gratuite te permet de d\u00e9coder n'importe
+        quel num\u00e9ro d'identification du v\u00e9hicule de 17 caract\u00e8res
+        pour voir instantan\u00e9ment la marque, le mod\u00e8le, l'ann\u00e9e, le
+        moteur et les caract\u00e9ristiques de base du v\u00e9hicule, sans
+        co\u00fbt. Que tu sois en train d'acheter, de vendre ou simplement
+        curieux, faire une v\u00e9rification VIN est la premi\u00e8re \u00e9tape
+        la plus intelligente.
+      </>
+    ),
+    formHeading: "Effectue une v\u00e9rification VIN gratuite maintenant",
+
+    h2Why: "Pourquoi tu devrais toujours v\u00e9rifier un VIN avant d'acheter",
+    why1: (
+      <>
+        Une v\u00e9rification VIN est le moyen le plus rapide de v\u00e9rifier
+        qu'un v\u00e9hicule est bien ce que le vendeur pr\u00e9tend. En quelques
+        secondes, tu peux confirmer l'ann\u00e9e mod\u00e8le, la cylindr\u00e9e
+        du moteur, la transmission et le type de carrosserie sans te fier
+        uniquement \u00e0 la parole du vendeur.
+      </>
+    ),
+    why2: (
+      <>
+        La fraude au titre, le recul du compteur kilom\u00e9trique et les
+        dommages d'accident non divulgu\u00e9s restent des probl\u00e8mes
+        importants sur le march\u00e9 de l'occasion. La Federal Trade
+        Commission estime que la fraude au compteur \u00e0 elle seule co\u00fbte
+        aux consommateurs am\u00e9ricains plus d'un milliard de dollars par an.
+        Une v\u00e9rification VIN est ta premi\u00e8re ligne de d\u00e9fense
+        contre ces risques car chaque \u00e9v\u00e9nement de titre, rappel et
+        sp\u00e9cification est li\u00e9 au VIN.
+      </>
+    ),
+    why3: (
+      <>
+        M\u00eame si tu fais confiance au vendeur, effectuer un d\u00e9codage
+        VIN gratuit prend moins de 60 secondes et peut t'\u00e9pargner des
+        milliers de dollars. Cela confirme que la finition, le moteur et les
+        caract\u00e9ristiques annonc\u00e9s correspondent r\u00e9ellement aux
+        donn\u00e9es de construction d'usine pour ce VIN sp\u00e9cifique.
+      </>
+    ),
+
+    h2Includes: "Que comprend une v\u00e9rification VIN gratuite ?",
+    includesIntro: (
+      <>
+        Notre d\u00e9codeur VIN gratuit fournit les sp\u00e9cifications
+        principales pour tout v\u00e9hicule fabriqu\u00e9 \u00e0 partir de 1981.
+        Lorsque tu saisis un VIN, tu re\u00e7ois instantan\u00e9ment :
+      </>
+    ),
+    includesItems: [
+      {
+        bold: "Ann\u00e9e, marque et mod\u00e8le",
+        rest: (
+          <> &mdash; v\u00e9rifi\u00e9s directement depuis le VIN, pas depuis l'annonce du vendeur.</>
+        ),
+      },
+      {
+        bold: "Sp\u00e9cifications du moteur",
+        rest: (
+          <> &mdash; y compris la cylindr\u00e9e, le nombre de cylindres, le type de carburant et la puissance.</>
+        ),
+      },
+      {
+        bold: "Type de transmission",
+        rest: <> &mdash; automatique, manuelle, CVT ou \u00e0 double embrayage.</>,
+      },
+      {
+        bold: "Type de carrosserie et transmission",
+        rest: <> &mdash; berline, SUV, camion, coup\u00e9, FWD, AWD, RWD ou 4WD.</>,
+      },
+      {
+        bold: "Pays de fabrication",
+        rest: (
+          <> &mdash; o\u00f9 le v\u00e9hicule a \u00e9t\u00e9 r\u00e9ellement construit, pas seulement le pays d'origine de la marque.</>
+        ),
+      },
+    ],
+    includesOutroPre: "Ces informations sont d\u00e9cod\u00e9es directement depuis la ",
+    includesLinkLabel: "structure du VIN \u00e0 17 caract\u00e8res",
+    includesOutroPost:
+      " et v\u00e9rifi\u00e9es par rapport aux bases de donn\u00e9es des fabricants. Aucun compte requis et aucune limite au nombre de v\u00e9rifications gratuites que tu peux effectuer.",
+
+    h2Compare: "V\u00e9rification VIN gratuite vs. rapport premium",
+    compareIntro: (
+      <>
+        Une v\u00e9rification VIN gratuite te donne l'essentiel de la
+        construction d'usine. Pour les acheteurs qui ont besoin d'une vue
+        compl\u00e8te avant de s'engager dans un achat, le rapport premium
+        ajoute des donn\u00e9es approfondies, notamment les listes
+        d'\u00e9quipement, les vraies photos, les valeurs de march\u00e9 et les
+        annonces comparables. Voici une comparaison c\u00f4te \u00e0 c\u00f4te :
+      </>
+    ),
+    tableFeature: "Caract\u00e9ristique",
+    tableFree: "Gratuit",
+    tablePremium: "Premium",
+    comparisonRows: [
+      { feature: "Marque, mod\u00e8le et ann\u00e9e", free: true, premium: true },
+      { feature: "Sp\u00e9cifications du moteur et de la transmission", free: true, premium: true },
+      { feature: "Pays de fabrication", free: true, premium: true },
+      { feature: "Type de carrosserie et transmission", free: true, premium: true },
+      { feature: "Liste compl\u00e8te de l'\u00e9quipement d'usine", free: false, premium: true },
+      { feature: "Vraies photos du v\u00e9hicule", free: false, premium: true },
+      { feature: "Estimations de la valeur de march\u00e9", free: false, premium: true },
+      { feature: "Annonces comparables de concessionnaires", free: false, premium: true },
+      { feature: "Informations sur les rappels", free: false, premium: true },
+      { feature: "Finition et options d\u00e9taill\u00e9es", free: false, premium: true },
+    ],
+    comparePrice: (
+      <>
+        Les rapports premium commencent \u00e0 seulement $14.99 &mdash; une
+        fraction de ce que facturent les principaux concurrents.
+      </>
+    ),
+
+    h2Enough: "Quand une v\u00e9rification VIN gratuite est-elle suffisante ?",
+    enough1: (
+      <>
+        Une v\u00e9rification VIN gratuite est id\u00e9ale pour un premier
+        tri. Si tu parcours des annonces en ligne et que tu veux v\u00e9rifier
+        rapidement qu'un v\u00e9hicule correspond \u00e0 sa description, le
+        d\u00e9codage gratuit te donne une confirmation instantan\u00e9e de
+        l'ann\u00e9e, du moteur et du type de carrosserie. C'est aussi utile
+        pour v\u00e9rifier les sp\u00e9cifications de ton propre v\u00e9hicule,
+        rechercher la compatibilit\u00e9 des pi\u00e8ces ou v\u00e9rifier les
+        informations sur un document d'immatriculation.
+      </>
+    ),
+    enough2: (
+      <>
+        Cependant, si tu envisages s\u00e9rieusement d'acheter un v\u00e9hicule,
+        un rapport premium fournit des informations suppl\u00e9mentaires
+        critiques. Les listes d'\u00e9quipement t'aident \u00e0 v\u00e9rifier
+        quelles options d'usine sont install\u00e9es. Les donn\u00e9es de
+        valeur de march\u00e9 indiquent si le prix demand\u00e9 est juste. Les
+        vraies photos du v\u00e9hicule (lorsqu'elles sont disponibles) te
+        permettent de comparer l'\u00e9tat actuel avec des images historiques.
+      </>
+    ),
+
+    h2How: "Comment effectuer une v\u00e9rification VIN gratuite",
+    howIntro: "Effectuer une v\u00e9rification VIN gratuite sur CarCheckerVIN se fait en trois \u00e9tapes simples :",
+    howStep1Bold: "Trouve le VIN.",
+    howStep1RestPre:
+      " Regarde sur le tableau de bord \u00e0 travers le pare-brise, sur l'autocollant du cadre de porte c\u00f4t\u00e9 conducteur, ou sur la carte d'immatriculation du v\u00e9hicule. Besoin d'aide pour le localiser ? Consulte notre ",
+    howStep1LinkLabel: "guide des emplacements du VIN",
+    howStep1RestPost: ".",
+    howStep2Bold: "Saisis le VIN.",
+    howStep2RestPre:
+      " Tape ou colle le VIN de 17 caract\u00e8res dans la zone de recherche ci-dessus ou sur notre ",
+    howStep2LinkLabel: "page d'accueil",
+    howStep2RestPost: ".",
+    howStep3Bold: "Examine les r\u00e9sultats.",
+    howStep3Rest: (
+      <>
+        {" "}Ton rapport gratuit appara\u00eet en quelques secondes avec les
+        sp\u00e9cifications principales du v\u00e9hicule. \u00c0 partir de
+        l\u00e0, tu peux passer \u00e0 un rapport premium si tu as besoin de la
+        vue compl\u00e8te.
+      </>
+    ),
+
+    h2Scams: "\u00c9vite les arnaques de v\u00e9rification VIN",
+    scamsIntro: (
+      <>
+        Tous les services de v\u00e9rification VIN gratuits ne se valent pas.
+        Certains sites annoncent des rapports \u00ab gratuits \u00bb mais
+        exigent une carte de cr\u00e9dit, t'abonnent \u00e0 des frais
+        r\u00e9currents ou fournissent des donn\u00e9es obsol\u00e8tes. Lorsque
+        tu choisis un fournisseur de v\u00e9rification VIN, recherche les
+        \u00e9l\u00e9ments suivants :
+      </>
+    ),
+    scamsItems: [
+      "Aucune carte de cr\u00e9dit requise pour le d\u00e9codage de base.",
+      "Tarification transparente pour les rapports premium sans frais cach\u00e9s.",
+      "Donn\u00e9es provenant de bases de donn\u00e9es v\u00e9rifi\u00e9es telles que NMVTIS et les dossiers des fabricants.",
+      "R\u00e9sultats instantan\u00e9s sans n\u00e9cessiter la cr\u00e9ation d'un compte.",
+    ],
+    scamsOutro: (
+      <>
+        CarCheckerVIN r\u00e9pond \u00e0 tous ces crit\u00e8res. Notre
+        d\u00e9codage VIN gratuit est r\u00e9ellement gratuit sans condition,
+        et nos rapports premium sont \u00e0 un prix clair de $14.99 sans
+        abonnement ni renouvellement automatique.
+      </>
+    ),
+
+    h2Sellers: "V\u00e9rifications VIN gratuites pour vendeurs",
+    sellersPre: "Les vendeurs b\u00e9n\u00e9ficient aussi des v\u00e9rifications VIN. Inclure un ",
+    sellersLinkLabel: "rapport de v\u00e9rification VIN",
+    sellersPost: (
+      <>
+        {" "}dans ton annonce d\u00e9montre la transparence et renforce la
+        confiance de l'acheteur. Cela v\u00e9rifie les sp\u00e9cifications que
+        tu as list\u00e9es, confirme l'historique du v\u00e9hicule et peut
+        aider \u00e0 justifier ton prix demand\u00e9. Les annonces avec
+        rapports VIN ont tendance \u00e0 recevoir plus de demandes et se
+        vendent plus rapidement, car les acheteurs se sentent plus \u00e0
+        l'aise de faire une offre lorsqu'ils peuvent v\u00e9rifier les
+        d\u00e9tails de mani\u00e8re ind\u00e9pendante.
+      </>
+    ),
+
+    h2Faq: "Questions fr\u00e9quemment pos\u00e9es",
+    faqIntro:
+      "Les questions les plus courantes sur la fa\u00e7on d'effectuer une v\u00e9rification VIN gratuite, ce qu'elle inclut et quels outils gratuits sont r\u00e9ellement gratuits.",
+
+    ctaHeading: "V\u00e9rifie n'importe quel VIN gratuitement",
+    ctaSub: "Saisis un VIN de 17 caract\u00e8res pour obtenir instantan\u00e9ment ton rapport gratuit du v\u00e9hicule.",
+  },
 } as const;
 
 const FAQS_EN = [

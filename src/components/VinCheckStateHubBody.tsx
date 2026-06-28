@@ -275,6 +275,126 @@ const COPY = {
     sourcesFootnote:
       "Los umbrales de marcas de título y las reglas de divulgación los establece cada estado y cambian con el tiempo. Verifica cualquier cifra específica del estado directamente con el DMV de ese estado antes de confiar en ella.",
   },
+  fr: {
+    home: "Accueil",
+    crumbVinCheck: "Vérification VIN",
+    crumbByState: "Par État",
+    badge: "Les 50 États  ·  Données NMVTIS",
+    h1Lead: "Vérification VIN par État —",
+    h1Accent: "Gratuit, dans chaque État",
+    intro:
+      "Les règles de titre et les marques changent à chaque frontière d'État. Trouve ton État ci-dessous pour ses règles locales du DMV, puis lance n'importe quel VIN de 17 caractères pour un rapport d'historique national instantané. Gratuit, sans carte de crédit, résultats en moins de 5 secondes.",
+    haveVinHeading: "Tu as déjà le VIN ? Lance-le maintenant",
+    vinNote: "Chiffré 256 bits · Conforme DPPA · Aucune donnée personnelle stockée",
+    trustStats: [
+      { icon: Map, value: "50", label: "États couverts" },
+      { icon: Shield, value: "NMVTIS", label: "source de données certifiée" },
+      { icon: Clock, value: "< 5 sec", label: "temps moyen du rapport" },
+      { icon: BadgeCheck, value: "Gratuit", label: "sans carte de crédit" },
+    ],
+    statsBlockHeading: "Vérification VIN par État — En chiffres",
+    headlineStats: [
+      { value: "50", label: "DMV étatiques rapportant à NMVTIS" },
+      { value: "51", label: "États et territoires couverts" },
+      { value: "<5 sec", label: "Temps moyen de décodage VIN" },
+      { value: "1 VIN", label: "Une recherche couvre chaque État" },
+      { value: "$0", label: "Coût pour l'aperçu gratuit" },
+    ],
+    whyHeading: "Pourquoi l'État compte sur une vérification VIN",
+    whyP1Pre:
+      "La recherche en elle-même est nationale : un VIN retourne les registres de chaque État qu'un véhicule a touché. Ce qui change à chaque frontière d'État est la ",
+    whyP1Bold: "loi qui définit ce que signifient ces registres",
+    whyP1Suffix:
+      ". Un véhicule déclaré perte totale dans un État peut porter une marque \"épave\" ; un dégât identique dans un autre État peut être marqué \"reconstruit\", \"distressed\" ou pas marqué du tout.",
+    whyP2Pre: "Cet écart est exactement ce qui rend possible le ",
+    whyP2Bold: "lavage de titre",
+    whyP2Mid: " : une voiture marquée déplacée vers un État avec des règles plus laxistes et re-titrée pour que la marque disparaisse du papier. NMVTIS, le fédéral ",
+    whyP2LinkText: "National Motor Vehicle Title Information System",
+    whyP2Suffix:
+      " , a été bâti pour arrêter cela en gardant la marque originale attachée au VIN dans le registre fédéral peu importe combien de fois le titre papier est réémis. Bien lire un rapport VIN signifie connaître les règles de l'État qui a émis chaque titre, c'est pourquoi chaque État a sa propre page ici.",
+    reportHeading: "Ce qu'inclut un rapport VIN État par État",
+    reportSub:
+      "Un seul rapport consolide les données de chaque DMV étatique, NMVTIS, NICB, NHTSA et fournisseurs d'historique d'assurance agréés.",
+    reportItems: [
+      { title: "Historique de titre (tous les États)", desc: "Chaque titre émis dans les 50 États plus DC, incluant marques d'épave, reconstruit, inondation et ferraille partout où elles ont été enregistrées." },
+      { title: "Registres d'accidents", desc: "Données de collisions des assureurs, ateliers de réparation et rapports DMV étatiques à l'échelle nationale." },
+      { title: "Lectures d'odomètre", desc: "Captures de kilométrage de chaque transaction DMV, inspection et événement d'assurance à travers les frontières d'État." },
+      { title: "Registres de vol", desc: "Croisement avec la base de données NICB de véhicules volés couvrant chaque État américain." },
+      { title: "Statut des rappels", desc: "Tous les rappels de sécurité ouverts NHTSA, les mêmes données fédérales peu importe l'État." },
+      { title: "Marques de titre par État", desc: "Terminologie des marques décodée par État pour que tu saches ce que signifie vraiment un titre 'reconstruit' ou 'distressed'." },
+    ],
+    howHeading: "Comment lancer une vérification VIN dans n'importe quel État — Pas à pas",
+    howSub:
+      "La recherche est identique dans les 50 États. La seule étape spécifique à l'État est la lecture des marques de titre par rapport aux règles locales.",
+    howSteps: [
+      { step: "01", title: "Trouve ton État ci-dessus", body: "Utilise le chercheur d'État pour ouvrir la page de l'État où le véhicule est actuellement titré. Chaque page d'État liste la terminologie exacte des marques de titre du DMV, la fenêtre de la Lemon Law et toute exigence d'inspection pour les véhicules épave ou reconstruits." },
+      { step: "02", title: "Localise le VIN sur le véhicule", body: "Le VIN de 17 caractères est sur le tableau de bord (visible par le bas du pare-brise), l'autocollant du montant de la porte côté conducteur et le document de titre. Confirme que les trois correspondent, car une non-correspondance est un drapeau rouge sérieux dans n'importe quel État." },
+      { step: "03", title: "Lance la recherche nationale", body: "Entre le VIN ci-dessus. La requête touche NMVTIS, chaque flux DMV étatique, NICB et NHTSA à la fois, donc peu importe de quel État vient la voiture : le rapport est consolidé." },
+      { step: "04", title: "Lis les marques de titre selon les règles étatiques", body: "Une marque ne te dit que ce que l'État émetteur a décidé. Recoupe chaque marque avec la définition de cet État (liée sur sa page) pour savoir si 'reconstruit' signifiait une réparation légère ou une reconstruction quasi totale." },
+      { step: "05", title: "Surveille les écarts entre États", body: "Si le titre a sauté entre États avec un écart suspect ou une marque qui a disparu après un déménagement, traite-le comme un avertissement de lavage de titre et inspecte de près avant d'acheter." },
+    ],
+    browseHeading: "Explore les 50 États par région",
+    browseSub:
+      "Chaque page d'État couvre le nom de son DMV, les marques exactes de titre, la fenêtre de la Lemon Law et un fait spécifique à l'État qui vaut la peine d'être connu avant d'acheter.",
+    vehiclesSuffix: "véhicules",
+    regions: [
+      { name: "Ouest", slugs: ["california", "oregon", "washington", "nevada", "arizona", "idaho", "montana", "wyoming", "utah", "colorado", "new-mexico", "alaska", "hawaii"] },
+      { name: "Midwest", slugs: ["illinois", "indiana", "iowa", "kansas", "michigan", "minnesota", "missouri", "nebraska", "north-dakota", "ohio", "south-dakota", "wisconsin"] },
+      { name: "Sud", slugs: ["alabama", "arkansas", "florida", "georgia", "kentucky", "louisiana", "mississippi", "north-carolina", "oklahoma", "south-carolina", "tennessee", "texas", "virginia", "west-virginia"] },
+      { name: "Nord-Est", slugs: ["connecticut", "delaware", "maine", "maryland", "massachusetts", "new-hampshire", "new-jersey", "new-york", "pennsylvania", "rhode-island", "vermont"] },
+    ],
+    ownerHeading: "Recherche de propriétaire par VIN — Ce que chaque État permet (et ne permet pas)",
+    ownerCalloutPre: "La ",
+    ownerCalloutBold: "loi fédérale Driver's Privacy Protection Act (DPPA, 18 U.S.C. § 2721)",
+    ownerCalloutSuffix:
+      " s'applique dans les 50 États. Les noms, adresses et numéros de téléphone des propriétaires liés aux registres de véhicules sont des informations privées protégées. Aucun service grand public de recherche VIN, y compris le nôtre, ne peut légalement retourner l'identité du propriétaire à partir d'une recherche VIN dans aucun État. Tout service qui prétend le faire opère hors la loi.",
+    ownerBodyPre: "Ce qu'une ",
+    ownerBodyMid: "recherche de propriétaire par VIN",
+    ownerBodyEm: " peut ",
+    ownerBodySuffix: " fournir légalement, dans chaque État :",
+    ownerBullets: [
+      "Nombre de propriétaires précédents (compte, pas les noms)",
+      "Si chaque titre a été émis à un particulier, concessionnaire ou société de flotte/location",
+      "État(s) où le véhicule a été titré précédemment",
+      "Durée approximative pendant laquelle chaque titre a été détenu",
+      "Si un titre a été émis à une entité commerciale (location, flotte, leasing)",
+    ],
+    midCtaHeading: "Prêt à vérifier un VIN ?",
+    midCtaSub:
+      "Une recherche couvre chaque État. Gratuit, instantané, sans carte de crédit. Historique complet du véhicule en moins de 5 secondes.",
+    internalHeading: "Plus d'outils de vérification VIN",
+    internalSub: "Approfondis dans des registres spécifiques qui apparaissent sur un rapport État par État.",
+    internalLinks: [
+      { href: "/florida-vin-check", label: "Vérification VIN Floride", desc: "Registres de titre, inondation et épave du DHSMV pour les véhicules de FL." },
+      { href: "/salvage-title-check", label: "Vérification titre d'épave", desc: "Détecte les marques d'épave et reconstruit dans n'importe quel État." },
+      { href: "/accident-history-check", label: "Vérification historique accidents", desc: "Registres de collisions et dommages à l'échelle nationale." },
+      { href: "/flood-check", label: "Vérification dégât d'inondation", desc: "Marques de titre par dégât d'eau dans tous les États." },
+      { href: "/odometer-check", label: "Vérification odomètre", desc: "Détecte le recul et la fraude de kilométrage." },
+      { href: "/license-plate-lookup", label: "Recherche par plaque", desc: "Trouve le VIN à partir d'une plaque dans n'importe quel État." },
+      { href: "/lemon-check", label: "Vérification rachat Lemon Law", desc: "Trouve les registres de rachat constructeur." },
+      { href: "/vehicle-lien-check", label: "Vérification de privilège", desc: "Vérifie les prêts en cours sur n'importe quel véhicule." },
+    ],
+    faqHeading: "Questions fréquentes — Vérification VIN par État",
+    faqSub:
+      "Comment fonctionne l'historique VIN national à travers les 50 DMV étatiques et pourquoi les règles de titre diffèrent d'un État à l'autre.",
+    bottomBadge: "Gratuit · Instantané · Sans inscription",
+    bottomHeading: "Vérifie n'importe quel VIN dans n'importe quel État",
+    bottomSub:
+      "Le lavage de titre traverse les frontières d'État pour que la marque disparaisse du papier. Une vérification VIN nationale ramène l'historique complet, en 5 secondes, gratuitement.",
+    sourcesHeading: "Sources et autorité des données",
+    sourcesIntro:
+      "Chaque affirmation sur cette page remonte à une source publique et autoritative américaine. Ci-dessous les références principales derrière une vérification VIN nationale et les agences avec lesquelles tu peux recouper.",
+    sourceItems: [
+      { href: "https://vehiclehistory.bja.ojp.gov/", label: "NMVTIS — Bureau of Justice Assistance", note: "Système fédéral de titres agrégeant les 50 DMV étatiques." },
+      { href: "https://www.nhtsa.gov/recalls", label: "NHTSA — Rappels de sécurité", note: "Base de données autoritative des rappels ouverts pour chaque VIN américain." },
+      { href: "https://www.nicb.org/vincheck", label: "NICB VINCheck", note: "Rapports de véhicules volés et d'épave des assureurs." },
+      { href: "https://www.iihs.org/topics/auto-theft", label: "IIHS — Statistiques de vol d'autos", note: "Recherche indépendante de vol de véhicules par État." },
+      { href: "https://www.law.cornell.edu/uscode/text/18/2721", label: "18 U.S.C. § 2721 (DPPA)", note: "Loi fédérale protégeant l'identité du propriétaire dans chaque État." },
+      { href: "https://www.usa.gov/state-motor-vehicle-services", label: "USA.gov — Annuaire DMV étatiques", note: "Liens officiels vers chaque agence de véhicules à moteur étatique." },
+    ],
+    sourcesFootnote:
+      "Les seuils des marques de titre et les règles de divulgation sont établis par chaque État et changent avec le temps. Vérifie tout chiffre spécifique à l'État directement avec le DMV de cet État avant de t'y fier.",
+  },
 } as const;
 
 const FAQS_EN = [

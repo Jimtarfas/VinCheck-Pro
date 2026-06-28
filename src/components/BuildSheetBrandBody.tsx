@@ -301,6 +301,140 @@ const COPY = {
       ];
     },
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbHub: "Fiche de fabrication",
+    heroBadgeSep: " \u00B7 ",
+    h1Pre: (name: string) => `Fiche de fabrication ${name} par VIN \u2014 `,
+    h1Highlight: (docName: string) => `D\u00E9code le ${docName}`,
+    heroSummarySuffix:
+      " Commence par le VIN pour fixer l'ann\u00E9e et l'usine \u2014 c'est gratuit.",
+    searchHeading: (name: string) => `Consulte une fiche de fabrication ${name} par VIN`,
+    searchSub:
+      "Saisis le VIN et nous fixerons l'ann\u00E9e, l'usine et la carrosserie pour que le registre de fabrication se d\u00E9code correctement",
+    trustNote: "Gratuit \u00B7 Sans inscription \u00B7 R\u00E9sultat instantan\u00E9",
+    trustStat1Label: "registre d'usine",
+    trustStat2Value: "Option",
+    trustStat2Label: "d\u00E9codage de code",
+    trustStat3Value: "Usine",
+    trustStat3Label: "et donn\u00E9es de production",
+    trustStat4Value: "Gratuit",
+    trustStat4Label: "recherche par VIN, sans inscription",
+    howHeading: (name: string) =>
+      `Comment fonctionne la recherche de fiche de fabrication ${name}`,
+    howIntro: (docName: string) =>
+      `Le VIN te m\u00E8ne \u00E0 la bonne r\u00E9f\u00E9rence ; le ${docName} compl\u00E8te la configuration originale d'usine.`,
+    step1Tag: "\u00C9tape 1",
+    step1Title: (name: string) => `Saisis le VIN du ${name}`,
+    step1Body:
+      "Tape le VIN du tableau de bord, du montant de porte, du titre ou de l'immatriculation. Il fixe l'ann\u00E9e mod\u00E8le, l'usine d'assemblage et le style de carrosserie avant que tu lises le reste.",
+    step2Tag: "\u00C9tape 2",
+    step2Title: (docName: string) => `Nous le relions au ${docName}`,
+    step2Body:
+      "Le VIN pointe vers la bonne r\u00E9f\u00E9rence pour que les codes d'options, de peinture et d'\u00E9quipement du registre de fabrication se d\u00E9codent correctement pour cette voiture exacte.",
+    step3Tag: "\u00C9tape 3",
+    step3Title: "Reconstruis la sp\u00E9cification originale",
+    step3Body:
+      "Le registre de fabrication reconstruit la commande d'usine : options, couleurs, transmission et l'usine d'origine \u2014 la configuration avec laquelle la voiture a quitt\u00E9 la ligne.",
+    whereHeading: (name: string) =>
+      `O\u00F9 trouver les donn\u00E9es de fabrication ${name}`,
+    whereIntro: (name: string, docName: string) =>
+      `${name} enregistre la fabrication dans le ${docName}. Voici o\u00F9 vivent ces donn\u00E9es et comment y acc\u00E9der.`,
+    optionCodeHeading: (name: string) => `Format du code d'option ${name}`,
+    startLookupLabel: (name: string) =>
+      `Lance la recherche de fabrication ${name} par VIN :`,
+    containsHeading: (name: string) =>
+      `Ce que montre un registre de fabrication ${name}`,
+    containsIntro: (docName: string) =>
+      `Le ${docName} documente la voiture telle qu'elle a quitt\u00E9 l'usine \u2014 beaucoup plus de d\u00E9tails que l'\u00E9tiquette de vitre n'en a jamais montr\u00E9 \u00E0 l'acheteur.`,
+    midCtaHeading: (name: string) =>
+      `D\u00E9code la fabrication originale de ta ${name}`,
+    midCtaBody: (docName: string) =>
+      `Saisis le VIN pour fixer l'ann\u00E9e et l'usine, puis lis le ${docName} pour les options, couleurs et \u00E9quipements d'origine. Gratuit, en quelques secondes.`,
+    tipsHeading: (name: string) => `Conseils pour la fiche de fabrication ${name}`,
+    tipsIntro: (name: string) =>
+      `Ce que les acheteurs, collectionneurs et restaurateurs doivent savoir avant de faire confiance \u00E0 un registre de fabrication ${name}.`,
+    sourcesHeading: (name: string) =>
+      `Donn\u00E9es de fabrication ${name} \u2014 Sources et r\u00E9f\u00E9rences`,
+    sourcesIntroBeforeStrong: "",
+    sourcesIntroSuffix: (name: string) =>
+      ` Les r\u00E9f\u00E9rences ci-dessous sont les origines publiques faisant autorit\u00E9 derri\u00E8re les donn\u00E9es de VIN, rappels et titre ${name} aux \u00C9tats-Unis.`,
+    sourceNote1: (name: string) =>
+      `D\u00E9codeur f\u00E9d\u00E9ral de r\u00E9f\u00E9rence pour la structure du VIN ${name}.`,
+    sourceLabel1: "D\u00E9codeur VIN NHTSA",
+    sourceNote2: (name: string) => `Recherche ouverte de rappels ${name} par VIN.`,
+    sourceLabel2: "NHTSA \u2014 Rappels de s\u00E9curit\u00E9",
+    sourceNote3: (name: string) =>
+      `Base de donn\u00E9es f\u00E9d\u00E9rale des marques de titre couvrant chaque ${name} dans les 50 \u00E9tats.`,
+    sourceLabel3: "NMVTIS \u2014 Bureau of Justice Assistance",
+    sourceNote4: (name: string) =>
+      `R\u00E9sultats ind\u00E9pendants de crash-tests pour les mod\u00E8les ${name} modernes.`,
+    sourceLabel4: "IIHS \u2014 Cotes de s\u00E9curit\u00E9",
+    othersHeading: "Fiches de fabrication pour d'autres marques",
+    othersIntro:
+      "Chaque constructeur enregistre la fabrication diff\u00E9remment. Passe au d\u00E9codeur d'une autre marque.",
+    othersBrandSuffix: " fiche de fabrication",
+    fordSheetLabel: "Fiche de fabrication Ford",
+    gmSheetLabel: "Fiche de fabrication GM",
+    moparSheetLabel: "Mopar broadcast sheet",
+    fullHubLink: "Voir la recherche de fiche de fabrication pour toutes les marques",
+    internalHeading: (name: string) =>
+      `Plus d'outils VIN pour les propri\u00E9taires de ${name}`,
+    internalIntro: (name: string) =>
+      `Le registre de fabrication est le point de d\u00E9part. Ces v\u00E9rifications compl\u00E8tent le tableau de n'importe quelle ${name}.`,
+    internalAllMakesLabel: "Fiche de fabrication par VIN (toutes marques)",
+    internalAllMakesDesc:
+      "La recherche g\u00E9n\u00E9rale de fiche de fabrication couvrant chaque constructeur.",
+    internalVinDecoderLabel: "D\u00E9codeur VIN",
+    internalVinDecoderDesc: (name: string) =>
+      `D\u00E9code le VIN ${name} pour obtenir l'ann\u00E9e mod\u00E8le, l'usine et la s\u00E9quence de production.`,
+    internalPaintLabel: "Recherche de code peinture",
+    internalPaintDesc: (name: string) =>
+      `Confirme le code de peinture d'usine ${name} exact pour la retouche ou la restauration.`,
+    internalStickerLabel: "Cr\u00E9ateur d'\u00E9tiquette Monroney",
+    internalStickerDesc:
+      "La vue Monroney pour le consommateur avec options en langage courant et MSRP.",
+    internalVinCheckLabel: "V\u00E9rification compl\u00E8te d'historique VIN",
+    internalVinCheckDesc:
+      "Registres de titre, accidents, odom\u00E8tre et rappels \u00E0 combiner avec l'origine d'usine.",
+    internalClassicLabel: "D\u00E9codeur VIN pour voitures classiques",
+    internalClassicDesc: (name: string) =>
+      `Pour les anciens mod\u00E8les ${name} avec VIN plus courts et plaques sp\u00E9cifiques \u00E0 l'\u00E9poque.`,
+    faqHeading: (name: string) =>
+      `Fiche de fabrication ${name} \u2014 Questions fr\u00E9quentes`,
+    faqIntro: (name: string, docName: string) =>
+      `Les questions que les propri\u00E9taires et acheteurs de ${name} posent le plus souvent sur le ${docName}.`,
+    ctaBadge: (name: string) =>
+      `Gratuit \u00B7 Instantan\u00E9 \u00B7 Codes de fabrication ${name}`,
+    ctaHeading: (name: string) => `Consulte une fiche de fabrication ${name} par VIN`,
+    ctaBody: (docName: string) =>
+      `Saisis le VIN pour ancrer l'ann\u00E9e et l'usine, puis d\u00E9code le ${docName} \u2014 options d'usine, codes peinture et int\u00E9rieur, et transmission.`,
+    ctaNote: "Pas de carte \u00B7 Sans inscription \u00B7 Gratuit",
+    faqBuilder(b: BuildSheetBrand) {
+      return [
+        {
+          q: `Qu'est-ce qu'une fiche de fabrication ${b.name} ?`,
+          a: `Une fiche de fabrication ${b.name} est le ${b.docName} \u2014 le registre d'usine de la fa\u00E7on dont un v\u00E9hicule a \u00E9t\u00E9 sp\u00E9cifi\u00E9 \u00E0 l'origine. ${b.summary.replace(/^A[n]? [^—]+—\s*/, "C'est ")} Cela documente ${b.contains.slice(0, 3).join(", ").toLowerCase()}, et plus encore.`,
+        },
+        {
+          q: `Comment trouver une fiche de fabrication ${b.name} par VIN ?`,
+          a: `Saisis le VIN de 17 caract\u00E8res dans le formulaire ci-dessus. Le VIN fixe l'ann\u00E9e mod\u00E8le, l'usine d'assemblage et le style de carrosserie, ce qui permet au ${b.docName} de se d\u00E9coder correctement. Tu peux trouver le VIN sur le tableau de bord, sur le montant de porte c\u00F4t\u00E9 conducteur, sur le titre ou sur l'immatriculation.`,
+        },
+        {
+          q: `\u00C0 quoi ressemblent les codes d'option ${b.name} ?`,
+          a: `${b.optionCodeFormat}`,
+        },
+        {
+          q: `O\u00F9 se trouvent les donn\u00E9es de fabrication ${b.name} ?`,
+          a: `Sur une ${b.name}, les donn\u00E9es de fabrication se trouvent \u00E0 ces endroits : ${b.whereToFind.join("; ")}.`,
+        },
+        {
+          q: `Pourquoi les acheteurs et collectionneurs ${b.name} v\u00E9rifient-ils la fiche de fabrication ?`,
+          a: `Le registre de fabrication est ainsi que tu confirmes qu'une option, un pack ou une couleur d'usine a \u00E9t\u00E9 install\u00E9 \u00E0 l'usine plut\u00F4t qu'ajout\u00E9 plus tard \u2014 ce qui affecte directement la valeur d'une ${b.name}. ${b.sourceName} est l'autorit\u00E9 qui ${b.sourceNote.charAt(0).toLowerCase() + b.sourceNote.slice(1)}`,
+        },
+      ];
+    },
+  },
 } as const;
 
 export default function BuildSheetBrandBody({

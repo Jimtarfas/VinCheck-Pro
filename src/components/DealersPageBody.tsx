@@ -396,6 +396,192 @@ const COPY = {
       "Únete a los 5,000+ concesionarios y subastas que ya extraen reportes de grado NMVTIS a precios mayoristas. Cotización personalizada en tu bandeja en un día hábil.",
     finalCtaBtn: "Obtener precios para concesionarios",
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "Pour concessionnaires",
+    badge: "Pour concessionnaires automobiles",
+    h1: "\u00C9conomise plus de 20 000 $/an sur les rapports d'historique v\u00E9hicule",
+    heroLead:
+      "Tarifs de gros pour v\u00E9rification VIN, acc\u00E8s API en bulk et rapports white-label pour concessionnaires de voitures neuves, d'occasion et ench\u00E8res. Les m\u00EAmes donn\u00E9es NMVTIS pour lesquelles tes concurrents paient 20 fois plus.",
+    ctaGetPricing: "Obtenir les tarifs de gros",
+    ctaApiDocs: "Voir la documentation API",
+    heroBadges: [
+      "5 000+ concessionnaires partenaires",
+      "Disponibilit\u00E9 API 99,99%",
+      "M\u00EAmes donn\u00E9es NMVTIS",
+      "Configuration en 30 jours",
+    ],
+
+    whyHeading: "Pourquoi les concessionnaires quittent Carfax",
+    whyP1:
+      "Les fournisseurs historiques de rapports v\u00E9hicule ont \u00E9t\u00E9 construits pour un march\u00E9 qui n'existe plus. Les tarifs Carfax pour concessionnaires vont g\u00E9n\u00E9ralement de 40 $ \u00E0 50 $ par rapport selon le contrat sign\u00E9, plus des frais par si\u00E8ge de dashboard et des engagements mensuels minimums. CarCheckerVIN livre les m\u00EAmes donn\u00E9es NMVTIS, NICB et OEM faisant autorit\u00E9 \u00E0 des tarifs de gros qui commencent \u00E0 1 $ par rapport et ne d\u00E9passent jamais 3 $ \u2014 m\u00EAme au niveau de volume le plus bas.",
+    whyP2:
+      "Les concessionnaires ind\u00E9pendants et les lots BHPH op\u00E8rent avec des marges qui r\u00E9tr\u00E9cissent chaque ann\u00E9e. Une facture mensuelle de 4 000 $ pour des rapports d'historique sur un lot de 100 v\u00E9hicules fait la diff\u00E9rence entre une op\u00E9ration saine et une op\u00E9ration en difficult\u00E9. Les groupes plus importants le ressentent autant : une cha\u00EEne de 10 magasins qui sort 250 rapports par mois par emplacement fait face \u00E0 une ligne annuelle de 120 000 $ qui n'a tout simplement pas besoin d'exister.",
+    whyP3Pre: "Les maths sont brutalement simples.",
+    whyP3Bold: "100 rapports par mois \u00E0 40 $ chacun = 4 000 $ par mois, ou 48 000 $ par an.",
+    whyP3Mid: "Les m\u00EAmes 100 rapports via CarCheckerVIN en gros \u00E0 2 $ chacun font 200 $ par mois, ou 2 400 $ par an. Cela fait 45 600 $ que tu peux mettre dans le plan de plancher, am\u00E9liorations du lot, publicit\u00E9 ou ton r\u00E9sultat. Vois la comparaison compl\u00E8te sur notre",
+    whyP3Link: "page CarCheckerVIN vs Carfax",
+    whyP3Suffix: ".",
+
+    tiersHeading: "Niveaux de tarification pour concessionnaires",
+    tiersIntro:
+      "Trois niveaux directs couvrent tout le monde, du concessionnaire ind\u00E9pendant \u00E0 un seul toit jusqu'\u00E0 un groupe d'ench\u00E8res multi-\u00E9tats. Sans frais par si\u00E8ge cach\u00E9s, sans engagements pluriannuels.",
+    mostPopularBadge: "Le plus populaire",
+    contactSalesBtn: "Contacter les ventes",
+    tiers: [
+      {
+        name: "Concessionnaire ind\u00E9pendant",
+        volume: "Moins de 50 rapports/mois",
+        price: "3 $",
+        unit: "/rapport",
+        note: "Sans frais de configuration",
+        features: [
+          "Facturation pay-as-you-go",
+          "Donn\u00E9es compl\u00E8tes de marque de titre NMVTIS",
+          "Accidents, odom\u00E8tre, vol, rappels",
+          "Formats de rapport PDF + HTML",
+          "Panneau web pour commander",
+          "Support par email, SLA 1 jour ouvrable",
+        ],
+      },
+      {
+        name: "Concessionnaire de volume",
+        volume: "50\u2013500 rapports/mois",
+        price: "1,50 $",
+        unit: "/rapport",
+        note: "Panneau inclus",
+        features: [
+          "Tarifs par paliers de volume",
+          "Panneau multi-utilisateur",
+          "T\u00E9l\u00E9chargement CSV en masse (jusqu'\u00E0 1 000 VINs)",
+          "Rapports PDF pr\u00EAts \u00E0 revendre",
+          "Acc\u00E8s API REST de base",
+          "Support t\u00E9l\u00E9phone + email",
+        ],
+      },
+      {
+        name: "Entreprise / Ench\u00E8res",
+        volume: "500+ rapports/mois",
+        price: "Personnalis\u00E9",
+        unit: "",
+        note: "Parle aux ventes",
+        features: [
+          "Tarifs personnalis\u00E9s avec remise volume",
+          "API REST compl\u00E8te + webhooks",
+          "Rapports white-label avec ton logo",
+          "Gestionnaire de compte d\u00E9di\u00E9",
+          "SLA 99,99% de disponibilit\u00E9",
+          "Int\u00E9grations CRM + DMS",
+        ],
+      },
+    ],
+
+    auctionHeading: "Construit pour les acheteurs d'ench\u00E8res automobiles",
+    auctionP1:
+      "Si tu ach\u00E8tes chez Manheim, ADESA, Copart ou n'importe quelle ench\u00E8re r\u00E9gionale r\u00E9serv\u00E9e aux concessionnaires, tu connais d\u00E9j\u00E0 la douleur. Le catalogue tombe la veille au soir, tu as quelques heures pour \u00E9valuer des centaines de voies, et le co\u00FBt par rapport sur les services historiques rend impossible la v\u00E9rification de chaque unit\u00E9 int\u00E9ressante. La plupart des acheteurs finissent par v\u00E9rifier l'historique sur la liste restreinte qu'ils auraient d\u00FB r\u00E9duire davantage \u2014 et c'est l\u00E0 que les erreurs d'achat arrivent.",
+    auctionP2:
+      "CarCheckerVIN a \u00E9t\u00E9 con\u00E7u d\u00E8s le premier jour pour ce flux de travail exact. T\u00E9l\u00E9verse la liste d'ench\u00E8res en CSV au moment o\u00F9 elle tombe, et en quelques secondes tu as l'historique complet des marques de titre, accidents, odom\u00E8tre et vol sur chaque VIN, triable par score de risque. Les acheteurs traitent r\u00E9guli\u00E8rement 100+ VINs en cinq minutes avant que les voies commencent \u00E0 rouler, puis sortent un deuxi\u00E8me rapport de confirmation sur tout ce sur quoi ils pr\u00E9voient r\u00E9ellement d'ench\u00E9rir.",
+    auctionP3:
+      "Notre API REST se branche sur AuctionEdge, EdgeSimulcast et la plupart des outils personnalis\u00E9s d'achat aux ench\u00E8res, donc tout le pipeline peut \u00EAtre automatis\u00E9. L'outil de recherche en masse mobile-friendly fonctionne aussi depuis la voie sur t\u00E9l\u00E9phone ou tablette \u2014 colle un VIN, obtiens un r\u00E9sum\u00E9 d'une page en moins de trois secondes, et d\u00E9cide d'ench\u00E9rir ou de passer.",
+
+    featuresHeading: "Fonctionnalit\u00E9s construites pour les flux de concessionnaires",
+    featuresIntro:
+      "Chaque fonctionnalit\u00E9 sur cette page existe parce qu'un concessionnaire l'a demand\u00E9e. Nous n'exp\u00E9dions pas d'outils grand public en les appelant \"entreprise\" \u2014 nous avons construit CarCheckerVIN pour la fa\u00E7on dont les concessionnaires op\u00E8rent r\u00E9ellement leurs lots.",
+    features: [
+      { title: "T\u00E9l\u00E9chargement en masse (CSV/JSON)", body: "D\u00E9pose un fichier CSV ou JSON avec jusqu'\u00E0 1 000 VINs et obtiens des rapports complets en secondes. Parfait pour pr\u00E9parer une voie d'ench\u00E8res ou synchroniser avec un flux d'inventaire frais." },
+      { title: "Rapports white-label", body: "Marque chaque rapport PDF et HTML avec le logo, les couleurs et les d\u00E9tails de contact de ton concessionnaire. Les acheteurs voient ta marque, pas la n\u00F4tre." },
+      { title: "Panneau du concessionnaire", body: "Suis chaque rapport ex\u00E9cut\u00E9 par ton \u00E9quipe, recherche l'historique par VIN ou num\u00E9ro de stock, ex\u00E9cute des analyses sur le volume de recherches et exporte en CSV pour la comptabilit\u00E9." },
+      { title: "Acc\u00E8s API", body: "API REST de grade production avec docs d\u00E9taill\u00E9s, SDKs officiels pour Node, Python et PHP, et cl\u00E9s sandbox pour tester avant la production." },
+      { title: "Int\u00E9gration CRM", body: "Branche-toi directement \u00E0 DealerSocket, vAuto, AutoTrader et la plupart des principales plateformes DMS. Les rapports s'attachent automatiquement au bon dossier de transaction." },
+      { title: "Journalisation de conformit\u00E9", body: "Chaque recherche est journalis\u00E9e avec utilisateur, horodatage, IP et m\u00E9tadonn\u00E9es de consentement pour une piste d'audit enti\u00E8rement conforme NMVTIS que ton \u00E9quipe de conformit\u00E9 adorera." },
+    ],
+
+    compareHeading: "M\u00EAmes donn\u00E9es, une fraction du co\u00FBt",
+    compareIntro:
+      "Voici comment Carfax pour concessionnaires se compare \u00E0 CarCheckerVIN Wholesale sur les points qui comptent vraiment selon les concessionnaires.",
+    compareThFeature: "Fonctionnalit\u00E9",
+    compareThCarfax: "Carfax pour concessionnaires",
+    compareThUs: "CarCheckerVIN Wholesale",
+    compareRows: [
+      { feature: "Co\u00FBt par rapport", carfax: "40 $+", ours: "1\u20133 $" },
+      { feature: "Donn\u00E9es de titre NMVTIS", carfax: true, ours: true },
+      { feature: "Acc\u00E8s API", carfax: "Limit\u00E9", ours: "API REST compl\u00E8te" },
+      { feature: "Recherches en masse (1 000+ VINs)", carfax: false, ours: true },
+      { feature: "Rapports white-label", carfax: false, ours: true },
+      { feature: "Temps de configuration", carfax: "Jours\u2013semaines", ours: "Heures" },
+      { feature: "Frais par si\u00E8ge de panneau", carfax: true, ours: false },
+      { feature: "Contrat \u00E0 long terme requis", carfax: true, ours: false },
+    ],
+    compareFootnote:
+      "Les tarifs refl\u00E8tent les contrats typiques de concessionnaires en avril 2026. Termes entreprise personnalis\u00E9s disponibles sur demande.",
+
+    stepsHeading: "Comment commencer",
+    stepsIntro:
+      "La plupart des concessionnaires passent du premier contact au premier appel API en direct en moins d'une semaine. Certains y arrivent en une seule apr\u00E8s-midi.",
+    steps: [
+      { title: "Contacte notre \u00E9quipe concessionnaires", body: "Dis-nous ton volume mensuel, les syst\u00E8mes que tu utilises, et si tu as besoin d'un acc\u00E8s API ou panneau. Utilise le formulaire de contact ou appelle notre ligne de ventes." },
+      { title: "Obtiens un devis personnalis\u00E9 en 24 heures", body: "Nous r\u00E9pondons avec des tarifs par paliers adapt\u00E9s \u00E0 ton volume, plus un plan d'int\u00E9gration couvrant CRM, DMS et tout besoin white-label." },
+      { title: "Cl\u00E9s API + acc\u00E8s panneau provisionn\u00E9s", body: "Signe l'accord et nous provisionnons les cl\u00E9s API sandbox et production, ton panneau avec ta marque et les comptes utilisateur pour ton \u00E9quipe." },
+      { title: "Premiers rapports ex\u00E9cut\u00E9s en heures", body: "La plupart des concessionnaires sortent des rapports de gros en direct le m\u00EAme jour ouvrable. Notre \u00E9quipe reste en ligne jusqu'\u00E0 ce que tes 100 premi\u00E8res recherches soient propres." },
+    ],
+
+    apiBadge: "API d\u00E9veloppeur",
+    apiHeading: "API conviviale pour d\u00E9veloppeurs",
+    apiIntro:
+      "L'API REST CarCheckerVIN te donne un acc\u00E8s programmatique \u00E0 chaque type de rapport que ton panneau prend en charge. JSON standard entrant, JSON structur\u00E9 sortant, avec un lien PDF t\u00E9l\u00E9chargeable sur chaque r\u00E9ponse. L'authentification est par bearer-token, les limites de taux sont g\u00E9n\u00E9reuses, et toute la surface est document\u00E9e avec des exemples curl, Node, Python et PHP.",
+    apiRequestLabel: "Requ\u00EAte",
+    apiResponseLabel: "R\u00E9ponse",
+    apiRateTitle: "Limites de taux",
+    apiRateBody: "Jusqu'\u00E0 100 req/sec au niveau Entreprise. 10 req/sec en Volume.",
+    apiAuthTitle: "Authentification",
+    apiAuthBody: "Bearer token sur TLS 1.3. Cl\u00E9s sandbox + production provisionn\u00E9es s\u00E9par\u00E9ment.",
+    apiHooksTitle: "Webhooks",
+    apiHooksBody: "Envoie les \u00E9v\u00E9nements rapport-pr\u00EAt et mise-\u00E0-jour-rappel directement dans ton DMS ou CRM.",
+    apiDocsLink: "Lire la documentation API compl\u00E8te \u2192",
+
+    testimonialQuote:
+      "Nous d\u00E9pensions 4 500 $/mois sur Carfax. CarCheckerVIN a r\u00E9duit \u00E7a \u00E0 310 $ avec les m\u00EAmes donn\u00E9es. La meilleure d\u00E9cision business que nous avons prise en 2026.",
+    testimonialName: "Mike R.",
+    testimonialRole: "Propri\u00E9taire, Sunset Auto Sales",
+    testimonialFooterPre: "Tu veux parler \u00E0 des clients concessionnaires existants ? Vois notre",
+    testimonialFooterTrust: "page de confiance",
+    testimonialFooterMid: "ou visite le",
+    testimonialFooterHelp: "centre d'aide",
+    testimonialFooterSuffix: "pour plus de r\u00E9ponses.",
+
+    faqHeading: "FAQ concessionnaires et wholesale",
+    faqIntro:
+      "Les questions que les concessionnaires, ench\u00E8res et lots BHPH posent le plus sur les tarifs de gros, l'acc\u00E8s API et les rapports d'historique v\u00E9hicule en masse.",
+    faqs: [
+      { q: "Combien co\u00FBte un rapport VIN pour concessionnaires ?", a: "Les tarifs de gros pour concessionnaires CarCheckerVIN vont de 1 $ \u00E0 3 $ par rapport. Les concessionnaires ind\u00E9pendants ex\u00E9cutant moins de 50 rapports par mois paient 3 $ par rapport sans frais de configuration, les concessionnaires de volume ex\u00E9cutant 50\u2013500 rapports par mois paient 1,50 $ par rapport avec panneau inclus, et les ench\u00E8res ou grands groupes ex\u00E9cutant 500+ rapports par mois obtiennent des tarifs personnalis\u00E9s avec remise volume. Contacte l'\u00E9quipe ventes concessionnaires pour un devis adapt\u00E9 \u00E0 ton volume mensuel." },
+      { q: "D'o\u00F9 viennent les donn\u00E9es d'historique v\u00E9hicule ?", a: "Les rapports concessionnaires obtiennent leurs donn\u00E9es des m\u00EAmes sources faisant autorit\u00E9 que le produit consommateur : NMVTIS (le National Motor Vehicle Title Information System), registres de vol NICB et donn\u00E9es OEM. Chaque rapport inclut les donn\u00E9es compl\u00E8tes de marque de titre NMVTIS ainsi que l'historique d'accidents, odom\u00E8tre, vol et rappels." },
+      { q: "Existe-t-il une API REST pour concessionnaires ?", a: "Oui. CarCheckerVIN offre une API REST de grade production avec authentification bearer-token sur TLS 1.3, JSON structur\u00E9 entrant et sortant, et un lien PDF t\u00E9l\u00E9chargeable sur chaque r\u00E9ponse. Des SDKs officiels sont disponibles pour Node, Python et PHP, et les cl\u00E9s sandbox te permettent de tester avant la production. L'acc\u00E8s API de base est inclus au niveau Volume ; l'API REST compl\u00E8te avec webhooks est disponible au niveau Entreprise/Ench\u00E8res." },
+      { q: "Puis-je ex\u00E9cuter des recherches VIN en masse ?", a: "Oui. Tu peux t\u00E9l\u00E9verser un fichier CSV ou JSON avec jusqu'\u00E0 1 000 VINs et recevoir des rapports complets en secondes \u2014 utile pour pr\u00E9parer une voie d'ench\u00E8res ou synchroniser un flux d'inventaire frais. Le t\u00E9l\u00E9chargement CSV en masse est disponible \u00E0 partir du niveau Concessionnaire de volume." },
+      { q: "Offrez-vous des rapports d'historique v\u00E9hicule white-label ?", a: "Oui. Les rapports white-label te permettent de marquer chaque rapport PDF et HTML avec le logo, les couleurs et les d\u00E9tails de contact de ton concessionnaire, donc les acheteurs voient ta marque au lieu de la n\u00F4tre. Le reporting white-label est disponible au niveau Entreprise/Ench\u00E8res." },
+      { q: "CarCheckerVIN s'int\u00E8gre-t-il avec mon DMS ou CRM ?", a: "Oui. L'API REST se branche \u00E0 DealerSocket, vAuto, AutoTrader et la plupart des principales plateformes DMS, donc les rapports s'attachent automatiquement au bon dossier de transaction. Pour les acheteurs d'ench\u00E8res, l'API se connecte \u00E0 AuctionEdge, EdgeSimulcast et la plupart des outils personnalis\u00E9s d'achat aux ench\u00E8res. Les webhooks peuvent pousser les \u00E9v\u00E9nements rapport-pr\u00EAt et mise-\u00E0-jour-rappel directement dans ton DMS ou CRM." },
+      { q: "Combien de temps faut-il pour se configurer ?", a: "La plupart des concessionnaires passent du premier contact au premier appel API en direct en moins d'une semaine, et certains sont configur\u00E9s en une seule apr\u00E8s-midi. Apr\u00E8s avoir contact\u00E9 l'\u00E9quipe concessionnaires avec ton volume et tes syst\u00E8mes, tu re\u00E7ois un devis personnalis\u00E9 en 24 heures, puis les cl\u00E9s API sandbox et production, un panneau avec ta marque et les comptes d'\u00E9quipe sont provisionn\u00E9s une fois l'accord sign\u00E9." },
+      { q: "L'activit\u00E9 de recherche du concessionnaire est-elle journalis\u00E9e pour la conformit\u00E9 ?", a: "Oui. Chaque recherche est journalis\u00E9e avec utilisateur, horodatage, IP et m\u00E9tadonn\u00E9es de consentement pour fournir une piste d'audit enti\u00E8rement conforme NMVTIS. Le panneau du concessionnaire te permet aussi de suivre chaque rapport ex\u00E9cut\u00E9 par ton \u00E9quipe et de rechercher l'historique par VIN ou num\u00E9ro de stock." },
+    ],
+
+    complianceHeading: "Conformit\u00E9, donn\u00E9es et r\u00E9f\u00E9rences r\u00E9glementaires",
+    complianceIntro:
+      "L'acc\u00E8s des concessionnaires aux donn\u00E9es d'historique v\u00E9hicule est r\u00E9gi par la loi f\u00E9d\u00E9rale et une poign\u00E9e de programmes de donn\u00E9es approuv\u00E9s. Ci-dessous les r\u00E9f\u00E9rences principales derri\u00E8re chaque rapport concessionnaire que nous g\u00E9n\u00E9rons \u2014 chacune est la source faisant autorit\u00E9 que tu peux citer \u00E0 ton \u00E9quipe de conformit\u00E9.",
+    complianceFootnote:
+      "Les rapports concessionnaires CarCheckerVIN proviennent de partenaires de donn\u00E9es approuv\u00E9s NMVTIS et sont crois\u00E9s avec les registres NHTSA, NICB et assureurs. Tout acc\u00E8s est conforme DPPA sous les cat\u00E9gories de but permissible applicables aux concessionnaires de v\u00E9hicules motoris\u00E9s.",
+    complianceRefs: [
+      { label: "NMVTIS \u2014 Bureau of Justice Assistance", note: "Programme f\u00E9d\u00E9ral Anti-Car Theft Act ; source de donn\u00E9es requise pour tout rapport d'historique de grade concessionnaire." },
+      { label: "18 U.S.C. \u00A7 2721 \u2014 DPPA", note: "Driver's Privacy Protection Act \u2014 quelles donn\u00E9es personnellement identifiantes NE peuvent PAS \u00EAtre retourn\u00E9es aux concessionnaires." },
+      { label: "FTC Used Car Rule (16 CFR 455)", note: "R\u00E8gle f\u00E9d\u00E9rale r\u00E9gissant le Buyer's Guide pour concessionnaires et obligations de divulgation." },
+      { label: "NHTSA Recall Database", note: "Donn\u00E9es faisant autorit\u00E9 sur les rappels ouverts que les concessionnaires doivent montrer aux acheteurs." },
+      { label: "NICB VINCheck", note: "Registres de vol et salvage des assureurs utilis\u00E9s dans l'\u00E9valuation pr\u00E9-vente." },
+      { label: "IIHS \u2014 Vehicle Safety Ratings", note: "R\u00E9sultats ind\u00E9pendants de tests de choc r\u00E9f\u00E9renc\u00E9s dans les \u00E9valuations de trade-in." },
+    ],
+
+    finalHeading: "Pr\u00EAt \u00E0 r\u00E9duire tes co\u00FBts de rapports d'historique v\u00E9hicule de 90% ?",
+    finalBody:
+      "Rejoins les 5 000+ concessionnaires et ench\u00E8res qui sortent d\u00E9j\u00E0 des rapports de grade NMVTIS \u00E0 prix de gros. Devis personnalis\u00E9 dans ta bo\u00EEte en un jour ouvrable.",
+    finalCtaBtn: "Obtenir les tarifs concessionnaires",
+  },
 } as const;
 
 const FEATURE_ICONS = [FileSpreadsheet, Layers, BarChart3, Code, Workflow, Shield] as const;

@@ -377,6 +377,188 @@ const COPY = {
     bottomP:
       "Las marcas de título y el historial de accidentes pueden hundir el valor de reventa — y tu relación préstamo-valor con él. Ejecuta el VIN primero.",
   },
+  fr: {
+    home: "Accueil",
+    guides: "Guides",
+    crumb: "Guide de financement de voiture d'occasion",
+    h1: "Financement de voiture d'occasion : le guide complet 2026",
+    intro:
+      "Financer une voiture d'occasion en 2026 est un exercice fondamentalement diff\u00e9rent de ce qu'il \u00e9tait il y a trois ans. Les APR moyens des v\u00e9hicules d'occasion provenant des donn\u00e9es de cr\u00e9dit \u00e0 la consommation de la R\u00e9serve f\u00e9d\u00e9rale sont rest\u00e9s obstin\u00e9ment au-dessus de 10\u00a0% pour les emprunteurs non-prime, les dur\u00e9es de pr\u00eat se sont \u00e9tendues jusqu'au territoire de 84 mois, et les bureaux F&I des concessionnaires ont superpos\u00e9 plus d'extras que jamais pour pr\u00e9server leur marge. La bonne nouvelle : un acheteur qui arrive avec une pr\u00e9approbation, un objectif clair de co\u00fbt total et une volont\u00e9 de s'\u00e9loigner peut encore financer une voiture d'occasion \u00e0 des conditions qui ont un sens financier.",
+    vetBoxTitle: "En train d'\u00e9valuer un v\u00e9hicule avant de financer ?",
+    vetBoxBody:
+      "Ex\u00e9cute le VIN avant de signer quoi que ce soit. Les marques de titre et les dommages d'accident plombent la valeur de revente \u2014 et ta valeur de pr\u00eat \u00e0 valeur avec elle.",
+    tocAria: "Table des mati\u00e8res",
+    tocTitle: "Dans ce guide",
+    toc: [
+      { href: "#landscape", label: "Le paysage du pr\u00eat auto d'occasion 2026" },
+      { href: "#credit", label: "Comment ton score de cr\u00e9dit fa\u00e7onne le pr\u00eat" },
+      { href: "#lenders", label: "Concessionnaire vs. banque vs. caisse populaire" },
+      { href: "#preapproval", label: "Pr\u00e9approbation : le superpouvoir de l'acheteur" },
+      { href: "#apr", label: "APR vs. co\u00fbt total vs. paiement mensuel" },
+      { href: "#term", label: "Dur\u00e9e du pr\u00eat : plus courte est presque toujours mieux" },
+      { href: "#downpayment", label: "Acompte, GAP et \u00eatre sous l'eau" },
+      { href: "#lease", label: "Louer vs. acheter une voiture d'occasion" },
+      { href: "#refinance", label: "Refinancement : quand et comment" },
+      { href: "#fi-office", label: "Survivre au bureau F&I" },
+    ],
+    s1H: "Le paysage du pr\u00eat auto d'occasion 2026",
+    s1P1:
+      "Les rapports de cr\u00e9dit \u00e0 la consommation de la R\u00e9serve f\u00e9d\u00e9rale montrent que les APR des pr\u00eats pour v\u00e9hicules d'occasion se sont aplatis en 2026 mais restent \u00e9lev\u00e9s par rapport \u00e0 la norme pr\u00e9-pand\u00e9mique. L'APR moyen pour les emprunteurs prime (FICO 720+) oscille pr\u00e8s de 7,5\u20138,5\u00a0% dans les caisses populaires et 8\u20139,5\u00a0% dans les grandes banques. Les emprunteurs non-prime font face \u00e0 11\u201315\u00a0%, et les emprunteurs subprime (FICO en dessous de 600) voient r\u00e9guli\u00e8rement des APR au nord de 18\u00a0% sur le papier des v\u00e9hicules d'occasion.",
+    s1P2:
+      "Les montants moyens des pr\u00eats pour v\u00e9hicules d'occasion d\u00e9passent maintenant $26\u00a0000, la dur\u00e9e moyenne est de 67 mois, et environ un quart des nouveaux pr\u00eats auto d'occasion s'\u00e9tendent sur 73 mois ou plus. Cette d\u00e9rive de la dur\u00e9e est le mod\u00e8le le plus important \u00e0 reconna\u00eetre : plus la dur\u00e9e est longue, plus tu paies d'int\u00e9r\u00eats et plus tu passes longtemps sous l'eau sur le pr\u00eat. Une analyse d'Edmunds de 2024 a trouv\u00e9 que le capital n\u00e9gatif moyen roul\u00e9 dans de nouveaux pr\u00eats d\u00e9passait $6\u00a0000, un record historique.",
+    s2H: "Comment ton score de cr\u00e9dit fa\u00e7onne le pr\u00eat",
+    s2P1:
+      "Les fourchettes de score de cr\u00e9dit pilotent tout : APR, ratio pr\u00eat-valeur maximum, disponibilit\u00e9 de dur\u00e9e et prix des extras. La plupart des pr\u00eateurs utilisent le FICO Auto Score 8 ou 9, qui est un mod\u00e8le de notation sp\u00e9cifique au produit cr\u00e9dit qui pond\u00e8re le comportement pass\u00e9 du pr\u00eat auto plus fortement que le score FICO g\u00e9n\u00e9ral. Ton FICO d'application de carte de cr\u00e9dit et ton FICO Auto Score peuvent diff\u00e9rer de 30+ points.",
+    s2P2:
+      "Fourchettes d'APR approximatives pour le financement auto d'occasion d\u00e9but 2026 (varie selon le pr\u00eateur et la r\u00e9gion) :",
+    tableHead: { band: "Fourchette FICO", tier: "Niveau", apr: "APR typique" },
+    tableRows: [
+      { band: "781\u2013850", tier: "Super-prime", apr: "6.99\u20137.99%" },
+      { band: "661\u2013780", tier: "Prime", apr: "8.49\u20139.99%" },
+      { band: "601\u2013660", tier: "Near-prime", apr: "11.49\u201313.49%" },
+      { band: "501\u2013600", tier: "Subprime", apr: "14.99\u201318.49%" },
+      { band: "300\u2013500", tier: "Subprime profond", apr: "18.99%+" },
+    ],
+    s2P3:
+      "Si ton score se situe en haut d'une fourchette, m\u00eame une petite am\u00e9lioration peut te faire passer dans la tranche suivante et \u00e9conomiser des milliers sur la dur\u00e9e de vie du pr\u00eat. Trois correctifs de cr\u00e9dit \u00e0 fort impact qui fonctionnent rapidement : rembourse les soldes renouvelables en dessous de 30\u00a0% d'utilisation, conteste toute collecte incorrecte avec les bureaux et \u00e9vite d'ouvrir de nouvelles lignes de cr\u00e9dit dans les 90 jours avant la demande.",
+    s3H: "Concessionnaire vs. banque vs. caisse populaire",
+    s3P1:
+      "Trois canaux de pr\u00eateurs principaux existent pour les emprunteurs auto d'occasion, et chacun a des avantages et des inconv\u00e9nients structurels.",
+    s3CULead: "Les caisses populaires",
+    s3CUBody:
+      " offrent constamment les APR les plus bas pour les emprunteurs prime et near-prime, souvent 0,5\u20132 points de pourcentage en dessous des banques. Elles sont d\u00e9tenues par leurs membres, ce qui signifie que la souscription tend \u00e0 consid\u00e9rer les facteurs de relation (dur\u00e9e d'adh\u00e9sion, autres soldes de d\u00e9p\u00f4t) en plus du score FICO pur. Les exigences d'adh\u00e9sion sont souvent triviales \u00e0 satisfaire \u2014 de nombreuses caisses populaires ont des champs d'adh\u00e9sion g\u00e9ographiques ou bas\u00e9s sur l'employeur qui admettent presque n'importe qui dans la r\u00e9gion.",
+    s3BankLead: "Les banques et pr\u00eateurs en ligne",
+    s3BankBody:
+      " sont en concurrence sur la vitesse et la commodit\u00e9. Les d\u00e9cisions arrivent en quelques minutes, les fonds sont virtuelement transf\u00e9r\u00e9s ou imprim\u00e9s en ch\u00e8que \u00e0 la cl\u00f4ture, et beaucoup s'int\u00e8grent aux comptes ch\u00e8ques que tu d\u00e9tiens d\u00e9j\u00e0. Les APR sont en retard par rapport aux caisses populaires pour les emprunteurs prime mais sont comp\u00e9titifs pour les demandeurs super-prime qui se qualifient pour des taux promotionnels.",
+    s3DealerLead: "Le financement du concessionnaire",
+    s3DealerBody:
+      " est techniquement un pr\u00eat indirect : le concessionnaire soumet ta demande \u00e0 un r\u00e9seau de pr\u00eateurs (banques, bras de financement captifs, pr\u00eateurs sp\u00e9cialis\u00e9s), re\u00e7oit un taux d'achat et te cote un taux contractuel qui ajoute une marge. La commodit\u00e9 est r\u00e9elle, et sur les v\u00e9hicules certifi\u00e9s pr\u00e9-poss\u00e9d\u00e9s avec subvention du fabricant, le taux peut battre le march\u00e9. Le risque est que la marge est invisible \u00e0 moins que tu n'aies une pr\u00e9approbation pour comparer.",
+    s4H: "Pr\u00e9approbation : le superpouvoir de l'acheteur",
+    s4P1:
+      "Une pr\u00e9approbation est un engagement conditionnel \u00e9crit d'un pr\u00eateur indiquant le montant maximum, l'APR et la dur\u00e9e qu'ils financeront pour toi. C'est l'outil le plus puissant qu'un acheteur de voiture d'occasion poss\u00e8de, pour trois raisons :",
+    s4List: [
+      { bold: "Cela d\u00e9finit ton plafond.", body: " Tu entres dans la concession en sachant exactement combien tu peux emprunter et \u00e0 quel taux. Le bureau F&I du concessionnaire ne peut pas \u00e9largir ce plafond sans ton consentement." },
+      { bold: "Cela expose la marge du concessionnaire.", body: " Si le concessionnaire offre 8,99\u00a0% et que ta pr\u00e9approbation de caisse populaire est de 7,49\u00a0%, la marge est de 1,5 point de pourcentage \u2014 et tu as une preuve \u00e9crite qu'un pr\u00eateur concurrent les sous-cotera." },
+      { bold: "Cela \u00e9limine le pi\u00e8ge du \u00ab paiement mensuel \u00bb.", body: " Avec le financement r\u00e9gl\u00e9, la conversation peut rester sur le prix total." },
+    ],
+    s4P2:
+      "Obtiens au moins trois pr\u00e9approbations : une caisse populaire, une banque, un pr\u00eateur en ligne. Soumets-les dans une fen\u00eatre de 14 jours pour que les principaux bureaux de cr\u00e9dit les traitent comme une seule demande aux fins de notation. Utilise la meilleure offre comme ton plancher de n\u00e9gociation chez le concessionnaire.",
+    s5H: "APR vs. co\u00fbt total vs. paiement mensuel",
+    s5P1Pre:
+      "Trois nombres d\u00e9crivent chaque pr\u00eat auto, et les vendeurs te redirigent vers le moins informatif. L'APR est le co\u00fbt annualis\u00e9 d'emprunt. Le paiement mensuel est combien tu \u00e9cris par mois. Le ",
+    s5P1Bold: "total des paiements",
+    s5P1Post:
+      " est le montant r\u00e9el en dollars que tu remettras au moment o\u00f9 le pr\u00eat sera pay\u00e9 \u2014 et c'est le seul nombre qui capture le co\u00fbt complet.",
+    s5P2:
+      "Exemple travaill\u00e9 : un pr\u00eat de $25\u00a0000 \u00e0 9,49\u00a0% APR sur 60 mois a un paiement mensuel de $525 et totalise $31\u00a0475 pay\u00e9s \u2014 ce qui signifie $6\u00a0475 d'int\u00e9r\u00eats sur la dur\u00e9e de vie du pr\u00eat. \u00c9tends \u00e7a \u00e0 72 mois et le paiement mensuel tombe \u00e0 $458, mais le total pay\u00e9 saute \u00e0 $32\u00a0976 \u2014 $1\u00a0500 suppl\u00e9mentaires en int\u00e9r\u00eats pour la commodit\u00e9 d'un paiement plus bas. \u00c9tends \u00e0 84 mois et tu paies $34\u00a0558, avec le risque suppl\u00e9mentaire d'\u00eatre \u00e0 l'envers pendant les trois ou quatre premi\u00e8res ann\u00e9es.",
+    s5P3:
+      "N\u00e9gocie toujours contre le total des paiements. Le paiement mensuel est ce sur quoi le concessionnaire veut que tu te concentres parce qu'il est trivialement manipulable en changeant la dur\u00e9e du terme.",
+    s6H: "Dur\u00e9e du pr\u00eat : plus courte est presque toujours mieux",
+    s6P1:
+      "La r\u00e8gle empirique 20/4/10 est critiqu\u00e9e pour \u00eatre trop conservatrice dans un environnement de taux \u00e9lev\u00e9s, mais elle survit pour une raison : les calculs tiennent. Un terme de quatre ans \u00e0 8,49\u00a0% sur $20\u00a0000 totalise environ $23\u00a0664 pay\u00e9s \u2014 $3\u00a0664 d'int\u00e9r\u00eats. Un terme de six ans au m\u00eame taux totalise $25\u00a0653 pay\u00e9s \u2014 $5\u00a0653 d'int\u00e9r\u00eats. La diff\u00e9rence de $1\u00a0989 est le prix du terme plus long.",
+    s6P2:
+      "En plus du co\u00fbt d'int\u00e9r\u00eat pur, le terme plus long cr\u00e9e deux risques structurels. Premi\u00e8rement, tu passes plus de temps sous l'eau \u2014 la d\u00e9pr\u00e9ciation d\u00e9passe le remboursement du capital, donc si tu totalises la voiture ou veux vendre, tu dois plus qu'elle ne vaut. Deuxi\u00e8mement, plus le terme est long, plus il est probable que tes circonstances de vie changent (travail, famille, d\u00e9m\u00e9nagement) et te forcent \u00e0 une vente ou un \u00e9change d\u00e9savantageux.",
+    s6P3:
+      "Pour la plupart des acheteurs, 48 mois est la limite sup\u00e9rieure. 60 mois est acceptable sur un v\u00e9hicule de meilleure qualit\u00e9 avec un acompte substantiel. 72 mois et au-del\u00e0 devraient \u00eatre un dernier recours.",
+    s7H: "Acompte, GAP et \u00eatre sous l'eau",
+    s7P1:
+      "Un acompte de 20\u00a0% est la r\u00e9f\u00e9rence de longue date parce qu'il fait deux choses \u00e0 la fois. Il r\u00e9duit imm\u00e9diatement le capital que tu finances, abaissant \u00e0 la fois le paiement mensuel et l'int\u00e9r\u00eat total. Et il absorbe le coup de d\u00e9pr\u00e9ciation abrupt de la premi\u00e8re ann\u00e9e, maintenant ton ratio pr\u00eat-valeur en dessous de 100\u00a0% d\u00e8s le premier jour. Sans ce coussin, un v\u00e9hicule qui se d\u00e9pr\u00e9cie de 18\u201322\u00a0% la premi\u00e8re ann\u00e9e te laisse sous l'eau \u2014 devant plus que la voiture ne vaut.",
+    s7P2:
+      "La couverture GAP (Guaranteed Asset Protection) existe sp\u00e9cifiquement pour cette lacune. Si ton v\u00e9hicule est totalis\u00e9 ou vol\u00e9, le GAP paie la diff\u00e9rence entre le r\u00e8glement de l'assurance (valeur en esp\u00e8ces r\u00e9elle) et ton solde de pr\u00eat impay\u00e9. Le GAP est v\u00e9ritablement pr\u00e9cieux, mais le bureau F&I le vend r\u00e9guli\u00e8rement \u00e0 $700\u2013$1\u00a0200, tandis que les caisses populaires offrent la m\u00eame couverture pour $200\u2013$400. Ach\u00e8te le GAP de ta caisse populaire, pas du concessionnaire.",
+    s7P3Pre:
+      "Un pi\u00e8ge de plus : rouler le capital n\u00e9gatif d'un pr\u00eat pr\u00e9c\u00e9dent dans le nouveau. Le bureau F&I du concessionnaire peut tranquillement gonfler ton nouveau pr\u00eat avec le d\u00e9ficit de ta reprise. Le r\u00e9sultat est un pr\u00eat qui commence instantan\u00e9ment sous l'eau et le reste pendant des ann\u00e9es. Entre en sachant la valeur en gros et au d\u00e9tail de ta reprise (ex\u00e9cute le VIN via notre ",
+    s7P3Link: "v\u00e9rification VIN",
+    s7P3Post:
+      " et l'outil de rachat du fabricant ou KBB) et n\u00e9gocie-la comme une transaction s\u00e9par\u00e9e.",
+    s8H: "Louer vs. acheter une voiture d'occasion",
+    s8P1:
+      "La location de voitures d'occasion est rare mais pas inconnue. Une poign\u00e9e de bras de financement captifs (BMW Financial, Mercedes-Benz Financial, Lexus Financial, Audi Financial) louent des v\u00e9hicules certifi\u00e9s pr\u00e9-poss\u00e9d\u00e9s \u00e0 des acheteurs qualifi\u00e9s, g\u00e9n\u00e9ralement sur des termes de 24 ou 36 mois. Les calculs battent rarement l'achat, parce que la courbe de d\u00e9pr\u00e9ciation s'est d\u00e9j\u00e0 aplatie : tu paies le coup r\u00e9siduel sur un v\u00e9hicule qui se d\u00e9pr\u00e9ciera plus lentement qu'un neuf.",
+    s8P2:
+      "Pour la plupart des acheteurs, louer une voiture d'occasion est le mauvais choix. Financer une voiture d'occasion te donne la pleine propri\u00e9t\u00e9, aucun plafond de kilom\u00e9trage, aucun frais d'usure de fin de location et la possibilit\u00e9 de vendre ou d'\u00e9changer quand tu choisis. Les sc\u00e9narios o\u00f9 la location d'occasion a du sens sont \u00e9troits : un acheteur qui valorise la prime de garantie soutenue par le fabricant d'un programme CPO, conduit bien en dessous de 12\u00a0000 miles par an et a l'intention de mettre \u00e0 niveau fr\u00e9quemment.",
+    s9H: "Refinancement : quand et comment",
+    s9P1:
+      "Le refinancement remplace ton pr\u00eat auto existant par un nouveau \u00e0 (id\u00e9alement) un APR plus bas. Trois sc\u00e9narios justifient couramment un refinancement :",
+    s9List: [
+      { bold: "Les taux ont baiss\u00e9.", body: " M\u00eame une r\u00e9duction d'un point de pourcentage peut \u00e9conomiser des centaines sur le terme restant." },
+      { bold: "Ton cr\u00e9dit s'est am\u00e9lior\u00e9.", body: " Les emprunteurs qui ont pris un pr\u00eat subprime il y a un an et ont reconstruit leur cr\u00e9dit peuvent r\u00e9guli\u00e8rement r\u00e9duire leur taux de plusieurs points." },
+      { bold: "Tu as besoin d'un terme diff\u00e9rent.", body: " Refinancer vers un terme plus court r\u00e9duit le co\u00fbt d'int\u00e9r\u00eat ; \u00e9tendre le terme r\u00e9duit le paiement mensuel mais augmente le co\u00fbt total." },
+    ],
+    s9P2:
+      "M\u00e9canique : le pr\u00eateur de refinancement rembourse le pr\u00eat d'origine, prend un nouveau privil\u00e8ge sur le v\u00e9hicule, et tu commences \u00e0 effectuer des paiements sur le nouveau pr\u00eat. Il n'y a g\u00e9n\u00e9ralement pas de co\u00fbt au-del\u00e0 d'un petit frais d'enregistrement de privil\u00e8ge. Les p\u00e9nalit\u00e9s de remboursement anticip\u00e9 sont rares sur les pr\u00eats auto mais v\u00e9rifie le contrat original avant d'appuyer sur la g\u00e2chette.",
+    s10H: "Survivre au bureau F&I",
+    s10P1:
+      "Le bureau financier est l\u00e0 o\u00f9 se fait le profit du concessionnaire. Apr\u00e8s avoir n\u00e9goci\u00e9 le prix du v\u00e9hicule, tu t'assois avec le directeur financier qui te fait passer par un long menu d'extras. Chacun est une n\u00e9gociation s\u00e9par\u00e9e ; aucun d'eux n'est requis.",
+    s10List: [
+      { bold: "Garantie prolong\u00e9e / contrat de service du v\u00e9hicule", body: " \u2014 peut valoir la peine sur certains v\u00e9hicules, mais des marges de 100\u2013200\u00a0% sont courantes. Compare avec les prix des caisses populaires." },
+      { bold: "Assurance GAP", body: " \u2014 pr\u00e9cieux, mais la marge du concessionnaire est g\u00e9n\u00e9ralement 3\u20135x le prix des caisses populaires." },
+      { bold: "Protection des pneus et des roues", body: " \u2014 marge \u00e9lev\u00e9e, faible utilit\u00e9 pour la plupart des acheteurs." },
+      { bold: "Protection de la peinture / protection des tissus", body: " \u2014 g\u00e9n\u00e9ralement une application de cire ou un spray de tissu marqu\u00e9 \u00e0 1\u00a0000\u00a0%. Refuse." },
+      { bold: "Gravure VIN", body: " \u2014 cens\u00e9 dissuader le vol. Tu peux acheter un kit pour $20." },
+      { bold: "Remplissage des pneus \u00e0 l'azote", body: " \u2014 l'air est \u00e0 78\u00a0% d'azote gratuitement." },
+    ],
+    s10P2:
+      "Lis le contrat attentivement avant de signer. V\u00e9rifie que l'APR, le terme et le total des paiements correspondent \u00e0 ce que tu as convenu verbalement. V\u00e9rifie qu'aucun extra n'appara\u00eet que tu n'as pas autoris\u00e9. Une fois que tu signes, faire retirer des choses devient beaucoup plus difficile.",
+    specH: "Situations de financement sp\u00e9cialis\u00e9es",
+    specP:
+      "Le manuel standard ci-dessus couvre la majorit\u00e9 des acheteurs, mais plusieurs situations m\u00e9ritent leur propre consid\u00e9ration : emprunteurs subprime, premiers acheteurs, demandeurs ind\u00e9pendants et acheteurs qui financent des v\u00e9hicules \u00e0 titre marqu\u00e9 ou plus anciens.",
+    sub1H: "Financement subprime sans se faire piper",
+    sub1P:
+      "Les emprunteurs subprime (FICO 500\u2013620) font face \u00e0 des APR dans la fourchette 14\u201319\u00a0% et voient souvent leurs demandes achemin\u00e9es vers des pr\u00eateurs sp\u00e9cialis\u00e9s. Quelques principes pour te prot\u00e9ger : insiste toujours sur un pr\u00eat amortissable \u00e0 int\u00e9r\u00eat simple, jamais un contrat \u00e0 int\u00e9r\u00eat pr\u00e9calcul\u00e9 qui p\u00e9nalise le remboursement anticip\u00e9 ; v\u00e9rifie qu'il n'y a pas de p\u00e9nalit\u00e9 de remboursement anticip\u00e9 ; plafonne le terme \u00e0 60 mois m\u00eame si plus long est offert ; et mets autant que possible en acompte pour r\u00e9duire le pr\u00eat-valeur en dessous de 100\u00a0%. De nombreux acheteurs subprime refinancent apr\u00e8s 12 mois de paiements ponctuels qui reconstruisent le cr\u00e9dit, r\u00e9duisant leur taux de trois points de pourcentage ou plus.",
+    sub2H: "Programmes pour premiers acheteurs",
+    sub2P:
+      "La plupart des grandes caisses populaires et plusieurs bras captifs de fabricants g\u00e8rent des programmes d\u00e9di\u00e9s aux premiers acheteurs qui assouplissent les exigences de cr\u00e9dit en \u00e9change d'un emploi document\u00e9, d'une petite v\u00e9rification de revenu et parfois d'un cosignataire. Les APR sont g\u00e9n\u00e9ralement proches des taux prime plut\u00f4t que subprime, et les dur\u00e9es de terme sont contraintes \u00e0 48\u201360 mois. Cela vaut la peine de poursuivre agressivement avant d'accepter un taux subprime plus \u00e9lev\u00e9.",
+    sub3H: "Emprunteurs ind\u00e9pendants et 1099",
+    sub3P:
+      "Les demandeurs ind\u00e9pendants font souvent face \u00e0 des frictions parce que les pr\u00eateurs utilisent les revenus d\u00e9clar\u00e9s des W-2 comme leur v\u00e9rification par d\u00e9faut. Apporte deux ans de d\u00e9clarations de revenus personnelles et d'entreprise, les deux mois les plus r\u00e9cents de relev\u00e9s bancaires personnels montrant des d\u00e9p\u00f4ts coh\u00e9rents et un r\u00e9sum\u00e9 de profits et pertes pour l'ann\u00e9e en cours. Les caisses populaires sont g\u00e9n\u00e9ralement plus flexibles que les banques nationales pour les demandeurs ind\u00e9pendants, et beaucoup utiliseront la moyenne des revenus nets des deux derni\u00e8res ann\u00e9es \u00e0 des fins de qualification.",
+    sub4H: "Financer des v\u00e9hicules marqu\u00e9s ou plus anciens",
+    sub4PPre:
+      "De nombreux pr\u00eateurs refusent de financer enti\u00e8rement les v\u00e9hicules \u00e0 titre salvage ou reconstruit. Ceux qui le font facturent g\u00e9n\u00e9ralement 2\u20135 points de pourcentage au-dessus de leur taux de titre propre et exigent des termes plus courts. Les v\u00e9hicules de plus de 10 ann\u00e9es mod\u00e8les ou au-dessus de 120\u00a0000 miles font face \u00e0 des restrictions similaires. Si tu finances dans l'une ou l'autre cat\u00e9gorie, attends-toi \u00e0 un bassin de pr\u00eateurs plus petit et divulgue l'\u00e9tat du titre d\u00e8s le d\u00e9part pour ne pas perdre de temps sur une pr\u00e9approbation qui s'effondre au financement. Obtiens une ",
+    sub4PLink: "v\u00e9rification compl\u00e8te du titre salvage",
+    sub4PPost:
+      " avant la demande pour que tu saches exactement quelles marques le titre porte.",
+    sub5H: "M\u00e9canique de la reprise dans un accord financ\u00e9",
+    sub5P1:
+      "Les reprises compliquent les calculs de financement de mani\u00e8res qui fonctionnent constamment contre l'acheteur. Le concessionnaire offre une valeur de reprise, l'applique comme cr\u00e9dit envers l'achat et finance le reste. Deux pi\u00e8ges dominent. Premi\u00e8rement, la valeur de reprise offerte par le concessionnaire est g\u00e9n\u00e9ralement 15\u201325\u00a0% en dessous de la valeur entre particuliers \u2014 le concessionnaire absorbe le co\u00fbt de reconditionnement et le risque de revente dans la marge. Deuxi\u00e8mement, si tu dois plus sur ton pr\u00eat existant que ce que vaut la reprise, le capital n\u00e9gatif roule dans le nouveau pr\u00eat, te d\u00e9marrant instantan\u00e9ment sous l'eau.",
+    sub5P2:
+      "Approche d\u00e9fensive : obtiens une offre instantan\u00e9e d'acheteurs en ligne (Carvana, CarMax, plateformes de type Vroom) avant d'entrer chez le concessionnaire. Utilise l'offre \u00e9crite la plus \u00e9lev\u00e9e comme ton plancher. De nombreux acheteurs trouvent que vendre \u00e0 une plateforme d'offre instantan\u00e9e et entrer chez le concessionnaire avec de l'argent pour le nouveau v\u00e9hicule donne une meilleure \u00e9conomie totale que la reprise. Les cr\u00e9dits d'imp\u00f4t de reprise peuvent d\u00e9caler le calcul dans certains \u00c9tats \u2014 la taxe de vente est commun\u00e9ment \u00e9valu\u00e9e uniquement sur la diff\u00e9rence entre le prix du nouveau v\u00e9hicule et la valeur de reprise \u2014 alors ex\u00e9cute les deux sc\u00e9narios avec le taux d'imposition sp\u00e9cifique de ton \u00c9tat.",
+    insH: "Assurance et immatriculation : les postes cach\u00e9s",
+    insP1:
+      "L'assurance est le deuxi\u00e8me plus grand co\u00fbt continu de propri\u00e9t\u00e9 d'un v\u00e9hicule apr\u00e8s le paiement du pr\u00eat lui-m\u00eame. Plusieurs facteurs qui fa\u00e7onnent ta prime sont contr\u00f4lables et m\u00e9ritent d'\u00eatre optimis\u00e9s avant de finaliser l'achat. Le choix du v\u00e9hicule compte : une Hyundai Elantra est consid\u00e9rablement moins ch\u00e8re \u00e0 assurer qu'une Dodge Charger de m\u00eame valeur, parce que les assureurs tarifient en fonction de la fr\u00e9quence des vols, de la s\u00e9v\u00e9rit\u00e9 des r\u00e9clamations et des donn\u00e9es historiques de perte sur cette marque/mod\u00e8le sp\u00e9cifique. Obtiens toujours un devis contraignant sur le v\u00e9hicule exact avant de t'engager.",
+    insP2:
+      "Les niveaux de couverture comptent sur les v\u00e9hicules financ\u00e9s. Les pr\u00eateurs exigent une couverture compl\u00e8te et collision avec des franchises plafonn\u00e9es \u00e0 $1\u00a0000 pour la dur\u00e9e du pr\u00eat ; la plupart des acheteurs par d\u00e9faut sur des franchises de $500, ce qui augmente la prime de mani\u00e8re significative. Les limites de responsabilit\u00e9 devraient suivre ta valeur nette, pas le minimum du pr\u00eateur \u2014 la petite diff\u00e9rence de prime entre la responsabilit\u00e9 minimale de l'\u00c9tat et une police de $250k/$500k est l'un des dollars d'assurance \u00e0 plus fort levier que tu d\u00e9penses.",
+    insP3:
+      "Les co\u00fbts d'immatriculation varient consid\u00e9rablement par \u00c9tat. La taxe fonci\u00e8re sur les v\u00e9hicules (Virginie, Connecticut, Massachusetts, autres) peut ajouter des centaines annuellement. Les frais d'immatriculation en Californie sont \u00e9chelonn\u00e9s en fonction de la valeur du v\u00e9hicule ; au Texas, ils sont fixes. Int\u00e8gre le co\u00fbt d'immatriculation r\u00e9current dans ton budget annuel de propri\u00e9t\u00e9, pas seulement les chiffres d'achat de la premi\u00e8re ann\u00e9e.",
+    cycH: "Financement dans un environnement de taux \u00e9lev\u00e9s : principes qui survivent au cycle",
+    cycP1:
+      "Les taux de pr\u00eat auto ont oscill\u00e9 ces derni\u00e8res ann\u00e9es. Les principes qui survivent \u00e0 tout environnement de taux sont simples : magasine des pr\u00e9approbations d'au moins trois pr\u00eateurs, ancre-toi sur le co\u00fbt total plut\u00f4t que sur le paiement mensuel, garde le terme aussi court que le budget le permet, et refinance opportun\u00e9ment \u00e0 mesure que le cr\u00e9dit s'am\u00e9liore et que les taux bougent. Les acheteurs qui suivent ces quatre principes \u00e9conomisent r\u00e9guli\u00e8rement des milliers sur la dur\u00e9e de vie du pr\u00eat par rapport \u00e0 ceux qui entrent dans une concession sans pr\u00e9paration.",
+    cycP2Pre:
+      "\u00c9galement important : le choix du v\u00e9hicule lui-m\u00eame fa\u00e7onne l'\u00e9conomie du financement. Un v\u00e9hicule fiable \u00e0 d\u00e9pr\u00e9ciation plus faible prot\u00e8ge ta position pr\u00eat-valeur m\u00eame quand les taux fluctuent. Un v\u00e9hicule avec une forte valeur de revente (Toyota, Honda, Lexus, Subaru) tend \u00e0 rester au-dessus de l'eau \u00e0 travers le terme du pr\u00eat ; les marques \u00e0 d\u00e9pr\u00e9ciation plus rapide et les v\u00e9hicules de luxe \u00e0 haute valeur peuvent tomber en dessous du solde du pr\u00eat pendant des ann\u00e9es. Le rapport d'historique que tu obtiens \u00e0 l'achat fa\u00e7onne la revente future \u2014 les v\u00e9hicules \u00e0 titre propre et \u00e0 faible accident obtiennent constamment de meilleures offres de reprise des ann\u00e9es plus tard. Ex\u00e9cute le rapport via notre ",
+    cycP2Link: "v\u00e9rification VIN",
+    cycP2Post: " avant de signer quoi que ce soit.",
+    relH: "Lecture connexe",
+    relCards: [
+      { href: "/guides/used-car-buying-complete-guide", title: "Guide complet d'achat de voiture d'occasion", desc: "De bout en bout : du budget \u00e0 la paperasse." },
+      { href: "/vin-check", title: "V\u00e9rification VIN", desc: "V\u00e9rifie le v\u00e9hicule avant de signer le pr\u00eat." },
+      { href: "/dealers", title: "Pour les concessionnaires", desc: "Rapports en gros pour les surfaces de vente." },
+      { href: "/guides", title: "Tous les guides", desc: "Achat, fraude, d\u00e9codage et rapports d'historique." },
+      { href: "/guides/car-history-report-guide", title: "Guide du rapport d'historique du v\u00e9hicule", desc: "Ce qu'il y a dans un rapport et comment le lire." },
+      { href: "/guides/vehicle-fraud-prevention", title: "Pr\u00e9vention de la fraude v\u00e9hiculaire", desc: "Fraude de titre, de compteur et de clonage." },
+      { href: "/blog", title: "Blog CarCheckerVIN", desc: "Trackers de taux, d\u00e9pr\u00e9ciation et actualit\u00e9s du march\u00e9." },
+      { href: "/glossary", title: "Glossaire voiture d'occasion", desc: "Chaque terme de pr\u00eat, concessionnaire et DMV d\u00e9fini." },
+    ],
+    contH: "Continue \u00e0 apprendre",
+    contPre: "Pr\u00eat \u00e0 \u00e9valuer le v\u00e9hicule derri\u00e8re le pr\u00eat ? D\u00e9code le VIN avec notre ",
+    contLink1: "outil de v\u00e9rification VIN",
+    contMid: " ou lis le ",
+    contLink2: "guide complet d'achat de voiture d'occasion",
+    contPost: " pour le manuel complet avant l'achat.",
+    faqH: "Questions fr\u00e9quemment pos\u00e9es",
+    faqP:
+      "R\u00e9ponses g\u00e9n\u00e9rales et \u00e9ducatives aux questions les plus recherch\u00e9es sur le financement d'une voiture d'occasion. Ceci est un guide informatif, pas un conseil financier personnalis\u00e9.",
+    bottomH: "\u00c9value le v\u00e9hicule avant de financer",
+    bottomP:
+      "Les marques de titre et l'historique des accidents peuvent plomber la valeur de revente \u2014 et ta valeur de pr\u00eat \u00e0 valeur avec elle. Ex\u00e9cute d'abord le VIN.",
+  },
 } as const;
 
 const FAQS_EN = [

@@ -179,6 +179,89 @@ const COPY = {
       { label: "Precios", href: "/pricing" },
     ],
   },
+  fr: {
+    h1: "Politique de remboursement",
+    lastUpdatedLabel: "Dernière mise à jour :",
+    lastUpdatedValue: "24 mai 2026",
+    bannerHeading: "La politique en une phrase",
+    bannerBefore: "Nous émettons un remboursement ",
+    bannerBoldOnly: "uniquement",
+    bannerMid: " lorsque les données de ton rapport CarCheckerVIN ne ",
+    bannerBoldNot: "correspondent pas",
+    bannerSuffix:
+      " au véhicule réel identifié par le VIN que tu as soumis. Toutes les autres demandes de remboursement ne sont pas éligibles.",
+    h2Overview: "1. Aperçu",
+    overview: {
+      pre: "",
+      brandBold: "CarCheckerVIN",
+      mid: " (carcheckervin.com) est exploité par ",
+      companyBold: "Cognifyx Solutions LLC",
+      suffix:
+        ", une société à responsabilité limitée du Nouveau-Mexique dont le siège social est situé au 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, États-Unis. CarCheckerVIN vend des rapports numériques d'historique de véhicule qui sont générés et livrés instantanément dès la réception du paiement. Comme chaque rapport est un produit numérique unique produit à la demande à partir de bases de données automobiles tierces, les remboursements sont limités à la seule circonstance décrite ci-dessous.",
+    },
+    h2Eligible: "2. Le seul scénario éligible au remboursement",
+    eligibleLead:
+      "Un remboursement sera émis si, et seulement si, le rapport que tu as acheté contient des données qui ne correspondent pas au véhicule identifié par le VIN que tu as saisi au moment du paiement. Cela inclut les situations où le rapport renvoie :",
+    eligibleBullets: [
+      "Une année, marque ou modèle différent du véhicule rattaché au VIN par les registres fédéraux (NHTSA / NMVTIS) ;",
+      "Des spécifications ou équipements qui sont manifestement et matériellement incohérents avec le véhicule réel pour ce VIN ;",
+      "Un véhicule d'une catégorie entièrement différente (par exemple, une moto retournée pour un VIN de voiture de tourisme, ou vice versa).",
+    ],
+    h2NotPre: "3. Ce qui ",
+    h2NotEm: "n'est pas",
+    h2NotSuf: " éligible au remboursement",
+    notLead:
+      "Pour fixer des attentes claires avant l'achat, les situations suivantes ne sont pas éligibles au remboursement :",
+    notBullets: [
+      "Remords de l'acheteur, changement d'avis, achat accidentel ou commande du mauvais VIN.",
+      "Registres limités ou absents pour les véhicules anciens (typiquement VIN antérieurs à 1981), véhicules uniquement de récupération ou véhicules non américains où les bases de données tierces contiennent moins de données.",
+      "Désaccord avec les conclusions du rapport (par exemple, un accident, un rappel, un privilège ou une marque de titre que le client estime ne devoir pas être listé) lorsque les données sous-jacentes sont fidèlement reflétées depuis la base de données source.",
+      "Impossibilité d'accéder au rapport en raison d'un lien e-mail expiré, d'un reçu manquant ou d'un problème local d'appareil/de réseau \u2014 dans ces cas, nous renvoyons le rapport sans frais.",
+      "Rapports que le client estime incomplets parce qu'une base de données tierce n'a pas renvoyé certains champs (par exemple, photos manquantes, comparables de valeur de marché manquants ou détails d'équipement non disponibles). Lorsque les fournisseurs tiers ne renvoient pas de données, CarCheckerVIN ne peut pas les synthétiser.",
+      "Rapports achetés via un revendeur tiers, une carte cadeau, un crédit promotionnel ou un VIN qui a déjà été interrogé dans le même cycle de facturation.",
+      "Abonnements ou forfaits après qu'un rapport a été généré à partir du forfait. Les crédits de rapport inutilisés au sein d'un forfait restent utilisables mais ne sont pas remboursables en espèces.",
+    ],
+    h2Evidence: "4. Preuves requises",
+    evidencePre: "Pour traiter une réclamation de non-correspondance, envoie ce qui suit à ",
+    evidenceMid: " dans les ",
+    evidenceBold: "30 jours",
+    evidenceSuf: " suivant l'achat initial :",
+    evidenceBullets: [
+      "Le VIN à 17 chiffres que tu as soumis et ton identifiant de commande ou de reçu.",
+      "Une photo de la plaque VIN du véhicule, du document d'immatriculation ou du titre montrant clairement le même VIN.",
+      "Une courte note décrivant quel(s) champ(s) du rapport ne correspondent pas au véhicule réel (année / marque / modèle / catégorie / autre).",
+    ],
+    evidenceFooterPre: "Notre équipe examinera la réclamation, recoupera la base de données source et répondra dans un délai de ",
+    evidenceFooterBold: "3 jours ouvrables",
+    evidenceFooterSuf: ".",
+    h2Issued: "5. Comment les remboursements sont émis",
+    issuedPre:
+      "Les remboursements approuvés sont émis sur le mode de paiement original utilisé au moment du paiement. La plupart des réseaux de cartes affichent le crédit dans les ",
+    issuedBold: "5 à 10 jours ouvrables",
+    issuedSuf:
+      ". Les paiements par virement bancaire ou portefeuille électronique peuvent prendre plus de temps selon le processeur. Nous n'émettons pas de remboursements en espèces, en crédit boutique ou par méthode alternative pour une réclamation de paiement par carte approuvée.",
+    h2Chargebacks: "6. Rétrofacturations",
+    chargebacksPre: "Nous préférons fortement que les clients contactent ",
+    chargebacksSuf:
+      " avant d'initier une rétrofacturation par carte de paiement. La plupart des demandes éligibles sont résolues dans un jour ouvrable. Les rétrofacturations déposées sans nous contacter d'abord seront contestées avec des preuves incluant le VIN soumis, le rapport livré, l'horodatage de la livraison et l'adresse IP utilisée au moment du paiement.",
+    h2Free: "7. Rapports gratuits",
+    free:
+      "Les rapports générés sous un niveau gratuit ou un crédit promotionnel n'ont aucune valeur monétaire et ne sont donc pas remboursables, mais tu peux toujours signaler une non-correspondance de données en utilisant le processus ci-dessus afin que nous puissions signaler l'enregistrement sous-jacent à nos fournisseurs de données.",
+    h2Changes: "8. Modifications de cette politique",
+    changes:
+      "Nous pouvons mettre à jour cette politique de temps à autre. Les changements importants seront annoncés sur cette page et la date de \u00ab Dernière mise à jour \u00bb ci-dessus sera révisée. Les demandes de remboursement sont évaluées en vertu de la politique en vigueur au moment de l'achat initial.",
+    h2Contact: "9. Contact",
+    contactLead: "Demandes de remboursement, soumissions de preuves et toute question sur la politique :",
+    emailLabel: "E-mail : ",
+    phoneLabel: "Téléphone : ",
+    phoneHours: " (lun\u2013ven, 9 h\u201318 h, heure de l'Est des États-Unis)",
+    relatedLabel: "Pages connexes : ",
+    relatedLinks: [
+      { label: "Conditions d'utilisation", href: "/terms" },
+      { label: "Politique de confidentialité", href: "/privacy" },
+      { label: "Tarifs", href: "/pricing" },
+    ],
+  },
 } as const;
 
 interface Props {

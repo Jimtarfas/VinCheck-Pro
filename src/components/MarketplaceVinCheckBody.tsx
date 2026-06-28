@@ -204,6 +204,92 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbHub: "V\u00E9rification VIN marketplace",
+    h1: (name: string) => `V\u00E9rification VIN ${name}`,
+    heroSub: (name: string) =>
+      `Tu ach\u00E8tes un v\u00E9hicule sur ${name} ? Lance d'abord une v\u00E9rification VIN pour v\u00E9rifier l'historique complet du v\u00E9hicule avant de t'engager dans tout achat.`,
+    aboutHeading: (name: string) => `Pourquoi lancer une v\u00E9rification VIN sur ${name} ?`,
+    riskLabels: {
+      low: "Risque de fraude faible",
+      medium: "Risque de fraude moyen",
+      high: "Risque de fraude \u00E9lev\u00E9",
+    } as Record<"low" | "medium" | "high", string>,
+    riskOn: (label: string, name: string) => `${label} sur ${name}`,
+    featuresHeading: "Ce qui est inclus dans ton rapport VIN",
+    featuresSub: (name: string) => `Tout ce dont tu as besoin pour v\u00E9rifier n'importe quelle annonce ${name}`,
+    features: [
+      {
+        title: "Historique de titre et propri\u00E9t\u00E9",
+        desc: "V\u00E9rifie le titre propre, contr\u00F4le les marques salvage ou rebuilt, et vois chaque propri\u00E9taire pass\u00E9",
+      },
+      {
+        title: "Registres d'accidents et dommages",
+        desc: "D\u00E9couvre les collisions signal\u00E9es, d\u00E9ploiements d'airbag et \u00E9v\u00E9nements de dommage structurel",
+      },
+      {
+        title: "Sp\u00E9cifications compl\u00E8tes du v\u00E9hicule",
+        desc: "Confirme que le moteur, la finition, les options d'usine et les d\u00E9tails de construction correspondent \u00E0 l'annonce",
+      },
+      {
+        title: "V\u00E9rification de l'odom\u00E8tre",
+        desc: "D\u00E9tecte les retours en arri\u00E8re potentiels en comparant les lectures de kilom\u00E9trage \u00E0 travers l'historique",
+      },
+    ],
+    popularHeading: (name: string) => `V\u00E9hicules courants trouv\u00E9s sur ${name}`,
+    popularSub: (name: string) =>
+      `Lance une v\u00E9rification VIN sur n'importe lequel de ces types de v\u00E9hicule couramment list\u00E9s sur ${name}`,
+    howHeading: (name: string) => `Comment v\u00E9rifier un VIN de ${name}`,
+    howSteps: (name: string) => [
+      {
+        step: "1",
+        title: "Trouve le VIN dans l'annonce",
+        desc: `Localise le VIN de 17 caract\u00E8res dans l'annonce ${name}, ou demande au vendeur de le fournir. Tu peux aussi le trouver sur le tableau de bord du v\u00E9hicule ou le montant de porte.`,
+      },
+      {
+        step: "2",
+        title: "Entre le VIN ci-dessus",
+        desc: "Tape ou colle le VIN dans la bo\u00EEte de recherche en haut de cette page. Assure-toi que les 17 caract\u00E8res sont corrects avant de soumettre.",
+      },
+      {
+        step: "3",
+        title: "R\u00E9vise ton rapport avant d'acheter",
+        desc: `Obtiens ton rapport complet d'historique v\u00E9hicule instantan\u00E9ment \u2014 incluant statut du titre, registres d'accidents, historique du kilom\u00E9trage et sp\u00E9cifications \u2014 avant de rencontrer le vendeur ${name}.`,
+      },
+    ],
+    otherHeading: "V\u00E9rifie d'autres marketplaces",
+    viewAllLabel: "Voir toutes les marketplaces",
+    faqHeading: "Questions fr\u00E9quentes",
+    ctaHeading: (name: string) => `Pr\u00EAt \u00E0 v\u00E9rifier un VIN de ${name} ?`,
+    ctaSub: "Obtiens ton rapport complet d'historique v\u00E9hicule avant d'acheter",
+    faqBuilder: (name: string) => [
+      {
+        q: `Une v\u00E9rification VIN est-elle gratuite pour les annonces ${name} ?`,
+        a: `Oui. Entre le VIN de 17 caract\u00E8res de toute annonce ${name} dans la bo\u00EEte de recherche ci-dessus pour d\u00E9coder le v\u00E9hicule et obtenir l'historique disponible \u2014 sans compte ni paiement requis. Comme les annonces ${name} sont \u00E9crites par le vendeur, une v\u00E9rification VIN ind\u00E9pendante est la seule fa\u00E7on de confirmer que le v\u00E9hicule est ce que l'annonce pr\u00E9tend avant de d\u00E9penser ton argent ou ton temps \u00E0 te d\u00E9placer.`,
+      },
+      {
+        q: `Est-il s\u00FBr d'acheter une voiture sur ${name} ?`,
+        a: `Acheter sur ${name} peut \u00EAtre s\u00FBr si tu v\u00E9rifies le v\u00E9hicule toi-m\u00EAme. Les annonces de particuliers et en ligne comportent un risque de fraude plus \u00E9lev\u00E9 que les concessionnaires franchis\u00E9s car aucun tiers ne confirme le titre, le kilom\u00E9trage ou l'\u00E9tat. Lance le VIN ci-dessus pour faire ressortir les registres d'accidents, salvage, vol et odom\u00E8tre, rencontre dans un lieu public, inspecte la voiture en personne, et ne fais jamais de virement d'acompte avant de la voir.`,
+      },
+      {
+        q: `Comment v\u00E9rifier un VIN d'une annonce ${name} ?`,
+        a: `Copie le VIN de 17 caract\u00E8res de l'annonce ${name} et colle-le dans la bo\u00EEte de recherche ci-dessus. Quand tu rencontres le vendeur, confirme que ce m\u00EAme VIN appara\u00EEt sur le tableau de bord c\u00F4t\u00E9 conducteur, sur la calcomanie du montant de porte et sur le titre \u2014 ils doivent tous correspondre. Un VIN montr\u00E9 dans l'annonce qui diff\u00E8re de celui sur la voiture est un signe d'alerte majeur d'un v\u00E9hicule clon\u00E9 ou mal repr\u00E9sent\u00E9.`,
+      },
+      {
+        q: `Comment \u00E9viter les arnaques et curbstoners sur ${name} ?`,
+        a: `Pour \u00E9viter les arnaques sur ${name}, surveille les prix bien en dessous du march\u00E9, les vendeurs qui refusent de partager le VIN, la pression pour payer avant inspection, et les "concessionnaires" se faisant passer pour des propri\u00E9taires particuliers (curbstoners) revendant des voitures avec marques de titre. Lance d'abord le VIN ci-dessus, confirme que le nom du vendeur correspond au titre, ne paie jamais par virement ou carte cadeau, et \u00E9loigne-toi de toute annonce o\u00F9 l'histoire ou les papiers ne tiennent pas.`,
+      },
+      {
+        q: `Puis-je v\u00E9rifier si une voiture de ${name} est vol\u00E9e, salvage ou endommag\u00E9e par inondation ?`,
+        a: `Oui. Entre le VIN ci-dessus pour lancer une v\u00E9rification soutenue par NMVTIS qui fait ressortir les marques de titre signal\u00E9es salvage, rebuilt, flood et total-loss, les registres de vol et les divergences d'odom\u00E8tre o\u00F9 ils apparaissent dans les bases de donn\u00E9es nationales. Ce sont exactement les probl\u00E8mes qu'un vendeur ${name} peut ne pas divulguer, donc v\u00E9rifier le VIN avant d'acheter te prot\u00E8ge d'h\u00E9riter d'un v\u00E9hicule avec marque de titre ou vol\u00E9 que tu ne peux pas immatriculer l\u00E9galement.`,
+      },
+      {
+        q: `Pourquoi les ventes entre particuliers ${name} ont-elles besoin d'une v\u00E9rification VIN ?`,
+        a: `Les ventes entre particuliers ${name} sont g\u00E9n\u00E9ralement vendues "en l'\u00E9tat" sans garantie et sans la divulgation du concessionnaire, donc l'acheteur assume tout le risque. Personne ne v\u00E9rifie les affirmations du vendeur sur les accidents, le kilom\u00E9trage ou le statut du titre. Un rapport d'historique VIN te donne un registre ind\u00E9pendant du pass\u00E9 de la voiture \u2014 accidents, marques de titre, lectures d'odom\u00E8tre et vols signal\u00E9s \u2014 pour que tu puisses n\u00E9gocier ou t'\u00E9loigner avant de remettre de l'argent.`,
+      },
+    ],
+  },
 } as const;
 
 const FEATURE_ICONS = [Shield, Search, FileText, Clock] as const;

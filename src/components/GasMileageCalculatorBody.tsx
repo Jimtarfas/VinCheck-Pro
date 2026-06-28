@@ -140,6 +140,70 @@ const COPY = {
       "Antes de comprar, ejecuta una verificación VIN gratis para asegurarte de que el historial del vehículo esté limpio — un auto dañado por inundación o reparado tras accidente puede tener problemas ocultos de motor y sistema de combustible que afectan el MPG del mundo real.",
     bottomCta: "Ejecuta una verificación VIN gratis",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Calculateur de consommation de carburant",
+    h1: "Calculateur de consommation de carburant",
+    intro:
+      "Calcule exactement combien tu dépenses en essence — par jour, par mois et par année. Saisis ton MPG, les miles parcourus et le prix local de l'essence. Inclut le mode road trip, les moyennes de prix des 50 États américains et une comparaison de véhicules avec analyse du seuil de rentabilité.",
+    h2Reference: "Coût annuel de carburant par type de véhicule",
+    referenceIntro:
+      "Basé sur 13 500 miles/an à la moyenne américaine de $3.45/gallon. À utiliser comme référence rapide quand tu magasines un véhicule neuf ou d'occasion.",
+    refColType: "Type de véhicule",
+    refColMpg: "MPG typique",
+    refColAnnual: "Coût annuel est.",
+    referenceRows: [
+      { type: "Gros SUV / Camion", mpg: "15–20", annual: "$2,330–$3,105" },
+      { type: "SUV intermédiaire", mpg: "22–27", annual: "$1,680–$2,060" },
+      { type: "Voiture compacte", mpg: "28–35", annual: "$1,290–$1,620" },
+      { type: "Hybride (non rechargeable)", mpg: "45–55", annual: "$820–$1,000" },
+      { type: "Hybride rechargeable (PHEV)", mpg: "50–80*", annual: "$560–$900*" },
+      { type: "Véhicule électrique (EV)", mpg: "100–130 MPGe", annual: "$500–$700†" },
+    ],
+    referenceNote:
+      "* Le chiffre PHEV suppose 40 % de miles électriques. † Le chiffre EV utilise l'électricité à $0.14/kWh, moyenne nationale.",
+    h2Improve: "Comment améliorer ta consommation de carburant",
+    improveTips: [
+      { title: "Garde les pneus correctement gonflés", detail: "Des pneus sous-gonflés augmentent la résistance au roulement et réduisent le MPG jusqu'à 3 %. Vérifie la pression de tes pneus chaque mois — le PSI correct est sur l'autocollant du montant de portière, pas sur le flanc du pneu." },
+      { title: "Accélère et freine progressivement", detail: "Une accélération agressive et un freinage brusque peuvent réduire l'économie de carburant de 15 à 30 % en conduite urbaine. Des entrées douces et progressives sont le changement de comportement le plus efficace pour économiser l'essence." },
+      { title: "Utilise le régulateur de vitesse sur autoroute", detail: "Maintenir une vitesse constante sur autoroute peut améliorer l'économie de carburant de 7 à 14 % comparé à une conduite à vitesse variable. Plus efficace en terrain plat." },
+      { title: "Remplace les filtres à air selon le calendrier", detail: "Un filtre à air moteur obstrué peut réduire la puissance et l'efficacité jusqu'à 10 %. La plupart des fabricants recommandent un remplacement tous les 15 000 à 30 000 miles." },
+      { title: "Réduis la vitesse sur autoroute", detail: "L'économie de carburant chute fortement au-dessus de 55 mph. Chaque 5 mph au-dessus de 55 coûte environ 7 à 14 % de plus en carburant. Sur un long trajet à 75 mph vs 65 mph, tu pourrais brûler 15 à 20 % plus d'essence." },
+      { title: "Retire le poids excédentaire", detail: "Chaque 100 lbs de poids supplémentaire réduit le MPG d'environ 1 %. Retire les objets lourds du coffre qui ne sont pas nécessaires." },
+    ],
+    h2GasVsHybrid: "Voiture à essence vs hybride — La mise à niveau en vaut-elle la peine ?",
+    gasVsHybridIntro:
+      "Les véhicules hybrides coûtent typiquement $3,000–$6,000 de plus que leurs équivalents non hybrides mais économisent $600–$1,000/an en carburant avec les habitudes de conduite américaines moyennes. Le seuil de rentabilité se situe typiquement à 4–8 ans — bien dans une période de propriété typique de 10 à 12 ans.",
+    gvhColScenario: "Scénario",
+    gvhColGas: "Essence (28 MPG)",
+    gvhColHybrid: "Hybride (50 MPG)",
+    gvhColSavings: "Économies annuelles",
+    gvhRows: [
+      ["10 000 mi/an", "$1,232", "$689", "$543"],
+      ["13 500 mi/an (moy.)", "$1,663", "$931", "$732"],
+      ["20 000 mi/an", "$2,464", "$1,380", "$1,084"],
+      ["25 000 mi/an", "$3,080", "$1,725", "$1,355"],
+    ],
+    gvhTipBoldLead: "Astuce :",
+    gvhTipBody:
+      " Utilise le mode de comparaison de véhicules dans le calculateur ci-dessus pour trouver les mois exacts de seuil de rentabilité pour tes habitudes spécifiques de conduite et la différence de prix entre les véhicules que tu envisages.",
+    crossLinks: [
+      { href: "/car-loan-calculator", label: "Calculateur prêt auto", sub: "Paiement mensuel et amortissement" },
+      { href: "/car-affordability-calculator", label: "Calculateur d'accessibilité", sub: "Prix max selon le revenu" },
+      { href: "/trade-in-value-estimator", label: "Estimateur de reprise", sub: "Combien vaut ta voiture ?" },
+    ],
+    h2Faq: "Foire aux questions",
+    faqs: [
+      { q: "Comment calculer mon coût d'essence par mile ?", a: "Coût d'essence par mile = prix de l'essence ÷ MPG. À $3.50/gallon et 28 MPG, ça fait $0.125 par mile. Notre calculateur l'affiche automatiquement avec les totaux mensuels et annuels." },
+      { q: "Combien l'Américain moyen dépense-t-il en essence par mois ?", a: "Environ $138–$150/mois sur la base de 13 500 miles/an à 28 MPG et $3.45/gallon. Les conducteurs à fort kilométrage ou propriétaires de gros camions et SUV peuvent dépenser $250–$400/mois." },
+      { q: "Comment trouver le MPG de ma voiture ?", a: "Vérifie l'autocollant jaune EPA d'économie de carburant de quand la voiture était neuve, ton manuel du propriétaire, ou cherche par année/marque/modèle sur fueleconomy.gov. Pour une mesure en conditions réelles : fais le plein complet, conduis 100+ miles, refais le plein, puis divise les miles parcourus par les gallons utilisés." },
+      { q: "Pourquoi mon MPG réel est-il plus bas que la cote EPA ?", a: "Les cotes EPA sont mesurées dans des conditions de test contrôlées. Le MPG en conditions réelles est typiquement 5 à 20 % plus bas à cause de la conduite agressive, du froid, de l'utilisation de la clim, du poids de chargement et de la pente de la route. La conduite urbaine affecte le plus le MPG ; la conduite sur autoroute est généralement plus proche de la cote EPA autoroute." },
+    ],
+    bottomHeading: "Tu cherches une voiture plus efficace ?",
+    bottomBody:
+      "Avant d'acheter, fais une vérification VIN gratuite pour t'assurer que l'historique du véhicule est propre — une voiture endommagée par inondation ou réparée après accident peut avoir des problèmes cachés de moteur et de circuit de carburant qui nuisent au MPG en conditions réelles.",
+    bottomCta: "Fais une vérification VIN gratuite",
+  },
 } as const;
 
 interface Props { locale: Locale; }

@@ -208,6 +208,102 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    crumbs: { home: "Accueil", guides: "Guides", current: "Qu'est-ce qu'un num\u00e9ro VIN ?" },
+    h1: "Qu'est-ce qu'un num\u00e9ro VIN ?",
+    lede: "Un num\u00e9ro d'identification du v\u00e9hicule (VIN) est un code unique de 17 caract\u00e8res attribu\u00e9 \u00e0 chaque v\u00e9hicule \u00e0 moteur fabriqu\u00e9 depuis 1981. Consid\u00e8re-le comme l'empreinte digitale de ta voiture : aucun v\u00e9hicule au monde ne partage le m\u00eame VIN, ce qui en fait le moyen le plus fiable d'identifier n'importe quelle voiture, camion ou SUV.",
+    sections: {
+      stands: {
+        h2: "Que signifie VIN ?",
+        body: "VIN est l'abr\u00e9viation de {strong}. Tu entendras peut-\u00eatre certaines personnes dire \u00ab num\u00e9ro VIN \u00bb, ce qui est techniquement redondant (comme dire \u00ab machine ATM \u00bb), mais l'expression est devenue si courante que les deux formes sont largement comprises. Que tu l'appelles VIN ou num\u00e9ro VIN, il s'agit du m\u00eame identifiant de 17 caract\u00e8res.",
+        strong: "Vehicle Identification Number (num\u00e9ro d'identification du v\u00e9hicule)",
+      },
+      history: {
+        h2: "Br\u00e8ve histoire du VIN",
+        p1: "Avant la standardisation des VIN, les fabricants utilisaient leurs propres syst\u00e8mes de num\u00e9rotation, avec des longueurs et formats variables. Il \u00e9tait donc difficile pour les r\u00e9gulateurs, les assureurs et les forces de l'ordre de suivre les v\u00e9hicules d'un \u00c9tat \u00e0 l'autre ou entre propri\u00e9taires.",
+        p2: "En 1954, les \u00c9tats-Unis ont commenc\u00e9 \u00e0 exiger des fabricants qu'ils estampent des num\u00e9ros de s\u00e9rie sur les v\u00e9hicules, mais il n'existait aucun format universel. La norme moderne du VIN \u00e0 17 caract\u00e8res a \u00e9t\u00e9 \u00e9tablie en 1981 par la National Highway Traffic Safety Administration (NHTSA) via le Federal Motor Vehicle Safety Standard No. 115. Cette norme, align\u00e9e sur les normes ISO 3779 et ISO 3780, a cr\u00e9\u00e9 un format reconnu mondialement que chaque constructeur doit suivre.",
+        p3: "Depuis 1981, chaque voiture, camion, SUV, fourgonnette et moto vendue aux \u00c9tats-Unis porte un VIN dans ce format normalis\u00e9. Le syst\u00e8me garantit que tout v\u00e9hicule produit n'importe o\u00f9 dans le monde peut \u00eatre identifi\u00e9 de mani\u00e8re unique pendant toute sa dur\u00e9e de vie.",
+      },
+      structure: {
+        h2: "Comment est structur\u00e9 un VIN ?",
+        intro: "Un VIN se compose de 17 caract\u00e8res, utilisant une combinaison de lettres majuscules et de chiffres. Les lettres I, O et Q sont exclues pour \u00e9viter toute confusion avec les chiffres 1 et 0. Chaque VIN est divis\u00e9 en trois sections :",
+        items: [
+          {
+            positions: "Positions 1-3 :",
+            title: "Identifiant mondial du fabricant (WMI)",
+            body: "\u2014 identifie le pays, le fabricant et le type de v\u00e9hicule.",
+          },
+          {
+            positions: "Positions 4-8 :",
+            title: "Section descriptive du v\u00e9hicule (VDS)",
+            body: "\u2014 code le style de carrosserie, le moteur, le mod\u00e8le et la s\u00e9rie.",
+          },
+          {
+            positions: "Positions 9-17 :",
+            title: "Section identifiant du v\u00e9hicule (VIS)",
+            body: "\u2014 comprend le chiffre de contr\u00f4le, l'ann\u00e9e mod\u00e8le, l'usine d'assemblage et le num\u00e9ro de s\u00e9quence de production.",
+          },
+        ],
+        seeMore: "Pour une ventilation d\u00e9taill\u00e9e position par position, consulte notre guide",
+        seeMoreLink: "comment lire un VIN",
+        seeMoreSuffix: ".",
+      },
+      where: {
+        h2: "O\u00f9 trouver le VIN sur un v\u00e9hicule",
+        intro: "Les fabricants placent le VIN \u00e0 plusieurs endroits sur chaque v\u00e9hicule. Cette redondance aide les forces de l'ordre \u00e0 v\u00e9rifier l'identit\u00e9 d'un v\u00e9hicule m\u00eame si une plaque est endommag\u00e9e ou alt\u00e9r\u00e9e.",
+      },
+      why: {
+        h2: "Pourquoi les num\u00e9ros VIN sont-ils importants ?",
+        intro: "Les VIN constituent l'\u00e9pine dorsale du suivi des v\u00e9hicules dans l'industrie automobile. Chaque transfert de titre, r\u00e9clamation d'assurance, rappel, rapport d'accident et dossier d'entretien est li\u00e9 au VIN. Cela rend les VIN indispensables dans plusieurs situations.",
+        buyingH3: "Acheter une voiture d'occasion",
+        buyingBody: "Effectuer une {link} avant d'acheter une voiture d'occasion est l'une des \u00e9tapes les plus importantes qu'un acheteur puisse prendre. Un rapport VIN r\u00e9v\u00e8le l'historique du v\u00e9hicule, y compris les propri\u00e9taires pr\u00e9c\u00e9dents, les registres d'accidents, l'\u00e9tat du titre, les relev\u00e9s du compteur et les rappels ouverts. Sans ces informations, les acheteurs risquent de payer trop cher ou d'acheter un v\u00e9hicule avec des dommages cach\u00e9s.",
+        buyingLink: "v\u00e9rification VIN",
+        recallH3: "Rappels de s\u00e9curit\u00e9",
+        recallBody: "Les fabricants \u00e9mettent des rappels de s\u00e9curit\u00e9 bas\u00e9s sur des plages de VIN. En v\u00e9rifiant ton VIN dans la base de donn\u00e9es de rappels de la NHTSA, tu peux d\u00e9terminer si ton v\u00e9hicule est affect\u00e9 par des rappels ouverts. C'est crucial car les r\u00e9parations de rappel sont toujours gratuites chez les concessionnaires agr\u00e9\u00e9s, mais tu dois savoir que le rappel existe pour en profiter.",
+        insuranceH3: "Assurance et immatriculation",
+        insuranceBody: "Les compagnies d'assurance utilisent les VIN pour d\u00e9terminer les primes. Le VIN indique \u00e0 l'assureur le mod\u00e8le exact du v\u00e9hicule, ses caract\u00e9ristiques de s\u00e9curit\u00e9 et son \u00e9quipement, qui influencent tous le prix. Les DMV des \u00c9tats utilisent les VIN pour immatriculer les v\u00e9hicules et suivre les transferts de titre. Un VIN exact garantit que ton v\u00e9hicule est correctement document\u00e9.",
+        theftH3: "Pr\u00e9vention et r\u00e9cup\u00e9ration des vols",
+        theftBody: "Les forces de l'ordre s'appuient sur les VIN pour identifier les v\u00e9hicules vol\u00e9s. Les multiples emplacements du VIN sur un v\u00e9hicule rendent difficile pour les voleurs de tous les alt\u00e9rer. Si un v\u00e9hicule est r\u00e9cup\u00e9r\u00e9, les agents comparent les plaques VIN \u00e0 diff\u00e9rents endroits pour v\u00e9rifier son identit\u00e9. Le National Motor Vehicle Title Information System (NMVTIS) maintient une base de donn\u00e9es centrale que les forces de l'ordre peuvent interroger par VIN.",
+      },
+      pre1981: {
+        h2: "Qu'en est-il des v\u00e9hicules fabriqu\u00e9s avant 1981 ?",
+        bodyPrefix: "Les v\u00e9hicules fabriqu\u00e9s avant 1981 utilisaient des num\u00e9ros de s\u00e9rie qui variaient en longueur et en format selon le fabricant. Ces anciens num\u00e9ros de s\u00e9rie peuvent comporter de 5 \u00e0 13 caract\u00e8res et ne suivent pas la structure normalis\u00e9e d\u00e9crite ci-dessus. Bien que certains outils de recherche VIN prennent en charge les v\u00e9hicules ant\u00e9rieurs \u00e0 1981, les donn\u00e9es disponibles sont g\u00e9n\u00e9ralement limit\u00e9es par rapport aux mod\u00e8les post\u00e9rieurs \u00e0 1981. Notre",
+        bodyLink: "d\u00e9codeur VIN",
+        bodySuffix: "couvre tous les v\u00e9hicules \u00e0 partir de 1981.",
+      },
+      faqH2: "Questions fr\u00e9quemment pos\u00e9es",
+    },
+    cta: {
+      h2: "Recherche n'importe quel VIN gratuitement",
+      body: "Saisis un VIN ci-dessous pour le d\u00e9coder instantan\u00e9ment et voir le profil complet du v\u00e9hicule.",
+    },
+    vinLocations: [
+      {
+        title: "Tableau de bord (c\u00f4t\u00e9 conducteur)",
+        description: "Regarde \u00e0 travers le pare-brise du c\u00f4t\u00e9 conducteur, l\u00e0 o\u00f9 le tableau de bord rencontre la vitre. C'est l'emplacement le plus courant et il peut \u00eatre lu depuis l'ext\u00e9rieur du v\u00e9hicule.",
+      },
+      {
+        title: "Encadrement de la porti\u00e8re c\u00f4t\u00e9 conducteur",
+        description: "Ouvre la porti\u00e8re c\u00f4t\u00e9 conducteur et v\u00e9rifie l'autocollant sur le cadre de porte. Cet autocollant affiche \u00e9galement la pression des pneus et la date de fabrication.",
+      },
+      {
+        title: "Immatriculation et titre du v\u00e9hicule",
+        description: "Ta carte d'immatriculation d'\u00c9tat et le titre du v\u00e9hicule indiquent tous deux le VIN. Ils sont particuli\u00e8rement utiles si tu ne peux pas acc\u00e9der physiquement au v\u00e9hicule.",
+      },
+      {
+        title: "Documents d'assurance",
+        description: "Ta carte d'assurance et les documents de police incluent le VIN de chaque v\u00e9hicule assur\u00e9.",
+      },
+      {
+        title: "Bloc moteur",
+        description: "La plupart des fabricants estampillent le VIN sur le bloc moteur. C'est utilis\u00e9 par les forces de l'ordre pour v\u00e9rifier l'identit\u00e9 des v\u00e9hicules dont le tableau de bord a \u00e9t\u00e9 \u00e9chang\u00e9.",
+      },
+      {
+        title: "Sous la roue de secours",
+        description: "Certains fabricants placent une plaque VIN dans le coffre, sous la roue de secours, offrant un autre point de r\u00e9f\u00e9rence.",
+      },
+    ],
+  },
 } as const;
 
 export const FAQS_EN: Faq[] = [

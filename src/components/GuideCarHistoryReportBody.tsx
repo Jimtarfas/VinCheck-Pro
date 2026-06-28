@@ -730,6 +730,323 @@ const COPY = {
     bottomCtaSub:
       "Marcas de título, registros de accidentes, cadena del odómetro y retiros de seguridad \u2014 todo en un reporte obtenido de NMVTIS, NICB y NHTSA.",
   },
+  fr: {
+    home: "Accueil",
+    guides: "Guides",
+    crumb: "Guide du rapport d'historique du v\u00e9hicule",
+    h1: "Rapports d'historique du v\u00e9hicule : tout ce que tu dois savoir",
+    intro:
+      "Un rapport d'historique du v\u00e9hicule est le document le plus important dans une transaction de voiture d'occasion \u2014 plus important que l'annonce, l'essai routier et m\u00eame le contrat de vente. C'est le document qui te dit ce qu'un vendeur ne peut ou ne veut pas te dire. Ce guide couvre chaque section d'un rapport d'historique moderne : d'o\u00f9 proviennent les donn\u00e9es, comment lire chaque section, ce qu'il faut surveiller et comment les principaux fournisseurs se comparent r\u00e9ellement en 2026.",
+    pullCardTitle: "Obtiens un rapport d'historique maintenant",
+    pullCardSub:
+      "D\u00e9code n'importe quel VIN de 17 caract\u00e8res pour lancer une v\u00e9rification gratuite de l'historique du v\u00e9hicule. Les rapports premium d\u00e9bloquent les marques de titre, les accidents, la cha\u00eene du compteur kilom\u00e9trique et les rappels.",
+    tocLabel: "Table des mati\u00e8res",
+    tocHeading: "Dans ce guide",
+    toc: [
+      { id: "what-is", label: "Qu'est-ce qu'un rapport d'historique du v\u00e9hicule" },
+      { id: "data-sources", label: "D'o\u00f9 viennent les donn\u00e9es" },
+      { id: "sections", label: "Parcours section par section" },
+      { id: "title", label: "Lecture de l'historique du titre et des marques" },
+      { id: "odometer", label: "Cha\u00eene du compteur et d\u00e9tection des reculs" },
+      { id: "accidents", label: "Registres d'accidents et de dommages" },
+      { id: "recalls", label: "Rappels et campagnes de s\u00e9curit\u00e9" },
+      { id: "market", label: "Valeur de march\u00e9 et annonces comparables" },
+      { id: "compare", label: "Comparaison des fournisseurs" },
+      { id: "faq", label: "Questions fr\u00e9quemment pos\u00e9es" },
+    ],
+
+    whatIsH2: "Qu'est-ce qu'un rapport d'historique du v\u00e9hicule",
+    whatIsP1:
+      "Un rapport d'historique du v\u00e9hicule est un r\u00e9sum\u00e9 structur\u00e9 de chaque \u00e9v\u00e9nement enregistr\u00e9 li\u00e9 \u00e0 un VIN sp\u00e9cifique. Il s'appuie sur les transferts de titre, les d\u00e9clarations du compteur kilom\u00e9trique, les r\u00e9clamations d'assurance, les rapports de vol, les registres d'accidents, les campagnes de rappel et l'activit\u00e9 des ateliers de service. Les rapports modernes pr\u00e9sentent ces donn\u00e9es de mani\u00e8re chronologique, en faisant ressortir les informations importantes pour une d\u00e9cision d'achat : marques de titre, propri\u00e9taires pr\u00e9c\u00e9dents, gravit\u00e9 des accidents, coh\u00e9rence du kilom\u00e9trage et probl\u00e8mes de s\u00e9curit\u00e9 en suspens.",
+    whatIsP2:
+      "Les rapports d'historique ne sont pas infaillibles. Ils refl\u00e8tent ce qui a \u00e9t\u00e9 signal\u00e9 aux bases de donn\u00e9es sous-jacentes, et les incidents non signal\u00e9s (un accrochage r\u00e9par\u00e9 en priv\u00e9, une r\u00e9clamation pour inondation jamais transmise \u00e0 l'assurance) n'appara\u00eetront pas. M\u00eame ainsi, un rapport complet attrape la grande majorit\u00e9 des probl\u00e8mes significatifs, et en obtenir un est une \u00e9tape non n\u00e9gociable dans toute transaction de voiture d'occasion.",
+
+    dataSourcesH2: "D'o\u00f9 viennent les donn\u00e9es",
+    dataSourcesIntro: "Cinq sources de donn\u00e9es principales alimentent chaque rapport d'historique du v\u00e9hicule cr\u00e9dible :",
+    dataSources: [
+      {
+        boldLead: "NMVTIS",
+        body:
+          " \u2014 le National Motor Vehicle Title Information System, administr\u00e9 par le D\u00e9partement de la Justice des \u00c9.-U. Agr\u00e8ge les donn\u00e9es de titre et de marques des DMV d'\u00c9tat participants. La loi f\u00e9d\u00e9rale exige que tous les \u00c9tats fassent rapport \u00e0 NMVTIS \u00e0 terme ; presque tous le font aujourd'hui. NMVTIS est la source la plus autoritative pour les donn\u00e9es d'historique de titre aux \u00c9tats-Unis.",
+      },
+      {
+        boldLead: "NICB",
+        body:
+          " \u2014 le National Insurance Crime Bureau. Agr\u00e8ge les donn\u00e9es de vol et de perte totale de plus de 1\u00a0200 assureurs membres couvrant la grande majorit\u00e9 du parc de v\u00e9hicules assur\u00e9s aux \u00c9.-U. Source autoritative pour les registres de v\u00e9hicules vol\u00e9s et de salvage.",
+      },
+      {
+        boldLead: "NHTSA",
+        body:
+          " \u2014 la National Highway Traffic Safety Administration. Publie les campagnes de rappel, les enqu\u00eates sur les d\u00e9fauts et la base de donn\u00e9es vPIC de d\u00e9codage VIN utilis\u00e9e dans toute l'industrie.",
+      },
+      {
+        boldLead: "Dossiers du fabricant (OEM)",
+        body:
+          " \u2014 fiches de construction d'usine, listes d'\u00e9quipement d'origine, dossiers de garantie et activit\u00e9 de service du concessionnaire. La couverture varie selon la marque et l'accord de licence.",
+      },
+      {
+        boldLead: "R\u00e9seaux de service ind\u00e9pendants",
+        body:
+          " \u2014 ateliers de r\u00e9paration de pi\u00e8ces de rechange, cha\u00eenes de vidange, fournisseurs de pneus et d'inspection, et carrossiers. Ces sources sont volontaires et incompl\u00e8tes ; l'absence de dossiers de service ne signifie pas qu'un v\u00e9hicule n'a pas \u00e9t\u00e9 entretenu.",
+      },
+    ],
+    dataSourcesOutro:
+      "Les diff\u00e9rences entre fournisseurs concernent principalement la fa\u00e7on dont ils int\u00e8grent ces sources, \u00e0 quelle fr\u00e9quence ils les actualisent et quelle couche de donn\u00e9es propri\u00e9taire ils ajoutent par-dessus. Les rapports de CarCheckerVIN s'appuient sur des fournisseurs approuv\u00e9s par NMVTIS et sur NICB et NHTSA, avec des donn\u00e9es du fabricant int\u00e9gr\u00e9es lorsque la licence le permet.",
+
+    sectionsH2: "Parcours section par section",
+    sectionsIntro:
+      "Un rapport d'historique du v\u00e9hicule moderne s'ouvre sur une section d'en-t\u00eate confirmant le VIN, les sp\u00e9cifications d\u00e9cod\u00e9es (ann\u00e9e, marque, mod\u00e8le, finition, moteur, transmission, carrosserie, transmission) et un panneau r\u00e9capitulatif qui signale les constatations critiques. En dessous, le rapport se divise g\u00e9n\u00e9ralement en sections suivantes :",
+    sectionsList: [
+      "Historique du titre et de l'immatriculation",
+      "Historique des marques (salvage, reconstruit, inondation, citron, etc.)",
+      "Cha\u00eene de lectures du compteur kilom\u00e9trique",
+      "Historique des accidents et dommages",
+      "Registres de vol et de r\u00e9cup\u00e9ration",
+      "Campagnes de rappel et de d\u00e9fauts",
+      "Historique des privil\u00e8ges et pr\u00eats",
+      "Dossiers de service et d'inspection",
+      "Liste d'\u00e9quipement et d'options",
+      "Valeur de march\u00e9 et annonces comparables",
+    ],
+    sectionsOutro:
+      "Lis le rapport de haut en bas, pas seulement le panneau r\u00e9capitulatif. Le r\u00e9sum\u00e9 met en avant les drapeaux rouges les plus \u00e9vidents, mais les probl\u00e8mes subtils (un mod\u00e8le de propri\u00e9t\u00e9 inhabituel, une lacune de service, une br\u00e8ve immatriculation hors de l'\u00c9tat) se trouvent plus profond\u00e9ment dans le rapport.",
+
+    titleH2: "Lecture de l'historique du titre et des marques",
+    titleIntro:
+      "La section titre liste chaque \u00e9v\u00e9nement de titre enregistr\u00e9 : \u00e9mission, transfert, r\u00e9\u00e9mission et toutes marques associ\u00e9es. L'historique des marques montre chaque classification jamais attach\u00e9e au v\u00e9hicule \u2014 salvage, reconstruit, inondation, ferraille, citron, rachat par le fabricant, taxi, flotte, police, et ainsi de suite. Porte une attention particuli\u00e8re \u00e0 :",
+    titleBullet1Bold: "Le blanchiment de marques.",
+    titleBullet1Mid:
+      " Une marque signal\u00e9e dans un \u00c9tat mais absente du titre d'un \u00c9tat ult\u00e9rieur est l'empreinte classique du blanchiment de titre. Consulte notre ",
+    titleBullet1Link: "v\u00e9rification du titre salvage",
+    titleBullet1Suffix: " pour voir comment cela fonctionne.",
+    titleBullet2Bold: "Saut entre plusieurs \u00c9tats.",
+    titleBullet2Body:
+      " Un v\u00e9hicule immatricul\u00e9 dans trois \u00c9tats ou plus en cinq ans m\u00e9rite un examen suppl\u00e9mentaire. Certains d\u00e9placements sont l\u00e9gitimes (militaire, d\u00e9m\u00e9nagement), mais le saut rapide est aussi le manuel pour blanchir les titres marqu\u00e9s.",
+    titleBullet3Bold: "Marques d'usage.",
+    titleBullet3Body:
+      " Les marques de taxi, police, location et flotte ne sont pas n\u00e9cessairement r\u00e9dhibitoires mais signalent un kilom\u00e9trage \u00e9lev\u00e9 et une usure acc\u00e9l\u00e9r\u00e9e.",
+
+    odometerH2: "Cha\u00eene du compteur et d\u00e9tection des reculs",
+    odometerIntro:
+      "Chaque transfert de titre NMVTIS capture une d\u00e9claration du compteur kilom\u00e9trique. La cha\u00eene de ces lectures est ce qui expose les reculs. Trois mod\u00e8les \u00e0 surveiller :",
+    odoItem1Bold: "Diminution directe.",
+    odoItem1Body: " Une lecture inf\u00e9rieure \u00e0 une lecture pr\u00e9c\u00e9dente est un recul sans ambigu\u00eft\u00e9.",
+    odoItem2Bold: "Plateau invraisemblable.",
+    odoItem2Body:
+      " Un v\u00e9hicule affichant 84\u00a0000 miles en 2022 et 86\u00a0000 miles en 2026 est suspect, sauf si le vendeur peut documenter le stockage ou la non-utilisation.",
+    odoItem3Bold: "Drapeau NOT ACTUAL.",
+    odoItem3Body:
+      " Un titre peut porter un drapeau f\u00e9d\u00e9ral de d\u00e9claration (\u00ab non r\u00e9el \u00bb, \u00ab d\u00e9passe les limites m\u00e9caniques \u00bb) qui persiste dans NMVTIS m\u00eame apr\u00e8s le transfert du titre. Traite tout drapeau de ce type comme d\u00e9finitif.",
+    odoOutroPre: "Notre outil de ",
+    odoOutroLink: "v\u00e9rification du compteur kilom\u00e9trique",
+    odoOutroSuffix:
+      " ex\u00e9cute toute la cha\u00eene de lectures NMVTIS par une validation de monotonie et fait ressortir les trois mod\u00e8les automatiquement.",
+
+    accidentsH2: "Registres d'accidents et de dommages",
+    accidentsIntro:
+      "La section des accidents rapporte chaque incident enregistr\u00e9 et ce que l'on sait \u00e0 son sujet : date, lieu, classification de gravit\u00e9, zone d'impact, d\u00e9ploiement des airbags et tous indicateurs de r\u00e9paration structurelle. Les classifications de gravit\u00e9 sont g\u00e9n\u00e9ralement signal\u00e9es par source (assureur, agence de police, carrosserie) et peuvent utiliser des \u00e9chelles diff\u00e9rentes. Lis en cherchant :",
+    accItem1Bold: "Dommages structurels.",
+    accItem1Body:
+      " Les r\u00e9parations du ch\u00e2ssis ou du monocoque changent la s\u00e9curit\u00e9 \u00e0 long terme et la valeur de revente du v\u00e9hicule.",
+    accItem2Bold: "D\u00e9ploiement des airbags.",
+    accItem2Body:
+      " Indique un impact significatif et d\u00e9clenche une cha\u00eene de remplacements (modules d'airbag, capteurs, parfois composants de direction).",
+    accItem3Bold: "Incidents multiples.",
+    accItem3Body:
+      " Deux ou trois accidents mineurs ne sont pas n\u00e9cessairement disqualifiants ; un v\u00e9hicule avec cinq incidents signal\u00e9s ou plus l'est.",
+    accItem4Bold: "Gravit\u00e9 de la r\u00e9clamation vs. description de l'annonce.",
+    accItem4Body:
+      " Une r\u00e9clamation d'assurance \u00ab mod\u00e9r\u00e9e \u00bb avec un vendeur la d\u00e9crivant comme un \u00ab petit choc dans un parking \u00bb devrait inciter \u00e0 un examen plus attentif.",
+    accOutroPre: "Associe la section des accidents \u00e0 notre ",
+    accOutroLink: "v\u00e9rification de l'historique des accidents",
+    accOutroSuffix: " pour la vue la plus approfondie disponible.",
+
+    recallsH2: "Rappels et campagnes de s\u00e9curit\u00e9",
+    recallsP1:
+      "NHTSA maintient la base de donn\u00e9es autoritative des rappels. Un rapport d'historique recoupe le VIN avec les campagnes de rappel ouvertes et termin\u00e9es. La distinction compte : un rappel ouvert est une r\u00e9paration gratuite du fabricant que tu peux programmer chez n'importe quel concessionnaire franchis\u00e9 ; un rappel ferm\u00e9 a d\u00e9j\u00e0 \u00e9t\u00e9 effectu\u00e9. Les acheteurs devraient traiter tout rappel ouvert comme un poste budg\u00e9taire (gratuit en argent, parfois des heures d'attente chez le concessionnaire) et v\u00e9rifier l'ach\u00e8vement par \u00e9crit.",
+    recallsP2Pre:
+      "Un pi\u00e8ge \u00e0 signaler : les avis de rappel sont g\u00e9n\u00e9ralement envoy\u00e9s par courrier au propri\u00e9taire enregistr\u00e9. Un v\u00e9hicule qui a chang\u00e9 de mains deux ou trois fois depuis qu'un rappel a \u00e9t\u00e9 \u00e9mis peut avoir une campagne ouverte dont aucun propri\u00e9taire actuel n'a re\u00e7u d'avis. Recoupe toujours la section rappels du rapport. Les v\u00e9hicules avec un historique de rachats en vertu de la loi citron m\u00e9ritent notre ",
+    recallsP2Link: "v\u00e9rification des citrons",
+    recallsP2Suffix: " d\u00e9di\u00e9e.",
+
+    marketH2: "Valeur de march\u00e9 et annonces comparables",
+    marketP1:
+      "Les rapports d'historique premium incluent une estimation de la valeur de march\u00e9 et une liste d'annonces comparables dans ta r\u00e9gion. La valeur de march\u00e9 est calcul\u00e9e \u00e0 partir de transactions r\u00e9centes de configurations VIN similaires (m\u00eame ann\u00e9e, finition, options, plage de kilom\u00e9trage, r\u00e9gion). Utilise-la comme une entr\u00e9e parmi KBB, Edmunds et CarGurus \u2014 pas comme une source unique de v\u00e9rit\u00e9.",
+    marketP2:
+      "Les annonces comparables sont particuli\u00e8rement utiles pour la n\u00e9gociation : entrer dans une concession avec cinq unit\u00e9s comparables \u00e0 un prix de 8\u201312\u00a0% inf\u00e9rieur \u00e0 l'\u00e9tiquette est un argument plus fort que \u00ab cela semble trop \u00e9lev\u00e9 \u00bb. Les rapports premium incluent \u00e9galement une estimation de la fa\u00e7on dont l'historique des marques affecte la valeur de march\u00e9 \u2014 un v\u00e9hicule \u00e0 titre salvage se n\u00e9gocie g\u00e9n\u00e9ralement 30\u201350\u00a0% en dessous des comparables \u00e0 titre propre.",
+
+    compareH2: "Comparaison des fournisseurs",
+    compareIntro:
+      "Une demi-douzaine de fournisseurs dominent le march\u00e9 des rapports d'historique du v\u00e9hicule pour les consommateurs. Ils diff\u00e8rent par la couverture des donn\u00e9es, la cadence d'actualisation, la pr\u00e9sentation et les prix. Nous avons publi\u00e9 des comparaisons approfondies c\u00f4te \u00e0 c\u00f4te sur chacun :",
+    compareItems: [
+      {
+        href: "/vin-check-vs-carfax",
+        label: "CarCheckerVIN vs. Carfax",
+        body:
+          " \u2014 Carfax a l'ensemble de donn\u00e9es d'historique de service le plus profond ; CarCheckerVIN \u00e9gale en donn\u00e9es de titre et d'accidents \u00e0 une fraction du prix.",
+      },
+      {
+        href: "/vin-check-vs-autocheck",
+        label: "CarCheckerVIN vs. AutoCheck",
+        body:
+          " \u2014 le syst\u00e8me de notation d'AutoCheck est ax\u00e9 sur les ench\u00e8res ; CarCheckerVIN pr\u00e9sente des donn\u00e9es brutes avec une navigation plus propre pour les acheteurs individuels.",
+      },
+      {
+        href: "/vin-check-vs-vinaudit",
+        label: "CarCheckerVIN vs. VINAudit",
+        body:
+          " \u2014 tous deux approuv\u00e9s par NMVTIS ; CarCheckerVIN ajoute la mod\u00e9lisation de la valeur de march\u00e9 et une interface consommateur plus soign\u00e9e.",
+      },
+      {
+        href: "/vin-check-vs-clearvin",
+        label: "CarCheckerVIN vs. ClearVIN",
+        body:
+          " \u2014 ensembles de fonctionnalit\u00e9s comparables ; CarCheckerVIN gagne sur la lisibilit\u00e9 du rapport et l'int\u00e9gration des rappels.",
+      },
+      {
+        href: "/vin-check-vs-bumper",
+        label: "CarCheckerVIN vs. Bumper",
+        body:
+          " \u2014 Bumper regroupe par abonnement ; CarCheckerVIN vend par rapport sans frais r\u00e9currents.",
+      },
+    ],
+    compareOutroPre: "Pour un regard plus approfondi sur nos normes \u00e9ditoriales et nos partenariats de donn\u00e9es, consulte notre page ",
+    compareOutroLink: "confiance et sources de donn\u00e9es",
+    compareOutroSuffix: ".",
+
+    faqH2: "Questions fr\u00e9quemment pos\u00e9es",
+
+    lienH2: "Registres de privil\u00e8ge et de pr\u00eateur",
+    lienP1:
+      "La section privil\u00e8ge d'un rapport d'historique du v\u00e9hicule indique si un pr\u00eateur actif d\u00e9tient une cr\u00e9ance sur le titre. Cela compte pour deux raisons. Premi\u00e8rement, un privil\u00e8ge actif signifie que le titre ne peut pas \u00eatre transf\u00e9r\u00e9 proprement tant que le privil\u00e8ge n'est pas lev\u00e9 \u2014 soit le pr\u00eateur re\u00e7oit le remboursement et \u00e9met une mainlev\u00e9e, soit il signe pendant que le titre est transf\u00e9r\u00e9 avec le nouvel acheteur assumant l'obligation. Deuxi\u00e8mement, un privil\u00e8ge historique non lev\u00e9 (o\u00f9 le pr\u00eat a \u00e9t\u00e9 rembours\u00e9 mais le pr\u00eateur n'a jamais d\u00e9pos\u00e9 la mainlev\u00e9e) cr\u00e9e un imbroglio de paperasse qui peut retarder l'immatriculation de plusieurs semaines.",
+    lienP2:
+      "Lis cette section attentivement lors des transactions entre particuliers. V\u00e9rifie que tout privil\u00e8ge affich\u00e9 comme actif a \u00e9t\u00e9 lev\u00e9 \u00e0 la date de la transaction, et que le vendeur peut produire une documentation \u00e9crite de mainlev\u00e9e si le rapport montre un privil\u00e8ge historique. Si le rapport montre un privil\u00e8ge actif au moment de l'inspection, ta banque ou caisse populaire transf\u00e9rera g\u00e9n\u00e9ralement le paiement directement au pr\u00eateur, avec le titre achemin\u00e9 \u00e0 ton adresse par la suite ; ne paie pas directement le vendeur pour un v\u00e9hicule financ\u00e9.",
+
+    equipmentH2: "\u00c9quipement, options et donn\u00e9es de fiche de construction",
+    equipmentP1:
+      "De nombreux rapports d'historique premium incluent une liste d'\u00e9quipement d'usine d\u00e9riv\u00e9e de la fiche de construction du fabricant. C'est la liste originale de chaque option install\u00e9e \u00e0 l'usine : niveau de finition, ensemble de roues, ensemble d'infodivertissement, \u00e9quipement de s\u00e9curit\u00e9, options de transmission, et ainsi de suite. La lire par rapport au v\u00e9hicule devant toi expose deux choses. Premi\u00e8rement, les d\u00e9classements non divulgu\u00e9s : roues cosm\u00e9tiques \u00e9chang\u00e9es contre des ensembles de rechange moins chers, syst\u00e8mes audio premium retir\u00e9s et remplac\u00e9s par des unit\u00e9s g\u00e9n\u00e9riques, navigation d'usine supprim\u00e9e. Deuxi\u00e8mement, les am\u00e9liorations non divulgu\u00e9es : certaines modifications de rechange affectent l'assurance, la couverture de garantie et m\u00eame la l\u00e9galit\u00e9 (par exemple, les r\u00e9glages d'\u00e9missions qui \u00e9chouent aux inspections d'\u00c9tat).",
+    equipmentP2:
+      "Les donn\u00e9es de la fiche de construction comptent \u00e9galement pour la commande de pi\u00e8ces et le travail de garantie. De nombreux composants sont sp\u00e9cifiques au VIN ou \u00e0 la finition, et un comptoir de pi\u00e8ces de concessionnaire qui conna\u00eet la construction d'origine \u00e9vite de commander des pi\u00e8ces erron\u00e9es qui retardent les r\u00e9parations.",
+
+    intlH2: "Couverture internationale et limitations",
+    intlP1:
+      "Les rapports d'historique du v\u00e9hicule sont les plus complets pour les v\u00e9hicules titr\u00e9s et immatricul\u00e9s exclusivement aux \u00c9tats-Unis. La couverture internationale varie consid\u00e9rablement. Les donn\u00e9es canadiennes de titre et d'immatriculation sont raisonnablement int\u00e9gr\u00e9es avec les fournisseurs am\u00e9ricains via des accords transfrontaliers de donn\u00e9es, mais les donn\u00e9es mexicaines sont plus rares. Les v\u00e9hicules import\u00e9s d'Europe, du Japon ou d'autres march\u00e9s n'ont g\u00e9n\u00e9ralement aucun historique pr\u00e9-importation disponible dans les rapports ax\u00e9s sur les \u00c9.-U. Si tu ach\u00e8tes un v\u00e9hicule r\u00e9cemment import\u00e9, l'historique am\u00e9ricain commence \u00e0 la date d'immatriculation dans ce pays \u2014 tout ce qui pr\u00e9c\u00e8de n\u00e9cessite un service pay\u00e9 distinct d'un fournisseur ayant acc\u00e8s aux donn\u00e9es du pays d'origine.",
+    intlP2:
+      "Pour les v\u00e9hicules export\u00e9s, la cha\u00eene peut se rompre dans le sens inverse. Un v\u00e9hicule export\u00e9 puis r\u00e9-import\u00e9 (un mod\u00e8le parfois utilis\u00e9 pour blanchir les titres marqu\u00e9s) peut avoir une lacune internationale opaque dans l'historique. Traite tout mod\u00e8le d'exportation-puis-r\u00e9importation comme un drapeau rouge s\u00e9rieux et exige des preuves documentaires du vendeur avant de transiger.",
+
+    limitsH2: "Ce qu'un rapport d'historique du v\u00e9hicule ne peut pas te dire",
+    limitsIntro:
+      "D\u00e9finir des attentes pr\u00e9cises compte autant que comprendre ce qu'un rapport inclut. Plusieurs cat\u00e9gories d'historique du v\u00e9hicule sont syst\u00e9matiquement absentes m\u00eame des meilleurs rapports :",
+    limitsItems: [
+      {
+        boldLead: "Dommages non signal\u00e9s.",
+        body: " La carrosserie effectu\u00e9e de ta poche sans r\u00e9clamation d'assurance n'atteint jamais une base de donn\u00e9es de rapport d'historique.",
+      },
+      {
+        boldLead: "Travail de service ind\u00e9pendant.",
+        body: " La maintenance effectu\u00e9e chez un m\u00e9canicien hors r\u00e9seau ou par le propri\u00e9taire est invisible.",
+      },
+      {
+        boldLead: "\u00c9tat cosm\u00e9tique et int\u00e9rieur.",
+        body: " Les rapports ne montrent pas de photos du v\u00e9hicule actuel, uniquement les \u00e9v\u00e9nements historiques.",
+      },
+      {
+        boldLead: "\u00c9tat m\u00e9canique aujourd'hui.",
+        body: " Un historique propre ne garantit pas que le moteur, la transmission ou la cha\u00eene cin\u00e9matique sont sains au moment de l'inspection.",
+      },
+      {
+        boldLead: "Modifications et pi\u00e8ces de rechange.",
+        body: " Kits de surl\u00e9vation, r\u00e9glages de performance, moteurs \u00e9chang\u00e9s et autres modifications n'apparaissent g\u00e9n\u00e9ralement pas.",
+      },
+    ],
+    limitsOutro:
+      "C'est pourquoi un rapport d'historique est n\u00e9cessaire mais pas suffisant. Le protocole complet avant l'achat est le rapport d'historique plus une inspection en personne plus une inspection ind\u00e9pendante pay\u00e9e d'un m\u00e9canicien sans relation avec le vendeur. Chaque couche attrape ce que les autres manquent.",
+
+    serviceH2: "Lecture de l'historique de service et de propri\u00e9t\u00e9",
+    serviceP1:
+      "La section historique de service est l\u00e0 o\u00f9 les rapports diff\u00e8rent le plus dramatiquement par fournisseur. Carfax s'associe directement avec des cha\u00eenes et concessionnaires franchis\u00e9s, capturant les vidanges, rotations de pneus, \u00e9v\u00e9nements d'inspection et travaux de garantie. D'autres fournisseurs d\u00e9pendent davantage des flux des stations d'inspection d'\u00c9tat, qui varient selon la juridiction. Aucun d'eux ne capture chaque \u00e9v\u00e9nement de service, et l'absence d'un dossier ne signifie pas l'absence de service.",
+    serviceP2:
+      "Ce qu'il faut lire : intervalles de service r\u00e9guliers conformes aux recommandations du fabricant (toutes les 5\u00a0000\u201310\u00a0000 miles pour les vidanges, selon le moteur et le type d'huile), \u00e9v\u00e9nements d'inspection montrant le v\u00e9hicule passant au cours d'ann\u00e9es successives et tout dossier de r\u00e9clamation de garantie indiquant l'implication du fabricant. Un dossier de service dense est rassurant. Un dossier clairsem\u00e9 n'est pas n\u00e9cessairement disqualifiant mais m\u00e9rite de demander au vendeur des re\u00e7us de service personnels.",
+    serviceP3:
+      "La section propri\u00e9t\u00e9 rapporte le nombre de propri\u00e9taires pr\u00e9c\u00e9dents et, dans certains cas, le type de propri\u00e9taire (personnel, location \u00e0 long terme, flotte, location). Recherche un mod\u00e8le de propri\u00e9t\u00e9 inhabituel : trois propri\u00e9taires en trois ans sur un v\u00e9hicule avec un kilom\u00e9trage moyen est inhabituel et m\u00e9rite d'enqu\u00eater. Chaque transfert repr\u00e9sente un moment o\u00f9 un propri\u00e9taire a d\u00e9cid\u00e9 de vendre \u2014 une rotation constante de la propri\u00e9t\u00e9 signale souvent un probl\u00e8me sous-jacent que les premiers propri\u00e9taires ont d\u00e9couvert.",
+
+    pricingH2: "Prix des rapports d'historique du v\u00e9hicule en 2026",
+    pricingIntro:
+      "Les prix varient plus que les acheteurs ne le r\u00e9alisent. Au d\u00e9but de 2026, les principaux fournisseurs ont des prix approximativement comme suit :",
+    pricingItems: [
+      {
+        boldLead: "Carfax",
+        body: " \u2014 $44.99 USD rapport individuel, $99.99 USD paquet de trois, $44.99 USD illimit\u00e9 sur 30 jours. Le rapport consommateur le plus cher du march\u00e9.",
+      },
+      {
+        boldLead: "AutoCheck",
+        body: " \u2014 $24.99 USD individuel, $49.99 USD paquet de 25 avec abonnement mensuel. Standard des maisons d'ench\u00e8res.",
+      },
+      {
+        boldLead: "VINAudit",
+        body: " \u2014 $9.99 USD individuel, $24.99 USD illimit\u00e9 mensuel. Fournisseur approuv\u00e9 par NMVTIS.",
+      },
+      {
+        boldLead: "ClearVIN",
+        body: " \u2014 $14.99 USD individuel, prix de gros variables.",
+      },
+      {
+        boldLead: "Bumper",
+        body: " \u2014 $19.99 USD abonnement mensuel avec rapports illimit\u00e9s inclus pendant la p\u00e9riode.",
+      },
+      {
+        boldLead: "CarCheckerVIN",
+        body: " \u2014 $14.99 USD rapport individuel, sans abonnement, sans renouvellement automatique.",
+      },
+    ],
+    pricingOutroPre:
+      "Pour les acheteurs \u00e0 grand volume (concessionnaires, gestionnaires de flotte, courtiers en gros), l'\u00e9conomie par rapport change sensiblement. La plupart des fournisseurs offrent des niveaux de prix pour concessionnaires qui r\u00e9duisent significativement le co\u00fbt par rapport. Notre ",
+    pricingOutroLink: "page de prix pour concessionnaires",
+    pricingOutroSuffix:
+      " d\u00e9di\u00e9e parcourt la structure des tarifs en gros pour les surfaces de vente et les courtiers.",
+
+    stagesH2: "Comment utiliser un rapport d'historique \u00e0 chaque \u00e9tape de la transaction",
+    stagesIntro:
+      "Un rapport d'historique du v\u00e9hicule a une valeur diff\u00e9rente \u00e0 diff\u00e9rentes \u00e9tapes du processus d'achat. En obtenir un trop t\u00f4t (avant d'avoir d\u00e9cid\u00e9 que tu es int\u00e9ress\u00e9) g\u00e2che de l'argent ; en obtenir un trop tard (apr\u00e8s avoir sign\u00e9 la paperasse) est inutile.",
+    stageInitialBold: "Tri initial.",
+    stageInitialBody:
+      " Utilise un d\u00e9codage VIN gratuit pour confirmer que les sp\u00e9cifications du v\u00e9hicule correspondent \u00e0 l'annonce. Aucun rapport pay\u00e9 n\u00e9cessaire pour l'instant. Les d\u00e9codages gratuits attrapent les fausses d\u00e9clarations d'annonce en 30 secondes.",
+    stagePreVisitBold: "V\u00e9rification avant visite.",
+    stagePreVisitBody:
+      " Une fois que tu es s\u00e9rieusement int\u00e9ress\u00e9, obtiens un rapport d'historique pay\u00e9 avant de conduire jusqu'au vendeur. Le rapport te dit si le v\u00e9hicule vaut le d\u00e9placement ; s'\u00e9loigner au t\u00e9l\u00e9phone est bien moins cher que s'\u00e9loigner apr\u00e8s un trajet de 90 minutes.",
+    stageInspectionBold: "Lors de l'inspection.",
+    stageInspectionBody:
+      " Apporte une copie imprim\u00e9e du rapport \u00e0 l'inspection en personne. V\u00e9rifie que chaque \u00e9v\u00e9nement enregistr\u00e9 s'aligne avec ce que le vendeur a divulgu\u00e9 et ce que tu peux voir sur le v\u00e9hicule. Les non-correspondances sont un levier de n\u00e9gociation.",
+    stageSigningBold: "\u00c0 la signature.",
+    stageSigningBody:
+      " Obtiens un rapport frais dans les 24 heures suivant la signature de la paperasse d'achat. De nouveaux \u00e9v\u00e9nements apparaissent bien dans les donn\u00e9es NMVTIS, et un rapport frais garantit qu'aucune marque ou privil\u00e8ge de derni\u00e8re minute n'a \u00e9t\u00e9 enregistr\u00e9 entre ta v\u00e9rification ant\u00e9rieure et la transaction.",
+    stagePostBold: "Apr\u00e8s l'achat.",
+    stagePostBody:
+      " Un rapport imm\u00e9diatement apr\u00e8s l'immatriculation verrouille l'\u00e9tat du v\u00e9hicule au moment du changement de propri\u00e9taire. Si un litige futur survient, avoir un rapport dat\u00e9 du jour de l'achat est une preuve documentaire pr\u00e9cieuse.",
+
+    relatedH2: "Lecture connexe",
+    related: [
+      { href: "/vin-check", title: "V\u00e9rification VIN", desc: "D\u00e9code n'importe quel VIN et obtiens un rapport complet." },
+      { href: "/vin-check-vs-carfax", title: "vs. Carfax", desc: "Comment les deux fournisseurs se comparent en 2026." },
+      { href: "/vin-check-vs-autocheck", title: "vs. AutoCheck", desc: "Notation ax\u00e9e sur les ench\u00e8res vs. donn\u00e9es brutes." },
+      { href: "/vin-check-vs-vinaudit", title: "vs. VINAudit", desc: "Deux fournisseurs approuv\u00e9s NMVTIS compar\u00e9s." },
+      { href: "/vin-check-vs-clearvin", title: "vs. ClearVIN", desc: "Comparaison caract\u00e9ristique par caract\u00e9ristique." },
+      { href: "/vin-check-vs-bumper", title: "vs. Bumper", desc: "Par rapport vs. prix d'abonnement." },
+      { href: "/trust", title: "Confiance et sources de donn\u00e9es", desc: "Comment nous obtenons NMVTIS, NICB, NHTSA, donn\u00e9es OEM." },
+      { href: "/blog", title: "Blog CarCheckerVIN", desc: "Recherche fra\u00eeche sur les rapports d'historique et la fraude." },
+    ],
+
+    continueH2: "Continue \u00e0 apprendre",
+    continuePre: "Pr\u00eat \u00e0 lire ton premier rapport ? D\u00e9code n'importe quel VIN dans notre outil de ",
+    continueMidLink: "v\u00e9rification VIN",
+    continueMid: ", ou lis le ",
+    continueGuideLink: "guide complet pour acheter une voiture d'occasion",
+    continueSuffix: " plus large pour voir comment le rapport s'int\u00e8gre dans le reste de la transaction.",
+
+    bottomCtaH2: "Obtiens un rapport d'historique du v\u00e9hicule",
+    bottomCtaSub:
+      "Marques de titre, registres d'accidents, cha\u00eene du compteur kilom\u00e9trique et rappels \u2014 tout dans un rapport provenant de NMVTIS, NICB et NHTSA.",
+  },
 } as const;
 
 interface Props {
