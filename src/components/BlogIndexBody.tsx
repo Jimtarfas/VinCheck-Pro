@@ -45,6 +45,20 @@ const COPY = {
     minRead: (n: number) => `${n} min de lectura`,
     dateLocale: "es-US",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Blog",
+    h1: "Blog v\u00e9rification VIN et achat de voiture",
+    intro:
+      "Guides d'experts sur l'achat de voitures d'occasion, l'historique du v\u00e9hicule, les marques de titre, la pr\u00e9vention de la fraude et le d\u00e9codage VIN. Soutenu par les sources NMVTIS et NICB.",
+    browseCategory: "Parcourir par cat\u00e9gorie",
+    emptyHeading: "Aucun article pour l'instant",
+    emptyBody: "Les articles publi\u00e9s dans Sanity Studio appara\u00eetront ici.",
+    emptyCta: "Ouvrir Studio \u2192",
+    readMore: "Lire la suite",
+    minRead: (n: number) => `${n} min de lecture`,
+    dateLocale: "fr-FR",
+  },
 } as const;
 
 const categoryColors: Record<string, string> = {
@@ -63,10 +77,10 @@ interface Props {
 
 export default function BlogIndexBody({ posts, locale }: Props) {
   const c = COPY[locale];
-  const homeHref = locale === "es" ? "/es" : "/";
-  const categoryHref = locale === "es" ? "/es/blog/category" : "/blog/category";
-  const postHref = (slug: string) =>
-    locale === "es" ? `/es/blog/${slug}` : `/blog/${slug}`;
+  const localePrefix = locale === "en" ? "" : `/${locale}`;
+  const homeHref = localePrefix || "/";
+  const categoryHref = `${localePrefix}/blog/category`;
+  const postHref = (slug: string) => `${localePrefix}/blog/${slug}`;
   const studioHref = "/studio";
 
   return (

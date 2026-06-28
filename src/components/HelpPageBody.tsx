@@ -209,6 +209,101 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "Aide",
+    h1: "Aide et support",
+    heroLead:
+      "R\u00e9ponses aux questions les plus courantes sur les recherches VIN, les rapports d'historique de v\u00e9hicule, les comptes, la facturation et les probl\u00e8mes techniques. Tu ne trouves pas ce qu'il te faut ? Notre \u00e9quipe de support r\u00e9pond en moins d'une heure ouvrable.",
+    sectionLookup: "Questions sur la recherche VIN",
+    sectionReport: "Questions sur les rapports",
+    sectionAccount: "Compte et facturation",
+    sectionTechnical: "Probl\u00e8mes techniques",
+    trustCalloutPrefix:
+      "Tu as des questions sur la fa\u00e7on dont nous prot\u00e9geons tes donn\u00e9es, nos pratiques de s\u00e9curit\u00e9 ou notre conformit\u00e9 ? Consulte notre page",
+    trustCalloutLink: "Confiance et s\u00e9curit\u00e9",
+    trustCalloutSuffix: "pour tous les d\u00e9tails.",
+    contactHeading: "Contacter le support",
+    contactIntro:
+      "Des personnes r\u00e9elles, des r\u00e9ponses r\u00e9elles. Notre \u00e9quipe est compos\u00e9e d'analystes automobiles actuels et anciens, pas de chatbots.",
+    emailLabel: "Courriel",
+    emailHint: "R\u00e9ponse en moins d'une heure ouvrable pendant les heures de support.",
+    phoneLabel: "T\u00e9l\u00e9phone",
+    hoursLabel: "Heures",
+    hoursValue: "Lundi au vendredi, 9\u00a0h \u2013 18\u00a0h Eastern",
+    vinLookupFaqs: [
+      {
+        q: "O\u00f9 puis-je trouver le VIN sur mon v\u00e9hicule ?",
+        a: "Le VIN est imprim\u00e9 \u00e0 plusieurs endroits : dans le coin inf\u00e9rieur gauche du pare-brise (visible de l'ext\u00e9rieur), sur l'autocollant du cadre de porte conducteur, sur le bloc moteur, et sur ton titre, ton immatriculation et ta carte d'assurance. La plupart des VIN comportent 17 caract\u00e8res et utilisent des lettres et des chiffres mais jamais les lettres I, O ou Q.",
+      },
+      {
+        q: "Que faire si mon VIN a moins de 17 caract\u00e8res ?",
+        a: "Les v\u00e9hicules construits avant 1981 ont souvent des VIN de moins de 17 caract\u00e8res car la norme moderne n'\u00e9tait pas encore en vigueur. CarCheckerVIN peut d\u00e9coder de nombreux VIN ant\u00e9rieurs \u00e0 1981, mais la profondeur des donn\u00e9es d'historique disponibles est plus limit\u00e9e que pour les v\u00e9hicules modernes.",
+      },
+      {
+        q: "Puis-je consulter des motos, des VR ou des remorques ?",
+        a: "Oui. Notre v\u00e9rification VIN prend en charge motos, VR, VTT, remorques et la plupart des autres v\u00e9hicules immatricul\u00e9s avec un VIN de 17 caract\u00e8res. Certains dossiers de v\u00e9hicules \u00e0 moteur de loisir peuvent \u00eatre moins complets que ceux des voitures particuli\u00e8res en raison de diff\u00e9rences dans la d\u00e9claration de ces dossiers.",
+      },
+      {
+        q: "Pourquoi mon VIN ne retourne-t-il aucun r\u00e9sultat ?",
+        a: "Les causes courantes incluent une faute de frappe (notamment confondre 0 avec O ou 1 avec I, bien que I et O ne soient pas des caract\u00e8res VIN valides), un v\u00e9hicule jamais immatricul\u00e9 dans une juridiction participante, ou un v\u00e9hicule neuf dont les dossiers ne se sont pas encore propag\u00e9s \u00e0 nos sources. V\u00e9rifie le VIN par rapport \u00e0 l'autocollant du cadre de porte et r\u00e9essaie.",
+      },
+    ],
+    reportFaqs: [
+      {
+        q: "Qu'inclut un rapport pay\u00e9 CarCheckerVIN ?",
+        a: "Chaque rapport pay\u00e9 inclut l'historique de titre et les marques NMVTIS, les indicateurs de vol et de perte totale du NICB, les rappels ouverts NHTSA, le d\u00e9codage VIN complet avec finition et \u00e9quipement, les dossiers d'accidents et de dommages quand disponibles, l'historique de l'odom\u00e8tre, les \u00e9v\u00e9nements d'immatriculation et de transfert de titre, et les indicateurs de privil\u00e8ge. Des rapports \u00e9chantillons sont li\u00e9s sur chaque page produit.",
+      },
+      {
+        q: "Combien de temps faut-il pour recevoir mon rapport ?",
+        a: "Les rapports sont g\u00e9n\u00e9r\u00e9s et livr\u00e9s en moins de 60\u00a0secondes dans la plupart des cas. Tu re\u00e7ois le rapport \u00e0 l'\u00e9cran imm\u00e9diatement apr\u00e8s le paiement et une copie par courriel. Si un rapport prend plus de trois minutes \u00e0 cause d'un retard temporaire de la source de donn\u00e9es, notre syst\u00e8me r\u00e9essaie automatiquement et nous ne facturons jamais les livraisons \u00e9chou\u00e9es.",
+      },
+      {
+        q: "Puis-je imprimer ou enregistrer mon rapport en PDF ?",
+        a: "Oui. Chaque rapport a un bouton Imprimer et Enregistrer en PDF en haut de la page. Le PDF est enti\u00e8rement format\u00e9 pour l'impression et inclut toutes les sources et horodatages. Tu peux aussi re-t\u00e9l\u00e9charger n'importe quel rapport pass\u00e9 depuis ton tableau de bord pendant 12\u00a0mois apr\u00e8s l'achat.",
+      },
+      {
+        q: "Les donn\u00e9es du rapport sont-elles garanties \u00e0 100\u00a0% compl\u00e8tes ?",
+        a: "Aucun service d'historique de v\u00e9hicule ne peut garantir une compl\u00e9tude \u00e0 100\u00a0% car tous les \u00e9v\u00e9nements ne sont pas d\u00e9clar\u00e9s \u00e0 une base de donn\u00e9es. CarCheckerVIN agr\u00e8ge les sources de donn\u00e9es am\u00e9ricaines les plus autorit\u00e9es disponibles, mais un rapport propre doit toujours \u00eatre coupl\u00e9 \u00e0 une inspection ind\u00e9pendante avant l'achat par un m\u00e9canicien qualifi\u00e9.",
+      },
+    ],
+    accountFaqs: [
+      {
+        q: "Dois-je cr\u00e9er un compte pour lancer une v\u00e9rification VIN ?",
+        a: "Non. Tu peux ex\u00e9cuter notre d\u00e9codage VIN gratuit sans compte. Un compte est requis uniquement pour acheter un rapport pay\u00e9, afin que nous puissions te le livrer, stocker ton historique d'achat et te permettre de le re-t\u00e9l\u00e9charger plus tard. La cr\u00e9ation de compte prend environ 15\u00a0secondes.",
+      },
+      {
+        q: "Quelle est votre politique de remboursement ?",
+        a: "Nous offrons une garantie de remboursement \u00e0 100\u00a0% pendant 30\u00a0jours sur chaque rapport pay\u00e9. Si ton rapport ne contient pas de donn\u00e9es utilisables ou si tu n'es pas satisfait pour quelque raison que ce soit, envoie un courriel \u00e0 contact@carcheckervin.com et nous te rembourserons int\u00e9gralement. La plupart des remboursements sont trait\u00e9s le m\u00eame jour ouvrable.",
+      },
+      {
+        q: "Quels moyens de paiement acceptez-vous ?",
+        a: "Nous acceptons toutes les principales cartes de cr\u00e9dit et d\u00e9bit (Visa, Mastercard, American Express, Discover) ainsi qu'Apple Pay, Google Pay et Link via notre processeur de paiement Stripe. Nous ne stockons jamais ton num\u00e9ro de carte sur nos serveurs, et chaque transaction est chiffr\u00e9e de bout en bout.",
+      },
+      {
+        q: "Offrez-vous des prix d'abonnement ou de volume ?",
+        a: "Oui. Concessionnaires, grossistes et acheteurs en gros volume peuvent acc\u00e9der \u00e0 des prix de gros r\u00e9duits et \u00e0 un abonnement multi-rapports. \u00c9cris \u00e0 contact@carcheckervin.com avec ton volume mensuel pr\u00e9vu et nous t'enverrons un devis personnalis\u00e9 dans un jour ouvrable.",
+      },
+    ],
+    technicalFaqs: [
+      {
+        q: "Mon rapport ne se charge pas. Que dois-je faire ?",
+        a: "D'abord, rafra\u00eechis la page et v\u00e9rifie ta connexion Internet. Si le rapport ne se charge toujours pas, essaie un autre navigateur ou ouvre le lien depuis le courriel de confirmation. Si le probl\u00e8me persiste, \u00e9cris \u00e0 contact@carcheckervin.com avec ton num\u00e9ro de commande et nous le r\u00e9soudrons en moins d'une heure ouvrable.",
+      },
+      {
+        q: "Pourquoi certaines photos manquent-elles dans mon rapport ?",
+        a: "Les photos n'apparaissent que lorsqu'un v\u00e9hicule a \u00e9t\u00e9 list\u00e9 dans une ench\u00e8re couverte ou photographi\u00e9 par un expert d'assurance apr\u00e8s un sinistre couvert. Beaucoup de v\u00e9hicules n'ont aucune photo dans aucune base de donn\u00e9es, surtout les voitures de vente entre particuliers qui n'ont jamais \u00e9t\u00e9 en ench\u00e8re ni dans une r\u00e9clamation d'assurance. L'absence de photos ne signifie pas que le rapport est incomplet.",
+      },
+      {
+        q: "Je n'ai jamais re\u00e7u mon re\u00e7u par courriel.",
+        a: "Les re\u00e7us sont envoy\u00e9s en moins de 30\u00a0secondes apr\u00e8s le paiement. Si tu ne le vois pas, v\u00e9rifie ton dossier spam et ajoute contact@carcheckervin.com \u00e0 ta liste d'exp\u00e9diteurs s\u00fbrs. Tu peux aussi renvoyer le re\u00e7u \u00e0 tout moment depuis ton tableau de bord, ou contacter le support pour qu'il le renvoie manuellement.",
+      },
+      {
+        q: "CarCheckerVIN est-il compatible avec les appareils mobiles et les lecteurs d'\u00e9cran ?",
+        a: "Oui. Le site est enti\u00e8rement adaptatif sur t\u00e9l\u00e9phones et tablettes, et les rapports ont \u00e9t\u00e9 test\u00e9s avec VoiceOver, Narrator/JAWS et NVDA pour la compatibilit\u00e9 avec les lecteurs d'\u00e9cran. Si tu rencontres un probl\u00e8me d'accessibilit\u00e9, \u00e9cris \u00e0 contact@carcheckervin.com et nous prioriserons la r\u00e9solution.",
+      },
+    ],
+  },
 } as const;
 
 function FaqGroup({
