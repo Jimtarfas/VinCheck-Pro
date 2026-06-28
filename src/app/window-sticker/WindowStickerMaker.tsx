@@ -178,7 +178,163 @@ function brandLogoUrl(make: string): string {
 
 type AuthState = "loading" | "authed" | "guest";
 
-export default function WindowStickerMaker() {
+const COPY = {
+  en: {
+    vehicleDetails: "Vehicle Details",
+    loadSample: "Load sample",
+    reset: "Reset",
+    autofillLabel: "Auto-fill from VIN",
+    vinPlaceholder: "17-character VIN",
+    decode: "Decode",
+    decodeError: "Enter a 17-character VIN to auto-fill.",
+    decodeErrorGeneric: "Could not decode this VIN.",
+    autofillNote: "We\u2019ll fill in the year, make, model, engine, MSRP, MPG, and equipment from the factory record — you can edit anything after.",
+    secIdentification: "Identification",
+    secMechanical: "Mechanical",
+    secPricing: "Pricing",
+    secStandardEquipment: "Standard equipment",
+    secOptionalEquipment: "Optional equipment",
+    secFuelEconomy: "Fuel economy (EPA)",
+    secWarranty: "Warranty",
+    secOrigin: "Origin (optional)",
+    fYear: "Year", fMake: "Make", fModel: "Model", fTrim: "Trim / Style",
+    fBodyStyle: "Body style", fDrivetrain: "Drivetrain", fEngine: "Engine", fTransmission: "Transmission",
+    fExteriorColor: "Exterior color", fInteriorColor: "Interior color",
+    fBaseMsrp: "Base MSRP ($)", fDestination: "Destination charge ($)",
+    fCityMpg: "City MPG", fHwyMpg: "Highway MPG", fCombinedMpg: "Combined MPG",
+    fFuelType: "Fuel type", fAnnualFuelCost: "Annual fuel cost ($)",
+    fWarrantyBasic: "Basic / bumper-to-bumper", fWarrantyPowertrain: "Powertrain",
+    fWarrantyCorrosion: "Corrosion / rust-through", fWarrantyRoadside: "Roadside assistance",
+    fAssembledIn: "Assembled in", fPlantCode: "Plant code",
+    fDealerName: "Dealer name", fDealerLocation: "Dealer location",
+    onePerLine: "One item per line",
+    option: "Option", remove: "Remove",
+    optName: "Option or package name", optPrice: "Price",
+    addOption: "Add another option",
+    livePreview: "Live Preview",
+    accountRequired: "Free account required to download or print",
+    downloadPdf: "Download PDF", generating: "Generating\u2026", print: "Print",
+    captureError: "Could not generate the PDF — please try again.",
+    captureErrorPrint: "Could not generate the print image — please try again.",
+    elementNotFound: "Sticker element not found. Please try again.",
+    imageError: "Image export failed. Please try again.",
+    genericError: "Something went wrong. Please try again.",
+    previewDisclaimer: "This window sticker is generated from the data you entered. It is a Monroney-style replica for personal, listing, or display use — it is not a manufacturer-issued document. Use \u201CPrint / Save as PDF\u201D for the cleanest export.",
+    miniLive: "Live preview", miniTotal: "Total", miniView: "View", miniDefault: "Your vehicle",
+    miniAria: "Scroll to full window sticker preview",
+    authSignupTitle: "Sign up to download your sticker",
+    authLoginTitle: "Log in to download your sticker",
+    authSignupSub: "Create a free account in seconds — no credit card. Your account unlocks unlimited window sticker downloads.",
+    authLoginSub: "Welcome back. Sign in to continue and download your window sticker.",
+    tabSignup: "Sign up", tabLogin: "Log in",
+    badgeFreeForever: "Free forever", badgeUnlimited: "Unlimited downloads", badgeNoCard: "No credit card",
+    close: "Close",
+    stickerTitle: "MONRONEY VEHICLE LABEL \u00B7 WINDOW STICKER",
+    baseMsrpLabel: "BASE MSRP",
+    vinHeader: "VEHICLE IDENTIFICATION NUMBER",
+    vehicleDescription: "VEHICLE DESCRIPTION",
+    standardEquipmentHeader: "STANDARD EQUIPMENT",
+    optionalEquipmentHeader: "OPTIONAL EQUIPMENT",
+    priceInformation: "PRICE INFORMATION",
+    basePrice: "Base price", totalOptions: "Total options", destinationCharge: "Destination charge",
+    totalVehiclePrice: "TOTAL VEHICLE PRICE",
+    fuelEconHeader: "Fuel Economy & Environment",
+    combinedLbl: "Combined", cityLbl: "City", highwayLbl: "Highway", mpgLbl: "MPG",
+    annualFuelLbl: "Est. annual fuel cost", fiveYearLbl: "5-year fuel cost",
+    fuelTypeLbl: "Fuel type:", basedOn: "Based on 15,000 mi/yr \u00B7 fueleconomy.gov",
+    warrantyHeader: "WARRANTY COVERAGE",
+    warrantyBasic: "Basic", warrantyPowertrain: "Powertrain",
+    warrantyCorrosion: "Corrosion", warrantyRoadside: "Roadside",
+    addWarranty: "Add warranty terms in the form\u2026",
+    addStandard: "Add standard equipment in the form\u2026",
+    addOptions: "Add optional packages in the form\u2026",
+    scanQr: "Scan to open window sticker", replicaOnly: "Replica for display purposes only",
+    rowEngine: "Engine", rowTransmission: "Transmission", rowDrivetrain: "Drivetrain",
+    rowExterior: "Exterior", rowInterior: "Interior", rowAssembledIn: "Assembled in",
+    vehicleFallback: "Vehicle",
+  },
+  es: {
+    vehicleDetails: "Detalles del veh\u00EDculo",
+    loadSample: "Cargar ejemplo",
+    reset: "Restablecer",
+    autofillLabel: "Autocompletar desde VIN",
+    vinPlaceholder: "VIN de 17 caracteres",
+    decode: "Decodificar",
+    decodeError: "Ingresa un VIN de 17 caracteres para autocompletar.",
+    decodeErrorGeneric: "No se pudo decodificar este VIN.",
+    autofillNote: "Completaremos el a\u00F1o, marca, modelo, motor, MSRP, MPG y equipamiento desde el registro de f\u00E1brica — puedes editar todo despu\u00E9s.",
+    secIdentification: "Identificaci\u00F3n",
+    secMechanical: "Mec\u00E1nica",
+    secPricing: "Precios",
+    secStandardEquipment: "Caracter\u00EDsticas est\u00E1ndar",
+    secOptionalEquipment: "Equipamiento opcional",
+    secFuelEconomy: "Econom\u00EDa de combustible (EPA)",
+    secWarranty: "Garant\u00EDa",
+    secOrigin: "Origen (opcional)",
+    fYear: "A\u00F1o", fMake: "Marca", fModel: "Modelo", fTrim: "Versi\u00F3n / Estilo",
+    fBodyStyle: "Tipo de carrocer\u00EDa", fDrivetrain: "Tracci\u00F3n", fEngine: "Motor", fTransmission: "Transmisi\u00F3n",
+    fExteriorColor: "Color exterior", fInteriorColor: "Color interior",
+    fBaseMsrp: "MSRP base ($)", fDestination: "Tarifa de destino ($)",
+    fCityMpg: "MPG ciudad", fHwyMpg: "MPG carretera", fCombinedMpg: "MPG combinado",
+    fFuelType: "Tipo de combustible", fAnnualFuelCost: "Costo anual de combustible ($)",
+    fWarrantyBasic: "B\u00E1sica / parachoques a parachoques", fWarrantyPowertrain: "Tren motriz",
+    fWarrantyCorrosion: "Corrosi\u00F3n / perforaci\u00F3n por \u00F3xido", fWarrantyRoadside: "Asistencia en carretera",
+    fAssembledIn: "Ensamblado en", fPlantCode: "C\u00F3digo de planta",
+    fDealerName: "Nombre del concesionario", fDealerLocation: "Ubicaci\u00F3n del concesionario",
+    onePerLine: "Un elemento por l\u00EDnea",
+    option: "Opci\u00F3n", remove: "Eliminar",
+    optName: "Nombre de la opci\u00F3n o paquete", optPrice: "Precio",
+    addOption: "Agregar otra opci\u00F3n",
+    livePreview: "Vista previa en vivo",
+    accountRequired: "Cuenta gratis requerida para descargar o imprimir",
+    downloadPdf: "Descargar PDF", generating: "Generando\u2026", print: "Imprimir",
+    captureError: "No se pudo generar el PDF — intenta de nuevo.",
+    captureErrorPrint: "No se pudo generar la imagen de impresi\u00F3n — intenta de nuevo.",
+    elementNotFound: "Elemento de etiqueta no encontrado. Intenta de nuevo.",
+    imageError: "La exportaci\u00F3n de imagen fall\u00F3. Intenta de nuevo.",
+    genericError: "Algo sali\u00F3 mal. Intenta de nuevo.",
+    previewDisclaimer: "Esta etiqueta de ventana se genera a partir de los datos que ingresaste. Es una r\u00E9plica estilo Monroney para uso personal, listados o exhibici\u00F3n — no es un documento emitido por el fabricante. Usa \u201CImprimir / Guardar como PDF\u201D para la exportaci\u00F3n m\u00E1s limpia.",
+    miniLive: "Vista previa", miniTotal: "Total", miniView: "Ver", miniDefault: "Tu veh\u00EDculo",
+    miniAria: "Desplazarse a la vista previa completa de la etiqueta",
+    authSignupTitle: "Reg\u00EDstrate para descargar tu etiqueta",
+    authLoginTitle: "Inicia sesi\u00F3n para descargar tu etiqueta",
+    authSignupSub: "Crea una cuenta gratis en segundos — sin tarjeta de cr\u00E9dito. Tu cuenta desbloquea descargas ilimitadas de etiquetas.",
+    authLoginSub: "Bienvenido de nuevo. Inicia sesi\u00F3n para continuar y descargar tu etiqueta de ventana.",
+    tabSignup: "Registrarse", tabLogin: "Iniciar sesi\u00F3n",
+    badgeFreeForever: "Gratis para siempre", badgeUnlimited: "Descargas ilimitadas", badgeNoCard: "Sin tarjeta de cr\u00E9dito",
+    close: "Cerrar",
+    stickerTitle: "ETIQUETA VEHICULAR MONRONEY \u00B7 ETIQUETA DE VENTANA",
+    baseMsrpLabel: "MSRP BASE",
+    vinHeader: "N\u00DAMERO DE IDENTIFICACI\u00D3N DEL VEH\u00CDCULO",
+    vehicleDescription: "DESCRIPCI\u00D3N DEL VEH\u00CDCULO",
+    standardEquipmentHeader: "CARACTER\u00CDSTICAS EST\u00C1NDAR",
+    optionalEquipmentHeader: "EQUIPAMIENTO OPCIONAL",
+    priceInformation: "INFORMACI\u00D3N DE PRECIO",
+    basePrice: "Precio base", totalOptions: "Total de opciones", destinationCharge: "Tarifa de destino",
+    totalVehiclePrice: "PRECIO TOTAL DEL VEH\u00CDCULO",
+    fuelEconHeader: "Econom\u00EDa de Combustible y Ambiente",
+    combinedLbl: "Combinado", cityLbl: "Ciudad", highwayLbl: "Carretera", mpgLbl: "MPG",
+    annualFuelLbl: "Costo anual est. de combustible", fiveYearLbl: "Costo de combustible 5 a\u00F1os",
+    fuelTypeLbl: "Tipo de combustible:", basedOn: "Basado en 15,000 mi/a\u00F1o \u00B7 fueleconomy.gov",
+    warrantyHeader: "COBERTURA DE GARANT\u00CDA",
+    warrantyBasic: "B\u00E1sica", warrantyPowertrain: "Tren motriz",
+    warrantyCorrosion: "Corrosi\u00F3n", warrantyRoadside: "Carretera",
+    addWarranty: "Agrega t\u00E9rminos de garant\u00EDa en el formulario\u2026",
+    addStandard: "Agrega equipamiento est\u00E1ndar en el formulario\u2026",
+    addOptions: "Agrega paquetes opcionales en el formulario\u2026",
+    scanQr: "Escanea para abrir la etiqueta", replicaOnly: "R\u00E9plica solo para fines de exhibici\u00F3n",
+    rowEngine: "Motor", rowTransmission: "Transmisi\u00F3n", rowDrivetrain: "Tracci\u00F3n",
+    rowExterior: "Exterior", rowInterior: "Interior", rowAssembledIn: "Ensamblado en",
+    vehicleFallback: "Veh\u00EDculo",
+  },
+} as const;
+
+interface WindowStickerMakerProps {
+  locale?: "en" | "es";
+}
+
+export default function WindowStickerMaker({ locale = "en" }: WindowStickerMakerProps = {}) {
+  const c = COPY[locale];
   const [data, setData] = useState<StickerData>(sample);
   const [decoding, setDecoding] = useState(false);
   const [decodeError, setDecodeError] = useState<string | null>(null);
@@ -306,7 +462,7 @@ export default function WindowStickerMaker() {
   async function autofillFromVin() {
     const vin = data.vin.trim().toUpperCase();
     if (vin.length !== 17) {
-      setDecodeError("Enter a 17-character VIN to auto-fill.");
+      setDecodeError(c.decodeError);
       return;
     }
     setDecoding(true);
@@ -315,7 +471,7 @@ export default function WindowStickerMaker() {
       const res = await fetch(`/api/vin/${vin}`);
       if (!res.ok) {
         const j = await res.json().catch(() => ({}));
-        throw new Error(j?.error || "Could not decode this VIN.");
+        throw new Error(j?.error || c.decodeErrorGeneric);
       }
       const v = await res.json();
 
@@ -397,7 +553,7 @@ export default function WindowStickerMaker() {
       }));
     } catch (e) {
       setDecodeError(
-        e instanceof Error ? e.message : "Could not decode this VIN."
+        e instanceof Error ? e.message : c.decodeErrorGeneric
       );
     } finally {
       setDecoding(false);
@@ -473,11 +629,11 @@ export default function WindowStickerMaker() {
         canvas = await captureCanvas();
       } catch (err) {
         console.error("[WindowSticker] captureCanvas failed:", err);
-        setExportError("Could not generate the PDF — please try again.");
+        setExportError(c.captureError);
         return;
       }
       if (!canvas) {
-        setExportError("Sticker element not found. Please try again.");
+        setExportError(c.elementNotFound);
         return;
       }
 
@@ -486,7 +642,7 @@ export default function WindowStickerMaker() {
         imgData = canvas.toDataURL("image/png");
       } catch (err) {
         console.error("[WindowSticker] toDataURL failed:", err);
-        setExportError("Image export failed. Please try again.");
+        setExportError(c.imageError);
         return;
       }
 
@@ -515,7 +671,7 @@ export default function WindowStickerMaker() {
       }).catch(() => {});
     } catch (err) {
       console.error("[WindowSticker] doPdf failed:", err);
-      setExportError("Something went wrong. Please try again.");
+      setExportError(c.genericError);
     } finally {
       setGeneratingPdf(false);
     }
@@ -533,11 +689,11 @@ export default function WindowStickerMaker() {
         canvas = await captureCanvas();
       } catch (err) {
         console.error("[WindowSticker] captureCanvas failed:", err);
-        setExportError("Could not generate the print image — please try again.");
+        setExportError(c.captureErrorPrint);
         return;
       }
       if (!canvas) {
-        setExportError("Sticker element not found. Please try again.");
+        setExportError(c.elementNotFound);
         return;
       }
 
@@ -546,7 +702,7 @@ export default function WindowStickerMaker() {
         imgSrc = canvas.toDataURL("image/png");
       } catch (err) {
         console.error("[WindowSticker] toDataURL failed:", err);
-        setExportError("Image export failed. Please try again.");
+        setExportError(c.imageError);
         return;
       }
 
@@ -597,7 +753,7 @@ export default function WindowStickerMaker() {
       }).catch(() => {});
     } catch (err) {
       console.error("[WindowSticker] doPrint failed:", err);
-      setExportError("Something went wrong. Please try again.");
+      setExportError(c.genericError);
     } finally {
       setGeneratingPdf(false);
     }
@@ -616,21 +772,21 @@ export default function WindowStickerMaker() {
           form. On lg the grid restores form-left / preview-right. */}
       <div className="order-2 lg:order-1 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 print:hidden">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-slate-900">Vehicle Details</h2>
+          <h2 className="text-lg font-bold text-slate-900">{c.vehicleDetails}</h2>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={loadSample}
               className="text-xs font-semibold text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
             >
-              <Wand2 className="w-3.5 h-3.5" /> Load sample
+              <Wand2 className="w-3.5 h-3.5" /> {c.loadSample}
             </button>
             <button
               type="button"
               onClick={reset}
               className="text-xs font-semibold text-slate-500 hover:text-slate-700 inline-flex items-center gap-1"
             >
-              <RotateCcw className="w-3.5 h-3.5" /> Reset
+              <RotateCcw className="w-3.5 h-3.5" /> {c.reset}
             </button>
           </div>
         </div>
@@ -638,7 +794,7 @@ export default function WindowStickerMaker() {
         {/* VIN auto-fill */}
         <div className="mb-5 p-4 rounded-xl bg-primary-50/60 border border-primary-100">
           <label className="text-xs font-bold text-primary-800 uppercase tracking-wider">
-            Auto-fill from VIN
+            {c.autofillLabel}
           </label>
           <div className="mt-2 flex gap-2">
             <input
@@ -646,7 +802,7 @@ export default function WindowStickerMaker() {
               maxLength={17}
               value={data.vin}
               onChange={(e) => update("vin", e.target.value.toUpperCase())}
-              placeholder="17-character VIN"
+              placeholder={c.vinPlaceholder}
               className="flex-1 px-3 py-2 rounded-lg border border-slate-300 bg-white font-mono text-sm tracking-wider focus:outline-none focus:ring-2 focus:ring-primary-400"
             />
             <button
@@ -660,41 +816,40 @@ export default function WindowStickerMaker() {
               ) : (
                 <Wand2 className="w-4 h-4" />
               )}
-              Decode
+              {c.decode}
             </button>
           </div>
           {decodeError && (
             <p className="mt-2 text-xs text-rose-600 font-medium">{decodeError}</p>
           )}
           <p className="mt-2 text-[11px] text-slate-600">
-            We&rsquo;ll fill in the year, make, model, engine, MSRP, MPG, and equipment from the
-            factory record — you can edit anything after.
+            {c.autofillNote}
           </p>
         </div>
 
-        <Section title="Identification">
-          <Field label="Year">
+        <Section title={c.secIdentification}>
+          <Field label={c.fYear}>
             <input
               value={data.year}
               onChange={(e) => update("year", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Make">
+          <Field label={c.fMake}>
             <input
               value={data.make}
               onChange={(e) => update("make", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Model">
+          <Field label={c.fModel}>
             <input
               value={data.model}
               onChange={(e) => update("model", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Trim / Style">
+          <Field label={c.fTrim}>
             <input
               value={data.trim}
               onChange={(e) => update("trim", e.target.value)}
@@ -703,43 +858,43 @@ export default function WindowStickerMaker() {
           </Field>
         </Section>
 
-        <Section title="Mechanical">
-          <Field label="Body style">
+        <Section title={c.secMechanical}>
+          <Field label={c.fBodyStyle}>
             <input
               value={data.bodyStyle}
               onChange={(e) => update("bodyStyle", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Drivetrain">
+          <Field label={c.fDrivetrain}>
             <input
               value={data.drivetrain}
               onChange={(e) => update("drivetrain", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Engine">
+          <Field label={c.fEngine}>
             <input
               value={data.engine}
               onChange={(e) => update("engine", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Transmission">
+          <Field label={c.fTransmission}>
             <input
               value={data.transmission}
               onChange={(e) => update("transmission", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Exterior color">
+          <Field label={c.fExteriorColor}>
             <input
               value={data.exteriorColor}
               onChange={(e) => update("exteriorColor", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Interior color">
+          <Field label={c.fInteriorColor}>
             <input
               value={data.interiorColor}
               onChange={(e) => update("interiorColor", e.target.value)}
@@ -748,8 +903,8 @@ export default function WindowStickerMaker() {
           </Field>
         </Section>
 
-        <Section title="Pricing">
-          <Field label="Base MSRP ($)">
+        <Section title={c.secPricing}>
+          <Field label={c.fBaseMsrp}>
             <input
               inputMode="numeric"
               value={data.baseMsrp}
@@ -759,7 +914,7 @@ export default function WindowStickerMaker() {
               className={inputCls}
             />
           </Field>
-          <Field label="Destination charge ($)">
+          <Field label={c.fDestination}>
             <input
               inputMode="numeric"
               value={data.destination}
@@ -771,10 +926,10 @@ export default function WindowStickerMaker() {
           </Field>
         </Section>
 
-        <Section title="Standard equipment">
+        <Section title={c.secStandardEquipment}>
           <div className="col-span-2">
             <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1">
-              One item per line
+              {c.onePerLine}
             </label>
             <textarea
               value={data.standardEquipment}
@@ -785,7 +940,7 @@ export default function WindowStickerMaker() {
           </div>
         </Section>
 
-        <Section title="Optional equipment">
+        <Section title={c.secOptionalEquipment}>
           <div className="col-span-2 space-y-3">
             {data.options.map((opt, i) => (
               <div
@@ -794,24 +949,24 @@ export default function WindowStickerMaker() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                    Option {i + 1}
+                    {c.option} {i + 1}
                   </span>
                   {data.options.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeOption(opt.id)}
                       className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-400 hover:text-rose-600 transition"
-                      aria-label={`Remove option ${i + 1}`}
+                      aria-label={`${c.remove} ${c.option.toLowerCase()} ${i + 1}`}
                     >
-                      <Trash2 className="w-3.5 h-3.5" /> Remove
+                      <Trash2 className="w-3.5 h-3.5" /> {c.remove}
                     </button>
                   )}
                 </div>
                 <input
                   value={opt.name}
                   onChange={(e) => updateOption(opt.id, "name", e.target.value)}
-                  placeholder="Option or package name"
-                  aria-label={`Option ${i + 1} name`}
+                  placeholder={c.optName}
+                  aria-label={`${c.option} ${i + 1} - ${c.optName}`}
                   className={`${inputCls} mb-2`}
                 />
                 <div className="relative w-40">
@@ -828,8 +983,8 @@ export default function WindowStickerMaker() {
                         e.target.value.replace(/[^0-9.]/g, "")
                       )
                     }
-                    placeholder="Price"
-                    aria-label={`Option ${i + 1} price`}
+                    placeholder={c.optPrice}
+                    aria-label={`${c.option} ${i + 1} - ${c.optPrice}`}
                     className={`${inputCls} pl-7`}
                   />
                 </div>
@@ -840,13 +995,13 @@ export default function WindowStickerMaker() {
               onClick={addOption}
               className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-primary-300 bg-primary-50/40 px-4 py-2.5 text-sm font-semibold text-primary-700 hover:bg-primary-50 hover:border-primary-400 transition"
             >
-              <Plus className="w-4 h-4" /> Add another option
+              <Plus className="w-4 h-4" /> {c.addOption}
             </button>
           </div>
         </Section>
 
-        <Section title="Fuel economy (EPA)">
-          <Field label="City MPG">
+        <Section title={c.secFuelEconomy}>
+          <Field label={c.fCityMpg}>
             <input
               value={data.cityMpg}
               onChange={(e) =>
@@ -855,7 +1010,7 @@ export default function WindowStickerMaker() {
               className={inputCls}
             />
           </Field>
-          <Field label="Highway MPG">
+          <Field label={c.fHwyMpg}>
             <input
               value={data.hwyMpg}
               onChange={(e) =>
@@ -864,7 +1019,7 @@ export default function WindowStickerMaker() {
               className={inputCls}
             />
           </Field>
-          <Field label="Combined MPG">
+          <Field label={c.fCombinedMpg}>
             <input
               value={data.combinedMpg}
               onChange={(e) =>
@@ -873,14 +1028,14 @@ export default function WindowStickerMaker() {
               className={inputCls}
             />
           </Field>
-          <Field label="Fuel type">
+          <Field label={c.fFuelType}>
             <input
               value={data.fuelType}
               onChange={(e) => update("fuelType", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Annual fuel cost ($)">
+          <Field label={c.fAnnualFuelCost}>
             <input
               inputMode="numeric"
               value={data.annualFuelCost}
@@ -892,29 +1047,29 @@ export default function WindowStickerMaker() {
           </Field>
         </Section>
 
-        <Section title="Warranty">
-          <Field label="Basic / bumper-to-bumper">
+        <Section title={c.secWarranty}>
+          <Field label={c.fWarrantyBasic}>
             <input
               value={data.warrantyBasic}
               onChange={(e) => update("warrantyBasic", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Powertrain">
+          <Field label={c.fWarrantyPowertrain}>
             <input
               value={data.warrantyPowertrain}
               onChange={(e) => update("warrantyPowertrain", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Corrosion / rust-through">
+          <Field label={c.fWarrantyCorrosion}>
             <input
               value={data.warrantyCorrosion}
               onChange={(e) => update("warrantyCorrosion", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Roadside assistance">
+          <Field label={c.fWarrantyRoadside}>
             <input
               value={data.warrantyRoadside}
               onChange={(e) => update("warrantyRoadside", e.target.value)}
@@ -923,29 +1078,29 @@ export default function WindowStickerMaker() {
           </Field>
         </Section>
 
-        <Section title="Origin (optional)">
-          <Field label="Assembled in">
+        <Section title={c.secOrigin}>
+          <Field label={c.fAssembledIn}>
             <input
               value={data.assembledIn}
               onChange={(e) => update("assembledIn", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Plant code">
+          <Field label={c.fPlantCode}>
             <input
               value={data.plantCode}
               onChange={(e) => update("plantCode", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Dealer name">
+          <Field label={c.fDealerName}>
             <input
               value={data.dealerName}
               onChange={(e) => update("dealerName", e.target.value)}
               className={inputCls}
             />
           </Field>
-          <Field label="Dealer location">
+          <Field label={c.fDealerLocation}>
             <input
               value={data.dealerLocation}
               onChange={(e) => update("dealerLocation", e.target.value)}
@@ -960,11 +1115,11 @@ export default function WindowStickerMaker() {
         <div className="lg:sticky lg:top-24">
           <div className="flex items-center justify-between mb-3 print:hidden">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">Live Preview</h2>
+              <h2 className="text-lg font-bold text-slate-900">{c.livePreview}</h2>
               {auth === "guest" && (
                 <p className="text-[11px] text-slate-500 mt-0.5 inline-flex items-center gap-1">
                   <Lock className="w-3 h-3" />
-                  Free account required to download or print
+                  {c.accountRequired}
                 </p>
               )}
             </div>
@@ -982,7 +1137,7 @@ export default function WindowStickerMaker() {
                 ) : (
                   <Download className="w-4 h-4" />
                 )}
-                {generatingPdf ? "Generating…" : "Download PDF"}
+                {generatingPdf ? c.generating : c.downloadPdf}
               </button>
               <button
                 type="button"
@@ -997,7 +1152,7 @@ export default function WindowStickerMaker() {
                 ) : (
                   <Printer className="w-4 h-4" />
                 )}
-                Print
+                {c.print}
               </button>
             </div>
           </div>
@@ -1009,12 +1164,10 @@ export default function WindowStickerMaker() {
             </p>
           )}
 
-          <StickerPreview data={data} totals={totals} standardList={standardList} />
+          <StickerPreview data={data} totals={totals} standardList={standardList} c={c} />
 
           <p className="mt-3 text-[11px] text-slate-500 leading-relaxed print:hidden">
-            This window sticker is generated from the data you entered. It is a Monroney-style
-            replica for personal, listing, or display use — it is not a manufacturer-issued
-            document. Use &ldquo;Print / Save as PDF&rdquo; for the cleanest export.
+            {c.previewDisclaimer}
           </p>
         </div>
       </div>
@@ -1027,30 +1180,30 @@ export default function WindowStickerMaker() {
         <button
           type="button"
           onClick={scrollToSticker}
-          aria-label="Scroll to full window sticker preview"
+          aria-label={c.miniAria}
           className="fixed inset-x-0 bottom-0 z-40 print:hidden border-t border-slate-700 bg-slate-900/95 backdrop-blur text-white shadow-[0_-4px_20px_rgba(0,0,0,0.25)]"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3">
             <div className="min-w-0 text-left">
               <p className="text-[10px] uppercase tracking-wider text-slate-400 leading-none">
-                Live preview
+                {c.miniLive}
               </p>
               <p className="text-sm font-semibold truncate leading-tight mt-0.5">
                 {[data.year, data.make, data.model].filter(Boolean).join(" ") ||
-                  "Your vehicle"}
+                  c.miniDefault}
               </p>
             </div>
             <div className="flex items-center gap-3 shrink-0">
               <div className="text-right">
                 <p className="text-[10px] uppercase tracking-wider text-slate-400 leading-none">
-                  Total
+                  {c.miniTotal}
                 </p>
                 <p className="font-mono font-extrabold tabular-nums leading-tight mt-0.5">
                   {formatMoney(totals.total)}
                 </p>
               </div>
               <span className="inline-flex items-center gap-1 rounded-lg bg-primary-600 px-3 py-1.5 text-xs font-semibold">
-                View <ArrowUp className="w-3.5 h-3.5" />
+                {c.miniView} <ArrowUp className="w-3.5 h-3.5" />
               </span>
             </div>
           </div>
@@ -1062,6 +1215,7 @@ export default function WindowStickerMaker() {
         <AuthGateModal
           mode={authMode}
           setMode={setAuthMode}
+          c={c}
           onClose={() => {
             pendingActionRef.current = null;
             setAuthOpen(false);
@@ -1072,13 +1226,17 @@ export default function WindowStickerMaker() {
   );
 }
 
+type CopyT = (typeof COPY)["en" | "es"];
+
 function AuthGateModal({
   mode,
   setMode,
+  c,
   onClose,
 }: {
   mode: "signup" | "login";
   setMode: (m: "signup" | "login") => void;
+  c: CopyT;
   onClose: () => void;
 }) {
   return (
@@ -1092,7 +1250,7 @@ function AuthGateModal({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close"
+          aria-label={c.close}
           className="absolute top-3 right-3 w-8 h-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center transition"
         >
           <X className="w-4 h-4" />
@@ -1106,14 +1264,10 @@ function AuthGateModal({
           id="ws-gate-title"
           className="text-2xl sm:text-[1.6rem] font-headline font-extrabold text-slate-900 text-center leading-tight tracking-tight mb-2"
         >
-          {mode === "signup"
-            ? "Sign up to download your sticker"
-            : "Log in to download your sticker"}
+          {mode === "signup" ? c.authSignupTitle : c.authLoginTitle}
         </h2>
         <p className="text-sm text-slate-700 text-center mb-5">
-          {mode === "signup"
-            ? "Create a free account in seconds — no credit card. Your account unlocks unlimited window sticker downloads."
-            : "Welcome back. Sign in to continue and download your window sticker."}
+          {mode === "signup" ? c.authSignupSub : c.authLoginSub}
         </p>
 
         <div
@@ -1132,7 +1286,7 @@ function AuthGateModal({
                 : "text-slate-700 hover:text-slate-900"
             }`}
           >
-            Sign up
+            {c.tabSignup}
           </button>
           <button
             type="button"
@@ -1145,7 +1299,7 @@ function AuthGateModal({
                 : "text-slate-700 hover:text-slate-900"
             }`}
           >
-            Log in
+            {c.tabLogin}
           </button>
         </div>
 
@@ -1153,14 +1307,14 @@ function AuthGateModal({
 
         <div className="mt-5 flex items-center justify-center gap-4 text-[11px] font-semibold text-slate-600 uppercase tracking-widest">
           <span className="inline-flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-primary-600" /> Free forever
+            <ShieldCheck className="w-3.5 h-3.5 text-primary-600" /> {c.badgeFreeForever}
           </span>
           <span className="text-slate-300">•</span>
           <span className="inline-flex items-center gap-1.5">
-            <Download className="w-3.5 h-3.5 text-primary-600" /> Unlimited downloads
+            <Download className="w-3.5 h-3.5 text-primary-600" /> {c.badgeUnlimited}
           </span>
           <span className="text-slate-300">•</span>
-          <span className="inline-flex items-center gap-1.5">No credit card</span>
+          <span className="inline-flex items-center gap-1.5">{c.badgeNoCard}</span>
         </div>
       </div>
     </div>
@@ -1208,20 +1362,22 @@ function StickerPreview({
   data,
   totals,
   standardList,
+  c,
 }: {
   data: StickerData;
   totals: { base: number; dest: number; opts: number; total: number };
   standardList: string[];
+  c: CopyT;
 }) {
   const annual = parseFloat(data.annualFuelCost);
   const annualValid = Number.isFinite(annual);
   // EPA prints a 5-year fuel cost projection against a 15,000 mi/yr average.
   const fiveYear = annualValid ? annual * 5 : null;
   const warranties = [
-    { k: "Basic", v: data.warrantyBasic },
-    { k: "Powertrain", v: data.warrantyPowertrain },
-    { k: "Corrosion", v: data.warrantyCorrosion },
-    { k: "Roadside", v: data.warrantyRoadside },
+    { k: c.warrantyBasic, v: data.warrantyBasic },
+    { k: c.warrantyPowertrain, v: data.warrantyPowertrain },
+    { k: c.warrantyCorrosion, v: data.warrantyCorrosion },
+    { k: c.warrantyRoadside, v: data.warrantyRoadside },
   ].filter((w) => w.v.trim());
 
   return (
@@ -1245,10 +1401,10 @@ function StickerPreview({
         )}
         <div className="min-w-0">
           <p className="text-[26px] leading-none font-black uppercase tracking-tight text-[#0c2d5e] truncate">
-            {data.make || "Vehicle"}
+            {data.make || c.vehicleFallback}
           </p>
           <p className="text-[10px] tracking-[0.25em] font-bold text-slate-500 mt-1">
-            MONRONEY VEHICLE LABEL · WINDOW STICKER
+            {c.stickerTitle}
           </p>
         </div>
       </div>
@@ -1257,7 +1413,7 @@ function StickerPreview({
       <div className="bg-[#0c2d5e] text-white px-5 py-3 flex items-end justify-between gap-4">
         <div className="min-w-0">
           <h3 className="text-xl font-extrabold leading-tight truncate">
-            {data.year || "—"} {data.make || "Vehicle"} {data.model}
+            {data.year || "—"} {data.make || c.vehicleFallback} {data.model}
           </h3>
           <p className="text-[11px] opacity-80 truncate">
             {data.trim || "—"}
@@ -1266,7 +1422,7 @@ function StickerPreview({
           </p>
         </div>
         <div className="text-right shrink-0">
-          <p className="text-[9px] tracking-[0.2em] font-bold opacity-70">BASE MSRP</p>
+          <p className="text-[9px] tracking-[0.2em] font-bold opacity-70">{c.baseMsrpLabel}</p>
           <p className="font-mono text-lg font-extrabold leading-none tabular-nums">
             {formatMoney(totals.base)}
           </p>
@@ -1276,7 +1432,7 @@ function StickerPreview({
       {/* VIN strip */}
       <div className="bg-slate-100 border-b border-slate-300 px-5 py-1.5 flex justify-between items-center text-[11px]">
         <span className="font-bold tracking-[0.15em] text-slate-500">
-          VEHICLE IDENTIFICATION NUMBER
+          {c.vinHeader}
         </span>
         <span className="font-mono font-bold tracking-[0.18em] text-slate-900">
           {data.vin || "—"}
@@ -1289,20 +1445,20 @@ function StickerPreview({
         <div className="border-r border-slate-300">
           <div className="p-4 border-b border-slate-300">
             <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-              VEHICLE DESCRIPTION
+              {c.vehicleDescription}
             </p>
             <dl className="text-xs space-y-1">
-              <Row k="Engine" v={data.engine} />
-              <Row k="Transmission" v={data.transmission} />
-              <Row k="Drivetrain" v={data.drivetrain} />
-              <Row k="Exterior" v={data.exteriorColor} />
-              <Row k="Interior" v={data.interiorColor} />
-              {data.assembledIn && <Row k="Assembled in" v={data.assembledIn} />}
+              <Row k={c.rowEngine} v={data.engine} />
+              <Row k={c.rowTransmission} v={data.transmission} />
+              <Row k={c.rowDrivetrain} v={data.drivetrain} />
+              <Row k={c.rowExterior} v={data.exteriorColor} />
+              <Row k={c.rowInterior} v={data.interiorColor} />
+              {data.assembledIn && <Row k={c.rowAssembledIn} v={data.assembledIn} />}
             </dl>
           </div>
           <div className="p-4">
             <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-              STANDARD EQUIPMENT
+              {c.standardEquipmentHeader}
             </p>
             {standardList.length > 0 ? (
               <ul className="text-[11px] leading-relaxed text-slate-800 space-y-0.5 list-disc pl-4">
@@ -1312,7 +1468,7 @@ function StickerPreview({
               </ul>
             ) : (
               <p className="text-[11px] italic text-slate-400">
-                Add standard equipment in the form…
+                {c.addStandard}
               </p>
             )}
           </div>
@@ -1322,7 +1478,7 @@ function StickerPreview({
         <div>
           <div className="p-4 border-b border-slate-300">
             <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-              OPTIONAL EQUIPMENT
+              {c.optionalEquipmentHeader}
             </p>
             {data.options.some((o) => o.name) ? (
               <table className="w-full text-[11px]">
@@ -1344,7 +1500,7 @@ function StickerPreview({
               </table>
             ) : (
               <p className="text-[11px] italic text-slate-400">
-                Add optional packages in the form…
+                {c.addOptions}
               </p>
             )}
           </div>
@@ -1352,18 +1508,18 @@ function StickerPreview({
           {/* Pricing summary */}
           <div className="p-4">
             <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-              PRICE INFORMATION
+              {c.priceInformation}
             </p>
             <div className="grid grid-cols-2 gap-y-1 text-xs">
-              <span className="text-slate-600">Base price</span>
+              <span className="text-slate-600">{c.basePrice}</span>
               <span className="text-right font-mono font-semibold tabular-nums">
                 {formatMoney(totals.base)}
               </span>
-              <span className="text-slate-600">Total options</span>
+              <span className="text-slate-600">{c.totalOptions}</span>
               <span className="text-right font-mono font-semibold tabular-nums">
                 {formatMoney(totals.opts)}
               </span>
-              <span className="text-slate-600">Destination charge</span>
+              <span className="text-slate-600">{c.destinationCharge}</span>
               <span className="text-right font-mono font-semibold tabular-nums">
                 {formatMoney(totals.dest)}
               </span>
@@ -1375,7 +1531,7 @@ function StickerPreview({
       {/* Total band */}
       <div className="bg-[#0c2d5e] text-white px-5 py-3 flex items-center justify-between border-t border-slate-300">
         <span className="font-extrabold tracking-wide whitespace-nowrap">
-          TOTAL VEHICLE PRICE
+          {c.totalVehiclePrice}
         </span>
         <span className="font-mono font-extrabold text-xl tabular-nums">
           {formatMoney(totals.total)}
@@ -1386,38 +1542,38 @@ function StickerPreview({
       <div className="border-t border-slate-300 bg-[#fbe10a] text-slate-900">
         <div className="flex items-center justify-between px-5 pt-3">
           <p className="text-[13px] font-black uppercase tracking-tight whitespace-nowrap">
-            Fuel Economy &amp; Environment
+            {c.fuelEconHeader}
           </p>
           <p className="text-[10px] font-bold uppercase tracking-wider">EPA</p>
         </div>
         <div className="grid grid-cols-[auto_1fr] gap-4 px-5 py-3 items-stretch">
           {/* Big combined number */}
           <div className="flex flex-col items-center justify-center border-r-2 border-slate-900/40 pr-5">
-            <p className="text-[9px] font-bold uppercase tracking-wider">Combined</p>
+            <p className="text-[9px] font-bold uppercase tracking-wider">{c.combinedLbl}</p>
             <p className="text-[58px] leading-none font-black">
               {data.combinedMpg || "—"}
             </p>
-            <p className="text-[11px] font-bold uppercase tracking-wide">MPG</p>
+            <p className="text-[11px] font-bold uppercase tracking-wide">{c.mpgLbl}</p>
           </div>
           {/* City / Highway + costs */}
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 content-center">
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-wider">City</p>
+              <p className="text-[9px] font-bold uppercase tracking-wider">{c.cityLbl}</p>
               <p className="text-2xl font-black leading-none">
                 {data.cityMpg || "—"}
-                <span className="text-[11px] font-bold"> MPG</span>
+                <span className="text-[11px] font-bold"> {c.mpgLbl}</span>
               </p>
             </div>
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-wider">Highway</p>
+              <p className="text-[9px] font-bold uppercase tracking-wider">{c.highwayLbl}</p>
               <p className="text-2xl font-black leading-none">
                 {data.hwyMpg || "—"}
-                <span className="text-[11px] font-bold"> MPG</span>
+                <span className="text-[11px] font-bold"> {c.mpgLbl}</span>
               </p>
             </div>
             <div>
               <p className="text-[9px] font-bold uppercase tracking-wider">
-                Est. annual fuel cost
+                {c.annualFuelLbl}
               </p>
               <p className="text-lg font-black leading-none">
                 {annualValid ? formatMoney(annual) : "—"}
@@ -1425,7 +1581,7 @@ function StickerPreview({
             </div>
             <div>
               <p className="text-[9px] font-bold uppercase tracking-wider">
-                5-year fuel cost
+                {c.fiveYearLbl}
               </p>
               <p className="text-lg font-black leading-none">
                 {fiveYear !== null ? formatMoney(fiveYear) : "—"}
@@ -1434,8 +1590,8 @@ function StickerPreview({
           </div>
         </div>
         <div className="px-5 pb-2 flex justify-between text-[9px] font-semibold text-slate-800/80">
-          <span>Fuel type: {data.fuelType || "Gasoline"}</span>
-          <span>Based on 15,000 mi/yr · fueleconomy.gov</span>
+          <span>{c.fuelTypeLbl} {data.fuelType || "Gasoline"}</span>
+          <span>{c.basedOn}</span>
         </div>
       </div>
 
@@ -1443,7 +1599,7 @@ function StickerPreview({
       <div className="grid grid-cols-[1fr_auto] gap-4 border-t border-slate-300 p-4 items-start">
         <div>
           <p className="text-[10px] tracking-[0.15em] font-bold text-slate-500 mb-2">
-            WARRANTY COVERAGE
+            {c.warrantyHeader}
           </p>
           {warranties.length > 0 ? (
             <dl className="text-[11px] space-y-1.5">
@@ -1456,7 +1612,7 @@ function StickerPreview({
             </dl>
           ) : (
             <p className="text-[11px] italic text-slate-400">
-              Add warranty terms in the form…
+              {c.addWarranty}
             </p>
           )}
         </div>
@@ -1464,13 +1620,13 @@ function StickerPreview({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={qrUrl(data.vin || "VIN")}
-            alt="QR code linking to the live VIN report"
+            alt={c.scanQr}
             width={96}
             height={96}
             className="w-24 h-24 border border-slate-300 bg-white"
           />
           <p className="text-[8px] font-bold uppercase tracking-wider text-slate-500 mt-1 text-center leading-tight max-w-[96px]">
-            Scan to open window sticker
+            {c.scanQr}
           </p>
         </div>
       </div>
@@ -1484,7 +1640,7 @@ function StickerPreview({
           {data.dealerName && data.dealerLocation && " · "}
           {data.dealerLocation}
         </span>
-        <span className="whitespace-nowrap">Replica for display purposes only</span>
+        <span className="whitespace-nowrap">{c.replicaOnly}</span>
       </div>
 
       {/* Branded footer — our logo + website. Literal colors (no CSS vars) so
