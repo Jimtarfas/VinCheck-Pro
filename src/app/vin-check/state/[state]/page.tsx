@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Shield, FileText, AlertTriangle, MapPin, CheckCircle, ArrowRight, Car, Search } from "lucide-react";
-import VinSearchForm from "@/components/VinSearchForm";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import VinCheckStateBody from "@/components/VinCheckStateBody";
 import { states, getStateBySlug, getBrandDescription } from "@/lib/states";
 import { hreflangAlternates } from "@/lib/seo/hreflang";
 
@@ -22,7 +19,6 @@ export async function generateStaticParams() {
 function descriptionHook(state: ReturnType<typeof getStateBySlug>): string {
   if (!state) return "Free VIN check with full vehicle history report.";
   const s = state.slug;
-  // State-specific lead, ~70-85 chars.
   const leads: Record<string, string> = {
     florida:       "Spot hurricane flood titles and rebuilt cars before you buy in Florida.",
     california:    "Catch California Lemon Law Buyback titles and Song-Beverly buybacks.",
@@ -84,12 +80,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!state) return { title: "VIN Check by State" };
 
   // /vin-check/state/florida is permanently redirected to /florida-vin-check
-  // by next.config.ts. Despite the 308, GSC still shows ~992 stale
-  // impressions/month with 0 clicks on the redirected URL — Google is
-  // serving the old canonical from its index. A defensive noindex here
-  // tells Google to drop the URL the next time it can resolve it, which
-  // also stops it diluting the destination's CTR signal. Belt-and-
-  // suspenders alongside the redirect.
+  // by next.config.ts. Defensive noindex to drop the stale URL from Google.
   if (slug === "florida") {
     return {
       title: { absolute: "Florida VIN Check (moved)" },
@@ -98,13 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  // Title — layout's title template auto-appends "| CarCheckerVIN".
-  // ≤55 chars so total stays under Bing's 70-char limit AND we still
-  // have room to lead with the click-drivers ("Free", "Instant").
   const title = `Free ${state.name} VIN Check — Instant ${state.abbr} History`;
-
-  // Description packs hook + benefit + friction-reducer into ~155 chars.
-  // Format: "<state-specific hook>. Free, instant VIN report — no signup, no card."
   const hook = descriptionHook(state);
   const description = `${hook} Free, instant report — no signup, no card.`;
 
@@ -122,11 +107,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${state.name} ${state.abbr} vin check`,
       `free vin check ${state.name}`,
     ],
-    // Wave 4: every state now has a Spanish twin. Big-5 (CA/TX/NY/IL/PA)
-    // and Florida have dedicated /es/<state>-revision-vin slugs in
-    // slugs.ts; the other 44 use the identity fallback inside
-    // translateSlug, which emits /es/vin-check/state/<state> — the
-    // dynamic Spanish template at src/app/es/vin-check/state/[state].
     alternates: hreflangAlternates(`/vin-check/state/${state.slug}`),
     openGraph: {
       title: `Free ${state.name} VIN Check — Instant ${state.abbr} History`,
@@ -137,19 +117,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const otherPopularStateSlugs = [
-  "california", "texas", "florida", "new-york",
-  "illinois", "pennsylvania", "ohio", "georgia",
-];
-
 export default async function StatePage({ params }: Props) {
   const { state: slug } = await params;
   const state = getStateBySlug(slug);
   if (!state) notFound();
-
-  const otherStates = states
-    .filter((s) => s.slug !== state.slug && otherPopularStateSlugs.includes(s.slug))
-    .slice(0, 8);
 
   const webPageJsonLd = {
     "@context": "https://schema.org",
@@ -214,257 +185,7 @@ export default async function StatePage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white pt-24 pb-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-6">
-            <Breadcrumbs onDark items={[
-              { label: "Home", href: "/" },
-              { label: "VIN Check", href: "/vin-check" },
-              { label: "By State", href: "/vin-check/state" },
-              { label: state.name },
-            ]} />
-          </div>
-          <div className="flex items-center gap-2 mb-3 text-primary-100">
-            <MapPin className="w-4 h-4" />
-            <span className="text-sm font-medium">{state.name} ({state.abbr})</span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-            {state.name} VIN Check
-          </h1>
-          <p className="text-lg text-primary-100 max-w-2xl leading-relaxed mb-8">
-            Free VIN check for vehicles registered in {state.name}. Get a complete vehicle history report — including title brands recorded by the {state.dmvName}, accident history, salvage records, and recall data — instantly.
-          </p>
-          <div className="max-w-xl">
-            <VinSearchForm size="lg" onDark />
-          </div>
-        </div>
-      </section>
-
-      {/* Why a VIN Check */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">
-            Why {state.name} Drivers Need a VIN Check
-          </h2>
-          <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
-            <p>
-              With approximately {state.vehiclesRegistered} vehicles registered across {state.name}&apos;s population of {state.population}, the used car market here is large and active. The {state.dmvName} maintains title and registration records, but those records may not travel with a vehicle that has been bought, sold, or moved across state lines.
-            </p>
-            <p>
-              A VIN check pulls together title history, odometer readings, salvage and total-loss events, theft records, open recalls, and accident reports from across the country — giving you a complete picture before you buy a used vehicle in {state.name}.
-            </p>
-            <p>
-              Whether you&apos;re purchasing from a private seller, a dealer, or an online marketplace, a VIN lookup is the single most important step you can take to avoid title washing, hidden flood damage, or undisclosed salvage history.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Title Brands */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Title Brands Recognized in {state.name}
-          </h2>
-          <p className="text-slate-700 mb-8">
-            The {state.dmvName} uses the following brands to flag vehicles with significant history.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {state.titleBrands.map((brand) => (
-              <div key={brand} className="flex items-start gap-3 p-5 bg-white rounded-xl border border-slate-200">
-                <div className="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center flex-shrink-0">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900">{brand}</h3>
-                  <p className="text-sm text-slate-700 mt-0.5">
-                    {getBrandDescription(brand, state.name)}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Lemon Law */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">
-            {state.name} Lemon Law Overview
-          </h2>
-          <div className="flex items-start gap-4 p-6 bg-amber-50 border border-amber-200 rounded-xl mb-6">
-            <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
-            <p className="text-slate-700 leading-relaxed">
-              {state.lemonLawNotes}
-            </p>
-          </div>
-          <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
-            <p>
-              {state.name} buyers are protected against vehicles with persistent defects that can&apos;t be repaired after a reasonable number of attempts. If a vehicle has previously been bought back as a lemon, it should be branded on the title — and a VIN check is the fastest way to verify that history.
-            </p>
-            <p>
-              Even if a vehicle isn&apos;t legally a lemon, repeated repair history, recurring recalls, or open safety campaigns can be uncovered through a VIN-based vehicle history report.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* How To */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8">
-            How to Run a VIN Check in {state.name}
-          </h2>
-          <div className="space-y-4">
-            {[
-              { step: "1", title: "Locate the VIN", desc: `Find the 17-character VIN on the vehicle. In ${state.name}, it's typically on the driver-side dashboard, the door jamb sticker, the title, the registration card, or insurance documents.` },
-              { step: "2", title: "Enter the VIN", desc: `Type or paste the VIN into the search box on this page. Double-check that all 17 characters are correct — VINs do not contain the letters I, O, or Q.` },
-              { step: "3", title: "Review Your Report", desc: `Get an instant report covering title history, ${state.name} and out-of-state brands, odometer records, accident data, and open recalls.` },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="flex items-start gap-4 p-5 bg-white rounded-xl border border-slate-200">
-                <div className="w-8 h-8 rounded-lg bg-primary-600 text-white flex items-center justify-center flex-shrink-0 text-sm font-bold">{step}</div>
-                <div>
-                  <h3 className="font-semibold text-slate-900">{title}</h3>
-                  <p className="text-sm text-slate-700 mt-1">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Special Fact */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">
-            Unique {state.name} VIN Facts
-          </h2>
-          <div className="flex items-start gap-4 p-6 bg-primary-50 border border-primary-100 rounded-xl">
-            <div className="w-10 h-10 rounded-xl bg-primary-600 text-white flex items-center justify-center flex-shrink-0">
-              <Shield className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-900 mb-1">Did you know?</h3>
-              <p className="text-slate-700 leading-relaxed">{state.specialFact}</p>
-            </div>
-          </div>
-          <p className="text-slate-600 leading-relaxed mt-6">
-            Local quirks like this make it especially important to use a multi-state VIN history check. Vehicles registered in {state.name} may have been previously titled — and possibly damaged — in other states with very different reporting rules.
-          </p>
-        </div>
-      </section>
-
-      {/* Other States */}
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">
-            VIN Check in Other States
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {otherStates.map((s) => (
-              <Link
-                key={s.slug}
-                href={`/vin-check/state/${s.slug}`}
-                className="flex items-center gap-2 p-4 bg-white rounded-xl border border-slate-200 hover:border-primary-300 hover:bg-primary-50/30 transition-all"
-              >
-                <MapPin className="w-4 h-4 text-primary-600 flex-shrink-0" />
-                <span className="text-sm font-medium text-slate-700">{s.name}</span>
-              </Link>
-            ))}
-          </div>
-          <Link href="/vin-check/state" className="inline-flex items-center gap-1.5 mt-6 text-primary-600 font-medium text-sm hover:text-primary-700 transition-colors">
-            View all 50 states <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
-
-      {/* Sources & Data Authority — citation links boost AI-search
-          citation rate (~+40% per Princeton GEO research). Each entry
-          names an authoritative US source that backs a specific claim
-          on the page. `nofollow` keeps these as references, not
-          endorsements; we don't pass PageRank to outside sites for
-          facts we're using as evidence. */}
-      <section className="py-16 bg-slate-50 border-t border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">
-            {state.name} VIN Data — Sources & References
-          </h2>
-          <p className="text-slate-600 leading-relaxed mb-6">
-            Every {state.name} title brand, recall, theft and accident
-            claim on this page traces back to a public, authoritative
-            source. The agencies below are the primary data origins our
-            {" "}{state.name} VIN check cross-references.
-          </p>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-            {[
-              { href: "https://vehiclehistory.bja.ojp.gov/", label: "NMVTIS — Bureau of Justice Assistance", note: `Federal title and brand records across all US states, including ${state.name}.` },
-              { href: "https://www.nhtsa.gov/recalls", label: "NHTSA — Safety Recalls", note: `Authoritative open-recall lookup for every vehicle registered in ${state.name}.` },
-              { href: "https://www.nicb.org/vincheck", label: "NICB VINCheck", note: `Free stolen-vehicle and salvage records from US insurance carriers.` },
-              { href: "https://vpic.nhtsa.dot.gov/decoder/", label: "NHTSA VIN Decoder", note: "Federal reference decoder for VIN structure and manufacturer codes." },
-              { href: "https://www.iihs.org/", label: "IIHS — Vehicle Safety Ratings", note: "Independent crash test and Top Safety Pick data." },
-              { href: "https://www.ftc.gov/business-guidance/resources/dealers-guide-used-car-rule", label: "FTC — Used Car Rule (Buyer's Guide)", note: `Federal regulation governing used-vehicle sales in ${state.name}.` },
-            ].map((s) => (
-              <li key={s.href} className="rounded-xl border border-slate-200 bg-white p-4">
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                  className="text-primary-600 font-semibold underline underline-offset-2 hover:text-primary-700"
-                >
-                  {s.label} ↗
-                </a>
-                <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">{s.note}</p>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-5 text-xs text-slate-500 italic">
-            {state.name} VIN data is verified against NMVTIS, NHTSA, NICB, and {state.dmvName} records at lookup time. {state.name} has approximately {state.vehiclesRegistered} registered vehicles.
-          </p>
-        </div>
-      </section>
-
-      {/* Related Pages */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">
-            Related VIN Checks
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { href: "/stolen-vehicle-check", icon: Shield, title: "Stolen Vehicle Check", desc: `See if a ${state.name} VIN is reported stolen.` },
-              { href: "/salvage-title-check", icon: FileText, title: "Salvage Title Check", desc: `Check for salvage and rebuilt brands across all states.` },
-              { href: "/accident-history-check", icon: Car, title: "Accident History Check", desc: `Find recorded accident events tied to the VIN.` },
-              { href: "/lemon-check", icon: AlertTriangle, title: "Lemon Check", desc: `Verify lemon law buyback history nationwide.` },
-            ].map(({ href, icon: Icon, title, desc }) => (
-              <Link key={href} href={href} className="flex items-start gap-3 p-5 bg-slate-50 rounded-xl border border-slate-200 hover:border-primary-300 hover:bg-primary-50/30 transition-all">
-                <div className="w-10 h-10 rounded-xl bg-white text-primary-600 flex items-center justify-center flex-shrink-0 border border-slate-200">
-                  <Icon className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900">{title}</h3>
-                  <p className="text-sm text-slate-700 mt-0.5">{desc}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-14 bg-primary-600 text-white">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold mb-3">Run a {state.name} VIN Check Now</h2>
-          <p className="text-primary-100 mb-6">Get an instant vehicle history report for any VIN.</p>
-          <VinSearchForm size="sm" />
-          <div className="mt-4 inline-flex items-center gap-2 text-sm text-primary-100">
-            <CheckCircle className="w-4 h-4" />
-            <span>Trusted by 50,000+ buyers nationwide</span>
-          </div>
-        </div>
-      </section>
+      <VinCheckStateBody stateSlug={state.slug} locale="en" />
     </>
   );
 }

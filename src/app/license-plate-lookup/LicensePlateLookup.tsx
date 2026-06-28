@@ -12,6 +12,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { states } from "@/lib/states";
+import type { Locale } from "@/i18n/config";
 
 interface LookupResult {
   ok: boolean;
@@ -34,7 +35,67 @@ interface DecodedVehicle {
   drivenWheels?: string;
 }
 
-export default function LicensePlateLookup() {
+const COPY = {
+  en: {
+    plateLabel: "License Plate Number",
+    platePlaceholder: "e.g. 7ABC123",
+    stateLabel: "State",
+    statePlaceholder: "Select state…",
+    dcOption: "District of Columbia (DC)",
+    btnLoading: "Looking up VIN…",
+    btnIdle: "Look Up VIN by Plate",
+    legal: "Free for personal pre-purchase use — no signup. Plate data is governed by the federal",
+    dppaTitle: "Driver's Privacy Protection Act",
+    errEnter: "Enter a plate number.",
+    errLen: "Plates are at most 8 characters.",
+    errState: "Select the issuing state.",
+    netError: "Network error.",
+    errOnboarding: "Plate lookup is being onboarded",
+    errNoMatch: "No match found",
+    errFail: "Couldn't complete that lookup",
+    errFallback: "Please try again or search by VIN instead.",
+    searchByVin: "Search by VIN instead",
+    vinFound: "VIN Found",
+    copyBtn: "Copy",
+    copied: "Copied",
+    decoding: "Decoding vehicle…",
+    dlKeys: { Year: "Year", Make: "Make", Model: "Model", Trim: "Trim", Body: "Body", Engine: "Engine", Trans: "Trans", Drive: "Drive" },
+    fullReport: "See Full Vehicle History Report",
+  },
+  es: {
+    plateLabel: "Número de placa",
+    platePlaceholder: "ej. 7ABC123",
+    stateLabel: "Estado",
+    statePlaceholder: "Selecciona estado…",
+    dcOption: "Distrito de Columbia (DC)",
+    btnLoading: "Buscando VIN…",
+    btnIdle: "Buscar VIN por placa",
+    legal: "Gratis para uso personal de pre-compra — sin registro. Los datos de placa están regulados por la ley federal",
+    dppaTitle: "Driver's Privacy Protection Act",
+    errEnter: "Ingresa un número de placa.",
+    errLen: "Las placas tienen un máximo de 8 caracteres.",
+    errState: "Selecciona el estado emisor.",
+    netError: "Error de red.",
+    errOnboarding: "La búsqueda por placa se está activando",
+    errNoMatch: "No se encontró coincidencia",
+    errFail: "No se pudo completar esa búsqueda",
+    errFallback: "Por favor intenta de nuevo o busca por VIN.",
+    searchByVin: "Buscar por VIN en su lugar",
+    vinFound: "VIN encontrado",
+    copyBtn: "Copiar",
+    copied: "Copiado",
+    decoding: "Decodificando vehículo…",
+    dlKeys: { Year: "Año", Make: "Marca", Model: "Modelo", Trim: "Versión", Body: "Carrocería", Engine: "Motor", Trans: "Trans", Drive: "Tracción" },
+    fullReport: "Ver reporte completo del vehículo",
+  },
+} as const;
+
+interface Props {
+  locale?: Locale;
+}
+
+export default function LicensePlateLookup({ locale = "en" }: Props) {
+  const c = COPY[locale];
   const [plate, setPlate] = useState("");
   const [state, setState] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,9 +106,9 @@ export default function LicensePlateLookup() {
 
   function validate(): string | null {
     const cleanedPlate = plate.toUpperCase().replace(/[^A-Z0-9]/g, "");
-    if (cleanedPlate.length < 2) return "Enter a plate number.";
-    if (cleanedPlate.length > 8) return "Plates are at most 8 characters.";
-    if (!state) return "Select the issuing state.";
+    if (cleanedPlate.length < 2) return c.errEnter;
+    if (cleanedPlate.length > 8) return c.errLen;
+    if (!state) return c.errState;
     return null;
   }
 
@@ -73,7 +134,6 @@ export default function LicensePlateLookup() {
 
       setResult(data);
 
-      // Auto-decode the VIN we got back.
       if (data.ok && data.vin) {
         setDecoding(true);
         try {
@@ -90,7 +150,7 @@ export default function LicensePlateLookup() {
       setResult({
         ok: false,
         error: "network",
-        message: e instanceof Error ? e.message : "Network error.",
+        message: e instanceof Error ? e.message : c.netError,
       });
     } finally {
       setLoading(false);
@@ -120,16 +180,12 @@ export default function LicensePlateLookup() {
 
   return (
     <>
-      {/* ---------- The interactive search card ---------- */}
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 sm:p-7">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-[1fr_180px] gap-3">
             <div>
-              <label
-                htmlFor="plate"
-                className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5"
-              >
-                License Plate Number
+              <label htmlFor="plate" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                {c.plateLabel}
               </label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -139,7 +195,7 @@ export default function LicensePlateLookup() {
                   value={plate}
                   onChange={(e) => setPlate(e.target.value.toUpperCase())}
                   maxLength={10}
-                  placeholder="e.g. 7ABC123"
+                  placeholder={c.platePlaceholder}
                   autoComplete="off"
                   className="w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl text-base font-mono uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
@@ -147,11 +203,8 @@ export default function LicensePlateLookup() {
             </div>
 
             <div>
-              <label
-                htmlFor="state"
-                className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5"
-              >
-                State
+              <label htmlFor="state" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">
+                {c.stateLabel}
               </label>
               <select
                 id="state"
@@ -159,13 +212,13 @@ export default function LicensePlateLookup() {
                 onChange={(e) => setState(e.target.value)}
                 className="w-full px-3 py-3 border border-slate-200 rounded-xl text-base bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
-                <option value="">Select state…</option>
+                <option value="">{c.statePlaceholder}</option>
                 {states.map((s) => (
                   <option key={s.abbr} value={s.abbr}>
                     {s.name} ({s.abbr})
                   </option>
                 ))}
-                <option value="DC">District of Columbia (DC)</option>
+                <option value="DC">{c.dcOption}</option>
               </select>
             </div>
           </div>
@@ -178,43 +231,41 @@ export default function LicensePlateLookup() {
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Looking up VIN…
+                {c.btnLoading}
               </>
             ) : (
               <>
                 <Search className="w-4 h-4" />
-                Look Up VIN by Plate
+                {c.btnIdle}
               </>
             )}
           </button>
 
           <p className="text-xs text-slate-500 text-center">
-            Free for personal pre-purchase use — no signup. Plate data is governed
-            by the federal{" "}
-            <abbr title="Driver's Privacy Protection Act">DPPA</abbr>.
+            {c.legal}{" "}
+            <abbr title={c.dppaTitle}>DPPA</abbr>.
           </p>
         </form>
 
-        {/* ---------- Result panel ---------- */}
         {result && !result.ok && (
           <div className="mt-5 flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl">
             <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-bold text-amber-900">
                 {result.error === "service-unavailable"
-                  ? "Plate lookup is being onboarded"
+                  ? c.errOnboarding
                   : result.error === "no-match"
-                  ? "No match found"
-                  : "Couldn't complete that lookup"}
+                  ? c.errNoMatch
+                  : c.errFail}
               </p>
               <p className="text-sm text-amber-800 mt-0.5">
-                {result.message || "Please try again or search by VIN instead."}
+                {result.message || c.errFallback}
               </p>
               <Link
-                href="/vin-check"
+                href={locale === "es" ? "/es/vin-check" : "/vin-check"}
                 className="inline-flex items-center gap-1 mt-2 text-sm font-bold text-amber-900 hover:text-amber-950"
               >
-                Search by VIN instead <ArrowRight className="w-3.5 h-3.5" />
+                {c.searchByVin} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
@@ -225,13 +276,9 @@ export default function LicensePlateLookup() {
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-emerald-700 uppercase tracking-wide">
-                  VIN Found
-                </p>
+                <p className="text-xs font-bold text-emerald-700 uppercase tracking-wide">{c.vinFound}</p>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <code className="text-lg font-mono font-bold text-slate-900 tracking-wider break-all">
-                    {result.vin}
-                  </code>
+                  <code className="text-lg font-mono font-bold text-slate-900 tracking-wider break-all">{result.vin}</code>
                   <button
                     type="button"
                     onClick={copyVin}
@@ -239,11 +286,11 @@ export default function LicensePlateLookup() {
                   >
                     {copied ? (
                       <>
-                        <CheckCheck className="w-3 h-3" /> Copied
+                        <CheckCheck className="w-3 h-3" /> {c.copied}
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3 h-3" /> Copy
+                        <Copy className="w-3 h-3" /> {c.copyBtn}
                       </>
                     )}
                   </button>
@@ -251,31 +298,29 @@ export default function LicensePlateLookup() {
 
                 {decoding && (
                   <p className="mt-3 text-xs text-emerald-700 inline-flex items-center gap-1.5">
-                    <Loader2 className="w-3 h-3 animate-spin" /> Decoding vehicle…
+                    <Loader2 className="w-3 h-3 animate-spin" /> {c.decoding}
                   </p>
                 )}
 
                 {decoded && (
                   <dl className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                    {[
-                      ["Year", decoded.year?.toString()],
-                      ["Make", decoded.make],
-                      ["Model", decoded.model],
-                      ["Trim", decoded.trim],
-                      ["Body", decoded.bodyStyle],
-                      ["Engine", decoded.engine?.name],
-                      ["Trans", decoded.transmission?.name],
-                      ["Drive", decoded.drivenWheels],
-                    ]
+                    {(
+                      [
+                        ["Year", decoded.year?.toString()],
+                        ["Make", decoded.make],
+                        ["Model", decoded.model],
+                        ["Trim", decoded.trim],
+                        ["Body", decoded.bodyStyle],
+                        ["Engine", decoded.engine?.name],
+                        ["Trans", decoded.transmission?.name],
+                        ["Drive", decoded.drivenWheels],
+                      ] as Array<[keyof typeof c.dlKeys, string | undefined]>
+                    )
                       .filter(([, v]) => v)
                       .map(([k, v]) => (
                         <div key={k} className="bg-white rounded-lg p-2.5 border border-emerald-100">
-                          <dt className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                            {k}
-                          </dt>
-                          <dd className="mt-0.5 text-sm font-semibold text-slate-900 truncate">
-                            {v}
-                          </dd>
+                          <dt className="text-[10px] font-bold uppercase tracking-wide text-slate-500">{c.dlKeys[k]}</dt>
+                          <dd className="mt-0.5 text-sm font-semibold text-slate-900 truncate">{v}</dd>
                         </div>
                       ))}
                   </dl>
@@ -285,8 +330,7 @@ export default function LicensePlateLookup() {
                   href={`/report/${result.vin}`}
                   className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-lg transition-colors"
                 >
-                  See Full Vehicle History Report{" "}
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  {c.fullReport} <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>

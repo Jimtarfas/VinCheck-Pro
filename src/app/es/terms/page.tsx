@@ -1,9 +1,11 @@
 /**
- * Wave 18c — Spanish terms of service. Full translation of /terms.
- * Replaces the Wave 14 InfoPage stub.
+ * Wave 18 batch 4 — /es/terms. Slim wrapper around the shared
+ * TermsBody. Spanish strings come from COPY.es inside the body
+ * (originally translated in Wave 18c, now consolidated).
  */
 
 import type { Metadata } from "next";
+import TermsBody from "@/components/TermsBody";
 import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 
 const SITE = "https://www.carcheckervin.com";
@@ -25,90 +27,30 @@ export const metadata: Metadata = {
   },
 };
 
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  inLanguage: "es",
+  name: "Términos de servicio",
+  url: `${SITE}/es/terms`,
+  description:
+    "Términos de servicio de CarCheckerVIN. Revisa los términos y condiciones para usar nuestra plataforma de reportes de historial vehicular.",
+  publisher: {
+    "@type": "Organization",
+    name: "CarCheckerVIN",
+    url: SITE,
+    logo: { "@type": "ImageObject", url: `${SITE}/logo.png` },
+  },
+};
+
 export default function TermsPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
-      <h1 className="text-3xl font-bold text-slate-900 mb-8">Términos de servicio</h1>
-      <div className="prose prose-slate max-w-none space-y-6 text-slate-600 leading-relaxed">
-        <p>
-          <strong>Última actualización:</strong> 12 de abril de 2026
-        </p>
-
-        <p>
-          Estos Términos rigen tu uso de <strong>CarCheckerVIN</strong>
-          (carcheckervin.com), operado por{" "}
-          <strong>Cognifyx Solutions LLC</strong>, una sociedad de
-          responsabilidad limitada de Nuevo México con domicilio registrado
-          en 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, Estados
-          Unidos (&ldquo;Cognifyx Solutions LLC,&rdquo; &ldquo;nosotros,&rdquo;
-          &ldquo;nos&rdquo; o &ldquo;nuestro&rdquo;).
-        </p>
-
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">1. Aceptación de los términos</h2>
-        <p>
-          Al usar CarCheckerVIN, aceptas estos Términos de servicio. Si no estás de acuerdo, por
-          favor no uses el servicio.
-        </p>
-
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">2. Descripción del servicio</h2>
-        <p>
-          CarCheckerVIN proporciona servicios de decodificación del número de identificación
-          vehicular (VIN) y reportes de historial vehicular. Los reportes incluyen especificaciones
-          del vehículo, detalles del equipamiento y datos relacionados obtenidos de bases de datos
-          de terceros.
-        </p>
-
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">3. Precisión de la información</h2>
-        <p>
-          Aunque nos esforzamos por ser precisos, los datos vehiculares provienen de proveedores
-          externos y no podemos garantizar el 100% de precisión. Los reportes deben usarse como un
-          factor en tu decisión de compra de vehículos, junto con una inspección física y una
-          prueba de manejo.
-        </p>
-
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">4. Uso permitido</h2>
-        <p>
-          Puedes usar CarCheckerVIN para fines personales y no comerciales de investigación
-          vehicular. Se prohíbe el rastreo automatizado, las descargas masivas o la redistribución
-          de datos de reportes.
-        </p>
-
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">5. Limitación de responsabilidad</h2>
-        <p>
-          CarCheckerVIN se proporciona &ldquo;tal cual&rdquo; sin garantías de ningún tipo. No somos
-          responsables de ningún daño que surja del uso de nuestros reportes o de la confianza en
-          la información proporcionada.
-        </p>
-
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">6. Reembolsos</h2>
-        <p>
-          Se emiten reembolsos únicamente cuando los datos de un reporte no coinciden con el
-          vehículo identificado por el VIN que enviaste. Consulta la{" "}
-          <a href="/es/refund-policy" className="text-primary-600 hover:underline">
-            Política de reembolsos
-          </a>{" "}
-          completa para conocer los criterios de elegibilidad, los requisitos de evidencia y el
-          proceso de solicitud.
-        </p>
-
-        <h2 className="text-xl font-semibold text-slate-900 mt-8">7. Contacto</h2>
-        <p>
-          Para preguntas sobre estos términos, contáctanos en{" "}
-          <a href="mailto:contact@carcheckervin.com" className="text-primary-600 hover:underline">
-            contact@carcheckervin.com
-          </a>{" "}
-          o por correo a:
-        </p>
-        <address className="not-italic text-slate-700">
-          Cognifyx Solutions LLC
-          <br />
-          1209 Mountain Road Pl NE, Ste N
-          <br />
-          Albuquerque, NM 87110
-          <br />
-          Estados Unidos
-        </address>
-      </div>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <TermsBody locale="es" />
+    </>
   );
 }

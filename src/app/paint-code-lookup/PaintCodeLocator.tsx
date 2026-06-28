@@ -14,6 +14,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { PAINT_CODE_BRANDS, findBrand, type PaintCodeBrand } from "@/lib/paint-codes";
+import type { Locale } from "@/i18n/config";
 
 /**
  * Interactive "Where is my paint code?" tool.
@@ -23,7 +24,56 @@ import { PAINT_CODE_BRANDS, findBrand, type PaintCodeBrand } from "@/lib/paint-c
  * and tips. State is synced with the `?brand=` query param so the tool is
  * deep-linkable for SEO (e.g., /paint-code-lookup?brand=toyota).
  */
-export default function PaintCodeLocator() {
+
+const COPY = {
+  en: {
+    tag: "Interactive Tool",
+    heading: "Where Is My Paint Code? Pick Your Brand",
+    sub: "Tap your vehicle's manufacturer to see the exact sticker location, label format, example codes, and brand-specific tips.",
+    clear: "Clear",
+    helperHeading: "Select your manufacturer above",
+    helperBody: "Every brand puts the paint code in a slightly different place and writes it differently. Pick yours to see the exact sticker location, what the label looks like, real example codes, and brand-specific tips.",
+    helperBullets: ["Exact sticker location", "Code format & examples", "Brand-specific tips"],
+    paintCodeLocation: "Paint Code Location",
+    stickerLabel: "Sticker label:",
+    primaryLocation: "Primary Location",
+    alsoCheck: "Also Check Here",
+    codeFormat: "Code Format",
+    formatWord: "Format:",
+    patternWord: "Pattern:",
+    exampleCodes: "Example Codes & Colors",
+    tipsSuffix: "-Specific Tips",
+    copyAria: (code: string) => `Copy ${code}`,
+    basePath: "/paint-code-lookup",
+  },
+  es: {
+    tag: "Herramienta interactiva",
+    heading: "¿Dónde está mi código de pintura? Elige tu marca",
+    sub: "Toca el fabricante de tu vehículo para ver la ubicación exacta de la etiqueta, el formato de la etiqueta, códigos de ejemplo y consejos específicos de la marca.",
+    clear: "Limpiar",
+    helperHeading: "Selecciona tu fabricante arriba",
+    helperBody: "Cada marca coloca el código de pintura en un lugar ligeramente distinto y lo escribe de manera diferente. Elige la tuya para ver la ubicación exacta de la etiqueta, cómo se ve la etiqueta, códigos de ejemplo reales y consejos específicos de la marca.",
+    helperBullets: ["Ubicación exacta de la etiqueta", "Formato del código y ejemplos", "Consejos específicos de la marca"],
+    paintCodeLocation: "Ubicación del código de pintura",
+    stickerLabel: "Etiqueta:",
+    primaryLocation: "Ubicación principal",
+    alsoCheck: "Revisa también aquí",
+    codeFormat: "Formato del código",
+    formatWord: "Formato:",
+    patternWord: "Patrón:",
+    exampleCodes: "Códigos y colores de ejemplo",
+    tipsSuffix: " — Consejos específicos",
+    copyAria: (code: string) => `Copiar ${code}`,
+    basePath: "/es/paint-code-lookup",
+  },
+} as const;
+
+interface Props {
+  locale?: Locale;
+}
+
+export default function PaintCodeLocator({ locale = "en" }: Props) {
+  const c = COPY[locale];
   const router = useRouter();
   const searchParams = useSearchParams();
   const initial = searchParams.get("brand");
@@ -51,12 +101,12 @@ export default function PaintCodeLocator() {
     setActiveSlug(slug);
     const params = new URLSearchParams(searchParams.toString());
     params.set("brand", slug);
-    router.replace(`/paint-code-lookup?${params.toString()}`, { scroll: false });
+    router.replace(`${c.basePath}?${params.toString()}`, { scroll: false });
   };
 
   const handleClear = () => {
     setActiveSlug(null);
-    router.replace(`/paint-code-lookup`, { scroll: false });
+    router.replace(c.basePath, { scroll: false });
   };
 
   const handleCopy = async (code: string) => {
@@ -74,13 +124,13 @@ export default function PaintCodeLocator() {
       <div className="flex items-start justify-between gap-4 mb-5">
         <div>
           <div className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-wider bg-primary/10 text-primary rounded-full px-3 py-1 mb-3">
-            <Palette className="w-3.5 h-3.5" /> Interactive Tool
+            <Palette className="w-3.5 h-3.5" /> {c.tag}
           </div>
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-1.5">
-            Where Is My Paint Code? Pick Your Brand
+            {c.heading}
           </h2>
           <p className="text-sm text-on-surface-variant max-w-2xl leading-relaxed">
-            Tap your vehicle&apos;s manufacturer to see the exact sticker location, label format, example codes, and brand-specific tips.
+            {c.sub}
           </p>
         </div>
         {activeBrand && (
@@ -89,7 +139,7 @@ export default function PaintCodeLocator() {
             onClick={handleClear}
             className="hidden sm:inline-flex flex-shrink-0 text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors px-3 py-1.5 rounded-full border border-outline-variant hover:border-primary/40"
           >
-            Clear
+            {c.clear}
           </button>
         )}
       </div>
@@ -123,15 +173,17 @@ export default function PaintCodeLocator() {
           brand={activeBrand}
           copiedCode={copiedCode}
           onCopy={handleCopy}
+          c={c}
         />
       ) : (
-        <GenericHelper />
+        <GenericHelper c={c} />
       )}
     </div>
   );
 }
 
-function GenericHelper() {
+function GenericHelper({ c }: { c: (typeof COPY)["en" | "es"] }) {
+  const icons = [MapPin, Tag, Lightbulb];
   return (
     <div className="rounded-2xl border border-dashed border-outline-variant bg-surface p-6 sm:p-8">
       <div className="flex items-start gap-4">
@@ -140,25 +192,24 @@ function GenericHelper() {
         </div>
         <div className="flex-1">
           <h3 className="text-lg font-headline font-extrabold text-primary mb-1">
-            Select your manufacturer above
+            {c.helperHeading}
           </h3>
           <p className="text-sm text-on-surface-variant leading-relaxed mb-4">
-            Every brand puts the paint code in a slightly different place and writes it differently. Pick yours to see the exact sticker location, what the label looks like, real example codes, and brand-specific tips.
+            {c.helperBody}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {[
-              { icon: MapPin, label: "Exact sticker location" },
-              { icon: Tag, label: "Code format & examples" },
-              { icon: Lightbulb, label: "Brand-specific tips" },
-            ].map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 bg-surface-container-low rounded-xl p-3 border border-outline-variant/60"
-              >
-                <Icon className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-xs font-medium text-on-surface">{label}</span>
-              </div>
-            ))}
+            {c.helperBullets.map((label, i) => {
+              const Icon = icons[i];
+              return (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 bg-surface-container-low rounded-xl p-3 border border-outline-variant/60"
+                >
+                  <Icon className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-xs font-medium text-on-surface">{label}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -170,10 +221,12 @@ function BrandCard({
   brand,
   copiedCode,
   onCopy,
+  c,
 }: {
   brand: PaintCodeBrand;
   copiedCode: string | null;
   onCopy: (code: string) => void;
+  c: (typeof COPY)["en" | "es"];
 }) {
   return (
     <div className="space-y-5">
@@ -184,10 +237,10 @@ function BrandCard({
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="text-xl sm:text-2xl font-headline font-extrabold text-primary leading-tight">
-            {brand.name} Paint Code Location
+            {brand.name} {c.paintCodeLocation}
           </h3>
           <p className="text-xs text-on-surface-variant mt-0.5">
-            Sticker label: <span className="font-semibold text-on-surface">{brand.stickerLabel}</span>
+            {c.stickerLabel} <span className="font-semibold text-on-surface">{brand.stickerLabel}</span>
           </p>
         </div>
       </div>
@@ -200,7 +253,7 @@ function BrandCard({
           </div>
           <div>
             <div className="text-[11px] font-black uppercase tracking-wider text-primary mb-1">
-              Primary Location
+              {c.primaryLocation}
             </div>
             <p className="text-sm sm:text-base text-on-surface font-semibold leading-relaxed">
               {brand.primaryLocation}
@@ -214,7 +267,7 @@ function BrandCard({
         {/* Secondary locations */}
         <div className="rounded-2xl border border-outline-variant bg-surface p-5">
           <div className="text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-3">
-            Also Check Here
+            {c.alsoCheck}
           </div>
           <ul className="space-y-2">
             {brand.secondaryLocations.map((loc) => (
@@ -229,13 +282,13 @@ function BrandCard({
         {/* Code format */}
         <div className="rounded-2xl border border-outline-variant bg-surface p-5">
           <div className="text-[11px] font-black uppercase tracking-wider text-on-surface-variant mb-3">
-            Code Format
+            {c.codeFormat}
           </div>
           <p className="text-sm text-on-surface leading-relaxed mb-2">
-            <span className="font-semibold">Format:</span> {brand.codeFormat}
+            <span className="font-semibold">{c.formatWord}</span> {brand.codeFormat}
           </p>
           <p className="text-sm text-on-surface leading-relaxed">
-            <span className="font-semibold">Pattern:</span>{" "}
+            <span className="font-semibold">{c.patternWord}</span>{" "}
             <code className="bg-surface-container-low rounded px-1.5 py-0.5 text-xs font-mono text-primary">
               {brand.codePattern}
             </code>
@@ -248,7 +301,7 @@ function BrandCard({
         <div className="flex items-center gap-2 mb-3">
           <FileText className="w-4 h-4 text-primary" />
           <div className="text-[11px] font-black uppercase tracking-wider text-on-surface-variant">
-            Example Codes &amp; Colors
+            {c.exampleCodes}
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -270,7 +323,7 @@ function BrandCard({
                 <button
                   type="button"
                   onClick={() => onCopy(ex.code)}
-                  aria-label={`Copy ${ex.code}`}
+                  aria-label={c.copyAria(ex.code)}
                   className="flex-shrink-0 p-1.5 rounded-lg hover:bg-primary/10 text-on-surface-variant hover:text-primary transition-colors"
                 >
                   {copied ? (
@@ -290,7 +343,7 @@ function BrandCard({
         <div className="flex items-center gap-2 mb-3">
           <Lightbulb className="w-4 h-4 text-on-secondary-container" />
           <div className="text-[11px] font-black uppercase tracking-wider text-on-secondary-container">
-            {brand.name}-Specific Tips
+            {brand.name}{c.tipsSuffix}
           </div>
         </div>
         <ul className="space-y-2">

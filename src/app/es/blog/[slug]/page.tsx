@@ -6,18 +6,15 @@
  * Spanish translation yet, it 404s here — the editor must add at least
  * titleEs in Sanity Studio for the post to be reachable on /es/blog.
  *
- * generateStaticParams() only enumerates posts with titleEs present, so
- * we don't prerender 130 English-only posts under /es/blog.
+ * Wave 18 batch 4 — uses shared BlogPostBody for full visual parity with
+ * /blog/<slug> (locale="es"). Only the post body text comes from Sanity in
+ * Spanish; all UI chrome (breadcrumbs, dates, related-posts heading,
+ * inline VIN promo card, etc.) translates via the shared body's COPY map.
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Calendar, Clock, ArrowRight } from "lucide-react";
-import Breadcrumbs from "@/components/Breadcrumbs";
-import VinSearchForm from "@/components/VinSearchForm";
-import PortableTextRenderer from "@/components/PortableTextRenderer";
+import BlogPostBody from "@/components/BlogPostBody";
 import { sanityClient, urlFor } from "@/sanity/client";
 import {
   postBySlugEsQuery,
@@ -40,16 +37,12 @@ export async function generateStaticParams() {
     const slugs = await sanityClient.fetch<string[]>(postSlugsEsQuery);
     return (slugs ?? []).map((slug) => ({ slug }));
   } catch {
-    // Sanity unreachable or quota reached at build time — skip prerendering and
-    // let these pages render on demand via ISR rather than failing the build.
     return [];
   }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  // Resilient fetch: degrade to generic metadata if Sanity is unreachable
-  // or quota-limited rather than throwing and crashing the route.
   let post: SanityPost | null = null;
   try {
     post = await sanityClient.fetch<SanityPost>(postBySlugEsQuery, { slug });
@@ -96,9 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       modifiedTime: post._updatedAt,
       authors: post.author?.name ? [post.author.name] : undefined,
       tags: post.tags,
-      images: ogImageUrl
-        ? [{ url: ogImageUrl, width: 1200, height: 630 }]
-        : undefined,
+      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
@@ -109,19 +100,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const categoryColors: Record<string, string> = {
-  indigo: "bg-indigo-50 text-indigo-700 border-indigo-100",
-  emerald: "bg-emerald-50 text-emerald-700 border-emerald-100",
-  amber: "bg-amber-50 text-amber-700 border-amber-100",
-  rose: "bg-rose-50 text-rose-700 border-rose-100",
-  violet: "bg-violet-50 text-violet-700 border-violet-100",
-  cyan: "bg-cyan-50 text-cyan-700 border-cyan-100",
-};
-
 export default async function BlogPostPageEs({ params }: Props) {
   const { slug } = await params;
-  // Resilient fetch: a Sanity outage should produce a 404 (post not found)
-  // rather than a 500 server error.
   let post: SanityPost | null = null;
   try {
     post = await sanityClient.fetch<SanityPost>(postBySlugEsQuery, { slug });
@@ -149,15 +129,6 @@ export default async function BlogPostPageEs({ params }: Props) {
 
   const displayTitle = post.titleEs;
   const displayExcerpt = post.excerptEs || post.excerpt;
-  // bodyEs is preferred; if blank we still render the English body so the
-  // post stays useful while translation catches up.
-  const displayBody = post.bodyEs || post.body;
-
-  const heroUrl = post.heroImage
-    ? urlFor(post.heroImage).width(1600).quality(85).url()
-    : null;
-  const colorClass =
-    categoryColors[post.category?.color || "indigo"] || categoryColors.indigo;
 
   const articleLd = {
     "@context": "https://schema.org",
@@ -204,129 +175,7 @@ export default async function BlogPostPageEs({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-
-      <article className="pt-28 pb-16">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { label: "Inicio", href: "/es" },
-              { label: "Blog", href: "/es/blog" },
-              { label: displayTitle },
-            ]}
-          />
-
-          <header className="mt-6">
-            {post.category && (
-              <span
-                className={`inline-block text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full border ${colorClass} mb-4`}
-              >
-                {post.category.title}
-              </span>
-            )}
-            <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 leading-tight">
-              {displayTitle}
-            </h1>
-            {displayExcerpt && (
-              <p className="mt-4 text-lg text-slate-700 leading-relaxed">
-                {displayExcerpt}
-              </p>
-            )}
-            <div className="mt-6 flex items-center gap-4 text-sm text-slate-700">
-              <span className="flex items-center gap-1">
-                <Calendar className="w-4 h-4" />
-                {new Date(post.publishedAt).toLocaleDateString("es", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </span>
-              {post.readMinutes ? (
-                <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
-                  {post.readMinutes} min de lectura
-                </span>
-              ) : null}
-            </div>
-          </header>
-
-          {heroUrl && (
-            <div className="mt-8 relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-100">
-              <Image
-                src={heroUrl}
-                alt={post.heroImage?.alt || displayTitle}
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 768px"
-              />
-            </div>
-          )}
-
-          {displayBody && (
-            <div className="mt-10 prose prose-slate max-w-none">
-              <PortableTextRenderer value={displayBody} />
-            </div>
-          )}
-
-          {/* Inline VIN search promo */}
-          <aside className="mt-12 p-6 rounded-2xl bg-primary/5 border border-primary/10">
-            <p className="text-xs font-bold text-primary uppercase tracking-wider mb-2">
-              ¿Listo para revisar un VIN?
-            </p>
-            <h2 className="text-xl font-bold text-slate-900 mb-3">
-              Reporte VIN gratis al instante
-            </h2>
-            <VinSearchForm size="lg" />
-          </aside>
-
-          {related.length > 0 && (
-            <section className="mt-16 pt-10 border-t border-slate-200">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6">
-                Artículos relacionados
-              </h2>
-              <div className="grid sm:grid-cols-3 gap-4">
-                {related.slice(0, 3).map((r) => {
-                  const rHero = r.heroImage
-                    ? urlFor(r.heroImage)
-                        .width(400)
-                        .height(250)
-                        .quality(80)
-                        .url()
-                    : null;
-                  const rTitle = r.titleEs || r.title;
-                  return (
-                    <Link
-                      key={r._id}
-                      href={`/es/blog/${r.slug}`}
-                      className="group block bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-md transition"
-                    >
-                      {rHero && (
-                        <div className="relative aspect-[16/10] bg-slate-100">
-                          <Image
-                            src={rHero}
-                            alt={rTitle}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            sizes="33vw"
-                          />
-                        </div>
-                      )}
-                      <div className="p-4">
-                        <h3 className="text-sm font-bold text-slate-900 leading-snug group-hover:text-primary-700">
-                          {rTitle}
-                        </h3>
-                        <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-primary-600">
-                          Leer más <ArrowRight className="w-3 h-3" />
-                        </span>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </section>
-          )}
-        </div>
-      </article>
+      <BlogPostBody post={post} related={related} locale="es" />
     </>
   );
 }

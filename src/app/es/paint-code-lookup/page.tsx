@@ -1,148 +1,41 @@
+/**
+ * Wave 18 batch 4 — Spanish paint-code-lookup. Same full English layout via
+ * the shared PaintCodeLookupBody. Replaces the earlier t()-based stub.
+ */
+
 import type { Metadata } from "next";
-import { Palette, Check } from "lucide-react";
-import { t } from "@/i18n";
+import PaintCodeLookupBody, { FAQS_ES } from "@/components/PaintCodeLookupBody";
 import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
-import VinSearchForm from "@/components/VinSearchForm";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import { ORG_AUTHOR } from "@/lib/seo/author";
 
-const LOCALE = "es" as const;
-const ENGLISH_PATH = "/paint-code-lookup" as const;
 const SITE = "https://www.carcheckervin.com";
+const PAGE_URL = `${SITE}/es/codigo-de-pintura`;
+const alt = hreflangAlternatesForLocale("/paint-code-lookup", "es");
+const title = "Búsqueda del código de pintura por VIN — Encuentra el código de color de fábrica de tu auto (gratis, más de 30 marcas)";
+const description = "Encuentra tu código de pintura OEM exacto por VIN. Localizador interactivo del código de pintura para más de 30 marcas — ubicaciones de la etiqueta del marco de la puerta, formatos de código, ejemplos reales de colores de fábrica y coincidencia de pintura de retoque. 100% gratis.";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const alt = hreflangAlternatesForLocale(ENGLISH_PATH, LOCALE);
-  return {
-    title: { absolute: t(LOCALE, "paintCode.metaTitle") },
-    description: t(LOCALE, "paintCode.metaDescription"),
-    alternates: { canonical: alt.canonical, languages: alt.languages },
-    openGraph: {
-      title: t(LOCALE, "paintCode.metaTitle"),
-      description: t(LOCALE, "paintCode.metaDescription"),
-      url: alt.canonical,
-      type: "website",
-      locale: "es_US",
-      siteName: "CarCheckerVIN",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: t(LOCALE, "paintCode.metaTitle"),
-      description: t(LOCALE, "paintCode.metaDescription"),
-    },
-    robots: { index: true, follow: true },
-  };
-}
-
-const webAppSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  inLanguage: "es",
-  name: "Búsqueda del código de pintura por VIN",
-  url: `${SITE}/es/codigo-de-pintura`,
-  applicationCategory: "UtilityApplication",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+export const metadata: Metadata = {
+  title, description,
+  keywords: ["búsqueda código pintura", "búsqueda código pintura por VIN", "código pintura auto por VIN", "código pintura OEM", "código pintura fábrica", "búsqueda código color", "código color vehículo", "buscador código pintura VIN", "encontrar código pintura auto", "código pintura retoque", "código pintura taller carrocería", "código pintura Toyota", "código pintura Honda", "código pintura Ford", "código pintura Chevrolet", "código pintura BMW", "código pintura Mercedes", "código pintura Subaru", "código pintura Nissan", "código pintura Mazda", "código pintura Hyundai", "código pintura Kia", "código pintura Tesla", "código pintura Volkswagen", "código pintura Audi", "código color por VIN", "dónde está mi código pintura", "código pintura marco puerta", "buscador código color OEM", "búsqueda nombre color fábrica"],
+  alternates: { canonical: alt.canonical, languages: alt.languages },
+  openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "es_US" },
+  twitter: { card: "summary_large_image", title, description: "Encuentra el código de pintura de fábrica de cualquier vehículo. Herramienta interactiva para más de 30 marcas. Gratis, instantánea." },
+  robots: { index: true, follow: true },
 };
 
-export default function PaintCodeLookupEs() {
-  const bullets = [
-    "Código de pintura OEM (ej. NH788P para el Lunar Silver Metallic de Honda)",
-    "Nombre oficial del color tal como lo imprime el fabricante",
-    "Años de producción en que se ofreció el color",
-    "Referencias de bolígrafo y botella de pintura para retoques",
-    "Identificación de pintura bicapa vs monocapa",
-    "Código de color de carrocería Y código de color del interior (cuando esté disponible)",
-  ];
+const webAppSchema = { "@context": "https://schema.org", "@type": "WebApplication", inLanguage: "es", name: "Búsqueda del código de pintura por VIN", url: PAGE_URL, applicationCategory: "AutomotiveApplication", operatingSystem: "All", description: "Herramienta interactiva para encontrar el código de pintura de fábrica de cualquier vehículo por VIN o por fabricante. Cubre más de 30 marcas con ubicaciones de etiqueta, formatos de código y códigos reales de ejemplo.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } } };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "es", headline: "Búsqueda del código de pintura por VIN — Encuentra tu color de fábrica", description: "Localizador interactivo del código de pintura para más de 30 marcas y una búsqueda basada en VIN que devuelve el código OEM exacto desde la base de datos de fabricación.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-16", dateModified: "2026-06-25" };
+const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "es", mainEntity: FAQS_ES.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
+const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Inicio", item: `${SITE}/es` }, { "@type": "ListItem", position: 2, name: "Búsqueda del código de pintura", item: PAGE_URL }] };
 
+export default function Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
-      />
-      <main className="pb-16 bg-surface">
-        <div className="bg-primary text-white">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
-            <Breadcrumbs
-              items={[
-                { label: "Inicio", href: "/es" },
-                { label: "Código de pintura" },
-              ]}
-              onDark
-            />
-
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs sm:text-sm font-semibold mt-6 mb-4">
-              <Palette className="w-3.5 h-3.5" />
-              {t(LOCALE, "paintCode.heroEyebrow")}
-            </span>
-
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-headline font-extrabold leading-tight mb-4">
-              {t(LOCALE, "paintCode.heroHeadline")}
-            </h1>
-
-            <p className="text-base sm:text-xl text-white/85 max-w-3xl mb-8 leading-relaxed">
-              {t(LOCALE, "paintCode.heroSub")}
-            </p>
-
-            <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl">
-              <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">
-                {t(LOCALE, "paintCode.searchHeading")}
-              </h2>
-              <p className="text-xs sm:text-sm text-on-surface-variant mb-4">
-                {t(LOCALE, "paintCode.searchSub")}
-              </p>
-              <VinSearchForm size="lg" />
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-14 space-y-12">
-          <section>
-            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
-              {t(LOCALE, "paintCode.whyVinHeading")}
-            </h2>
-            <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
-              {t(LOCALE, "paintCode.whyVinBody")}
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
-              {t(LOCALE, "paintCode.whatYouGetHeading")}
-            </h2>
-            <ul className="space-y-3">
-              {bullets.map((b) => (
-                <li
-                  key={b}
-                  className="flex items-start gap-3 bg-surface-container-low rounded-xl p-4"
-                >
-                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                  <span className="text-sm sm:text-base text-on-surface">{b}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
-              {t(LOCALE, "paintCode.whereStickerHeading")}
-            </h2>
-            <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
-              {t(LOCALE, "paintCode.whereStickerBody")}
-            </p>
-          </section>
-
-          <section className="bg-primary text-white rounded-3xl p-8 text-center">
-            <h2 className="text-2xl font-headline font-extrabold mb-2">
-              {t(LOCALE, "paintCode.ctaHeading")}
-            </h2>
-            <p className="text-white/80 mb-6">
-              {t(LOCALE, "paintCode.ctaSub")}
-            </p>
-            <div className="max-w-md mx-auto bg-white rounded-xl p-4">
-              <VinSearchForm size="lg" />
-            </div>
-          </section>
-        </div>
-      </main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <PaintCodeLookupBody locale="es" />
     </>
   );
 }

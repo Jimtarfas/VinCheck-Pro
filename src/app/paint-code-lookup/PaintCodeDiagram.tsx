@@ -2,53 +2,56 @@
 
 import { useEffect, useRef, useState } from "react";
 import { DoorOpen, Wrench, Package, Archive } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 
 /* ── Paint-code sticker locations plotted on the car ──────────────
    x / y are percentages inside the SVG viewBox (0–100 / 0–60). */
-const SPOTS = [
-  {
-    id: "door",
-    icon: DoorOpen,
-    label: "Driver's Door Jamb",
-    where: "Most cars",
-    desc: "The white/silver service label on the door frame — paint code sits beside the VIN and tire-pressure spec.",
-    x: 47,
-    y: 40,
-    accent: "#003178",
-  },
-  {
-    id: "hood",
-    icon: Wrench,
-    label: "Under the Hood",
-    where: "BMW · Mini",
-    desc: "On the strut tower or radiator support — a common backup spot when the door sticker is gone.",
-    x: 16,
-    y: 33,
-    accent: "#0d47a1",
-  },
-  {
-    id: "glove",
-    icon: Package,
-    label: "Glove Box",
-    where: "Full-size trucks",
-    desc: "Inside the glove-box lid or door — frequently used by domestic trucks and SUVs.",
-    x: 58,
-    y: 34,
-    accent: "#2166bc",
-  },
-  {
-    id: "trunk",
-    icon: Archive,
-    label: "Trunk / Spare Well",
-    where: "Audi · VW · Porsche",
-    desc: "Under the trunk mat or in the spare-tire well — Porsche often uses the front trunk instead.",
-    x: 84,
-    y: 38,
-    accent: "#4880c8",
-  },
+const SPOT_ICONS = [DoorOpen, Wrench, Package, Archive] as const;
+const SPOT_POSITIONS = [
+  { id: "door", x: 47, y: 40, accent: "#003178" },
+  { id: "hood", x: 16, y: 33, accent: "#0d47a1" },
+  { id: "glove", x: 58, y: 34, accent: "#2166bc" },
+  { id: "trunk", x: 84, y: 38, accent: "#4880c8" },
 ] as const;
 
-export default function PaintCodeDiagram() {
+const COPY = {
+  en: {
+    spots: [
+      { label: "Driver's Door Jamb", where: "Most cars", desc: "The white/silver service label on the door frame — paint code sits beside the VIN and tire-pressure spec." },
+      { label: "Under the Hood", where: "BMW · Mini", desc: "On the strut tower or radiator support — a common backup spot when the door sticker is gone." },
+      { label: "Glove Box", where: "Full-size trucks", desc: "Inside the glove-box lid or door — frequently used by domestic trucks and SUVs." },
+      { label: "Trunk / Spare Well", where: "Audi · VW · Porsche", desc: "Under the trunk mat or in the spare-tire well — Porsche often uses the front trunk instead." },
+    ],
+    diagramAria: "Car diagram showing where the paint code sticker is located",
+    eyebrow: "Where the paint code hides",
+    footer: "Hover or tap a spot — the markers light up on the car. Steps below walk through each one in detail.",
+  },
+  es: {
+    spots: [
+      { label: "Marco de la puerta del conductor", where: "La mayoría de autos", desc: "La etiqueta de servicio blanca/plateada en el marco de la puerta — el código de pintura está junto al VIN y la especificación de presión de llantas." },
+      { label: "Bajo el cofre", where: "BMW · Mini", desc: "En la torre del amortiguador o el soporte del radiador — un lugar de respaldo común cuando la etiqueta de la puerta ya no está." },
+      { label: "Guantera", where: "Camionetas tamaño completo", desc: "Dentro de la tapa o puerta de la guantera — usado con frecuencia en camionetas y SUVs domésticos." },
+      { label: "Cajuela / Hueco de refacción", where: "Audi · VW · Porsche", desc: "Bajo el tapete de la cajuela o en el hueco de la llanta de refacción — Porsche con frecuencia usa la cajuela delantera." },
+    ],
+    diagramAria: "Diagrama del auto mostrando dónde está ubicada la etiqueta del código de pintura",
+    eyebrow: "Dónde se esconde el código de pintura",
+    footer: "Pasa el cursor o toca un punto — los marcadores se iluminan en el auto. Los pasos abajo recorren cada uno en detalle.",
+  },
+} as const;
+
+interface Props {
+  locale?: Locale;
+}
+
+export default function PaintCodeDiagram({ locale = "en" }: Props) {
+  const c = COPY[locale];
+  const SPOTS = SPOT_POSITIONS.map((p, i) => ({
+    ...p,
+    icon: SPOT_ICONS[i],
+    label: c.spots[i].label,
+    where: c.spots[i].where,
+    desc: c.spots[i].desc,
+  }));
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reduce, setReduce] = useState(false);
@@ -123,7 +126,7 @@ export default function PaintCodeDiagram() {
               viewBox="0 0 100 60"
               className="w-full h-auto max-w-[280px] sm:max-w-[320px] lg:max-w-[380px] mx-auto drop-shadow-lg"
               role="img"
-              aria-label="Car diagram showing where the paint code sticker is located"
+              aria-label={c.diagramAria}
             >
               {/* ground shadow */}
               <ellipse cx="50" cy="55" rx="44" ry="3.5" fill="rgba(0,49,120,0.08)" />
@@ -208,7 +211,7 @@ export default function PaintCodeDiagram() {
           {/* ── Caption + clickable legend ───────────────── */}
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
-              Where the paint code hides
+              {c.eyebrow}
             </div>
 
             {/* active spot caption */}
@@ -277,8 +280,7 @@ export default function PaintCodeDiagram() {
               })}
             </div>
             <p className="mt-3 text-[11px] text-on-surface-variant">
-              Hover or tap a spot — the markers light up on the car. Steps below
-              walk through each one in detail.
+              {c.footer}
             </p>
           </div>
         </div>

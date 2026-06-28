@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import VinCheckTypeLandingBody from "@/components/VinCheckTypeLandingBody";
+import VinCheckTypeBody from "@/components/VinCheckTypeBody";
 import {
   VIN_CHECK_TYPE_PAGES,
   findVinCheckTypePage,
 } from "@/lib/vin-check-type-pages";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 
 const SITE = "https://www.carcheckervin.com";
@@ -22,12 +23,14 @@ export async function generateMetadata({
   const page = findVinCheckTypePage(type);
   if (!page) return {};
 
-  const url = `${SITE}/vin-check/type/${page.slug}`;
+  const englishPath = `/vin-check/type/${page.slug}`;
+  const url = `${SITE}${englishPath}`;
+  const alt = hreflangAlternatesForLocale(englishPath, "en");
   return {
     title: { absolute: page.metaTitle },
     description: page.metaDescription,
     keywords: page.keywords,
-    alternates: { canonical: `/vin-check/type/${page.slug}` },
+    alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {
       title: page.metaTitle,
       description: page.metaDescription,
@@ -123,7 +126,7 @@ export default async function VinCheckTypeSlugPage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
-      <VinCheckTypeLandingBody page={page} />
+      <VinCheckTypeBody page={page} locale="en" />
     </>
   );
 }

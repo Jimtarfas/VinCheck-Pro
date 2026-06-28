@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { Calendar, Clock, ArrowRight, FileText } from "lucide-react";
-import Breadcrumbs from "@/components/Breadcrumbs";
+import BlogIndexBody from "@/components/BlogIndexBody";
 import { sanityClient, urlFor } from "@/sanity/client";
 import { allPostsQuery } from "@/sanity/queries";
 import type { SanityPost } from "@/sanity/types";
 
 export const revalidate = 60;
+
+const SITE = "https://www.carcheckervin.com";
 
 export const metadata: Metadata = {
   title: "VIN Check Blog — Car Buying & Vehicle History Insights",
@@ -21,36 +20,26 @@ export const metadata: Metadata = {
     "vin decoder blog",
   ],
   alternates: {
-    canonical: "https://www.carcheckervin.com/blog",
+    canonical: `${SITE}/blog`,
     languages: {
-      en: "https://www.carcheckervin.com/blog",
-      es: "https://www.carcheckervin.com/es/blog",
-      "x-default": "https://www.carcheckervin.com/blog",
+      en: `${SITE}/blog`,
+      es: `${SITE}/es/blog`,
+      "x-default": `${SITE}/blog`,
     },
     types: { "application/rss+xml": "/blog/feed.xml" },
   },
   openGraph: {
     title: "VIN Check Blog — Car Buying & Vehicle History Insights",
-    description: "Expert guides on used car buying, VIN decoding, vehicle history, and avoiding fraud.",
-    url: "https://www.carcheckervin.com/blog",
+    description:
+      "Expert guides on used car buying, VIN decoding, vehicle history, and avoiding fraud.",
+    url: `${SITE}/blog`,
     type: "website",
   },
 };
 
-const categoryColors: Record<string, string> = {
-  indigo: "bg-indigo-50 text-indigo-700 border-indigo-100",
-  emerald: "bg-emerald-50 text-emerald-700 border-emerald-100",
-  amber: "bg-amber-50 text-amber-700 border-amber-100",
-  rose: "bg-rose-50 text-rose-700 border-rose-100",
-  violet: "bg-violet-50 text-violet-700 border-violet-100",
-  cyan: "bg-cyan-50 text-cyan-700 border-cyan-100",
-};
-
 export default async function BlogIndexPage() {
   // Wrap the Sanity fetch so a transient outage or quota cap returns the
-  // empty-state UI instead of a hard 500. Matches the resilience pattern
-  // already in place on /blog/category/[slug], /blog/tag/[tag], and
-  // /author/[slug] (see those files' generateStaticParams try/catch).
+  // empty-state UI instead of a hard 500.
   let posts: SanityPost[] = [];
   try {
     posts = (await sanityClient.fetch<SanityPost[]>(allPostsQuery)) ?? [];
@@ -62,134 +51,34 @@ export default async function BlogIndexPage() {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "CarCheckerVIN Blog",
-    url: "https://www.carcheckervin.com/blog",
+    url: `${SITE}/blog`,
     description: "Expert guides on used car buying, VIN decoding, vehicle history.",
-    publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
+    publisher: {
+      "@type": "Organization",
+      name: "CarCheckerVIN",
+      url: SITE,
+    },
     blogPost: posts.slice(0, 20).map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
-      url: `https://www.carcheckervin.com/blog/${p.slug}`,
+      url: `${SITE}/blog/${p.slug}`,
       datePublished: p.publishedAt,
       dateModified: p._updatedAt || p.publishedAt,
-      author: { "@type": "Person", name: p.author?.name || "CarCheckerVIN Editorial" },
+      author: {
+        "@type": "Person",
+        name: p.author?.name || "CarCheckerVIN Editorial",
+      },
       image: p.heroImage ? urlFor(p.heroImage).width(1200).url() : undefined,
     })),
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogLd) }} />
-      <article className="pt-28 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
-
-          <div className="mt-6 max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
-              VIN Check &amp; Car Buying Blog
-            </h1>
-            <p className="mt-4 text-lg text-slate-700 leading-relaxed">
-              Expert guides on used car buying, vehicle history, title brands, fraud prevention,
-              and VIN decoding. Backed by NMVTIS and NICB data sources.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3 text-sm">
-              <Link
-                href="/blog/category"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 text-slate-800 font-semibold hover:bg-primary-50 hover:text-primary-700 transition-colors"
-              >
-                Browse by category
-              </Link>
-              {/* RSS feed is still served at /blog/feed.xml and discoverable
-                  via the <link rel="alternate" type="application/rss+xml">
-                  declared in the page's metadata above — search engines and
-                  feed readers auto-detect it. We just don't surface the
-                  button in the UI because regular visitors don't use RSS
-                  and the raw-XML view is confusing. */}
-            </div>
-          </div>
-
-          {posts.length === 0 ? (
-            <div className="mt-12 text-center py-20 bg-slate-50 rounded-2xl border border-slate-200">
-              <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-              <h2 className="text-lg font-bold text-slate-900">No posts yet</h2>
-              <p className="text-sm text-slate-700 mt-2">
-                Posts published in the Sanity Studio will appear here.
-              </p>
-              <Link
-                href="/studio"
-                className="inline-block mt-6 px-5 py-2.5 bg-primary-600 text-white text-sm font-bold rounded-xl hover:bg-primary-700"
-              >
-                Open Studio →
-              </Link>
-            </div>
-          ) : (
-            <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {posts.map((post) => {
-                const heroUrl = post.heroImage
-                  ? urlFor(post.heroImage).width(800).height(500).quality(80).url()
-                  : null;
-                const colorClass =
-                  categoryColors[post.category?.color || "indigo"] || categoryColors.indigo;
-
-                return (
-                  <Link
-                    key={post._id}
-                    href={`/blog/${post.slug}`}
-                    className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-slate-300 transition"
-                  >
-                    {heroUrl && (
-                      <div className="relative aspect-[16/10] bg-slate-100 overflow-hidden">
-                        <Image
-                          src={heroUrl}
-                          alt={post.heroImage?.alt || post.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1 p-5 flex flex-col">
-                      {post.category && (
-                        <span
-                          className={`inline-block self-start text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full border ${colorClass} mb-3`}
-                        >
-                          {post.category.title}
-                        </span>
-                      )}
-                      <h2 className="text-lg font-bold text-slate-900 leading-snug group-hover:text-primary-700 transition">
-                        {post.title}
-                      </h2>
-                      {post.excerpt && (
-                        <p className="mt-2 text-sm text-slate-700 leading-relaxed line-clamp-3">
-                          {post.excerpt}
-                        </p>
-                      )}
-                      <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-700">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
-                          {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
-                        </span>
-                        {post.readMinutes ? (
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {post.readMinutes} min read
-                          </span>
-                        ) : null}
-                      </div>
-                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary-600 group-hover:gap-2 transition-all">
-                        Read more <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogLd) }}
+      />
+      <BlogIndexBody posts={posts} locale="en" />
     </>
   );
 }
