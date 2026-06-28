@@ -1,20 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Search,
   Loader2,
   AlertCircle,
   CheckCircle2,
-  Lock,
-  X,
   Copy,
   CheckCheck,
   ArrowRight,
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
-import AuthForm from "@/components/AuthForm";
 import { states } from "@/lib/states";
 
 interface LookupResult {
@@ -38,8 +34,6 @@ interface DecodedVehicle {
   drivenWheels?: string;
 }
 
-type AuthState = "loading" | "authed" | "guest";
-
 export default function LicensePlateLookup() {
   const [plate, setPlate] = useState("");
   const [state, setState] = useState("");
@@ -48,42 +42,6 @@ export default function LicensePlateLookup() {
   const [decoded, setDecoded] = useState<DecodedVehicle | null>(null);
   const [decoding, setDecoding] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  // Auth gate (mirrors the Window Sticker pattern)
-  const [auth, setAuth] = useState<AuthState>("loading");
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const pendingSubmitRef = useRef(false);
-
-  // 1) Subscribe to auth changes.
-  useEffect(() => {
-    const supabase = createClient();
-    let mounted = true;
-
-    supabase.auth.getUser().then(({ data }) => {
-      if (!mounted) return;
-      setAuth(data.user ? "authed" : "guest");
-    });
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!mounted) return;
-      setAuth(session?.user ? "authed" : "guest");
-    });
-
-    return () => {
-      mounted = false;
-      sub.subscription.unsubscribe();
-    };
-  }, []);
-
-  // 2) When the user finishes auth, fire any queued submit.
-  useEffect(() => {
-    if (auth === "authed" && pendingSubmitRef.current) {
-      pendingSubmitRef.current = false;
-      setShowAuthModal(false);
-      void runLookup();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
 
   function validate(): string | null {
     const cleanedPlate = plate.toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -112,16 +70,6 @@ export default function LicensePlateLookup() {
         body: JSON.stringify({ plate: cleanedPlate, state }),
       });
       const data = (await res.json()) as LookupResult;
-
-      // 401 from the API means the server-side cookie session expired
-      // between auth check and submit — re-open the modal.
-      if (res.status === 401) {
-        pendingSubmitRef.current = true;
-        setShowAuthModal(true);
-        setResult(null);
-        setLoading(false);
-        return;
-      }
 
       setResult(data);
 
@@ -154,13 +102,6 @@ export default function LicensePlateLookup() {
     const err = validate();
     if (err) {
       setResult({ ok: false, error: "client", message: err });
-      return;
-    }
-
-    if (auth === "loading") return;
-    if (auth === "guest") {
-      pendingSubmitRef.current = true;
-      setShowAuthModal(true);
       return;
     }
     void runLookup();
@@ -231,18 +172,13 @@ export default function LicensePlateLookup() {
 
           <button
             type="submit"
-            disabled={loading || auth === "loading"}
+            disabled={loading}
             className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-bold rounded-xl transition-colors cursor-pointer disabled:opacity-60"
           >
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
                 Looking up VIN…
-              </>
-            ) : auth === "guest" ? (
-              <>
-                <Lock className="w-4 h-4" />
-                Sign Up to Look Up Plate
               </>
             ) : (
               <>
@@ -253,7 +189,8 @@ export default function LicensePlateLookup() {
           </button>
 
           <p className="text-xs text-slate-500 text-center">
-            Free for personal pre-purchase use. Plate data is governed by the federal{" "}
+            Free for personal pre-purchase use — no signup. Plate data is governed
+            by the federal{" "}
             <abbr title="Driver's Privacy Protection Act">DPPA</abbr>.
           </p>
         </form>
@@ -356,51 +293,6 @@ export default function LicensePlateLookup() {
           </div>
         )}
       </div>
-
-      {/* ---------- Auth gate modal ---------- */}
-      {showAuthModal && (
-        <AuthGateModal onClose={() => setShowAuthModal(false)} />
-      )}
     </>
-  );
-}
-
-function AuthGateModal({ onClose }: { onClose: () => void }) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute top-3 right-3 p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 cursor-pointer"
-        >
-          <X className="w-4 h-4" />
-        </button>
-        <div className="p-6 pb-3">
-          <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary-50 text-primary-600 mb-3">
-            <Lock className="w-5 h-5" />
-          </div>
-          <h2 className="text-lg font-bold text-slate-900">
-            Sign up to look up the VIN
-          </h2>
-          <p className="mt-1 text-sm text-slate-600">
-            Free account. Takes 10 seconds. We use it to prevent automated abuse
-            of the plate-lookup database (a federal DPPA requirement).
-          </p>
-        </div>
-        <div className="px-6 pb-6">
-          <AuthForm mode="signup" compact />
-        </div>
-      </div>
-    </div>
   );
 }

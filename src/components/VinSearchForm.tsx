@@ -63,12 +63,14 @@ const COPY = {
 export default function VinSearchForm({
   size = "lg",
   onDark = false,
-  withPlateToggle = false,
+  withPlateToggle = true,
   locale = "en",
 }: {
   size?: "lg" | "sm";
   onDark?: boolean;
-  /** Show the "By VIN / By U.S. License Plate" toggle and plate-lookup mode. */
+  /** Show the "By VIN / By U.S. License Plate" toggle and plate-lookup mode.
+   *  Defaults to true so every search form offers plate lookup (no signup
+   *  required). Pass `withPlateToggle={false}` to force a VIN-only form. */
   withPlateToggle?: boolean;
   /** UI language. Defaults to English to keep existing call sites unchanged. */
   locale?: Locale;
