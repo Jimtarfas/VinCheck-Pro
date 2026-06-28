@@ -12,9 +12,14 @@
 
 import { en } from "./dictionaries/en";
 import { es } from "./dictionaries/es";
+import { fr } from "./dictionaries/fr";
 import { DEFAULT_LOCALE, type Locale } from "./config";
 
-const DICTIONARIES = { en, es } as const;
+// fr is wired here even before LOCALES exposes "fr" publicly so the
+// dictionary is ready the instant we flip it on. Indexing with the
+// current Locale union ("en"|"es") simply ignores the fr key; the
+// moment Locale widens, `t("fr", "…")` starts returning French copy.
+const DICTIONARIES = { en, es, fr } as const;
 
 type Dict = typeof en;
 
