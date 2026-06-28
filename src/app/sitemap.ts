@@ -589,6 +589,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Per-brand paint code pages (Toyota, Honda, Ford, BMW, …).
     ...paintCodeBrandPages,
     { url: `${baseUrl}/flood-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    // ── VIN Lookup keyword cluster (8 hub pages, ~250K combined monthly volume) ──
+    // High priority: each targets a distinct intent in the "vin lookup" SERP
+    // family, with the FloodCheckBody template and full schema.org JSON-LD.
+    { url: `${baseUrl}/vin-number-lookup`,        lastModified: now, changeFrequency: "weekly",  priority: 0.95 },
+    { url: `${baseUrl}/carfax-vin-lookup`,        lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/kbb-vin-lookup`,           lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/dmv-vin-lookup`,           lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/vin-owner-lookup`,         lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/vin-number-lookup-texas`,  lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/free-vin-lookup`,          lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/vin-code-lookup`,          lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/rental-car-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/fleet-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/classic-car-vin`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
