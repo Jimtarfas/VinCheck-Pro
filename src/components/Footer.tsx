@@ -12,7 +12,6 @@ const companyLinks = [
   { href: "/contact",   label: "Contact" },
   { href: "/dealers",   label: "For Dealers" },
   { href: "/help",      label: "Help Center" },
-  { href: "/trust",     label: "Trust & Security" },
   { href: "/research",  label: "Research" },
   { href: "/changelog", label: "Changelog" },
   { href: "/pricing",   label: "Pricing" },
@@ -24,6 +23,10 @@ const policyLinks = [
   { href: "/privacy",       label: "Privacy Policy" },
   { href: "/terms",         label: "Terms of Service" },
   { href: "/refund-policy", label: "Refund Policy" },
+  { href: "/disclaimer",    label: "Disclaimer" },
+  { href: "/cookie-policy", label: "Cookie Policy" },
+  { href: "/accessibility", label: "Accessibility" },
+  { href: "/trust",         label: "Trust & Security" },
 ];
 
 export default function Footer() {
