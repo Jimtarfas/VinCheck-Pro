@@ -600,6 +600,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/vin-number-lookup-texas`,  lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/free-vin-lookup`,          lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
     { url: `${baseUrl}/vin-code-lookup`,          lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    // ── Wave 2 VIN-lookup cluster (15 new pages, ~50K combined monthly volume) ──
+    // Brand-specific lookups (intent distinct from /vin-check/<brand>)
+    { url: `${baseUrl}/toyota-vin-lookup`,        lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/honda-vin-lookup`,         lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/jeep-vin-lookup`,          lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/gm-vin-lookup`,            lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/ram-vin-lookup`,           lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
+    { url: `${baseUrl}/chevy-vin-lookup`,         lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
+    { url: `${baseUrl}/hyundai-vin-lookup`,       lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
+    { url: `${baseUrl}/dodge-vin-lookup`,         lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
+    // Retailer-angle pages
+    { url: `${baseUrl}/autozone-vin-lookup`,      lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/edmunds-vin-lookup`,       lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/oreilly-vin-lookup`,       lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/jd-power-vin-lookup`,      lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    // Vehicle-type pages
+    { url: `${baseUrl}/trailer-vin-lookup`,       lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/atv-vin-lookup`,           lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    // California state hub (parallel to /vin-number-lookup-texas)
+    { url: `${baseUrl}/vin-lookup-california`,    lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/rental-car-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/fleet-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/classic-car-vin`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
