@@ -370,6 +370,126 @@ const COPY = {
     allGuidesLabel: "Todas las guías",
     lemonCheckLabel: "Verificación de ley lemon",
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbGuides: "Guides",
+    breadcrumbBuying: "Acheter une voiture d'occasion",
+    badgeSuffix: " · Guide de l'acheteur 2026",
+    h1Pre: "Acheter une voiture d'occasion en ",
+    heroIntro: (state: { name: string; population: string; dmvName: string; specialFact: string }) => (
+      <>
+        {state.specialFact} Pour les quelque {state.population} résidents de{" "}
+        {state.name}, acheter une voiture d'occasion de la bonne manière signifie
+        connaître les règles du {state.dmvName}, tes droits sous la lemon law de{" "}
+        {state.name} et vérifier l'historique de tout véhicule avec une
+        vérification VIN avant que l'argent ne change de mains.
+      </>
+    ),
+    searchHeading: (name: string) => `Commence par une vérification VIN en ${name}`,
+    searchSub: (name: string) =>
+      `Avant de déposer un acompte sur n'importe quelle voiture d'occasion en ${name}, lance le VIN — un rapport d'historique de véhicule prend quelques secondes et peut t'économiser des milliers de dollars.`,
+    trustNote: "Gratuit \u00B7 Sans inscription \u00B7 Résultat instantané",
+    trustStat1Label: "données de marques de titre",
+    trustStat2Value: "Marques",
+    trustStat2Label: "révélées par VIN",
+    trustStat3Value: "Prêt-DMV",
+    trustStat3Label: "étapes de transfert",
+    trustStat4Value: "Gratuit",
+    trustStat4Label: "sans inscription",
+    howHeading: (name: string) => `Comment acheter une voiture d'occasion en ${name}`,
+    howIntro: (name: string, dmvName: string) =>
+      `Ce guide 2026 parcourt chaque étape — depuis la recherche d'un véhicule et l'extraction d'un rapport d'historique jusqu'à la complétion du transfert de titre avec le ${dmvName}. Commence ici.`,
+    step1Tag: "Étape 1",
+    step1Title: "Lance le VIN en premier",
+    step1Body: (name: string) =>
+      `Avant tout acompte, saisis le VIN de 17 caractères pour faire apparaître les marques de titre de ${name}, accidents, dégâts salvage ou inondation, problèmes d'odomètre et rappels ouverts — y compris les dossiers d'autres états que le vendeur ou le DMV local peuvent ne pas montrer.`,
+    step2Tag: "Étape 2",
+    step2Title: "Inspecte et négocie",
+    step2Body: (name: string) =>
+      `Inspecte la voiture à la lumière du jour, fais faire une inspection pré-achat par un mécanicien indépendant de ${name}, puis négocie en utilisant les valeurs de vente particulière de KBB et Edmunds par rapport à l'état et au rapport d'historique.`,
+    step3Tag: "Étape 3",
+    step3Title: "Titre et immatricule",
+    step3Body: (dmvName: string) =>
+      `Signe le titre, complète un acte de vente et soumets-le avec ta pièce d'identité, ta preuve d'assurance et la taxe de vente au ${dmvName} pour compléter le transfert de titre et l'immatriculation.`,
+    whyEyebrow: "Pourquoi c'est important",
+    whyHeading: (name: string) =>
+      `Pourquoi les acheteurs de voitures d'occasion en ${name} doivent être particulièrement prudents`,
+    whyP1: (state: { name: string; population: string; vehiclesRegistered: string }) =>
+      `Avec une population d'environ ${state.population} et environ ${state.vehiclesRegistered} véhicules immatriculés, ${state.name} a un marché de voitures d'occasion très actif. Cette profondeur est une bonne nouvelle pour les acheteurs qui cherchent du choix, mais elle signifie aussi un brassage constant de véhicules achetés, vendus et re-titrés — parfois en traversant les frontières des états, où les dégâts et les marques de titre peuvent disparaître discrètement des dossiers locaux.`,
+    whyP2: (state: { name: string; dmvName: string; specialFact: string }) =>
+      `${state.specialFact} Ce seul détail est une raison forte d'extraire un rapport d'historique VIN complet sur tout véhicule que tu envisages, plutôt que de te fier uniquement à ce que montrent le vendeur ou le dossier du ${state.dmvName}.`,
+    brandsEyebrow: "Marques de titre",
+    brandsHeading: (name: string) =>
+      `Marques de titre de ${name} que tu verras sur les rapports d'historique de véhicule`,
+    brandsP1: (name: string) =>
+      `Une marque de titre est une notation permanente qu'un DMV d'état ajoute au titre d'un véhicule pour signaler des événements importants — pertes totales, dégâts par inondation, rachats du fabricant et plus. ${name} signale ces marques au National Motor Vehicle Title Information System (NMVTIS), qui alimente la plupart des rapports d'historique de véhicule basés sur le VIN.`,
+    brandsP2: (name: string, dmvName: string) =>
+      `Quand un acheteur en ${name} extrait un rapport VIN, voici les marques de titre que le ${dmvName} émet le plus couramment, ainsi que ce que chacune signifie en pratique :`,
+    brandFallback: (brand: string, stateName: string) =>
+      `Les véhicules marqués "${brand}" par ${stateName} ont été signalés pour un historique significatif. Vérifie toujours avec une vérification VIN avant d'acheter.`,
+    midCtaBadge: "Vérifie avant de t'engager",
+    midCtaHeading: (name: string) => `Vérifie un VIN de ${name} en quelques secondes`,
+    midCtaBody:
+      "Marques de titre, accidents, salvage, inondation, odomètre et rappels — un seul rapport avant de signer quoi que ce soit.",
+    transferEyebrow: "Transfert de titre",
+    transferHeading: (dmvName: string) =>
+      `Exigences de transfert de titre du ${dmvName}`,
+    transferP1: (name: string, dmvName: string) =>
+      `Une fois que toi et le vendeur êtes d'accord sur un prix, le transfert de titre est l'étape juridique formelle qui transfère la propriété à ton nom. En ${name}, le ${dmvName} traite les transferts de titre, collecte la taxe de vente et émet un nouveau certificat de titre au nom de l'acheteur.`,
+    transferP2: (name: string, dmvName: string) =>
+      `La plupart des transactions de voiture d'occasion entre particuliers en ${name} nécessitent les mêmes documents de base. Apporte ce qui suit à ton bureau local du ${dmvName} (ou à ton tag agent, selon le comté) :`,
+    paperworkHeading: "Documents pour le transfert de titre",
+    paperwork: (name: string, dmvName: string) => [
+      `Le certificat de titre original, signé par le vendeur à ton nom`,
+      `Un acte de vente montrant le prix d'achat et la date`,
+      `La carte d'immatriculation à jour du vendeur`,
+      `Ta pièce d'identité avec photo valide émise par le gouvernement`,
+      `Preuve d'assurance auto en ${name} à ton nom`,
+      `Paiement de la taxe de vente selon les barèmes du ${dmvName}`,
+      `Une inspection VIN si le véhicule vient d'un autre état ou a un historique salvage`,
+      `Déclaration d'odomètre (requise au niveau fédéral pour les véhicules de moins de 20 années modèles)`,
+    ],
+    transferFooter: (name: string) =>
+      `Les délais pour compléter le transfert varient, mais la plupart des acheteurs en ${name} devraient prévoir de titrer et d'immatriculer une voiture d'occasion fraîchement achetée dans les 30 jours pour éviter les pénalités de retard.`,
+    lemonEyebrow: "Lemon law",
+    lemonHeading: (name: string) => `Protections de la lemon law de ${name}`,
+    lemonP1: (name: string) =>
+      `La lemon law de ${name} s'applique généralement quand un véhicule a un défaut substantiel que le fabricant ou le concessionnaire ne peut pas réparer après un nombre raisonnable de tentatives de réparation, ou quand le véhicule a été hors service pour des réparations pendant une période cumulée significative. Si ces seuils sont atteints, les acheteurs qualifiés peuvent avoir droit à un remboursement, un véhicule de remplacement comparable ou d'autres recours.`,
+    lemonP2Before: (name: string) =>
+      `Pour déposer une réclamation sous la lemon law de ${name}, documente chaque visite de réparation (dates, kilométrage, notes écrites du technicien), garde tous les reçus et notifie le fabricant par écrit. Une `,
+    lemonLinkLabel: "vérification lemon law",
+    lemonP2After:
+      " peut aussi révéler si un véhicule d'occasion a déjà été racheté comme lemon — une divulgation critique que tous les vendeurs n'offrent pas spontanément.",
+    taxEyebrow: "Taxe de vente",
+    taxHeading: (name: string) => `Taxe de vente sur les véhicules d'occasion en ${name}`,
+    taxP1: (name: string, dmvName: string) =>
+      `${name} prélève une taxe de vente ou d'usage sur les achats de véhicules d'occasion, et le taux exact dépend de ton comté et de ta ville. Le ${dmvName} collecte généralement cette taxe au moment du titrage et de l'immatriculation sur la base du prix d'achat réel indiqué sur ton acte de vente (ou un plancher de valeur marchande équitable si le prix semble irréalistement bas).`,
+    taxP2: (name: string, dmvName: string) =>
+      `Comme les taux et exemptions peuvent changer, confirme toujours le taux actuel de la taxe de vente pour véhicules d'occasion de ${name} sur le site officiel du ${dmvName} avant de finaliser un accord. Les crédits trade-in, les transferts familiaux et les transferts cadeaux peuvent réduire ou éliminer la taxe dans certaines situations.`,
+    checklistEyebrow: "Liste de vérification",
+    checklistHeading: (name: string) => `Liste de vérification pré-achat pour les acheteurs en ${name}`,
+    checklistIntro: (name: string) =>
+      `Utilise cette liste sur chaque voiture d'occasion que tu envisages sérieusement en ${name}. Sauter ne serait-ce qu'un seul point est comment la plupart des acheteurs se retrouvent avec un véhicule qu'ils regrettent.`,
+    linksHeading: (name: string) => `Vérifications VIN qui s'associent à ce guide de ${name}`,
+    linksIntro:
+      "Un rapport d'historique est l'étape la plus importante avant l'achat. Ces outils complètent l'image.",
+    bannerSection: true,
+    faqHeading: (name: string) => `Acheter une voiture d'occasion en ${name} — FAQ`,
+    faqIntro: (name: string) =>
+      `Les questions que les acheteurs en ${name} posent le plus avant de signer.`,
+    bottomCtaBadge: "Gratuit \u00B7 Instantané \u00B7 Basé sur VIN",
+    bottomCtaHeading: (name: string) => `Prêt à vérifier un VIN de ${name} ?`,
+    bottomCtaBody:
+      "Extrais un rapport d'historique de véhicule complet avant de signer quoi que ce soit — marques de titre, accidents, salvage, inondation, odomètre et rappels en un seul endroit.",
+    bottomCtaNote:
+      "Utilisé par plus de 50 000 acheteurs dans tout le pays \u00B7 Sans inscription \u00B7 Gratuit",
+    othersHeading: "Acheter une voiture d'occasion dans d'autres états",
+    othersIntro:
+      "Tu cherches dans un rayon plus large ? Consulte les guides spécifiques aux marchés voisins et populaires.",
+    otherStateVinCheckLabel: (name: string) => `Vérification VIN en ${name}`,
+    allGuidesLabel: "Tous les guides",
+    lemonCheckLabel: "Vérification lemon law",
+  },
 } as const;
 
 // Light region heuristic to add a state-relevant flavor line.

@@ -229,6 +229,98 @@ const COPY = {
       ];
     },
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbLemon: "Vérification Lemon Law",
+    breadcrumbBrand: "Par marque",
+    heroBadge: (name: string) => `Recherche de rachats fabricant ${name}`,
+    h1Lead: (name: string) => `Vérification Lemon Law ${name} par VIN —`,
+    h1Accent: "Repère le rachat avant d'acheter",
+    heroLead: (name: string, basic: string, powertrain: string) =>
+      `Vérifie n'importe quel ${name} pour un rachat fabricant, un rachat lemon law ou un retour sous garantie. La couverture standard de ${name} est ${basic} de base et ${powertrain} pour le groupe motopropulseur — la fenêtre qui définit habituellement l'éligibilité à la lemon law. Aperçu gratuit, sans carte, résultats instantanés depuis NMVTIS.`,
+    searchHeading: (name: string) => `Lance une vérification lemon law ${name} gratuite`,
+    searchSub: "Saisis n'importe quel VIN de 17 caractères — voitures, camions, SUV, véhicules en leasing",
+    trustNote: "Chiffré 256 bits · Conforme DPPA · Données de titre issues de NMVTIS",
+    trustStatLabels: ["dossiers de rachat", "source fédérale", "temps de recherche moyen", "aperçu, sans inscription", "voitures · SUV · camions"],
+    trustStatAllModels: "Tous les modèles",
+    headlineStatLabels: ["Fenêtre de garantie de base", "Garantie groupe motopropulseur", "Comment c'est vendu aux US", "Société mère"],
+    statsAtAGlance: (name: string) => `Garantie et fenêtre lemon law ${name} en un coup d'œil`,
+    introHeading: (name: string) => `Ce que te révèle une vérification lemon law ${name}`,
+    introBuybackPre: (name: string, parent: string) =>
+      `Un "rachat" se produit quand ${parent} rachète un véhicule à son propriétaire d'origine parce qu'un défaut n'a pas pu être réparé après un nombre raisonnable de tentatives. La voiture est ensuite revendue — et son titre reçoit une marque du DMV de l'état. Une `,
+    introVinLink: "vérification lemon law basée sur le VIN",
+    introBuybackSuffix: (name: string) =>
+      ` récupère cette marque depuis NMVTIS, le système fédéral de titres qui rassemble les dossiers de chaque DMV d'état, donc un rachat ${name} ne peut pas disparaître discrètement en déplaçant la voiture d'un état à un autre.`,
+    basicsHeading: (name: string) => `Garantie et bases du rachat ${name}`,
+    basicsIntro: (name: string) =>
+      `L'éligibilité à la lemon law pour un ${name} est ancrée à la garantie d'origine d'usine. Voici ce qui définit la fenêtre — et comment un rachat est enregistré.`,
+    coverageCard: "Couverture et éligibilité",
+    basicWarrantyLabel: "Garantie de base",
+    powertrainWarrantyLabel: "Garantie groupe motopropulseur",
+    salesModelLabel: "Modèle de vente",
+    brandedCard: "Comment un rachat est marqué",
+    parentLabel: "Société mère",
+    titleBrandsLabel: "Marques de titre",
+    titleBrandsValue: "Manufacturer Buyback · Lemon Law Buyback · Reacquired Vehicle",
+    nmvtisLabel: "Enregistré dans NMVTIS par le DMV de l'état",
+    tipsHeading: (name: string) => `Quoi vérifier sur un ${name} d'occasion`,
+    tipsIntro: (name: string) =>
+      `Conseils spécifiques à la marque qui facilitent la détection d'un rachat ${name} avant de signer.`,
+    howToHeading: (name: string) => `Comment vérifier la lemon law sur un ${name} — 6 étapes`,
+    howToIntro:
+      "Une vérification complète pré-achat lemon law prend environ 15 minutes entre ton bureau et le concessionnaire.",
+    reputationHeading: (name: string) => `Est-ce qu'un ${name} est une "marque lemon" ?`,
+    reputationP1Pre: 'Aucune marque n\'est une "marque lemon". Un rachat est un ',
+    reputationP1BoldEvent: "événement par véhicule",
+    reputationP1Suffix: (name: string, parent: string) =>
+      `, pas un verdict sur chaque ${name} jamais construit. ${parent} produit des centaines de milliers d'unités sans problème, et même un modèle avec un grand nombre de plaintes a beaucoup plus de voitures qui roulent sans souci que de voitures problématiques.`,
+    reputationP2Pre: "La source de données publique la plus crédible est la base de plaintes du ",
+    reputationP2BoldNhtsa: "NHTSA Office of Defects Investigation",
+    reputationP2Mid: ", consultable par année, marque et modèle. Les groupes élevés de plaintes pour le même système sont corrélés à une plus grande éligibilité à la lemon law — mais ils décrivent une année modèle, pas la voiture spécifique devant toi. C'est pourquoi une ",
+    reputationP2Link: "vérification lemon law au niveau du VIN",
+    reputationP2Suffix: (name: string) =>
+      ` bat toujours la réputation de la marque : elle te renseigne sur l'unique ${name} que tu es sur le point d'acheter.`,
+    midCtaHeading: (name: string) => `N'achète pas un rachat ${name} par erreur`,
+    midCtaBody: (name: string) =>
+      `Vérification lemon law ${name} gratuite et instantanée depuis NMVTIS et chaque DMV d'état. Sans carte. Sans inscription.`,
+    othersHeading: "Vérifications lemon law pour d'autres marques",
+    othersIntro: (name: string) =>
+      `Les fenêtres de garantie et les schémas de rachat diffèrent selon le fabricant. Compare ${name} à ces guides de marque, ou parcours toutes les marques.`,
+    otherCardTemplate: (name: string) => `Vérification lemon law ${name}`,
+    allBrandsLink: "Vérification lemon law toutes marques",
+    allBrandsSub: "Parcours chaque fabricant au même endroit.",
+    byStateLink: "Lemon Law par état",
+    byStateSub: "Seuils de tentatives de réparation pour les 50 états.",
+    faqHeading: (name: string) => `FAQ — Vérification lemon law ${name}`,
+    faqIntro: (name: string) =>
+      `Les questions les plus recherchées sur les rachats ${name}, les fenêtres de garantie et la détection lemon basée sur le VIN.`,
+    bottomBadge: (name: string) => `Gratuit · Instantané · ${name}`,
+    bottomHeading: (name: string) => `Un VIN. Chaque marque de rachat ${name}. Cinq secondes.`,
+    bottomBody: (name: string) =>
+      `Un dossier de rachat fabricant suit le VIN en permanence, même quand le titre papier semble propre. Lance la vérification ${name} gratuite avant d'écrire un chèque.`,
+    fullReportLink: "Ou obtiens le rapport d'historique VIN complet",
+    faqBuilder(b: LemonBrand) {
+      return [
+        { q: `Comment vérifier si mon ${b.name} est un lemon ?`, a: `Saisis le VIN de 17 caractères dans la barre de recherche ci-dessus. Nous interrogeons NMVTIS et les sources nationales de titres pour tout rachat fabricant, rachat lemon law ou marque de retour sous garantie sur ce ${b.name} spécifique. Comme NMVTIS agrège les dossiers des 50 DMV d'état, un rachat enregistré dans un état apparaîtra encore même si la voiture a été re-titrée ailleurs ensuite.` },
+        { q: `Quelle garantie accompagne un ${b.name}, et pourquoi est-ce important pour la lemon law ?`, a: `La couverture standard véhicule neuf de ${b.name} est ${b.basicWarranty} bumper-to-bumper avec une garantie groupe motopropulseur de ${b.powertrainWarranty}. C'est important parce que la plupart des lois lemon d'état ne s'appliquent qu'aux défauts apparus pendant la période de garantie d'origine du fabricant — donc la fenêtre de garantie définit effectivement la fenêtre d'éligibilité à la lemon law pour un ${b.name}.` },
+        { q: `Comment s'appelle un titre de rachat ${b.name} ?`, a: `Les rachats ${b.name} portent les mêmes marques de titre que tout rachat fabricant — le plus souvent "Manufacturer Buyback" ou "Lemon Law Buyback", certains états utilisant "Reacquired Vehicle" ou "Warranty Return". La marque est émise par le DMV de l'état, pas par ${b.parent}, donc la formulation exacte dépend de l'état qui a racheté le véhicule en premier.` },
+        { q: `Un rachat ${b.name} apparaît-il dans une vérification VIN ?`, a: `Oui, si le rachat a été signalé à NMVTIS. Un rachat "${b.name}" enregistré par n'importe quel DMV d'état devient partie du dossier fédéral de titre, que notre vérification récupère directement. ${b.angle}` },
+        { q: `Combien de tentatives de réparation font qu'un ${b.name} est un lemon ?`, a: `Ça dépend de l'état, pas de la marque — la plupart des états exigent 3 ou 4 tentatives de réparation ratées pour le même défaut, ou 30 jours cumulés hors service, pendant la période de garantie. Une seule tentative de réparation ratée peut suffire pour un défaut de sécurité grave comme les freins ou la direction. Vérifie le seuil exact de ton état sur nos pages lemon law par état.` },
+        { q: `Un ${b.name} est-il plus ou moins susceptible d'être un lemon que d'autres marques ?`, a: `Un rachat est un événement par véhicule, pas un verdict de marque. Chaque fabricant moderne, ${b.name} compris, construit des centaines de milliers de véhicules sans problème, et même un modèle avec beaucoup de plaintes a beaucoup plus d'unités qui roulent sans souci. C'est exactement pourquoi une vérification spécifique au VIN est plus utile que la réputation de la marque — elle te renseigne sur l'unique voiture que tu achètes.` },
+        { q: `Que se passe-t-il si un vendeur ${b.name} ne m'a jamais dit que c'était un rachat ?`, a: `Si un vendeur a omis de divulguer une marque de rachat connue, tu peux avoir un recours sous la loi de ton état sur les pratiques commerciales trompeuses, la fraude de common-law ou le fédéral Magnuson-Moss Warranty Act. Garde le titre, l'annonce et chaque dossier de réparation, et consulte un avocat qualifié en protection du consommateur. Cette page est informative, pas un conseil juridique.` },
+      ];
+    },
+    howToBuilder(b: LemonBrand) {
+      return [
+        { n: "01", icon: Search, title: "Lance le VIN", body: `Saisis le VIN de 17 caractères ci-dessus. Nous récupérons NMVTIS, les dossiers de titre du DMV et les données nationales d'enchères en moins de 5 secondes pour n'importe quel ${b.name}.` },
+        { n: "02", icon: FileText, title: "Trouve la marque", body: `Scanne la section historique du titre pour une marque "Manufacturer Buyback", "Lemon Law Buyback" ou équivalent de rachat.` },
+        { n: "03", icon: CalendarClock, title: "Vérifie la fenêtre", body: `La couverture ${b.name} dure ${b.basicWarranty} de base. Vois si l'historique des défauts tombe dans cette période.` },
+        { n: "04", icon: Wrench, title: "Récupère les dossiers de service", body: `Demande l'historique des réparations sous garantie ${b.parent} par VIN et compte les visites pour le même défaut.` },
+        { n: "05", icon: Building2, title: "Aligne avec les règles de l'état", body: `Les seuils lemon varient selon l'état. Ouvre la page lemon law de ton état pour le compte exact de tentatives de réparation.` },
+        { n: "06", icon: ClipboardList, title: "Fais une PPI", body: `Fais inspecter la voiture par un mécanicien indépendant qui connaît ${b.name} et cible les systèmes signalés.` },
+      ];
+    },
+  },
 } as const;
 
 const TRUST_ICONS = [Factory, Shield, Clock, BadgeCheck, Car] as const;

@@ -95,6 +95,44 @@ const FAQS_ES = [
   },
 ];
 
+const FAQS_FR = [
+  {
+    question: "Comment le chiffre de contrôle du VIN (position 9) est-il calculé ?",
+    answer:
+      "Le chiffre de contrôle à la position 9 est calculé à partir des 16 autres caractères en utilisant une formule de translittération pondérée. Chaque lettre est convertie en nombre via une table fixe, chaque position est multipliée par un poids assigné (8,7,6,5,4,3,2,10 pour les positions 1-8 et 9,8,7,6,5,4,3,2 pour les positions 10-17), les produits sont sommés et le total est divisé par 11. Le reste est le chiffre de contrôle, avec un reste de 10 écrit sous la lettre X.",
+  },
+  {
+    question: "Quelle est la différence entre les sections VDS et VIS d'un VIN ?",
+    answer:
+      "Le VDS (Vehicle Descriptor Section) est constitué des positions 4-8 et encode des attributs définis par le fabricant tels que la ligne de modèle, le style de carrosserie, le système de retenue et le moteur. Le VIS (Vehicle Identifier Section) est constitué des positions 10-17 et encode l'année modèle, l'usine d'assemblage et le numéro de série unique de production. En bref, le VDS décrit ce qu'est le véhicule, tandis que le VIS identifie l'unité spécifique et quand et où elle a été construite.",
+  },
+  {
+    question: "Un décodeur VIN peut-il me dire le moteur et la finition d'un véhicule ?",
+    answer:
+      "Souvent oui, mais la précision dépend des données du fabricant. Les détails de moteur et de retenue sont encodés dans le VDS (positions 4-8), et un décodeur fait correspondre ces caractères à la table du fabricant pour cette marque et cette année modèle. Le type de moteur se décode fréquemment de manière fiable, mais la finition, les packs et les options exactes ne sont pas toujours portés dans le VIN lui-même. La couverture varie selon la marque, donc certains véhicules se décodent en une configuration complète tandis que d'autres ne renvoient que les attributs de construction de base.",
+  },
+  {
+    question: "Quelle est la différence entre décoder un VIN et faire un rapport d'historique du véhicule ?",
+    answer:
+      "Décoder un VIN lit l'information statique de construction encodée dans les 17 caractères : fabricant, pays d'assemblage, année modèle, usine et attributs de configuration. Un rapport d'historique du véhicule, en revanche, compile les événements enregistrés au cours de la vie de la voiture, tels que les transferts de titre, les accidents, les lectures d'odomètre, les rappels et les enregistrements de vol. Décoder répond à ce qu'est le véhicule ; un rapport d'historique répond à ce qui lui est arrivé. Les deux sont complémentaires, pas interchangeables.",
+  },
+  {
+    question: "Comment fonctionne le décodeur VIN vPIC de la NHTSA ?",
+    answer:
+      "Le décodeur gratuit vPIC (Product Information Catalog and Vehicle Listing) de la NHTSA fait correspondre les caractères WMI et VDS d'un VIN à la marque, au modèle, à la classe de carrosserie et aux spécifications pour les véhicules du marché américain. Il s'appuie sur des données que les fabricants soumettent en vertu de la réglementation fédérale et renvoie des attributs normalisés. vPIC fait autorité pour les véhicules légers à spécifications américaines, mais il ne fournit pas l'historique du véhicule, et son niveau de détail varie selon la quantité de données de spécifications que chaque fabricant a déposée.",
+  },
+  {
+    question: "Pourquoi deux voitures du même modèle ont-elles des motifs de VIN différents ?",
+    answer:
+      "Des modèles identiques peuvent porter des motifs de VIN différents principalement à cause du pays d'assemblage et de la configuration de construction. Les trois premiers caractères (WMI) reflètent où le véhicule a été assemblé, donc un modèle construit dans deux usines de pays différents obtient des WMI différents. Le VDS (positions 4-8) diffère également quand les configurations de moteur, de carrosserie ou de retenue diffèrent. Le code d'usine et le numéro de série dans le VIS diffèrent également pour chaque unité individuelle.",
+  },
+  {
+    question: "Décoder un VIN peut-il révéler les options d'usine et l'équipement installé ?",
+    answer:
+      "Seulement partiellement, et cela dépend du fabricant. Le VIN standardisé encode les attributs centraux comme le moteur, la carrosserie et le système de retenue dans le VDS, mais le détail complet au niveau des options comme la peinture, les packs et les accessoires est généralement stocké dans une feuille de construction d'usine séparée ou un enregistrement de type étiquette Monroney lié au VIN, pas dans les 17 caractères. Pour récupérer les données complètes d'équipement, tu as typiquement besoin de l'enregistrement de construction du fabricant, et la couverture varie selon la marque.",
+  },
+];
+
 const COPY = {
   en: {
     home: "Home",
@@ -723,6 +761,320 @@ const COPY = {
     h2Faq: "Preguntas frecuentes",
     bottomH2: "Decodifica un VIN ahora",
     bottomSub: "Ingresa cualquier VIN de 17 caracteres para obtener un desglose instantáneo posición por posición.",
+  },
+  fr: {
+    home: "Accueil",
+    guides: "Guides",
+    crumb: "Guide complet du décodage VIN",
+    h1: "Décodage VIN : Le guide complet des 17 caractères",
+    intro:
+      "Chaque véhicule fabriqué pour la vente aux États-Unis depuis 1981 porte un Numéro d'Identification de Véhicule de 17 caractères qui encode son origine, sa configuration de construction, son année modèle, son usine de fabrication et son numéro de série unique. La plupart des acheteurs savent que le VIN existe. Très peu comprennent ce que chaque position signifie réellement — ou comment cette connaissance peut détecter instantanément les erreurs de transcription, les documents frauduleux et les annonces incohérentes. Ce guide décortique chaque position, chaque code et chaque piège.",
+    decodeBoxTitle: "Décode n'importe quel VIN gratuitement",
+    decodeBoxSub: "Tape le VIN de 17 caractères ci-dessous pour un décodage instantané position par position.",
+    tocTitle: "Dans ce guide",
+    toc: [
+      { href: "#history", label: "Une brève histoire du VIN" },
+      { href: "#anatomy", label: "Anatomie d'un VIN de 17 caractères" },
+      { href: "#wmi", label: "Positions 1\u20133 : Le WMI" },
+      { href: "#vds", label: "Positions 4\u20138 : Le VDS" },
+      { href: "#check-digit", label: "Position 9 : Le chiffre de contrôle" },
+      { href: "#year-code", label: "Position 10 : Le code de l'année modèle" },
+      { href: "#plant-code", label: "Position 11 : Le code de l'usine" },
+      { href: "#serial", label: "Positions 12\u201317 : Numéro de série" },
+      { href: "#mistakes", label: "Erreurs courantes de décodage" },
+      { href: "#use-cases", label: "Utiliser un VIN décodé dans la vraie vie" },
+    ],
+    h2History: "Une brève histoire du VIN",
+    history1:
+      "Le Numéro d'Identification de Véhicule précède la standardisation fédérale de plusieurs décennies. Des années 1950 aux années 1970, chaque fabricant utilisait son propre format — variant de 5 à 13 caractères — rendant les bases de données inter-marques presque impossibles. Le Department of Transportation des États-Unis, travaillant avec des organismes de normalisation internationaux, a finalisé le VIN de 17 caractères dans ISO 3779 et ISO 3780. À partir de l'année modèle 1981, tous les véhicules légers vendus en Amérique du Nord ont dû adopter le format standardisé.",
+    history2:
+      "Cette limite de 1981 est la raison pour laquelle les décodeurs se comportent différemment pour les véhicules plus anciens — les VIN antérieurs à 1981 ne suivent pas les mêmes règles et ne peuvent pas être décodés par position selon le standard moderne. Pour tout à partir de 1981 cependant, la structure est universelle : 17 caractères fixes, un alphabet fixe (sans I, O ou Q pour éviter la confusion avec 1 et 0) et trois sections logiques.",
+    h2Anatomy: "Anatomie d'un VIN de 17 caractères",
+    anatomyIntro: "Chaque VIN moderne se divise en trois sections :",
+    anatomyList: [
+      {
+        bold: "WMI \u2014 World Manufacturer Identifier",
+        rest: " (positions 1\u20133) : identifie le pays, le fabricant et le type de véhicule.",
+      },
+      {
+        bold: "VDS \u2014 Vehicle Descriptor Section",
+        rest: " (positions 4\u20138) : décrit le modèle, la carrosserie, le système de retenue et le moteur. La position 9 se trouve à l'intérieur du VDS en tant que chiffre de contrôle.",
+      },
+      {
+        bold: "VIS \u2014 Vehicle Identifier Section",
+        rest: " (positions 10\u201317) : identifie l'année modèle, l'usine et le numéro de série unique de production.",
+      },
+    ],
+    anatomyAlphaPre: "L'alphabet est intentionnellement restreint. Les lettres",
+    anatomyAlphaI: "I",
+    anatomyAlphaO: "O",
+    anatomyAlphaAnd: "et",
+    anatomyAlphaQ: "Q",
+    anatomyAlphaMid:
+      " sont exclues pour éviter la confusion visuelle avec les chiffres 1 et 0. Tout \u201cVIN\u201d que tu reçois contenant ces caractères est invalide — soit une erreur de transcription, soit un numéro fabriqué. Pour un aperçu plus rapide, consulte notre ",
+    anatomyHowLink: "guide pour lire un VIN",
+    anatomyAlphaSuffix: " complémentaire.",
+    h2Wmi: "Positions 1\u20133 : Le WMI",
+    wmi1Pre: "Les trois premiers caractères de tout VIN forment le World Manufacturer Identifier, assigné par la Society of Automotive Engineers (SAE) sous le schéma ISO mondial.",
+    wmiPos1: "Position 1",
+    wmiPos1Suffix: " identifie le pays ou la région d'assemblage final.",
+    wmiPos2: "Position 2",
+    wmiPos2Suffix: " identifie le fabricant.",
+    wmiPos3: "Position 3",
+    wmiPos3Suffix: " identifie le type de véhicule ou la division au sein de ce fabricant.",
+    wmiCodesIntro: "Quelques codes pays courants en position 1 :",
+    wmiCodes: [
+      { code: "1, 4, 5", desc: "États-Unis" },
+      { code: "2", desc: "Canada" },
+      { code: "3", desc: "Mexique" },
+      { code: "J", desc: "Japon" },
+      { code: "K", desc: "Corée du Sud" },
+      { code: "L", desc: "Chine" },
+      { code: "S", desc: "Royaume-Uni" },
+      { code: "W", desc: "Allemagne" },
+      { code: "Y", desc: "Suède / Finlande" },
+      { code: "Z", desc: "Italie" },
+    ],
+    wmiNuancePre: "Note la nuance importante : le code pays identifie où le véhicule a été ",
+    wmiNuanceEm: "assemblé",
+    wmiNuanceMid: ", pas où la marque a son siège. Une BMW assemblée à Spartanburg, en Caroline du Sud commence par ",
+    wmiNuance5: "5",
+    wmiNuance5Mid: " (USA), pas ",
+    wmiNuanceW: "W",
+    wmiNuanceWMid: " (Allemagne). Une Honda Civic assemblée à Greensburg, en Indiana commence par ",
+    wmiNuance1: "1",
+    wmiNuance1Mid: " ou ",
+    wmiNuance5b: "5",
+    wmiNuance5bMid: ", pas ",
+    wmiNuanceJ: "J",
+    wmiNuanceSuffix: ". C'est l'un des faits les plus utiles que le WMI te donne dans la vraie vie.",
+    wmiSmallPre: "Les petits fabricants (moins de 1 000 véhicules par an) reçoivent un WMI spécial où le troisième caractère est le chiffre ",
+    wmiSmall9: "9",
+    wmiSmallSuffix: ", le fabricant réel étant identifié par les caractères 12\u201314 à la place.",
+    h2Vds: "Positions 4\u20138 : Le VDS",
+    vds1: "Les positions 4 à 8 décrivent les attributs du véhicule. La correspondance exacte est spécifique au fabricant et propriétaire, mais les catégories sont standardisées : ligne de modèle, style de carrosserie, système de retenue, type de moteur et transmission ou groupe motopropulseur. C'est là que vit la plupart de l'information pratique sur une configuration spécifique.",
+    vds2: "Comme chaque fabricant publie sa propre table de correspondance VDS, un décodeur VIN a besoin d'une correspondance à jour pour chaque marque et année modèle. Le décodeur de CarCheckerVIN s'appuie sur la base de données vPIC de la NHTSA ainsi que sur les tables fournies par les fabricants, c'est ainsi que la cylindrée du moteur, la puissance, la configuration de retenue et le groupe motopropulseur apparaissent avec précision sur chaque rapport.",
+    vds3: "Conseil pratique : si tu vois une annonce où le moteur décodé par VDS diffère de la description du vendeur (par exemple, l'annonce dit \u201c3.5L V6\u201d mais le VIN décode en un 2.5L quatre cylindres en ligne), tu as repéré une incohérence. Soit le vendeur a copié le mauvais VIN, soit il a mal étiqueté l'annonce — dans les deux cas, creuse avant d'aller plus loin.",
+    h2Check: "Position 9 : Le chiffre de contrôle",
+    check1:
+      "La position 9 est la partie mathématiquement la plus intéressante du VIN. C'est un seul chiffre (0\u20139 ou la lettre X pour la valeur 10) calculé à partir des 16 autres caractères en utilisant un algorithme de somme pondérée fixe spécifié dans la réglementation fédérale 49 CFR 565. Le calcul fonctionne comme suit :",
+    checkSteps: [
+      "Chaque lettre est convertie en nombre selon une table fixe (A=1, B=2, C=3, etc., avec des ajustements).",
+      "Chaque position de caractère a un poids fixe (les positions 1\u20137 utilisent les poids 8, 7, 6, 5, 4, 3, 2 ; la position 8 utilise 10 ; les positions 10\u201317 utilisent 9, 8, 7, 6, 5, 4, 3, 2).",
+      "Multiplie la valeur numérique de chaque caractère par son poids positionnel et somme les produits.",
+      "Divise la somme par 11. Le reste est le chiffre de contrôle ; un reste de 10 s'écrit sous la lettre X.",
+    ],
+    check2:
+      "Pourquoi est-ce important ? Parce que si même un seul caractère du VIN est mal tapé ou modifié, le chiffre de contrôle échouera presque sûrement à se valider. Un chiffre de contrôle qui échoue sur un VIN que quelqu'un t'a remis est un indicateur fort soit d'une erreur de transcription, soit, plus préoccupant, de documents falsifiés. Note : le chiffre de contrôle est requis sur tous les VIN des fabricants nord-américains, mais certains véhicules construits en Europe placent un caractère valide différent à cet endroit. Notre décodeur valide selon l'ensemble de règles applicable.",
+    h2Year: "Position 10 : Le code de l'année modèle",
+    year1:
+      "La position 10 encode l'année modèle en utilisant un alphabet cyclique de 30 ans qui exclut I, O, Q, U, Z et le chiffre 0. Le cycle va de A\u2013Y (en sautant les lettres exclues) pour les années 1980\u20132000, puis 1\u20139 pour les années 2001\u20132009, puis redémarre à A pour 2010 et va jusqu'à 2030, puis 1 à nouveau pour 2031\u20132039, et ainsi de suite. Une référence rapide pour le cycle actuel :",
+    yearTableHead: { code: "Code", year: "Année" },
+    yearRows: [
+      ["A", "2010", "M", "2021"],
+      ["B", "2011", "N", "2022"],
+      ["C", "2012", "P", "2023"],
+      ["D", "2013", "R", "2024"],
+      ["E", "2014", "S", "2025"],
+      ["F", "2015", "T", "2026"],
+      ["G", "2016", "V", "2027"],
+      ["H", "2017", "W", "2028"],
+      ["J", "2018", "X", "2029"],
+      ["K", "2019", "Y", "2030"],
+      ["L", "2020", "\u2014", "\u2014"],
+    ],
+    year2:
+      "Comme l'alphabet se recycle tous les 30 ans, la position 10 seule est ambiguë — un \u201cA\u201d pourrait signifier 1980, 2010 ou 2040. Les décodeurs lèvent l'ambiguïté en regardant la position 7 : si c'est un nombre, le véhicule est du cycle 1980\u20132009 ; si c'est une lettre, il est de 2010 ou après. Cette règle a été ajoutée quand le standard a été étendu pour gérer le cycle de 30 ans.",
+    year3:
+      "Avertissement important : l'année modèle n'est pas l'année calendaire de fabrication. Un véhicule construit en septembre 2025 porte couramment un code d'année modèle 2026 (T). C'est pourquoi la plaque de date de fabrication à l'intérieur du chambranle de porte vaut aussi la peine d'être vérifiée.",
+    h2Plant: "Position 11 : Le code de l'usine",
+    plant1Pre: "La position 11 identifie l'usine de fabrication spécifique où le véhicule a été assemblé. Chaque fabricant assigne ses propres codes d'usine, mais les codes sont généralement publiés dans leurs manuels de service et leur documentation de rappels. Quelques exemples : l'usine de Dearborn de Ford porte le code ",
+    plantF: "F",
+    plantFMid: " ; l'usine de Georgetown, Kentucky de Toyota utilise ",
+    plantR: "R",
+    plantRMid: " ou ",
+    plantU: "U",
+    plantUMid: " ; Honda Marysville Ohio utilise ",
+    plantH: "H",
+    plant1Suffix: ".",
+    plant2:
+      "Pourquoi est-ce important ? Les campagnes de rappel sont fréquemment délimitées par usine et plage de dates — seuls les véhicules assemblés dans une usine spécifique pendant une fenêtre spécifique sont concernés. Décoder la position 11 te dit instantanément si ton véhicule entre dans le champ d'un rappel donné. Les codes d'usine importent aussi pour la compatibilité des pièces : les variations internes de finition et électriques entre usines construisant le même modèle sont courantes.",
+    h2Serial: "Positions 12\u201317 : Numéro de série",
+    serial1:
+      "Les six derniers caractères sont le numéro de série unique de production qui distingue un véhicule spécifique de tout autre identique sorti de la même chaîne. Les fabricants utilisent typiquement une numérotation séquentielle, donc le numéro de série corrèle approximativement avec l'ordre de construction — un véhicule se terminant par 100001 a été construit bien avant un se terminant par 850000 de la même année modèle et usine.",
+    serial2Pre: "C'est aussi là que vit l'identification des fabricants à faible volume. Si la position 3 du WMI est ",
+    serial29: "9",
+    serial2Suffix: ", les caractères 12\u201314 identifient le fabricant réel (constructeurs de kit-cars, carrossiers personnalisés, fabricants spécialisés à très faible volume).",
+    h2Mistakes: "Erreurs courantes de décodage",
+    mistakes: [
+      {
+        bold: "Confondre 0 avec O",
+        rest: " ou 1 avec I. Les VIN modernes ne contiennent jamais I, O ou Q. Si tu en vois un, c'est soit une erreur de transcription, soit un faux.",
+      },
+      {
+        bold: "Compter les caractères incorrectement.",
+        rest: " Un VIN de 17 caractères avec des espaces au début ou à la fin n'en fait pas 17. Retire les espaces, puis compte.",
+      },
+      {
+        bold: "Confondre l'année de fabrication avec l'année modèle.",
+        rest: " Un véhicule construit fin 2025 avec une année modèle 2026 est normal. La position 10 est l'année modèle.",
+      },
+      {
+        bold: "Décoder les VIN antérieurs à 1981 avec les règles modernes.",
+        rest: " Ils ne se valideront pas ; le standard ne s'applique pas.",
+      },
+      {
+        bold: "Se fier uniquement à la plaque du tableau de bord.",
+        rest: " Croise le VIN contre l'autocollant du chambranle de porte, le titre et l'enregistrement avant toute décision.",
+      },
+    ],
+    h2UseCases: "Utiliser un VIN décodé dans la vraie vie",
+    useCasesIntro: "Décoder n'est pas juste de la trivialité. Voici des situations réelles où la connaissance position par position change l'issue :",
+    useCases: [
+      {
+        bold: "Vérifier une annonce.",
+        rest: " Le moteur et la finition décodés par VDS doivent correspondre à l'annonce. Les incohérences sont des drapeaux rouges.",
+      },
+      {
+        bold: "Acheter des pièces.",
+        rest: " Le code d'usine et le numéro de série aident les concessionnaires à trouver la bonne révision de pièce pour ta construction spécifique.",
+      },
+      {
+        bold: "Vérifier la portée d'un rappel.",
+        rest: " Beaucoup de rappels sont bornés par usine et plage de numéros de série ; décoder te dit si tu es concerné.",
+      },
+      {
+        bold: "Attraper le clonage.",
+        rest: " Un WMI qui ne correspond pas au pays d'assemblage affiché, un code d'année modèle qui ne correspond pas à l'année du titre ou un chiffre de contrôle qui échoue à la validation sont tous des empreintes classiques de clonage.",
+      },
+      {
+        bold: "Documenter ton propre véhicule.",
+        rest: " Connaître la configuration de construction aide pour les devis d'assurance, la photographie de revente et les demandes de garantie.",
+      },
+    ],
+    h2Worked: "Exemples de décodage travaillés",
+    workedIntro:
+      "La théorie se consolide mieux avec des exemples travaillés. Les trois VIN suivants illustrent le processus de décodage sur différents formats de fabricants. Les VIN en eux-mêmes sont illustratifs de structures valides — ne les traite pas comme des références à des véhicules réels spécifiques.",
+    workedH3a: "Exemple 1 : Une Toyota nord-américaine",
+    workedAPre: "Un VIN commençant par ",
+    workedA5TF: "5TF",
+    workedASuffix:
+      " nous dit position 1 = 5 (États-Unis, grand fabricant), position 2 = T (Toyota), position 3 = F (division camions). Le véhicule a été assemblé aux États-Unis, par Toyota, et est dans la famille des camions (Tundra/Tacoma/Sequoia). Les positions 4\u20138 décrivent la cabine, la benne, le moteur et la configuration de retenue ; le décodage spécifique nécessite la table VDS de Toyota pour cette année modèle. La position 10 = T identifierait le véhicule comme année modèle 2026. La position 11 identifie l'usine d'assemblage (par exemple, San Antonio = D pour beaucoup de Tundras).",
+    workedH3b: "Exemple 2 : Une BMW construite en Allemagne",
+    workedBPre: "Un VIN commençant par ",
+    workedBWBA: "WBA",
+    workedBMid: " indique position 1 = W (Allemagne), positions 2\u20133 = BA (BMW AG, voiture particulière). Les positions VDS 4\u20138 décodent la carrosserie/série et le moteur. La position 10 indique l'année modèle. Note le contraste avec une BMW série X construite à Spartanburg, dont le VIN commence par ",
+    workedB5UX: "5UX",
+    workedBSuffix:
+      " — la même marque, mais assemblée aux États-Unis, avec le WMI qui nous indique le pays d'assemblage plutôt que le siège de la marque.",
+    workedH3c: "Exemple 3 : Une Honda construite au Japon",
+    workedCPre: "Un VIN commençant par ",
+    workedCJHM: "JHM",
+    workedCMid: " nous dit position 1 = J (Japon), positions 2\u20133 = HM (Honda Motor voiture particulière). Le contraste avec ",
+    workedC1HG: "1HG",
+    workedCSuffix:
+      " (États-Unis, Honda of America Manufacturing, voiture particulière) montre la même marque construite dans deux pays différents. Les acheteurs préfèrent parfois une origine plutôt qu'une autre pour la disponibilité des pièces ou la qualité perçue, mais le système qualité moderne de Honda est essentiellement identique entre les usines.",
+    h2Special: "Cas spéciaux de VIN",
+    specialIntro: "Au-delà des véhicules de production standard, plusieurs catégories spéciales suivent des règles modifiées :",
+    special: [
+      {
+        bold: "Camions lourds (Classe 8)",
+        rest: " suivent le même standard de 17 caractères mais avec des conventions VDS différentes et des indicateurs de classe de poids.",
+      },
+      {
+        bold: "Motos",
+        rest: " utilisent le même format de 17 caractères avec une assignation WMI unique par division du fabricant.",
+      },
+      {
+        bold: "Camping-cars et autocaravanes",
+        rest: " ont souvent deux VIN — un pour le châssis (typiquement un VIN de camion commercial) et un pour la carrosserie de cabine construite par-dessus. Les deux devraient être enregistrés sur le titre.",
+      },
+      {
+        bold: "Véhicules importés du marché gris",
+        rest: " peuvent porter un VIN d'un autre marché (Japon, Europe) qui ne se valide pas toujours contre la règle du chiffre de contrôle spécifique aux États-Unis. Les importateurs réputés émettent un VIN secondaire au format américain avec l'approbation de la NHTSA.",
+      },
+      {
+        bold: "Véhicules avec VIN de remplacement",
+        rest: " — quand la plaque VIN d'origine d'un véhicule a été détruite ou retirée (typiquement par récupération après vol ou réparation majeure après collision), la juridiction émet un VIN de remplacement qui devrait être enregistré sur le titre et tout rapport d'historique.",
+      },
+    ],
+    h2Practical: "Tâches pratiques liées au VIN pour propriétaires et acheteurs",
+    practical1:
+      "Au-delà de la vérification pré-achat, le VIN est l'ancre pour une longue liste de tâches routinières de propriété. Le devis et la souscription d'assurance nécessitent le VIN exact de 17 caractères pour récupérer le profil de risque du véhicule. Le renouvellement d'enregistrement, les inspections de smog et d'émissions, les permis de stationnement et l'inscription des transpondeurs de péage se basent tous sur le VIN. Les recherches de rappels du fabricant, les demandes de garantie et l'enregistrement de contrats de service étendu sont toutes basées sur le VIN. Même des services non liés à l'assurance comme l'assistance routière et les kits de déverrouillage de véhicule vérifient le VIN avant de dépêcher.",
+    practical2:
+      "Pour la propriété continue, enregistre ton VIN avec le système de notification de rappels de la NHTSA sur nhtsa.gov/recalls et avec le portail propriétaire du fabricant. Les deux systèmes t'enverront un courriel quand un nouveau rappel affecte ton véhicule, même si un propriétaire précédent a déjà reçu l'avis. C'est la seule configuration unique à plus fort effet de levier qu'un propriétaire puisse compléter — les rappels émis des années après la production manquent régulièrement des véhicules qui ont changé de mains.",
+    practical3:
+      "Pour les vendeurs, inclure le VIN dans ton annonce est de plus en plus une attente plutôt qu'une option. Les acheteurs qui ne peuvent pas vérifier le véhicule avant de planifier une visite passeront l'annonce. Combine le VIN avec une demande de rapport d'historique fournie par l'acheteur et tu élimines la plupart des objections à planifier une visite en personne. Les annonces avec VIN et rapports d'historique pré-extraits se vendent systématiquement plus vite et plus près du prix demandé que les annonces sans.",
+    h2Beyond: "Histoire du VIN au-delà du standard de 17 caractères",
+    beyond1:
+      "Le standard de 17 caractères régit tout à partir de 1981, mais comprendre la lignée aide avec les véhicules plus anciens et les cas limites. Des années 1950 aux années 1970, les fabricants utilisaient des formats de VIN propriétaires variant de 5 à 13 caractères. Ford, Chevrolet, Chrysler, AMC et les importateurs avaient chacun leurs propres structures, sans cohérence entre les marques ni même entre les années modèles au sein d'une marque. Les régulateurs fédéraux ont standardisé le format de 17 caractères sous FMVSS 115, avec conformité obligatoire pour tous les véhicules légers à partir de l'année modèle 1981.",
+    beyond2Pre: "Les VIN antérieurs à 1981 ne peuvent pas être décodés contre les règles modernes position par position. Ils nécessitent des tables de décodage spécifiques au fabricant, et l'interprétation varie souvent même au sein de la même année pour des lots de construction séquentiels. Pour les acheteurs de véhicules de collection et d'autos classiques, notre ",
+    beyond2Link: "glossaire",
+    beyond2Suffix: " inclut des références aux principaux schémas antérieurs à 1981, mais vérifie toujours contre des clubs et registres spécifiques à la marque pour un décodage faisant autorité.",
+    beyond3:
+      "Le standard de 17 caractères lui-même a évolué depuis 1981. La règle du chiffre de contrôle a été renforcée à la fin des années 1980. L'alphabet cyclique de 30 ans pour la position 10 a été étendu en 2001 pour gérer le redémarrage de 2010. Les assignations WMI spécifiques aux fabricants ont été ajoutées et réassignées à mesure que les entreprises ont fusionné, se sont séparées ou ont étendu la production à de nouveaux pays. Les décodeurs modernes ont besoin d'un registre WMI à jour ainsi que de tables VDS à jour pour gérer correctement chaque année modèle.",
+    h2Locations: "Emplacements du VIN sur le véhicule",
+    locations1:
+      "Connaître la structure du VIN n'est utile que si tu peux trouver le VIN de manière fiable sur un vrai véhicule. Les fabricants estampent ou plaquent le VIN à plusieurs endroits pour qu'il puisse être vérifié de manière croisée. Les emplacements principaux sont :",
+    locations: [
+      {
+        bold: "Plaque du tableau de bord",
+        rest: " — visible à travers le pare-brise au coin inférieur côté conducteur. C'est la plaque VIN publique exigée fédéralement. Elle est fixée avec des rivets de sécurité ; les manipulations sont généralement visibles.",
+      },
+      {
+        bold: "Autocollant du chambranle de porte conducteur",
+        rest: " — imprimé à côté de la date de fabrication, du GVWR et des informations de pression des pneus sur une étiquette appliquée en usine.",
+      },
+      {
+        bold: "Estampage du compartiment moteur",
+        rest: " — estampé directement dans le pare-feu ou la tour d'amortisseur sur la plupart des véhicules modernes. Utilisé par les autorités d'inspection pour vérifier contre la plaque du tableau de bord.",
+      },
+      {
+        bold: "Titre et enregistrement",
+        rest: " — le VIN est l'identifiant légal sur chaque document juridictionnel.",
+      },
+      {
+        bold: "Carte d'assurance et documents de police",
+        rest: " — devraient correspondre au VIN enregistré.",
+      },
+      {
+        bold: "Lecture d'outil de scan OBD-II",
+        rest: " — les véhicules modernes renvoient le VIN via le port de diagnostic ; une divergence entre le VIN électronique et la plaque du tableau de bord est une empreinte définitive de clonage.",
+      },
+    ],
+    locationsSuffix:
+      "Toute inspection de véhicule devrait trianguler le VIN entre au moins trois de ces emplacements. Une divergence est une preuve concluante soit de documents falsifiés, soit d'un véhicule cloné et justifie un retrait immédiat de la transaction.",
+    h2International: "Standards internationaux du VIN et variations régionales",
+    international1:
+      "ISO 3779 et ISO 3780 sont les standards internationaux qui ont défini le VIN moderne, mais les détails de mise en œuvre varient selon la région. Les fabricants nord-américains appliquent strictement la règle du chiffre de contrôle à la position 9. Les fabricants européens et certains asiatiques peuvent utiliser la position 9 à d'autres fins ; leurs VIN font toujours 17 caractères et se décodent toujours par position, mais la règle de validation du chiffre de contrôle ne s'applique pas universellement. Les acheteurs inspectant une importation du marché gris doivent être conscients de cette nuance : un chiffre de contrôle nord-américain qui échoue sur un véhicule à spécifications européennes peut être normal, pas un signe de manipulation.",
+    international2:
+      "L'Australie, le Royaume-Uni et l'Union européenne appliquent tous la structure VIN à 17 caractères pour les véhicules neufs, avec leurs propres assignations WMI pour les fabricants nationaux. Le Brésil, le Mexique, l'Inde et la plupart de l'Amérique du Sud s'y conforment de manière similaire. La poignée de marchés qui utilisaient historiquement des identifiants équivalents au VIN plus courts ont largement transité vers le standard ISO pour la nouvelle production, bien que les véhicules hérités puissent porter des identifiants non conformes qui nécessitent un décodage manuel contre des tables spécifiques au fabricant.",
+    h2HowDecoder: "Comment un décodeur valide un VIN de bout en bout",
+    howDecoder1:
+      "Un décodeur VIN de haute qualité exécute cinq passes de validation sur chaque entrée. D'abord, validation structurelle : exactement 17 caractères, pas de I/O/Q, tous alphanumériques. Ensuite, calcul du chiffre de contrôle : le caractère en position 9 doit correspondre à l'algorithme de somme pondérée. Troisièmement, recherche WMI : les trois premiers caractères doivent correspondre à un fabricant enregistré dans le registre WMI de la SAE. Quatrièmement, validation croisée de l'année modèle : le code d'année à la position 10, combiné à la position 7, doit identifier une année cohérente avec la date d'enregistrement du WMI et les valeurs VDS. Cinquièmement, décodage VDS : chaque position 4\u20138 doit correspondre à une entrée valide de la table du fabricant pour cette année et cette ligne de modèle.",
+    howDecoder2Pre: "Le décodeur de CarCheckerVIN exécute les cinq vérifications sur chaque requête et signale toute défaillance à l'utilisateur, c'est ainsi que les erreurs de transcription tapées à la main et les VIN falsifiés sont immédiatement signalés plutôt que silencieusement acceptés. Les décodages gratuits sont disponibles sur notre ",
+    howDecoder2Link: "outil de vérification VIN",
+    howDecoder2Suffix: " sans compte requis.",
+    h2Related: "Lectures connexes",
+    related: [
+      { href: "/vin-check", title: "Vérification VIN gratuite", desc: "Décode n'importe quel VIN contre vPIC de la NHTSA et données OEM." },
+      { href: "/guides/how-to-read-a-vin", title: "Comment lire un VIN", desc: "Référence visuelle rapide pour les 17 positions." },
+      { href: "/guides/what-is-a-vin-number", title: "Qu'est-ce qu'un numéro VIN ?", desc: "Aperçu en langage simple pour les acheteurs débutants." },
+      { href: "/glossary", title: "Glossaire des voitures d'occasion", desc: "Chaque terme de VIN, titre et concessionnaire défini." },
+      { href: "/guides/used-car-buying-complete-guide", title: "Guide complet d'achat de voiture d'occasion", desc: "Manuel de bout en bout du budget aux papiers." },
+      { href: "/guides/vehicle-fraud-prevention", title: "Prévention de la fraude au véhicule", desc: "Fraude de titre, recul d'odomètre et clonage de VIN." },
+      { href: "/blog", title: "Blog de CarCheckerVIN", desc: "Analyses approfondies sur l'histoire du VIN, les rappels et les données." },
+      { href: "/guides/free-vin-check", title: "Guide de vérification VIN gratuite", desc: "Ce qu'incluent les décodages gratuits vs. premium." },
+    ],
+    h2Continue: "Continue à apprendre",
+    continuePre: "Tu veux mettre cela en pratique ? Décode un VIN sur notre ",
+    continueLink1: "page de vérification VIN",
+    continueMid: ", ou explore la ",
+    continueLink2: "bibliothèque complète de guides",
+    continueSuffix: " pour plus d'analyses approfondies sur des marques, usines et années modèles spécifiques.",
+    h2Faq: "Questions fréquentes",
+    bottomH2: "Décode un VIN maintenant",
+    bottomSub: "Saisis n'importe quel VIN de 17 caractères pour obtenir une analyse instantanée position par position.",
   },
 } as const;
 
