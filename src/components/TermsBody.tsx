@@ -107,6 +107,56 @@ const COPY = {
       "Estados Unidos",
     ],
   },
+  fr: {
+    h1: "Conditions d'utilisation",
+    lastUpdatedLabel: "Dernière mise à jour :",
+    lastUpdatedValue: "12 avril 2026",
+    intro: {
+      pre: "Ces conditions régissent ton utilisation de ",
+      brandBold: "CarCheckerVIN",
+      mid: " (carcheckervin.com), exploité par ",
+      companyBold: "Cognifyx Solutions LLC",
+      suffix:
+        ", une société à responsabilité limitée du Nouveau-Mexique dont le siège social est situé au 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, États-Unis (\u201cCognifyx Solutions LLC,\u201d \u201cnous,\u201d \u201cnotre\u201d ou \u201cnos\u201d).",
+    },
+    sections: [
+      {
+        h: "1. Acceptation des conditions",
+        p: "En utilisant CarCheckerVIN, tu acceptes ces conditions d'utilisation. Si tu n'es pas d'accord, n'utilise pas le service.",
+      },
+      {
+        h: "2. Description du service",
+        p: "CarCheckerVIN fournit des services de décodage du numéro d'identification du véhicule (VIN) et de rapports d'historique du véhicule. Les rapports incluent les spécifications du véhicule, les détails de l'équipement et les données associées provenant de bases de données tierces.",
+      },
+      {
+        h: "3. Exactitude des informations",
+        p: "Bien que nous nous efforcions d'être exacts, les données de véhicule proviennent de fournisseurs tiers et nous ne pouvons garantir une exactitude à 100 %. Les rapports doivent être utilisés comme un facteur dans ta décision d'achat de véhicule, en complément d'une inspection physique et d'un essai routier.",
+      },
+      {
+        h: "4. Utilisation autorisée",
+        p: "Tu peux utiliser CarCheckerVIN à des fins personnelles et non commerciales de recherche sur des véhicules. Le scraping automatisé, les téléchargements en masse ou la redistribution des données des rapports sont interdits.",
+      },
+      {
+        h: "5. Limitation de responsabilité",
+        p: "CarCheckerVIN est fourni \u201cen l'état\u201d sans aucune garantie d'aucune sorte. Nous ne sommes pas responsables des dommages résultant de l'utilisation de nos rapports ou de la confiance accordée aux informations fournies.",
+      },
+    ],
+    refundHeading: "6. Remboursements",
+    refundPre:
+      "Les remboursements ne sont émis que lorsque les données d'un rapport ne correspondent pas au véhicule identifié par le VIN que tu as soumis. Consulte la ",
+    refundLinkLabel: "Politique de remboursement",
+    refundSuffix:
+      " complète pour les critères d'éligibilité, les exigences de preuve et le processus de demande.",
+    contactHeading: "7. Contact",
+    contactPre: "Pour toute question concernant ces conditions, contacte-nous à ",
+    contactSuffix: " ou par courrier à :",
+    addressLines: [
+      "Cognifyx Solutions LLC",
+      "1209 Mountain Road Pl NE, Ste N",
+      "Albuquerque, NM 87110",
+      "États-Unis",
+    ],
+  },
 } as const;
 
 interface Props {

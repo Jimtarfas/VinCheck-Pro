@@ -35,6 +35,17 @@ const COPY = {
     minRead: (n: number) => `${n} min de lectura`,
     dateLocale: "es-US",
   },
+  fr: {
+    home: "Accueil",
+    blog: "Blog",
+    badge: "Étiquette",
+    h1: (tag: string) => `Articles étiquetés : ${tag}`,
+    intro: (count: number, tag: string) =>
+      `${count} ${count === 1 ? "article étiqueté" : "articles étiquetés"} avec #${tag} par l'équipe éditoriale de CarCheckerVIN.`,
+    readMore: "Lire la suite",
+    minRead: (n: number) => `${n} min de lecture`,
+    dateLocale: "fr-FR",
+  },
 } as const;
 
 const categoryColors: Record<string, string> = {

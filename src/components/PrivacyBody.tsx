@@ -97,6 +97,50 @@ const COPY = {
       "Estados Unidos",
     ],
   },
+  fr: {
+    h1: "Politique de confidentialité",
+    lastUpdatedLabel: "Dernière mise à jour :",
+    lastUpdatedValue: "12 avril 2026",
+    intro: {
+      pre: "Cette politique de confidentialité s'applique à ",
+      brandBold: "CarCheckerVIN",
+      mid: " (carcheckervin.com), un service exploité par ",
+      companyBold: "Cognifyx Solutions LLC",
+      suffix:
+        ", une société à responsabilité limitée du Nouveau-Mexique dont le siège social est situé au 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, États-Unis.",
+    },
+    sections: [
+      {
+        h: "1. Informations que nous collectons",
+        p: "Lorsque tu utilises CarCheckerVIN, nous pouvons collecter les numéros d'identification du véhicule (VIN) que tu soumets pour décodage, des données d'utilisation de base (pages visitées, fonctionnalités utilisées) et tes coordonnées si tu contactes le support.",
+      },
+      {
+        h: "2. Comment nous utilisons tes informations",
+        p: "Nous utilisons les informations collectées pour fournir des rapports d'historique de véhicule, améliorer notre service, répondre aux demandes des clients et assurer la sécurité de la plateforme. Nous ne vendons pas tes données personnelles à des tiers.",
+      },
+      {
+        h: "3. Sources de données",
+        p: "Les données de véhicule proviennent du National Motor Vehicle Title Information System (NMVTIS), des bases de données des constructeurs et de l'API Auto.dev. Il s'agit d'informations de spécifications de véhicule disponibles publiquement.",
+      },
+      {
+        h: "4. Cookies",
+        p: "Nous utilisons des cookies essentiels pour maintenir la fonctionnalité du site. Aucun cookie publicitaire ou de suivi n'est utilisé sans ton consentement.",
+      },
+      {
+        h: "5. Sécurité des données",
+        p: "Nous mettons en œuvre des mesures de sécurité conformes aux normes de l'industrie pour protéger tes données, notamment des connexions chiffrées (HTTPS) et des pratiques de stockage de données sécurisées.",
+      },
+    ],
+    contactHeading: "6. Contact",
+    contactPre: "Pour toute question relative à la confidentialité, contacte-nous à ",
+    contactSuffix: " ou par courrier à :",
+    addressLines: [
+      "Cognifyx Solutions LLC",
+      "1209 Mountain Road Pl NE, Ste N",
+      "Albuquerque, NM 87110",
+      "États-Unis",
+    ],
+  },
 } as const;
 
 interface Props {

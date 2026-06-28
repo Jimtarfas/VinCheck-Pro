@@ -39,6 +39,17 @@ const COPY = {
     minRead: (n: number) => `${n} min de lectura`,
     dateLocale: "es-US",
   },
+  fr: {
+    home: "Accueil",
+    blog: "Blog",
+    badge: "Catégorie",
+    emptyHeading: "Aucune publication dans cette catégorie pour l'instant",
+    emptyBody: "Reviens bientôt pour découvrir de nouveaux articles.",
+    emptyCta: "Voir toutes les publications →",
+    readMore: "Lire la suite",
+    minRead: (n: number) => `${n} min de lecture`,
+    dateLocale: "fr-FR",
+  },
 } as const;
 
 const categoryColors: Record<string, string> = {

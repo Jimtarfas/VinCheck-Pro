@@ -117,6 +117,59 @@ const COPY = {
     ctaBottomHeading: "Descubre cuánto vale cualquier auto",
     ctaBottomSub: "Ingresa un VIN de 17 caracteres para obtener los valores actuales de intercambio, venta privada y minorista de concesionario.",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Valeur de marché",
+    h1: "Valeur de marché d'une voiture par VIN",
+    intro:
+      "Connaître la valeur de marché actuelle d'un véhicule est essentiel, que tu sois en train d'acheter, de vendre ou de faire une reprise. Une valorisation basée sur le VIN tire la configuration exacte d'usine — niveau de finition, options et équipements — pour générer une valeur précise plutôt qu'une moyenne pour le modèle. Comprendre la différence entre les valeurs de reprise, de vente entre particuliers et de détail chez le concessionnaire te place dans une position de négociation bien plus forte avant toute transaction.",
+    ctaTopHeading: "Obtiens la valeur de marché actuelle",
+    h2Calc: "Comment la valeur de marché d'un véhicule est calculée",
+    calc1:
+      "La valeur de marché d'un véhicule n'est pas un chiffre figé — c'est une estimation pilotée par les données, dérivée de prix de transactions réels sur le marché. Les fournisseurs de valorisation collectent des millions de ventes réelles chez les concessionnaires, de résultats d'enchères, d'annonces entre particuliers et de transactions de reprise pour construire des modèles statistiques qui prédisent à quel prix un véhicule spécifique devrait se vendre dans les conditions de marché actuelles.",
+    calc2:
+      "Le VIN ancre la valorisation à la configuration exacte d'usine du véhicule. Un modèle de base et une version pleinement équipée de la même voiture peuvent avoir des valeurs de marché très différentes. Les options comme la transmission intégrale, l'audio premium, la navigation, le toit ouvrant et les packs de remorquage représentent des primes de marché mesurables qui sont incluses dans une valorisation spécifique au VIN, mais qui seraient ratées dans une estimation générique par année-modèle.",
+    calc3Pre: "Le kilométrage, l'état, l'historique d'accidents et le statut du titre sont les facteurs d'ajustement les plus importants après la configuration d'usine. Un véhicule avec un ",
+    accidentLink: "historique d'accidents",
+    calc3Mid: " ou un ",
+    salvageLink: "titre salvage",
+    calc3Suffix: " se négociera toujours avec une décote par rapport à un véhicule comparable avec titre propre.",
+    h2TPR: "Reprise vs. vente entre particuliers vs. détail",
+    tprIntro:
+      "Il existe trois grandes références de valeur de marché utilisées dans l'industrie automobile, et comprendre chacune t'évite de laisser de l'argent sur la table ou de payer trop cher un véhicule.",
+    tprBullets: [
+      { strong: "Valeur de reprise", rest: " — ce qu'un concessionnaire t'offrira pour ton véhicule. C'est la plus basse des trois valeurs, car le concessionnaire a besoin de marge pour reconditionner et faire un bénéfice à la revente." },
+      { strong: "Valeur de vente entre particuliers", rest: " — ce que tu peux espérer obtenir en vendant directement à un autre consommateur. C'est typiquement 10 à 20 % plus haut que la valeur de reprise." },
+      { strong: "Valeur de détail chez le concessionnaire", rest: " — ce qu'un concessionnaire affiche sur son parc. C'est la valeur la plus haute et elle inclut le reconditionnement, les frais généraux et la marge bénéficiaire du concessionnaire." },
+    ],
+    tprAfter:
+      "Quand tu achètes chez un concessionnaire, la valeur de détail est ton plafond — tu ne devrais jamais payer au-dessus de ce repère. Quand tu vends entre particuliers, la valeur de vente entre particuliers est ton objectif. Quand tu fais une reprise, connaître la valeur de reprise te donne une base pour évaluer l'offre du concessionnaire.",
+    h2Mileage: "Pourquoi le kilométrage et les options comptent",
+    mil1Pre:
+      "Le kilométrage est l'un des plus grands moteurs de valeur pour les véhicules d'occasion. L'industrie utilise des repères de kilométrage annuel moyen (typiquement 12 000 à 15 000 miles par an) pour évaluer si un véhicule a un kilométrage élevé ou bas pour son âge. Chaque tranche de 10 000 miles en dessous de la moyenne ajoute de la valeur ; chaque tranche de 10 000 miles au-dessus la réduit. Utilise notre ",
+    odoLink: "vérification d'odomètre",
+    mil1Suffix: " pour confirmer que le kilométrage déclaré par le vendeur est exact avant d'accepter toute valorisation.",
+    mil2:
+      "Les options d'usine ont un effet cumulatif sur la valeur. La transmission intégrale et le 4x4 ajoutent des primes importantes sur les pick-ups et les SUV — souvent $2,000 à $5,000 selon le marché. Les packs performance, les packs de remorquage et les finitions premium portent leurs propres primes qui persistent à travers plusieurs cycles de propriété.",
+    mil3:
+      "L'état est le facteur le plus subjectif. Les guides de valorisation utilisent des grades d'état d'Excellent à Médiocre, et l'écart entre les grades peut atteindre plusieurs milliers de dollars. Une évaluation honnête de l'état — qui tient compte de la peinture, de l'usure intérieure, de la santé mécanique et de tout dégât antérieur — produit l'estimation de valeur de marché la plus précise.",
+    h2Regional: "Variations régionales du marché",
+    reg1:
+      "Les prix des voitures d'occasion ne sont pas uniformes à travers le pays. La dynamique de l'offre et de la demande, les préférences locales, le climat et les motifs saisonniers créent de fortes variations régionales de prix pour le même véhicule. Les pick-ups 4x4 atteignent des primes plus élevées dans les Rocheuses et le Haut Midwest que dans le Sud-Est. Les cabriolets et les voitures de sport se vendent avec une prime sur les marchés au climat chaud comme la Californie et la Floride, par rapport aux marchés au climat froid.",
+    reg2:
+      "Les États de la \"ceinture du sel\" (où le sel de déneigement est utilisé en abondance l'hiver) créent des dynamiques régionales supplémentaires — les véhicules de ces États ont souvent une rouille et une corrosion accélérées, ce qui réduit leur valeur par rapport à des véhicules équivalents venant d'États au climat sec comme l'Arizona ou le Nevada. Une vérification VIN combinée à l'historique d'immatriculation peut révéler si un véhicule a passé sa vie dans un environnement à forte corrosion.",
+    h2BestPrice: "Comment obtenir le meilleur prix en vendant",
+    bp1Pre: "Les vendeurs qui arrivent avec de la documentation obtiennent systématiquement des prix de transaction plus élevés. Passer un ",
+    vinLink: "rapport d'historique VIN",
+    bp1Suffix: " propre avant de mettre l'annonce donne confiance aux acheteurs et justifie de demander un prix plus proche de la valeur de vente entre particuliers. Combine cela avec des carnets d'entretien complets, une inspection récente et toute documentation de garantie d'usine restante.",
+    bp2:
+      "Le timing compte aussi. Les cabriolets et les voitures de sport atteignent leur pic au printemps et en été. Les pick-ups et SUV 4x4 atteignent les prix les plus élevés juste avant l'hiver. Mettre l'annonce pendant la demande de pointe pour ton type de véhicule peut ajouter des centaines ou des milliers au prix final de vente.",
+    bp3:
+      "Vérifie toujours les rappels ouverts avant de mettre ton véhicule en vente. Les acheteurs les trouveront lors de leur due diligence, et avoir le rappel déjà effectué élimine une objection et démontre une propriété responsable.",
+    faqHeading: "Questions fréquentes",
+    ctaBottomHeading: "Découvre combien vaut n'importe quelle voiture",
+    ctaBottomSub: "Entre un VIN de 17 caractères pour obtenir les valeurs actuelles de reprise, de vente entre particuliers et de détail chez le concessionnaire.",
+  },
 } as const;
 
 const FAQS_EN = [

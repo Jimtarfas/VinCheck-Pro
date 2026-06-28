@@ -49,7 +49,7 @@ interface DisclaimerCopy {
   reviewBannerCta?: string;
 }
 
-const COPY: Record<Locale, DisclaimerCopy> = {
+const COPY: Record<Locale | "fr", DisclaimerCopy> = {
   en: {
     backToCheckout: "\u2190 Back to checkout",
     eyebrow: "Federally Mandated Disclosure",
@@ -172,6 +172,71 @@ const COPY: Record<Locale, DisclaimerCopy> = {
     reviewBannerBody:
       "La versi\u00f3n inglesa de esta divulgaci\u00f3n es la can\u00f3nica conforme a la ley federal de EE. UU. Esta traducci\u00f3n se proporciona como referencia y est\u00e1 sujeta a la revisi\u00f3n del equipo de cumplimiento de ClearVin LLC.",
     reviewBannerCta: "Leer la divulgaci\u00f3n en ingl\u00e9s",
+  },
+  fr: {
+    backToCheckout: "\u2190 Retour au paiement",
+    eyebrow: "Divulgation exig\u00e9e par la loi f\u00e9d\u00e9rale",
+    h1: "Avertissement l\u00e9gal NMVTIS",
+    requiredBy:
+      "Requis par 49 U.S.C. \u00a7\u00a030502 et 28 C.F.R. Partie\u00a025, Sous-partie\u00a0C.",
+    officialNoticeLabel: "Avis officiel NMVTIS au consommateur",
+    notice: {
+      p1: "Le National Motor Vehicle Title Information System (NMVTIS) est un syst\u00e8me \u00e9lectronique qui contient des informations sur certains v\u00e9hicules titr\u00e9s aux \u00c9tats-Unis. NMVTIS est con\u00e7u pour \u00eatre une source fiable de l'historique du titre et des marques des v\u00e9hicules, mais il ne contient pas d'informations d\u00e9taill\u00e9es sur l'historique de r\u00e9paration du v\u00e9hicule.",
+      p2: "La loi f\u00e9d\u00e9rale exige que tous les \u00c9tats, les assureurs et les casses et chantiers de salvage signalent les informations au NMVTIS. Cependant, les donn\u00e9es NMVTIS sont fournies par les fournisseurs de donn\u00e9es actuels, et les donn\u00e9es de tout v\u00e9hicule peuvent ne pas \u00eatre dans le syst\u00e8me si les fournisseurs de donn\u00e9es ne signalent pas encore. L'information sur la date de toute nouvelle donn\u00e9e fournie sera incluse dans ton rapport.",
+      p3: "Actuellement, les juridictions suivantes fournissent des donn\u00e9es de v\u00e9hicules au NMVTIS : l'information sur la plupart des v\u00e9hicules titr\u00e9s aux \u00c9tats-Unis est maintenant disponible \u00e0 travers le syst\u00e8me, y compris la plupart des v\u00e9hicules du parc actuel.",
+      p4Strong: "NMVTIS collecte aussi des informations des assureurs",
+      p4Suffix:
+        " qui sont tenus par la loi f\u00e9d\u00e9rale de signaler les v\u00e9hicules qu'ils ont d\u00e9clar\u00e9s perte totale. NMVTIS collecte aussi des informations des casses et chantiers de salvage qui sont tenus par la loi f\u00e9d\u00e9rale de signaler les v\u00e9hicules re\u00e7us dans leurs installations.",
+      p5Strong:
+        "Bien que NMVTIS soit con\u00e7u pour prot\u00e9ger les consommateurs de la fraude et des v\u00e9hicules dangereux, les utilisateurs ne doivent pas se fier uniquement \u00e0 NMVTIS.",
+      p5Suffix:
+        " Les donn\u00e9es NMVTIS n'incluent pas les donn\u00e9es d'\u00e9v\u00e9nements de v\u00e9hicules endommag\u00e9s avant la mise en \u0153uvre des exigences de signalement NMVTIS ; les donn\u00e9es de dommages de collision qui n'ont pas \u00e9t\u00e9 signal\u00e9s par un assureur participant ; ni les donn\u00e9es de dommages aux v\u00e9hicules pour lesquels aucune r\u00e9clamation d'assurance n'a \u00e9t\u00e9 d\u00e9pos\u00e9e.",
+      purchaseHeading:
+        "Avant d'acheter un v\u00e9hicule, en plus d'obtenir un rapport d'historique du v\u00e9hicule, les consommateurs doivent :",
+      bullets: [
+        "Obtenir une inspection ind\u00e9pendante du v\u00e9hicule par un m\u00e9canicien qualifi\u00e9 de leur choix.",
+        "V\u00e9rifier que le num\u00e9ro d'identification du v\u00e9hicule (VIN) sur le v\u00e9hicule correspond au VIN sur le titre et sur tout autre document du v\u00e9hicule.",
+        "Examiner le titre pour d\u00e9terminer s'il y a des marques inscrites (c'est-\u00e0-dire inondation, salvage, casse, etc.).",
+      ],
+      p7Before:
+        "Pour plus d'informations sur NMVTIS, les donn\u00e9es incluses dans le syst\u00e8me et les d\u00e9finitions des marques NMVTIS standard, visite ",
+      p7After: ".",
+    },
+    providerAttributionHeading: "Attribution du fournisseur de donn\u00e9es",
+    providerAttribution: {
+      p1Before:
+        "Les donn\u00e9es soutenues par NMVTIS affich\u00e9es dans ton rapport CarCheckerVIN sont fournies par ",
+      p1Mid: "ClearVin LLC",
+      p1After:
+        ", un fournisseur de donn\u00e9es NMVTIS approuv\u00e9. Tous les droits, le titre et l'int\u00e9r\u00eat sur les donn\u00e9es restent la propri\u00e9t\u00e9 de ClearVin et de ses partenaires de donn\u00e9es sous-jacents (DMV d'\u00c9tat, NMVTIS, NHTSA, le National Insurance Crime Bureau, assureurs participants, ench\u00e8res de salvage et contributeurs ind\u00e9pendants de dossiers de service).",
+      p2: "CarCheckerVIN est exploit\u00e9 par Cognifyx Solutions LLC, une soci\u00e9t\u00e9 \u00e0 responsabilit\u00e9 limit\u00e9e du Nouveau-Mexique avec si\u00e8ge social enregistr\u00e9 au 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, \u00c9tats-Unis, et est un revendeur du service de donn\u00e9es NMVTIS de ClearVin. CarCheckerVIN ne modifie, n'\u00e9dite, n'alt\u00e8re ni n'omet aucune valeur de donn\u00e9es retourn\u00e9e par ClearVin ; seule la mise en page et le style environnants sont personnalis\u00e9s pour la marque CarCheckerVIN.",
+    },
+    limitsHeading: "Ce que NMVTIS ne peut pas te dire",
+    limits: {
+      lead: "Un rapport soutenu par NMVTIS est un outil puissant, mais ",
+      doesNotInclude: "ce n'est pas un historique complet",
+      suffix: " d'aucun v\u00e9hicule. En particulier, les donn\u00e9es NMVTIS n'incluent pas :",
+      bullets: [
+        "les accidents ou dommages qui n'ont pas \u00e9t\u00e9 signal\u00e9s \u00e0 un assureur ou aux forces de l'ordre ;",
+        "les dossiers de service ou de maintenance d'ateliers ind\u00e9pendants qui ne signalent pas \u00e0 une base de donn\u00e9es nationale ;",
+        "le statut d'ach\u00e8vement des rappels \u00e9mis par le fabricant (seulement le rappel lui-m\u00eame) ;",
+        "les pr\u00eats en cours, privil\u00e8ges ou charges financi\u00e8res sur le v\u00e9hicule ;",
+        "les dossiers d'inspection certified pre-owned (CPO) d\u00e9tenus par des concessionnaires individuels ;",
+        "les \u00e9v\u00e9nements survenus avant que les exigences de signalement NMVTIS soient mises en place pour une juridiction donn\u00e9e.",
+      ],
+      footer:
+        "Pour ces raisons, le D\u00e9partement de la Justice des \u00c9.-U. et le programme f\u00e9d\u00e9ral NMVTIS recommandent fortement que chaque achat de v\u00e9hicule d'occasion soit accompagn\u00e9 d'une inspection en personne effectu\u00e9e par un m\u00e9canicien qualifi\u00e9 de ton choix.",
+    },
+    alsoSee: {
+      before: "Consulte aussi nos ",
+      linkLabel: "Conditions g\u00e9n\u00e9rales",
+      after: " pour la renonciation \u00e0 responsabilit\u00e9 compl\u00e8te et l'avis de propri\u00e9t\u00e9 intellectuelle.",
+    },
+    backCta: "Retour au paiement",
+    reviewBannerTitle: "Traduction en attente de validation l\u00e9gale",
+    reviewBannerBody:
+      "La version anglaise de cette divulgation est la version canonique selon la loi f\u00e9d\u00e9rale des \u00c9.-U. Cette traduction est fournie \u00e0 titre de r\u00e9f\u00e9rence et est sujette \u00e0 la r\u00e9vision de l'\u00e9quipe de conformit\u00e9 de ClearVin LLC.",
+    reviewBannerCta: "Lire la divulgation en anglais",
   },
 };
 

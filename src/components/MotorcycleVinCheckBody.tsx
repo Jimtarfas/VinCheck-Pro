@@ -118,6 +118,57 @@ const COPY = {
       body: "Ingresa un VIN de motocicleta de 17 caracteres para revisar el estado del t\u00edtulo, registros de robo, historial de accidentes y especificaciones.",
     },
   },
+  fr: {
+    crumbs: { home: "Accueil", current: "Vérification VIN moto" },
+    h1: "Vérification VIN moto",
+    lede: "Acheter une moto d'occasion sans vérification VIN est un risque important. Les motos ont l'un des taux de vol les plus élevés de toutes les catégories de véhicules, et les motos volées sont fréquemment ré-immatriculées et revendues. Une vérification VIN moto révèle le statut du titre, les enregistrements de vol, les marques de titre salvage et l'historique des accidents — les mêmes données essentielles qui protègent les acheteurs de voitures protègent aussi les acheteurs de motos contre des erreurs coûteuses.",
+    formH2: "Lance une vérification VIN moto gratuite",
+    diffH2: "Comment les VIN moto diffèrent des VIN voiture",
+    diff: {
+      p1: "Depuis 1981, toutes les motos vendues aux États-Unis — comme les automobiles — utilisent le format VIN standardisé de 17 caractères imposé par la NHTSA. La structure est la même : les trois premiers caractères identifient le World Manufacturer Identifier, les caractères 4–8 forment la Section Descripteur du Véhicule, le caractère 9 est le chiffre de contrôle, le caractère 10 code l'année modèle, le caractère 11 identifie l'usine d'assemblage, et les caractères 12–17 sont le numéro de production séquentiel.",
+      p2: "Les différences clés avec les VIN automobiles se trouvent dans les codes spécifiques utilisés dans la structure standard. Les codes des constructeurs de motos sont différents des codes des constructeurs automobiles. La cylindrée du moteur est codée différemment. Les codes de style de carrosserie reflètent les catégories de motos (sportive, cruiser, dual-sport, tout-terrain) plutôt que les styles de carrosserie automobile.",
+      p3: "L'emplacement du VIN sur les motos diffère aussi de celui des automobiles. Sur la plupart des motos, le VIN est gravé dans le cadre — généralement sur la tête de direction (où les fourches se fixent au cadre), sur le côté gauche du cadre près du moteur, ou dans les deux emplacements. Certains constructeurs placent aussi une plaque VIN sur le cadre en plus du numéro gravé.",
+    },
+    reportH2: "Ce que contient un rapport VIN moto",
+    reportIntro: "Un rapport VIN moto complet couvre les mêmes catégories qu'un rapport d'historique du véhicule pour voiture, avec certaines considérations spécifiques aux motos. Les marques de titre pour motos incluent les marques standard salvage, reconstruit et inondation, mais aussi des catégories spécifiques aux motos comme « usage tout-terrain uniquement » et « pièces uniquement » — des titres qui indiquent que la moto a été jugée non apte à la route ou a été dépouillée pour ses pièces.",
+    reportItems: [
+      { strong: "Historique du titre et de l'immatriculation", rest: " — tous les États où la moto a été titrée, y compris toute marque ou changement de statut." },
+      { strong: "Enregistrements de vol", rest: " — rapports de vol du NICB et des forces de l'ordre, y compris si la moto figure actuellement sur une liste de véhicules volés." },
+      { strong: "Historique des accidents et dommages", rest: " — réclamations d'assurance et dommages de collision signalés." },
+      { strong: "Enregistrements de l'odomètre", rest: " — relevés de kilométrage lors des transferts de titre pour détecter une manipulation." },
+      { strong: "Décodage du VIN", rest: " — constructeur, année modèle, cylindrée du moteur et usine d'assemblage à partir de la structure du VIN." },
+    ],
+    brandsH2: "Marques de titre moto à surveiller",
+    brands: {
+      p1: "Les marques de titre sur les motos ont les mêmes implications que sur les automobiles, mais les risques spécifiques diffèrent en raison de la construction de la moto. Une voiture avec un titre salvage peut être reconstructible avec des réparations structurelles importantes ; une moto avec un titre salvage qui a subi des dommages au cadre peut être fondamentalement dangereuse indépendamment des réparations cosmétiques, car le cadre est l'élément structurel principal de la moto.",
+      p2: "Les motos à titre reconstruit — celles qui étaient auparavant salvage mais ont été inspectées et re-titrées — nécessitent un examen attentif. Le processus d'inspection varie selon l'État, et certains États ont des exigences minimales. Une moto à titre reconstruit d'un État avec des exigences d'inspection minimales doit être traitée avec la même prudence qu'une moto à titre salvage. Fais inspecter la moto par un mécanicien moto qualifié qui peut évaluer l'intégrité du cadre avant l'achat.",
+      p3Before: "Lance ta vérification VIN moto en parallèle d'une ",
+      p3LinkSalvage: "vérification de titre salvage",
+      p3Mid: " et d'une ",
+      p3LinkStolen: "vérification de véhicule volé",
+      p3After: " pour obtenir une couverture complète du titre et de l'historique de vol.",
+    },
+    theftH2: "Vérifier si une moto est volée",
+    theft: {
+      p1: "Les motos sont volées à un taux significativement plus élevé par unité que les automobiles. Selon les données du NICB, des centaines de milliers de motos sont signalées volées chaque année aux États-Unis, avec des taux de récupération substantiellement plus bas que pour les voitures. Le marché secondaire des motos volées est actif parce que les motos sont faciles à transporter, peuvent être rapidement dépouillées pour leurs pièces, ou peuvent être re-titrées avec des VINs modifiés dans des juridictions où l'inspection est moins rigoureuse.",
+      p2: "Une vérification de vol par VIN interroge la base de données du NICB et les registres de véhicules volés des forces de l'ordre pour déterminer si le VIN que tu vérifies a été signalé comme volé. Cette vérification devrait être faite pour chaque achat de moto d'occasion, pas seulement quand quelque chose semble suspect. De nombreuses motos volées sont vendues avec une documentation frauduleuse qui paraît tout à fait légitime.",
+      p3: "Avant de finaliser tout achat de moto d'occasion, vérifie physiquement le VIN gravé sur le cadre par rapport au document de titre et à la carte d'assurance. Des VINs altérés ou re-gravés sur le cadre sont un indicateur fort d'une moto volée ou clonée. Si les numéros ne correspondent pas ou montrent des signes d'altération, va-t'en.",
+    },
+    brandPrefixesH2: "Principales marques de motos et préfixes VIN",
+    brandPrefixesIntro: "Les principaux constructeurs de motos ont chacun des codes WMI distinctifs qui apparaissent dans les trois premiers caractères du VIN. Ces codes sont standardisés internationalement et permettent l'identification immédiate de la marque à partir du seul VIN.",
+    brandPrefixes: [
+      { strong: "Harley-Davidson", rest: " — commence par 1HD (fabrication américaine) ; les usines internationales utilisent des préfixes différents." },
+      { strong: "Motos Honda", rest: " — JH2 (Japon), 1HF, ou 19H selon l'année de production et l'usine." },
+      { strong: "Kawasaki", rest: " — JKBVD ou codes similaires avec préfixe JK pour la fabrication au Japon." },
+      { strong: "Yamaha", rest: " — préfixe JYA pour les modèles fabriqués au Japon ; VBKV pour les motos fabriquées en Europe." },
+      { strong: "Suzuki", rest: " — préfixe JS1 pour le Japon ; codes différents pour les autres régions de production." },
+    ],
+    faqH2: "Questions fréquentes",
+    cta: {
+      h2: "Lance une vérification VIN moto gratuite",
+      body: "Saisis un VIN moto de 17 caractères pour vérifier le statut du titre, les enregistrements de vol, l'historique des accidents et les spécifications.",
+    },
+  },
 } as const;
 
 export const FAQS_EN: Faq[] = [

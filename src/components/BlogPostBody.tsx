@@ -50,6 +50,21 @@ const COPY = {
     bottomH2: "Verifica cualquier VIN gratis",
     bottomSub: "Obtén reportes instantáneos del historial vehicular.",
   },
+  fr: {
+    home: "Accueil",
+    blog: "Blog",
+    minRead: (n: number) => `${n} min de lecture`,
+    dateLocale: "fr-FR",
+    bodyEmpty: "Pas encore de contenu.",
+    inlinePromoEyebrow: "Prêt à vérifier un VIN ?",
+    inlinePromoHeading: "Lance une vérification VIN gratuite",
+    inlinePromoSub: "Décode n'importe quel véhicule en moins de 60 secondes.",
+    aboutAuthor: "À propos de l'auteur",
+    relatedH2: "Articles connexes",
+    relatedLinkLabel: "Lire",
+    bottomH2: "Vérifie n'importe quel VIN gratuitement",
+    bottomSub: "Obtiens des rapports d'historique du véhicule instantanés.",
+  },
 } as const;
 
 const categoryColors: Record<string, string> = {

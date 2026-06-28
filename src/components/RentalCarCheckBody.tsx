@@ -114,6 +114,59 @@ const COPY = {
       body: "Ingresa un VIN de 17 caracteres para revisar el historial de flota de renta, propiedad comercial anterior y registros de matriculaci\u00f3n de flota.",
     },
   },
+  fr: {
+    crumbs: { home: "Accueil", current: "Vérification voiture de location" },
+    h1: "Vérification d'historique de voiture de location par VIN",
+    lede: "Les anciens véhicules de location sont un pilier du marché de l'occasion. Après 12 à 24 mois et 20 000 à 40 000 miles de service en flotte, les grandes sociétés de location comme Enterprise, Hertz et Avis vendent leurs flottes via les enchères et les réseaux de concessionnaires. Une vérification VIN voiture de location révèle si le véhicule que tu envisages a passé du temps dans une flotte de location — une information qui affecte directement la façon dont tu évalues son état, son kilométrage et sa valeur.",
+    formH2: "Vérifier l'historique de flotte de location",
+    howH2: "Comment savoir si une voiture a été une location",
+    how: {
+      p1: "Les véhicules de location sont immatriculés au nom de la société de location (Enterprise Holdings, Hertz Corporation, Avis Budget Group, etc.) et enregistrés comme véhicules commerciaux de flotte. Ces registres de propriété sont capturés dans les bases de données d'historique de titre et apparaissent dans un rapport VIN complet. Le véhicule montrera l'une de ces entités corporatives comme propriétaire antérieur, typiquement comme premier ou deuxième titulaire après le constructeur.",
+      p2: "Les indices visuels peuvent également indiquer un historique de location. Les plaques de flotte, les autocollants de location (laissant parfois un résidu adhésif) et les équipements étrangement configurés (niveaux de finition de base avec des schémas d'usure importants compatibles avec l'usage public) sont des signes physiques qui valent la peine d'être notés lors d'une inspection. Cependant, les sociétés de location désidentifient et reconditionnent typiquement les véhicules avant la vente, donc les preuves physiques seules ne sont pas fiables.",
+      p3: "La méthode la plus fiable est une vérification d'historique basée sur le VIN qui montre la chaîne complète de propriété. Un véhicule qui a été la propriété d'une société de location pendant 12 à 24 mois avant d'être transféré à un concessionnaire ou à un particulier a un historique de location indépendamment de ce que le vendeur actuel divulgue.",
+    },
+    valueH2: "Ce que l'historique de location signifie pour la valeur",
+    value: {
+      p1: "Les anciens véhicules de location se vendent typiquement avec un rabais modeste par rapport aux véhicules équivalents à propriétaire unique — généralement 5 à 15 % selon la marque, le modèle, le kilométrage et l'état. Ce rabais reflète la perception du marché d'une intensité d'usage moyenne plus élevée pendant la période de location. Savoir si ce rabais reflète précisément une vraie différence de qualité est une question nuancée.",
+      p2: "Les sociétés de location tiennent des registres d'entretien détaillés et entretiennent les véhicules selon des horaires stricts — souvent plus régulièrement que les propriétaires privés. Les grandes flottes de location suivent également les dommages et les réparent typiquement avant la revente. Cependant, la nature de l'usage de location signifie que le véhicule a été conduit par des dizaines ou des centaines de personnes différentes, dont certaines l'ont traité durement. L'usure intérieure est souvent la conséquence la plus visible.",
+      p3Before: "Utilise l'historique de location comme contexte lors de l'évaluation du prix demandé pour le véhicule, et associe-le à une ",
+      p3Link: "vérification de l'odomètre",
+      p3After: " pour vérifier que le kilométrage reflète précisément la période de service en flotte.",
+    },
+    mileageH2: "Location à kilométrage élevé vs. usage normal",
+    mileage: {
+      lead: "Le profil de kilométrage des véhicules de location diffère de la propriété privée de manière importante. Les voitures de location accumulent la majorité de leur kilométrage lors de trajets autoroutiers — les locations d'aéroport sont particulièrement intensives sur autoroute. Les miles autoroutiers sont généralement plus faciles pour un moteur et une transmission que des miles urbains équivalents, qui impliquent plus d'arrêts et de redémarrages et de fréquents trajets courts (plus durs pour l'huile et les systèmes d'émissions).",
+      bullets: [
+        "Le kilométrage de location est souvent dominé par l'autoroute, mécaniquement moins exigeant que des miles urbains équivalents.",
+        "L'entretien est typiquement effectué dans les délais par des équipes professionnelles d'entretien de flotte.",
+        "L'usure intérieure — tapis, sièges, commandes — est souvent accélérée par l'usage public à forte rotation.",
+        "L'historique des dommages peut être plus complet et mieux documenté que pour les propriétaires privés qui paient eux-mêmes les réparations mineures.",
+      ],
+    },
+    maintH2: "Pratiques d'entretien de flotte de location",
+    maint: {
+      p1: "Les grandes sociétés de location exploitent des programmes d'entretien centralisés avec des intervalles de service standardisés. Les véhicules sont typiquement entretenus dans leurs propres installations ou via des accords de service de flotte avec des groupes de concessionnaires. Les vidanges d'huile, rotations de pneus et inspections de freins suivent les calendriers recommandés par le constructeur, et les véhicules présentant des problèmes mécaniques sont rapidement retirés du service — une société de location ne peut pas se permettre d'avoir un client en panne.",
+      p2: "Cependant, la qualité de la documentation d'entretien varie selon la société et l'emplacement. Certaines sociétés de location fournissent des registres de service détaillés avec le véhicule à la vente ; d'autres non. Demande toute documentation d'entretien disponible lors de l'achat d'une ancienne location, et envisage de faire inspecter le véhicule par un mécanicien indépendant pour vérifier son état mécanique.",
+    },
+    buyH2: "Devrais-tu acheter une ancienne voiture de location ?",
+    buy: {
+      p1: "Les anciennes voitures de location peuvent être d'excellentes valeurs en occasion, particulièrement pour les acheteurs axés sur la fiabilité et le faible coût d'entrée. Les grandes sociétés de location exploitent typiquement des modèles populaires et éprouvés (Toyota Camry, Honda Accord, Ford Explorer) qui ont de solides historiques de fiabilité et une disponibilité abondante de pièces. Si le véhicule est correctement tarifé et montre un historique propre au-delà de la période de location, il peut représenter un achat solide.",
+      p2Before: "La clé est de vérifier l'historique complet — pas seulement la période de location. Lance un ",
+      p2Link: "rapport d'historique VIN complet",
+      p2After: " pour vérifier les accidents, les dommages et les problèmes de titre après la fin de la période de location. Une ancienne location qui a également été impliquée dans un accident non déclaré après avoir quitté la flotte est une proposition significativement différente de celle avec un historique post-location propre.",
+      p3Before: "Lance également une ",
+      p3LinkAcc: "vérification d'historique d'accidents",
+      p3Mid: " et confirme qu'il n'y a aucun ",
+      p3LinkRecall: "rappel de sécurité",
+      p3After: " ouvert avant de prendre une décision d'achat finale.",
+    },
+    faqH2: "Questions fréquentes",
+    faqLede: "Questions courantes sur la vérification d'une voiture d'occasion pour l'historique d'ancienne location et de flotte par VIN.",
+    cta: {
+      h2: "Cette voiture était-elle une location ? Découvre-le instantanément.",
+      body: "Saisis un VIN de 17 caractères pour vérifier l'historique de flotte de location, la propriété commerciale antérieure et les registres d'immatriculation de flotte.",
+    },
+  },
 } as const;
 
 export const FAQS_EN: Faq[] = [

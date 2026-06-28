@@ -119,6 +119,60 @@ const COPY = {
     ctaSub:
       "Ingresa un VIN de 17 caracteres para detectar reclamos de seguros por granizo, registros de daños por tormenta y títulos marcados por granizo.",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Vérification des dégâts de grêle",
+    h1: "Vérification des dégâts de grêle par VIN",
+    intro:
+      "Les dégâts de grêle font partie des sources les plus courantes mais sous-estimées de problèmes dans l'historique d'un véhicule. Une tempête de grêle sévère peut endommager des milliers de véhicules en même temps, et beaucoup finissent réparés et revendus — parfois d'un État à l'autre — sans déclaration claire de l'historique des dégâts de tempête. Une vérification VIN des dégâts de grêle révèle les réclamations d'assurance, les enregistrements de dégâts de tempête et toute marque de titre résultant d'événements de grêle.",
+    ctaHeading: "Vérifie l'historique des dégâts de grêle et de tempête",
+    h2Recorded: "Comment les dégâts de grêle sont enregistrés",
+    rec1:
+      "Quand un véhicule subit des dégâts de grêle et qu'une réclamation d'assurance est déposée, cette réclamation est enregistrée dans les bases de données du secteur de l'assurance, dont ISO ClaimSearch, qui alimente les rapports d'historique de véhicule complets. La gravité des dégâts et le coût de réparation sont documentés, ce qui permet aux services d'historique VIN de signaler les véhicules avec des réclamations d'assurance pour dégâts de grêle.",
+    rec2:
+      "Pour les événements de grêle suffisamment sévères pour entraîner une déclaration de perte totale — quand les coûts de réparation dépassent le seuil de perte totale de l'État — le titre reçoit une marque de salvage ou de dégâts de tempête, et cette marque est signalée à NMVTIS. Les dégâts de grêle moins sévères réparés sans déclaration de perte totale génèrent quand même un enregistrement de réclamation d'assurance, mais sans marque de titre.",
+    rec3:
+      "Les dégâts de grêle qui ne sont pas signalés à l'assurance — soit parce que le propriétaire a choisi de payer lui-même une réparation sans peinture (PDR), soit parce que le véhicule a simplement été laissé non réparé — peuvent ne pas apparaître du tout dans les enregistrements liés au VIN. C'est pourquoi une inspection physique reste toujours un complément important à la vérification d'historique.",
+    h2Total: "Dégâts de grêle vs. perte totale",
+    tot1:
+      "La frontière entre des dégâts de grêle réparables et une déclaration de perte totale dépend de la valeur du véhicule, de l'étendue des bosses et du seuil de perte totale de l'État. Les gros véhicules à faible valeur réelle — pick-ups et SUV anciens — sont particulièrement vulnérables aux déclarations de perte totale par grêle parce que le ratio coût de réparation atteint plus facilement le seuil.",
+    tot2:
+      "Un véhicule déclaré perte totale par grêle, vendu aux enchères de salvage puis réparé, reçoit un titre rebuilt salvage qui apparaîtra dans toute vérification d'historique VIN. Ces véhicules se vendent généralement avec une décote de 20 à 40 % par rapport à des véhicules comparables avec titre propre, ce qui reflète à la fois la marque de titre et l'incertitude sur la qualité des réparations.",
+    tot3Pre: "Compare les véhicules en perte totale par grêle avec notre ",
+    totalLossLink: "vérification de perte totale",
+    tot3Mid: " et notre ",
+    salvageLink: "vérification du titre salvage",
+    tot3Suffix: " pour un historique complet des marques de titre.",
+    h2States: "États à fort risque de grêle",
+    statesIntro:
+      "Le risque de grêle se concentre dans des régions géographiques spécifiques des États-Unis. La région connue sous le nom de \"Hail Alley\" — centrée sur le Colorado, le Kansas, le Nebraska, le Wyoming et le Dakota du Sud — connaît la fréquence et la sévérité les plus élevées des grosses tempêtes de grêle du pays. Le Texas, l'Oklahoma et le Missouri sont aussi des États à forte fréquence de grêle. Les véhicules ayant un historique d'immatriculation dans ces États méritent un examen supplémentaire pour les dégâts de grêle.",
+    states: [
+      { strong: "Colorado", rest: " — le corridor urbain du Front Range connaît certaines des tempêtes de grêle les plus dommageables du pays, touchant fréquemment les véhicules de la zone métropolitaine de Denver." },
+      { strong: "Texas", rest: " — vaste zone géographique avec une activité orageuse sévère fréquente ; Dallas-Fort Worth et San Antonio sont des marchés fréquemment touchés par les dégâts de grêle." },
+      { strong: "Kansas et Nebraska", rest: " — cœur de la Hail Alley avec des événements de grosse grêle fréquents dans les zones urbaines comme rurales." },
+      { strong: "Missouri et Oklahoma", rest: " — États de la Tornado Alley avec une fréquence de grêle significative dans le cadre de systèmes météorologiques sévères." },
+    ],
+    h2LongTerm: "Effets à long terme des dégâts de grêle",
+    lt1:
+      "Les dégâts de grêle ne touchent pas que l'apparence. Quand des grêlons frappent un véhicule à grande vitesse, ils peuvent endommager le toit, le capot, le couvercle de coffre et les panneaux de carrosserie — mais ils peuvent aussi causer des dégâts moins évidents aux joints, aux garnitures, à la moulure de pare-brise et à l'intégrité du film de peinture. L'infiltration d'eau provoquée par des joints compromis peut entraîner des problèmes électriques, de la corrosion et des dégâts intérieurs qui apparaissent des mois ou des années après l'événement de grêle.",
+    lt2:
+      "La réparation sans peinture (PDR) est la méthode de réparation préférée pour les bosses de grêle quand la peinture n'est pas fissurée. Le PDR est très efficace pour la plupart des dégâts de grêle et produit des réparations invisibles sans toucher à la peinture d'usine. Cependant, les dégâts de grêle sévères avec peinture fissurée nécessitent une réparation classique de carrosserie, qui implique un raccord et une repeinte — une réparation plus complexe avec un risque plus élevé de différence de teinte et une valeur de revente réduite.",
+    lt3:
+      "Les véhicules endommagés par la grêle qui ont été réparés de façon incorrecte avec des bosses repoussées de l'intérieur (au lieu d'un PDR professionnel) peuvent avoir un métal écroui plus susceptible de se fissurer avec le temps. Une inspection professionnelle peut identifier la méthode de réparation utilisée et en évaluer la qualité.",
+    h2Buying: "Acheter un véhicule endommagé par la grêle — est-ce que ça vaut le coup ?",
+    buy1:
+      "Les véhicules endommagés par la grêle avec des réclamations d'assurance mais sans déclaration de perte totale peuvent représenter une vraie bonne affaire pour les acheteurs qui comprennent le compromis. Si le véhicule a un titre propre, que les dégâts de grêle ont été réparés professionnellement avec du PDR et que le résultat cosmétique est acceptable, le principal inconvénient est une possible décote à la revente quand tu finiras par le revendre.",
+    buy2:
+      "Le calcul change beaucoup pour les véhicules en perte totale par grêle avec titre rebuilt. Le prix d'achat plus bas est réel, mais les limitations d'assurance, les difficultés de financement et la décote permanente à la revente le sont aussi. Ces véhicules ont plus de sens pour les acheteurs qui comptent garder le véhicule à long terme et ne se soucient pas de la valeur de revente.",
+    buy3Pre: "Combine toujours une vérification des dégâts de grêle avec un ",
+    vinLink: "rapport d'historique VIN complet",
+    buy3Mid: " et une ",
+    accidentLink: "vérification de l'historique d'accidents",
+    buy3Suffix: " pour capter toute l'étendue de l'historique de dégâts au-delà des événements de grêle.",
+    faqHeading: "Questions fréquentes",
+    ctaSub:
+      "Entre un VIN de 17 caractères pour détecter les réclamations d'assurance pour grêle, les enregistrements de dégâts de tempête et les titres marqués par la grêle.",
+  },
 } as const;
 
 const FAQS_EN = [

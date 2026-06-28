@@ -25,6 +25,13 @@ const STATE_GROUPS_ES = [
   { region: "Oeste", states: STATE_GROUPS_EN[3].states },
 ];
 
+const STATE_GROUPS_FR = [
+  { region: "Nord-Est", states: STATE_GROUPS_EN[0].states },
+  { region: "Sud", states: STATE_GROUPS_EN[1].states },
+  { region: "Midwest", states: STATE_GROUPS_EN[2].states },
+  { region: "Ouest", states: STATE_GROUPS_EN[3].states },
+];
+
 const COPY = {
   en: {
     home: "Home",
@@ -117,6 +124,52 @@ const COPY = {
     ctaHeading: "¿Ya tienes el VIN? Haz una verificación completa.",
     ctaSub: "Un VIN de 17 caracteres te da el historial vehicular más preciso y completo. Encuéntralo en el tablero, marco de la puerta del conductor o tarjeta de registro.",
     ctaBtn: "Hacer una verificación VIN gratis",
+  },
+  fr: {
+    home: "Accueil",
+    crumb: "État vers VIN",
+    h1: "État vers VIN",
+    intro: "Trouve le VIN d'un véhicule à partir de son État émetteur et de sa plaque d'immatriculation. Choisis l'État, entre la plaque, et nous te retournons le VIN à 17 caractères avec l'année, la marque et le modèle décodés — puis débloque le rapport d'historique complet. Gratuit pour les 50 États et le D.C.",
+    badges: [
+      { icon: Globe, text: "50 États + D.C." },
+      { icon: Shield, text: "Conforme au DPPA" },
+      { icon: Clock, text: "Résultats instantanés" },
+      { icon: Search, text: "Recherche gratuite" },
+    ],
+    h2How: "Comment fonctionne État vers VIN",
+    steps: [
+      { n: 1, title: "Sélectionne l'État émetteur", body: "Chaque État gère sa propre base de données d'immatriculation au DMV. Choisir d'abord l'État émetteur dirige la requête vers les bons enregistrements — c'est l'étape qui rend la correspondance précise." },
+      { n: 2, title: "Entre le numéro de plaque", body: "Tape la plaque exactement comme elle est imprimée — uniquement lettres et chiffres. Les mêmes caractères de plaque peuvent se retrouver dans plusieurs États, c'est pourquoi l'État est important." },
+      { n: 3, title: "Obtiens le VIN et les détails du véhicule", body: "Nous résolvons la plaque vers son VIN à 17 caractères et décodons l'année, la marque, le modèle et la finition — puis tu peux tirer le rapport d'historique complet en un clic." },
+    ],
+    h2Coverage: "Tous les États couverts — 50 États + D.C.",
+    coverageIntro: "Sélectionne n'importe quel État dans le menu déroulant ci-dessus pour acheminer la requête vers la base de données des véhicules de cet État. La couverture s'étend à toutes les régions :",
+    stateGroups: STATE_GROUPS_FR,
+    h2What: "Ce que le VIN débloque",
+    whatBullets: [
+      { title: "VIN à 17 caractères", detail: "L'identifiant auquel tout enregistrement en aval est rattaché." },
+      { title: "Année, marque, modèle et finition", detail: "Décodés directement depuis le VIN — fabricant, type de carrosserie et moteur." },
+      { title: "Marques de titre", detail: "Indicateurs salvage, inondation, rebuilt, rachat lemon-law et non réparable." },
+      { title: "Enregistrements d'accidents et de dégâts", detail: "Rapports de collisions et réclamations d'assurance issus de NMVTIS et des assureurs." },
+      { title: "Historique d'odomètre", detail: "Kilométrage à chaque transfert de titre — expose la fraude au rollback." },
+      { title: "Rappels de sécurité ouverts", detail: "Campagnes de rappel non réparées signalées par la NHTSA." },
+    ],
+    crossPre: "Tu préfères partir du numéro de plaque ? Utilise l'",
+    plateLink: "outil Plaque vers VIN",
+    crossMid: ". Tu as déjà le VIN à 17 caractères ? Saute l'étape de la plaque et fais une ",
+    vinLink: "vérification VIN gratuite",
+    crossSuffix: " directement.",
+    faqHeading: "État vers VIN — FAQ",
+    faqs: [
+      { q: "Pourquoi la recherche VIN a-t-elle besoin de l'État ?", a: "Les plaques d'immatriculation sont émises par chaque État, pas par le gouvernement fédéral. La même séquence de plaque peut être active en Californie, au Texas et à New York en même temps, donc l'État émetteur est nécessaire pour interroger la bonne base de données du DMV et retourner le bon véhicule." },
+      { q: "Quels États sont pris en charge ?", a: "Les 50 États des États-Unis plus le District de Columbia. La base de données d'immatriculation de véhicules de chaque État est prise en charge — sélectionne l'État émetteur dans le menu déroulant de l'outil." },
+      { q: "La recherche État vers VIN est-elle gratuite ?", a: "Oui. Résoudre une plaque en VIN et voir l'année, la marque et le modèle décodés est gratuit pour de la recherche personnelle avant achat. Un rapport d'historique payant plus poussé est optionnel une fois que tu as le VIN." },
+      { q: "Que se passe-t-il si je choisis le mauvais État ?", a: "Un État incorrect ne retourne généralement aucune correspondance, puisque la plaque n'existera pas dans les enregistrements de cet État. Refais la recherche avec le bon État émetteur — il est imprimé sur l'autocollant de la plaque ou sur la carte d'immatriculation." },
+      { q: "Puis-je voir le nom du propriétaire par État ?", a: "Non. La loi fédérale Driver's Privacy Protection Act (DPPA) restreint les informations personnelles du propriétaire quel que soit l'État. Notre outil ne renvoie que des données sur le véhicule — VIN, marque, modèle et statut du titre." },
+    ],
+    ctaHeading: "Tu as déjà le VIN ? Lance une vérification complète.",
+    ctaSub: "Un VIN à 17 caractères te donne l'historique de véhicule le plus précis et le plus complet. Tu le trouveras sur le tableau de bord, le montant de la portière conducteur ou la carte d'immatriculation.",
+    ctaBtn: "Lancer une vérification VIN gratuite",
   },
 } as const;
 

@@ -176,6 +176,48 @@ const COPY = {
     upsellCta: "Obtén tu reporte gratis",
     upsellNote: "Datos de NMVTIS · cumple con DPPA",
   },
+  fr: {
+    home: "Accueil",
+    crumbVinCheck: "Vérification VIN",
+    crumbByType: "Par type de véhicule",
+    badge: "Vérification VIN par type de véhicule",
+    h1Lead: "Vérification VIN par type de véhicule —",
+    h1Accent: "Véhicules sportifs, remorques et bateaux",
+    intro:
+      "Tu achètes une motoneige, une moto cross, un UTV, une remorque ou un bateau d'occasion ? Vérifie-le d'abord. Saisis un VIN de 17 caractères ou une plaque d'immatriculation américaine pour confirmer l'année et vérifier les dossiers de vol et de titre — instantanément et gratuitement.",
+    formNote: "Gratuit · instantané · sans inscription · données NMVTIS et NHTSA",
+    quickAnswerLabel: "Réponse rapide",
+    quickAnswer:
+      "Une vérification VIN par type de véhicule confirme une classe spécifique de véhicule d'occasion — une motoneige, une moto cross, un UTV/side-by-side, une remorque ou un bateau — avant que tu ne l'achètes. Les véhicules hors route et sportifs fabriqués depuis 1981 portent le VIN standard de 17 caractères, qui confirme la marque et l'année du modèle et révèle les dossiers de vol et de titre. Les bateaux et les motomarines sont l'exception : ils utilisent un numéro d'identification de coque (HIN) de 12 caractères, et non un VIN. La couverture nationale du vol et du titre des véhicules sportifs est inégale selon les États, donc la vérification passe souvent aussi par le fabricant et l'agence d'immatriculation de l'État.",
+    h2Directory: "Vérifie un VIN par type de véhicule",
+    directoryIntro:
+      "Choisis le véhicule que tu vérifies. Chacun utilise le même VIN que tu saisis ci-dessus — les bateaux utilisent un HIN à la place.",
+    directory: DIRECTORY_ES,
+    h2Faq: "Questions fréquentes",
+    faqs: [
+      {
+        q: "Les véhicules hors route ont-ils un VIN que je peux vérifier ?",
+        a: "Oui. Les motoneiges, motos cross et UTV fabriqués depuis 1981 portent le VIN standard de 17 caractères, donc une vérification VIN confirme la marque et l'année du modèle et valide le numéro. La couverture des bases de données de vol et de titre pour les véhicules sportifs est plus limitée que pour les autos et varie selon les États.",
+      },
+      {
+        q: "Puis-je vérifier un bateau par VIN ?",
+        a: "Non — les bateaux utilisent un numéro d'identification de coque (HIN) de 12 caractères selon les règles de la Garde côtière américaine, et non un VIN. Le HIN remplit la même fonction d'identité. Si le bateau est sur une remorque, la remorque a son propre VIN distinct de 17 caractères à vérifier.",
+      },
+      {
+        q: "Comment vérifier un véhicule sportif pour le vol ?",
+        a: "Exécute le VIN pour révéler les dossiers de vol signalés, puis confirme que le VIN estampé correspond au titre et aux documents. Comme les bases de données nationales couvrent les véhicules sportifs de façon inégale, vérifie aussi auprès du fabricant et de l'agence d'État qui enregistre le véhicule.",
+      },
+      {
+        q: "La vérification VIN par type de véhicule est-elle gratuite ?",
+        a: "Oui. Décoder le VIN pour confirmer la marque, l'année du modèle et la validité du numéro est gratuit ici, sans inscription. Tu peux ensuite obtenir un rapport de titre et d'historique plus complet.",
+      },
+    ],
+    upsellHeading: "Obtiens ton rapport complet d'historique du véhicule",
+    upsellBody:
+      "Une vérification rapide confirme les bases. Un rapport complet ajoute les accidents, les marques de titre, la fraude d'odomètre, les dossiers de vol et les rappels ouverts — provenant du NMVTIS et de chaque DMV d'État.",
+    upsellCta: "Obtenir ton rapport gratuit",
+    upsellNote: "Données NMVTIS · conforme DPPA",
+  },
 } as const;
 
 interface Props {

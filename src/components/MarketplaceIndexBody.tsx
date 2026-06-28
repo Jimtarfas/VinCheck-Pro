@@ -66,6 +66,32 @@ const COPY = {
       { q: "¿Una verificación VIN reemplaza una inspección presencial?", a: "No — trabajan juntas. Un reporte de historial VIN te dice el pasado documentado (marcas en el título, accidentes, kilometraje, robo), pero no puede revelar problemas mecánicos ocultos ni confirmar que el auto en el lote es el del reporte. Usa la verificación VIN para filtrar el listado, luego inspecciona el vehículo en persona u obtén una inspección independiente previa a la compra, y compara el VIN del auto con el reporte y el título." },
     ],
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Vérification VIN marketplace",
+    h1: "Vérification VIN marketplace — Vérifie avant d'acheter",
+    intro: "Tu achètes un véhicule sur un marketplace en ligne ? Fais d'abord une vérification VIN. Sélectionne ta plateforme ci-dessous ou saisis directement un VIN pour obtenir un rapport complet d'historique du véhicule.",
+    h2Grid: "Vérification VIN par marketplace",
+    gridSub: "Sélectionne la plateforme sur laquelle tu as trouvé le véhicule pour connaître ses risques spécifiques et lancer une vérification VIN",
+    cardCta: "Vérification VIN",
+    riskLow: "Risque faible",
+    riskMed: "Risque moyen",
+    riskHigh: "Risque élevé",
+    h2Faq: "Questions fréquentes",
+    faqSub: "Ce qu'il faut savoir avant d'acheter un véhicule sur un marketplace en ligne ou auprès d'un vendeur privé",
+    ctaHeading: "Vérifie n'importe quel VIN de marketplace maintenant",
+    ctaSub: "Fonctionne avec des véhicules de toute plateforme — vendeurs privés, concessionnaires ou enchères",
+    faqs: [
+      { q: "Pourquoi devrais-je faire une vérification VIN avant d'acheter sur un marketplace en ligne ?", a: "Les annonces sur les marketplaces en ligne sont rédigées par le vendeur, et la plupart des ventes entre particuliers se font \u201cen l'état\u201d sans déclaration de concessionnaire ni garantie — c'est donc l'acheteur qui supporte tout le risque. Une vérification VIN te donne un historique indépendant du passé du véhicule, y compris les marques de titre, les accidents signalés, les relevés du compteur kilométrique et les déclarations de vol, pour confirmer que la voiture correspond à l'annonce avant de dépenser de l'argent ou du temps à te déplacer." },
+      { q: "Une vérification VIN de marketplace est-elle gratuite ?", a: "Oui. Saisis le VIN de 17 caractères de n'importe quelle annonce dans la zone de recherche ci-dessus pour décoder le véhicule et récupérer l'historique disponible — aucun compte ni paiement requis pour commencer. Comme les annonces de marketplace ne sont vérifiées par aucun tiers, une vérification VIN indépendante est le moyen le plus fiable de confirmer qu'un véhicule correspond à ce que le vendeur affirme." },
+      { q: "Quelles arnaques sont courantes dans les ventes privées et en ligne de voitures ?", a: "Les fraudes les plus courantes sont le curbstoning (un revendeur non agréé se faisant passer pour un propriétaire privé pour revendre des voitures, souvent avec des problèmes cachés), le lavage de titre (re-titrer un véhicule marqué dans un autre État pour effacer une marque de salvage, d'inondation ou de citron), le trafic du compteur kilométrique (faire reculer le kilométrage pour gonfler la valeur) et le clonage de VIN (apposer le VIN d'un véhicule légitime sur un véhicule volé ou marqué). Un rapport d'historique VIN et une inspection en personne aident à révéler les quatre avant de payer." },
+      { q: "Un vendeur peut-il falsifier ou échanger un VIN ?", a: "Cela arrive — c'est ce qu'on appelle le clonage de VIN, où un voleur copie un VIN valide d'un véhicule légitime similaire et l'appose sur une voiture volée ou marquée. Pour te protéger, vérifie que le VIN dans l'annonce correspond au VIN sur le tableau de bord côté conducteur, sur l'étiquette du montant de la portière et sur le titre papier, et assure-toi qu'aucune de ces plaques ne semble altérée. Un VIN qui diffère sur la voiture ou sur les papiers est un signal d'alarme majeur." },
+      { q: "Que dois-je rechercher dans une annonce de marketplace avant de contacter le vendeur ?", a: "Sois prudent face aux prix bien inférieurs à la valeur du marché, à un vendeur qui refuse de partager le VIN complet de 17 caractères, aux descriptions vagues ou copiées, à la pression pour verser un acompte avant d'avoir vu la voiture et aux vendeurs \u201cprivés\u201d qui semblent avoir de nombreux véhicules. Fais d'abord la vérification VIN, confirme que le nom du vendeur correspond au titre, et considère toute annonce dont l'histoire ou les papiers ne tiennent pas debout comme une raison de te retirer." },
+      { q: "Puis-je vérifier si une voiture de marketplace est volée, salvage ou endommagée par inondation ?", a: "Oui. Saisir le VIN ci-dessus lance une vérification soutenue par NMVTIS qui révèle les marques de titre signalées de salvage, reconstruit, inondation et perte totale, les déclarations de vol et les divergences de compteur kilométrique là où elles apparaissent dans les bases de données nationales. Ce sont exactement les problèmes qu'un vendeur privé peut ne pas divulguer, donc vérifier le VIN te protège d'hériter d'un véhicule marqué ou volé que tu pourrais ne pas pouvoir immatriculer légalement." },
+      { q: "Comment payer en toute sécurité l'achat d'une voiture sur un marketplace en ligne ?", a: "Ne fais jamais de virement, n'envoie jamais de cartes-cadeaux et ne verse jamais d'acompte avant d'avoir inspecté le véhicule en personne et confirmé le VIN et le titre. Rencontre le vendeur dans un lieu public en journée, vérifie que l'identité du vendeur correspond au titre et privilégie les modes de paiement traçables. Si un vendeur te pousse à payer rapidement ou hors plateforme avant que tu puisses vérifier la voiture, considère cela comme un signe d'avertissement." },
+      { q: "Une vérification VIN remplace-t-elle une inspection en personne ?", a: "Non — elles fonctionnent ensemble. Un rapport d'historique VIN te révèle le passé documenté (marques de titre, accidents, kilométrage, vol), mais il ne peut pas révéler des problèmes mécaniques cachés ni confirmer que la voiture sur le parc est bien celle du rapport. Utilise la vérification VIN pour filtrer l'annonce, puis inspecte le véhicule en personne ou fais réaliser une inspection indépendante avant achat, et compare le VIN sur la voiture avec le rapport et le titre." },
+    ],
+  },
 } as const;
 
 const riskBadgeClass = {

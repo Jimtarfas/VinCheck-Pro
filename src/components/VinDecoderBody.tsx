@@ -131,6 +131,64 @@ const COPY = {
       "Una decodificación VIN te muestra las especificaciones. Un reporte de historial te muestra accidentes, marcas en el título, fraude de odómetro, registros de robo y recalls abiertos — todo lo que afecta el valor real y la seguridad del vehículo.",
     ctaBtn: "Hacer una verificación VIN gratis",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Décodeur VIN",
+    h1: "Décodeur VIN gratuit",
+    intro:
+      "Décode n'importe quel VIN de 17 caractères instantanément. Vois le détail complet par position — WMI, VDS, chiffre de contrôle, année modèle, code d'usine et séquence de production — ainsi que les spécifications complètes du fabricant pour toute voiture, camion, moto ou camping-car. Toujours gratuit, sans inscription.",
+    h2Structure: "Structure du VIN — Ce que signifie chaque position",
+    structureIntro:
+      "Chaque VIN moderne (à partir de 1981) suit la norme ISO 3779. Les 17 caractères se répartissent en trois sections, chacune encodant une couche différente de l'identité du véhicule.",
+    thPos: "Position(s)",
+    thSection: "Section",
+    thEncodes: "Ce qu'elle encode",
+    structureRows: [
+      ["1–3", "WMI", "World Manufacturer Identifier — pays d'assemblage et fabricant"],
+      ["4–8", "VDS", "Vehicle Descriptor Section — modèle, type de carrosserie, système de retenue, moteur"],
+      ["9", "Chiffre de contrôle", "Contrôle mathématique de validité (somme pondérée mod 11)"],
+      ["10", "Année modèle", "Année de fabrication (A=1980/2010, B=1981/2011, etc.)"],
+      ["11", "Code d'usine", "Usine d'assemblage — spécifique au fabricant"],
+      ["12–17", "Séquence", "Numéro séquentiel de production dans cette usine"],
+    ],
+    h2Country: "Codes de pays WMI courants (Position 1)",
+    countryIntro:
+      "Le premier caractère du WMI identifie le pays ou la région mondiale où le véhicule a été assemblé. Ce n'est pas forcément le pays d'origine de la marque — beaucoup de fabricants assemblent leurs véhicules dans plusieurs pays.",
+    thChars: "Caractère(s)",
+    thCountry: "Pays / Région",
+    countryRows: [
+      ["1, 4, 5", "États-Unis"],
+      ["2", "Canada"],
+      ["3", "Mexique"],
+      ["6", "Australie"],
+      ["9", "Brésil"],
+      ["J", "Japon"],
+      ["K", "Corée du Sud"],
+      ["L", "Chine"],
+      ["S", "Royaume-Uni"],
+      ["V", "France / Espagne / Pays-Bas"],
+      ["W", "Allemagne"],
+      ["X", "Russie"],
+      ["Y", "Suède / Finlande"],
+      ["Z", "Italie"],
+    ],
+    crossLinks: [
+      { href: "/motorcycle-vin-search", label: "Décodeur VIN de moto", sub: "Décode les VINs de motos par marque" },
+      { href: "/window-sticker", label: "Générateur d'étiquette Monroney", sub: "Crée une étiquette Monroney" },
+      { href: "/license-plate-lookup", label: "Recherche de VIN par plaque", sub: "Trouve le VIN à partir du numéro de plaque" },
+    ],
+    faqHeading: "Questions fréquentes",
+    faqs: [
+      { q: "Qu'est-ce qu'un VIN ?", a: "Un VIN (Vehicle Identification Number) est un code unique de 17 caractères attribué à chaque véhicule motorisé en usine. Il encode le pays de fabrication, le fabricant, les attributs du véhicule, l'année modèle, l'usine d'assemblage et un numéro de production séquentiel. Aucun véhicule ne partage jamais le même VIN." },
+      { q: "Où trouver mon VIN ?", a: "Les emplacements les plus fiables sont l'autocollant du montant de la portière conducteur (le plus visible), le coin inférieur gauche du pare-brise (visible depuis l'extérieur du véhicule), sur le bloc moteur, et sur tes documents de titre, d'immatriculation et d'assurance." },
+      { q: "Pourquoi le chiffre de contrôle de mon VIN apparaît-il comme invalide ?", a: "Un chiffre de contrôle invalide signifie généralement une erreur de transcription — les erreurs les plus courantes sont de confondre la lettre O avec le chiffre zéro, ou la lettre I avec le chiffre 1. Note que I, O et Q ne sont jamais des caractères VIN valides. Vérifie deux fois ton VIN par rapport à l'autocollant du montant de la portière. Un VIN d'un véhicule post-2000 qui reste invalide après une nouvelle saisie attentive doit être traité comme potentiellement modifié." },
+      { q: "Quelle est la différence entre un décodage VIN et un rapport d'historique VIN ?", a: "Un décodage VIN (ce que fournit cet outil) lit les spécifications du véhicule directement depuis le VIN lui-même : année, marque, modèle, moteur, finition, usine d'assemblage, etc. Un rapport d'historique VIN (notre produit payant) va plus loin — il tire les enregistrements de titre NMVTIS, les rapports d'accidents et de dégâts, l'historique d'odomètre, les enregistrements de vol, les avis de rappel ouverts et plus encore, depuis des bases de données tierces qui ne sont pas encodées dans le VIN." },
+    ],
+    ctaHeading: "Tu veux toute l'histoire derrière ce VIN ?",
+    ctaSub:
+      "Un décodage VIN te montre les spécifications. Un rapport d'historique te montre les accidents, les marques de titre, la fraude à l'odomètre, les enregistrements de vol et les rappels ouverts — tout ce qui affecte la valeur réelle et la sécurité du véhicule.",
+    ctaBtn: "Lancer une vérification VIN gratuite",
+  },
 } as const;
 
 interface Props { locale: Locale; }

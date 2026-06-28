@@ -112,6 +112,50 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "Contact",
+    h1: "Contacte CarCheckerVIN",
+    heroLead:
+      "De vraies personnes, de vraies réponses. Que tu aies besoin d'aide avec un rapport, que tu veuilles devenir partenaire ou que tu aies une demande presse, notre équipe est là pour t'aider. La plupart des messages reçoivent une réponse en moins de 24 heures.",
+    leftHeading: "Entre en contact",
+    leftIntro:
+      "Choisis le canal qui te convient le mieux. Pour une réponse plus rapide, envoie un message via le formulaire sur cette page.",
+    emailLabel: "Courriel",
+    emailHint: "Réponses en moins d'une heure ouvrée pendant les horaires de support.",
+    phoneLabel: "Téléphone",
+    phoneHint: "Numéro gratuit pour les appelants depuis les États-Unis.",
+    hoursLabel: "Horaires",
+    hoursValue: "Lundi au vendredi, 9h00 – 18h00 heure de l'Est",
+    addressLabel: "Adresse",
+    addressValue: "États-Unis — Service en ligne",
+    helpCalloutPrefix: "Tu cherches de l'aide pour un rapport précis ou une question de facturation ? Notre page",
+    helpCalloutLink: "Aide et support",
+    helpCalloutSuffix: "contient les réponses aux questions les plus fréquentes.",
+    formHeading: "Envoie-nous un message",
+    formIntro: "Remplis le formulaire ci-dessous et nous te répondrons par courriel.",
+    reasonsHeading: "Pourquoi les gens nous contactent",
+    reasonsIntro:
+      "Tu ne sais pas quel sujet choisir ? Voici les raisons les plus fréquentes pour lesquelles les gens nous écrivent.",
+    reasons: [
+      {
+        title: "Support client",
+        body: "Questions sur un rapport, un remboursement ou ton compte — nous répondons en moins d'une heure ouvrée pendant les horaires de support.",
+      },
+      {
+        title: "Partenariats et API",
+        body: "Concessionnaires, prêteurs et revendeurs peuvent demander des tarifs en volume, des rapports en marque blanche ou un accès API pour les recherches à haut volume.",
+      },
+      {
+        title: "Presse et médias",
+        body: "Journalistes, podcasteurs et analystes — demande des entretiens, des données, des citations d'experts ou des commentaires sectoriels.",
+      },
+      {
+        title: "Juridique et conformité",
+        body: "Avis DMCA, demandes des forces de l'ordre, questions de confidentialité et demandes réglementaires sont traitées par notre équipe juridique.",
+      },
+    ],
+  },
 } as const;
 
 const REASON_ICONS = [Headphones, Handshake, Newspaper, Scale] as const;
