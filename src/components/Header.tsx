@@ -11,6 +11,284 @@ import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { detectLocale, type Locale } from "@/i18n/config";
+
+// ── Header label translations ────────────────────────────────────────
+// Keys are stable English identifiers (not the user-visible strings)
+// so a label change in one language never silently drifts the others.
+// The `NAV` array below carries the English label as both the canonical
+// display string AND the lookup key — `tNav()` resolves the key against
+// this map at render time. Missing key in es/fr falls back to en.
+const HEADER_COPY = {
+  en: {
+    "VIN Checks": "VIN Checks",
+    Tools: "Tools",
+    Guides: "Guides",
+    Pricing: "Pricing",
+    Reviews: "Reviews",
+    "History Checks": "History Checks",
+    "More Checks": "More Checks",
+    "Title & Registration": "Title & Registration",
+    "Plate & Decode": "Plate & Decode",
+    Calculators: "Calculators",
+    "By Vehicle Type": "By Vehicle Type",
+    Compare: "Compare",
+    Marketplace: "Marketplace",
+    "VIN Check": "VIN Check",
+    "Stolen Vehicle Check": "Stolen Vehicle Check",
+    "Salvage Title Check": "Salvage Title Check",
+    "Accident History": "Accident History",
+    "Odometer Check": "Odometer Check",
+    "Lemon Check": "Lemon Check",
+    "Flood Check": "Flood Check",
+    "Airbag Check": "Airbag Check",
+    "Hail Damage Check": "Hail Damage Check",
+    "Impound Check": "Impound Check",
+    "Dealer Check": "Dealer Check",
+    "Recall Check": "Recall Check",
+    "Warranty Check": "Warranty Check",
+    "Total Loss Check": "Total Loss Check",
+    "Vehicle Lien Check": "Vehicle Lien Check",
+    "Vehicle Registration": "Vehicle Registration",
+    "Vehicle Title": "Vehicle Title",
+    "Bill of Sale": "Bill of Sale",
+    "VIN Check by State": "VIN Check by State",
+    "Market Value": "Market Value",
+    "Plate to VIN": "Plate to VIN",
+    "State to VIN": "State to VIN",
+    "License Plate Lookup": "License Plate Lookup",
+    "Look Up Car Plates Free": "Look Up Car Plates Free",
+    "VIN Decoder": "VIN Decoder",
+    "Window Sticker Maker": "Window Sticker Maker",
+    "Paint Code Lookup": "Paint Code Lookup",
+    "OBD-II Code Lookup": "OBD-II Code Lookup",
+    "Car Loan Calculator": "Car Loan Calculator",
+    "Car Affordability": "Car Affordability",
+    "Trade-In Estimator": "Trade-In Estimator",
+    "Gas Mileage Calculator": "Gas Mileage Calculator",
+    "Car Depreciation": "Car Depreciation",
+    "Lease vs Buy": "Lease vs Buy",
+    "Total Cost of Ownership": "Total Cost of Ownership",
+    "Diminished Value": "Diminished Value",
+    "Motorcycle VIN Search": "Motorcycle VIN Search",
+    "Motorcycle VIN Check": "Motorcycle VIN Check",
+    "RV VIN Check": "RV VIN Check",
+    "Semi Truck VIN Lookup": "Semi Truck VIN Lookup",
+    "Golf Cart VIN Lookup": "Golf Cart VIN Lookup",
+    "HIN Lookup (Boat VIN)": "HIN Lookup (Boat VIN)",
+    "Classic Car VIN": "Classic Car VIN",
+    "Compare Vehicles": "Compare Vehicles",
+    "All VIN Guides": "All VIN Guides",
+    "Free VIN Decoder": "Free VIN Decoder",
+    "How to Read a VIN": "How to Read a VIN",
+    "What Is a VIN Number": "What Is a VIN Number",
+    "Used Car Buying Guide": "Used Car Buying Guide",
+    "Vehicle Fraud Prevention": "Vehicle Fraud Prevention",
+    "Road & Traffic Signs": "Road & Traffic Signs",
+    "VIN Glossary": "VIN Glossary",
+    Blog: "Blog",
+    "vs. Carfax": "vs. Carfax",
+    "vs. AutoCheck": "vs. AutoCheck",
+    "vs. Bumper": "vs. Bumper",
+    "vs. ClearVin": "vs. ClearVin",
+    "vs. VinAudit": "vs. VinAudit",
+    "Inspection Checklist": "Inspection Checklist",
+    "All Marketplaces": "All Marketplaces",
+    "Facebook Marketplace": "Facebook Marketplace",
+    Craigslist: "Craigslist",
+    OfferUp: "OfferUp",
+    "eBay Motors": "eBay Motors",
+    AutoTrader: "AutoTrader",
+    Copart: "Copart",
+    "Log in": "Log in",
+    "Log out": "Log out",
+    "My reports": "My reports",
+    "Check VIN": "Check VIN",
+    "Get Started": "Get Started",
+    "Toggle menu": "Toggle menu",
+  },
+  es: {
+    "VIN Checks": "Verificaciones VIN",
+    Tools: "Herramientas",
+    Guides: "Guías",
+    Pricing: "Precios",
+    Reviews: "Reseñas",
+    "History Checks": "Historial",
+    "More Checks": "Más verificaciones",
+    "Title & Registration": "Título y registro",
+    "Plate & Decode": "Placa y decodificación",
+    Calculators: "Calculadoras",
+    "By Vehicle Type": "Por tipo de vehículo",
+    Compare: "Comparar",
+    Marketplace: "Marketplace",
+    "VIN Check": "Verificación de VIN",
+    "Stolen Vehicle Check": "Verificación de vehículo robado",
+    "Salvage Title Check": "Verificación de título de salvamento",
+    "Accident History": "Historial de accidentes",
+    "Odometer Check": "Verificación de odómetro",
+    "Lemon Check": "Verificación Ley Limón",
+    "Flood Check": "Verificación de inundación",
+    "Airbag Check": "Verificación de airbag",
+    "Hail Damage Check": "Daño por granizo",
+    "Impound Check": "Verificación de corralón",
+    "Dealer Check": "Verificación de concesionario",
+    "Recall Check": "Verificación de recall",
+    "Warranty Check": "Verificación de garantía",
+    "Total Loss Check": "Pérdida total",
+    "Vehicle Lien Check": "Verificación de gravamen",
+    "Vehicle Registration": "Registro de vehículo",
+    "Vehicle Title": "Título de vehículo",
+    "Bill of Sale": "Contrato de compraventa",
+    "VIN Check by State": "Verificación VIN por estado",
+    "Market Value": "Valor de mercado",
+    "Plate to VIN": "Placa a VIN",
+    "State to VIN": "Estado a VIN",
+    "License Plate Lookup": "Búsqueda por placa",
+    "Look Up Car Plates Free": "Consulta de placas gratis",
+    "VIN Decoder": "Decodificador VIN",
+    "Window Sticker Maker": "Etiqueta Monroney",
+    "Paint Code Lookup": "Código de pintura",
+    "OBD-II Code Lookup": "Códigos OBD-II",
+    "Car Loan Calculator": "Calculadora de préstamo",
+    "Car Affordability": "¿Cuánto puedo pagar?",
+    "Trade-In Estimator": "Estimador de trade-in",
+    "Gas Mileage Calculator": "Calculadora de gasolina",
+    "Car Depreciation": "Depreciación",
+    "Lease vs Buy": "Arrendar vs comprar",
+    "Total Cost of Ownership": "Costo total de propiedad",
+    "Diminished Value": "Valor disminuido",
+    "Motorcycle VIN Search": "Búsqueda VIN de moto",
+    "Motorcycle VIN Check": "Verificación VIN de moto",
+    "RV VIN Check": "Verificación VIN de RV",
+    "Semi Truck VIN Lookup": "VIN de camión pesado",
+    "Golf Cart VIN Lookup": "VIN de carrito de golf",
+    "HIN Lookup (Boat VIN)": "HIN de embarcación",
+    "Classic Car VIN": "VIN auto clásico",
+    "Compare Vehicles": "Comparar vehículos",
+    "All VIN Guides": "Todas las guías",
+    "Free VIN Decoder": "Decodificador VIN gratis",
+    "How to Read a VIN": "Cómo leer un VIN",
+    "What Is a VIN Number": "¿Qué es un VIN?",
+    "Used Car Buying Guide": "Guía de compra usado",
+    "Vehicle Fraud Prevention": "Prevención de fraude",
+    "Road & Traffic Signs": "Señales de tráfico",
+    "VIN Glossary": "Glosario VIN",
+    Blog: "Blog",
+    "vs. Carfax": "vs. Carfax",
+    "vs. AutoCheck": "vs. AutoCheck",
+    "vs. Bumper": "vs. Bumper",
+    "vs. ClearVin": "vs. ClearVin",
+    "vs. VinAudit": "vs. VinAudit",
+    "Inspection Checklist": "Checklist de inspección",
+    "All Marketplaces": "Todos los marketplaces",
+    "Facebook Marketplace": "Facebook Marketplace",
+    Craigslist: "Craigslist",
+    OfferUp: "OfferUp",
+    "eBay Motors": "eBay Motors",
+    AutoTrader: "AutoTrader",
+    Copart: "Copart",
+    "Log in": "Iniciar sesión",
+    "Log out": "Cerrar sesión",
+    "My reports": "Mis reportes",
+    "Check VIN": "Revisar VIN",
+    "Get Started": "Empezar",
+    "Toggle menu": "Abrir menú",
+  },
+  fr: {
+    "VIN Checks": "Vérifications VIN",
+    Tools: "Outils",
+    Guides: "Guides",
+    Pricing: "Tarifs",
+    Reviews: "Avis",
+    "History Checks": "Historique",
+    "More Checks": "Plus de vérifications",
+    "Title & Registration": "Titre et immatriculation",
+    "Plate & Decode": "Plaque et décodage",
+    Calculators: "Calculateurs",
+    "By Vehicle Type": "Par type de véhicule",
+    Compare: "Comparer",
+    Marketplace: "Marketplace",
+    "VIN Check": "Vérification VIN",
+    "Stolen Vehicle Check": "Vérification véhicule volé",
+    "Salvage Title Check": "Titre de récupération",
+    "Accident History": "Historique d’accidents",
+    "Odometer Check": "Vérification d’odomètre",
+    "Lemon Check": "Vérification Loi Citron",
+    "Flood Check": "Vérification d’inondation",
+    "Airbag Check": "Vérification d’airbag",
+    "Hail Damage Check": "Dégâts de grêle",
+    "Impound Check": "Vérification de fourrière",
+    "Dealer Check": "Vérification concessionnaire",
+    "Recall Check": "Vérification de rappels",
+    "Warranty Check": "Vérification de garantie",
+    "Total Loss Check": "Perte totale",
+    "Vehicle Lien Check": "Vérification de privilège",
+    "Vehicle Registration": "Immatriculation du véhicule",
+    "Vehicle Title": "Titre du véhicule",
+    "Bill of Sale": "Acte de vente",
+    "VIN Check by State": "Vérification VIN par état",
+    "Market Value": "Valeur de marché",
+    "Plate to VIN": "Plaque vers VIN",
+    "State to VIN": "État vers VIN",
+    "License Plate Lookup": "Recherche par plaque",
+    "Look Up Car Plates Free": "Consulter plaques gratuit",
+    "VIN Decoder": "Décodeur VIN",
+    "Window Sticker Maker": "Étiquette Monroney",
+    "Paint Code Lookup": "Code de peinture",
+    "OBD-II Code Lookup": "Codes OBD-II",
+    "Car Loan Calculator": "Calculateur de prêt auto",
+    "Car Affordability": "Combien je peux payer ?",
+    "Trade-In Estimator": "Estimateur de reprise",
+    "Gas Mileage Calculator": "Calculateur d’essence",
+    "Car Depreciation": "Dépréciation",
+    "Lease vs Buy": "Louer vs acheter",
+    "Total Cost of Ownership": "Coût total de propriété",
+    "Diminished Value": "Valeur diminuée",
+    "Motorcycle VIN Search": "Recherche VIN moto",
+    "Motorcycle VIN Check": "Vérification VIN moto",
+    "RV VIN Check": "Vérification VIN RV",
+    "Semi Truck VIN Lookup": "VIN camion lourd",
+    "Golf Cart VIN Lookup": "VIN voiturette de golf",
+    "HIN Lookup (Boat VIN)": "HIN de bateau",
+    "Classic Car VIN": "VIN voiture classique",
+    "Compare Vehicles": "Comparer véhicules",
+    "All VIN Guides": "Tous les guides",
+    "Free VIN Decoder": "Décodeur VIN gratuit",
+    "How to Read a VIN": "Comment lire un VIN",
+    "What Is a VIN Number": "Qu’est-ce qu’un VIN ?",
+    "Used Car Buying Guide": "Guide d’achat occasion",
+    "Vehicle Fraud Prevention": "Prévention de fraude",
+    "Road & Traffic Signs": "Panneaux routiers",
+    "VIN Glossary": "Glossaire VIN",
+    Blog: "Blog",
+    "vs. Carfax": "vs. Carfax",
+    "vs. AutoCheck": "vs. AutoCheck",
+    "vs. Bumper": "vs. Bumper",
+    "vs. ClearVin": "vs. ClearVin",
+    "vs. VinAudit": "vs. VinAudit",
+    "Inspection Checklist": "Checklist d’inspection",
+    "All Marketplaces": "Tous les marketplaces",
+    "Facebook Marketplace": "Facebook Marketplace",
+    Craigslist: "Craigslist",
+    OfferUp: "OfferUp",
+    "eBay Motors": "eBay Motors",
+    AutoTrader: "AutoTrader",
+    Copart: "Copart",
+    "Log in": "Connexion",
+    "Log out": "Déconnexion",
+    "My reports": "Mes rapports",
+    "Check VIN": "Vérifier VIN",
+    "Get Started": "Commencer",
+    "Toggle menu": "Ouvrir le menu",
+  },
+} as const;
+
+type HeaderCopyKey = keyof typeof HEADER_COPY["en"];
+
+function tNav(locale: Locale, key: string): string {
+  const dict = HEADER_COPY[locale] || HEADER_COPY.en;
+  return (dict as Record<string, string>)[key] ?? key;
+}
 
 // ── Navigation model ─────────────────────────────────────────────────
 // The primary nav is a Claude.ai-style mega-menu: a few top-level entries,
@@ -175,6 +453,8 @@ const NAV: TopNav[] = [
 export default function Header({ logoHref = "/" }: { logoHref?: string }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { locale } = detectLocale(pathname || "/");
+  const t = (k: string) => tNav(locale, k);
 
   const isAdmin =
     pathname === "/admin" || (pathname?.startsWith("/admin/") ?? false);
@@ -303,22 +583,22 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
             if (entry.kind === "link") {
               return entry.external ? (
                 <a
-                  key={entry.label}
+                  key={t(entry.label)}
                   href={entry.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium text-on-surface/70 hover:text-primary rounded-lg hover:bg-surface-container transition-all duration-200"
                 >
-                  {entry.label}
+                  {t(entry.label)}
                   <SquareArrowOutUpRight className="w-3.5 h-3.5 opacity-70" />
                 </a>
               ) : (
                 <Link
-                  key={entry.label}
+                  key={t(entry.label)}
                   href={entry.href}
                   className="px-4 py-2 text-sm font-medium text-on-surface/70 hover:text-primary rounded-lg hover:bg-surface-container transition-all duration-200"
                 >
-                  {entry.label}
+                  {t(entry.label)}
                 </Link>
               );
             }
@@ -326,7 +606,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
             const isOpen = openMenu === entry.label;
             return (
               <div
-                key={entry.label}
+                key={t(entry.label)}
                 className="relative"
                 onMouseEnter={() => openNow(entry.label)}
                 onMouseLeave={closeSoon}
@@ -341,7 +621,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                       : "text-on-surface/70 hover:text-primary hover:bg-surface-container"
                   }`}
                 >
-                  {entry.label}
+                  {t(entry.label)}
                   <ChevronDown
                     className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
                   />
@@ -354,9 +634,9 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                       style={{ gridTemplateColumns: `repeat(${entry.columns.length}, minmax(12rem, 1fr))` }}
                     >
                       {entry.columns.map((col) => (
-                        <div key={col.heading}>
+                        <div key={t(col.heading)}>
                           <p className="text-xs font-semibold uppercase tracking-wide text-on-surface-variant mb-3">
-                            {col.heading}
+                            {t(col.heading)}
                           </p>
                           <ul className="space-y-0.5">
                             {col.items.map((item) => (
@@ -368,7 +648,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 -mx-2 text-[15px] text-on-surface hover:text-primary hover:bg-primary/5 transition-colors"
                                   >
-                                    {item.label}
+                                    {t(item.label)}
                                     <SquareArrowOutUpRight className="w-3.5 h-3.5 opacity-70" />
                                   </a>
                                 ) : (
@@ -376,7 +656,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                                     href={item.href}
                                     className="block rounded-lg px-2 py-1.5 -mx-2 text-[15px] text-on-surface hover:text-primary hover:bg-primary/5 transition-colors"
                                   >
-                                    {item.label}
+                                    {t(item.label)}
                                   </Link>
                                 )}
                               </li>
@@ -417,14 +697,14 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                     onClick={() => setUserMenuOpen(false)}
                     className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-on-surface hover:bg-surface-container transition-colors cursor-pointer"
                   >
-                    <FileText className="w-4 h-4" /> My reports
+                    <FileText className="w-4 h-4" /> {t("My reports")}
                   </Link>
                   <div className="h-px bg-surface-container mx-2" />
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-error hover:bg-error-container/30 transition-colors cursor-pointer"
                   >
-                    <LogOut className="w-4 h-4" /> Log out
+                    <LogOut className="w-4 h-4" /> {t("Log out")}
                   </button>
                 </div>
               )}
@@ -435,13 +715,13 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                 href="/login"
                 className="px-4 py-2 text-sm font-medium text-on-surface/70 hover:text-primary transition-colors"
               >
-                Log in
+                {t("Log in")}
               </Link>
               <Link
                 href="/vin-check"
                 className="group flex items-center gap-1.5 px-5 py-2.5 text-sm font-bold text-on-primary bg-primary rounded-full hover:bg-primary-container transition-all shadow-md shadow-primary/20"
               >
-                Check VIN <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                {t("Check VIN")} <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </>
           )}
@@ -451,7 +731,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
           className="md:hidden p-2 text-on-surface/60 hover:text-primary transition-colors"
-          aria-label="Toggle menu"
+          aria-label={t("Toggle menu")}
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -464,45 +744,45 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
             if (entry.kind === "link") {
               return entry.external ? (
                 <a
-                  key={entry.label}
+                  key={t(entry.label)}
                   href={entry.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-on-surface/80 hover:text-primary rounded-xl hover:bg-surface-container transition-all"
                 >
-                  {entry.label}
+                  {t(entry.label)}
                   <SquareArrowOutUpRight className="w-3.5 h-3.5 opacity-70" />
                 </a>
               ) : (
                 <Link
-                  key={entry.label}
+                  key={t(entry.label)}
                   href={entry.href}
                   onClick={() => setMobileOpen(false)}
                   className="block px-4 py-3 text-sm font-semibold text-on-surface/80 hover:text-primary rounded-xl hover:bg-surface-container transition-all"
                 >
-                  {entry.label}
+                  {t(entry.label)}
                 </Link>
               );
             }
 
             const isOpen = mobileSection === entry.label;
             return (
-              <div key={entry.label}>
+              <div key={t(entry.label)}>
                 <button
                   type="button"
                   onClick={() => setMobileSection(isOpen ? null : entry.label)}
                   className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-on-surface/80 hover:text-primary rounded-xl hover:bg-surface-container transition-all cursor-pointer"
                 >
-                  {entry.label}
+                  {t(entry.label)}
                   <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                 </button>
                 {isOpen && (
                   <div className="pl-3 pb-2 space-y-3">
                     {entry.columns.map((col) => (
-                      <div key={col.heading}>
+                      <div key={t(col.heading)}>
                         <p className="px-4 pt-1 pb-1 text-[11px] font-semibold uppercase tracking-wide text-on-surface-variant">
-                          {col.heading}
+                          {t(col.heading)}
                         </p>
                         <ul>
                           {col.items.map((item) => (
@@ -515,7 +795,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                                   onClick={() => setMobileOpen(false)}
                                   className="flex items-center gap-1.5 px-4 py-2 text-sm text-on-surface/75 hover:text-primary rounded-lg hover:bg-surface-container transition-colors"
                                 >
-                                  {item.label}
+                                  {t(item.label)}
                                   <SquareArrowOutUpRight className="w-3.5 h-3.5 opacity-70" />
                                 </a>
                               ) : (
@@ -524,7 +804,7 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                                   onClick={() => setMobileOpen(false)}
                                   className="block px-4 py-2 text-sm text-on-surface/75 hover:text-primary rounded-lg hover:bg-surface-container transition-colors"
                                 >
-                                  {item.label}
+                                  {t(item.label)}
                                 </Link>
                               )}
                             </li>
@@ -546,24 +826,24 @@ export default function Header({ logoHref = "/" }: { logoHref?: string }) {
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center justify-center gap-2 w-full text-center px-5 py-3 text-sm font-semibold text-on-surface bg-surface-container rounded-xl"
                 >
-                  <FileText className="w-4 h-4" /> My reports
+                  <FileText className="w-4 h-4" /> {t("My reports")}
                 </Link>
                 <button
                   onClick={() => { handleLogout(); setMobileOpen(false); }}
                   className="block w-full text-center px-5 py-3 text-sm font-semibold text-error bg-error-container/20 rounded-xl cursor-pointer"
                 >
-                  Log out
+                  {t("Log out")}
                 </button>
               </>
             ) : (
               <>
                 <Link href="/login" onClick={() => setMobileOpen(false)}
                   className="block w-full text-center px-5 py-3 text-sm font-semibold text-on-surface/70 bg-surface-container rounded-xl">
-                  Log in
+                  {t("Log in")}
                 </Link>
                 <Link href="/signup" onClick={() => setMobileOpen(false)}
                   className="block w-full text-center px-5 py-3 text-sm font-bold text-on-primary bg-primary rounded-full">
-                  Get Started
+                  {t("Get Started")}
                 </Link>
               </>
             )}
