@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "vérification VIN gratuit",
     "alternative Carfax precio",
     "alternative AutoCheck",
-    "rapport historique de véhicule barato",
+    "rapport historique de véhicule bon marché",
     "pack vérification VIN",
     "tarifs VIN concessionnaire",
   ],
@@ -68,7 +68,7 @@ const productSchema = {
   inLanguage: "fr",
   name: "Rapport complet du historique du véhicule CarCheckerVIN",
   description:
-    "Rapport complet du historique de véhicule avec especificaciones, données de rappels, valeures de marché, fotos réeles et données de coûts de propiedad. Respaldado par NMVTIS.",
+    "Rapport complet du historique de véhicule avec especificaciones, données de rappels, valeures de marché, fotos réeles et données de coûts de propriété. Respaldado par NMVTIS.",
   brand: { "@type": "Brand", name: "CarCheckerVIN" },
   image: `${SITE}/og-image.png`,
   offers: {
@@ -80,7 +80,7 @@ const productSchema = {
     offers: [
       { "@type": "Offer", name: "Rapport unique", price: "0", priceCurrency: "USD", description: "Un rapport premium du historique de véhicule — données complets, fotos complètes.", availability: "https://schema.org/InStock", url: PAGE_URL },
       { "@type": "Offer", name: "Paquete de 3", price: "0", priceCurrency: "USD", description: "Tres rapports premium du historique de véhicule pour comparar opciones.", availability: "https://schema.org/InStock", url: PAGE_URL },
-      { "@type": "Offer", name: "Paquete de 5", price: "0", priceCurrency: "USD", description: "Cinco rapports premium du historique de véhicule — mejor valeur pour acheteurs serios.", availability: "https://schema.org/InStock", url: PAGE_URL },
+      { "@type": "Offer", name: "Paquete de 5", price: "0", priceCurrency: "USD", description: "Cinco rapports premium du historique de véhicule — meilleur valeur pour acheteurs êtreios.", availability: "https://schema.org/InStock", url: PAGE_URL },
       { "@type": "Offer", name: "Paquete Pro (10 rapports)", price: "0", priceCurrency: "USD", description: "Diez rapports premium du historique de véhicule pour concessionnaires et acheteurs de flotas.", availability: "https://schema.org/InStock", url: PAGE_URL },
     ],
   },

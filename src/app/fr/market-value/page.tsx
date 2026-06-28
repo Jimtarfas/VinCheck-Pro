@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/market-value`;
 const alt = hreflangAlternatesForLocale("/market-value", "fr");
 const title = "Valor de marché du auto par VIN — Herramienta gratuite de valuación du véhicule";
 const description =
-  "Obtén le valeur de marché actual de n’importe quel véhicule par VIN. Compara les valeures de intercambio, vente privada et minorista de concessionnaire según kilométrage, condición, opciones et données du marché regional.";
+  "Obtiens le valeur de marché actual de n’importe quel véhicule par VIN. Compare les valeures de intercambio, vente privada et minonnrista de concessionnaire según kilométrage, condition, opciones et données du marché regional.";
 
 export const metadata: Metadata = {
   title,
@@ -36,7 +36,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Valor de marché du auto par VIN",
   description:
-    "Aprende comment se calcula le valeur de marché de un véhicule par VIN, incluyendo valeures de intercambio vs. vente privada vs. minorista et comment le kilométrage, condición et región afectan les tarifs.",
+    "Apprends comment se calcule le valeur de marché de un véhicule par VIN, incluant valeures de intercambio vs. vente privada vs. minonnrista et comment le kilométrage, condition et región afectan les tarifs.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

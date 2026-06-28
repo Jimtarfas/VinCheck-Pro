@@ -8,9 +8,9 @@ const LOCALE = "fr" as const;
 export async function generateMetadata(): Promise<Metadata> {
   const alt = hreflangAlternatesForLocale(ENGLISH_PATH, LOCALE);
   return {
-    title: "Contact — Parle avec notre équipe",
+    title: "Contact — Parle avec nonntre équipe",
     description:
-      "Contacta a CarCheckerVIN pour soporte, asociaciones, presse ou consultationtiontiontiontiontions legales. Correo, teléfono et formulario — notre équipe responde en moins de 24 heures.",
+      "Contacte a CarCheckerVIN pour soporte, asociaciones, presse ou consultationtiontiontiontiontions legales. Correo, teléfononn et formulario — nonntre équipe responde en moins de 24 heures.",
     keywords: [
       "contact CarCheckerVIN",
       "soporte VIN français",
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {
-      title: "Contacta a CarCheckerVIN — Support, asociaciones et presse",
+      title: "Contacte a CarCheckerVIN — Support, asociaciones et presse",
       description:
         "Comunícate avec le equipo de CarCheckerVIN pour aide avec consultationtiontiontiontiontions VIN, rapports de historique de véhicule, asociaciones, presse ou consultationtiontiontiontiontions legales.",
       url: alt.canonical,
@@ -35,10 +35,10 @@ const contactPageSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   inLanguage: "fr",
-  name: "Contacta a CarCheckerVIN",
+  name: "Contacte a CarCheckerVIN",
   url: "https://www.carcheckervin.com/fr/contact",
   description:
-    "Contacta a CarCheckerVIN pour soporte, asociaciones, presse et consultationtiontiontiontiontions legales.",
+    "Contacte a CarCheckerVIN pour soporte, asociaciones, presse et consultationtiontiontiontiontions legales.",
 };
 
 export default function Page() {

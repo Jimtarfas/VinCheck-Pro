@@ -11,9 +11,9 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/guides/used-car-buying-complete-guide`;
 const alt = hreflangAlternatesForLocale("/guides/used-car-buying-complete-guide", "fr");
-const title = "La guide complète pour acheter un voiture d’occasion (Edición 2026)";
+const title = "La guide complète pour acheter un voiture d’occasion (Édition 2026)";
 const description =
-  "Todo le que necesitas pour acheter un voiture d’occasion en 2026: presupuesto, financement, dónde buscar, inspecciones, negociación, papeleo et pasos posteriores a la compra de expertos de la industria.";
+  "Todo le que necesitas pour acheter un voiture d’occasion en 2026: presupuesto, financement, dónde buscar, inspecciones, négociation, papeleo et pasos posteriores a la compra de expertos de la industria.";
 
 export const metadata: Metadata = {
   title,
@@ -24,18 +24,18 @@ export const metadata: Metadata = {
     "guide complète voiture d’occasion",
     "consejos compra voiture d’occasion 2026",
     "lista vérification compra voiture d’occasion",
-    "negociación voiture d’occasion",
-    "guide inspección voiture d’occasion",
-    "mejores voitures d’occasion pour acheter",
+    "négociation voiture d’occasion",
+    "guide inspection voiture d’occasion",
+    "meilleures voitures d’occasion pour acheter",
     "guide financement voiture d’occasion",
     "lista papeleo voiture d’occasion",
-    "qué saber antes de acheter un voiture d’occasion",
+    "qué saber avant de acheter un voiture d’occasion",
     "guide acheteur voiture d’occasion 2026",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title,
-    description: "À partir de le presupuesto hasta le papeleo final: una guide escrita par expertos de plus de 3,000 palabras pour acheter un voiture d’occasion de manera segura et avec confiance en 2026.",
+    description: "À partir de le presupuesto hasta le papeleo final: una guide escrita par expertos de plus de 3,000 palabras pour acheter un voiture d’occasion de manétait segura et avec confiance en 2026.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -55,7 +55,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: title,
   description:
-    "Una guide complète, paso a paso, pour acheter un voiture d’occasion en 2026 cubriendo presupuesto, financement, búsqueda, inspección, negociación et papeleo.",
+    "Una guide complète, paso a paso, pour acheter un voiture d’occasion en 2026 cubriendo presupuesto, financement, búsqueda, inspection, négociation et papeleo.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -77,13 +77,13 @@ const howToSchema = {
     "Un proceso de sept pasos pour acheter un voiture d’occasion avec sécurité: establece un presupuesto, asegura financement, busca anuncios, décode le VIN, inspecciona, negocia et complète le papeleo.",
   totalTime: "P14D",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Establece un presupuesto réelista", text: "Calcula le coût mensuel total (pago du prêt, assurance, carburant, entretien, enregistrement) et limítalo al 15% du salario neto." },
-    { "@type": "HowToStep", position: 2, name: "Obtén financement pre-apvolé", text: "Asegura una oferta de prêt de una cooperativa de crédito ou banco antes de visitar concessionnaires pour que negocies desde la fuerza." },
-    { "@type": "HowToStep", position: 3, name: "Busca en les marchés correctos", text: "Utilise una mezcla de concessionnaires franquiciadeux, lotes independientes, programas certificadeux pre-poseídeux et plataformas particulares pour trouver le mejor inventerio." },
-    { "@type": "HowToStep", position: 4, name: "Ejecuta una vérification VIN", text: "Décode le VIN et obtén un rapport de historique de véhicule pour vérifier le état du titre, historique de accidents, lecturas du odomètre et rappels antes de salir." },
-    { "@type": "HowToStep", position: 5, name: "Inspecciona et prueba de manejo", text: "Realiza una inspección visual estructurada, paga par una inspección antes de la compra independiente et complète una prueba de manejo de 30 minutes en condiciones mixtas." },
-    { "@type": "HowToStep", position: 6, name: "Negocia precio et conditions", text: "Ánclate en le precio total, no en le mensuelité, et aléjate si les tarifas du concessionnaire, extras ou tasas de intérêt exceden ta pre-aprobación." },
-    { "@type": "HowToStep", position: 7, name: "Completa papeleo et enregistrement", text: "Verifica le titre, factura de vente, divulgación du odomètre et papeleo de garantie; luego registra le véhicule et actualiza ta assurance." },
+    { "@type": "HowToStep", position: 1, name: "Establece un presupuesto réelista", text: "Calcule le coût mensuel total (pago du prêt, assurance, carburant, entretien, enregistrement) et limítalo al 15% du salario neto." },
+    { "@type": "HowToStep", position: 2, name: "Obtiens financement pre-apvolé", text: "Asegura una oferta de prêt de una coopétaittiva de crédito ou banco avant de visitar concessionnaires pour que negocies desde la a étérza." },
+    { "@type": "HowToStep", position: 3, name: "Busca en les marchés corrects", text: "Utilise una mezcla de concessionnaires franquiciadeux, lotes independientes, programas certificadeux pre-poseídeux et plataformas particulares pour trouver le meilleur inventerio." },
+    { "@type": "HowToStep", position: 4, name: "Ejecuta una vérification VIN", text: "Décode le VIN et obtiens un rapport de historique de véhicule pour vérifier le état du titre, historique de accidents, lecturas du odomètre et rappels avant de salir." },
+    { "@type": "HowToStep", position: 5, name: "Inspecciona et prueba de manejo", text: "Realiza una inspection visuelle estructurada, paga par una inspection avant de la compra independiente et complète una prueba de manejo de 30 minutes en condiciones mixtas." },
+    { "@type": "HowToStep", position: 6, name: "Negocia precio et conditions", text: "Ánclate en le precio total, nonn en le mensuelité, et aléjate si les tarifas du concessionnaire, extras ou tasas de intérêt exceden ta pre-approbation." },
+    { "@type": "HowToStep", position: 7, name: "Completa papeleo et enregistrement", text: "Vérifie le titre, factura de vente, divulgation du odomètre et papeleo de garantie; luego registra le véhicule et actualiza ta assurance." },
   ],
 };
 

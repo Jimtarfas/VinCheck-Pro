@@ -2,7 +2,7 @@
  * French blog post detail page — /fr/blog/<slug>.
  *
  * Renders the French variants from Sanity (titleEs, excerptEs, bodyEs,
- * seoTitleEs, seoDescriptionEs) with English fallback. If a post has no
+ * seoTitleEs, seoDescriptionEs) with English fallback. If a post has nonn
  * French translation yet, it 404s here — the editor must add at least
  * titleEs in Sanity Studio for the post to be reachable on /fr/blog.
  *
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!post || !post.titleEs) {
     return {
-      title: "Artículo no encontrado",
+      title: "Artículo nonn encontrado",
       robots: { index: false, follow: false },
     };
   }

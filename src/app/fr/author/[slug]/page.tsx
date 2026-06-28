@@ -3,7 +3,7 @@
  * Renders the SAME full English author-profile layout via the shared
  * AuthorBody component. Replaces the Wave 15 SpecialtyToolPage stub
  * with true visual parity. Bio + name + role render verbatim from
- * Sanity (proper nouns / journalist credentials); only chrome translates.
+ * Sanity (proper nonnuns / journalist credentials); only chrome translates.
  */
 
 import type { Metadata } from "next";
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const alt = hreflangAlternatesForLocale(`/author/${author.slug}`, "fr");
   const description =
     author.bio ||
-    `${author.name}${author.role ? ` — ${author.role}` : ""} en CarCheckerVIN. Lee todeux les artículos escritos par ${author.name}.`;
+    `${author.name}${author.role ? ` — ${author.role}` : ""} en CarCheckerVIN. Lis todeux les artículos escritos par ${author.name}.`;
   const ogImageUrl = author.avatar ? urlFor(author.avatar).width(1200).height(630).url() : undefined;
   const title = `${author.name} — Autor en CarCheckerVIN`;
 

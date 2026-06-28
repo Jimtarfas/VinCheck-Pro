@@ -12,7 +12,7 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/rideshare-check`;
 const alt = hreflangAlternatesForLocale("/rideshare-check", "fr");
 const title = "Vérification de historique de viajes compartideux et taxi par VIN — Registros de Uber, Lyft et taxi";
-const description = "Verifica si un voiture d’occasion fue conducido como Uber, Lyft ou taxi par VIN. Detecta uso previo de rideshare et comercial a partir de patrones de kilométrage, immatriculation comercial et enregistrements de assurance antes de acheter. Vista previa gratuit, sans inscription, resultadeux en segundeux.";
+const description = "Vérifie si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Detecta uso previo de rideshare et comercial à partir de patrones de kilométrage, immatriculation comercial et enregistrements de assurance avant de acheter. Vista previa gratuit, sans inscription, resultadeux en segundeux.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title,
-    description: "Verifica si un voiture d’occasion fue conducido como Uber, Lyft ou taxi par VIN. Patrones de kilométrage, immatriculation comercial et señales de assurance que revelan uso comercial.",
+    description: "Vérifie si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Patrones de kilométrage, immatriculation comercial et señales de assurance que revelan uso comercial.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title,
-    description: "Detecta un ex-Uber, Lyft ou taxi par VIN: patrones de kilométrage, immatriculation de uso comercial et señales de assurance comercial antes de acheter.",
+    description: "Detecta un ex-Uber, Lyft ou taxi par VIN: patrones de kilométrage, immatriculation de uso comercial et señales de assurance comercial avant de acheter.",
   },
   robots: { index: true, follow: true },
 };
@@ -50,7 +50,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification de historique de viajes compartideux et taxi par VIN",
   description:
-    "Guía pour vérifier si un voiture d’occasion fue conducido como Uber, Lyft ou taxi par VIN. Cubre comment le uso comercial de pasajeros aparece en patrones de kilométrage, immatriculation comercial et enregistrements de assurance, qué significa ese historique pour le desgaste et le valeur, et comment leer les señales antes de acheter.",
+    "Guía pour vérifier si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Couvre comment le uso comercial de pasajeros aparece en patrones de kilométrage, immatriculation comercial et enregistrements de assurance, qué significa ese historique pour le desgaste et le valeur, et comment leer les señales avant de acheter.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -81,21 +81,21 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment vérifier un VIN pour historique de rideshare ou taxi",
   description:
-    "Guía paso a paso pour detectar uso previo de Uber, Lyft, taxi et pasajeros comerciales a partir de un VIN.",
+    "Guía paso a paso pour detectar uso previo de Uber, Lyft, taxi et pasajeros comerciales à partir de un VIN.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Encuentra le VIN de 17 caracteres en le tablero a través du parabrisas, le marco de puerta du lado du conductor, ou le documento du titre." },
-    { "@type": "HowToStep", position: 2, name: "Ingresa le VIN", text: "Escribe ou pega le VIN en le cuadro de búsqueda en la parte superior de esta página." },
-    { "@type": "HowToStep", position: 3, name: "Compara kilométrage avec la edad", text: "Revisa les lecturas du odomètre contra le année modelo. Cualocation mil millas ou plus al année es un patrón fuerte de rideshare ou uso comercial." },
-    { "@type": "HowToStep", position: 4, name: "Lee les enregistrements de titre et assurance", text: "Busca immatriculation comercial ou de uso comercial, designaciones de transporte et n’importe quel entrada de assurance comercial ou avec endeuxo de rideshare vinculada al VIN." },
-    { "@type": "HowToStep", position: 5, name: "Inspecciona antes de acheter", text: "Trata les señales como una razón pour una inspección previa a la compra. Enfócate en frenos, transmisión, sespensión et desgaste interior, et confirma que le odomètre sea preciso." },
+    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord a través du pare-brise, le marco de porte du lado du conductor, ou le documento du titre." },
+    { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en le cuadro de búsqueda en la parte superior de esta página." },
+    { "@type": "HowToStep", position: 3, name: "Compare kilométrage avec la edad", text: "Revisa les lecturas du odomètre contra le année modelo. Cualocation mille millelas ou plus al année es un patrón a étérte de rideshare ou uso comercial." },
+    { "@type": "HowToStep", position: 4, name: "Lis les enregistrements de titre et assurance", text: "Busca immatriculation comercial ou de uso comercial, designaciones de transporte et n’importe quel entrada de assurance comercial ou avec endeuxo de rideshare vinculada al VIN." },
+    { "@type": "HowToStep", position: 5, name: "Inspecciona avant de acheter", text: "Trata les señales como una razón pour una inspection previa a la compra. Enfócate en freins, transmission, sespensión et desgaste interior, et confirme que le odomètre sea preciso." },
   ],
 };
 
-const serviceRatingSchema = {
+const êtreviceRatingSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  serviceType: "Vérification de historique de viajes compartideux et taxi par VIN",
+  êtreviceType: "Vérification de historique de viajes compartideux et taxi par VIN",
   provider: {
     "@type": "Organization",
     name: "CarCheckerVIN",
@@ -134,7 +134,7 @@ const datasetSchema = {
   inLanguage: "fr",
   name: "Estadísticas rapides de vérification de viajes compartideux et taxi",
   description:
-    "Cobertura et referencia de señales pour la vérification VIN de historique de rideshare et taxi de CarCheckerVIN.",
+    "Couverture et referencia de señales pour la vérification VIN de historique de rideshare et taxi de CarCheckerVIN.",
   url: PAGE_URL,
   creator: ORG_AUTHOR,
   license: "https://creativecommons.org/licenses/by/4.0/",
@@ -142,7 +142,7 @@ const datasetSchema = {
     { "@type": "PropertyValue", name: "Kilometraje típico de rideshare de tiempo complet par année", value: "40,000-60,000" },
     { "@type": "PropertyValue", name: "Kilometraje de rideshare vs. tasa de véhicule privado", value: "3-5x" },
     { "@type": "PropertyValue", name: "Fuente de immatriculation comercial / de uso comercial", value: "NMVTIS" },
-    { "@type": "PropertyValue", name: "Tiempo promedio de décodeción VIN (segundeux)", value: "<5" },
+    { "@type": "PropertyValue", name: "Tiempo promedio de décodage VIN (segundeux)", value: "<5" },
     { "@type": "PropertyValue", name: "Costo de la vista previa gratuit (USD)", value: "0" },
   ],
 };
@@ -154,7 +154,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceRatingSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(êtreviceRatingSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <RideshareCheckBody locale="fr" />

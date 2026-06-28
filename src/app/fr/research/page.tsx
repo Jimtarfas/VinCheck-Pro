@@ -12,7 +12,7 @@ const PAGE_URL = `${SITE}/fr/research`;
 const alt = hreflangAlternatesForLocale("/research", "fr");
 const title = "Recherche et études de données sur les véhicules";
 const description =
-  "Recherche original de CarCheckerVIN: rankings de vols, patrones de migración de récupération, études de degradación de baterías de véhicules eléctricos, rastreo de véhicules par huracanes et analyse de tarifs de voitures d’occasion.";
+  "Recherche original de CarCheckerVIN: rankings de vols, patrones de migración de récupération, études de dégradation de batteries de véhicules eléctricos, rastreo de véhicules par huracanes et analyse de tarifs de voitures d’occasion.";
 
 export const metadata: Metadata = {
   title, description,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "véhicules plus volés 2026",
     "recherche titre récupération",
     "étude tarifs voiture d’occasion",
-    "étude degradación batería ev",
+    "étude dégradation batterie ev",
     "véhicules dañadeux par huracán",
     "estadísticas rachat limones",
     "étude données automotriz",

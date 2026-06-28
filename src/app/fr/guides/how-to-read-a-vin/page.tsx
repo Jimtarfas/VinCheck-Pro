@@ -12,7 +12,7 @@ const PAGE_URL = `${SITE}/fr/guides/how-to-read-a-vin`;
 const alt = hreflangAlternatesForLocale("/guides/how-to-read-a-vin", "fr");
 const title = "Comment leer un VIN — Desglose complet du VIN";
 const description =
-  "Aprende comment leer un numéro VIN avec notre guide paso a paso. Entiende les 17 dígitos du VIN, incluyendo les secciones WMI, VDS et VIS, et le que significa cada posición.";
+  "Apprends comment leer un numéro VIN avec nonntre guide paso a paso. Entiende les 17 dígitos du VIN, incluant les secciones WMI, VDS et VIS, et le que significa cada position.";
 
 export const metadata: Metadata = {
   title,
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "VIN de 17 dígitos explicado",
     "WMI VDS VIS",
     "significado de les posiciones du VIN",
-    "leer numéro de identificación du véhicule",
+    "leer numéro de identification du véhicule",
     "tabla de année du VIN",
     "code de année modelo du VIN",
     "dígito 10 du VIN année",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Comment leer un numéro VIN — Guide complet de desglose du VIN",
     description:
-      "Aprende comment leer un numéro VIN avec notre guide paso a paso. Entiende les 17 dígitos du VIN et le que significa cada posición.",
+      "Apprends comment leer un numéro VIN avec nonntre guide paso a paso. Entiende les 17 dígitos du VIN et le que significa cada position.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description:
-      "Guía paso a paso pour leer un VIN de 17 caracteres: WMI, VDS, VIS, dígito de vérification, année modelo, planta de ensamblaje et numéro de serie.",
+      "Guía paso a paso pour leer un VIN de 17 caracteres: WMI, VDS, VIS, dígito de vérification, année modelo, planta de ensamblaje et numéro de êtreie.",
   },
   robots: { index: true, follow: true },
 };
@@ -56,37 +56,37 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment leer un numéro VIN",
   description:
-    "Una guide paso a paso pour leer et entender les 17 caracteres de un Número de Identificación Vehicular (VIN).",
+    "Una guide paso a paso pour leer et entender les 17 caracteres de un Número de Identification Vehicular (VIN).",
   step: [
     {
       "@type": "HowToStep",
       name: "Identifica le identificador mundial du fabricante (posiciones 1-3)",
-      text: "Los premieros trois caracteres forman le WMI. La posición 1 indica le país de fabricación, la posición 2 identifica al fabricante et la posición 3 denota le tipo de véhicule ou la división de fabricación.",
+      text: "Los premieros trois caracteres forman le WMI. La position 1 indica le país de fabrication, la position 2 identifica al fabricante et la position 3 denonnta le tipo de véhicule ou la división de fabrication.",
     },
     {
       "@type": "HowToStep",
-      name: "Lee la sección descriptora du véhicule (posiciones 4-8)",
-      text: "Las posiciones 4 a 8 forman le VDS. Estos dígitos codifican atributos du véhicule como le estilo de carrocería, tipo de motor, modelo et serie. Le significado exacto varía según le fabricante.",
+      name: "Lis la section descriptora du véhicule (posiciones 4-8)",
+      text: "Las posiciones 4 a 8 forman le VDS. Estos dígitos codifican atributos du véhicule como le estilo de carrosêtreie, tipo de moteur, modelo et êtreie. Le significado exacto varía según le fabricante.",
     },
     {
       "@type": "HowToStep",
-      name: "Verifica le dígito de vérification (posición 9)",
-      text: "La posición 9 es le dígito de vérification, un valeur calculado usado pour vérifier que le VIN sea legítimo. Se deriva usando una fórmula matemática ponderada aplicada a todeux les deplus caracteres.",
+      name: "Vérifie le dígito de vérification (position 9)",
+      text: "La position 9 es le dígito de vérification, un valeur calculado usado pour vérifier que le VIN sea legítimo. Se deriva usando una fórmula matemática pondétaitda aplicada a todeux les deplus caracteres.",
     },
     {
       "@type": "HowToStep",
-      name: "Determina le année modelo (posición 10)",
-      text: "La posición 10 representa le année modelo usando un code estandarizado de letra ou numéro. Par ejemplo, R representa 2024, S representa 2025 et T representa 2026.",
+      name: "Determine le année modelo (position 10)",
+      text: "La position 10 representa le année modelo usando un code estandarizado de letra ou numéro. Par ejemplo, R representa 2024, S representa 2025 et T representa 2026.",
     },
     {
       "@type": "HowToStep",
-      name: "Encuentra la planta de ensamblaje (posición 11)",
-      text: "La posición 11 es un code asignado par le fabricante pour identificar la planta de ensamblaje específica donde se construyó le véhicule.",
+      name: "Trouve la planta de ensamblaje (position 11)",
+      text: "La position 11 es un code asignado par le fabricante pour identificar la planta de ensamblaje específica donde se construyó le véhicule.",
     },
     {
       "@type": "HowToStep",
-      name: "Lee le numéro de secuencia de producción (posiciones 12-17)",
-      text: "Los derniers six caracteres son le numéro de serie de producción asignado al véhicule a medida que sale de la línea de ensamblaje. Esto le da a cada véhicule su identificador unique.",
+      name: "Lis le numéro de secuencia de production (posiciones 12-17)",
+      text: "Los derniers six caracteres son le numéro de êtreie de production asignado al véhicule a medida que sale de la línea de ensamblaje. Esto le da a cada véhicule su identificador unique.",
     },
   ],
 };

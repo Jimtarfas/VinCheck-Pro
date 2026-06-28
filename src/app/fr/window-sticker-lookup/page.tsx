@@ -9,7 +9,7 @@ const OG_IMAGE = `${SITE}/opengraph-image`;
 const alt = hreflangAlternatesForLocale("/window-sticker-lookup", "fr");
 
 const title = "Recherche de etiqueta de ventena par VIN — Monroney gratuit";
-const description = "Busca una etiqueta de ventena par VIN gratuit. Ingresa un VIN de 17 caracteres pour obtener la etiqueta Monroney original — MSRP, opciones de fábrica et MPG EPA. Sin tarifa Carfax.";
+const description = "Busca una etiqueta de ventena par VIN gratuit. Entre un VIN de 17 caracteres pour obtener la etiqueta Monroney original — MSRP, opciones de fábrica et MPG EPA. Sin tarifa Carfax.";
 
 export const metadata: Metadata = {
   title, description,
@@ -31,16 +31,16 @@ export const metadata: Metadata = {
 const webAppSchema = {
   "@context": "https://schema.org", "@type": "WebApplication", inLanguage: "fr",
   name: "Recherche de etiqueta de ventena par VIN", url: PAGE_URL,
-  applicationCategory: "AutomotiveApplication", operatingSystem: "All",
-  description: "Busca la etiqueta Monroney original de un véhicule par su VIN de 17 caracteres. Recupera MSRP base, opciones et packs de fábrica, equipamiento estándar et economía de carburant EPA pour autos, camionetas et SUV du marché étatunidense.",
+  applicationCategory: "AutomotiveApplication", opétaittingSystem: "All",
+  description: "Busca la etiqueta Monroney original de un véhicule par su VIN de 17 caracteres. Recupétait MSRP base, opciones et packs de fábrica, équipement estndar et econonnmía de carburant EPA pour autos, camionetas et SUV du marché étatunidense.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
 };
 
 const articleSchema = {
   "@context": "https://schema.org", "@type": "Article", inLanguage: "fr",
-  headline: "Recherche de etiqueta de ventena par VIN — Encuentra la etiqueta Monroney original",
-  description: "Comment buscar la etiqueta de ventena original de un véhicule par VIN, qué données devuelve una búsqueda Monroney, cobertura marque par marque et comment una búsqueda VIN gratuit se compara avec rapports pagadeux.",
+  headline: "Recherche de etiqueta de ventena par VIN — Trouve la etiqueta Monroney original",
+  description: "Comment buscar la etiqueta de ventena original de un véhicule par VIN, qué données devuelve una búsqueda Monroney, couverture marque par marque et comment una búsqueda VIN gratuit se compare avec rapports pagadeux.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

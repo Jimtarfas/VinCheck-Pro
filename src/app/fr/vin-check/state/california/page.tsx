@@ -56,9 +56,9 @@ export default function Page() {
     "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr",
     mainEntity: [
       { "@type": "Question", name: `Qué marques de titre utilise ${stateNameEs}?`, acceptedAnswer: { "@type": "Answer", text: `El ${dmvNameEs} señala véhicules avec marques como ${state.titleBrands.join(", ")}. ${brandDescEs}` } },
-      { "@type": "Question", name: `Tiene ${stateNameEs} una Lemon Law?`, acceptedAnswer: { "@type": "Answer", text: `Sí. ${es.lemonLawNotesEs}` } },
-      { "@type": "Question", name: `Qué tiene de unique revisar un VIN en ${stateNameEs}?`, acceptedAnswer: { "@type": "Answer", text: es.specialFactEs } },
-      { "@type": "Question", name: `La vérification VIN es gratuit pour véhicules de ${stateNameEs}?`, acceptedAnswer: { "@type": "Answer", text: `Sí. Puedes ejecutar una vérification VIN gratuit a n’importe quel véhicule registrado en ${stateNameEs} pour ver marques de titre, enregistrements de récupération e inundación, historique du odomètre et rappels ouverts antes de acheter — sans inscription ni carte.` } },
+      { "@type": "Question", name: `Tiene ${stateNameEs} una Lemon Law?`, acceptedAnswer: { "@type": "Answer", text: `Oui. ${es.lemonLawNotesEs}` } },
+      { "@type": "Question", name: `Qué a de unique revisar un VIN en ${stateNameEs}?`, acceptedAnswer: { "@type": "Answer", text: es.specialFactEs } },
+      { "@type": "Question", name: `La vérification VIN es gratuit pour véhicules de ${stateNameEs}?`, acceptedAnswer: { "@type": "Answer", text: `Oui. Peuts ejecutar una vérification VIN gratuit a n’importe quel véhicule registrado en ${stateNameEs} pour ver marques de titre, enregistrements de récupération e inonnndation, historique du odomètre et rappels ouverts avant de acheter — sans inscription ni carte.` } },
     ],
   };
 

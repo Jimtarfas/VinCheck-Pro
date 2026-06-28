@@ -11,9 +11,9 @@ import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/marketplace-vin-check`;
 const alt = hreflangAlternatesForLocale("/marketplace-vin-check", "fr");
-const title = "Vérification VIN de marketplace — Verifica antes de acheter";
+const title = "Vérification VIN de marketplace — Vérifie avant de acheter";
 const description =
-  "Haz una vérification VIN antes de acheter en n’importe quel marketplace en línea. Verifica véhicules listadeux en Facebook Marketplace, Craigslist, eBay Motors, Copart et plus avec un rapport complet de historique de véhicule.";
+  "Haz una vérification VIN avant de acheter en n’importe quel marketplace en línea. Vérifie véhicules listadeux en Facebook Marketplace, Craigslist, eBay Moteurs, Copart et plus avec un rapport complet de historique de véhicule.";
 
 export const metadata: Metadata = {
   title,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "vérification VIN marketplace",
     "vérification VIN Facebook Marketplace",
     "vérification VIN Craigslist",
-    "vérification VIN eBay Motors",
+    "vérification VIN eBay Moteurs",
     "vérification VIN Copart",
     "historique de véhicule marketplace en línea",
     "vérification VIN voiture d’occasion",

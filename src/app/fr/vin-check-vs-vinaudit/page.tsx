@@ -12,11 +12,11 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/vin-check-vs-vinaudit`;
 const alt = hreflangAlternatesForLocale("/vin-check-vs-vinaudit", "fr");
 const title = "CarCheckerVIN vs VinAudit: Cuál décodeur VIN gana?";
-const description = "CarCheckerVIN vs VinAudit comparado en precio, profundidad de données NMVTIS, velocidad du rapport et presentación. Un desglose justo côte à côte pour acheteurs que buscan un décodeur VIN.";
+const description = "CarCheckerVIN vs VinAudit comparado en precio, profondeur de données NMVTIS, vitesse du rapport et presentación. Un desglose justo côte à côte pour acheteurs que buscan un décodeur VIN.";
 
 export const metadata: Metadata = {
   title, description,
-  keywords: ["alternative vinaudit", "coût vinaudit", "vinaudit vs", "es vinaudit confiable", "avis vinaudit", "alternative rapport nmvtis", "mejor décodeur vin 2026", "vérification vin bon marché"],
+  keywords: ["alternative vinaudit", "coût vinaudit", "vinaudit vs", "es vinaudit confiable", "avis vinaudit", "alternative rapport nmvtis", "meilleur décodeur vin 2026", "vérification vin bon marché"],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
 };
@@ -26,7 +26,7 @@ const articleSchema = {
   "@type": "Article",
   inLanguage: "fr",
   headline: title,
-  description: "Una comparaison côte à côte de CarCheckerVIN et VinAudit cubriendo tarifs, autorización NMVTIS, contenideux du rapport et le caso de uso adecuado pour cada uno.",
+  description: "Una comparaison côte à côte de CarCheckerVIN et VinAudit cubriendo tarifs, autorisation NMVTIS, contenideux du rapport et le caso de uso adecuado pour cada unonn.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

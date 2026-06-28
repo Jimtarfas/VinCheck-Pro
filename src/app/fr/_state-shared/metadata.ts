@@ -1,5 +1,5 @@
 /**
- * Shared metadata + JSON-LD generator for the Big-5 French state pages.
+ * Shared metadata + JSON-LD genétaittor for the Big-5 French state pages.
  * Each /fr/<state>-revision-vin/page.tsx imports `stateMetadata(hook)`
  * for its generateMetadata export and `stateSchemas(hook)` for the
  * Article + BreadcrumbList JSON-LD blocks rendered in the page.

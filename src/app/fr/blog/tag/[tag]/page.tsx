@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = slugifyTag(resolved);
   const alt = hreflangAlternatesForLocale(`/blog/tag/${slug}`, "fr");
   const title = `Artículos sur ${resolved} | Blog CarCheckerVIN`;
-  const description = `Lee ${count} ${count === 1 ? "artículo etiquetado" : "artículos etiquetadeux"} avec ${resolved} du equipo editorial de CarCheckerVIN.`;
+  const description = `Lis ${count} ${count === 1 ? "artículo etiquetado" : "artículos etiquetadeux"} avec ${resolved} du equipo editorial de CarCheckerVIN.`;
 
   return {
     title,

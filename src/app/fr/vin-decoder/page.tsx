@@ -12,7 +12,7 @@ const PAGE_URL = `${SITE}/fr/vin-decoder`;
 const alt = hreflangAlternatesForLocale("/vin-decoder", "fr");
 const title = "Décodeur VIN gratuit — Décode n’importe quel numéro VIN instantanément";
 const description =
-  "Herramienta gratuite de décodeción VIN. Ingresa n’importe quel VIN de 17 caracteres pour ver le desglose complet instantanément: WMI, VDS, dígito vérificateur, année modelo, code de planta et secuencia de producción. Décode autos, camionetas, motos et RVs en segundeux.";
+  "Herramienta gratuite de décodage VIN. Entre n’importe quel VIN de 17 caracteres pour ver le desglose complet instantanément: WMI, VDS, dígito vérificateur, année modelo, code de planta et secuencia de production. Décode autos, camionetas, motos et RVs en segundeux.";
 
 export const metadata: Metadata = {
   title,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "décoder vin",
     "consultationtiontiontiontiontion vin gratuit",
     "vérification vin gratuit",
-    "décodeur numéro identificación du véhicule",
+    "décodeur numéro identification du véhicule",
     "outil décodeur vin",
     "décodeur vin en línea",
     "décodeur vin 17 dígitos",
@@ -58,10 +58,10 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Décodeur VIN gratuit",
   description:
-    "Décodeur VIN en línea gratuito. Ingresa n’importe quel Número de Identificación Vehicular de 17 caracteres pour ver instantanément WMI, VDS, dígito vérificateur, année modelo, code de planta et secuencia de producción.",
+    "Décodeur VIN en línea gratuito. Entre n’importe quel Número de Identification Vehicular de 17 caracteres pour ver instantanément WMI, VDS, dígito vérificateur, année modelo, code de planta et secuencia de production.",
   url: PAGE_URL,
   applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: {
     "@type": "Organization",

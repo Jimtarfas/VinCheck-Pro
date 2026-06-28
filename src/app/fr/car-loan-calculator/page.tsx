@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/car-loan-calculator`;
 const alt = hreflangAlternatesForLocale("/car-loan-calculator", "fr");
 const title = "Calculateur de prêt auto — Mensualité, intérêt total et amortissement (gratuit)";
 const description =
-  "Calculateur gratuit de prêt de auto. Ingresa le precio du véhicule, pago inicial, intercambio, APR et plazo du prêt pour calcular instantanément ta mensuelité, intérêt total et calendario complet de amortissement. Funciona pour les 50 états de EE. UU.";
+  "Calculateur gratuit de prêt de auto. Entre le precio du véhicule, pago inicial, intercambio, APR et plazo du prêt pour calcular instantanément ta mensuelité, intérêt total et calendario complet de amortissement. Funciona pour les 50 états de EE. UU.";
 
 export const metadata: Metadata = {
   title,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "calculateur prêt auto avec intercambio",
     "calculateur pago inicial auto",
     "calculateur prêt voiture d’occasion",
-    "calculateur prêt auto nuevo",
+    "calculateur prêt auto nonnuveau",
     "calculateur APR auto",
     "cuánto auto puedo pagar",
     "estimateur pago auto",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Calculateur gratuit de prêt de auto — Pago mensuel et amortissement",
     description:
-      "Ingresa precio du véhicule, APR et plazo pour ver instantanément ta mensuelité, intérêt total et calendario complet de amortissement.",
+      "Entre precio du véhicule, APR et plazo pour ver instantanément ta mensuelité, intérêt total et calendario complet de amortissement.",
   },
   robots: {
     index: true,
@@ -71,17 +71,17 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Calculateur de prêt auto",
   description:
-    "Calculateur gratuit de prêt de auto. Calcula pagos mensueles, intérêt total et un calendario complet de amortissement pour n’importe quel prêt automotriz. Soporta pago inicial, intercambio, taxe estatal sur ventes et tarifas du concessionnaire.",
+    "Calculateur gratuit de prêt de auto. Calcule pagos mensueles, intérêt total et un calendario complet de amortissement pour n’importe quel prêt automotriz. Soporta pago inicial, intercambio, taxe estatal sur ventes et tarifas du concessionnaire.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Cálculo de mensuelité",
     "Calendario complet de amortissement",
     "Support pour valeur de intercambio",
     "Impuesto sur ventes pour les 50 états",
-    "Support pour tarifas du concessionnaire et documentación",
+    "Support pour tarifas du concessionnaire et documentation",
     "Plazos de prêt de 12 a 84 moises",
     "Desglose de intérêt vs. capital",
   ],
@@ -105,20 +105,20 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Ingresa le precio du véhicule et le pago inicial",
-      text: "Escribe le precio total de compra du véhicule et le monto que planeas pagar par adelantado como pago inicial. Si tienes un intercambio, ingresa su valeur estimado pour reducir le capital du prêt.",
+      name: "Entre le precio du véhicule et le pago inicial",
+      text: "Escribe le precio total de compra du véhicule et le monto que planeas pagar par adelantado como pago inicial. Si as un intercambio, entre su valeur estimado pour reducir le capital du prêt.",
     },
     {
       "@type": "HowToStep",
       position: 2,
       name: "Establece le APR et le plazo du prêt",
-      text: "Ingresa ta tasa anual de intérêt (APR) de ta banco, cooperativa de crédito ou pre-aprobación du concessionnaire. Selecciona le plazo du prêt — 36, 48, 60, 72 ou 84 moises. Plazos plus cortos significan pagos mensueles plus altos pero menos intérêt total.",
+      text: "Entre ta tasa anual de intérêt (APR) de ta banco, coopétaittiva de crédito ou pre-approbation du concessionnaire. Sélectionne le plazo du prêt — 36, 48, 60, 72 ou 84 moises. Plazos plus cortos significan pagos mensueles plus hauts pero menonns intérêt total.",
     },
     {
       "@type": "HowToStep",
       position: 3,
       name: "Agrega le taxe estatal sur ventes et les tarifas",
-      text: "Selecciona ta état pour le taxe automático sur ventes, luego ingresa les tarifas estimadas du concessionnaire et documentación. Estas se agregan al capital du prêt si no se pagan par adelantado.",
+      text: "Sélectionne ta état pour le taxe automático sur ventes, luego entre les tarifas estimadas du concessionnaire et documentation. Estas se agregan al capital du prêt si nonn se pagan par adelantado.",
     },
     {
       "@type": "HowToStep",
@@ -146,7 +146,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Calculateur de prêt auto",
   description:
-    "Aprende a calcular ta mensuelité de auto, intérêt total et calendario de amortissement — incluyendo taxe estatal sur ventes, valeur du intercambio et tarifas du concessionnaire.",
+    "Apprends a calcular ta mensuelité de auto, intérêt total et calendario de amortissement — incluant taxe estatal sur ventes, valeur du intercambio et tarifas du concessionnaire.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",

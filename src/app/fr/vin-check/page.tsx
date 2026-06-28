@@ -8,7 +8,7 @@ const alt = hreflangAlternatesForLocale("/vin-check", "fr");
 
 const title = "Vérification VIN gratuite par marque — Décode n’importe quel véhicule";
 const description =
-  "Vérification VIN gratuite et décodeur pour cada marque de auto. Busca n’importe quel marque et modelo et obtén historique de véhicule instantané, especificaciones, rappels de sécurité et données de marché.";
+  "Vérification VIN gratuite et décodeur pour cada marque de auto. Busca n’importe quel marque et modelo et obtiens historique de véhicule instantané, especificaciones, rappels de sécurité et données de marché.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   keywords: [
     "vérification VIN", "décodeur VIN", "vérification VIN gratuit", "búsqueda VIN",
     "rapport de historique de véhicule", "vérification VIN de auto", "vérifier numéro VIN",
-    "búsqueda numéro VIN", "décoder VIN", "numéro de identificación du véhicule",
+    "búsqueda numéro VIN", "décoder VIN", "numéro de identification du véhicule",
     "vérification historique auto",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },

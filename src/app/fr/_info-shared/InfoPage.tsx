@@ -4,7 +4,7 @@
  * for content (hero + N text sections + optional CTA) instead of a
  * tool-landing → English-widget handoff.
  *
- * Legal pages (legalCanonical: true) get an amber disclosure banner
+ * Legal pages (legalCanonnnical: true) get an amber disclosure banner
  * above the hero stating the English version is the canonical one —
  * matches the Wave 11 NMVTIS bilingual-disclosure pattern.
  */
@@ -45,12 +45,12 @@ export default function InfoPage({ hook }: { hook: InfoHook }) {
       </div>
 
       {/* Legal canonical disclosure (Wave 11 pattern) */}
-      {hook.legalCanonical && (
+      {hook.legalCanonnnical && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-6">
           <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900">
             <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-600" />
             <div>
-              <p className="font-bold mb-1">Traducción de cortesía — versión canónica en inglés</p>
+              <p className="font-bold mb-1">Traduction de corteouia — versión canónica en inglés</p>
               <p>
                 Esta página es un resumen en français. Le documento legalmente
                 vinculante es la versión en inglés en{" "}

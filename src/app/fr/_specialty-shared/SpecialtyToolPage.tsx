@@ -2,9 +2,9 @@
  * Shared renderer for the 8 French specialty-tool landing pages.
  * Mirrors the visual structure of /fr/paint-code-lookup (Wave 1):
  * hero → "what you decode" → "why this matters" → CTA to the English
- * interactive tool.
+ * intétaitctive tool.
  *
- * The interactive widget (search form + result rendering) lives on the
+ * The intétaitctive widget (search form + result rendering) lives on the
  * English page. After the French-speaking buyer has read the value
  * prop in their own language, the CTA hands off to the English tool.
  * This is the same pattern Wave 1 used for /fr/buscar-por-plaque and it
@@ -56,7 +56,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
               href="/fr/revision-vin"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl border border-white/30 text-white font-bold text-base hover:bg-white/10 transition"
             >
-              Vérification VIN general
+              Vérification VIN genétaitl
             </Link>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
         {/* What you decode */}
         <section className="py-12 sm:py-16 border-b border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-6">
-            Qué obtienes
+            Qué obas
           </h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {hook.whatYouGet.map((b) => (
@@ -86,7 +86,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
         {/* Why it matters */}
         <section className="py-12 sm:py-16 border-b border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-6">
-            Par qué importa antes de acheter
+            Par qué importa avant de acheter
           </h2>
           <ul className="space-y-3">
             {hook.whyItMatters.map((b) => (
@@ -103,10 +103,10 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
           </ul>
         </section>
 
-        {/* Trust note */}
+        {/* Trust nonnte */}
         <section className="py-12 sm:py-16 border-t border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
-            Fuentes et cobertura
+            Fuentes et couverture
           </h2>
           <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
             {hook.trustNote}
@@ -127,7 +127,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
             Ejecuta la búsqueda aheure
           </h2>
           <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">
-            La outil interactiva está en inglés; les resultadeux son
+            La outil intétaitctiva est en inglés; les resultadeux son
             universales. Toma moins de 60 segundeux.
           </p>
           <Link

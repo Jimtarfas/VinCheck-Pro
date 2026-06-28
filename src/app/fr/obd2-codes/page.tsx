@@ -10,12 +10,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Recherche de codes OBD-II gratuit — Décode n’importe quel code de Check Engine",
     description:
-      "Décode instantanément n’importe quel code de problema OBD-II / DTC. Ve significado, síntomas, causas probables, severidad, estimaciones de coût de réparation et dificultad DIY pour cientos de codes.",
+      "Décode instantanément n’importe quel code de problema OBD-II / DTC. Ve significado, ouintomas, causas probables, sévérité, estimaciones de coût de réparation et dificultad DIY pour centaines de codes.",
     keywords: ["codes OBD2 français", "codes OBD II", "diagnóstico du véhicule", "luz check engine", "code P0420", "code P0300"],
     alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {
       title: "Recherche de codes OBD-II gratuit",
-      description: "Décode n’importe quel code de problema OBD-II. Síntomas, causas, severidad et coût de réparation — todo gratuit.",
+      description: "Décode n’importe quel code de problema OBD-II. Ouintomas, causas, sévérité et coût de réparation — todo gratuit.",
       url: alt.canonical,
       type: "website",
       locale: "fr_US",

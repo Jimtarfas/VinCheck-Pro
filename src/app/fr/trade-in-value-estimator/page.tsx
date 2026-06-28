@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/reprise-value-estimator`;
 const alt = hreflangAlternatesForLocale("/reprise-value-estimator", "fr");
 const title = "Estimador de valeur de intercambio — Cuánto vale mi auto? (Gratuit)";
 const description =
-  "Estimador gratuit de valeur de intercambio. Ingresa année, marque, modelo, kilométrage, condición et historique de ta véhicule pour estimar instantanément le valeur de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et valeur de enchère.";
+  "Estimador gratuit de valeur de intercambio. Entre année, marque, modelo, kilométrage, condition et historique de ta véhicule pour estimar instantanément le valeur de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et valeur de enchère.";
 
 export const metadata: Metadata = {
   title,
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description:
-      "Calculateur gratuit de valeur de intercambio. Ve les valeures de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et enchère basadeux en année, marque, kilométrage, condición e historique.",
+      "Calculateur gratuit de valeur de intercambio. Ve les valeures de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et enchère basadeux en année, marque, kilométrage, condition e historique.",
   },
   robots: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
 };
@@ -62,19 +62,19 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Estimador de valeur de intercambio",
   description:
-    "Estimador gratuit de valeur de intercambio. Ingresa année, marque, modelo, kilométrage, condición, état de titre et historique de accidents pour obtener estimaciones de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et valeur de enchère.",
+    "Estimador gratuit de valeur de intercambio. Entre année, marque, modelo, kilométrage, condition, état de titre et historique de accidents pour obtener estimaciones de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et valeur de enchère.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
-    "Estimación de vente particular",
-    "Estimación de intercambio en concessionnaire",
-    "Estimación de oferta de efectivo instantanée",
+    "Estimation de vente particular",
+    "Estimation de intercambio en concessionnaire",
+    "Estimation de oferta de efectivo instantanée",
     "Valor de enchère / mayoreo",
-    "30 marques avec tasas de retención específicas",
-    "Multiplicadores de condición (Excelente a Pobre)",
-    "Deducciones par marque de titre (Récupération, Inundación, Reconstruido)",
+    "30 marques avec tasas de rétention específicas",
+    "Multiplicadores de condition (Excelente a Pobre)",
+    "Deducciones par marque de titre (Récupération, Inonnndation, Reconstruido)",
     "Ajustes par historique de accidents et propriétaires",
     "Desglose de valeur paso a paso",
   ],
@@ -98,25 +98,25 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Ingresa les detalles du véhicule",
-      text: "Selecciona le année, marque, modelo, tipo de carrocería et MSRP original. Le precio de etiqueta original ancla le cálculo de dépréciation.",
+      name: "Entre les detalles du véhicule",
+      text: "Sélectionne le année, marque, modelo, tipo de carrosêtreie et MSRP original. Le precio de etiqueta original ancla le cálculo de dépréciation.",
     },
     {
       "@type": "HowToStep",
       position: 2,
-      name: "Ingresa le kilométrage et la condición",
-      text: "Escribe la lectura actual du odomètre et selecciona la calificación de condición de Excelente a Pobre. La condición es la variable plus grande en la valeuración de voitures d’occasion.",
+      name: "Entre le kilométrage et la condition",
+      text: "Escribe la lectura actual du odomètre et sélectionne la nonnte de condition de Excelente a Pobre. La condition es la variable plus grand en la valeuración de voitures d’occasion.",
     },
     {
       "@type": "HowToStep",
       position: 3,
       name: "Agrega le historique du véhicule",
-      text: "Selecciona le état du titre (limpio, récupération, reconstruido, inundación, etc.), numéro de accidents reportadeux et numéro de propriétaires anteriores. Cada uno reduce le valeur en un porcentaje específico.",
+      text: "Sélectionne le état du titre (limpio, récupération, reconstruido, inonnndation, etc.), numéro de accidents reportadeux et numéro de propriétaires anteriores. Cada unonn reduce le valeur en un porcentaje específico.",
     },
     {
       "@type": "HowToStep",
       position: 4,
-      name: "Obtén ta estimación",
+      name: "Obtiens ta estimation",
       text: "Haz clic en 'Estimar valeur de intercambio' pour ver les valeures de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et enchère — adeplus de un desglose paso a paso de cada ajuste.",
     },
   ],
@@ -139,7 +139,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Estimador de valeur de intercambio",
   description:
-    "Aprende comment se calculan les valeures de intercambio, les 4 formas de vender ta auto, comment afecta la dépréciation al valeur et qué reduce le valeur de ta véhicule.",
+    "Apprends comment se calculan les valeures de intercambio, les 4 formas de vender ta auto, comment afecta la dépréciation al valeur et qué reduce le valeur de ta véhicule.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",

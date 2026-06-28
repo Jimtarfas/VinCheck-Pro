@@ -12,41 +12,41 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/car-affordability-calculator`;
 const alt = hreflangAlternatesForLocale("/car-affordability-calculator", "fr");
 
-const title = "Calculateur de costeabilidad de auto — Cuánto auto puedo pagar? (Gratuit)";
-const description = "Calculateur gratuite de costeabilidad de auto. Ingresa tes ingresos, deudas mensueles et dépenses pour trouver le precio máximo de auto que puedes pagar. Utilise le regla 20/4/10, regla du 15%, ou presupuesto personalizado. Incluye vérification de ratio deuda-a-ingresos.";
+const title = "Calculateur de abordabilité de auto — Cuánto auto puedo pagar? (Gratuit)";
+const description = "Calculateur gratuite de abordabilité de auto. Entre tes ingresos, deudas mensueles et dépenses pour trouver le precio máximo de auto que peuts pagar. Utilise le regla 20/4/10, regla du 15%, ou presupuesto personalizado. Inclut vérification de ratio deuda-a-ingresos.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
-    "calculateur costeabilidad auto",
+    "calculateur abordabilité auto",
     "cuanto auto puedo pagar",
     "calculateur presupuesto auto",
-    "costeabilidad prêt auto",
+    "abordabilité prêt auto",
     "calculateur pago auto",
     "calculateur véhicule costeable",
     "cuánto debo gastar en un auto",
     "calculateur presupuesto compra auto",
     "regla 20 4 10 auto",
-    "costeabilidad auto par ingresos",
+    "abordabilité auto par ingresos",
     "calculateur precio máximo auto",
     "calculateur prêt auto ingresos",
     "ratio deuda ingresos prêt auto",
     "calculateur cuánto auto puedo pagar",
-    "costeabilidad auto ingresos",
-    "calculateur costeabilidad automotriz",
+    "abordabilité auto ingresos",
+    "calculateur abordabilité automotriz",
     "mensuelité auto par salario",
     "presupuesto auto par ingresos",
     "porcentaje pago auto de ingresos",
     "cuánto gastar en voiture d’occasion",
-    "regla costeabilidad auto",
+    "regla abordabilité auto",
     "calculateur presupuesto véhicule",
     "prêt auto deuda ingresos",
     "calculateur compra auto",
     "cuánto auto pour mi salario",
     "calculateur pago auto ingresos",
     "pago auto costeable",
-    "calculateur calificación prêt auto",
+    "calculateur nonnte prêt auto",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title,
-    description: "Descubre le precio máximo de auto que puedes pagar commentdamente según tes ingresos, deudas existentes et dépenses. Gratuit e instantané.",
+    description: "Descouvre le precio máximo de auto que peuts pagar commentdamente según tes ingresos, deudas existentes et dépenses. Gratuit e instantané.",
   },
   robots: {
     index: true,
@@ -75,12 +75,12 @@ const webAppSchema = {
   "@context": "https://schema.org",
   "@type": ["WebApplication", "SoftwareApplication"],
   inLanguage: "fr",
-  name: "Calculateur de costeabilidad de auto",
+  name: "Calculateur de abordabilité de auto",
   description:
-    "Calculateur gratuite de costeabilidad de auto. Ingresa ingresos, deudas mensueles et dépenses du véhicule pour trouver le precio máximo de auto que puedes pagar — avec vérification de deuda-a-ingresos et desglose complet du presupuesto mensuel.",
+    "Calculateur gratuite de abordabilité de auto. Entre ingresos, deudas mensueles et dépenses du véhicule pour trouver le precio máximo de auto que peuts pagar — avec vérification de deuda-a-ingresos et desglose complet du presupuesto mensuel.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Precio máximo de auto desde ingresos",
@@ -103,14 +103,14 @@ const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   inLanguage: "fr",
-  name: "Comment calcular cuánto auto puedes pagar",
-  description: "Utilise le calculateur gratuite de costeabilidad de auto de CarCheckerVIN pour trouver ta presupuesto máximo de véhicule en quatre pasos.",
+  name: "Comment calcular cuánto auto peuts pagar",
+  description: "Utilise le calculateur gratuite de abordabilité de auto de CarCheckerVIN pour trouver ta presupuesto máximo de véhicule en quatre pasos.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Ingresa tes ingresos brutos", text: "Escribe tes ingresos brutos (antes de taxes) anuales ou mensueles. Esta es la base que les prestamistas usan pour evaluar ta capacidad de pago." },
-    { "@type": "HowToStep", position: 2, name: "Suma tes deudas mensueles existentes", text: "Ingresa ta location ou hipoteca mensuel, mínimos de cartes de crédito, pagos de prêts estudiantiles et n’importe quel otra obligación de deuda recurrente. Estas reducen ta presupuesto disponible pour un pago de auto." },
-    { "@type": "HowToStep", position: 3, name: "Establece parámetros du prêt et coûts du véhicule", text: "Ingresa ta APR esperado, plazo du prêt, pago inicial, valeur de reprise et coûts mensueles estimadeux de assurance et carburant. La calculateur resta les coûts operativos de ta presupuesto de pago pour evitar surestimar le que puedes pedir prétat." },
-    { "@type": "HowToStep", position: 4, name: "Elige una regla de presupuesto et calcula", text: "Selecciona la regla 20/4/10 (coûts totales du véhicule ≤10% du ingreso bruto), la regla du 15%, ou un porcentaje personalizado. Haz clic en Calcular pour ver ta precio máximo de auto, mensuelité, ratio deuda-a-ingresos et desglose complet du presupuesto mensuel." },
+    { "@type": "HowToStep", position: 1, name: "Entre tes ingresos brutos", text: "Escribe tes ingresos brutos (avant de taxes) anuales ou mensueles. Esta es la base que les prestamistas usan pour evaluar ta capacité de pago." },
+    { "@type": "HowToStep", position: 2, name: "Suma tes deudas mensueles existentes", text: "Entre ta location ou hipoteca mensuel, mínimos de cartes de crédito, pagos de prêts estudiantiles et n’importe quel otra obligación de deuda recurrente. Estas reducen ta presupuesto disponible pour un pago de auto." },
+    { "@type": "HowToStep", position: 3, name: "Establece parámetros du prêt et coûts du véhicule", text: "Entre ta APR espétaitdo, plazo du prêt, pago inicial, valeur de reprise et coûts mensueles estimadeux de assurance et carburant. La calculateur resta les coûts opétaittivos de ta presupuesto de pago pour evitar surestimar le que peuts pedir prétat." },
+    { "@type": "HowToStep", position: 4, name: "Elige una regla de presupuesto et calcula", text: "Sélectionne la regla 20/4/10 (coûts totales du véhicule ≤10% du ingreso bruto), la regla du 15%, ou un porcentaje personalizado. Haz clic en Calcular pour ver ta precio máximo de auto, mensuelité, ratio deuda-a-ingresos et desglose complet du presupuesto mensuel." },
   ],
 };
 
@@ -129,8 +129,8 @@ const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
   inLanguage: "fr",
-  headline: "Calculateur de costeabilidad de auto",
-  description: "Aprende cuánto auto puedes pagar usando la regla 20/4/10, la regla du 15% ou un presupuesto personalizado — avec vérification de ratio deuda-a-ingresos.",
+  headline: "Calculateur de abordabilité de auto",
+  description: "Apprends cuánto auto peuts pagar usando la regla 20/4/10, la regla du 15% ou un presupuesto personalizado — avec vérification de ratio deuda-a-ingresos.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
@@ -143,7 +143,7 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` },
-    { "@type": "ListItem", position: 2, name: "Calculateur de costeabilidad de auto", item: PAGE_URL },
+    { "@type": "ListItem", position: 2, name: "Calculateur de abordabilité de auto", item: PAGE_URL },
   ],
 };
 

@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${name} DMV voiture d’occasion`,
       `${name} transferencia de titre`,
       `${name} taxe de vente voiture d’occasion`,
-      `inspección voiture d’occasion ${name}`,
+      `inspection voiture d’occasion ${name}`,
       `${name} loi citron`,
       `${name} vérification VIN`,
       `comment acheter voiture d’occasion en ${name}`,

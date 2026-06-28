@@ -8,14 +8,14 @@ const PAGE_URL = `${SITE}/fr/locationl-car-check`;
 const alt = hreflangAlternatesForLocale("/locationl-car-check", "fr");
 const title = "Verificaci\u00f3n de historique de auto de location par VIN — \u00bfFue este auto de location?";
 const description =
-  "Revisa si un voiture d’occasion fue previamente un veh\u00edculo de location par VIN. Encuentra historique de flota, uso de location de alto kilométrage et propiedad comercial anterior antes de acheter.";
+  "Revisa si un voiture d’occasion a été previamente un veh\u00edculo de location par VIN. Trouve historique de flota, uso de location de haut kilométrage et propriété comercial anterior avant de acheter.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
     "verificaci\u00f3n historique auto location",
-    "fue este auto de location",
+    "a été este auto de location",
     "historique flota VIN",
     "verificaci\u00f3n VIN auto location",
     "veh\u00edculo ex-location",

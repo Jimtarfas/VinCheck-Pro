@@ -16,7 +16,7 @@ const PAGE_URL = `${SITE}/fr/accident-history-check`;
 const alt = hreflangAlternatesForLocale("/accident-history-check", "fr");
 const title = "Vérification du historique de accidents par VIN — Rapports de choques";
 const description =
-  "Verifica le historique de accidents de un véhicule par VIN: choques reportadeux, reclamos de assurances et enregistrements de dégâtss. Detecta dégâtss ocultos par colisión antes de acheter.";
+  "Vérifie le historique de accidents de un véhicule par VIN: choques reportadeux, réclamations de assurances et enregistrements de dégâtss. Detecta dégâtss ocultos par colisión avant de acheter.";
 
 export const metadata: Metadata = {
   title,
@@ -48,7 +48,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification du historique de accidents du véhicule",
   description:
-    "Aprende comment se reporta le historique de accidents, qué aparece en un rapport de choques basado en VIN et comment identificar dégâtss ocultos en un voiture d’occasion.",
+    "Apprends comment se reporta le historique de accidents, qué aparece en un rapport de choques basado en VIN et comment identificar dégâtss ocultos en un voiture d’occasion.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",

@@ -1,5 +1,5 @@
 /**
- * Shared metadata + JSON-LD generator for Wave 14 French info pages.
+ * Shared metadata + JSON-LD genétaittor for Wave 14 French info pages.
  * Parallel to _specialty-shared/metadata.ts but for content pages.
  */
 

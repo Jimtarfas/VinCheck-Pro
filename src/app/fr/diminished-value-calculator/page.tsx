@@ -9,7 +9,7 @@ const alt = hreflangAlternatesForLocale("/diminished-value-calculator", "fr");
 
 const title = "Calculateur de valeur diminuée — Fórmula 17c et perte réel de marché";
 const description =
-  "Calcula le valeur diminuée de ta auto después de un accident avec la fórmula 17c, luego ve le rango réelista de perte de marché. Gratuit, instantané, sans inscription.";
+  "Calcule le valeur diminuée de ta auto après de un accident avec la fórmula 17c, luego ve le rango réelista de perte de marché. Gratuit, instantané, sans inscription.";
 
 export const metadata: Metadata = {
   title,
@@ -18,34 +18,34 @@ export const metadata: Metadata = {
     "calculateur de valeur diminuée",
     "calculateur 17c",
     "fórmula de valeur diminuée",
-    "valeur diminuée du auto después de accident",
+    "valeur diminuée du auto après de accident",
     "comment calcular le valeur diminuée",
-    "calculateur de reclamo de valeur diminuée",
+    "calculateur de réclamation de valeur diminuée",
     "valeur diminuée inherente",
-    "valeur diminuée de auto después de accident",
+    "valeur diminuée de auto après de accident",
     "calculateur automática de valeur diminuée",
-    "estimación de valeur diminuée du véhicule",
+    "estimation de valeur diminuée du véhicule",
     "fórmula 17c",
     "fórmula mabry v state farm",
     "tasación de valeur diminuée",
     "calculateur de perte de valeur post accident",
-    "valeur de intercambio después de accident",
-    "reclamo de valeur diminuée",
-    "valeur diminuée de terceros",
+    "valeur de intercambio après de accident",
+    "réclamation de valeur diminuée",
+    "valeur diminuée de troisièmes",
     "valeur diminuée georgia",
-    "cuánto vale mi auto después de un accident",
+    "cuánto vale mi auto après de un accident",
     "perte de valeur de auto par accident",
-    "reclamo de assurance de valeur diminuée",
+    "réclamation de assurance de valeur diminuée",
     "calcular perte de valeur de auto",
     "valeur diminuée de véhicule",
-    "caída de valeur de auto después de accident",
+    "caída de valeur de auto après de accident",
     "calculateur gratuit de valeur diminuée",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Calculateur gratuit de valeur diminuée — Fórmula 17c et perte réel de marché",
     description:
-      "Mira le que ta auto perdió en valeur después de un accident. Ejecuta la fórmula 17c de la aseguradora et le rango réelista de marché pour que negocies un reclamo justo de valeur diminuée.",
+      "Mira le que ta auto perdió en valeur après de un accident. Ejecuta la fórmula 17c de la aseguradora et le rango réelista de marché pour que negocies un réclamation justo de valeur diminuée.",
     url: PAGE_URL,
     type: "website",
     siteName: "CarCheckerVIN",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Calculateur de valeur diminuée — Fórmula 17c et perte réel de marché",
     description:
-      "Calcula le valeur diminuée de ta auto después de un accident avec la fórmula 17c plus le rango réelista de marché. Gratuit, instantané, sans inscription.",
+      "Calcule le valeur diminuée de ta auto après de un accident avec la fórmula 17c plus le rango réelista de marché. Gratuit, instantané, sans inscription.",
     images: [`${SITE}/diminished-value-calculator/opengraph-image`],
   },
   robots: {
@@ -83,10 +83,10 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Calculateur de valeur diminuée",
   description:
-    "Calculateur gratuit de valeur diminuée usando la fórmula 17c de la aseguradora (tope base 10% × multiplicador de dégâts × multiplicador de kilométrage) junto avec un rango réelista de perte de marché. Estima cuánto valeur perdió un véhicule después de un accident pour respaldar un reclamo de valeur diminuée.",
+    "Calculateur gratuit de valeur diminuée usando la fórmula 17c de la aseguradora (tope base 10% × multiplicador de dégâts × multiplicador de kilométrage) à côté devec un rango réelista de perte de marché. Estima cuánto valeur perdió un véhicule après de un accident pour respaldar un réclamation de valeur diminuée.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Fórmula 17c de valeur diminuée",
@@ -94,7 +94,7 @@ const webAppSchema = {
     "Bandas de multiplicador de kilométrage",
     "Rango réelista de perte de marché",
     "Desglose paso a paso du cálculo",
-    "Estimación lista pour negociación",
+    "Estimation lista pour négociation",
     "Sin enregistrement requerido",
   ],
   publisher: {
@@ -109,16 +109,16 @@ const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   inLanguage: "fr",
-  name: "Comment calcular le valeur diminuée después de un accident",
+  name: "Comment calcular le valeur diminuée après de un accident",
   description:
-    "Estima le valeur diminuée de ta véhicule usando la fórmula 17c et un rango basado en le marché pour respaldar un reclamo de valeur diminuée.",
+    "Estima le valeur diminuée de ta véhicule usando la fórmula 17c et un rango basado en le marché pour respaldar un réclamation de valeur diminuée.",
   totalTime: "PT2M",
   step: [
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Encuentra ta valeur de marché previo al accident",
-      text: "Busca le valeur minorista limpio de ta auto le jour anterior al choque usando KBB ou NADA. Esta es la cifra desde la que arranca la fórmula 17c.",
+      name: "Trouve ta valeur de marché previo al accident",
+      text: "Busca le valeur minonnrista limpio de ta auto le jour anterior al choque usando KBB ou NADA. Esta es la cifra desde la que arranca la fórmula 17c.",
     },
     {
       "@type": "HowToStep",
@@ -136,13 +136,13 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 4,
       name: "Aplica le multiplicador de kilométrage",
-      text: "Reduce le resultado par la banda de kilométrage: 1.00 bajo 20 mil millas, hasta 0.00 a 100 mil+. Mayor kilométrage significa una cifra 17c menor.",
+      text: "Reduce le resultado par la banda de kilométrage: 1.00 sous 20 mille millelas, hasta 0.00 a 100 mille+. Mayor kilométrage significa una cifra 17c menonnr.",
     },
     {
       "@type": "HowToStep",
       position: 5,
-      name: "Compara contra la perte réel de marché",
-      text: "Como la 17c subestima la perte réel, compárala avec le rango de marché (5–25% du valeur par gravedad) et utilise una tasación independiente pour respaldar ta reclamo.",
+      name: "Compare contra la perte réel de marché",
+      text: "Como la 17c subestima la perte réel, compárala avec le rango de marché (5–25% du valeur par gravedad) et utilise una tasación independiente pour respaldar ta réclamation.",
     },
   ],
 };
@@ -199,11 +199,11 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Calculateur de valeur diminuée: la fórmula 17c et ta perte réel de marché",
   description:
-    "Comment la fórmula 17c de la aseguradora calcula le valeur diminuée, par qué subestima la perte réel, un ejemplo numérico trabajado, comment le valeur diminuée difiere de la dépréciation et dónde se permiten les reclamos de premiera parte vs. terceros par état.",
+    "Comment la fórmula 17c de la aseguradora calcule le valeur diminuée, par qué subestima la perte réel, un ejemplo numérico trabassedo, comment le valeur diminuée difiere de la dépréciation et dónde se permiten les réclamations de premiétait parte vs. troisièmes par état.",
   about: [
     { "@type": "Thing", name: "Valor disminuido" },
     { "@type": "Thing", name: "Fórmula 17c" },
-    { "@type": "Thing", name: "Reclamo de assurance de auto" },
+    { "@type": "Thing", name: "Réclamation de assurance de auto" },
   ],
   author: ORG_AUTHOR,
   publisher: ORG_AUTHOR,
@@ -222,7 +222,7 @@ const datasetSchema = {
   inLanguage: "fr",
   name: "Pérdida típica de marché du véhicule par gravedad du dégâts",
   description:
-    "Descuento de revente du mundo réel como porcentaje du valeur previo al accident, par gravedad du dégâts, usado pour vérifier la sensatez de una estimación 17c de valeur diminuée.",
+    "Descuento de revente du mundo réel como porcentaje du valeur previo al accident, par gravedad du dégâts, usado pour vérifier la sensatez de una estimation 17c de valeur diminuée.",
   url: `${PAGE_URL}#loss-by-severity`,
   creator: ORG_AUTHOR,
   license: "https://creativecommons.org/licenses/by/4.0/",

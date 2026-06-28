@@ -12,7 +12,7 @@ const PAGE_URL = `${SITE}/fr/plate-to-vin`;
 const alt = hreflangAlternatesForLocale("/plate-to-vin", "fr");
 const title = "Placa a VIN — Convierte n’importe quel plaque étatunidense en un VIN gratuit";
 const description =
-  "Placa a VIN: ingresa una plaque et état pour obtener instantanément le VIN de 17 caracteres, année, marque, modelo et historique complet du véhicule. Gratuit, les 50 états.";
+  "Placa a VIN: entre una plaque et état pour obtener instantanément le VIN de 17 caracteres, année, marque, modelo et historique complet du véhicule. Gratuit, les 50 états.";
 
 export const metadata: Metadata = {
   title: { absolute: `${title} | CarCheckerVIN` },
@@ -38,10 +38,10 @@ const webAppSchema = {
   "@type": ["WebApplication", "SoftwareApplication"],
   inLanguage: "fr",
   name: "Placa a VIN",
-  description: "Herramienta gratuite de plaque a VIN. Ingresa n’importe quel numéro de plaque étatunidense et état pour recuperar instantanément le VIN, les detalles décodedeux du véhicule et un rapport complet de historique.",
+  description: "Herramienta gratuite de plaque a VIN. Entre n’importe quel numéro de plaque étatunidense et état pour recupétaitr instantanément le VIN, les detalles décodedeux du véhicule et un rapport complet de historique.",
   url: PAGE_URL,
   applicationCategory: "AutomotiveApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
 };

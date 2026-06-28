@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Blog CarCheckerVIN — Compra de voitures d’occasion, VIN et historique de véhicule",
     description:
-      "Guías expertas en compra de voitures d’occasion, décodeción VIN, historique de véhicule, marques de titre et prevención de fraude. Datos NMVTIS, NICB et NHTSA.",
+      "Guías expertas en compra de voitures d’occasion, décodage VIN, historique de véhicule, marques de titre et prévention de fraude. Datos NMVTIS, NICB et NHTSA.",
     keywords: [
       "blog VIN check français",
       "guide compra voiture d’occasion",
@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Blog CarCheckerVIN — Compra de voitures d’occasion et historique VIN",
       description:
-        "Guías expertas en compra de voitures d’occasion, VIN, historique de véhicule et prevención de fraude.",
+        "Guías expertas en compra de voitures d’occasion, VIN, historique de véhicule et prévention de fraude.",
       url: `${SITE}/fr/blog`,
       type: "website",
       locale: "fr_US",
@@ -66,7 +66,7 @@ export default async function BlogIndexPageEs() {
     name: "Blog CarCheckerVIN",
     url: `${SITE}/fr/blog`,
     description:
-      "Guías expertas en compra de voitures d’occasion, VIN, historique de véhicule et prevención de fraude.",
+      "Guías expertas en compra de voitures d’occasion, VIN, historique de véhicule et prévention de fraude.",
     publisher: {
       "@type": "Organization",
       name: "CarCheckerVIN",

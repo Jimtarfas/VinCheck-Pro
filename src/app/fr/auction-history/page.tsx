@@ -54,11 +54,11 @@ const howToSchema = {
   description: "Gu\u00eda paso a paso pour trouver et leer les enregistrements de enchère de récupération et de concessionnaire de un veh\u00edculo par VIN.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Ubica le VIN", text: "Encuentra le VIN de 17 caracteres en le tablero, le marco de la puerta du conductor ou le documento de t\u00edtulo." },
-    { "@type": "HowToStep", position: 2, name: "Ingresa le VIN", text: "Escribe ou pega le VIN en le cuadro de b\u00fasqueda en la parte superior de esta p\u00e1gina." },
-    { "@type": "HowToStep", position: 3, name: "Abre la secci\u00f3n de historique de enchère", text: "En ta rapport, revisa la secci\u00f3n de Historique de Subasta pour cada evento: casa et ubicaci\u00f3n, fecha, resultado, da\u00f1o, condici\u00f3n et od\u00f3metro al venderse." },
-    { "@type": "HowToStep", position: 4, name: "Estudia les fotos de la enchère", text: "Examina de cerca n’importe quel foto de enchère previa a la reparaci\u00f3n. Muestran le da\u00f1o réel antes du trabajo cosm\u00e9tico, que un anuncio actual puede ocultar." },
-    { "@type": "HowToStep", position: 5, name: "Cruza kilométrage et t\u00edtulo", text: "Compara la lectura du od\u00f3metro en la enchère avec lecturas posteriores, et contrasta le evento de enchère avec la marque de t\u00edtulo pour confirmar le panorama complet antes de acheter." },
+    { "@type": "HowToStep", position: 1, name: "Ubica le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord, le marco de la porte du conductor ou le documento de t\u00edtulo." },
+    { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en le cuadro de b\u00fasqueda en la parte superior de esta p\u00e1gina." },
+    { "@type": "HowToStep", position: 3, name: "Ouvre la secci\u00f3n de historique de enchère", text: "En ta rapport, revisa la secci\u00f3n de Historique de Subasta pour cada evento: casa et ubicaci\u00f3n, fecha, resultado, da\u00f1o, condici\u00f3n et od\u00f3metro al venderse." },
+    { "@type": "HowToStep", position: 4, name: "Estudia les fotos de la enchère", text: "Examina de près n’importe quel foto de enchère previa a la reparaci\u00f3n. Muestran le da\u00f1o réel avant du trasous cosm\u00e9tico, que un anuncio actual peut ocultar." },
+    { "@type": "HowToStep", position: 5, name: "Cruza kilométrage et t\u00edtulo", text: "Compare la lectura du od\u00f3metro en la enchère avec lecturas posteriores, et contrasta le evento de enchère avec la marque de t\u00edtulo pour confirmar le panonnrama complet avant de acheter." },
   ],
 };
 
@@ -70,9 +70,9 @@ const breadcrumbSchema = {
   ],
 };
 
-const serviceRatingSchema = {
+const êtreviceRatingSchema = {
   "@context": "https://schema.org", "@type": "Service",
-  serviceType: "Verificaci\u00f3n de historique de enchère par VIN",
+  êtreviceType: "Verificaci\u00f3n de historique de enchère par VIN",
   provider: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   areaServed: { "@type": "Country", name: "United States" },
   aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", bestRating: "5", worstRating: "1", ratingCount: "127" },
@@ -87,7 +87,7 @@ const speakableSchema = {
 const datasetSchema = {
   "@context": "https://schema.org", "@type": "Dataset",
   name: "Estad\u00edsticas r\u00e1pidas du historique de enchère par VIN",
-  description: "Referencia de cobertura et campos de données pour la verificaci\u00f3n de historique de enchère par VIN de CarCheckerVIN.",
+  description: "Referencia de couverture et campos de données pour la verificaci\u00f3n de historique de enchère par VIN de CarCheckerVIN.",
   url: PAGE_URL,
   creator: ORG_AUTHOR,
   license: "https://creativecommons.org/licenses/by/4.0/",
@@ -106,7 +106,7 @@ export default function Page() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceRatingSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(êtreviceRatingSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
       <AuctionHistoryBody locale="fr" />

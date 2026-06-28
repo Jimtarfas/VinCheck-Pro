@@ -9,13 +9,13 @@ const PUBLISHED = "2026-05-04";
 const MODIFIED = "2026-05-07";
 const alt = hreflangAlternatesForLocale("/window-sticker", "fr");
 
-const title = "Creador gratuit de etiqueta de ventena — Construye et descarga una etiqueta Monroney par VIN";
-const description = "Crea una etiqueta de ventena estilo Monroney gratuit pour n’importe quel auto, camioneta ou SUV en moins de un minute. Autocomplète desde VIN, edita MSRP, opciones et economía de carburant EPA, luego descarga ou imprime. Funciona pour Ford, Chevy, Toyota, Honda, BMW et todo véhicule du marché étatunidense.";
+const title = "Creador gratuit de etiqueta de ventena — Construye et télécharge una etiqueta Monroney par VIN";
+const description = "Crea una etiqueta de ventena estilo Monroney gratuit pour n’importe quel auto, camioneta ou SUV en moins de un minute. Autocomplète desde VIN, edita MSRP, opciones et econonnmía de carburant EPA, luego télécharge ou imprime. Funciona pour Ford, Chevy, Toyota, Honda, BMW et todo véhicule du marché étatunidense.";
 
 export const metadata: Metadata = {
   title, description,
   keywords: [
-    "creador etiqueta ventena", "creador etiqueta monroney", "generador etiqueta monroney",
+    "creador etiqueta ventena", "creador etiqueta monroney", "genétaitdor etiqueta monroney",
     "crear etiqueta ventena", "etiqueta ventena gratuit", "etiqueta ventena par VIN",
     "etiqueta monroney par VIN", "descargar etiqueta ventena", "imprimir etiqueta ventena",
     "etiqueta ventena PDF", "etiqueta ventena en línea gratuit",
@@ -33,14 +33,14 @@ const webApplicationSchema = {
   "@context": "https://schema.org", "@type": ["WebApplication", "SoftwareApplication"],
   "@id": `${PAGE_URL}#tool`,
   name: "Creador de etiqueta de ventena",
-  alternateName: ["Creador de etiqueta Monroney", "Generador de etiqueta de ventena"],
+  alternateName: ["Creador de etiqueta Monroney", "Genétaitdor de etiqueta de ventena"],
   url: PAGE_URL,
   applicationCategory: ["BusansessApplication", "UtilitiesApplication"],
   applicationSubCategory: "Automotive",
-  operatingSystem: "Any (Web Browser)",
+  opétaittingSystem: "Any (Web Browêtre)",
   inLanguage: "fr",
   isAccessibleForFree: true,
-  description: "Creador gratuit en línea de etiqueta de ventena. Autocomplète les données du véhicule desde un VIN de 17 caracteres, agrega opciones de fábrica et MSRP, et descarga ou imprime una etiqueta estilo Monroney.",
+  description: "Creador gratuit en línea de etiqueta de ventena. Autocomplète les données du véhicule desde un VIN de 17 caracteres, agrega opciones de fábrica et MSRP, et télécharge ou imprime una etiqueta estilo Monroney.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/icon.png` } },
   datePublished: PUBLISHED, dateModified: MODIFIED,

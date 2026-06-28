@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { absolute: "Vérification Loi Citron par VIN — Recherche de rachat gratuit, 50 états" },
     description:
-      "Vérification gratuit de Loi Citron par VIN. Encuentra marques de rachat du fabricante et rachats par Loi Citron en les 50 états. Respaldado par NMVTIS e instantané — sans inscription.",
+      "Vérification gratuit de Loi Citron par VIN. Trouve marques de rachat du fabricante et rachats par Loi Citron en les 50 états. Respaldado par NMVTIS e instantané — sans inscription.",
     keywords: [
       "vérification Loi Citron VIN", "este auto es un citron", "rachat Loi Citron",
       "VIN Loi Citron check", "Californie Loi Citron", "Texas Loi Citron", "Florida Loi Citron",

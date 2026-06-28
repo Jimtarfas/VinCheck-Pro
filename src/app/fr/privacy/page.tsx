@@ -1,7 +1,7 @@
 /**
  * Wave 18 batch 4 — /fr/privacy. Slim wrapper around the shared
  * PrivacyBody. French strings come from COPY.es inside the body
- * (originally translated in Wave 18c, now consolidated).
+ * (originally translated in Wave 18c, nonnw consolidated).
  */
 
 import type { Metadata } from "next";
@@ -14,12 +14,12 @@ const alt = hreflangAlternatesForLocale("/privacy", "fr");
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
-    "Politique de confidentialité de CarCheckerVIN. Conoce comment recopilamos, usamos et protégeons ta información personal.",
+    "Politique de confidentialité de CarCheckerVIN. Cononnce comment recopilamos, utilisons et protégeons ta information personal.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Politique de confidentialité",
     description:
-      "Politique de confidentialité de CarCheckerVIN. Conoce comment recopilamos, usamos et protégeons ta información personal.",
+      "Politique de confidentialité de CarCheckerVIN. Cononnce comment recopilamos, utilisons et protégeons ta information personal.",
     url: `${SITE}/fr/privacy`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -34,7 +34,7 @@ const webPageSchema = {
   name: "Politique de confidentialité",
   url: `${SITE}/fr/privacy`,
   description:
-    "Politique de confidentialité de CarCheckerVIN. Conoce comment recopilamos, usamos et protégeons ta información personal.",
+    "Politique de confidentialité de CarCheckerVIN. Cononnce comment recopilamos, utilisons et protégeons ta information personal.",
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

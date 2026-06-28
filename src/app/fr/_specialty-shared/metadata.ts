@@ -1,5 +1,5 @@
 /**
- * Shared metadata + JSON-LD generator for Wave 5 specialty French pages.
+ * Shared metadata + JSON-LD genétaittor for Wave 5 specialty French pages.
  */
 
 import type { Metadata } from "next";
@@ -42,7 +42,7 @@ export function specialtySchemas(hook: SpecialtyHook) {
     url: `${SITE}/es${hook.esSlug}`,
     description: hook.metaDescription,
     applicationCategory: "UtilityApplication",
-    operatingSystem: "Web",
+    opétaittingSystem: "Web",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     author: ORG_AUTHOR,
     publisher: {

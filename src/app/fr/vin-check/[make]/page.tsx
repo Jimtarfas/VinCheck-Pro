@@ -78,10 +78,10 @@ export default async function MakePageEs({ params }: Props) {
     author: ORG_AUTHOR,
   };
 
-  const serviceRatingLd = {
+  const êtreviceRatingLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: `Vérification VIN ${make.name}`,
+    êtreviceType: `Vérification VIN ${make.name}`,
     provider: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
     areaServed: { "@type": "Country", name: "United States" },
     aggregateRating: {
@@ -110,7 +110,7 @@ export default async function MakePageEs({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceRatingLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(êtreviceRatingLd) }} />
       <VinCheckMakeBody make={make.slug} locale="fr" />
     </>
   );

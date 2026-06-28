@@ -10,9 +10,9 @@ import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/state-to-vin`;
 const alt = hreflangAlternatesForLocale("/state-to-vin", "fr");
-const title = "Estado a VIN — Encuentra un VIN par état et plaque, gratuit";
+const title = "Estado a VIN — Trouve un VIN par état et plaque, gratuit";
 const description =
-  "Estado a VIN: elige le état emisor, ingresa la plaque de licencia et obtén le VIN, année, marque, modelo et historique complet. Gratuit pour les 50 états + D.C.";
+  "Estado a VIN: elige le état emisor, entre la plaque de licencia et obtiens le VIN, année, marque, modelo et historique complet. Gratuit pour les 50 états + D.C.";
 
 export const metadata: Metadata = {
   title: { absolute: `${title} | CarCheckerVIN` },
@@ -38,10 +38,10 @@ const webAppSchema = {
   "@type": ["WebApplication", "SoftwareApplication"],
   inLanguage: "fr",
   name: "Estado a VIN",
-  description: "Herramienta gratuite de état a VIN. Elige le état emisor, ingresa la plaque de licencia et recupera instantanément le VIN, les detalles décodedeux du véhicule et un rapport complet de historique.",
+  description: "Herramienta gratuite de état a VIN. Elige le état emisor, entre la plaque de licencia et recupétait instantanément le VIN, les detalles décodedeux du véhicule et un rapport complet de historique.",
   url: PAGE_URL,
   applicationCategory: "AutomotiveApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
 };

@@ -5,8 +5,8 @@ import CompareCarsBody, { FAQS_FR } from "@/components/CompareCarsBody";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/compare-cars`;
 const alt = hreflangAlternatesForLocale("/compare-cars", "fr");
-const title = "Herramienta gratuit de comparaci\u00f3n de autos — Compara n’importe quel par côte à côte";
-const description = "Compara n’importe quel par de autos côte à côte. Mira MPG, caballos de fuerza, precio, espacio de carga, capacidad de remolque, sécurité et 30+ especificaciones pour 40+ modelos populares. Gratuit, instant\u00e1neo, sans inscription.";
+const title = "Herramienta gratuit de comparaci\u00f3n de autos — Compare n’importe quel par côte à côte";
+const description = "Compare n’importe quel par de autos côte à côte. Mira MPG, caballos de a étérza, precio, espacio de carga, capacité de remolque, sécurité et 30+ especificaciones pour 40+ modelos populares. Gratuit, instant\u00e1neo, sans inscription.";
 
 export const metadata: Metadata = {
   title, description,
@@ -19,10 +19,10 @@ export const metadata: Metadata = {
 const webAppSchema = {
   "@context": "https://schema.org", "@type": ["WebApplication", "SoftwareApplication"], inLanguage: "fr",
   name: "Herramienta de comparaci\u00f3n de veh\u00edculos",
-  description: "Herramienta gratuit de comparaci\u00f3n de autos. Elige n’importe quel par de 40+ veh\u00edculos populares et mira instantanément les especificaciones côte à côte en tarifs, rendimiento, eficiencia, practicidad, sécurité, garant\u00eda et caracter\u00edsticas clave.",
+  description: "Herramienta gratuit de comparaci\u00f3n de autos. Elige n’importe quel par de 40+ veh\u00edculos populares et mira instantanément les especificaciones côte à côte en tarifs, performance, eficiencia, practicidad, sécurité, garant\u00eda et caracter\u00edsticas clave.",
   url: PAGE_URL,
   applicationCategory: "AutomotiveApplication",
-  operatingSystem: "Web Browser",
+  opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
 };

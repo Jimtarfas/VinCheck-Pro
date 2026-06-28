@@ -33,8 +33,8 @@ export async function generateMetadata({
   if (!mp) return {};
 
   const alt = hreflangAlternatesForLocale(`/marketplace-vin-check/${mp.slug}`, "fr");
-  const title = `Vérification VIN ${mp.name} — Verifica antes de acheter en ${mp.name}`;
-  const description = `Ejecuta una vérification VIN en n’importe quel véhicule publicado en ${mp.name}. Obtén un rapport complet de historique de véhicule antes de acheter — descubre accidents, problemas de titre et fraude de odomètre instantanément.`;
+  const title = `Vérification VIN ${mp.name} — Vérifie avant de acheter en ${mp.name}`;
+  const description = `Ejecuta una vérification VIN en n’importe quel véhicule publicado en ${mp.name}. Obtiens un rapport complet de historique de véhicule avant de acheter — descouvre accidents, problemas de titre et fraude de odomètre instantanément.`;
 
   return {
     title: { absolute: `${title} | CarCheckerVIN` },

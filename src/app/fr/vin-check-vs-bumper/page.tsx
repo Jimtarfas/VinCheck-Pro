@@ -12,16 +12,16 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/vin-check-vs-bumper`;
 const alt = hreflangAlternatesForLocale("/vin-check-vs-bumper", "fr");
 const title = "CarCheckerVIN vs Bumper: tarifs et características comparadeux";
-const description = "CarCheckerVIN vs Bumper comparadeux en precio, modelo de sescripción, monitoreo et profundidad du rapport. Mira par qué le pago par uso supera la sescripción de $19.99/mois de Bumper.";
+const description = "CarCheckerVIN vs Bumper comparadeux en precio, modelo de description, monitoreo et profondeur du rapport. Mira par qué le pago par uso supétait la description de $19.99/mois de Bumper.";
 
 export const metadata: Metadata = {
   title, description,
-  keywords: ["alternative bumper.com", "historique de véhicule bumper", "coût sescripción bumper", "bumper vs", "vale la pena bumper", "avis bumper", "vérification vin sans sescripción", "rapport vin pago par uso", "cancelar sescripción bumper"],
+  keywords: ["alternative bumper.com", "historique de véhicule bumper", "coût description bumper", "bumper vs", "vale la pena bumper", "avis bumper", "vérification vin sans description", "rapport vin pago par uso", "cancelar description bumper"],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: title, description: "Una comparaison côte à côte de CarCheckerVIN et Bumper cubriendo tarifs, modelo de sescripción, monitoreo continuo, contenideux du rapport et le caso de uso adecuado pour cada uno.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-26", dateModified: "2026-04-26" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: title, description: "Una comparaison côte à côte de CarCheckerVIN et Bumper cubriendo tarifs, modelo de description, monitoreo continuo, contenideux du rapport et le caso de uso adecuado pour cada unonn.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-26", dateModified: "2026-04-26" };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr", mainEntity: FAQS_FR.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

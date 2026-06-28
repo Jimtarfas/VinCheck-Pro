@@ -12,20 +12,20 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/classic-car-vin`;
 const alt = hreflangAlternatesForLocale("/classic-car-vin", "fr");
 const title = "Décodeur VIN de auto classique — Recherche de véhicules anteriores a 1981 (Gratuit)";
-const description = "Décode VINs de autos classiques et vintage anteriores a 1981 gratuit. Entiende les formatos VIN de GM, Ford, Chrysler et AMC, verifica numéros coincidentes et documenta especificaciones originales de fábrica antes de acheter.";
+const description = "Décode VINs de autos classiques et vintage anteriores a 1981 gratuit. Entiende les formatos VIN de GM, Ford, Chrysler et AMC, vérifie numéros coincidentes et documenta especificaciones originales de fábrica avant de acheter.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
-  keywords: ["décodeur VIN auto classique", "VIN auto vintage", "décodeción VIN anterior a 1981", "búsqueda VIN auto antiguo", "VIN véhicule antiguo", "vérification VIN numéros coincidentes"],
+  keywords: ["décodeur VIN auto classique", "VIN auto vintage", "décodage VIN anterior a 1981", "búsqueda VIN auto antiguo", "VIN véhicule antiguo", "vérification VIN numéros coincidentes"],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
-  twitter: { card: "summary_large_image", title, description: "Décode VINs de autos classiques et vintage anteriores a 1981. Entiende les formatos GM, Ford, Chrysler et AMC et verifica numéros coincidentes." },
+  twitter: { card: "summary_large_image", title, description: "Décode VINs de autos classiques et vintage anteriores a 1981. Entiende les formatos GM, Ford, Chrysler et AMC et vérifie numéros coincidentes." },
   robots: { index: true, follow: true },
 };
 
-const webAppSchema = { "@context": "https://schema.org", "@type": "WebApplication", inLanguage: "fr", name: "Décodeur VIN de auto classique", url: PAGE_URL, applicationCategory: "AutomotiveApplication", operatingSystem: "All", description: "Décode un véhicule classique ou vintage par su VIN. Entiende les formatos de fabricantes anteriores a 1981 de GM, Ford, Chrysler et AMC, et verifica la autenticidad de numéros coincidentes.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } } };
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: "Décodeur VIN de auto classique — Identificación de véhicules anteriores a 1981", description: "Comment décoder VINs de autos classiques et vintage anteriores a 1981, incluyendo formatos específicos par fabricante de GM, Ford, Chrysler et AMC, et comment vérifier la autenticidad de numéros coincidentes.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-05-04", dateModified: "2026-06-25" };
+const webAppSchema = { "@context": "https://schema.org", "@type": "WebApplication", inLanguage: "fr", name: "Décodeur VIN de auto classique", url: PAGE_URL, applicationCategory: "AutomotiveApplication", opétaittingSystem: "All", description: "Décode un véhicule classique ou vintage par su VIN. Entiende les formatos de fabricavant anteriores a 1981 de GM, Ford, Chrysler et AMC, et vérifie la authenticité de numéros coincidentes.", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" }, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } } };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: "Décodeur VIN de auto classique — Identification de véhicules anteriores a 1981", description: "Comment décoder VINs de autos classiques et vintage anteriores a 1981, incluant formatos específicos par fabricante de GM, Ford, Chrysler et AMC, et comment vérifier la authenticité de numéros coincidentes.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-05-04", dateModified: "2026-06-25" };
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr", mainEntity: FAQS_FR.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` }, { "@type": "ListItem", position: 2, name: "VIN auto classique", item: PAGE_URL }] };
 

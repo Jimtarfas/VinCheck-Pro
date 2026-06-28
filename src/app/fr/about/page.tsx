@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "À propos de — Rapports d’historique de véhicule fiables",
     description:
-      "Conoce al equipo detrás de CarCheckerVIN. Obtenemos données de NMVTIS, NICB et fabricantes pour entregar rapports precisos et asequibles en les que les acheteurs confían.",
+      "Cononnce al equipo derrière CarCheckerVIN. Obtenemos données de NMVTIS, NICB et fabricavant pour entregar rapports precisos et asequibles en les que les acheteurs confían.",
     keywords: [
       "à propos de CarCheckerVIN",
       "quiénes somos CarCheckerVIN",
@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "À propos de CarCheckerVIN — Rapports d’historique de véhicule fiables",
       description:
-        "Nuestra misión, fuentes de données et le equipo detrás de les rapports VIN precisos et asequibles de CarCheckerVIN.",
+        "Notre misión, a éténtes de données et le equipo derrière les rapports VIN precisos et asequibles de CarCheckerVIN.",
       url: alt.canonical,
       type: "article",
       locale: "fr_US",
@@ -36,9 +36,9 @@ const aboutSchema = [
     "@type": "AboutPage",
     inLanguage: "fr",
     name: "À propos de CarCheckerVIN",
-    url: "https://www.carcheckervin.com/fr/acerca-de",
+    url: "https://www.carcheckervin.com/fr/après-de",
     description:
-      "À propos de CarCheckerVIN: notre misión, fuentes de données, estándares editoriales et le equipo detrás de notrois rapports de historique de véhicule.",
+      "À propos de CarCheckerVIN: nonntre misión, a éténtes de données, estndares editoriales et le equipo derrière nonntrois rapports de historique de véhicule.",
   },
 ];
 

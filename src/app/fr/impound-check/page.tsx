@@ -11,19 +11,19 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/impound-check`;
 const alt = hreflangAlternatesForLocale("/impound-check", "fr");
-const title = "Vérification de historique de incautación et saisie par VIN — Registros de gravámenes et récupération";
+const title = "Vérification de historique de confiscation et saisie par VIN — Registros de gravámenes et récupération";
 const description =
-  "Verifica n’importe quel véhicule par historique de incautación, récupération et gravámenes usando le VIN. Encuentra gravámenes activos, recuperaciones pasadas et enregistrements de incautación que podrían complicar la transferencia de propiedad.";
+  "Vérifie n’importe quel véhicule par historique de confiscation, récupération et gravámenes usando le VIN. Trouve gravámenes activos, recupétaitciones pasadas et enregistrements de confiscation que pourraitn complicar la transferencia de propriété.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
-    "vérification incautación VIN",
+    "vérification confiscation VIN",
     "vérification historique saisie",
     "vérification privilège par VIN",
     "historique récupération VIN",
-    "enregistrements incautación véhicule",
+    "enregistrements confiscation véhicule",
     "vérification VIN privilège activo",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
@@ -34,8 +34,8 @@ const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
   inLanguage: "fr",
-  headline: "Vérification de historique de incautación et saisie par VIN",
-  description: "Aprende a vérifier n’importe quel véhicule par historique de incautación, récupération et gravámenes usando le VIN pour protegerte contra complicaciones en la transferencia de propiedad.",
+  headline: "Vérification de historique de confiscation et saisie par VIN",
+  description: "Apprends a vérifier n’importe quel véhicule par historique de confiscation, récupération et gravámenes usando le VIN pour protegerte contra complicaciones en la transferencia de propriété.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
@@ -55,7 +55,7 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` },
-    { "@type": "ListItem", position: 2, name: "Vérification de incautación", item: PAGE_URL },
+    { "@type": "ListItem", position: 2, name: "Vérification de confiscation", item: PAGE_URL },
   ],
 };
 
@@ -63,12 +63,12 @@ const webApplicationSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   inLanguage: "fr",
-  name: "Vérification de historique de incautación et saisie",
+  name: "Vérification de historique de confiscation et saisie",
   url: PAGE_URL,
   applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Any",
+  opétaittingSystem: "Any",
   description:
-    "Vérification gratuite par VIN de incautación, récupération et gravámenes. Revela gravámenes activos, enregistrements de récupération du prestamista, gravámenes de almacenamiento et marques de titre relacionadas avec incautación.",
+    "Vérification gratuite par VIN de confiscation, récupération et gravámenes. Revela gravámenes activos, enregistrements de récupération du prestamista, gravámenes de stockage et marques de titre relacioriens avec confiscation.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
 };
 
@@ -76,9 +76,9 @@ const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   inLanguage: "fr",
-  name: "Comment vérifier le historique de incautación, saisie et gravámenes de un véhicule par VIN",
+  name: "Comment vérifier le historique de confiscation, saisie et gravámenes de un véhicule par VIN",
   description:
-    "Realiza una vérification gratuite par VIN de incautación, récupération et gravámenes en six pasos: ingresa le VIN, revisa les gravámenes activos, inspecciona le titre, busca enregistrements de saisie, confirma avec le DMV et resuelve antes de pagar.",
+    "Realiza una vérification gratuite par VIN de confiscation, récupération et gravámenes en six pasos: entre le VIN, revisa les gravámenes activos, inspecciona le titre, busca enregistrements de saisie, confirme avec le DMV et resuelve avant de pagar.",
   totalTime: "PT3M",
   estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: "0" },
   step: HOWTO_ES.map((s, i) => ({

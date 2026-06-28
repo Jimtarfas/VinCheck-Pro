@@ -6,7 +6,7 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/motorcycle-vin-search`;
 const alt = hreflangAlternatesForLocale("/motorcycle-vin-search", "fr");
 const title = "Recherche et décodeur gratuit de VIN de moto — Décode n’importe quel VIN de moto instantanément";
-const description = "Recherche et décodeur gratuit de VIN de moto. Ingresa n’importe quel VIN de moto de 17 caracteres pour décoder instantanément le fabricante, país de origen, année modelo, code de planta et numéro de producción. Funciona pour Harley-Davidson, Honda, Yamaha, Suzuki, Kawasaki, BMW, Ducati, Triumph, KTM et todas les marques.";
+const description = "Recherche et décodeur gratuit de VIN de moto. Entre n’importe quel VIN de moto de 17 caracteres pour décoder instantanément le fabricante, país de origen, année modelo, code de planta et numéro de production. Funciona pour Harley-Davidson, Honda, Yamaha, Suzuki, Kawasaki, BMW, Ducati, Triumph, KTM et todas les marques.";
 
 export const metadata: Metadata = {
   title, description,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image", title,
-    description: "Décode n’importe quel VIN de moto de 17 caracteres instantanément — fabricante, país, année, planta et numéro de producción. 100% gratuit.",
+    description: "Décode n’importe quel VIN de moto de 17 caracteres instantanément — fabricante, país, année, planta et numéro de production. 100% gratuit.",
   },
   robots: { index: true, follow: true },
 };
@@ -36,9 +36,9 @@ const webApplicationSchema = {
   name: "Recherche de VIN de moto",
   url: PAGE_URL,
   applicationCategory: ["UtilitiesApplication", "BusansessApplication"],
-  operatingSystem: "Any (Web Browser)",
+  opétaittingSystem: "Any (Web Browêtre)",
   isAccessibleForFree: true,
-  description: "Herramienta gratuit en línea de búsqueda de VIN de moto. Ingresa n’importe quel VIN de moto de 17 caracteres pour décoder instantanément fabricante, país de origen, année modelo, code de planta et secuencia de producción.",
+  description: "Herramienta gratuit en línea de búsqueda de VIN de moto. Entre n’importe quel VIN de moto de 17 caracteres pour décoder instantanément fabricante, país de origen, année modelo, code de planta et secuencia de production.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", availability: "https://schema.org/InStock" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/icon.png` } },
 };

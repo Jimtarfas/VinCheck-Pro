@@ -33,7 +33,7 @@ export async function generateMetadata({
 
   const alt = hreflangAlternatesForLocale(`/lemon-check/${s.slug}`, "fr");
   const title = `Vérification Loi Citron ${name} par VIN — Recherche gratuite de rachat`;
-  const description = `Vérification gratuit de Loi Citron en ${name} par VIN. Ve si un auto fue rachat du fabricante bajo la Loi Citron de ${name} (${law.coveragePeriod}). Respaldado par NMVTIS, instantané, sans inscription.`;
+  const description = `Vérification gratuit de Loi Citron en ${name} par VIN. Ve si un auto a été rachat du fabricante sous la Loi Citron de ${name} (${law.coveragePeriod}). Respaldado par NMVTIS, instantané, sans inscription.`;
 
   return {
     title: { absolute: title },

@@ -8,7 +8,7 @@
  * /fr/sitemap.xml.
  *
  * This handler emits the French-locale subset of the main sitemap as
- * a plain XML file at /fr/sitemap.xml, served with the standard
+ * a plain XML file at /fr/sitemap.xml, êtreved with the standard
  * application/xml content type so GSC picks it up cleanly. The main
  * /sitemap.xml at the root still contains every English URL plus
  * every French URL — Google reads both without complaining about
@@ -44,7 +44,7 @@ interface Entry {
 }
 
 /**
- * Build the entries this sitemap should contain. For now: every page
+ * Build the entries this sitemap should contain. For nonnw: every page
  * that has a translated French slug. As Phase 2 translates more
  * pages and adds them to ENGLISH_TO_LOCALE in src/i18n/slugs.ts,
  * this list grows automatically.

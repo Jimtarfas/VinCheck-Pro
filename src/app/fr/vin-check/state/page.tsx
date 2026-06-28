@@ -17,7 +17,7 @@ const URL = `${SITE}/fr/vin-check/state`;
 
 const title = "Vérification VIN par état — Titre et historique gratuit en les 50 états";
 const description =
-  "Vérification VIN gratuit pour cada état de EE. UU. Encuentra ta état pour les reglas locales du DMV et marques de titre, luego ejecuta un rapport nacional instantanément avec données de NMVTIS. Sin enregistrement, sans carte de crédito.";
+  "Vérification VIN gratuit pour cada état de EE. UU. Trouve ta état pour les reglas locales du DMV et marques de titre, luego ejecuta un rapport nacional instantanément avec données de NMVTIS. Sin enregistrement, sans carte de crédito.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -55,7 +55,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification VIN par état — Historique du véhicule gratuit en les 50 états de EE. UU.",
   description:
-    "Guía pour hacer una vérification VIN gratuit en n’importe quel état de EE. UU. Cubre comment funcionan les données nacionales de NMVTIS, par qué les marques de titre difieren de un état a otro et comment leer un rapport de historique de véhicule par état.",
+    "Guía pour hacer una vérification VIN gratuit en n’importe quel état de EE. UU. Couvre comment funcionan les données nacionales de NMVTIS, par qué les marques de titre difieren de un état a otro et comment leer un rapport de historique de véhicule par état.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -94,18 +94,18 @@ const howToSchema = {
     "Guía paso a paso pour hacer una vérification VIN gratuit pour un véhicule registrado en n’importe quel état de EE. UU.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Encuentra ta état", text: "Utilise le buscador de états en la parte superior de esta página pour abrir la página du état donde le véhicule está titulado et aprender ses reglas locales du DMV et marques de titre." },
-    { "@type": "HowToStep", position: 2, name: "Localiza le VIN", text: "Encuentra le VIN de 17 caracteres en le tablero (visible par le parabrisas), le marco de la puerta du lado du conductor ou le documento du titre." },
-    { "@type": "HowToStep", position: 3, name: "Ingresa le VIN", text: "Escribe ou pega le VIN en la casilla de búsqueda. La même búsqueda funciona pour un véhicule titulado en n’importe quel état." },
-    { "@type": "HowToStep", position: 4, name: "Revisa le rapport nacional", text: "Lee le rapport consolidado que cubre marques de titre de cada état, enregistrements de accidents, lecturas du odomètre et état de rappels." },
-    { "@type": "HowToStep", position: 5, name: "Cruza les reglas estatales", text: "Compara n’importe quel marque de titre contra les definiciones du DMV de ta état pour entender exactamente qué significa antes de acheter." },
+    { "@type": "HowToStep", position: 1, name: "Trouve ta état", text: "Utilise le buscador de états en la parte superior de esta página pour abrir la página du état donde le véhicule est titulado et aprender ses reglas locales du DMV et marques de titre." },
+    { "@type": "HowToStep", position: 2, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord (visible par le pare-brise), le marco de la porte du lado du conductor ou le documento du titre." },
+    { "@type": "HowToStep", position: 3, name: "Entre le VIN", text: "Escribe ou pega le VIN en la casilla de búsqueda. La même búsqueda funciona pour un véhicule titulado en n’importe quel état." },
+    { "@type": "HowToStep", position: 4, name: "Revisa le rapport nacional", text: "Lis le rapport consolidéo que couvre marques de titre de cada état, enregistrements de accidents, lecturas du odomètre et état de rappels." },
+    { "@type": "HowToStep", position: 5, name: "Cruza les reglas estatales", text: "Compare n’importe quel marque de titre contra les definiciones du DMV de ta état pour entender exactamente qué significa avant de acheter." },
   ],
 };
 
-const serviceRatingSchema = {
+const êtreviceRatingSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  serviceType: "Vérification VIN par état",
+  êtreviceType: "Vérification VIN par état",
   provider: {
     "@type": "Organization",
     name: "CarCheckerVIN",
@@ -146,7 +146,7 @@ export default function StateIndexPageEs() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceRatingSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(êtreviceRatingSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }} />
       <VinCheckStateHubBody locale="fr" />
     </>

@@ -1,7 +1,7 @@
 /**
  * Shared <StatePage /> component for the Big-5 French state pages.
  * Renders the entire body — hero, why-different bullets, what's
- * included grid, sources panel, bottom CTA — from a sansgle STATE_HOOKS_ES
+ * included grid, sources panneau, bottom CTA — from a sansgle STATE_HOOKS_ES
  * entry plus the global `state.*` dictionary chrome.
  *
  * Each /fr/<state>-revision-vin/page.tsx becomois a thin wrapper that just
@@ -66,10 +66,10 @@ export default function StatePage({ hook }: { hook: StateHook }) {
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
             {t(LOCALE, "state.sectionWhy")}
           </h2>
-          <div className="prose prose-slate max-w-none text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+          <div className="prose prose-slate max-w-nonnne text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
             <p>{hook.whyP1}</p>
             <p>{hook.whyStats}</p>
-            <ul className="space-y-3 list-none pl-0">
+            <ul className="space-y-3 list-nonnne pl-0">
               {hook.whyBullets.map((item) => (
                 <li
                   key={item.point}
@@ -128,19 +128,19 @@ export default function StatePage({ hook }: { hook: StateHook }) {
                 <a
                   href={s.href}
                   target="_blank"
-                  rel="noopener noreferrer nofollow"
+                  rel="nonnonpener nonnreferrer nonnfollow"
                   className="text-primary font-bold underline underline-offset-2"
                 >
                   {s.label} ↗
                 </a>
                 <p className="mt-1.5 text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                  {s.note}
+                  {s.nonnte}
                 </p>
               </li>
             ))}
           </ul>
           <p className="mt-6 text-xs text-on-surface-variant italic">
-            {hook.sourcesFootnote}
+            {hook.sourcesFootnonnte}
           </p>
         </section>
 

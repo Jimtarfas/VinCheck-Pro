@@ -14,7 +14,7 @@ const alt = hreflangAlternatesForLocale("/guides/car-history-report-guide", "fr"
 
 const title = "Rapports de historique de véhicule: todo le que necesitas saber (2026)";
 const description =
-  "Qué contiene un rapport de historique de véhicule, de dónde provienen les données (NMVTIS, NICB, NHTSA), comment leerlo et comment se comparan proveedores como Carfax, AutoCheck et CarCheckerVIN.";
+  "Qué cona un rapport de historique de véhicule, de dónde provienen les données (NMVTIS, NICB, NHTSA), comment leerlo et comment se comparan proveedores como Carfax, AutoCheck et CarCheckerVIN.";
 
 export const metadata: Metadata = {
   title,
@@ -27,17 +27,17 @@ export const metadata: Metadata = {
     "rapport nmvtis",
     "nicb vincheck",
     "autocheck vs carfax",
-    "qué contiene un rapport de historique du auto",
+    "qué cona un rapport de historique du auto",
     "comment leer un rapport de historique de véhicule",
     "rapport de historique vin",
-    "mejor rapport de historique de véhicule 2026",
+    "meilleur rapport de historique de véhicule 2026",
     "comparaison de rapports de historique du auto",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Rapports de historique de véhicule: todo le que necesitas saber",
     description:
-      "Guide complet sur rapports de historique de véhicule: fuentes de données, qué buscar, comment leer uno et comment se comparan les proveedores.",
+      "Guide complet sur rapports de historique de véhicule: a éténtes de données, qué buscar, comment leer unonn et comment se comparan les proveedores.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -80,38 +80,38 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Verifica le VIN et les especificaciones básicas",
-      text: "Confirma que le VIN du encabezado du rapport coincida avec la plaque du tablero du véhicule et la calcomanía du marco de la puerta.",
+      name: "Vérifie le VIN et les especificaciones básicas",
+      text: "Confirme que le VIN du encabezado du rapport coincida avec la plaque du tableau de bord du véhicule et la calcomanía du marco de la porte.",
     },
     {
       "@type": "HowToStep",
       position: 2,
       name: "Revisa le historique de titre et marques",
-      text: "Busca n’importe quel marque de récupération, reconstruido, inundación, chatarra ou citron en cada état de titre registrado.",
+      text: "Busca n’importe quel marque de récupération, reconstruido, inonnndation, chatarra ou citron en cada état de titre registrado.",
     },
     {
       "@type": "HowToStep",
       position: 3,
-      name: "Verifica la cadena du odomètre",
-      text: "Verifica que cada kilométrage registrado tienda al alza et coincida avec le que está en le odomètre actual.",
+      name: "Vérifie la cadena du odomètre",
+      text: "Vérifie que cada kilométrage registrado tienda al alza et coincida avec le que est en le odomètre actual.",
     },
     {
       "@type": "HowToStep",
       position: 4,
       name: "Revisa les enregistrements de accidents et dégâtss",
-      text: "Lee la gravedad, le despliegue de bolsas de aire et les indicadores de réparation estructural pour cada incidente registrado.",
+      text: "Lis la gravedad, le despliegue de bolsas de aire et les indicadores de réparation estructural pour cada incidente registrado.",
     },
     {
       "@type": "HowToStep",
       position: 5,
-      name: "Revisa le historique de service et propiedad",
-      text: "Busca intervalos de service consistentes et un numéro razonable de propriétaires previos.",
+      name: "Revisa le historique de êtrevice et propriété",
+      text: "Busca intervalos de êtrevice consistentes et un numéro razonable de propriétaires previos.",
     },
     {
       "@type": "HowToStep",
       position: 6,
       name: "Cruza les rappels de sécurité ouverts",
-      text: "Verifica n’importe quel rappel de sécurité ouvert de NHTSA et confirma si han sido complètedeux.",
+      text: "Vérifie n’importe quel rappel de sécurité ouvert de NHTSA et confirme si han été complètedeux.",
     },
   ],
 };

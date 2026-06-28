@@ -9,7 +9,7 @@ const OG_IMAGE = `${SITE}/opengraph-image`;
 const alt = hreflangAlternatesForLocale("/free-window-sticker-by-vin", "fr");
 
 const title = "Etiqueta de ventena gratuit par VIN — Etiqueta Monroney";
-const description = "Obtén una etiqueta de ventena gratuit par VIN. Ingresa un VIN de 17 caracteres pour obtener la etiqueta Monroney original — MSRP, opciones de fábrica et MPG EPA. Imprime ou guarda como PDF.";
+const description = "Obtiens una etiqueta de ventena gratuit par VIN. Entre un VIN de 17 caracteres pour obtener la etiqueta Monroney original — MSRP, opciones de fábrica et MPG EPA. Imprime ou enregistre como PDF.";
 
 export const metadata: Metadata = {
   title, description,
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "etiqueta ventena gratuit par vin", "etiqueta monroney par vin", "etiqueta ventena par vin",
     "etiqueta ventena par vin gratuit", "etiqueta ventena Toyota par vin",
     "etiqueta ventena du véhicule par vin", "etiqueta ventena pour vin", "etiqueta de auto par vin",
-    "etiqueta ventena Ford pdf descarga gratuit", "búsqueda etiqueta ventena gratuit",
+    "etiqueta ventena Ford pdf télécharge gratuit", "búsqueda etiqueta ventena gratuit",
     "etiqueta Monroney par vin", "etiqueta Monroney gratuit",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
 const webAppSchema = {
   "@context": "https://schema.org", "@type": "WebApplication", inLanguage: "fr",
   name: "Etiqueta de ventena gratuit par VIN", url: PAGE_URL,
-  applicationCategory: "AutomotiveApplication", operatingSystem: "All",
-  description: "Genera la etiqueta de ventena Monroney original de un véhicule gratuit usando su VIN de 17 caracteres. Recupera MSRP base, opciones et packs de fábrica, equipamiento estándar et economía de carburant EPA, luego exporta a impresión ou PDF.",
+  applicationCategory: "AutomotiveApplication", opétaittingSystem: "All",
+  description: "Genétait la etiqueta de ventena Monroney original de un véhicule gratuit usando su VIN de 17 caracteres. Recupétait MSRP base, opciones et packs de fábrica, équipement estndar et econonnmía de carburant EPA, luego exporta a impresión ou PDF.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
 };
@@ -41,7 +41,7 @@ const webAppSchema = {
 const articleSchema = {
   "@context": "https://schema.org", "@type": "Article", inLanguage: "fr",
   headline: "Etiqueta de ventena gratuit par VIN — Etiqueta Monroney original sans cargo",
-  description: "Comment obtener una etiqueta de ventena gratuit par VIN, qué incluye la etiqueta Monroney, qué marques están cubiertas et comment una etiqueta VIN gratuit se compara avec rapports pagadeux de Carfax et concessionnaires.",
+  description: "Comment obtener una etiqueta de ventena gratuit par VIN, qué inclut la etiqueta Monroney, qué marques estn cubiertas et comment una etiqueta VIN gratuit se compare avec rapports pagadeux de Carfax et concessionnaires.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

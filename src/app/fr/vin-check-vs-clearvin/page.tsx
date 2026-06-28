@@ -12,16 +12,16 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/vin-check-vs-clearvin`;
 const alt = hreflangAlternatesForLocale("/vin-check-vs-clearvin", "fr");
 const title = "CarCheckerVIN vs ClearVin: côte à côte (2026)";
-const description = "CarCheckerVIN vs ClearVin comparadeux en precio, profundidad de marques de titre, fotos et calidad du rapport. Un desglose justo 2026 côte à côte pour acheteurs de voitures d’occasion.";
+const description = "CarCheckerVIN vs ClearVin comparadeux en precio, profondeur de marques de titre, fotos et qualité du rapport. Un desglose justo 2026 côte à côte pour acheteurs de voitures d’occasion.";
 
 export const metadata: Metadata = {
   title, description,
-  keywords: ["alternative clearvin", "coût clearvin", "clearvin confiable", "clearvin vs vincheckpro", "avis clearvin", "mejor service vérification titre", "vérification vin avec fotos", "rapport historique de véhicule barato", "clearvin ilimitado"],
+  keywords: ["alternative clearvin", "coût clearvin", "clearvin confiable", "clearvin vs vincheckpro", "avis clearvin", "meilleur êtrevice vérification titre", "vérification vin avec fotos", "rapport historique de véhicule bon marché", "clearvin ilimitado"],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: title, description: "Una comparaison côte à côte de CarCheckerVIN et ClearVin cubriendo tarifs, cobertura de marques de titre, fotos, valeur de marché et le caso de uso adecuado pour cada uno.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-26", dateModified: "2026-04-26" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: title, description: "Una comparaison côte à côte de CarCheckerVIN et ClearVin cubriendo tarifs, couverture de marques de titre, fotos, valeur de marché et le caso de uso adecuado pour cada unonn.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-26", dateModified: "2026-04-26" };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr", mainEntity: FAQS_FR.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 
