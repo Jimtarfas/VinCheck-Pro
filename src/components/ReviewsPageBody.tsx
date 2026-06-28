@@ -209,6 +209,62 @@ const COPY = {
     finalCtaPrimary: "Iniciar revisión VIN gratis",
     finalCtaSecondary: "Ver todos los planes",
   },
+  fr: {
+    avgSuffix: "moyenne",
+    h1Line1: "Avis CarCheckerVIN\u00a0:",
+    h1Line2: "approuv\u00e9 par acheteurs, vendeurs et concessionnaires",
+    heroLeadPre:
+      "De vrais avis issus de plus de 50\u00a0000 v\u00e9rifications VIN gratuites et rapports d'historique \u2014 not\u00e9",
+    heroLeadMid: "/5",
+    heroLeadSuffix:
+      "par des acheteurs, vendeurs et concessionnaires dans les 50 \u00e9tats.",
+    ctaPrimary: "Lancer une v\u00e9rification VIN gratuite",
+    ctaSecondary: "Voir les tarifs",
+    stats: [
+      { value: "50K+", label: "Rapports g\u00e9n\u00e9r\u00e9s" },
+      { valueRatingSuffix: " \u2605", label: "Note moyenne" },
+      { value: "Gratuit", label: "Tous les plans maintenant" },
+      { value: "50", label: "\u00c9tats couverts" },
+    ],
+    trustpilotInvitePre: "Tu veux partager ta propre exp\u00e9rience\u00a0?",
+    trustpilotInviteLink: "Laisse un avis sur Trustpilot",
+    featuresHeading: "Ce que tu obtiens avec chaque rapport gratuit",
+    featuresIntro: "Un VIN. R\u00e9sultats instantan\u00e9s. Sans carte, sans mur d'inscription.",
+    features: [
+      { label: "D\u00e9codage VIN complet", desc: "Ann\u00e9e, marque, mod\u00e8le, finition, moteur, transmission et plus de 40 sp\u00e9cifications \u00e0 partir d'un seul VIN de 17 chiffres." },
+      { label: "V\u00e9rification de titre et d'historique", desc: "Recherche des marques de titre soutenue par NMVTIS couvrant salvage, inondation, rachat Lemon Law et dossiers de vol." },
+      { label: "Rappels et valeur de march\u00e9", desc: "Alertes de rappels NHTSA ouverts plus estimations de valeur de march\u00e9 en temps r\u00e9el bas\u00e9es sur des annonces comparables." },
+    ],
+    reviewsHeading: "Avis CarCheckerVIN d'utilisateurs r\u00e9els",
+    reviewsIntro:
+      "Des acheteurs novices aux concessionnaires professionnels \u2014 lis ce que les gens disent de notre v\u00e9rification VIN gratuite, du rapport d'historique et des outils de recherche de rappels.",
+    trustpilotLabel: "Trustpilot",
+    readReviewAria: "Lire l'avis de {name} sur Trustpilot",
+    starsAria: "{value} sur 5 \u00e9toiles",
+    testimonials: [
+      { name: "Carmen Liam", tag: "Avis v\u00e9rifi\u00e9 Trustpilot \u00b7 \u00c9tats-Unis", body: "le rapport \u00e9tait tr\u00e8s bon, le site fluide, j'ai compar\u00e9 mon rapport avec celui du concessionnaire et obtenu la m\u00eame info, tout parfait" },
+      { name: "Adams Daniel Brook", tag: "Avis v\u00e9rifi\u00e9 Trustpilot \u00b7 \u00c9tats-Unis", body: "je cherchais un SUV d'occasion, quand j'ai trouv\u00e9 ce site sur Google j'ai v\u00e9rifi\u00e9 le VIN avec leur outil gratuit, tout bien merci" },
+      { name: "David Franz Friedhof", tag: "Avis v\u00e9rifi\u00e9 Trustpilot \u00b7 \u00c9tats-Unis", body: "\u00e7a m'a \u00e9vit\u00e9 d'acheter une voiture avec un d\u00e9g\u00e2t d'inondation cach\u00e9, le rapport a montr\u00e9 tout ce qu'il fallait, merci carcheckervin" },
+      { name: "regano jerom", tag: "Avis v\u00e9rifi\u00e9 Trustpilot \u00b7 \u00c9tats-Unis", body: "j'ai d\u00e9couvert le site dans une communaut\u00e9 auto sur Reddit, je l'ai essay\u00e9, le rapport a une info compl\u00e8te et le prix est raisonnable" },
+    ],
+    faqHeading: "Avis CarCheckerVIN \u2014 questions fr\u00e9quentes",
+    faqIntro:
+      "Questions courantes sur les notes, la pr\u00e9cision et comment CarCheckerVIN se compare aux services payants de v\u00e9rification VIN.",
+    faqFooterPre: "Encore en r\u00e9flexion\u00a0? Compare CarCheckerVIN c\u00f4te \u00e0 c\u00f4te avec",
+    faqs: [
+      { q: "CarCheckerVIN est-il l\u00e9gitime\u00a0?", a: "Oui. CarCheckerVIN est un d\u00e9codeur VIN l\u00e9gitime et un service d'historique de v\u00e9hicule utilis\u00e9 par des acheteurs, vendeurs et concessionnaires dans les 50 \u00e9tats. Les donn\u00e9es de titre et de rappels viennent de NMVTIS et NHTSA, les m\u00eames bases f\u00e9d\u00e9rales qui soutiennent les services payants comme Carfax et AutoCheck." },
+      { q: "CarCheckerVIN est-il vraiment gratuit\u00a0?", a: "Oui \u2014 le rapport complet d'historique de v\u00e9hicule est actuellement gratuit, sans carte de cr\u00e9dit. Cela inclut le d\u00e9codage VIN, la v\u00e9rification des marques de titre, la recherche de rappels et l'estimation de valeur de march\u00e9. Nous pourrions introduire des paliers premium plus tard, mais les rapports d\u00e9marr\u00e9s pendant la p\u00e9riode gratuite restent gratuits." },
+      { q: "Comment CarCheckerVIN se compare-t-il \u00e0 Carfax\u00a0?", a: "CarCheckerVIN tire ses donn\u00e9es de la m\u00eame colonne vert\u00e9brale NMVTIS d'historique de titre que Carfax et AutoCheck, plus les donn\u00e9es de rappels de la NHTSA et des comparables de valeur en temps r\u00e9el. La plus grande diff\u00e9rence est le prix\u00a0: les rapports CarCheckerVIN sont gratuits, alors qu'un seul rapport Carfax co\u00fbte environ 44\u00a0\u0024. Les utilisateurs disent que les donn\u00e9es sont \u00e9quivalentes." },
+      { q: "Que disent les avis sur la pr\u00e9cision de CarCheckerVIN\u00a0?", a: "\u00c0 travers plus de 50\u00a0000 rapports, les th\u00e8mes les plus courants dans les avis sont des drapeaux pr\u00e9cis de marques de titre (salvage, inondation, rachat Lemon Law), des donn\u00e9es de rappels actuelles et des estimations utiles de valeur de march\u00e9. Les utilisateurs mentionnent fr\u00e9quemment avoir d\u00e9tect\u00e9 des titres salvage, des d\u00e9g\u00e2ts d'inondation et des incoh\u00e9rences d'odom\u00e8tre que les vendeurs n'avaient pas divulgu\u00e9s." },
+      { q: "Les concessionnaires et gestionnaires de flotte peuvent-ils utiliser CarCheckerVIN\u00a0?", a: "Oui. Les concessionnaires ind\u00e9pendants l'utilisent pour l'\u00e9valuation pr\u00e9-ench\u00e8re et la tarification de l'inventaire, et les gestionnaires de flotte l'utilisent pour la surveillance massive des rappels. Les avis ax\u00e9s concessionnaires soulignent la profondeur des donn\u00e9es d'\u00e9quipement et de sp\u00e9cifications, ce qui aide \u00e0 la tarification pr\u00e9cise et \u00e0 la transparence client." },
+      { q: "Combien de temps faut-il pour un rapport CarCheckerVIN\u00a0?", a: "Les rapports s'ex\u00e9cutent en quelques secondes. Tu saisis un VIN de 17 chiffres (ou tu utilises la recherche par plaque), et le rapport d\u00e9cod\u00e9 \u2014 sp\u00e9cifications, historique de titre, rappels, photos quand disponibles et valeur de march\u00e9 \u2014 se charge instantan\u00e9ment dans ton navigateur. Pas d'inscription par courriel ni p\u00e9riode d'attente." },
+    ],
+    finalH2: "Pr\u00eat \u00e0 v\u00e9rifier un VIN\u00a0?",
+    finalBody:
+      "Rapports gratuits d'historique de v\u00e9hicule \u2014 sp\u00e9cifications, photos, rappels, valeur de march\u00e9. R\u00e9sultats instantan\u00e9s, sans carte.",
+    finalCtaPrimary: "D\u00e9marrer une v\u00e9rification VIN gratuite",
+    finalCtaSecondary: "Voir tous les plans",
+  },
 } as const;
 
 const FEATURE_ICONS = [Search, ShieldCheck, Zap] as const;

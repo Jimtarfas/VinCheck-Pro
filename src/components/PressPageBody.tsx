@@ -168,6 +168,80 @@ const COPY = {
       { q: "¿Cuáles son los datos clave sobre CarCheckerVIN?", a: "CarCheckerVIN fue fundada en 2025, tiene sede en Estados Unidos, ha servido más de 50,000 consultas VIN totales, entrega más de 300,000 reportes por año, trabaja con más de 5,000 concesionarios socios y obtiene datos de NMVTIS, NICB, APIs OEM y Auto.dev." },
     ],
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "Presse",
+    badge: "Centre m\u00e9dias",
+    h1: "Kit de presse et centre m\u00e9dias",
+    heroLead:
+      "Tout ce dont les journalistes, podcasters et analystes ont besoin pour \u00e9crire avec pr\u00e9cision sur CarCheckerVIN\u00a0: donn\u00e9es de l'entreprise, ressources de marque t\u00e9l\u00e9chargeables, porte-paroles d\u00e9sign\u00e9s et lignes de contact directes pour les demandes de presse.",
+    factsHeading: "Faits rapides sur CarCheckerVIN",
+    factsIntro:
+      "Les chiffres et d\u00e9tails les plus demand\u00e9s par les journalistes. Tout ci-dessous est autoris\u00e9 \u00e0 la publication.",
+    missionHeading: "Notre mission",
+    missionBodyPre:
+      "CarCheckerVIN existe pour mettre les m\u00eames donn\u00e9es autoritatives de titre, de vol et de rappels \u2014 sur lesquelles s'appuient les assureurs et les concessionnaires franchis\u00e9s \u2014 entre les mains de chaque acheteur de voiture d'occasion aux \u00c9tats-Unis, pour moins que le prix d'un plein d'essence. Nous croyons que la transparence est l'outil le plus puissant dont dispose un acheteur, et qu'elle ne devrait pas \u00eatre r\u00e9serv\u00e9e \u00e0 ceux qui peuvent payer un rapport haut de gamme de trente dollars. Lis l'histoire compl\u00e8te sur notre",
+    missionLink: "page \u00c0 propos",
+    missionSuffix: ".",
+    coverageHeading: "Couverture m\u00e9diatique",
+    coverageIntroPre: "Pr\u00e9sent\u00e9 dans\u00a0:",
+    coverageIntroPlaceholder: "[logos \u00e0 venir]",
+    coverageCard: "\u00c0 venir",
+    brandHeading: "Ressources de marque",
+    brandIntro:
+      "T\u00e9l\u00e9charge notre logo et notre guide de marque. Utilise uniquement les ressources officielles ci-dessous et respecte les r\u00e8gles de couleur et d'espace libre du PDF de directives.",
+    brandSvgTitle: "T\u00e9l\u00e9charger le logo (SVG)",
+    brandSvgSub: "Vectoriel, recommand\u00e9 pour usage num\u00e9rique.",
+    brandPngTitle: "T\u00e9l\u00e9charger le logo (PNG)",
+    brandPngSub: "Fond transparent, pr\u00eat pour retina 2x.",
+    brandPdfTitle: "Guide de marque PDF",
+    brandPdfSub: "Couleurs, typographie, espace libre, \u00e0 faire/\u00e0 ne pas faire.",
+    brandDownload: "T\u00e9l\u00e9charger",
+    spokespeopleHeading: "Porte-paroles",
+    spokespeopleIntro:
+      "Disponibles pour interviews, podcasts et commentaires officiels. Pour une r\u00e9ponse plus rapide, adresse les demandes initiales \u00e0 notre responsable des communications.",
+    announcementsHeading: "Annonces r\u00e9centes",
+    pressContactHeading: "Contact pour les demandes de presse",
+    pressContactBody:
+      "Pour interviews, aper\u00e7us sous embargo, extractions de donn\u00e9es personnalis\u00e9es et v\u00e9rifications factuelles, contacte notre \u00e9quipe communications directement. Nous r\u00e9pondons aux demandes de presse dans un jour ouvrable.",
+    pressContactAreaServed: "\u00c9tats-Unis \u2014 r\u00e9ponses en anglais",
+    faqHeading: "Questions fr\u00e9quentes \u2014 Presse",
+    faqIntro:
+      "Les questions que les journalistes, podcasters et analystes posent le plus souvent sur CarCheckerVIN.",
+    ctaHeading: "Besoin de plus que le kit de presse\u00a0?",
+    ctaBody:
+      "Pour des demandes de partenariat, des parrainages ou des questions g\u00e9n\u00e9rales, contacte notre \u00e9quipe via notre canal de contact standard.",
+    ctaButton: "Contacte-nous \u2192",
+    facts: [
+      { label: "Fond\u00e9e", value: "2025" },
+      { label: "Recherches VIN totales", value: "50\u00a0000+" },
+      { label: "Sources de donn\u00e9es", value: "NMVTIS, NICB, APIs OEM, Auto.dev" },
+      { label: "Si\u00e8ge", value: "\u00c9tats-Unis" },
+      { label: "Rapports par an", value: "300\u00a0000+" },
+      { label: "Concessionnaires partenaires", value: "5\u00a0000+" },
+    ],
+    spokespeople: [
+      { name: "Marcus Chen", role: "Fondateur et PDG", bio: "12\u00a0ans en ing\u00e9nierie de donn\u00e9es automobiles chez de grands assureurs\u00a0; disponible pour des interviews sur la fraude aux voitures d'occasion, la politique NMVTIS et les prix des concessionnaires." },
+      { name: "Priya Anand", role: "Cheffe des donn\u00e9es", bio: "Anciennement ing\u00e9nieure principale chez une ench\u00e8re automobile Fortune 100\u00a0; parle de l'int\u00e9grit\u00e9 des donn\u00e9es v\u00e9hicules, de l'int\u00e9gration des APIs OEM et des rapports de rappels." },
+      { name: "Devon Whitfield", role: "Analyste de recherche principal", bio: "Certifi\u00e9 ASE, une d\u00e9cennie en d\u00e9tection de fraude DMV\u00a0; disponible pour commentaires sur le lavage de titre, le clonage VIN et le rollback d'odom\u00e8tre." },
+      { name: "Sara Okonkwo", role: "Responsable communications", bio: "Contact presse principal, g\u00e8re toutes les demandes m\u00e9dias, aper\u00e7us sous embargo et extractions de donn\u00e9es personnalis\u00e9es pour journalistes et chercheurs." },
+    ],
+    announcements: [
+      { date: "Avril 2026", title: "Lancement d'un blog complet avec plus de 100 articles", body: "Biblioth\u00e8que d'\u00e9ducation pour acheteurs au format long couvrant chaque d\u00e9cision majeure d'achat de voiture, des bases du VIN aux transferts de titre inter-\u00e9tats." },
+      { date: "Mars 2026", title: "50 guides d'achat sp\u00e9cifiques par \u00e9tat publi\u00e9s", body: "Couverture compl\u00e8te des lois \u00e9tatiques sur les voitures d'occasion, des seuils de salvage et des proc\u00e9dures DMV \u2014 r\u00e9dig\u00e9s et r\u00e9vis\u00e9s par notre \u00e9quipe interne de donn\u00e9es." },
+      { date: "F\u00e9vrier 2026", title: "Int\u00e9gration Sanity CMS", body: "Migration du contenu \u00e9ditorial long format vers un CMS structur\u00e9 pour publier plus vite, am\u00e9liorer le SEO et enrichir les liens crois\u00e9s dans nos recherches et guides." },
+      { date: "Janvier 2026", title: "Cap des 50\u00a0000 recherches VIN totales", body: "Nous avons franchi 50\u00a0000 d\u00e9codages VIN gratuits livr\u00e9s aux acheteurs particuliers, journalistes et petits concessionnaires depuis le lancement." },
+    ],
+    faqs: [
+      { q: "Qu'est-ce que CarCheckerVIN\u00a0?", a: "CarCheckerVIN est une plateforme de rapports d'historique de v\u00e9hicule qui fournit des rapports instantan\u00e9s et abordables bas\u00e9s sur le VIN couvrant les donn\u00e9es de titre, de vol et de rappels. Fond\u00e9e en 2025, elle vise \u00e0 mettre les m\u00eames donn\u00e9es autoritatives sur lesquelles s'appuient les assureurs et concessionnaires franchis\u00e9s entre les mains de chaque acheteur de voiture d'occasion pour moins que le prix d'un plein d'essence." },
+      { q: "Qui contacter pour les demandes m\u00e9dias\u00a0?", a: "Adresse les demandes presse \u00e0 l'\u00e9quipe communications de CarCheckerVIN \u00e0 contact@carcheckervin.com ou +1 (564) 212-3985. L'\u00e9quipe g\u00e8re interviews, aper\u00e7us sous embargo, extractions de donn\u00e9es personnalis\u00e9es et v\u00e9rifications factuelles, et r\u00e9pond aux demandes de presse dans un jour ouvrable." },
+      { q: "D'o\u00f9 viennent les donn\u00e9es de CarCheckerVIN\u00a0?", a: "Les rapports CarCheckerVIN sont aliment\u00e9s par NMVTIS (National Motor Vehicle Title Information System), NICB, les APIs de constructeurs/OEM et Auto.dev. Ces sources fournissent les marques de titre, dossiers de vol et rappels utilis\u00e9s dans les rapports d'historique de la plateforme." },
+      { q: "Puis-je utiliser le logo CarCheckerVIN\u00a0?", a: "Oui. Le logo officiel est disponible au t\u00e9l\u00e9chargement depuis la section Ressources de marque de ce kit de presse en formats SVG et PNG, avec un PDF de directives de marque. Utilise uniquement les ressources officielles et respecte les r\u00e8gles de couleur et d'espace libre des directives." },
+      { q: "Qui sont les porte-paroles de CarCheckerVIN\u00a0?", a: "CarCheckerVIN met plusieurs porte-paroles \u00e0 disposition pour interviews et commentaires officiels, incluant Marcus Chen (Fondateur et PDG), Priya Anand (Cheffe des donn\u00e9es), Devon Whitfield (Analyste de recherche principal) et Sara Okonkwo (Responsable communications). Pour la r\u00e9ponse la plus rapide, adresse les demandes initiales \u00e0 la responsable communications." },
+      { q: "Sur quels sujets CarCheckerVIN peut-elle commenter\u00a0?", a: "Les domaines de commentaire disponibles incluent la fraude aux voitures d'occasion, la politique NMVTIS, les prix des concessionnaires, l'int\u00e9grit\u00e9 des donn\u00e9es v\u00e9hicules, l'int\u00e9gration des APIs OEM, les rapports de rappels, le lavage de titre, le clonage VIN et le rollback d'odom\u00e8tre. Les porte-paroles sont disponibles pour interviews, podcasts et commentaires officiels." },
+      { q: "Quels sont les chiffres cl\u00e9s sur CarCheckerVIN\u00a0?", a: "CarCheckerVIN a \u00e9t\u00e9 fond\u00e9e en 2025, son si\u00e8ge est aux \u00c9tats-Unis, elle a livr\u00e9 plus de 50\u00a0000 recherches VIN totales, fournit plus de 300\u00a0000 rapports par an, travaille avec plus de 5\u00a0000 concessionnaires partenaires et tire ses donn\u00e9es de NMVTIS, NICB, des APIs OEM et d'Auto.dev." },
+    ],
+  },
 } as const;
 
 export default function PressPageBody({

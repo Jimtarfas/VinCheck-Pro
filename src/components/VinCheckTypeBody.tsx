@@ -78,6 +78,30 @@ const CHROME = {
     bottomBody:
       "Ingresa un VIN de 17 caracteres o una placa de EE. UU. para hacer una verificación gratis y obtener el reporte completo.",
   },
+  fr: {
+    home: "Accueil",
+    crumbVinCheck: "V\u00e9rification VIN",
+    crumbByType: "Par type de v\u00e9hicule",
+    formNote: "Gratuit \u00b7 instantan\u00e9 \u00b7 sans inscription \u00b7 donn\u00e9es NMVTIS et NHTSA",
+    quickAnswerLabel: "R\u00e9ponse rapide",
+    h2Reveals: "Ce que cette v\u00e9rification r\u00e9v\u00e8le",
+    h2MidCta: "Lance une v\u00e9rification VIN gratuite maintenant",
+    midCtaBody:
+      "Saisis un VIN de 17 caract\u00e8res ou une plaque am\u00e9ricaine pour obtenir le rapport complet \u2014 marques de titre, dossiers de vol, accidents, rappels et plus.",
+    h2Faq: "Questions fr\u00e9quentes",
+    h2Related: "V\u00e9rifications et recherches associ\u00e9es",
+    relatedIntro:
+      "Va plus loin avec une v\u00e9rification d\u00e9di\u00e9e, ou v\u00e9rifie un autre type de v\u00e9hicule.",
+    upsellHeading: "Obtiens ton rapport complet d'historique du v\u00e9hicule",
+    upsellBody:
+      "Une v\u00e9rification rapide confirme les bases. Un rapport complet ajoute les accidents, les marques de titre, la fraude \u00e0 l'odom\u00e8tre, les dossiers de vol et les rappels ouverts \u2014 issus de NMVTIS et de chaque DMV \u00e9tatique.",
+    upsellCta: "Obtiens ton rapport gratuit",
+    upsellNote: "Donn\u00e9es NMVTIS \u00b7 conforme DPPA",
+    bottomBadge: "Gratuit \u00b7 Instantan\u00e9 \u00b7 Sans inscription",
+    bottomHeading: "V\u00e9rifie n'importe quel VIN",
+    bottomBody:
+      "Saisis un VIN de 17 caract\u00e8res ou une plaque am\u00e9ricaine pour lancer une v\u00e9rification gratuite et obtenir le rapport complet.",
+  },
 } as const;
 
 interface Props {
@@ -88,7 +112,7 @@ interface Props {
 export default function VinCheckTypeBody({ page, locale }: Props) {
   const chrome = CHROME[locale];
   const siblings = relatedVinCheckTypePages(page.relatedSlugs);
-  const link = (en: string) => (locale === "es" ? `/es${en}` : en);
+  const link = (en: string) => (locale === "en" ? en : `/${locale}${en}`);
 
   // For ES locale, swap content from the ES dictionary keyed by slug.
   const esOverride =
@@ -101,7 +125,7 @@ export default function VinCheckTypeBody({ page, locale }: Props) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-24 pb-14 sm:pt-28 sm:pb-20">
           <Breadcrumbs
             items={[
-              { label: chrome.home, href: locale === "es" ? "/es" : "/" },
+              { label: chrome.home, href: locale === "en" ? "/" : `/${locale}` },
               { label: chrome.crumbVinCheck, href: link("/vin-check") },
               { label: chrome.crumbByType, href: link("/vin-check/type") },
               { label: content.badge },
