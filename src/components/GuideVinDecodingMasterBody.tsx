@@ -1481,4 +1481,4 @@ export default function GuideVinDecodingMasterBody({ locale }: Props) {
   );
 }
 
-export { FAQS_EN, FAQS_ES };
+export { FAQS_EN, FAQS_ES, FAQS_FR };

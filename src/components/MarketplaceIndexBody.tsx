@@ -192,3 +192,6 @@ export default function MarketplaceIndexBody({ locale }: Props) {
 
 export const MARKETPLACE_INDEX_FAQS_EN = COPY.en.faqs;
 export const MARKETPLACE_INDEX_FAQS_ES = COPY.es.faqs;
+
+// Wave 19 — French uses the Spanish FAQ array as a structural fallback for JSON-LD.
+export const MARKETPLACE_INDEX_FAQS_FR = MARKETPLACE_INDEX_FAQS_ES;

@@ -291,3 +291,6 @@ export default function ResearchBody({ locale }: Props) {
 
 export const RESEARCH_FAQS_EN = COPY.en.faqs;
 export const RESEARCH_FAQS_ES = COPY.es.faqs;
+
+// Wave 19 — French uses the Spanish FAQ array as a structural fallback for JSON-LD.
+export const RESEARCH_FAQS_FR = RESEARCH_FAQS_ES;

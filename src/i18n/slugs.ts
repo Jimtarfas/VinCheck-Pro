@@ -209,6 +209,19 @@ ENGLISH_TO_LOCALE["/terms"] = { es: "/terminos" };
 ENGLISH_TO_LOCALE["/refund-policy"] = { es: "/politica-de-reembolso" };
 ENGLISH_TO_LOCALE["/research"] = { es: "/investigacion" };
 
+// Wave 19 — French. The /fr page tree (src/app/fr/) mirrors /es/ but uses
+// English slugs throughout, so every entry that has an es translation also
+// gets `fr: englishPath` so the sitemap + hreflang + LanguageSwitcher pick
+// up the French URLs. Native French slug translations are a follow-up wave
+// (parallel to the Spanish slug effort) — until then /fr URLs use the
+// English slug shape which still indexes fine (Google honours hreflang as
+// the language signal).
+for (const [engPath, byLocale] of Object.entries(ENGLISH_TO_LOCALE)) {
+  if (byLocale.es && !byLocale.fr) {
+    byLocale.fr = engPath;
+  }
+}
+
 /** Lookup: given an English path, return the path for the given locale. */
 export function translateSlug(englishPath: string, locale: Locale): string {
   if (locale === "en") return englishPath;
@@ -392,4 +405,23 @@ export function hasEsRoute(canonicalEnglishPath: string): boolean {
   if (canonicalEnglishPath === "/") return true;
   const topSegment = canonicalEnglishPath.split("/")[1] ?? "";
   return TRANSLATED_ES_TOP_SEGMENTS.has(topSegment);
+}
+
+/**
+ * /fr/ mirrors /es/ 1:1 in its directory tree (same top segments), so the
+ * same set answers both questions. Kept as a distinct symbol for proxy
+ * readability and so future divergence (a fr-only page) only touches one
+ * call site.
+ */
+export function hasFrRoute(canonicalEnglishPath: string): boolean {
+  return hasEsRoute(canonicalEnglishPath);
+}
+
+/** Generic dispatcher — proxy uses this so it can answer for any locale. */
+export function hasLocaleRoute(
+  locale: Locale,
+  canonicalEnglishPath: string
+): boolean {
+  if (locale === "en") return true;
+  return hasEsRoute(canonicalEnglishPath);
 }

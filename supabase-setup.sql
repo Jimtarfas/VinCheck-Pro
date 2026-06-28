@@ -509,18 +509,23 @@ $$;
 
 -- Wave 18 i18n: persist the buyer's locale on the order so the
 -- post-purchase paid report renders in the same language they checked
--- out in (en or es). Defaults to 'en' for back-compatibility with rows
+-- out in (en, es, fr). Defaults to 'en' for back-compatibility with rows
 -- created before this column existed.
 alter table public.report_orders add column if not exists locale text default 'en';
 
+-- Wave 19 i18n: French (fr) is now a valid locale. If the constraint was
+-- created when only en/es were supported, drop and recreate it so fr-locale
+-- orders aren't rejected at insert time. Idempotent — safe to re-run.
 do $$
 begin
-  if not exists (
+  if exists (
     select 1 from pg_constraint where conname = 'report_orders_locale_check'
   ) then
     alter table public.report_orders
-      add constraint report_orders_locale_check
-      check (locale in ('en','es'));
+      drop constraint report_orders_locale_check;
   end if;
+  alter table public.report_orders
+    add constraint report_orders_locale_check
+    check (locale in ('en','es','fr'));
 end;
 $$;

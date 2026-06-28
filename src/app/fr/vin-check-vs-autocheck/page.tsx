@@ -1,0 +1,41 @@
+/**
+ * Wave 18b — French vin-check-vs-autocheck. Same full English layout via the
+ * shared VinCheckVsAutoCheckBody. Replaces the Wave 15 SpecialtyToolPage stub.
+ */
+
+import type { Metadata } from "next";
+import VinCheckVsAutoCheckBody, { FAQS_FR, SINGLE, AC_SINGLE } from "@/components/VinCheckVsAutoCheckBody";
+import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
+import { ORG_AUTHOR } from "@/lib/seo/author";
+
+const SITE = "https://www.carcheckervin.com";
+const PAGE_URL = `${SITE}/fr/vin-check-vs-autocheck`;
+const alt = hreflangAlternatesForLocale("/vin-check-vs-autocheck", "fr");
+const title = "CarCheckerVIN vs AutoCheck: Comparaison 2026";
+const description = `CarCheckerVIN vs AutoCheck (de Experian) comparadeux en precio, fuentes de données et profundidad du rapport. ${SINGLE} par rapport verses les ${AC_SINGLE} de AutoCheck — sans le paywall de la Puntuación AutoCheck.`;
+
+export const metadata: Metadata = {
+  title, description,
+  keywords: ["alternative carfax", "autocheck vs", "experian autocheck", "coût autocheck", "es autocheck bueno", "alternative autocheck", "autocheck vs carfax", "mejor vérification vin 2026", "puntuación autocheck explicada", "rapports ilimitadeux autocheck", "plus barato que autocheck", "precio autocheck"],
+  alternates: { canonical: alt.canonical, languages: alt.languages },
+  openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
+  twitter: { card: "summary_large_image", title, description: `${SINGLE} par rapport verses les ${AC_SINGLE} de AutoCheck. Mismos données clave de NMVTIS, plus fotos réeles et valeur de marché.` },
+  robots: { index: true, follow: true },
+};
+
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: title, description: "Una comparaison côte à côte de CarCheckerVIN et Experian AutoCheck cubriendo tarifs, fuentes de données, la Puntuación AutoCheck et le caso de uso adecuado pour cada uno.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-26", dateModified: "2026-06-16" };
+
+const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr", mainEntity: FAQS_FR.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
+
+const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE}/fr` }, { "@type": "ListItem", position: 2, name: "CarCheckerVIN vs AutoCheck", item: PAGE_URL }] };
+
+export default function Page() {
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <VinCheckVsAutoCheckBody locale="fr" />
+    </>
+  );
+}

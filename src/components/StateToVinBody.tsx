@@ -296,3 +296,6 @@ export default function StateToVinBody({ locale }: Props) {
 
 export const STATE_TO_VIN_FAQS_EN = COPY.en.faqs;
 export const STATE_TO_VIN_FAQS_ES = COPY.es.faqs;
+
+// Wave 19 — French uses the Spanish FAQ array as a structural fallback for JSON-LD.
+export const STATE_TO_VIN_FAQS_FR = STATE_TO_VIN_FAQS_ES;

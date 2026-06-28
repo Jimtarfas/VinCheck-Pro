@@ -398,4 +398,9 @@ export default function VinCheckVsVinAuditBody({ locale }: Props) {
   );
 }
 
-export { FAQS_EN, FAQS_ES };
+export { FAQS_EN, FAQS_ES, FAQS_FR };
+
+// Wave 19 — French uses the Spanish FAQ array as a structural fallback.
+// The user-visible FAQ component already uses the locale="fr" branch in COPY;
+// this alias only feeds the JSON-LD FAQPage schema until /fr metadata is translated.
+const FAQS_FR = FAQS_ES;

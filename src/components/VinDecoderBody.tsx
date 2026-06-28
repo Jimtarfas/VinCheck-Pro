@@ -307,3 +307,6 @@ export default function VinDecoderBody({ locale }: Props) {
 // Exported so wrappers can build matching FAQ JSON-LD in either locale.
 export const VIN_DECODER_FAQS_EN = COPY.en.faqs;
 export const VIN_DECODER_FAQS_ES = COPY.es.faqs;
+
+// Wave 19 — French uses the Spanish FAQ array as a structural fallback for JSON-LD.
+export const VIN_DECODER_FAQS_FR = VIN_DECODER_FAQS_ES;

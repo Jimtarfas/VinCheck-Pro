@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 import { NON_DEFAULT_LOCALES, isLocale, type Locale } from "@/i18n/config";
-import { untranslateSlug, hasEsRoute } from "@/i18n/slugs";
+import { untranslateSlug, hasLocaleRoute } from "@/i18n/slugs";
 
 // Canonical reviews host (plural — matches user search intent and industry
 // convention for review-section subdomains like reviews.apple.com).
@@ -148,7 +148,7 @@ export async function proxy(request: NextRequest) {
     const localisedPath = pathname.slice(localePrefix.length) || "/";
     const canonical = untranslateSlug(localisedPath, firstSegment as Locale);
 
-    if (canonical === "/" || hasEsRoute(canonical)) {
+    if (canonical === "/" || hasLocaleRoute(firstSegment as Locale, canonical)) {
       // The page IS translated (or it's the /es root). If the URL uses
       // the localised slug, rewrite it to the canonical English-named
       // directory under /es/ so Next.js can find page.tsx.

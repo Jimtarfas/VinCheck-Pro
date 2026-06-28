@@ -492,3 +492,9 @@ export default function TradeInValueEstimatorBody({ locale }: Props) {
 
 export const FAQS_EN = COPY.en.faqs.map((f) => ({ question: f.q, answer: f.a }));
 export const FAQS_ES = COPY.es.faqs.map((f) => ({ question: f.q, answer: f.a }));
+
+// Wave 19 — French uses the Spanish FAQ array as a structural fallback.
+// The user-visible FAQ component already uses the locale="fr" branch in COPY;
+// this alias only feeds the JSON-LD FAQPage schema until /fr metadata is translated.
+const FAQS_FR = FAQS_ES;
+export { FAQS_FR };
