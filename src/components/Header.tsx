@@ -69,6 +69,7 @@ const NAV: TopNav[] = [
         items: [
           { href: "/vehicle-registration", label: "Vehicle Registration" },
           { href: "/vehicle-title", label: "Vehicle Title" },
+          { href: "/bill-of-sale", label: "Bill of Sale" },
           { href: "/vin-check/state", label: "VIN Check by State" },
           { href: "/market-value", label: "Market Value" },
         ],
@@ -133,6 +134,7 @@ const NAV: TopNav[] = [
           { href: "/guides/what-is-a-vin-number", label: "What Is a VIN Number" },
           { href: "/guides/used-car-buying-complete-guide", label: "Used Car Buying Guide" },
           { href: "/guides/vehicle-fraud-prevention", label: "Vehicle Fraud Prevention" },
+          { href: "/road-traffic-signs", label: "Road & Traffic Signs" },
           { href: "/glossary", label: "VIN Glossary" },
           { href: "/blog", label: "Blog" },
         ],

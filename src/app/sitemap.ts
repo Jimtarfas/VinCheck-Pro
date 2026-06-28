@@ -174,6 +174,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-state bill-of-sale pages (/bill-of-sale/[state]) — one for every
+  // state, companion to the title cluster, using verified DMV data only.
+  const billOfSaleStatePages: MetadataRoute.Sitemap = states.map((s) => ({
+    url: `${baseUrl}/bill-of-sale/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   // Per-state lemon law check pages (/lemon-check/[state]) — one for each
   // state that has both DMV data and a lemon-law reference entry.
   const lemonStatePages: MetadataRoute.Sitemap = states
@@ -457,6 +466,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Vehicle Title hub + 50 per-state title information & services guides.
     { url: `${baseUrl}/vehicle-title`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...titleStatePages,
+    // Bill of Sale hub + 50 per-state bill-of-sale & transfer-document guides.
+    { url: `${baseUrl}/bill-of-sale`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...billOfSaleStatePages,
+    // Road & Traffic Signs — evergreen driver-education guide.
+    { url: `${baseUrl}/road-traffic-signs`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/lemon-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...lemonStatePages,
     { url: `${baseUrl}/lemon-check/brand`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
