@@ -65,7 +65,7 @@ interface Props {
   /** When true, payment is bypassed and we land on /order/success?mock=1. */
   mockMode: boolean;
   /** Wave 10: passed to /api/order/checkout → Stripe `locale` + custom_text. */
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }
 
 // Wave 10: every user-visible string the form renders, keyed by locale.
@@ -161,6 +161,51 @@ const COPY = {
     errorVin: "Ingresa un VIN válido de 17 caracteres.",
     errorEmail: "Ingresa un email válido.",
     errorGeneric: "Algo salió mal. Intenta nuevamente en un momento.",
+  },
+  fr: {
+    vinLabel: "Saisis le VIN de 17 caract\u00e8res",
+    placeholder: "Saisis un VIN de 17 caract\u00e8res",
+    submitPreview: "Voir l'aper\u00e7u gratuit",
+    loading: "Chargement\u2026",
+    freePreviewHint: "Aper\u00e7u gratuit \u00b7 Aucune carte requise pour voir les bases",
+    nmvtisEyebrow: "Divulgation impos\u00e9e par la loi f\u00e9d\u00e9rale",
+    nmvtisTitle: "Avis d'acc\u00e8s consommateur NMVTIS",
+    nmvtisP1:
+      "Le National Motor Vehicle Title Information System (NMVTIS) est un syst\u00e8me \u00e9lectronique contenant des informations sur certains v\u00e9hicules immatricul\u00e9s aux \u00c9tats-Unis. NMVTIS vise \u00e0 \u00eatre une source fiable de l'historique des titres et des mentions des v\u00e9hicules, mais il ne contient pas d'informations d\u00e9taill\u00e9es sur l'historique des r\u00e9parations du v\u00e9hicule.",
+    nmvtisP2:
+      "La loi f\u00e9d\u00e9rale exige que tous les \u00e9tats, assureurs et casses (junk et salvage) communiquent leurs informations au NMVTIS. Cependant, les donn\u00e9es NMVTIS sont fournies par les prestataires actuels, et les donn\u00e9es d'un v\u00e9hicule peuvent ne pas figurer dans le syst\u00e8me si les prestataires ne les communiquent pas encore.",
+    nmvtisP3Prefix:
+      "Bien que NMVTIS soit con\u00e7u pour prot\u00e9ger les consommateurs contre la fraude et les v\u00e9hicules dangereux, les utilisateurs ne doivent pas se reposer uniquement sur NMVTIS. Les donn\u00e9es NMVTIS ",
+    nmvtisP3Strong: "n'incluent pas",
+    nmvtisP3Suffix:
+      " les donn\u00e9es d'\u00e9v\u00e9nements sur les v\u00e9hicules endommag\u00e9s avant les obligations de d\u00e9claration du NMVTIS, les dommages de collision non d\u00e9clar\u00e9s par un assureur participant, ni les dommages \u00e0 des v\u00e9hicules pour lesquels aucune r\u00e9clamation d'assurance n'a \u00e9t\u00e9 d\u00e9pos\u00e9e.",
+    nmvtisP4Strong:
+      "Avant d'acheter un v\u00e9hicule, en plus d'obtenir un rapport d'historique v\u00e9hicule, les consommateurs devraient\u00a0:",
+    nmvtisBullet1:
+      "Obtenir une inspection ind\u00e9pendante du v\u00e9hicule par un m\u00e9canicien qualifi\u00e9 de leur choix.",
+    nmvtisBullet2:
+      "V\u00e9rifier que le num\u00e9ro d'identification du v\u00e9hicule (VIN) sur le v\u00e9hicule correspond au VIN du titre et de tout autre document du v\u00e9hicule.",
+    nmvtisBullet3:
+      "Examiner le titre pour d\u00e9terminer si des mentions y figurent (par ex. flood, salvage, junk).",
+    nmvtisP5Before:
+      "Pour plus d'informations sur NMVTIS, les donn\u00e9es incluses dans le syst\u00e8me et les d\u00e9finitions des mentions standard NMVTIS, visite ",
+    nmvtisP5Mid: ". Pour la divulgation compl\u00e8te, consulte la ",
+    nmvtisP5LinkLabel: "page de divulgation NMVTIS",
+    nmvtisP5After: ".",
+    fee: "Frais du d\u00e9codeur",
+    discount: "R\u00e9duction",
+    total: "Total",
+    emailLabel: "Email pour recevoir le rapport",
+    emailPlaceholder: "toi@email.com",
+    couponLabel: "Code promo (optionnel)",
+    couponPlaceholder: "SAVE10",
+    payButton: "Commander le rapport complet",
+    payLoading: "Redirection vers le paiement\u2026",
+    consent:
+      "En cliquant sur Commander le rapport complet, tu acceptes les CGV de CarCheckerVIN et la divulgation NMVTIS.",
+    errorVin: "Saisis un VIN valide de 17 caract\u00e8res.",
+    errorEmail: "Saisis une adresse email valide.",
+    errorGeneric: "Un probl\u00e8me est survenu. R\u00e9essaie dans un instant.",
   },
 } as const;
 

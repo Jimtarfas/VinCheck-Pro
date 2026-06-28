@@ -37,6 +37,17 @@ const COPY = {
     eyebrow: "Dónde se esconde el código de pintura",
     footer: "Pasa el cursor o toca un punto — los marcadores se iluminan en el auto. Los pasos abajo recorren cada uno en detalle.",
   },
+  fr: {
+    spots: [
+      { label: "Encadrement de la porte conducteur", where: "La plupart des voitures", desc: "L'étiquette de service blanche/argentée sur le cadre de porte — le code peinture est à côté du VIN et de la pression des pneus." },
+      { label: "Sous le capot", where: "BMW · Mini", desc: "Sur la tourelle d'amortisseur ou le support de radiateur — un emplacement de secours courant quand l'étiquette de porte a disparu." },
+      { label: "Boîte à gants", where: "Pick-ups grand format", desc: "À l'intérieur du couvercle ou de la porte de la boîte à gants — fréquemment utilisé par les pick-ups et SUV domestiques." },
+      { label: "Coffre / Logement de roue de secours", where: "Audi · VW · Porsche", desc: "Sous le tapis de coffre ou dans le logement de la roue de secours — Porsche utilise souvent le coffre avant à la place." },
+    ],
+    diagramAria: "Diagramme de la voiture montrant où se trouve l'étiquette du code peinture",
+    eyebrow: "Où se cache le code peinture",
+    footer: "Survole ou touche un point — les marqueurs s'allument sur la voiture. Les étapes ci-dessous détaillent chacun.",
+  },
 } as const;
 
 interface Props {

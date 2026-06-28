@@ -80,12 +80,17 @@ export default function SectionNav({
 }: {
   items: SectionNavItem[];
   variant: "desktop" | "mobile";
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }) {
   const idsRef = useRef(items.map((i) => i.id));
   const active = useActiveSection(idsRef.current);
   const listRef = useRef<HTMLUListElement>(null);
-  const jumpLabel = locale === "es" ? "Ir a secci\u00f3n" : "Jump to Section";
+  const jumpLabel =
+    locale === "es"
+      ? "Ir a secci\u00f3n"
+      : locale === "fr"
+        ? "Aller \u00e0 la section"
+        : "Jump to Section";
 
   // Keep the active entry visible inside the rail's own scroll area as the
   // reader moves through the report. Only the internal list scrolls here — the

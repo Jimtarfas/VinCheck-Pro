@@ -28,6 +28,10 @@ const MONTHS_ES: Record<string, string> = {
   A: "Enero", B: "Febrero", C: "Marzo", D: "Abril", E: "Mayo", F: "Junio",
   G: "Julio", H: "Agosto", I: "Septiembre", J: "Octubre", K: "Noviembre", L: "Diciembre",
 };
+const MONTHS_FR: Record<string, string> = {
+  A: "Janvier", B: "F\u00e9vrier", C: "Mars", D: "Avril", E: "Mai", F: "Juin",
+  G: "Juillet", H: "Ao\u00fbt", I: "Septembre", J: "Octobre", K: "Novembre", L: "D\u00e9cembre",
+};
 
 const COPY = {
   en: {
@@ -100,6 +104,41 @@ const COPY = {
     vinLookupBtn: "Búsqueda VIN",
     months: MONTHS_ES,
   },
+  fr: {
+    label: "D\u00e9code un num\u00e9ro d'identification de coque (HIN)",
+    sub: "Saisis le HIN de 12 caract\u00e8res du tableau arri\u00e8re \u2014 nous extrairons le code fabricant, le num\u00e9ro de s\u00e9rie et la date de fabrication.",
+    placeholder: "ex. ABC12345H809",
+    decodeBtn: "D\u00e9coder le HIN",
+    resetTitle: "R\u00e9initialiser",
+    errEnter: "Saisis un num\u00e9ro d'identification de coque.",
+    errLen: (n: number) => `Un HIN compte exactement 12 caract\u00e8res. Tu en as saisi ${n}.`,
+    formatStraight: "Format Ann\u00e9e Directe (actuel, post-ao\u00fbt 1984)",
+    formatModel: "Format Ann\u00e9e Mod\u00e8le (pre-ao\u00fbt 1984)",
+    warnModelYearDigits: "Les chiffres de l'ann\u00e9e mod\u00e8le (positions 9\u201310) doivent \u00eatre num\u00e9riques.",
+    warnMonth12: "Le code du mois (position 12) doit \u00eatre une lettre A\u2013L.",
+    warnMonth9: "Le code du mois (position 9) doit \u00eatre une lettre A\u2013L \u2014 v\u00e9rifie \u00e0 nouveau le HIN.",
+    warnBuildDigit: "Le chiffre de l'ann\u00e9e de fabrication (position 10) doit \u00eatre num\u00e9rique.",
+    warnModelYearDigits11: "Les chiffres de l'ann\u00e9e mod\u00e8le (positions 11\u201312) doivent \u00eatre num\u00e9riques.",
+    warnIOQ: "La section MIC/s\u00e9rie contient I, O ou Q \u2014 inhabituel, \u00e0 v\u00e9rifier.",
+    decodedLabel: "HIN d\u00e9cod\u00e9",
+    micLabel: "Fabricant (MIC)",
+    micPos: "Positions 1\u20133",
+    hullLabel: "S\u00e9rie de coque",
+    hullPos: "Positions 4\u20138",
+    modelYearLabel: "Ann\u00e9e mod\u00e8le",
+    buildDateLabel: "Date de fabrication",
+    datePortion: "Partie date",
+    builtPre: "Construit ",
+    yearDigit: " \u00b7 chiffre d'ann\u00e9e ",
+    checkTheseLabel: "\u00c0 v\u00e9rifier\u00a0:",
+    micResolvePre: "Le MIC ",
+    micResolveMid: " identifie le constructeur. R\u00e9sous-le en nom d'entreprise dans la base officielle des Manufacturer Identification Codes de l'US Coast Guard\u00a0: ",
+    micLinkText: "Recherche USCG MIC",
+    boatTrailer: "Le bateau est sur une remorque\u00a0? ",
+    boatTrailerBold: "D\u00e9code aussi le VIN de la remorque.",
+    vinLookupBtn: "Recherche VIN",
+    months: MONTHS_FR,
+  },
 } as const;
 
 interface HinResult {
@@ -113,7 +152,7 @@ interface HinResult {
   warnings: string[];
 }
 
-function decodeHin(raw: string, c: (typeof COPY)["en" | "es"]): { result?: HinResult; error?: string } {
+function decodeHin(raw: string, c: (typeof COPY)["en" | "es" | "fr"]): { result?: HinResult; error?: string } {
   const hin = raw.toUpperCase().replace(/[^A-Z0-9]/g, "");
   if (hin.length === 0) return { error: c.errEnter };
   if (hin.length !== 12) return { error: c.errLen(hin.length) };
@@ -160,7 +199,7 @@ function decodeHin(raw: string, c: (typeof COPY)["en" | "es"]): { result?: HinRe
 }
 
 interface Props {
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }
 
 export default function HinDecoder({ locale = "en" }: Props) {

@@ -71,10 +71,23 @@ const COPY = {
     noMatch: (q: string) =>
       `Ningún estado coincide con "${q}". Prueba el nombre completo del estado o su abreviatura de dos letras.`,
   },
+  fr: {
+    heading: "Trouve ton \u00e9tat",
+    sub: "Choisis ton \u00e9tat pour les r\u00e8gles DMV locales et les mentions de titre \u2014 ou lance un VIN ci-dessous pour un rapport national instantan\u00e9.",
+    placeholder: "Saisis ton \u00e9tat (ex. California ou CA)",
+    inputAria: "Recherche ton \u00e9tat",
+    clearAria: "Effacer la recherche d'\u00e9tat",
+    mostSearched: "\u00c9tats les plus recherch\u00e9s",
+    all50: "Les 50 \u00e9tats",
+    matchOne: (n: number) => `${n} correspondance`,
+    matchMany: (n: number) => `${n} correspondances`,
+    noMatch: (q: string) =>
+      `Aucun \u00e9tat ne correspond \u00e0 \u00ab\u00a0${q}\u00a0\u00bb. Essaie le nom complet de l'\u00e9tat ou son abr\u00e9viation \u00e0 deux lettres.`,
+  },
 } as const;
 
 interface Props {
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }
 
 export default function StateFinder({ locale = "en" }: Props) {

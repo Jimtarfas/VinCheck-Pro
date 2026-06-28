@@ -12,7 +12,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { states } from "@/lib/states";
-import type { Locale } from "@/i18n/config";
+type Locale = "en" | "es" | "fr";
 
 interface LookupResult {
   ok: boolean;
@@ -87,6 +87,32 @@ const COPY = {
     decoding: "Decodificando vehículo…",
     dlKeys: { Year: "Año", Make: "Marca", Model: "Modelo", Trim: "Versión", Body: "Carrocería", Engine: "Motor", Trans: "Trans", Drive: "Tracción" },
     fullReport: "Ver reporte completo del vehículo",
+  },
+  fr: {
+    plateLabel: "Num\u00e9ro de plaque d'immatriculation",
+    platePlaceholder: "ex. 7ABC123",
+    stateLabel: "\u00c9tat",
+    statePlaceholder: "S\u00e9lectionne un \u00e9tat\u2026",
+    dcOption: "District de Columbia (DC)",
+    btnLoading: "Recherche du VIN\u2026",
+    btnIdle: "Rechercher le VIN par plaque",
+    legal: "Gratuit pour usage personnel pr\u00e9-achat \u2014 sans inscription. Les donn\u00e9es de plaque sont r\u00e9gies par la loi f\u00e9d\u00e9rale",
+    dppaTitle: "Driver's Privacy Protection Act",
+    errEnter: "Saisis un num\u00e9ro de plaque.",
+    errLen: "Les plaques font au plus 8 caract\u00e8res.",
+    errState: "S\u00e9lectionne l'\u00e9tat \u00e9metteur.",
+    netError: "Erreur r\u00e9seau.",
+    errOnboarding: "La recherche par plaque est en cours d'activation",
+    errNoMatch: "Aucune correspondance trouv\u00e9e",
+    errFail: "Impossible de finaliser cette recherche",
+    errFallback: "R\u00e9essaie ou recherche par VIN \u00e0 la place.",
+    searchByVin: "Rechercher par VIN \u00e0 la place",
+    vinFound: "VIN trouv\u00e9",
+    copyBtn: "Copier",
+    copied: "Copi\u00e9",
+    decoding: "D\u00e9codage du v\u00e9hicule\u2026",
+    dlKeys: { Year: "Ann\u00e9e", Make: "Marque", Model: "Mod\u00e8le", Trim: "Finition", Body: "Carrosserie", Engine: "Moteur", Trans: "Trans", Drive: "Transmission" },
+    fullReport: "Voir le rapport d'historique complet",
   },
 } as const;
 

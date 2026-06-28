@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { DollarSign, Percent, Calendar, RefreshCcw, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
 
-type Locale = "en" | "es";
+type Locale = "en" | "es" | "fr";
 
 interface AmortizationRow {
   month: number;
@@ -109,6 +109,50 @@ const COPY = {
     showAll: "Mostrar las",
     rows: "filas",
     noStateTax: "Sin impuesto estatal",
+  },
+  fr: {
+    vehiclePrice: "Prix du véhicule",
+    vehiclePriceHint: "Prix d'achat total avant acompte",
+    downPayment: "Acompte",
+    downPaymentHint: "Espèces que tu paies d'avance",
+    tradeIn: "Valeur de reprise",
+    tradeInHint: "Crédit du concessionnaire pour ton véhicule actuel",
+    apr: "Taux d'intérêt annuel (APR)",
+    aprHint: "Vérifie la pré-approbation de ta banque ou coopérative de crédit",
+    loanTerm: "Durée du prêt",
+    loanTermHint: "Plus court = moins d'intérêts ; plus long = paiement plus bas",
+    months: "mois",
+    year: "an",
+    years: "ans",
+    stateSalesTax: "Taxe de vente de l'état",
+    stateSalesTaxHint: "Appliquée à (prix − reprise)",
+    docFees: "Frais concessionnaire / documentation",
+    docFeesHint: "Frais de documentation, d'immatriculation et de titre",
+    calculateBtn: "Calculer le paiement mensuel",
+    resetTitle: "Réinitialiser",
+    monthlyPayment: "Paiement mensuel",
+    loanPrincipal: "Capital du prêt",
+    totalInterest: "Intérêts totaux",
+    totalCost: "Coût total",
+    costBreakdown: "Détail des coûts",
+    principalLabel: "Capital",
+    interestLabel: "Intérêts",
+    interestTipPre: "Tu paies ",
+    interestTipMid: " en intérêts",
+    interestTipSuffix:
+      " sur la durée de vie de ce prêt. Envisage une durée plus courte ou un acompte plus important pour réduire le coût total.",
+    amortizationSchedule: "Tableau d'amortissement",
+    payments: "paiements",
+    colMonth: "Mois",
+    colPayment: "Paiement",
+    colPrincipal: "Capital",
+    colInterest: "Intérêts",
+    colBalance: "Solde",
+    paymentsOmitted: "paiements omis",
+    showLess: "Afficher moins",
+    showAll: "Tout afficher",
+    rows: "lignes",
+    noStateTax: "Pas de taxe d'état",
   },
 } as const;
 

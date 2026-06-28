@@ -9,7 +9,7 @@ interface Props {
   selected: number;
   onSelect: (size: number) => void;
   /** Locale for the few UI strings. */
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }
 
 const COPY = {
@@ -30,6 +30,15 @@ const COPY = {
     save: (s: string) => `AHORRA ${s}`,
     best: "MEJOR VALOR",
     single: "Reporte individual",
+  },
+  fr: {
+    one: "1 rapport",
+    reports: (n: number) => `${n} rapports`,
+    perReport: "par rapport",
+    total: (s: string) => `${s} au total`,
+    save: (s: string) => `\u00c9CONOMISE ${s}`,
+    best: "MEILLEURE OFFRE",
+    single: "Rapport unique",
   },
 } as const;
 

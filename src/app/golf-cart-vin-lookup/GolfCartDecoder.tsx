@@ -102,6 +102,42 @@ const COPY = {
       ", el año se lee desde una tabla de prefijo de modelo en lugar de una posición fija — ve las guías de marca abajo. ",
     footerLink: "¿Necesitas un VIN de auto o camión en su lugar?",
   },
+  fr: {
+    heading: "D\u00e9code un num\u00e9ro de s\u00e9rie Club Car",
+    sub: "Saisis un num\u00e9ro de s\u00e9rie Club Car (2 lettres + ann\u00e9e + semaine) pour lire l'ann\u00e9e mod\u00e8le instantan\u00e9ment. Le guide Yamaha & E-Z-GO est ci-dessous.",
+    placeholder: "ex. PG0512345678",
+    inputAria: "Num\u00e9ro de s\u00e9rie Club Car",
+    decodeBtn: "D\u00e9coder",
+    resetAria: "R\u00e9initialiser",
+    errMinLen:
+      "Un num\u00e9ro de s\u00e9rie Club Car compte au moins 6 caract\u00e8res\u00a0: 2 lettres, puis un code ann\u00e9e+semaine \u00e0 4 chiffres. V\u00e9rifie sous le si\u00e8ge ou dans la bo\u00eete \u00e0 gants.",
+    errPrefix:
+      "Un num\u00e9ro de s\u00e9rie Club Car commence par deux lettres (le pr\u00e9fixe mod\u00e8le), ex. PG, AG ou PH. V\u00e9rifie \u00e0 nouveau les deux premiers caract\u00e8res.",
+    errYear:
+      "Les caract\u00e8res 3\u20134 doivent \u00eatre l'ann\u00e9e mod\u00e8le \u00e0 deux chiffres (ex. 05 pour 2005). V\u00e9rifie \u00e0 nouveau le num\u00e9ro de s\u00e9rie.",
+    warnWeek: (ww: string) =>
+      `Les caract\u00e8res 5\u20136 (${ww}) ne sont pas une semaine valide de l'ann\u00e9e (01\u201353). Sur certaines unit\u00e9s plus anciennes cette position diff\u00e8re \u2014 consid\u00e8re l'ann\u00e9e comme la valeur fiable.`,
+    warnWeekDigits:
+      "Les caract\u00e8res 5\u20136 ne sont pas deux chiffres, donc la semaine de production n'a pas pu \u00eatre lue. L'ann\u00e9e mod\u00e8le ci-dessus reste valide.",
+    decodedLabel: "Num\u00e9ro de s\u00e9rie Club Car d\u00e9cod\u00e9",
+    modelYear: "Ann\u00e9e mod\u00e8le",
+    weekWord: "Semaine",
+    prefixLabel: "Pr\u00e9fixe mod\u00e8le",
+    prefixPos: "Positions 1\u20132",
+    yearLabel: "Ann\u00e9e mod\u00e8le",
+    yearPos: "Positions 3\u20134",
+    seqLabel: "S\u00e9quence",
+    seqPos: "S\u00e9rie de production",
+    footer1: "Ce d\u00e9codeur lit le format de s\u00e9rie ",
+    footerBold: "Club Car",
+    footer2: ". Pour ",
+    footerYamaha: "Yamaha",
+    footerAnd: " et ",
+    footerEzgo: "E-Z-GO",
+    footer3:
+      ", l'ann\u00e9e se lit depuis un tableau de pr\u00e9fixes mod\u00e8les plut\u00f4t qu'une position fixe \u2014 voir les guides de marque ci-dessous. ",
+    footerLink: "Besoin d'un VIN auto ou camion \u00e0 la place\u00a0?",
+  },
 } as const;
 
 interface ClubCarResult {
@@ -115,7 +151,7 @@ interface ClubCarResult {
 
 function decodeClubCar(
   input: string,
-  c: (typeof COPY)["en" | "es"]
+  c: (typeof COPY)["en" | "es" | "fr"]
 ): { result?: ClubCarResult; error?: string } {
   const raw = input.toUpperCase().replace(/[^A-Z0-9]/g, "");
   if (raw.length < 6) return { error: c.errMinLen };
@@ -146,7 +182,7 @@ function decodeClubCar(
 }
 
 interface Props {
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }
 
 export default function GolfCartDecoder({ locale = "en" }: Props) {

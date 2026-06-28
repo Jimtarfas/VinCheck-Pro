@@ -16,7 +16,7 @@ import {
   ArrowRight,
   Wand2,
 } from "lucide-react";
-import type { Locale } from "@/i18n/config";
+type Locale = "en" | "es" | "fr";
 
 /* ------------------------------------------------------------------
    Built-in motorcycle VIN parser. Works offline with zero API calls
@@ -128,6 +128,58 @@ const COPY = {
     unknownMake: "Fabricante desconocido",
     unknownCountry: "Desconocido",
   },
+  fr: {
+    label: "VIN de moto",
+    placeholder: "Saisis un VIN de moto de 17 caract\u00e8res (ex. 1HD1KEM177Y123456)",
+    btn: "D\u00e9coder le VIN",
+    helper: "D\u00e9codage gratuit instantan\u00e9 \u00b7 WMI, ann\u00e9e, usine, fabricant, r\u00e9gion.",
+    sampleBtn: "Essaie un VIN d'exemple",
+    errorLen: "Merci de saisir un VIN de 17 caract\u00e8res.",
+    invalidStrong: "Format de VIN invalide.",
+    invalidBody: "Les VIN de motos comptent exactement 17 caract\u00e8res utilisant les lettres A\u2013Z (sans I, O, Q) et les chiffres 0\u20139. Les motos ant\u00e9rieures \u00e0 1981 ont des VIN plus courts et ne peuvent pas \u00eatre d\u00e9cod\u00e9es automatiquement.",
+    decodedLabel: "MOTO D\u00c9COD\u00c9E",
+    vinLabel: "VIN",
+    rowManufacturer: "Fabricant",
+    rowCountry: "Pays d'origine",
+    rowYear: "Ann\u00e9e mod\u00e8le",
+    rowYearOr: "ou",
+    rowYearUnknown: "Inconnue",
+    rowSeq: "S\u00e9quence de production",
+    rowEngine: "Moteur",
+    rowFuel: "Type de carburant",
+    rowCyl: "cyl",
+    rowHp: "hp",
+    hintWmi: "WMI",
+    hintRegion: "R\u00e9gion",
+    hintYearCode: "Code ann\u00e9e",
+    hintPlant: "Code usine",
+    breakdownH: "D\u00e9composition des caract\u00e8res du VIN",
+    breakdownIntro: "Chaque position d'un VIN de moto \u00e0 17 caract\u00e8res encode une information sp\u00e9cifique sur la moto. Voici comment se d\u00e9compose ce VIN\u00a0:",
+    legend: [
+      { swatch: "bg-primary-200", label: "Positions 1\u20133", v: "WMI \u2014 Identifiant mondial du fabricant" },
+      { swatch: "bg-amber-200", label: "Positions 4\u20138", v: "VDS \u2014 mod\u00e8le, moteur, type de carrosserie" },
+      { swatch: "bg-emerald-200", label: "Position 9", v: "Chiffre de contr\u00f4le (valide le VIN)" },
+      { swatch: "bg-violet-200", label: "Position 10", v: "Code de l'ann\u00e9e mod\u00e8le" },
+      { swatch: "bg-slate-200", label: "Position 11", v: "Code de l'usine d'assemblage" },
+      { swatch: "bg-slate-200", label: "Positions 12\u201317", v: "Num\u00e9ro s\u00e9quentiel de production" },
+    ],
+    twoYearsStrong: "Deux ann\u00e9es mod\u00e8les possibles.",
+    twoYearsPre: "Le cycle VIN de 30 ans signifie que ta moto pourrait \u00eatre de ",
+    twoYearsMid: " ou ",
+    twoYearsPost: ". Le rapport d'historique complet ci-dessous utilise les donn\u00e9es de titre et d'immatriculation pour pr\u00e9ciser l'ann\u00e9e exacte.",
+    limitedStrong: "Couverture moto limit\u00e9e.",
+    limitedPost: " Les motos sont parfois plus rares dans la base de donn\u00e9es VIN d'auto.dev que les voitures \u2014 le d\u00e9codage hors-ligne ci-dessus reste exact.",
+    ctaRecLabel: "Prochaine \u00e9tape recommand\u00e9e",
+    ctaRecTitle: "Obtiens le rapport d'historique complet",
+    ctaRecDesc: "\u00c9tat du titre, v\u00e9rification de vol, accidents, kilom\u00e9trage et rappels.",
+    ctaBonusLabel: "Outil bonus",
+    ctaBonusTitle: "G\u00e9n\u00e9rateur de Window Sticker",
+    ctaBonusDesc: "Cr\u00e9e une fiche imprimable style Monroney pour cette moto.",
+    apiErrorFallback: "Impossible de joindre la base VIN. Le d\u00e9codage hors-ligne ci-dessous reste exact.",
+    apiNoMatch: "La base VIN n'a renvoy\u00e9 aucune correspondance.",
+    unknownMake: "Fabricant inconnu",
+    unknownCountry: "Inconnu",
+  },
 } as const;
 
 // World Manufacturer Identifier prefixes for motorcycle makers (most common).
@@ -224,7 +276,7 @@ interface ParsedVin {
   yearCandidates: number[];
 }
 
-function parseMotorcycleVin(input: string, locale: Locale, c: (typeof COPY)["en" | "es"]): ParsedVin | null {
+function parseMotorcycleVin(input: string, locale: Locale, c: (typeof COPY)["en" | "es" | "fr"]): ParsedVin | null {
   const v = input.trim().toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, "");
   if (v.length !== 17) return null;
 

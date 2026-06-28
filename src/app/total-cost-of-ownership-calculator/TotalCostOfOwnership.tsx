@@ -21,7 +21,7 @@ import {
   ArrowRight,
   Zap,
 } from "lucide-react";
-import type { Locale } from "@/i18n/config";
+type Locale = "en" | "es" | "fr";
 
 /* ─── Reference data ─────────────────────────────────────── */
 
@@ -112,8 +112,22 @@ const STATE_NAMES_ES: Record<string, string> = {
   VA: "Virginia", WA: "Washington", WV: "Virginia Occidental", WI: "Wisconsin", WY: "Wyoming",
 };
 
+const STATE_NAMES_FR: Record<string, string> = {
+  US: "Moyenne nationale", AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas",
+  CA: "Californie", CO: "Colorado", CT: "Connecticut", DE: "Delaware", FL: "Floride",
+  GA: "G\u00e9orgie", HI: "Hawa\u00ef", ID: "Idaho", IL: "Illinois", IN: "Indiana", IA: "Iowa",
+  KS: "Kansas", KY: "Kentucky", LA: "Louisiane", ME: "Maine", MD: "Maryland",
+  MA: "Massachusetts", MI: "Michigan", MN: "Minnesota", MS: "Mississippi", MO: "Missouri",
+  MT: "Montana", NE: "Nebraska", NV: "Nevada", NH: "New Hampshire", NJ: "New Jersey",
+  NM: "Nouveau-Mexique", NY: "New York", NC: "Caroline du Nord", ND: "Dakota du Nord", OH: "Ohio",
+  OK: "Oklahoma", OR: "Oregon", PA: "Pennsylvanie", RI: "Rhode Island", SC: "Caroline du Sud",
+  SD: "Dakota du Sud", TN: "Tennessee", TX: "Texas", UT: "Utah", VT: "Vermont",
+  VA: "Virginie", WA: "Washington", WV: "Virginie-Occidentale", WI: "Wisconsin", WY: "Wyoming",
+};
+
 function getStateData(locale: Locale): StateRow[] {
-  const names = locale === "es" ? STATE_NAMES_ES : STATE_NAMES_EN;
+  const names =
+    locale === "es" ? STATE_NAMES_ES : locale === "fr" ? STATE_NAMES_FR : STATE_NAMES_EN;
   return STATE_DATA_BASE.map((s) => ({
     abbr: s.abbr,
     state: names[s.abbr] ?? s.abbr,
@@ -152,6 +166,16 @@ const VEHICLE_TYPE_LABELS_ES: Record<VehicleTypeId, string> = {
   EV: "Eléctrico (EV)",
   Luxury: "Lujo",
   Sports: "Deportivo",
+  Minivan: "Minivan",
+};
+
+const VEHICLE_TYPE_LABELS_FR: Record<VehicleTypeId, string> = {
+  Sedan: "Berline",
+  SUV: "SUV",
+  Truck: "Camion / Pickup",
+  EV: "\u00c9lectrique (EV)",
+  Luxury: "Luxe",
+  Sports: "Sport",
   Minivan: "Minivan",
 };
 
@@ -579,6 +603,97 @@ const WIDGET_COPY = {
     },
     vinHref: "/es/vin-check",
   },
+  fr: {
+    analysisSettings: "Param\u00e8tres d'analyse",
+    state: "\u00c9tat",
+    setsGasAndTax: (g: string, t: string) => `D\u00e9finit le prix de l'essence ($${g}) et la taxe de vente (${t}%)`,
+    annualMiles: "Miles parcourus par an",
+    yearsAnalysis: "Ann\u00e9es d'analyse",
+    years: (y: number) => `${y} ans`,
+    gasOverride: "Forcer le prix de l'essence ($/gal)",
+    taxOverride: "Forcer la taxe de vente (%)",
+    usingGasTax: (g: string, t: string) => ({ g, t, prefix: "Utilise ", mid: "/gal \u00b7 ", suffix: " de taxe de vente" }),
+    vehicleA: "V\u00e9hicule A",
+    vehicleB: "V\u00e9hicule B",
+    hideB: "Masquer la comparaison avec V\u00e9hicule B",
+    showB: "Comparer avec un autre v\u00e9hicule (optionnel)",
+    calculate: "Calculer le co\u00fbt total de propri\u00e9t\u00e9",
+    reset: "R\u00e9initialiser",
+    makeModel: "Marque / Mod\u00e8le",
+    makeModelPlaceholder: "ex. 2024 Toyota Camry",
+    vehicleType: "Type de v\u00e9hicule",
+    purchasePrice: "Prix d'achat",
+    downPayment: "Apport",
+    aprLabel: "TAEG (%)",
+    loanTerm: "Dur\u00e9e du pr\u00eat",
+    months: (m: number) => `${m} mois`,
+    mpgCombined: "MPG (combin\u00e9)",
+    mpgeCombined: "MPGe (combin\u00e9)",
+    annualInsurance: "Assurance annuelle",
+    maintenanceLevel: "Niveau d'entretien",
+    maintLow: "Bas ($500/an)",
+    maintAverage: "Moyen ($800/an)",
+    maintHigh: "\u00c9lev\u00e9 ($1,400/an)",
+    tcoHeader: (y: number, name: string) => `Co\u00fbt total de propri\u00e9t\u00e9 sur ${y} ans \u00b7 ${name}`,
+    vehicleDefault: "V\u00e9hicule",
+    perYearLine: (perYear: string, perMile: string, totalMiles: string) =>
+      `Soit ${perYear}/an \u00b7 ${perMile}/mile parcouru \u00b7 ${totalMiles} miles au total`,
+    perDay: "Par jour",
+    perMonth: "Par mois",
+    perMile: "Par mile",
+    costComposition: "Composition du co\u00fbt",
+    biggestCost: "est ton plus gros co\u00fbt",
+    biggestOf: (val: string, pct: string, years: number) => ` \u00e0 ${val} (${pct}% du TCO sur ${years} ans).`,
+    depreciationTip:
+      " La d\u00e9pr\u00e9ciation est in\u00e9vitable mais ralentit apr\u00e8s la 3e ann\u00e9e \u2014 acheter un v\u00e9hicule d'occasion de 2-3 ans r\u00e9duit consid\u00e9rablement ce co\u00fbt.",
+    fuelTip:
+      " Passer \u00e0 un hybride ou \u00e0 un EV pourrait r\u00e9duire les co\u00fbts de carburant de 50 \u00e0 70 % pour le m\u00eame kilom\u00e9trage annuel.",
+    financingTip:
+      " Un apport plus important ou une dur\u00e9e de pr\u00eat plus courte peut r\u00e9duire fortement les int\u00e9r\u00eats pay\u00e9s.",
+    evSavingsLead: "\u00c9conomies de carburant EV\u00a0:",
+    evSavingsMid: (miles: string) => ` \u00e0 ${miles} miles/an, cet EV t'\u00e9conomise environ `,
+    evSavingsSuffix: "/an",
+    evSavingsTail:
+      " sur le carburant vs. un v\u00e9hicule essence \u00e9quivalent, plus un entretien r\u00e9duit gr\u00e2ce \u00e0 moins de pi\u00e8ces mobiles.",
+    costBreakdownByYear: "R\u00e9partition des co\u00fbts par ann\u00e9e",
+    yearAnalysis: (y: number) => `analyse sur ${y} ans`,
+    category: "Cat\u00e9gorie",
+    year: "Ann\u00e9e",
+    yearTotal: "Total de l'ann\u00e9e",
+    total: "Total",
+    perMo: "/mois",
+    netWinner: "Gagnant net",
+    winnerSaves: (name: string, savings: string, years: number) =>
+      `${name} te fait \u00e9conomiser ${savings} sur ${years} ans`,
+    winnerSub: (loser: string, perYear: string, perMonth: string) =>
+      `vs. ${loser} \u00b7 soit ${perYear}/an ou ${perMonth}/mois`,
+    sideBySide: "Comparaison c\u00f4te \u00e0 c\u00f4te",
+    costCategory: "Cat\u00e9gorie de co\u00fbt",
+    difference: "Diff\u00e9rence",
+    yearTotalLabel: (y: number) => `Total sur ${y} ans`,
+    breakEvenLead: "Analyse du seuil de rentabilit\u00e9\u00a0:",
+    breakEvenMid: (winner: string, priceDiff: string, months: number, years: string) =>
+      ` ${winner} co\u00fbte ${priceDiff} de plus au d\u00e9part, mais ses co\u00fbts de fonctionnement plus bas r\u00e9cup\u00e8rent la prime en `,
+    breakEvenMonths: (m: number) => `${m} mois`,
+    breakEvenParen: (years: string) => ` (${years} ans).`,
+    breakEvenWithin: (y: number) =>
+      ` Dans ta fen\u00eatre de ${y} ans \u2014 le v\u00e9hicule plus cher l'emporte.`,
+    breakEvenLonger: (y: number) =>
+      ` Plus long que ta fen\u00eatre de ${y} ans \u2014 le v\u00e9hicule moins cher l'emporte sur le TCO.`,
+    foundVehicle: "Tu as trouv\u00e9 un v\u00e9hicule\u00a0?",
+    verifyHistory: "V\u00e9rifie son historique avant d'acheter.",
+    freeVinCheck: "V\u00e9rification VIN gratuite",
+    costLabels: {
+      depreciation: "D\u00e9pr\u00e9ciation",
+      financing: "Financement",
+      fuel: "Carburant",
+      insurance: "Assurance",
+      maintenance: "Entretien",
+      repairs: "R\u00e9parations",
+      taxesFees: "Taxes et frais",
+    },
+    vinHref: "/fr/vin-check",
+  },
 } as const;
 
 /* ─── Color tokens for cost categories ───────────────────── */
@@ -618,7 +733,8 @@ export default function TotalCostOfOwnership({ locale = "en" }: Props) {
   const C = WIDGET_COPY[locale];
   const STATE_DATA = getStateData(locale);
   const COST_CATEGORIES = getCostCategories(locale);
-  const VEHICLE_TYPE_LABELS = locale === "es" ? VEHICLE_TYPE_LABELS_ES : VEHICLE_TYPE_LABELS_EN;
+  const VEHICLE_TYPE_LABELS =
+    locale === "es" ? VEHICLE_TYPE_LABELS_ES : locale === "fr" ? VEHICLE_TYPE_LABELS_FR : VEHICLE_TYPE_LABELS_EN;
 
   const [vehicleA, setVehicleA] = useState<VehicleInputs>({
     name: C.vehicleA,

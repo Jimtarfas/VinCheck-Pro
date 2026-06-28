@@ -66,6 +66,26 @@ const COPY = {
     copyAria: (code: string) => `Copiar ${code}`,
     basePath: "/es/paint-code-lookup",
   },
+  fr: {
+    tag: "Outil interactif",
+    heading: "Où se trouve mon code peinture ? Choisis ta marque",
+    sub: "Touche le constructeur de ton véhicule pour voir l'emplacement exact de l'étiquette, le format de l'étiquette, des codes d'exemple et des conseils spécifiques à la marque.",
+    clear: "Effacer",
+    helperHeading: "Sélectionne ton constructeur ci-dessus",
+    helperBody: "Chaque marque place le code peinture à un endroit légèrement différent et l'écrit différemment. Choisis la tienne pour voir l'emplacement exact de l'étiquette, à quoi ressemble l'étiquette, de vrais codes d'exemple et des conseils spécifiques à la marque.",
+    helperBullets: ["Emplacement exact de l'étiquette", "Format du code et exemples", "Conseils spécifiques à la marque"],
+    paintCodeLocation: "Emplacement du code peinture",
+    stickerLabel: "Étiquette :",
+    primaryLocation: "Emplacement principal",
+    alsoCheck: "Vérifie aussi ici",
+    codeFormat: "Format du code",
+    formatWord: "Format :",
+    patternWord: "Motif :",
+    exampleCodes: "Codes et couleurs d'exemple",
+    tipsSuffix: " — Conseils spécifiques",
+    copyAria: (code: string) => `Copier ${code}`,
+    basePath: "/fr/paint-code-lookup",
+  },
 } as const;
 
 interface Props {
@@ -182,7 +202,7 @@ export default function PaintCodeLocator({ locale = "en" }: Props) {
   );
 }
 
-function GenericHelper({ c }: { c: (typeof COPY)["en" | "es"] }) {
+function GenericHelper({ c }: { c: (typeof COPY)["en" | "es" | "fr"] }) {
   const icons = [MapPin, Tag, Lightbulb];
   return (
     <div className="rounded-2xl border border-dashed border-outline-variant bg-surface p-6 sm:p-8">
@@ -226,7 +246,7 @@ function BrandCard({
   brand: PaintCodeBrand;
   copiedCode: string | null;
   onCopy: (code: string) => void;
-  c: (typeof COPY)["en" | "es"];
+  c: (typeof COPY)["en" | "es" | "fr"];
 }) {
   return (
     <div className="space-y-5">

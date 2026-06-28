@@ -215,6 +215,80 @@ const COPY = {
     mdNoFailed: "Sin elementos fallidos",
     mdFooter: "_Generado con la lista de inspección antes de la compra gratis de CarCheckerVIN._",
   },
+  fr: {
+    severityLabel: { "deal-breaker": "R\u00e9dhibitoire", major: "Majeur", minor: "Mineur", info: "Info" } as Record<ChecklistSeverity, string>,
+    vehicleHeading: "V\u00e9hicule inspect\u00e9",
+    year: "Ann\u00e9e",
+    make: "Marque",
+    model: "Mod\u00e8le",
+    vin: "VIN",
+    vinPlaceholder: "VIN de 17 caract\u00e8res",
+    mileage: "Kilom\u00e9trage",
+    askingPrice: "Prix demand\u00e9",
+    sellerName: "Nom du vendeur",
+    sellerPlaceholder: "Jean Dupont (particulier / concessionnaire)",
+    itemsReviewed: (a: number, t: number) => `${a} / ${t} \u00e9l\u00e9ments revus`,
+    redFlag: (n: number) => `${n} signal${n === 1 ? "" : "s"} d'alerte`,
+    generateReport: "G\u00e9n\u00e9rer le rapport",
+    reset: "R\u00e9initialiser",
+    resetConfirm: "Effacer toutes les r\u00e9ponses et les infos du v\u00e9hicule\u00a0? C'est irr\u00e9versible.",
+    failedShort: (n: number) => `${n} \u00e9chec${n === 1 ? "" : "s"}`,
+    pass: "Pass\u00e9",
+    fail: "\u00c9chec",
+    skip: "Passer",
+    redFlagLabel: "Signal d'alerte\u00a0:",
+    inspectionReport: "Rapport d'inspection",
+    closeReport: "Fermer le rapport",
+    defaultTitleLine: "Inspection de v\u00e9hicule d'occasion",
+    inspectedOn: "Inspect\u00e9 le",
+    seller: "Vendeur",
+    verdictWalkAway: "Passe ton chemin ou exige une grosse baisse de prix",
+    verdictWalkAwayDealBreaker: "Un ou plusieurs points r\u00e9dhibitoires ont \u00e9t\u00e9 marqu\u00e9s \u00c9chec. Ces probl\u00e8mes compromettent la s\u00e9curit\u00e9, la l\u00e9galit\u00e9, ou entra\u00eenent des co\u00fbts de r\u00e9paration sup\u00e9rieurs \u00e0 une d\u00e9pr\u00e9ciation raisonnable.",
+    verdictWalkAwayMajors: "Plusieurs probl\u00e8mes majeurs ont \u00e9t\u00e9 signal\u00e9s. Le co\u00fbt cumul\u00e9 des r\u00e9parations d\u00e9passe probablement 2\u00a0500\u00a0$. N\u00e9gocie fort ou passe ton chemin.",
+    verdictNegotiate: "N\u00e9gocie ou demande une PPI m\u00e9canique",
+    verdictNegotiateDetail: "Probl\u00e8mes notables trouv\u00e9s. Obtiens un devis de r\u00e9paration \u00e9crit, d\u00e9duis-le du prix demand\u00e9 et envisage une inspection pr\u00e9-achat pay\u00e9e par un m\u00e9canicien.",
+    verdictNotStarted: "Inspection non commenc\u00e9e",
+    verdictNotStartedDetail: "Parcours chaque section et marque Pass\u00e9 / \u00c9chec / Passer pour obtenir un verdict.",
+    verdictSolid: "Semble solide \u2014 avance avec confiance",
+    verdictSolidDetail: "Aucun point r\u00e9dhibitoire et tr\u00e8s peu de probl\u00e8mes majeurs. Fais une v\u00e9rification d'historique VIN pour confirmer que le titre est propre avant de payer.",
+    scoreHeading: "Score",
+    scorePassed: "Pass\u00e9s",
+    scoreFailed: "\u00c9chou\u00e9s",
+    scoreSkipped: "Pass\u00e9s outre",
+    scoreSummary: (a: number, t: number) => `${a} sur ${t} \u00e9l\u00e9ments revus.`,
+    severityHeading: "\u00c9l\u00e9ments \u00e9chou\u00e9s par s\u00e9v\u00e9rit\u00e9",
+    sevDealBreakers: "R\u00e9dhibitoires",
+    sevMajor: "Majeur",
+    sevMinor: "Mineur",
+    sevInfo: "Info",
+    dealBreakerCalloutTitle: (n: number) => `${n} point${n === 1 ? "" : "s"} r\u00e9dhibitoire${n === 1 ? "" : "s"} trouv\u00e9${n === 1 ? "" : "s"}`,
+    dealBreakerCalloutBody: "Les points r\u00e9dhibitoires compromettent la s\u00e9curit\u00e9, la l\u00e9galit\u00e9 ou entra\u00eenent des co\u00fbts de r\u00e9paration sup\u00e9rieurs \u00e0 une d\u00e9pr\u00e9ciation raisonnable. La recommandation est de passer ton chemin sauf si le vendeur baisse le prix suffisamment pour couvrir la pire r\u00e9paration, plus une marge pour les inconnus.",
+    failedItemsHeading: "\u00c9l\u00e9ments \u00e9chou\u00e9s",
+    failedItemsNone: "Aucun \u00e9l\u00e9ment marqu\u00e9 \u00c9chec. Soit le v\u00e9hicule est en pleine forme, soit il te reste des \u00e9l\u00e9ments \u00e0 examiner.",
+    footerNote: "G\u00e9n\u00e9r\u00e9 avec la liste d'inspection pr\u00e9-achat gratuite de CarCheckerVIN. Ne remplace pas une inspection pr\u00e9-achat par un m\u00e9canicien agr\u00e9\u00e9.",
+    copyAsMarkdown: "Copier en Markdown",
+    copied: "Copi\u00e9\u00a0!",
+    printReport: "Imprimer le rapport",
+    mdGenericTitle: "Inspection de v\u00e9hicule d'occasion",
+    mdVin: "VIN",
+    mdMileage: "Kilom\u00e9trage",
+    mdAskingPrice: "Prix demand\u00e9",
+    mdSeller: "Vendeur",
+    mdScore: "Score",
+    mdPassed: "Pass\u00e9s",
+    mdFailed: "\u00c9chou\u00e9s",
+    mdSkipped: "Pass\u00e9s outre",
+    mdTotalReviewed: "Total revus",
+    mdSeverityBreakdown: "R\u00e9partition par s\u00e9v\u00e9rit\u00e9 (\u00e9l\u00e9ments \u00e9chou\u00e9s)",
+    mdDealBreakers: "R\u00e9dhibitoires",
+    mdMajor: "Majeur",
+    mdMinor: "Mineur",
+    mdInfo: "Info",
+    mdVerdictHeading: "Verdict de l'acheteur",
+    mdFailedItems: "\u00c9l\u00e9ments \u00e9chou\u00e9s",
+    mdNoFailed: "Aucun \u00e9l\u00e9ment \u00e9chou\u00e9",
+    mdFooter: "_G\u00e9n\u00e9r\u00e9 avec la liste d'inspection pr\u00e9-achat gratuite de CarCheckerVIN._",
+  },
 } as const;
 
 const SEVERITY_PILL: Record<ChecklistSeverity, string> = {
@@ -236,7 +310,7 @@ const FAIL_BG: Record<ChecklistSeverity, string> = {
 interface SectionStrings { title: string; description: string; }
 interface ItemStrings { question: string; helpText?: string; redFlagIfFailed: string; }
 
-const SECTION_T: Record<"en" | "es", Record<string, SectionStrings>> = {
+const SECTION_T: Partial<Record<"en" | "es" | "fr", Record<string, SectionStrings>>> = {
   en: {
     exterior: { title: "Walk-Around Exterior", description: "Body, paint, glass, and tires. Look for accident-repair signs, mismatched panels, and weather damage in good daylight." },
     underneath: { title: "Underneath the Vehicle", description: "The frame, exhaust, and suspension tell the truth about a car's life. Bring a flashlight and don't skip this section." },
@@ -259,7 +333,7 @@ const SECTION_T: Record<"en" | "es", Record<string, SectionStrings>> = {
   },
 };
 
-const ITEM_T: Record<"en" | "es", Record<string, ItemStrings>> = {
+const ITEM_T: Partial<Record<"en" | "es" | "fr", Record<string, ItemStrings>>> = {
   en: {
     "ext-panel-gaps": { question: "Are all body panel gaps even and consistent?", helpText: "Compare gaps on doors, hood, trunk, and fenders. Uneven gaps usually mean a prior collision or poor repair.", redFlagIfFailed: "Inconsistent panel gaps strongly suggest prior collision repair — request the full accident history before negotiating." },
     "ext-paint-match": { question: "Does the paint color and texture match across all panels?", helpText: "Look at panels in sunlight from multiple angles. Orange-peel texture differences or color shifts indicate respray.", redFlagIfFailed: "Paint mismatch indicates a respray — usually cosmetic, but could mask body filler from a prior accident." },
@@ -396,22 +470,22 @@ const ITEM_T: Record<"en" | "es", Record<string, ItemStrings>> = {
   },
 };
 
-function localizedSection(locale: "en" | "es", section: ChecklistSection) {
-  const t = SECTION_T[locale][section.id];
+function localizedSection(locale: "en" | "es" | "fr", section: ChecklistSection) {
+  const t = (SECTION_T[locale] ?? SECTION_T.en)?.[section.id];
   return t ?? { title: section.title, description: section.description };
 }
 
-function localizedItem(locale: "en" | "es", id: string) {
-  const t = ITEM_T[locale][id];
+function localizedItem(locale: "en" | "es" | "fr", id: string) {
+  const t = (ITEM_T[locale] ?? ITEM_T.en)?.[id];
   return t ?? { question: id, helpText: undefined, redFlagIfFailed: "" };
 }
 
 interface InspectionChecklistProps {
-  locale?: "en" | "es";
+  locale?: "en" | "es" | "fr";
 }
 
 export default function InspectionChecklist({ locale = "en" }: InspectionChecklistProps) {
-  const c: (typeof COPY)["en" | "es"] = COPY[locale];
+  const c: (typeof COPY)["en" | "es" | "fr"] = COPY[locale];
   const [vehicle, setVehicle] = useState<VehicleInfo>(EMPTY_VEHICLE);
   // verdicts: { [itemId]: "Pass" | "Fail" | "Skip" }
   const [verdicts, setVerdicts] = useState<Record<string, Verdict>>({});
@@ -911,8 +985,8 @@ function ReportView({
   onCopy,
   copied,
 }: {
-  locale: "en" | "es";
-  c: (typeof COPY)["en" | "es"];
+  locale: "en" | "es" | "fr";
+  c: (typeof COPY)["en" | "es" | "fr"];
   vehicle: VehicleInfo;
   stats: {
     pass: number;
