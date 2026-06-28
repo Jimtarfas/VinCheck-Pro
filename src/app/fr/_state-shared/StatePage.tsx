@@ -66,10 +66,10 @@ export default function StatePage({ hook }: { hook: StateHook }) {
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
             {t(LOCALE, "state.sectionWhy")}
           </h2>
-          <div className="prose prose-slate max-w-nonne text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
+          <div className="prose prose-slate max-w-none text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">
             <p>{hook.whyP1}</p>
             <p>{hook.whyStats}</p>
-            <ul className="space-y-3 list-nonne pl-0">
+            <ul className="space-y-3 list-none pl-0">
               {hook.whyBullets.map((item) => (
                 <li
                   key={item.point}

@@ -26,7 +26,7 @@ const STATES_WITH_DEDICATED_ES_PAGE = new Set([
   "california",
   "texas",
   "new-york",
-  "illinonis",
+  "illinois",
   "pennsylvania",
   "florida",
 ]);

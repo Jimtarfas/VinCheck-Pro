@@ -1,6 +1,6 @@
 /**
  * Per-state French content for the dedicated /fr/<state>-revision-vin
- * landing pages (Big-5: Californie, Texas, New York, Illinonis, Pennsylvania).
+ * landing pages (Big-5: Californie, Texas, New York, Illinois, Pennsylvania).
  *
  * The shared chrome (section headings, search box copy, CTA labels) lives
  * in `state.*` of the global dictionary so it stays consistent across all
@@ -378,32 +378,32 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     wikipediaEs: "https://es.wikipedia.org/wiki/Nouvelle_York_(état)",
   },
 
-  illinonis: {
-    esSlug: "/illinonis-revision-vin",
-    englishPath: "/vin-check/state/illinonis",
-    stateNameEs: "Illinonis",
+  illinois: {
+    esSlug: "/illinois-revision-vin",
+    englishPath: "/vin-check/state/illinois",
+    stateNameEs: "Illinois",
     abbr: "IL",
-    dmvNameEs: "Secretaría de Estado de Illinonis — Servicios Vehiculares",
-    metaTitle: "Vérification VIN Illinonis gratuit — Historique IL instantanément",
+    dmvNameEs: "Secretaría de Estado de Illinois — Servicios Vehiculares",
+    metaTitle: "Vérification VIN Illinois gratuit — Historique IL instantanément",
     metaDescription:
-      "Detecta marques Salvage, Rebuilt, Junk et Flood en Illinonis avant de acheter. Rapport VIN gratuit instantanément avec données du Secretary of State — sans inscription ni carte.",
+      "Detecta marques Salvage, Rebuilt, Junk et Flood en Illinois avant de acheter. Rapport VIN gratuit instantanément avec données du Secretary of State — sans inscription ni carte.",
     keywords: [
-      "vérification VIN Illinonis",
-      "VIN check Illinonis français",
-      "historique de véhicule Illinonis",
-      "salvage Illinonis",
-      "Illinonis Secretary of State VIN",
-      "vérifier VIN Illinonis",
+      "vérification VIN Illinois",
+      "VIN check Illinois français",
+      "historique de véhicule Illinois",
+      "salvage Illinois",
+      "Illinois Secretary of State VIN",
+      "vérifier VIN Illinois",
       "Chicago VIN check",
-      "rapport auto Illinonis",
+      "rapport auto Illinois",
     ],
-    badgeAuthority: "Datos du Illinonis Secretary of State",
-    h1Lead: "Vérification VIN de Illinonis —",
+    badgeAuthority: "Datos du Illinois Secretary of State",
+    h1Lead: "Vérification VIN de Illinois —",
     h1Accent: "Rapport gratuit du historique du véhicule",
     intro:
-      "Illinonis registra 10.7 millelions de véhicules et tipifica como delito la altéréation de un VIN. Una vérification VIN gratuit revela marques Salvage, Rebuilt, Junk et Flood, lecturas du odomètre et rappels ouverts — instantanément, sans inscription.",
+      "Illinois registra 10.7 millelions de véhicules et tipifica como delito la altéréation de un VIN. Una vérification VIN gratuit revela marques Salvage, Rebuilt, Junk et Flood, lecturas du odomètre et rappels ouverts — instantanément, sans inscription.",
     whyP1:
-      "Con approximativement 10.7 millelions de véhicules sur una population de 12.5M, Illinonis centraliza un marché de usadeux grand autour de Chicago — unon de les principales hubs de redistribution du Medio Oeste.",
+      "Con approximativement 10.7 millelions de véhicules sur una population de 12.5M, Illinois centraliza un marché de usadeux grand autour de Chicago — unon de les principales hubs de redistribution du Medio Oeste.",
     whyStats:
       "Una vérification VIN cruza historique de titre, lecturas du odomètre, eventos de salvage et perte totale, enregistrements de vol, rappels ouverts et rapports de accidents de todo le pays — esenciales en un état où le Secretary of State investiga activemente la manipulation de VINs.",
     whyBullets: [
@@ -411,7 +411,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "⚖️",
         point: "VIN tampering = delito grave",
         detail:
-          "Illinonis tipifica como felonía la altéréation de un VIN, et la Secretaría de Estado a una unité dedicada de recherche. Un VIN limpio en le rapport indica que le numéro non ha été reemplazado — clave en véhicules importadeux ou de salvage.",
+          "Illinois tipifica como felonía la altéréation de un VIN, et la Secretaría de Estado a una unité dedicada de recherche. Un VIN limpio en le rapport indica que le numéro non ha été reemplazado — clave en véhicules importadeux ou de salvage.",
       },
       {
         icon: "🚛",
@@ -423,20 +423,20 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "❄️",
         point: "Corrosion par sal du 'Rust Belt'",
         detail:
-          "Les inviernons de Illinonis requieren grands quantitées de sal en les routes, le que cautilise dégâts estructural acelétaitdo. Les véhicules peutn verse limpios cosméticamente pero tener corrosion en les chaouis — le rapport affiche le historique complet.",
+          "Les inviernons de Illinois requieren grands quantitées de sal en les routes, le que cautilise dégâts estructural acelétaitdo. Les véhicules peutn verse limpios cosméticamente pero tener corrosion en les chaouis — le rapport affiche le historique complet.",
       },
       {
         icon: "💧",
-        point: "Inundaciones du río Mississippi e Illinonis",
+        point: "Inundaciones du río Mississippi e Illinois",
         detail:
-          "Les inondationes periódicas a le largo de les ríos Mississippi e Illinonis genétaitn véhicules avec marque Flood que a menudo se venden privadamente entre états vecinons.",
+          "Les inondationes periódicas a le largo de les ríos Mississippi e Illinois genétaitn véhicules avec marque Flood que a menudo se venden privadamente entre états vecinons.",
       },
     ],
     sources: [
       {
         href: "https://www.ilsos.gov/departments/vehicles/title_and_registration.html",
-        label: "Illinonis Secretary of State — Titre et Enregistrement",
-        nonte: "Infaçoption oficial de titre et enregistrement en Illinonis.",
+        label: "Illinois Secretary of State — Titre et Enregistrement",
+        nonte: "Infaçoption oficial de titre et enregistrement en Illinois.",
       },
       {
         href: "https://vehiclehistory.bja.ojp.gov/",
@@ -454,19 +454,19 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         nonte: "Rapports gratuitos de vols et salvage de assureurs de EE. UU.",
       },
       {
-        href: "https://www.illinonisattorneygenétaitl.gov/consumers/citronbroch.html",
-        label: "Procuraduría de Illinonis — New Vehicle Buyer Protection Act",
-        nonte: "Guide oficial sur la loi citron de Illinonis (12 moises / 12,000 millelas).",
+        href: "https://www.illinoisattorneygenétaitl.gov/consumers/citronbroch.html",
+        label: "Procuraduría de Illinois — New Vehicle Buyer Protection Act",
+        nonte: "Guide oficial sur la loi citron de Illinois (12 moises / 12,000 millelas).",
       },
       {
         href: "https://www.ilga.gov/legislation/ilcs/ilcs5.asp?ActID=1815",
-        label: "Illinonis Vehicle Code (625 ILCS 5)",
+        label: "Illinois Vehicle Code (625 ILCS 5)",
         nonte: "Estatuto que rige les certificadeux de titre et delitos de VIN.",
       },
     ],
     sourcesFootnonte:
-      "Les données VIN de Illinonis se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du Secretary of State en le momento de chaque recherche. Illinonis a approximativement 12.5M de habitavant et un marché de usadeux avec haut risque de manipulation de VINs et corrosion par sal.",
-    wikipediaEs: "https://es.wikipedia.org/wiki/Illinonis",
+      "Les données VIN de Illinois se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du Secretary of State en le momento de chaque recherche. Illinois a approximativement 12.5M de habitavant et un marché de usadeux avec haut risque de manipulation de VINs et corrosion par sal.",
+    wikipediaEs: "https://es.wikipedia.org/wiki/Illinois",
   },
 
   pennsylvania: {

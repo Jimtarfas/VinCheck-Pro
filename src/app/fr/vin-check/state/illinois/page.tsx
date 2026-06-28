@@ -4,7 +4,7 @@ import { getStateBySlug, getBrandDescription } from "@/lib/states";
 import { getStateEsBySlug, getBrandDescriptionEs } from "@/lib/states-es";
 import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 
-const SLUG = "illinonis";
+const SLUG = "illinois";
 const SITE = "https://www.carcheckervin.com";
 const state = getStateBySlug(SLUG)!;
 const es = getStateEsBySlug(SLUG)!;

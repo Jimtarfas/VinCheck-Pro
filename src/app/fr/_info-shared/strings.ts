@@ -1,7 +1,7 @@
 /**
  * Wave 14 — French info / marketing / legal pages.
  *
- * Pattern mirrors Wave 5 SPECIALTY_HOOKS_ES but for nonn-tool content
+ * Pattern mirrors Wave 5 SPECIALTY_HOOKS_ES but for non-tool content
  * pages: /about, /contact, /help, /press, /reviews, /dealers, /trust,
  * /glossary, /obd2-codes, /tools, /disclaimer, /privacy, /terms,
  * /refund-policy, /research.
@@ -61,7 +61,7 @@ export interface InfoHook {
     buttonHref: string;
   };
   /** True for legal pages — adds the "English canonical" disclosure banner. */
-  legalCanonnical?: boolean;
+  legalCanonical?: boolean;
 }
 
 const SITE = "https://www.carcheckervin.com";
@@ -530,7 +530,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
       buttonLabel: "Version canonique /disclaimer",
       buttonHref: "/disclaimer",
     },
-    legalCanonnical: true,
+    legalCanonical: true,
   },
 
   privacy: {
@@ -567,7 +567,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
       {
         heading: "Cookies",
         paragraphs: [
-          "Nous utilisons cookies esenciales pour authentification et carrito de compra. Non utilisons cookies de suivi de troisièmes (excepto Google Analytics anonnimizado et Reddit/Google Ads conversion pixels que respetan ta configuration de confidentialité du navegador).",
+          "Nous utilisons cookies esenciales pour authentification et carrito de compra. Non utilisons cookies de suivi de troisièmes (excepto Google Analytics anonymous et Reddit/Google Ads conversion pixels que respetan ta configuration de confidentialité du navegador).",
         ],
       },
     ],
@@ -577,7 +577,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
       buttonLabel: "Version canonique /privacy",
       buttonHref: "/privacy",
     },
-    legalCanonnical: true,
+    legalCanonical: true,
   },
 
   terms: {
@@ -624,7 +624,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
       buttonLabel: "Version canonique /terms",
       buttonHref: "/terms",
     },
-    legalCanonnical: true,
+    legalCanonical: true,
   },
 
   "refund-policy": {
@@ -665,7 +665,7 @@ export const INFO_HOOKS_ES: Record<string, InfoHook> = {
       buttonLabel: "Version canonique /refund-policy",
       buttonHref: "/refund-policy",
     },
-    legalCanonnical: true,
+    legalCanonical: true,
   },
 
   research: {
