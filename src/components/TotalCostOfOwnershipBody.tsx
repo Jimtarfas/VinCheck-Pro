@@ -328,6 +328,149 @@ const COPY = {
       "Un título de salvamento, daño previo por inundación o un rollback de odómetro pueden borrar tu ventaja de TCO en una sola reparación. Haz una verificación VIN gratis antes de firmar.",
     bottomCtaBtn: "Haz una verificación VIN gratis",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Calculateur de coût total de propriété",
+    h1: "Calculateur de coût total de propriété",
+    intro:
+      "Vois le vrai coût sur 5 ans de tout véhicule — pas seulement le prix affiché. Combine dépréciation, financement, carburant, assurance, entretien, réparations, taxe de vente et immatriculation en un seul chiffre que tu peux vraiment utiliser pour comparer des autos.",
+    h2WhySticker: "Pourquoi le prix affiché ment",
+    whyStickerP:
+      "Le MSRP sur l'étiquette de fenêtre est le chiffre le moins utile pour comparer des véhicules. Deux autos à $35,000 peuvent avoir ",
+    whyStickerBold: "des TCO sur 10 ans qui diffèrent de $25,000+",
+    whyStickerSuffix:
+      " une fois la dépréciation, l'économie de carburant, la classe d'assurance et la fiabilité prises en compte. Une berline de $32,000 d'une marque à bonne revente peut être moins chère à posséder sur 5 ans qu'une berline de $28,000 d'une marque qui se déprécie vite et nécessite du carburant premium.",
+    stickerHeaderCost: "Coût",
+    stickerHeaderSticker: "Vue prix affiché",
+    stickerHeaderTrue: "Vraie vue 5 ans",
+    stickerRows: [
+      ["Sur quoi tu te concentres", "$35,000", "$45,000+"],
+      ["Ce que tu paies vraiment", "Acompte + mensualité", "Acompte + intérêt + carburant + ass. + ent. + réparations"],
+      ["Pire coût caché", "—", "Dépréciation ($17k+)"],
+      ["Visible à la signature", "100%", "~30%"],
+    ] as readonly (readonly [string, string, string])[],
+    h2Seven: "Les 7 coûts de posséder une auto",
+    sevenCosts: [
+      {
+        label: "Dépréciation",
+        text: "Le plus gros coût caché — ton auto perd 50% de sa valeur en 5 ans. Une berline de $35,000 se déprécie typiquement de $17,000+ en 60 mois.",
+      },
+      {
+        label: "Financement",
+        text: "Intérêt payé sur le prêt plus coût d'opportunité sur l'acompte. À 6.5% APR sur 5 ans, attends-toi à $5,000–$7,000 d'intérêt sur un prêt de $30k.",
+      },
+      {
+        label: "Carburant",
+        text: "Kilométrage annuel divisé par MPG, multiplié par ton prix local d'essence. De $700/an (EV) à $3,500/an (gros camion).",
+      },
+      {
+        label: "Assurance",
+        text: "Les primes varient selon l'État, le type de véhicule et le dossier du conducteur. La moyenne nationale est de $1,800–$2,200/an et grimpe de 6–8% par année.",
+      },
+      {
+        label: "Entretien",
+        text: "Service de routine : vidanges, pneus, freins, filtres. $500–$1,400/an selon le véhicule, avec des coûts qui grimpent de 40% après l'année 5.",
+      },
+      {
+        label: "Réparations",
+        text: "Réparations imprévues — pompes à eau, suspension, électronique. Presque zéro la première année, $1,000+ à la cinquième année sur le véhicule moyen.",
+      },
+      {
+        label: "Taxes et frais",
+        text: "Taxe de vente (0–7.25% selon l'État), immatriculation annuelle ($150–$250 typique), frais de titre et inspections d'émissions.",
+      },
+    ],
+    h2ByType: "Coût moyen sur 5 ans par type de véhicule",
+    byTypeIntro:
+      "Basé sur 12,000 milles/an, un prix d'achat de $30k–$45k, une assurance moyenne et un financement sur 60 mois à 6.5% APR. Utilise comme référence rapide au magasinage.",
+    byTypeHeaderType: "Type de véhicule",
+    byTypeHeaderTco: "TCO 5 ans",
+    byTypeHeaderNotes: "Notes",
+    byType: [
+      { type: "Berline intermédiaire", tco: "$42,000–$48,000", note: "Meilleur équilibre prix-efficacité" },
+      { type: "VUS compact", tco: "$48,000–$56,000", note: "Dépréciation modeste, favori familial" },
+      { type: "VUS pleine grandeur", tco: "$58,000–$68,000", note: "Plus de carburant + assurance, dépréciation lente" },
+      { type: "Camionnette pickup", tco: "$55,000–$62,000", note: "Meilleure valeur de revente de tout segment" },
+      { type: "Berline de luxe", tco: "$65,000–$80,000", note: "Dépréciation abrupte + carburant premium" },
+      { type: "Véhicule électrique", tco: "$38,000–$45,000", note: "Coûts de carburant et d'entretien les plus bas" },
+      { type: "Auto sport", tco: "$52,000–$70,000", note: "Assurance et réparations sont la variable" },
+      { type: "Fourgonnette", tco: "$48,000–$55,000", note: "Bête de somme avec bonne économie de carburant" },
+    ],
+    h2Reduce: "Comment réduire ton coût total de propriété",
+    reduceTips: [
+      {
+        title: "Achète 2-3 ans usagé",
+        detail:
+          "Le propriétaire précédent absorbe la dépréciation la plus abrupte (20–35% à l'année 3). Tu obtiens la majeure partie de la garantie et des fonctionnalités modernes à 65% du MSRP.",
+      },
+      {
+        title: "Choisis des marques à haute revente",
+        detail:
+          "Toyota, Honda, Subaru et certains modèles Lexus conservent 55–65% de leur valeur après 5 ans. Certaines berlines de luxe tombent à 30–35%. La marque seule peut faire varier le TCO de $10,000.",
+      },
+      {
+        title: "Garde les durées de prêt courtes",
+        detail:
+          "Les prêts de 84 mois paraissent attrayants mensuellement mais accumulent l'intérêt. Un prêt de 60 mois économise $2,000–$4,000 en intérêt vs 84 mois sur le même capital.",
+      },
+      {
+        title: "Passe à l'EV si tu as une recharge à domicile",
+        detail:
+          "Les économies de carburant de $1,000–$1,500/an plus 30–40% d'entretien en moins peuvent faire des EV le segment le moins cher à posséder — pourvu que tu puisses recharger à domicile.",
+      },
+      {
+        title: "Vérifie le VIN avant d'acheter usagé",
+        detail:
+          "Titres salvage, accidents antérieurs et fraude d'odomètre peuvent effacer $5,000–$15,000 de valeur. Une vérification VIN gratuite prend 60 secondes et est l'étape au plus haut ROI de tout le processus.",
+      },
+      {
+        title: "Adapte le véhicule au kilométrage",
+        detail:
+          "Si tu roules 25,000+ milles/an, une berline efficace ou hybride dominera toute comparaison TCO. Si tu roules 6,000 milles/an, le carburant importe moins et la dépréciation importe plus.",
+      },
+      {
+        title: "Magasine l'assurance chaque année",
+        detail:
+          "Les conducteurs qui magasinent leur police chaque année économisent en moyenne $400/an. C'est $2,000+ sur la vie du véhicule pour dix minutes d'effort.",
+      },
+    ],
+    crossLinks: [
+      { href: "/car-loan-calculator", label: "Calculateur de prêt auto", sub: "Paiement mensuel et amortissement" },
+      { href: "/gas-mileage-calculator", label: "Calculateur de consommation", sub: "Coût de carburant par mille, mois, an" },
+      { href: "/car-affordability-calculator", label: "Calculateur d'abordabilité", sub: "Prix max d'auto selon revenu" },
+    ],
+    h2Faq: "Foire aux questions",
+    faqs: [
+      {
+        q: "Qu'est-ce que le coût total de propriété ?",
+        a: "Le TCO est le coût total en dollars d'un véhicule sur une période définie (généralement 5 ans), incluant dépréciation, financement, carburant, assurance, entretien, réparations, taxe de vente et immatriculation. C'est la seule façon honnête de comparer deux autos.",
+      },
+      {
+        q: "Pourquoi la dépréciation est-elle généralement le plus gros coût ?",
+        a: "La plupart des autos perdent 20% de leur valeur la première année et 50% en cinq ans. Sur un véhicule de $35,000, c'est $17,500 envolés — typiquement plus que le carburant, l'assurance et l'entretien combinés.",
+      },
+      {
+        q: "Quel est le coût moyen sur 5 ans d'avoir une auto ?",
+        a: "Environ $45,000 pour une berline intermédiaire, $50–55k pour les VUS, $55–60k pour les camionnettes et $38–42k pour les EVs. Les autos de luxe peuvent atteindre $70–80k.",
+      },
+      {
+        q: "Quelle est la précision de ce calculateur ?",
+        a: "Les calculs sont exacts pour les hypothèses que tu saisis. La dépréciation utilise une courbe de rétention standard de l'industrie ajustée par type de véhicule. Les prévisions d'entretien et de réparation utilisent les données moyennes américaines. Saisis ton APR réel, ta soumission d'assurance et ton prix d'essence pour une précision spécifique au véhicule.",
+      },
+      {
+        q: "Les EV sont-ils vraiment moins chers à posséder ?",
+        a: "Souvent oui après 5 ans. Les EV économisent $1,000–$1,500/an en carburant et 30–40% en entretien. La dépréciation précoce plus rapide est compensée par les crédits d'impôt fédéraux dans plusieurs cas. Utilise la comparaison côte à côte pour tester avec tes chiffres.",
+      },
+      {
+        q: "Devrais-je acheter neuf ou usagé pour baisser le TCO ?",
+        a: "Un véhicule usagé de 2-3 ans d'une marque fiable gagne typiquement le TCO sur 5 ans car tu sautes les pires années de dépréciation tout en conservant la majeure partie de la garantie.",
+      },
+    ],
+    bottomCtaHeading: "Tu as trouvé une auto usagée ? Vérifie l'historique d'abord.",
+    bottomCtaSub:
+      "Un titre salvage, un dommage antérieur d'inondation ou un recul d'odomètre peuvent effacer ton avantage TCO en une seule réparation. Fais une vérification VIN gratuite avant de signer.",
+    bottomCtaBtn: "Lancer une vérification VIN gratuite",
+  },
 } as const;
 
 const FAQS_EN = [

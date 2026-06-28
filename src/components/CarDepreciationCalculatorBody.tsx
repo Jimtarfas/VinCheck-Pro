@@ -325,6 +325,162 @@ const COPY = {
       "La depreciación es predecible. Los accidentes ocultos, los títulos de salvamento y el fraude del odómetro no lo son. Ejecuta una verificación de VIN gratis en cualquier vehículo usado para ver el historial completo antes de comprometerte.",
     bottomCta: "Hacer una verificación VIN gratis",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Calculateur de dépréciation auto",
+    h1: "Calculateur de dépréciation auto",
+    intro:
+      "Vois exactement combien vaudra ta voiture dans 1, 3, 5, 7 et 10 ans. Nous utilisons des courbes de dépréciation spécifiques à la marque pour plus de 30 fabricants — ainsi, une projection Toyota est différente d'une Land Rover, comme il se doit.",
+    h2What: "Qu'est-ce que la dépréciation d'une auto ?",
+    what1:
+      "La dépréciation d'une auto est la perte de valeur marchande d'un véhicule avec le temps. C'est le plus gros coût de possession d'un véhicule pour la plupart des acheteurs — typiquement plus important que le carburant, l'assurance et l'entretien combinés sur 5 ans.",
+    what2:
+      "La courbe de dépréciation est la plus abrupte la première année (une voiture neuve peut perdre ~20% de sa valeur en 12 mois), puis s'aplatit. À la cinquième année, le véhicule moyen conserve environ 50% de son prix d'origine ; à dix ans, environ 28%. Des marques spécifiques, des styles de carrosserie et des modes d'utilisation peuvent déplacer cette courbe vers le haut ou le bas de façon significative.",
+    h2Why: "Pourquoi les autos se déprécient",
+    whyItems: [
+      {
+        title: "La prime du neuf s'évapore instantanément",
+        detail:
+          "Au moment où un véhicule est immatriculé, il passe de 'neuf' à 'usagé' — un changement de statut qui vaut 8–12% à lui seul, avant toute usure.",
+      },
+      {
+        title: "Usure mécanique et vieillissement des composants",
+        detail:
+          "Courroies, bagues, suspension, batteries et électronique se dégradent avec l'usage. Les acheteurs intègrent dans le prix les coûts de réparation à court terme attendus.",
+      },
+      {
+        title: "Les nouveaux modèles remplacent les anciens",
+        detail:
+          "Chaque année-modèle ajoute des améliorations en technologie, sécurité et efficacité qui rendent les versions plus anciennes moins désirables pour les acheteurs grand public.",
+      },
+      {
+        title: "Accumulation du kilométrage",
+        detail:
+          "Les modèles standards d'évaluation pénalisent les véhicules avec un kilométrage au-dessus de la moyenne pour leur âge — typiquement environ 0.5% par 1,000 milles excédentaires par année de possession.",
+      },
+      {
+        title: "Réputation de la marque et données de fiabilité",
+        detail:
+          "Les classements de fiabilité à long terme se reflètent directement dans la valeur de revente. Les marques avec des problèmes de fiabilité largement médiatisés perdent de la valeur plus vite que la moyenne du segment.",
+      },
+    ],
+    h2Rates: "Taux de dépréciation moyens par année",
+    ratesIntro:
+      "Ces chiffres composites de l'industrie sont la base utilisée par notre calculateur avant d'appliquer les ajustements par marque, style de carrosserie et kilométrage :",
+    rateHeaders: { age: "Âge", retained: "% conservé", lost: "% perdu" },
+    rateRows: [
+      ["Neuf (0 ans)", "100%", "0%"],
+      ["1 an", "80%", "−20%"],
+      ["2 ans", "70%", "−30%"],
+      ["3 ans", "63%", "−37%"],
+      ["5 ans", "50%", "−50%"],
+      ["7 ans", "40%", "−60%"],
+      ["10 ans", "28%", "−72%"],
+    ] as ReadonlyArray<readonly [string, string, string]>,
+    h2Best: "Marques qui conservent le mieux leur valeur",
+    bestIntro: "Ces marques conservent constamment plus de valeur que la moyenne du segment :",
+    bestItems: [
+      { brand: "Lexus", note: "+10% vs. moyenne — fiabilité Toyota, options de luxe" },
+      { brand: "Porsche", note: "+10% — production limitée, demande des passionnés" },
+      { brand: "Toyota", note: "+8% — réputation de fiabilité, forte demande en usagé" },
+      { brand: "Honda", note: "+7% — Civic et CR-V sont des champions de la revente" },
+      { brand: "Subaru", note: "+6% — attrait du mode de vie plein air, demande AWD" },
+      { brand: "Tesla", note: "+5% — la marque EV qui conserve le mieux sa valeur" },
+      { brand: "Jeep Wrangler", note: "+5% — iconique, base d'acheteurs dédiée" },
+      { brand: "Mazda", note: "+4% — fiabilité et prestige de marque en hausse" },
+    ],
+    h2Worst: "Marques qui se déprécient le plus vite",
+    worstIntroPre:
+      "Ces marques perdent typiquement de la valeur plus vite que la moyenne — ce qui peut en faire d'excellentes aubaines en ",
+    worstIntroEm: "auto usagée",
+    worstIntroSuffix: " si tu laisses quelqu'un d'autre absorber le coup de la première année :",
+    worstItems: [
+      { brand: "Land Rover", note: "−22% vs. moyenne — les coûts de réparation font fuir les acheteurs" },
+      { brand: "Jaguar", note: "−20% — courbe de dépréciation britannique de luxe" },
+      { brand: "Chrysler", note: "−15% — gamme limitée, incertitude de marque" },
+      { brand: "Cadillac", note: "−15% — vents contraires des berlines de luxe" },
+      { brand: "Lincoln", note: "−16% — dépréciation de luxe domestique" },
+      { brand: "Mini", note: "−14% — attrait de niche, complexité de réparation" },
+      { brand: "Infiniti", note: "−15% — problèmes de visibilité de marque" },
+      { brand: "BMW", note: "−8% — les coûts de service affectent la revente" },
+    ],
+    h2Slow: "Comment ralentir la dépréciation",
+    slowItems: [
+      "Maintiens le kilométrage annuel à 12,000 milles ou moins — les outils de prix d'autos usagées pénalisent agressivement le kilométrage au-dessus de la moyenne.",
+      "Suis le calendrier d'entretien du fabricant et conserve les reçus documentés. Un historique d'entretien propre peut ajouter 3–7% à la reprise.",
+      "Évite les accidents — un seul rapport d'accident peut retirer 8% de la valeur de revente, même après des réparations professionnelles.",
+      "Saute les modifications de marché secondaire. La plupart des acheteurs préfèrent les véhicules d'origine ; les modifications réduisent ton bassin d'acheteurs et la valeur.",
+      "Choisis des couleurs extérieures neutres (blanc, argent, noir, gris) — les couleurs exotiques limitent la demande de revente.",
+      "Stationne dans un garage chaque fois que possible pour protéger la peinture, les plastiques intérieurs et la santé de la batterie (surtout pour les EVs).",
+      "Considère acheter un véhicule certifié pré-possédé de 2–3 ans pour sauter complètement la partie la plus abrupte de la courbe.",
+    ],
+    crossLinks: [
+      {
+        href: "/car-loan-calculator",
+        title: "Calculateur de prêt auto",
+        desc: "Compare les paiements mensuels et l'intérêt total",
+        primary: true,
+      },
+      {
+        href: "/trade-in-value-estimator",
+        title: "Estimateur de valeur de reprise",
+        desc: "Vois les valeurs actuelles particulier et concessionnaire",
+        primary: false,
+      },
+      {
+        href: "/car-affordability-calculator",
+        title: "Calculateur d'abordabilité",
+        desc: "Trouve ton budget total d'achat auto",
+        primary: false,
+      },
+      {
+        href: "/gas-mileage-calculator",
+        title: "Calculateur de consommation d'essence",
+        desc: "Calcule le coût du carburant sur ta période de possession",
+        primary: false,
+      },
+    ],
+    crossLinkCta: "Ouvrir →",
+    h2Faq: "Foire aux questions",
+    faqs: [
+      {
+        q: "Combien une auto neuve se déprécie-t-elle la première année ?",
+        a: "Une auto neuve typique perd environ 20% de sa valeur en 12 mois — environ la moitié de cette chute se produit au moment où tu sors du concessionnaire. Après la première année, la courbe de dépréciation s'aplatit, le véhicule moyen perdant environ 10% par année jusqu'à la cinquième année et 5–7% par année par la suite.",
+      },
+      {
+        q: "Quelles marques conservent le mieux leur valeur ?",
+        a: "Lexus, Toyota, Honda, Porsche, Subaru et Tesla se classent constamment en tête pour la rétention de valeur. Toyota et Honda bénéficient de leur réputation de fiabilité et de la forte demande en usagé. Porsche conserve sa valeur grâce à une production limitée et à la demande des passionnés.",
+      },
+      {
+        q: "Quelles autos se déprécient le plus vite ?",
+        a: "Land Rover, Jaguar, Maserati, BMW Série 7, Mercedes-Benz Classe S, Cadillac, Lincoln et Chrysler se déprécient typiquement le plus vite. Les berlines européennes de luxe, les grandes autos de luxe américaines et les marques avec des soucis de fiabilité ont tendance à perdre 50–60% de leur valeur les trois premières années.",
+      },
+      {
+        q: "Les véhicules électriques (EV) se déprécient-ils plus vite que les autos à essence ?",
+        a: "La plupart des EVs se déprécient historiquement plus vite que les véhicules à essence comparables en raison des améliorations technologiques rapides, de la dynamique des crédits d'impôt fédéraux et des préoccupations sur la dégradation de la batterie. Tesla fait exception et conserve sa valeur relativement bien.",
+      },
+      {
+        q: "Comment le kilométrage affecte-t-il la dépréciation d'une auto ?",
+        a: "La base de l'industrie est de 12,000 milles par année. Chaque 1,000 milles au-dessus de cette moyenne par année réduit la valeur d'environ 0.5% par année de possession. Les véhicules à faible kilométrage commandent une prime.",
+      },
+      {
+        q: "Est-il préférable d'acheter neuf ou usagé pour éviter la dépréciation ?",
+        a: "Acheter un véhicule usagé de 2–3 ans permet au propriétaire initial d'absorber la chute la plus abrupte. Une auto certifiée pré-possédée de 3 ans coûte typiquement 35–40% de moins qu'une neuve, avec la majeure partie de la garantie encore intacte.",
+      },
+      {
+        q: "Les camions et VUS conservent-ils mieux leur valeur que les berlines ?",
+        a: "Oui, légèrement. Les pleines grandeurs et les VUS intermédiaires conservent typiquement 5–10% de plus de valeur sur cinq ans par rapport aux berlines, portés par la forte demande de camions usagés et l'attrait du mode de vie plein air.",
+      },
+      {
+        q: "Comment puis-je réduire la dépréciation de mon auto ?",
+        a: "Maintiens le kilométrage près de 12,000/an, suis le calendrier d'entretien du fabricant avec reçus documentés, évite les accidents et les modifications de marché secondaire, stationne le véhicule dans un garage et choisis des couleurs neutres qui plaisent au plus grand bassin d'acheteurs d'autos usagées.",
+      },
+    ],
+    bottomH2: "Tu achètes usagé ? Vérifie le VIN avant de signer.",
+    bottomBody:
+      "La dépréciation est prévisible. Les accidents cachés, les titres salvage et la fraude d'odomètre, non. Lance une vérification VIN gratuite sur tout véhicule usagé pour voir l'historique complet avant de t'engager.",
+    bottomCta: "Lancer une vérification VIN gratuite",
+  },
 } as const;
 
 interface Props {

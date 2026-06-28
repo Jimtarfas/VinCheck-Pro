@@ -449,6 +449,203 @@ const COPY = {
       "Las marcas de recompra del fabricante e historiales de Ley Limón siguen al VIN permanentemente — incluso cuando el título en papel se ve limpio. Ejecuta la verificación gratis antes de escribir un cheque.",
     bottomFullReport: "O obtén el reporte completo de historial VIN",
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "Vérification Lemon Law",
+    heroBadge: "Recherche de rachat Lemon Law · Les 50 états",
+    h1Lead: "Vérification Lemon Law par VIN —",
+    h1Accent: "Détecte le rachat avant d'acheter",
+    heroLead:
+      "Trouve les marques de rachat du fabricant, les titres de rachat lemon law et les registres de rachat sous garantie sur tout véhicule d'occasion. Aperçu gratuit, sans carte de crédit, résultats instantanés — provenant de NMVTIS et de chaque DMV étatique américain.",
+    searchHeading: "Effectue une vérification Lemon Law gratuite",
+    searchSub: "Saisis n'importe quel VIN de 17 caractères — voitures, camions, SUV, véhicules en leasing, démos",
+    trustNote: "Chiffré 256 bits · Conforme DPPA · Données de titre de NMVTIS",
+    trustStats: [
+      { value: "50 états", label: "+ DC couverts" },
+      { value: "NMVTIS", label: "source fédérale" },
+      { value: "< 5 sec", label: "temps moyen de recherche" },
+      { value: "Gratuit", label: "aperçu, sans inscription" },
+      { value: "Rachat", label: "marques révélées" },
+    ],
+    statsHeading: "Lemon Law — Les chiffres",
+    headlineStats: [
+      { value: "51", label: "Juridictions américaines couvertes (50 états + DC)" },
+      { value: "3–4", label: "Tentatives de réparation qui qualifient typiquement comme lemon" },
+      { value: "30 jours", label: "Seuil hors service dans la plupart des lois étatiques" },
+      { value: "15–40%", label: "Décote de revente typique sur une voiture à titre lemon" },
+      { value: "1975", label: "Année d'adoption du Magnuson-Moss Warranty Act" },
+    ],
+    introHeading: "Ce qu'une vérification Lemon Law te dit vraiment",
+    introP1Pre:
+      "Un « lemon » (citron) est un véhicule que le fabricant a été contraint de racheter à son propriétaire original sous une loi lemon law étatique parce que des défauts chroniques n'ont pas pu être réparés dans un nombre raisonnable de tentatives. Une fois racheté, le fabricant revend presque toujours le véhicule — souvent à des enchères réservées aux concessionnaires où les consommateurs ne peuvent voir les papiers de rachat. Ces véhicules apparaissent finalement sur des lots de voitures d'occasion, parfois avec la marque de rachat divulguée en évidence et parfois minimisée ou cachée par le ",
+    introP1Link: "blanchiment de titres",
+    introP1Suffix: " entre états.",
+    introP2Pre: "Une",
+    introP2Bold: "vérification Lemon Law basée sur le VIN",
+    introP2Suffix:
+      "extrait le registre original de marque de NMVTIS, l'agrégateur fédéral de titres administré par le Département de la Justice des États-Unis. NMVTIS reçoit des données de chaque DMV étatique et d'opérateurs d'assurance et de salvage agréés, donc même un véhicule qui a été déplacé à travers plusieurs états conserve sa marque lemon dans le registre fédéral.",
+    introP3Pre: "Cette page fait trois choses :",
+    introP3Pt1: "(1)",
+    introP3Mid1: "exécute la vérification Lemon Law directement depuis le formulaire ci-dessus,",
+    introP3Pt2: "(2)",
+    introP3Mid2: "te montre exactement comment les lois lemon law étatiques diffèrent dans le tableau interactif des 50 états ci-dessous, et",
+    introP3Pt3: "(3)",
+    introP3Suffix: "te guide à travers un processus pré-achat en 6 étapes pour attraper un lemon avant de signer quoi que ce soit.",
+
+    statePagesHeading: "Vérification Lemon Law par état",
+    statePagesIntro:
+      "Les lois lemon law sont écrites état par état, et la fenêtre de couverture, le seuil de tentatives de réparation et la marque de titre de rachat diffèrent tous. Ouvre le guide de ton état pour les règles exactes et une vérification gratuite de rachat basée sur le VIN.",
+    brandPagesHeading: "Vérification Lemon Law par marque",
+    brandPagesIntro:
+      "La durée de garantie de chaque fabricant établit la fenêtre dans laquelle un défaut récurrent peut qualifier sous une loi lemon law étatique. Ouvre le guide d'une marque pour ses conditions de couverture et une vérification gratuite de rachat basée sur le VIN.",
+    brandBrowseAll: "Parcourir toutes les marques",
+
+    pipelineHeading: "Comment un lemon finit sur un lot de voitures d'occasion",
+    pipelineIntro:
+      "La plupart des consommateurs supposent qu'un lemon racheté disparaît de la route. Ce n'est pas le cas. Voici le chemin typique en cinq étapes du défaut au lot du concessionnaire.",
+    pipelineSteps: [
+      { title: "Le défaut apparaît", body: "Le propriétaire original éprouve un problème récurrent — transmission, électrique, drive-by-wire, info-divertissement — qui résiste à plusieurs tentatives de réparation pendant la période de garantie." },
+      { title: "Réclamation lemon law déposée", body: "Le propriétaire dépose sous la lemon law étatique ou invoque le Magnuson-Moss Warranty Act. Le fabricant résout soit par arbitrage soit en rachetant le véhicule." },
+      { title: "Le fabricant rachète", body: "Le fabricant rembourse le prix d'achat (moins des frais d'usage au kilométrage) ou remplace le véhicule. Le titre est marqué « Manufacturer Buyback » dans la plupart des états." },
+      { title: "Vendu aux enchères concessionnaires", body: "Le véhicule est déplacé vers une enchère captive du fabricant (Manheim, ADESA, OPENLANE). Les concessionnaires agréés enchérissent. Les consommateurs publics ne peuvent assister." },
+      { title: "Revendu sur un lot d'occasion", body: "Le concessionnaire qui a acheté le rachat le revend sur le marché de détail d'occasion — parfois avec la divulgation de marque en évidence, parfois minimisée ou déplacée entre états." },
+    ],
+
+    redFlagsHeading: "15 signaux d'alarme qu'une voiture d'occasion pourrait être un lemon caché",
+    redFlagsIntroPre: "Aucun signal individuel n'est une preuve absolue — mais deux ou trois de ceux-ci dans la même annonce devraient déclencher une ",
+    redFlagsIntroBold: "vérification VIN Lemon Law",
+    redFlagsIntroSuffix: "soigneuse et une inspection avant achat.",
+    redFlags: [
+      "Plusieurs bons de service chez un seul concessionnaire pour le même défaut dans une courte fenêtre",
+      "Propriété transférée au bras financier captif du fabricant peu après la vente",
+      "Courte période initiale de propriété (moins de 18 mois) avec un kilométrage bien en dessous de l'usage typique",
+      "Historique d'enchères réservées concessionnaires immédiatement après la vente détail originale",
+      "Véhicule re-titré dans un état différent dans les 90 jours de l'enregistrement initial",
+      "Le même VIN apparaît dans la base de données TSB ou rappels du fabricant pour un composant récurrent",
+      "Le titre montre un bref écart dans l'historique de propriété avec le fabricant comme partie enregistrée",
+      "Prix demandé 15–35% en dessous de véhicules comparables à titre propre dans la même finition et kilométrage",
+      "Les photos de l'annonce évitent le montant de la porte conducteur (où une décalcomanie « Lemon Law Buyback » doit être visible en Californie)",
+      "Le vendeur offre une garantie tierce inhabituelle au lieu d'une couverture CPO du fabricant",
+      "L'historique de service montre plusieurs remplacements de composants pour le même code de défaut",
+      "Inspection étatique récente effectuée dans un état avec des règles plus faibles de marquage de titre",
+      "L'historique VIN montre un titre émis à une société de leasing, puis rapidement réassigné à l'OEM",
+      "Le véhicule a été enregistré comme « démo » ou « prêt de service » pendant un an puis vendu à un concessionnaire",
+      "Valeur reprise ou grossiste signalée « impossible à valoriser » par les principaux guides d'évaluation",
+    ],
+
+    termsHeading: "Comment les titres de rachat sont vraiment appelés (état par état)",
+    termsIntro:
+      "Le même événement légal — rachat par le fabricant — reçoit huit noms officiels différents selon l'état. Chercher seulement « lemon » dans un document de titre papier en manquera la plupart.",
+    stateTerms: [
+      { term: "Manufacturer Buyback", states: "Utilisé dans la majorité des états comme le terme par défaut de marque de titre." },
+      { term: "Lemon Law Buyback", states: "Californie, Hawaii, New Jersey, Washington, Alaska — référence explicite au statut lemon law étatique." },
+      { term: "Reacquired Vehicle", states: "Texas et Oregon — terminologie préférée pour capturer les rachats lemon law et volontaires." },
+      { term: "Warranty Return", states: "Louisiane — se concentre sur l'origine de la garantie plutôt que le statut lemon law." },
+      { term: "Manufacturer Repurchase", states: "Pennsylvanie — utilisé sur le titre aux côtés de la date originale de marque." },
+      { term: "Warranty Nonconformity", states: "Virginie — phrase formelle liée au langage d'éligibilité du statut." },
+      { term: "Prior Lemon Law Vehicle", states: "Minnesota — apparaît sur le titre et sur le formulaire de divulgation du concessionnaire." },
+      { term: "Lemon Aid (programme voitures d'occasion)", states: "Massachusetts — programme distinct de voitures d'occasion séparé de la lemon law des voitures neuves." },
+    ],
+
+    worstHeading: "La question des « pires offenseurs lemon »",
+    worstP1Pre: "L'une des recherches les plus communes autour du rachat lemon law est une variante de",
+    worstP1Em1: "« pires voitures lemon par VIN »",
+    worstP1Mid: "ou",
+    worstP1Em2: "« liste de voitures lemon »",
+    worstP1Suffix:
+      ". Une réponse factuelle et neutre de l'éditeur : il n'existe pas de liste publique faisant autorité de véhicules classés par éligibilité lemon law, et nommer des marques ou modèles uniquement par réputation risque de diffamer une flotte entière pour les actions d'un petit pourcentage d'unités.",
+    worstP2Pre: "La chose la plus proche d'une source de données crédible est la base de données de plaintes du",
+    worstP2Bold: "NHTSA Office of Defects Investigation",
+    worstP2Suffix:
+      ", qui est publiquement consultable par année, marque et modèle. Les clusters de plaintes élevés — surtout pour les systèmes de transmission, électriques ou de sécurité — sont corrélés avec des taux plus élevés d'éligibilité lemon law. Certaines zones de problèmes récurrents publiquement rapportés à travers l'industrie au cours de la dernière décennie ont inclus les transmissions à double embrayage de première génération, certaines versions logicielles d'info-divertissement et certains systèmes de gestion de batterie hybride/EV. Une vérification lemon law spécifique au VIN est toujours plus utile qu'une réputation au niveau modèle : même un modèle avec des milliers de plaintes aura des centaines de milliers d'unités fonctionnant proprement.",
+
+    costHeading: "Ce qu'un titre lemon te coûte à long terme",
+    costIntro:
+      "Même si le défaut sous-jacent a finalement été corrigé, la marque elle-même impose des coûts financiers qui suivent le VIN à vie.",
+    costItems: [
+      { title: "La valeur de revente chute de 15–40%", body: "Un titre marqué lemon est une décote de valorisation permanente. Les guides d'évaluation de l'industrie (Black Book, Manheim Market Report) appliquent une déduction fixe pour les véhicules à titre marqué, et la plupart des acheteurs détail s'éloignent quand la marque est divulguée." },
+      { title: "Restrictions d'assurance", body: "La plupart des grands assureurs — Progressive, Allstate, GEICO, State Farm — limitent les véhicules marqués lemon à une couverture responsabilité uniquement, refusant la couverture complète et collision. Les primes sur la couverture limitée sont souvent plus élevées." },
+      { title: "Limitations de financement", body: "Les prêteurs prime déclinent typiquement les titres marqués d'emblée. Le financement subprime est disponible mais à des TAEG matériellement plus élevés, avec des durées plus courtes et des ratios prêt-valeur plus bas." },
+      { title: "Implications de garantie", body: "La garantie originale du fabricant peut être annulée ou transférée uniquement sur approbation au cas par cas. La plupart des fournisseurs de garantie prolongée excluent les véhicules marqués lemon par politique." },
+      { title: "Friction d'enregistrement", body: "Une poignée d'états exigent des inspections supplémentaires ou des surcharges pour enregistrer les véhicules marqués lemon, et certains états (Hawaii, Californie) exigent que l'acheteur signe un formulaire de divulgation séparé à l'enregistrement." },
+    ],
+
+    magnusonHeading: "Le filet fédéral : Magnuson-Moss Warranty Act",
+    magnusonCardTitle: "Quand la lemon law étatique ne s'applique pas, la loi fédérale peut",
+    magnusonBodyPre: "Le",
+    magnusonBodyBold: "Magnuson-Moss Warranty Act",
+    magnusonBodySuffix:
+      "(15 U.S.C. § 2301), adopté en 1975, est la loi fédérale de protection des consommateurs qui régit les garanties écrites sur les produits de consommation — y compris les véhicules motorisés. Là où les lemon laws étatiques sont limitées aux véhicules neufs dans une fenêtre étroite, le statut fédéral est plus large de trois manières importantes :",
+    magnusonPoints: [
+      "Il crée une cause d'action privée pour violation de toute garantie écrite ou implicite — y compris les garanties de transmission des fabricants, les garanties des concessionnaires de voitures d'occasion et les garanties certified pre-owned.",
+      "Il permet la récupération d'honoraires d'avocats raisonnables, ce qui est le moteur qui rend le litige lemon law économiquement viable pour les consommateurs.",
+      "Il s'applique dans les 50 états et peut combler les lacunes là où les lemon laws étatiques sont faibles ou où le véhicule est hors de la fenêtre de garantie étatique.",
+    ],
+    magnusonDisclaimer:
+      "Ce résumé est informatif, pas un conseil juridique. Consulte un avocat qualifié en protection des consommateurs sur ta situation spécifique.",
+
+    howToHeading: "Comment vérifier Lemon Law une voiture avant d'acheter — 6 étapes",
+    howToIntro:
+      "Un dépistage complet pré-achat lemon law prend environ 15 minutes répartis entre le bureau et la concession.",
+    howToSteps: [
+      { n: "01", title: "Exécute le VIN", body: "Saisis le VIN de 17 caractères ci-dessus. Nous interrogeons NMVTIS, les registres de titre du DMV étatique et les bases de données nationales d'enchères en moins de 5 secondes." },
+      { n: "02", title: "Examine l'historique de marque", body: "Scanne la section historique de titre pour l'un des termes de marque de rachat (Manufacturer Buyback, Lemon Law Buyback, Reacquired Vehicle, etc.)." },
+      { n: "03", title: "Vérifie les plaintes NHTSA", body: "Croise l'année/marque/modèle dans la base de données de plaintes NHTSA — les clusters de plaintes élevés indiquent les modèles avec des taux plus élevés d'éligibilité lemon." },
+      { n: "04", title: "Obtiens les registres de service", body: "Demande un historique de service complet. Les ordres de travail répétés pour le même défaut dans la fenêtre de garantie sont la signature classique du lemon." },
+      { n: "05", title: "Inspecte en personne", body: "Cherche une décalcomanie lemon Californie sur le montant de porte, vérifie que les plaques VIN correspondent entre le tableau de bord et la porte, et vérifie que les indicateurs d'avertissement du tableau de bord s'effacent correctement." },
+      { n: "06", title: "Obtiens une PPI", body: "Une inspection indépendante avant achat par un mécanicien familier avec le modèle est le filtre final. Partage tous les signaux du rapport VIN pour que le mécanicien puisse cibler ces systèmes." },
+    ],
+
+    midCtaHeading: "N'achète pas le lemon de quelqu'un d'autre",
+    midCtaBody:
+      "Vérification lemon law gratuite et instantanée provenant des 50 DMV étatiques et NMVTIS. Sans carte de crédit. Sans inscription.",
+
+    linksHeading: "Outils de vérification VIN complémentaires",
+    linksIntro:
+      "Une marque lemon voyage rarement seule. Associe cette vérification à ces recherches ciblées pour une image complète avant achat.",
+    internalLinks: [
+      { label: "Rapport complet d'historique VIN", desc: "Toutes les marques de titre plus l'historique d'accident, odomètre et vol dans un rapport." },
+      { label: "Vérification historique d'accidents", desc: "Registres de collision et dommages recoupés avec les flux d'assurance." },
+      { label: "Vérification odomètre", desc: "Détecte la fraude de remise à zéro du kilométrage — un problème compagnon courant avec les titres marqués." },
+      { label: "Vérification véhicule volé", desc: "Recoupement NICB pour les registres de vol sur tout VIN." },
+      { label: "Vérification titre salvage", desc: "Distingue les marques lemon des marques salvage, reconstruit et ferraille." },
+      { label: "Liste d'inspection voiture d'occasion", desc: "Liste de contrôle avant achat de 100 points que tu peux apporter à une PPI." },
+      { label: "VIN Check vs Carfax", desc: "Comment notre rapport gratuit se compare aux rapports payants Carfax / AutoCheck." },
+      { label: "Vérification VIN Floride", desc: "Données lemon law spécifiques au DHSMV de Floride et chevauchement avec les dégâts d'inondation." },
+    ],
+
+    faqHeading: "FAQ Vérification Lemon Law",
+    faqIntro:
+      "Les questions les plus recherchées sur les titres de rachat lemon law, les rachats du fabricant et la détection lemon basée sur le VIN.",
+    faqs: [
+      { q: "Qu'est-ce qu'une voiture lemon ?", a: "Un « lemon » est un véhicule avec un défaut substantiel et récurrent que le fabricant ne peut réparer dans un nombre raisonnable de tentatives pendant la période de garantie statutaire. Les lemon laws étatiques exigent que le fabricant rachète ou remplace le véhicule. Le véhicule racheté est ensuite souvent revendu et peut porter une marque de titre « Manufacturer Buyback » ou « Lemon Law Buyback »." },
+      { q: "Comment je vérifie si une voiture est un lemon ?", a: "Effectue une vérification lemon law basée sur le VIN. Saisis le VIN de 17 caractères ci-dessus et notre système interroge NMVTIS et les sources nationales d'historique de titre pour toute marque de rachat lemon law, événement de rachat du fabricant ou registre de retour sous garantie. NMVTIS extrait des 50 DMV étatiques, donc le blanchiment de titres entre états ne cachera pas une marque." },
+      { q: "Une voiture lemon peut-elle être revendue légalement ?", a: "Oui. Une fois qu'un fabricant rachète un lemon, il le revend presque toujours — typiquement à une enchère réservée aux concessionnaires. Dans la plupart des états, le titre doit porter une marque permanente « Manufacturer Buyback » ou équivalente et le concessionnaire doit divulguer cette marque par écrit au prochain acheteur. L'application varie, c'est pourquoi une vérification basée sur le VIN est plus fiable que le titre papier." },
+      { q: "Quels états ont les lemon laws les plus fortes ?", a: "La Californie, New York, le New Jersey, le Massachusetts et le Connecticut sont communément cités comme ayant les protections consommateurs les plus fortes. Le Song-Beverly Act et le Tanner Consumer Protection Act de Californie s'étendent aux véhicules en leasing et démonstrateurs. New York et New Jersey ont tous deux des lemon laws de voitures d'occasion codifiées séparément. Le Massachusetts a un seuil hors service de 15 jours ouvrables et un programme dédié de voitures d'occasion." },
+      { q: "Un titre lemon affecte-t-il l'assurance ?", a: "Oui, souvent. De nombreux assureurs limitent les véhicules marqués lemon à une couverture responsabilité uniquement et refusent les polices complètes ou collision, similaire à la façon dont ils traitent les titres salvage et reconstruits. Les primes peuvent être plus élevées et les paiements de perte totale sont typiquement décotés de 15–40% pour refléter la valeur diminuée." },
+      { q: "Peut-on financer une voiture lemon ?", a: "Le financement est possible mais limité. La plupart des grandes banques et coopératives de crédit déclinent les véhicules à titre marqué. Les lots buy-here-pay-here et les prêteurs subprime peuvent financer les voitures marquées lemon mais à des taux d'intérêt significativement plus élevés, et les ratios prêt-valeur sont généralement plafonnés plus bas que pour les véhicules à titre propre." },
+      { q: "Un rachat du fabricant est-il la même chose qu'un lemon ?", a: "Effectivement oui dans l'usage quotidien, avec une distinction subtile. « Lemon Law Buyback » est la marque de titre formelle appliquée quand un véhicule qualifie sous un statut lemon law étatique. « Manufacturer Buyback » est un terme plus large qui peut inclure les rachats volontaires (où le fabricant rachète le véhicule comme résolution de bonne volonté sans admettre l'éligibilité lemon law). Les deux indiquent un véhicule que le fabricant a réacquis en raison de défauts." },
+      { q: "Combien moins vaut un lemon ?", a: "Les véhicules marqués lemon se vendent typiquement avec une décote de 15–40% par rapport à un équivalent à titre propre. L'impact exact de la valeur diminuée dépend du type de défaut, de la réputation de la marque, des règles de divulgation de l'état et du marché local. La décote court dans les deux sens : une voiture à titre lemon que tu achètes pas cher se revendra aussi avec une décote." },
+      { q: "Un Carfax montrera-t-il un titre lemon ?", a: "La plupart des grands rapports commerciaux d'historique révèlent une marque lemon si la marque a été enregistrée dans NMVTIS. Notre rapport gratuit extrait les mêmes données provenant de NMVTIS plus les données d'enchères et de service des concessionnaires. Une marque de titre ne peut légalement être cachée si une agence étatique l'a signalée, mais les écarts d'application entre états (blanchiment de titres) peuvent occasionnellement cacher une marque — exécuter une vérification multi-sources est l'approche la plus sûre." },
+      { q: "Que se passe-t-il si ma voiture est hors garantie ?", a: "La plupart des lemon laws étatiques s'appliquent uniquement pendant la période de garantie expresse originale du fabricant (typiquement 1–2 ans ou 12 000–24 000 miles). Une fois la garantie expirée, tu ne peux généralement pas déposer une nouvelle réclamation lemon law étatique. Cependant, le Magnuson-Moss Warranty Act fédéral peut encore s'appliquer aux défauts qui ont surgi pendant la période de garantie et n'ont jamais été correctement résolus." },
+      { q: "Combien de tentatives de réparation qualifient comme lemon ?", a: "La plupart des états exigent 3 ou 4 tentatives de réparation infructueuses pour le même défaut, ou 30 jours cumulés hors service. Une seule tentative de réparation échouée est parfois suffisante pour un défaut de sécurité grave comme les freins, la direction ou les airbags — vérifie le seuil spécifique de ton état dans notre tableau interactif ci-dessus." },
+      { q: "Qu'est-ce que le blanchiment de titres ?", a: "Le blanchiment de titres est la pratique illégale ou quasi-légale de déplacer un véhicule d'un état qui exige des marques de titre lemon (ou salvage, inondation) vers un état avec des règles de marquage plus faibles, de le re-titrer là-bas, puis de ramener le véhicule pour le vendre avec un titre « propre ». NMVTIS a été créé en 2009 spécifiquement pour perturber cette pratique — notre vérification VIN extrait l'historique original de marque indépendamment d'où le titre papier actuel a été émis." },
+      { q: "Les lemons sont-ils vendus aux enchères de concessionnaires ?", a: "Oui — les enchères captives du fabricant (par exemple les voies fabricant de Manheim, ADESA, OPENLANE) sont le canal standard pour les véhicules de rachat. Les concessionnaires assistant à ces enchères connaissent le statut de rachat. Le risque pour les consommateurs survient plus tard, après que le véhicule ait passé entre 1–2 mains de concessionnaires et que la documentation de rachat ne soit peut-être pas transmise aussi clairement." },
+      { q: "Les voitures en leasing qualifient-elles sous les lemon laws ?", a: "Oui dans la plupart des états. Les lemon laws couvrent typiquement à la fois les véhicules achetés et en leasing pendant la période de garantie statutaire, bien que le processus de remède diffère — le fabricant doit travailler à la fois avec le preneur et la société de leasing (le détenteur légal du titre)." },
+      { q: "Qu'est-ce que NMVTIS ?", a: "NMVTIS — le National Motor Vehicle Title Information System — est un système fédéral administré par le Département de la Justice des États-Unis qui agrège les marques de titre des 50 DMV étatiques, transporteurs d'assurance, casses et enchères de salvage. Il a été créé en partie pour empêcher le blanchiment de titres des véhicules marqués (lemon, salvage, inondation, ferraille). Notre vérification VIN provient de fournisseurs de données approuvés par NMVTIS." },
+      { q: "Combien de temps une marque lemon reste-t-elle sur un titre ?", a: "Permanemment dans la plupart des états. Une marque de rachat du fabricant ou lemon law suit le VIN pendant toute la vie du véhicule et n'est jamais censée être enlevée. Certains états (la Californie spécifiquement) exigent une décalcomanie physique dans le montant de porte en plus de la notation du titre." },
+      { q: "Puis-je poursuivre si j'ai acheté un lemon sans le savoir ?", a: "Possiblement. Si le vendeur a omis de divulguer une marque de rachat connue, tu peux avoir une réclamation sous le code des pratiques commerciales trompeuses de ton état, la fraude common-law ou le Magnuson-Moss Warranty Act fédéral. Documente tout — titre, divulgations, registres de réparation — et consulte un avocat qualifié en protection des consommateurs. Cette page est informative, pas un conseil juridique." },
+      { q: "Une voiture CPO peut-elle être un lemon ?", a: "Elle peut l'être, bien que la plupart des programmes Certified Pre-Owned des fabricants excluent explicitement les véhicules avec des marques lemon antérieures. Si tu trouves une voiture CPO avec une marque de rachat dans son historique VIN, c'est un signal fort que quelque chose a été manqué dans le processus de certification ou que la marque a été appliquée après la certification CPO — les deux valant la peine d'être questionnés avant l'achat." },
+      { q: "Mon état a-t-il une protection lemon pour voitures d'occasion ?", a: "La plupart des états n'en ont pas. Seule une poignée — incluant New York, New Jersey, Massachusetts, Connecticut, Rhode Island et (sous forme limitée) Hawaii, Arizona, Washington D.C. et quelques autres — étendent la protection lemon law statutaire aux achats de voitures d'occasion. En dehors de ces états, tu dois te fier à la garantie originale du fabricant (si encore active), Magnuson-Moss et toute garantie implicite de qualité marchande qui peut s'appliquer." },
+      { q: "Qu'est-ce que le Magnuson-Moss Warranty Act ?", a: "Le Magnuson-Moss Warranty Act (15 U.S.C. § 2301) est une loi fédérale de protection des consommateurs qui régit les garanties écrites sur les produits de consommation. Pour les véhicules, elle fournit une cause d'action privée pour violation de garantie écrite ou implicite et permet la récupération d'honoraires d'avocats. Elle peut s'appliquer quand une lemon law étatique ne s'applique pas, y compris dans les ventes entre particuliers et au-delà de la fenêtre de garantie étatique." },
+    ],
+
+    bottomBadge: "Gratuit · Instantané · 50 états",
+    bottomHeading: "Un VIN. Chaque marque lemon. Cinq secondes.",
+    bottomBody:
+      "Les marques de rachat du fabricant et les historiques lemon law suivent le VIN de façon permanente — même quand le titre papier semble propre. Effectue la vérification gratuite avant d'écrire un chèque.",
+    bottomFullReport: "Ou obtiens le rapport complet d'historique VIN",
+  },
 } as const;
 
 export default function LemonCheckPageBody({

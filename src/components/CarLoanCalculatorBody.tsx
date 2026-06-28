@@ -190,6 +190,94 @@ const COPY = {
       "Antes de financiar, haz una verificación VIN gratis para confirmar que el título está limpio, que no hay daño por accidente oculto y que el odómetro no ha sido retrocedido.",
     ctaButton: "Hacer verificación VIN gratis",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Calculateur de prêt auto",
+    h1: "Calculateur de prêt auto",
+    intro:
+      "Calcule ton paiement mensuel exact, l'intérêt total payé et le calendrier complet d'amortissement — y compris la taxe de vente d'État, la valeur de reprise et les frais du concessionnaire. Gratuit, instantané et sans inscription.",
+    badges: [
+      "Paiement mensuel",
+      "Intérêt total",
+      "Calendrier d'amortissement",
+      "Taux de taxe des 50 États",
+    ],
+    h2How: "Comment fonctionne le calculateur de prêt auto",
+    howIntro:
+      "Le calculateur utilise la formule standard du prêt amortissable pour calculer ton paiement mensuel au centime près, puis construit le calendrier complet paiement par paiement montrant comment chaque versement se répartit entre capital et intérêt.",
+    steps: [
+      {
+        title: "Capital du prêt",
+        body: "Capital = prix du véhicule − acompte − valeur de reprise + taxe de vente (sur le montant taxable) + frais financés. Saisis $0 pour les frais que tu paies comptant à la signature.",
+      },
+      {
+        title: "Formule du paiement mensuel",
+        body: "Paiement = P × [r(1+r)ⁿ] ÷ [(1+r)ⁿ − 1], où P est le capital, r est le taux d'intérêt mensuel (APR ÷ 12), et n est le nombre de mois. Pour les prêts à 0% APR, le paiement est simplement P ÷ n.",
+      },
+      {
+        title: "Calendrier d'amortissement",
+        body: "Chaque ligne montre : combien du paiement de ce mois-ci réduit le capital (les premiers paiements sont surtout de l'intérêt), combien est de l'intérêt (solde × taux mensuel) et le solde restant après le paiement.",
+      },
+      {
+        title: "Coût total",
+        body: "Total payé = paiement mensuel × nombre de mois. Intérêt total = total payé − capital. La barre de répartition montre la proportion visuellement pour que tu voies d'un coup d'œil combien de chaque dollar va à l'intérêt.",
+      },
+    ],
+    h2Tips: "Conseils pour réduire le coût de ton prêt auto",
+    tips: [
+      { title: "Verse au moins 20% d'acompte", detail: "Un acompte de 20% te garde hors équité négative (devoir plus que la valeur de la voiture) et réduit le capital suffisamment pour baisser significativement à la fois le paiement et l'intérêt total." },
+      { title: "Obtiens une pré-approbation avant de magasiner", detail: "Une pré-approbation d'une banque ou caisse populaire te donne un APR de référence. Les concessionnaires offrent souvent des taux 0.5–2% plus élevés que ta pré-approbation — connaître ton taux te donne du pouvoir de négociation." },
+      { title: "Choisis la durée la plus courte que tu peux te permettre", detail: "La différence d'intérêt total entre un prêt de $30,000 sur 60 mois et 72 mois à 7% APR dépasse $1,600. Utilise le calculateur pour comparer." },
+      { title: "La reprise est taxée différemment selon l'État", detail: "La plupart des États appliquent la taxe de vente uniquement sur la différence de prix (prix du véhicule − valeur de reprise), pas sur le prix complet. C'est géré automatiquement dans le calculateur." },
+      { title: "Négocie le prix du véhicule, pas le paiement", detail: "Les concessionnaires préfèrent négocier les paiements mensuels (facile de cacher un coût total plus élevé avec une durée plus longue). Négocie toujours d'abord le prix tout inclus, puis calcule le paiement toi-même." },
+      { title: "Fais une vérification d'historique VIN avant d'acheter", detail: "Acheter une voiture avec des marques de titre non divulguées (salvage, inondation, rachat lemon law) ou des dommages d'accident peut te coûter des milliers en réparations et valeur de revente perdue — souvent plus que l'intérêt du prêt." },
+    ],
+    h2Apr: "APR moyen des prêts auto en 2025 par cote de crédit",
+    aprIntro:
+      "Utilise ces chiffres comme référence en saisissant ton APR. Si la soumission de ton concessionnaire est nettement plus élevée que ce que suggère ta cote de crédit, compare d'autres prêteurs avant de signer.",
+    aprHeaders: ["Cote de crédit", "Niveau de crédit", "APR auto neuf", "APR auto usagé"],
+    aprRows: [
+      ["781–850", "Super Prime", "5.2%", "6.8%"],
+      ["661–780", "Prime", "6.5%", "8.9%"],
+      ["601–660", "Quasi Prime", "8.9%", "13.5%"],
+      ["501–600", "Subprime", "13.7%", "18.5%"],
+      ["300–500", "Subprime Profond", "15.7%", "21.5%"],
+    ],
+    aprFootnote:
+      "Moyennes approximatives basées sur les données de l'industrie 2025. Les taux réels varient selon le prêteur, l'État et l'âge du véhicule.",
+    warningTitle: "Vérifie le VIN avant de financer",
+    warningPre:
+      "Une voiture avec un titre salvage caché ou un historique majeur d'accidents peut se déprécier 30–50% plus vite qu'un véhicule à titre propre — annulant toute économie sur le prix d'achat. Fais toujours une ",
+    warningLink: "vérification VIN gratuite",
+    warningSuffix: " avant de signer la paperasse du prêt.",
+    h2Faq: "Foire aux questions",
+    faqs: [
+      {
+        q: "Quel est un bon APR pour un prêt auto en 2025 ?",
+        a: "Avec un excellent crédit (720+), les APR auto neuf vont de 4–6% ; les autos usagées sont 1–3% plus élevées. Les caisses populaires offrent généralement des taux 1–2% sous le financement du concessionnaire. Obtiens une pré-approbation de ta banque ou caisse avant de visiter le concessionnaire.",
+      },
+      {
+        q: "Devrais-je choisir un prêt de 60 ou 72 mois ?",
+        a: "Un prêt de 60 mois coûte moins d'intérêt total mais exige un paiement mensuel plus élevé. Essaie les deux dans le calculateur — la différence d'intérêt sur un prêt de $30,000 à 7% APR dépasse $1,600. La durée plus courte est meilleure si tu peux te permettre le paiement.",
+      },
+      {
+        q: "Est-il préférable de mettre plus d'argent comptant ?",
+        a: "Généralement oui. Un acompte plus important réduit le capital, baisse les paiements mensuels, économise l'intérêt et te protège de te retrouver 'sous l'eau' (devoir plus que la valeur de la voiture). Vise au moins 20% sur les autos neuves et 10% sur les usagées.",
+      },
+      {
+        q: "Comment une reprise affecte-t-elle mon prêt ?",
+        a: "La valeur de reprise est soustraite du prix du véhicule avant de calculer à la fois le capital du prêt et (dans la plupart des États) la taxe de vente. Une reprise de plus grande valeur réduit tout en aval. Vérifie l'offre instantanée Edmunds ou KBB comme référence avant d'accepter une soumission de reprise du concessionnaire.",
+      },
+      {
+        q: "Qu'est-ce qui est inclus dans les frais du concessionnaire / doc ?",
+        a: "Les frais typiques incluent la documentation ($150–$800 selon l'État), l'immatriculation et le transfert de titre ($100–$400) et les frais de préparation du concessionnaire. Certains États plafonnent les frais de doc ; d'autres non. Ces frais augmentent le capital de ton prêt s'ils sont financés, alors comprends exactement ce que tu paies avant de signer.",
+      },
+    ],
+    ctaHeading: "Trouvé la voiture ? Vérifie son historique d'abord.",
+    ctaBody:
+      "Avant de financer, fais une vérification VIN gratuite pour confirmer que le titre est propre, qu'il n'y a pas de dommages d'accident cachés et que l'odomètre n'a pas été reculé.",
+    ctaButton: "Lancer une vérification VIN gratuite",
+  },
 } as const;
 
 const FAQS_EN = COPY.en.faqs.map((f) => ({ question: f.q, answer: f.a }));

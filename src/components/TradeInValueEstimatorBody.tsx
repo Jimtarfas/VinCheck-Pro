@@ -212,6 +212,106 @@ const COPY = {
       "No intercambies un auto limpio por un auto con problemas. Haz una verificación VIN gratis de cualquier vehículo usado antes de firmar — accidentes, títulos de salvamento y rollback de odómetro reducen el valor en el momento que sales del lote.",
     ctaBottomBtn: "Hacer verificación VIN gratis",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Estimateur de valeur de reprise",
+    h1: "Estimateur de valeur de reprise",
+    intro:
+      "Découvre ce que ta voiture vaut avant d'entrer chez un concessionnaire. Obtiens des estimations instantanées pour vente entre particuliers, reprise au concessionnaire, offre comptant instantanée et valeur d'enchère — basées sur des données réelles de dépréciation, des taux de rétention par marque et l'historique de ton véhicule.",
+
+    h2Channels: "Les 4 façons de vendre ta voiture (et combien chacune paie)",
+    channels: [
+      {
+        rank: "1",
+        label: "Vente entre particuliers",
+        pct: "100%",
+        pctSuffix: "de la valeur marchande",
+        color: "emerald",
+        desc: "Vendre directement à un acheteur via Facebook Marketplace, Craigslist ou AutoTrader. Valeur maximale mais exige de publier, filtrer les acheteurs, planifier des essais routiers et la paperasse. Prend 2 à 8 semaines en moyenne.",
+      },
+      {
+        rank: "2",
+        label: "Reprise au concessionnaire",
+        pct: "~82%",
+        pctSuffix: "de la valeur marchande",
+        color: "blue",
+        desc: "Donner ton véhicule actuel en échange de l'achat d'une auto neuve ou usagée chez un concessionnaire. Environ 15-20% de moins que la vente entre particuliers — mais instantané, et dans la plupart des États, la reprise réduit le prix d'achat taxable de ton prochain véhicule.",
+      },
+      {
+        rank: "3",
+        label: "Offre comptant instantanée",
+        pct: "~76%",
+        pctSuffix: "de la valeur marchande",
+        color: "amber",
+        desc: "Des entreprises comme CarMax, Carvana, Vroom ou des groupes de concessionnaires achètent ta voiture directement en 24-48 heures. L'offre est généralement valide 7 jours. Pas de négociation, pas d'étrangers en essai routier — mais typiquement $500-$1,500 de moins qu'une reprise au concessionnaire.",
+      },
+      {
+        rank: "4",
+        label: "Enchère / Gros",
+        pct: "~65%",
+        pctSuffix: "de la valeur marchande",
+        color: "slate",
+        desc: "Le prix que les concessionnaires paient chez Manheim, ADESA ou aux enchères en ligne pour approvisionner leur inventaire. C'est le plancher — tu devrais rarement accepter ça comme vendeur particulier sauf si le véhicule a un titre marqué ou des problèmes majeurs limitant d'autres options.",
+      },
+    ],
+
+    h2Depreciation: "Comment la dépréciation auto affecte la valeur de reprise",
+    depreciationIntro: "La dépréciation est le facteur le plus important dans la valeur de ta voiture. La moyenne de l'industrie :",
+    tableAge: "Âge",
+    tableRetained: "Valeur conservée",
+    tableLost: "Perdu vs neuf",
+    depreciationRows: [
+      ["Neuf (sortie du lot)", "81%", "\u221219%"],
+      ["1 an", "81%", "\u221219%"],
+      ["2 ans", "70%", "\u221230%"],
+      ["3 ans", "62%", "\u221238%"],
+      ["5 ans", "49%", "\u221251%"],
+      ["7 ans", "39%", "\u221261%"],
+      ["10 ans", "28%", "\u221272%"],
+    ],
+    brandsNoteBold: "Les marques comptent.",
+    brandsNote:
+      " Toyota, Honda et Subaru conservent 5-12% plus de valeur que la moyenne. Land Rover, Chrysler et Dodge en conservent 10-15% de moins. Notre estimateur applique des multiplicateurs spécifiques à 30 fabricants.",
+
+    h2Hurts: "Ce qui réduit la valeur de reprise de ta voiture",
+    hurts: [
+      { bad: true, title: "Titre salvage ou reconstruit", detail: "Réduit la valeur de 30-50%. La plupart des concessionnaires franchisés ne prendront pas une auto à titre salvage en reprise. Vends à un concessionnaire indépendant ou aux enchères." },
+      { bad: true, title: "Marque de dommage par inondation ou ouragan", detail: "Réduit la valeur d'environ 50%. Même après des réparations appropriées, un véhicule marqué inondation porte un stigmate permanent et des complications d'assurance pour le prochain acheteur." },
+      { bad: true, title: "Historique d'accident rapporté", detail: "Un rapport d'accident réduit la valeur d'environ 8% ; deux ou plus de 15%. Les concessionnaires vérifient Carfax et AutoCheck avant de faire une offre." },
+      { bad: true, title: "Kilométrage élevé pour l'âge", detail: "Chaque 10,000 milles au-dessus de la moyenne de 12,000/an réduit la valeur d'environ 2-3%. Une auto de 6 ans avec 110,000 milles (vs. 72,000 moyenne) vaut environ 10% de moins juste sur le kilométrage." },
+      { bad: true, title: "État médiocre ou passable", detail: "Passer d'état Bon à Passable fait chuter la valeur d'environ 20% ; à Médiocre d'environ 35%. Bosses, tissu déchiré et problèmes mécaniques sont visibles pour tout évaluateur." },
+      { bad: false, title: "Dossier d'entretien complet", detail: "La documentation de vidanges régulières et d'entretien planifié peut ajouter 3-7% à l'évaluation du concessionnaire — surtout sur les véhicules à haut kilométrage." },
+      { bad: false, title: "Un propriétaire, titre propre", detail: "Les véhicules à un propriétaire avec titre propre sont les plus liquides. Les concessionnaires savent qu'ils se vendront plus vite et commanderont une prime au détail." },
+    ],
+
+    crossLoan: { title: "Calculateur de prêt auto", desc: "Utilise ta reprise comme acompte", open: "Ouvrir \u2192" },
+    crossAfford: { title: "Calculateur d'abordabilité", desc: "Trouve ton budget total d'achat auto", open: "Ouvrir \u2192" },
+
+    h2Faq: "Foire aux questions",
+    faqs: [
+      {
+        q: "Quelle est la précision de cet estimateur de valeur de reprise ?",
+        a: "Les estimations utilisent des courbes de dépréciation standards de l'industrie, des taux de rétention spécifiques à la marque (tirés de données historiques d'enchère et de détail) et des multiplicateurs de condition/historique utilisés par les évaluateurs professionnels. Les résultats sont typiquement à 10-15% de l'évaluation réelle du concessionnaire. Pour la valeur la plus précise, obtiens des soumissions de 3 sources ou plus : ton concessionnaire, CarMax et une plateforme d'offre instantanée comme Carvana.",
+      },
+      {
+        q: "Devrais-je obtenir une offre de reprise avant ou après avoir négocié le prix de l'auto neuve ?",
+        a: "Négocie toujours d'abord le prix d'achat de l'auto neuve, complètement indépendamment. Les concessionnaires profitent en ajustant la valeur de reprise ou le prix de l'auto neuve quand tu les négocies ensemble. Convenez du prix tout inclus du véhicule neuf, puis présente la reprise comme une transaction séparée.",
+      },
+      {
+        q: "Comment la reprise d'une auto affecte-t-elle la taxe de vente ?",
+        a: "Dans la plupart des États américains, la taxe de vente sur l'achat d'un nouveau véhicule est calculée sur le prix d'achat moins la valeur de reprise. Sur une auto neuve de $35,000 avec une reprise de $10,000, tu paierais la taxe sur $25,000 au lieu de $35,000. À un taux de 6%, ce sont $600 d'économies fiscales — ce qui peut réduire significativement l'écart entre une reprise et une vente entre particuliers.",
+      },
+      {
+        q: "Pourquoi l'offre de mon concessionnaire est-elle inférieure à cette estimation ?",
+        a: "Les concessionnaires intègrent les coûts de remise à neuf (nettoyage, réparations mineures, certification), le risque d'enchère en gros et leur marge de profit requise lors des offres de reprise. Un véhicule à valeur particulier de $15,000 pourrait n'obtenir que $12,000-$13,000 en reprise. Obtenir des soumissions de plusieurs concessionnaires et services d'offre instantanée te donne le vrai plancher du marché.",
+      },
+    ],
+
+    ctaBottomHeading: "Tu achètes un remplacement ? Vérifie son VIN d'abord.",
+    ctaBottomSub:
+      "N'échange pas une auto propre contre une auto avec problèmes. Fais une vérification VIN gratuite sur tout véhicule usagé avant de signer — accidents, titres salvage et recul d'odomètre réduisent tous la valeur au moment où tu sors du lot.",
+    ctaBottomBtn: "Lancer une vérification VIN gratuite",
+  },
 } as const;
 
 interface Props { locale: Locale; }

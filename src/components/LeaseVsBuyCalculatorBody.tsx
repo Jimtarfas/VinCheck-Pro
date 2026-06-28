@@ -363,6 +363,175 @@ const COPY = {
     bottomBtn: "Ejecutar una verificación VIN gratis",
     bottomHref: "/vin-check",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Calculateur louer ou acheter",
+    h1: "Calculateur louer ou acheter",
+    intro:
+      "Compare le vrai coût total de louer vs acheter la même auto côte à côte. Vois les paiements mensuels, la sortie totale, la plus-value en fin de terme et l'avantage net clair sur 3–7 ans. Calculs du facteur monétaire, excédent de kilométrage, frais et taxes tous inclus.",
+
+    quickCompareH2: "Louer vs Acheter : tableau de comparaison rapide",
+    quickCompareCols: { factor: "Facteur", lease: "Location", buy: "Achat" },
+    quickCompareRows: [
+      [
+        "Paiement mensuel",
+        "Plus bas (tu paies seulement la dépréciation)",
+        "Plus haut (tu paies le véhicule complet)",
+      ],
+      [
+        "Coût total sur 3 ans",
+        "Moins de sortie",
+        "Plus de sortie mais tu détiens la plus-value",
+      ],
+      [
+        "Actif en fin de terme",
+        "$0 — tu retournes la voiture",
+        "Véhicule avec valeur de revente",
+      ],
+      ["Limites de kilométrage", "10k–15k/an ; ~$0.25/mi en sus", "Illimités"],
+      ["Modifications permises", "Généralement non", "Oui — entièrement tien"],
+      ["Frais d'usure", "Oui, au retour", "Aucun"],
+      ["Coût de sortie anticipée", "Punitif (milliers)", "Vends ou échange quand tu veux"],
+      [
+        "Mieux pour",
+        "Auto neuve tous les 3 ans, faible kilométrage",
+        "Propriétaires à long terme, haut kilométrage",
+      ],
+    ] as const,
+
+    whenLeaseH2: "Quand louer a du sens",
+    whenLease: [
+      {
+        t: "Tu roules moins de 12,000 milles par année",
+        d: "Les plafonds de kilométrage et frais d'excédent sont le tueur #1 de la location. Sous 12k/an, tu restes confortablement sous la limite.",
+      },
+      {
+        t: "Tu veux une auto neuve tous les 2–3 ans",
+        d: "Si tu changes de véhicule souvent de toute façon, louer évite les coups de dépréciation et le tracas de la revente.",
+      },
+      {
+        t: "Tu peux déduire la location comme dépense d'affaires",
+        d: "Les travailleurs autonomes et entreprises peuvent souvent déduire la totalité du paiement de location sur leurs impôts — modifiant substantiellement le calcul vs acheter.",
+      },
+      {
+        t: "Tu vises une auto de luxe pour moins par mois",
+        d: "Les marques de luxe ont des résiduels solides (souvent 60%+), rendant les paiements de location dramatiquement plus bas que financer le même véhicule.",
+      },
+      {
+        t: "Tu ne personnalises ni ne modifies les autos",
+        d: "Si un véhicule d'origine te convient, tu renonces au principal avantage de la propriété et tu paies simplement moins par mois.",
+      },
+    ],
+
+    whenBuyH2: "Quand acheter a du sens",
+    whenBuy: [
+      {
+        t: "Tu roules plus de 15,000 milles par année",
+        d: "Les excédents de kilométrage sur une location peuvent facilement dépasser $4,000 sur 3 ans. Posséder élimine cela complètement.",
+      },
+      {
+        t: "Tu gardes les autos 5+ ans",
+        d: "Une fois le prêt remboursé, tes seuls coûts sont assurance, carburant et entretien. Les années 5–10 sont quand acheter prend une énorme avance financière.",
+      },
+      {
+        t: "Tu veux la liberté de modifier ou améliorer",
+        d: "Camions surélevés, modifications de performance, vinyles personnalisés, attaches de remorque — tout interdit sur une location.",
+      },
+      {
+        t: "Tu bâtis de la plus-value utilisable plus tard",
+        d: "Une auto payée est un actif de $15–25k. Tu peux la vendre, l'échanger ou la léguer — rien de cela n'existe avec une location.",
+      },
+      {
+        t: "Tu roules dans des conditions rudes",
+        d: "Les frais d'usure (éraflures de bordure, dommages intérieurs, bosses) frappent fort au retour de location. Posséder contourne ça.",
+      },
+      {
+        t: "Tu veux un coût prévisible à long terme",
+        d: "Après remboursement, ton coût mensuel tombe à $200–$400 d'assurance et carburant. Un locataire perpétuel paie $400+ pour toujours.",
+      },
+    ],
+
+    hiddenLeaseH2: "Coûts cachés de la location",
+    hiddenLease: [
+      {
+        t: "Excédent de kilométrage",
+        d: "Typique $0.25/mille. Rouler 18k/an sur une location de 12k/an = $4,500 dûs au retour sur 3 ans.",
+      },
+      {
+        t: "Frais d'usure",
+        d: "Bande de roulement des pneus, éraflures, taches intérieures, bosses — les banques facturent souvent $500–$2,000 à la fin de la location.",
+      },
+      {
+        t: "Frais de disposition",
+        d: "$350–$500 facturés au retour. Souvent annulés si tu re-loues la même marque.",
+      },
+      {
+        t: "Terminaison anticipée",
+        d: "Briser une location plus tôt peut coûter les paiements restants moins un petit crédit de financement non gagné — facilement $5k–$15k en pénalités.",
+      },
+      {
+        t: "Frais d'acquisition",
+        d: "Frais bancaires de $595–$995 inclus dans ta location à la signature. Souvent cachés dans le coût capitalisé.",
+      },
+      {
+        t: "Écart entre résiduel et marché",
+        d: "Si l'auto vaut plus que le résiduel en fin de location, tu t'éloignes d'une vraie plus-value à moins de la racheter.",
+      },
+    ],
+
+    hiddenBuyH2: "Avantages cachés d'acheter",
+    hiddenBuy: [
+      {
+        t: "Construction de vraie plus-value",
+        d: "Chaque paiement met de la plus-value dans ta poche. Après 5 ans sur un prêt de 60 mois, tu possèdes un actif de $15k–$20k en propre.",
+      },
+      {
+        t: "Pas de limites de kilométrage",
+        d: "Roule 5k ou 50k milles par an — pas de surcharges, pas de surprises en fin d'année.",
+      },
+      {
+        t: "Libre de modifier",
+        d: "Roues, calibrations, élévations, vinyles, attaches de remorque — tout à toi sans opposition du concessionnaire.",
+      },
+      {
+        t: "Vends ou échange quand tu veux",
+        d: "Si ta situation change, tu peux vendre en privé ou échanger. Une location n'a pas d'option de sortie anticipée sans pénalités massives.",
+      },
+      {
+        t: "Moins cher après remboursement",
+        d: "Les années 6+ sur une auto possédée sont vraiment pas chères — assurance, carburant, entretien seulement. Les locataires paient le plein tarif pour toujours.",
+      },
+      {
+        t: "Flexibilité d'assurance",
+        d: "Les propriétaires peuvent laisser tomber la couverture de collision sur les vieilles autos pour réduire les primes. Les locataires doivent porter une couverture complète à franchises élevées.",
+      },
+    ],
+
+    moneyFactorH2: "Comment fonctionne le facteur monétaire",
+    moneyFactorIntro:
+      "Le facteur monétaire est l'équivalent location de l'APR — une petite décimale représentant la portion d'intérêt de ta location. Pour le convertir, multiplie par 2400 :",
+    mfExampleLabel: "Exemple :",
+    mfApr: "3.0% APR",
+    mfFinanceLead: "Le frais de financement dans la formule de location est calculé comme :",
+    mfFinanceCharge: "Frais financement/mois =",
+    mfCapPlusRes: "(Coût cap. + Résiduel)",
+    mfMoneyFactor: "Facteur monétaire",
+    mfDealerNote:
+      "Note : les concessionnaires peuvent gonfler le facteur monétaire — vérifie toujours le \"buy rate\" annoncé ou compare au taux APR auto de ta banque (divisé par 24) pour repérer les frais de financement gonflés.",
+
+    faqH2: "Foire aux questions",
+    decidedTitle: "Décidé d'acheter ? Calcule le paiement exact du prêt.",
+    decidedBody:
+      "Notre calculateur de prêt auto te donne le paiement mensuel précis et le calendrier complet d'amortissement pour ton scénario de financement.",
+    loanCalcLink: "Calc. prêt",
+    loanCalcHref: "/car-loan-calculator",
+
+    bottomH2: "Tu achètes usagé ? Vérifie l'historique d'abord.",
+    bottomBody:
+      "Un Carfax propre peut encore cacher un passé salvage, un recul d'odomètre ou un privilège. Lance une vérification VIN gratuite avant de signer toute location ou prêt.",
+    bottomBtn: "Lancer une vérification VIN gratuite",
+    bottomHref: "/vin-check",
+  },
 } as const;
 
 const FAQS_EN = [

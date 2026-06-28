@@ -209,6 +209,97 @@ const COPY = {
       "Ingresa un VIN de 17 caracteres para verificar gravámenes activos, historial de recuperación y registros de incautación.",
     bottomReportLink: "O obtén el reporte completo de historial VIN",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Vérification de mise en fourrière",
+    badge: "Registres mise en fourrière · saisie · gage",
+    h1: "Vérification d'historique de mise en fourrière et saisie par VIN",
+    h1Accent: "Trouve les gages avant d'acheter",
+    intro:
+      "Acheter un véhicule avec un gage actif ou un registre de mise en fourrière non résolu peut entraîner la perte du véhicule après l'achat — même si tu as payé en entier et que le vendeur semblait avoir une propriété légitime. Une vérification VIN de mise en fourrière et saisie révèle les gages actifs, les événements passés de reprise et l'historique de mise en fourrière qui pourraient compliquer ou empêcher complètement un transfert propre du titre.",
+    heroFormHeading: "Effectue une vérification gratuite de mise en fourrière et gage",
+    heroFormSub: "Saisis n'importe quel VIN de 17 caractères",
+    secureNote: "Chiffré 256 bits · conforme DPPA · données de titre de NMVTIS",
+    trustStats: [
+      { value: "NMVTIS", label: "données fédérales" },
+      { value: "Gages", label: "vérification active" },
+      { value: "< 5 sec", label: "recherche moyenne" },
+      { value: "Gratuit", label: "aperçu, sans inscription" },
+      { value: "17 car.", label: "décodage VIN complet" },
+    ],
+    glanceHeading: "Vérification mise en fourrière et gage en un coup d'œil",
+    glanceStats: [
+      { label: "Registres vérifiés", value: "Gages · saisie · mise en fourrière" },
+      { label: "Source principale", value: "NMVTIS + DMV étatique" },
+      { label: "Note de couverture", value: "Mises en fourrière locales varient" },
+      { label: "Recherche", value: "Gratuit · instantané · par VIN" },
+    ],
+    h2What: "Qu'est-ce qu'un registre de mise en fourrière",
+    what1:
+      "Une mise en fourrière de véhicule est la saisie et le stockage d'un véhicule par les forces de l'ordre ou une autorité gouvernementale. Les mises en fourrière surviennent pour une variété de raisons : conduite sous influence, exploitation d'un véhicule non assuré ou non immatriculé, infractions de stationnement avec amendes impayées, abandon de véhicule, association avec une activité criminelle ou comme preuve dans une enquête. Quand un véhicule est mis en fourrière, l'événement est enregistré dans les bases de données des forces de l'ordre.",
+    what2:
+      "Les registres de mise en fourrière peuvent compliquer les achats de voitures d'occasion de plusieurs façons. Les frais de mise en fourrière en souffrance ou les frais de stockage peuvent devenir des gages contre le véhicule qui doivent être résolus avant le transfert de titre. Un véhicule mis en fourrière comme preuve dans une enquête en cours peut ne pas être disponible pour le transfert tant que l'affaire légale n'est pas résolue. Et certaines juridictions placent des retenues sur les titres de véhicules pour les amendes impayées qui bloquent l'enregistrement au nom d'un nouveau propriétaire.",
+    what3:
+      "Tous les registres de mise en fourrière n'apparaissent pas dans les bases de données liées au VIN — les registres locaux de mise en fourrière des forces de l'ordre sont particulièrement variables dans leur signalement aux bases de données centralisées. Cependant, les mises en fourrière qui ont entraîné des ventes aux enchères, des procédures de véhicule abandonné ou des gages contre le titre apparaîtront généralement dans les rapports complets d'historique véhiculaire.",
+    h2Records: "Registres qui révèlent une mise en fourrière",
+    recordsSub:
+      "Les mises en fourrière apparaissent rarement comme une seule entrée dédiée. Elles font généralement surface à travers les registres qu'elles laissent derrière — ce sont les signaux à vérifier par VIN.",
+    recordCards: [
+      "Gages contre le titre pour les frais impayés de stockage ou remorquage qui doivent être réglés avant un transfert propre.",
+      "Procédures de titre de véhicule abandonné et registres de vente aux enchères de prêteurs ou municipaux.",
+      "Marques de titre ou réassignations qui résultent du processus de mise en fourrière ou d'enchère.",
+    ],
+    h2Repo: "Historique de reprise et ce que cela signifie",
+    repo1:
+      "Une reprise de véhicule survient lorsqu'un prêteur récupère légalement le véhicule d'un emprunteur qui a fait défaut sur ses paiements de prêt. Le prêteur détient un intérêt de garantie sur le véhicule (sa garantie pour le prêt), et en cas de défaut, il a le droit de prendre possession sans ordonnance du tribunal dans la plupart des états. Les événements de reprise sont enregistrés dans les bases de données des prêteurs et apparaissent souvent dans les rapports d'historique véhiculaire comme un changement de propriété de l'emprunteur au prêteur.",
+    repo2:
+      "Une reprise passée dans l'historique d'un véhicule n'est pas nécessairement un problème pour un acheteur ultérieur — si le prêteur a correctement transféré le titre et libéré le gage après la reprise, le véhicule peut être vendu avec un titre propre à l'acheteur suivant. Le problème survient quand un vendeur tente de vendre un véhicule qui a été repris mais le gage du prêteur n'a pas été correctement libéré du titre.",
+    repo3:
+      "Si un véhicule a été repris, vérifie toujours que la libération du gage est documentée sur le titre avant de compléter tout achat. Un prêteur dont le prêt n'a pas été complètement remboursé via la vente de reprise conserve le droit de poursuivre le véhicule peu importe qui le détient actuellement.",
+    h2Liens: "Comment vérifier les gages actifs",
+    liensIntro:
+      "Un gage actif sur un véhicule signifie qu'une institution financière ou un autre créancier a une réclamation légale contre le véhicule comme garantie pour une dette en souffrance. Acheter un véhicule avec un gage actif signifie que tu pourrais potentiellement perdre le véhicule au profit du créancier si la dette n'est pas satisfaite — même si tu l'as acheté de bonne foi à un vendeur privé.",
+    lienBullets: [
+      { strong: "Examine le titre physique", rest: " — le nom du créancier devrait apparaître sur le devant du titre si un gage est actif. Un titre propre ne montre aucun créancier." },
+      { strong: "Vérifie les rapports d'historique VIN", rest: " — les gages actifs signalés à NMVTIS apparaissent dans les rapports complets d'historique véhiculaire." },
+      { strong: "Contacte le DMV étatique", rest: " — les agences étatiques des véhicules motorisés maintiennent des registres de gages et peuvent confirmer si un gage existe sur un VIN spécifique." },
+      { strong: "Demande une lettre de libération de gage", rest: " — si le vendeur affirme que le prêt est remboursé mais qu'aucun titre n'est disponible, demande une documentation écrite de libération de gage du prêteur." },
+    ],
+    h2Transfer: "Problèmes de transfert de titre avec des gages",
+    transfer1:
+      "La conséquence pratique la plus importante d'un gage actif est qu'il empêche un transfert propre du titre. Quand tu enregistres un véhicule à ton nom, le DMV vérifie tout gage en souffrance. Si un gage est présent, l'enregistrement peut être bloqué ou le créancier peut être notifié, déclenchant potentiellement une reprise même après que tu aies pris possession du véhicule.",
+    transfer2:
+      "Si tu achètes un véhicule avec un prêt en souffrance connu, l'approche la plus sûre est de mener la transaction directement par le prêteur. Paie au prêteur le solde restant, reçois la libération de gage, puis complète la transaction avec le vendeur pour toute équité restante. N'accepte jamais simplement la promesse d'un vendeur de « payer le prêt avec le produit de la vente » — s'ils manquent à cette obligation, tu n'as ni véhicule ni garantie.",
+    transfer3Pre: "Combine la vérification de mise en fourrière et gages avec un ",
+    vinLink: "rapport complet d'historique VIN",
+    transfer3Mid: " et une ",
+    stolenLink: "vérification de véhicule volé",
+    transfer3Suffix: " pour écarter à la fois les charges financières et criminelles sur le véhicule.",
+    h2Buying: "Acheter une voiture avec un historique de reprise",
+    buy1:
+      "Un véhicule avec une reprise passée dans son historique n'est pas nécessairement un achat problématique, à condition que le gage ait été correctement libéré et que le titre soit propre. La reprise signifie simplement que le propriétaire précédent a fait défaut sur son prêt — le véhicule lui-même peut être en parfait état mécanique et cosmétique. Les véhicules repris vendus par les enchères de prêteurs sont typiquement bien documentés et représentent souvent des valeurs de marché raisonnables.",
+    buy2:
+      "Le risque augmente quand un vendeur tente de vendre un véhicule qui a été repris mais l'intérêt du prêteur n'a pas été entièrement résolu. Ce scénario est plus courant dans les ventes entre particuliers où des vendeurs en détresse tentent de liquider des actifs avant une action formelle de reprise. Vérifie toujours la propreté du titre avant que tout paiement ne change de mains.",
+    buy3Pre: "Complète ta diligence raisonnable avec une ",
+    accidentLink: "vérification d'historique d'accidents",
+    buy3Mid: " et une ",
+    odoLink: "vérification d'odomètre",
+    buy3Suffix: " aux côtés de la vérification de mise en fourrière et gages pour une protection complète avant achat.",
+    howToHeading: "Comment vérifier l'historique de mise en fourrière, saisie et gage — 6 étapes",
+    howToSub:
+      "Un dépistage complet de charges avant achat prend environ 15 minutes entre ton bureau et le DMV.",
+    midCtaHeading: "N'hérite pas du gage de quelqu'un d'autre",
+    midCtaSub:
+      "Vérification gratuite et instantanée de mise en fourrière, saisie et gage provenant de NMVTIS et chaque DMV étatique. Sans carte de crédit. Sans inscription.",
+    faqHeading: "Questions fréquentes",
+    faqSub:
+      "Les questions les plus recherchées sur les vérifications de mise en fourrière, reprise et gages.",
+    bottomBadge: "Gratuit · Instantané · Gage et saisie",
+    ctaBottomHeading: "Vérifie les registres de mise en fourrière, saisie et gages",
+    ctaBottomSub:
+      "Saisis un VIN de 17 caractères pour vérifier les gages actifs, l'historique de reprise et les registres de mise en fourrière.",
+    bottomReportLink: "Ou obtiens le rapport complet d'historique VIN",
+  },
 } as const;
 
 const HOWTO_EN = [

@@ -259,6 +259,130 @@ const COPY = {
       },
     ],
   },
+  fr: {
+    breadcrumbHome: "Accueil",
+    breadcrumbCurrent: "À propos",
+    h1: "À propos de CarCheckerVIN",
+    heroLead:
+      "Nous construisons les rapports d'historique de véhicule que nous aurions aimé avoir quand nous achetions nos propres voitures d'occasion : précis, rapides, abordables et écrits en français clair.",
+    missionHeading: "Notre mission",
+    missionP1:
+      "Chaque année, plus de 40 millions de véhicules d'occasion changent de mains aux États-Unis, et une proportion stupéfiante de ces acheteurs ne voit jamais de rapport d'historique de véhicule avant de signer. La raison n'est rarement de l'apathie. C'est le coût, la complexité et un marché dominé par des rapports legacy à prix premium que les petits concessionnaires et les acheteurs privés ne peuvent tout simplement pas justifier pour un seul véhicule.",
+    missionP2:
+      "CarCheckerVIN existe pour combler cet écart. Notre mission est de rendre les mêmes données de titre, de marques, de vol et de rappels faisant autorité — celles sur lesquelles s'appuient les compagnies d'assurance et les concessionnaires franchisés — disponibles à toute personne achetant une voiture, pour moins du prix d'un plein d'essence. Nous croyons que la transparence est l'outil le plus puissant qu'un acheteur possède, et nous croyons qu'elle ne devrait pas être réservée à ceux qui peuvent se permettre un rapport premium à trente dollars.",
+    missionP3Pre: "Cette mission façonne chaque décision que nous prenons. C'est pourquoi notre",
+    missionP3LinkVin: "vérification VIN gratuite",
+    missionP3Mid: "est véritablement gratuite, pourquoi nos rapports payants commencent à $14.99, et pourquoi nous publions une bibliothèque grandissante de",
+    missionP3LinkGuides: "guides d'achat de voitures",
+    missionP3Suffix:
+      "sans paywalls. Les acheteurs informés prennent de meilleures décisions, et de meilleures décisions créent un marché de voitures d'occasion plus sain pour tous.",
+    howHeading: "Comment nous travaillons",
+    howIntro:
+      "Chaque rapport CarCheckerVIN est assemblé en temps réel à partir de plusieurs sources faisant autorité, puis validé et normalisé par notre couche de données interne avant de te parvenir. Nous ne stockons pas de snapshots obsolètes pour les revendre des semaines plus tard, et nous ne gonflons pas les rapports avec du contenu d'opérations de scraping de mauvaise qualité.",
+    sources: [
+      {
+        title: "NMVTIS",
+        body: "Le système fédéralement mandaté National Motor Vehicle Title Information System est notre source principale pour les marques de titre, les registres de ferraille et de salvage, et l'historique de titre inter-États.",
+      },
+      {
+        title: "NICB",
+        bodyPrefix:
+          "Le National Insurance Crime Bureau fournit les registres de véhicules volés et de pertes totales qui alimentent notre",
+        bodyLink: "vérification de véhicule volé",
+        bodySuffix: ".",
+      },
+      {
+        title: "APIs des fabricants",
+        body: "Les intégrations OEM directes nous permettent de décoder les VINs au niveau de la finition et de faire ressortir les rappels ouverts et les bulletins de service technique directement depuis la source.",
+      },
+      {
+        title: "Auto.dev",
+        body: "Auto.dev fournit des spécifications supplémentaires, des évaluations de marché et des signaux d'historique d'annonces qui complètent chaque rapport CarCheckerVIN.",
+      },
+    ],
+    accuracyHeading: "Notre engagement envers la précision",
+    accuracyP1:
+      "Notre équipe de données apporte plus de 35 ans d'expérience combinée en données automobiles, en enquête sur la fraude à l'assurance, en registres du DMV et en inspection de véhicules certifiée ASE. Chaque guide éditorial que nous publions est révisé par au moins un expert en la matière de l'équipe avant publication, et chaque changement de dataset est testé contre une suite de régression de plus de 5,000 véhicules connus avant d'atteindre la production.",
+    accuracyP2:
+      "Nous mettons à jour notre contenu sur une cadence trimestrielle pour refléter les changements dans les lois de titre des États, les nouvelles directives fédérales de rappels et les changements dans la manière dont les principaux fournisseurs de données rapportent l'information. Quand nous découvrons une inexactitude, nous la corrigeons en deux jours ouvrables et divulguons le changement dans notre changelog. Si tu repères un jour quelque chose qui semble erroné dans un rapport, notre équipe enquêtera et te répondra personnellement.",
+    whyHeading: "Pourquoi nous avons construit CarCheckerVIN",
+    whyP1:
+      "Après avoir vu un membre de la famille se faire escroquer avec une voiture endommagée par une inondation qui avait été silencieusement re-titrée à travers trois États, notre fondateur a passé un week-end à essayer de démêler ce qu'un rapport à trente dollars aurait fait ressortir en quelques secondes. Les dommages avaient été bien dissimulés, le vendeur s'était montré confiant, et le titre avait l'air propre en surface. La vérité était enfouie dans des registres NMVTIS que presque aucun acheteur privé ne voit.",
+    whyP2Pre:
+      "Cette expérience est devenue la thèse centrale derrière CarCheckerVIN. Les données existent. Les outils existent. La seule chose qui manquait était un service qui les livre à un prix que les acheteurs ordinaires peuvent réellement se permettre et dans un format qu'ils peuvent réellement comprendre. Nous avons construit CarCheckerVIN pour que la prochaine famille n'ait pas à apprendre à la dure. Commence par une",
+    whyP2LinkVin: "vérification VIN",
+    whyP2Mid: "gratuite ou parcours nos",
+    whyP2LinkGuides: "guides d'éducation pour acheteurs",
+    whyP2Suffix: "pour voir ce que nous voulons dire.",
+    teamHeading: "L'équipe",
+    teamIntro:
+      "CarCheckerVIN est construit par une petite équipe de vétérans en données automobiles, en enquête sur la fraude et en support client. De vraies personnes, une vraie expertise, une vraie responsabilité.",
+    team: [
+      {
+        name: "Marcus Chen",
+        role: "Fondateur et CEO",
+        bio: "Marcus a passé 12 ans en ingénierie de données automobiles chez de grands assureurs avant de lancer CarCheckerVIN. Il a personnellement révisé plus de 200,000 registres de titre NMVTIS et construit l'architecture de tarification et de pipeline qui nous permet d'exécuter des rapports à une fraction du coût des fournisseurs legacy.",
+      },
+      {
+        name: "Priya Anand",
+        role: "Cheffe des données",
+        bio: "Priya dirige nos partenariats de données et le travail d'intégration avec les fournisseurs approuvés par NMVTIS, NICB et les APIs OEM. Anciennement ingénieure principale dans une enchère automobile Fortune 100, elle a conçu la couche de validation qui détecte les registres obsolètes ou incohérents avant qu'ils n'atteignent un rapport client.",
+      },
+      {
+        name: "Devon Whitfield",
+        role: "Analyste de recherche principal",
+        bio: "Devon est un technicien certifié ASE devenu analyste d'enquête avec une décennie d'expérience en détection de fraude dans un DMV d'État. Il est l'auteur de nos guides de format long sur le lavage de titre, le clonage de VIN et le retour en arrière du compteur kilométrique, et il révise chaque changement de source de données avant son envoi.",
+      },
+      {
+        name: "Sara Okonkwo",
+        role: "Responsable du succès client",
+        bio: "Sara a aidé plus de 30,000 acheteurs à interpréter leurs rapports d'historique de véhicule et à négocier des accords équitables. Elle dirige notre équipe de support interne, édite le contenu éducatif pour acheteurs et répond personnellement aux cas escaladés en un jour ouvrable.",
+      },
+    ],
+    contactHeading: "Contacte-nous",
+    contactIntro:
+      "Des questions sur un rapport, une source de données ou ton compte ? Notre équipe est prête à aider.",
+    emailLabel: "Courriel",
+    phoneLabel: "Téléphone",
+    hoursLabel: "Heures",
+    hoursValue: "Lundi au vendredi, 9h00 – 18h00 heure de l'Est",
+    faqHeading: "Questions fréquentes",
+    faqIntro:
+      "Questions courantes sur qui nous sommes, d'où viennent nos données et comment fonctionnent nos rapports d'historique de véhicule.",
+    ctaHeading: "Prêt à vérifier un véhicule ?",
+    ctaBody:
+      "Exécute un décodage VIN gratuit en quelques secondes, ou débloque un rapport d'historique complet pour $14.99.",
+    faqs: [
+      {
+        q: "D'où CarCheckerVIN obtient-il ses données de véhicules ?",
+        a: "CarCheckerVIN assemble chaque rapport en temps réel à partir de plusieurs sources faisant autorité. Les marques de titre, les registres de salvage et de ferraille proviennent de NMVTIS (le National Motor Vehicle Title Information System). Les registres de véhicules volés et de pertes totales proviennent du NICB (National Insurance Crime Bureau). Les APIs des fabricants fournissent le décodage VIN au niveau de la finition plus les rappels ouverts et les bulletins de service technique, et Auto.dev fournit des spécifications supplémentaires, des évaluations et des signaux d'historique d'annonces.",
+      },
+      {
+        q: "CarCheckerVIN est-il affilié à Carfax ou AutoCheck ?",
+        a: "Non. CarCheckerVIN est un service indépendant d'historique de véhicule et n'est pas affilié, soutenu ou détenu par Carfax, AutoCheck ou tout autre fournisseur de rapports. Nous puisons dans les mêmes types de sources de données fédérales et industrielles faisant autorité — NMVTIS, NICB et flux des fabricants — et offrons des rapports à un prix inférieur.",
+      },
+      {
+        q: "Qu'est-ce que NMVTIS et pourquoi est-ce important ?",
+        a: "NMVTIS — le National Motor Vehicle Title Information System — est une base de données fédéralement mandatée qui agrège les registres de titre et de marques des agences d'État de véhicules motorisés, des assureurs et des opérateurs de salvage et de ferraille. Comme elle puise dans chaque État, elle fait ressortir l'historique de titre inter-États qu'un seul titre papier peut cacher, ce qui en fait la colonne vertébrale d'une vérification honnête de l'historique de véhicule.",
+      },
+      {
+        q: "À quel point les données d'un rapport CarCheckerVIN sont-elles à jour ?",
+        a: "Chaque rapport est assemblé en temps réel à partir de sources de données en direct au moment où tu l'exécutes, puis validé et normalisé par notre couche de données interne avant de te parvenir. Nous ne stockons pas de snapshots obsolètes pour les revendre des semaines plus tard. Notre contenu éditorial publié et nos guides sont révisés sur une cadence trimestrielle pour refléter les changements dans les lois de titre des États et les directives fédérales de rappels.",
+      },
+      {
+        q: "Combien coûte un rapport CarCheckerVIN ?",
+        a: "Un décodage VIN de base est véritablement gratuit sans inscription requise. Les rapports d'historique complets payants commencent à $14.99. Nos guides d'achat de voitures sont également gratuits à lire sans paywall, parce que nous croyons que les acheteurs informés prennent de meilleures décisions.",
+      },
+      {
+        q: "Qui est derrière CarCheckerVIN ?",
+        a: "CarCheckerVIN est construit par une petite équipe avec une expérience combinée en ingénierie de données automobiles, en enquête sur la fraude à l'assurance, en registres du DMV, en inspection de véhicules certifiée ASE et en support client. Fondée en 2025, l'entreprise obtient ses données de fournisseurs approuvés par NMVTIS, du NICB et des APIs des fabricants.",
+      },
+      {
+        q: "Que dois-je faire si je trouve une erreur dans un rapport ?",
+        a: "Contacte notre équipe et nous enquêterons personnellement. Quand nous découvrons ou confirmons une inexactitude, nous la corrigeons en deux jours ouvrables et divulguons le changement dans notre changelog. Tu peux contacter le support par courriel à contact@carcheckervin.com ou par téléphone au +1 (564) 212-3985, du lundi au vendredi, de 9h00 à 18h00 heure de l'Est.",
+      },
+    ],
+  },
 } as const;
 
 const SOURCE_ICONS = [Database, Shield, Award, Users] as const;

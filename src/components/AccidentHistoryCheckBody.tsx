@@ -138,6 +138,69 @@ const COPY = {
     ctaSub:
       "Ingresa un VIN de 17 caracteres para ver registros de choques, reclamos de seguros e historial de daños.",
   },
+  fr: {
+    home: "Accueil",
+    crumb: "Vérification de l'historique d'accidents",
+    h1: "Vérification de l'historique d'accidents du véhicule",
+    intro:
+      "Environ une voiture d'occasion sur trois sur le marché a eu au moins un accident signalé. Une vérification de l'historique d'accidents basée sur le VIN extrait les réclamations d'assurance, les rapports de police, les registres de carrosseries et les données de perte totale pour que tu puisses voir exactement ce qui est arrivé à un véhicule avant de l'acheter — pas seulement ce que le vendeur choisit de te dire.",
+    runHeading: "Lance une vérification de l'historique d'accidents maintenant",
+    h2Collected: "Comment les données d'accidents sont réellement collectées",
+    collectedP1:
+      "Les données d'accidents de véhicules ne proviennent pas d'une seule base de données nationale. Elles sont agrégées à partir de dizaines de sources qui capturent chacune une part différente de chaque collision. Les principaux contributeurs sont les compagnies d'assurance auto, qui signalent les réclamations à des échanges de données de l'industrie ; les services de police, qui déposent des rapports d'accident via les DMV d'État ; les carrosseries, qui consignent le travail effectué sur chaque VIN ; et les enchères de salvage, qui enregistrent les véhicules en perte totale.",
+    collectedP2:
+      "Quand tu lances une vérification de l'historique d'accidents, le rapport consolide ces flux en une seule chronologie liée au VIN. Tu verras quand les dommages ont été signalés, la classification de gravité, la zone du véhicule affectée et la source du registre. Certains événements indiquent les coûts estimés de réparation, tandis que d'autres notent seulement qu'une réclamation a été déposée.",
+    collectedP3:
+      "Garde à l'esprit que tous les accidents ne sont pas signalés. Un conducteur qui répare un petit accrochage de sa poche sans déposer de réclamation peut ne jamais déclencher d'entrée dans une base de données. C'est pourquoi les rapports d'historique d'accidents s'utilisent mieux avec une inspection en personne — ils attrapent ce qu'une vérification visuelle pourrait manquer, mais ils ne peuvent pas tout attraper.",
+    h2InsVsPolice: "Registres d'assurance vs. rapports de police",
+    insP1:
+      "Les registres d'assurance sont la source la plus complète de données d'accidents parce que presque chaque collision implique une réclamation contre la police de quelqu'un. Les rapports d'assurance incluent généralement la date de la perte, la gravité (mineure, modérée ou sévère), le point d'impact (avant, arrière, côté, tonneau) et si les coussins gonflables se sont déployés.",
+    insP2:
+      "Les rapports de police ajoutent une couche différente. Ils incluent le lieu de l'accident, les facteurs contributifs (météo, distraction au volant, alcool au volant) et parfois si le véhicule a été remorqué de la scène. Combiner les deux ensembles de données te donne une image plus complète qu'une seule source, et un rapport VIN de qualité puisera dans les deux.",
+    h2Appears: "Ce qui apparaît sur un rapport d'historique d'accidents",
+    appearsLead: "Quand un VIN a un historique d'accidents, ton rapport fera ressortir des détails tels que :",
+    bullets1: [
+      { strong: "Date et lieu", rest: " de chaque accident signalé." },
+      { strong: "Classification de gravité", rest: " — dommages mineurs, modérés ou sévères." },
+      { strong: "Point d'impact", rest: " — avant, arrière, côté ou tonneau." },
+      { strong: "Déploiement des coussins gonflables", rest: " — un fort indicateur d'impact significatif." },
+      { strong: "Montant estimé de réparation", rest: " lorsque signalé par l'assureur." },
+      { strong: "Statut de perte totale", rest: " indiquant que l'assureur a déclaré le véhicule non rentable à réparer." },
+    ],
+    h2Signs: "Signes de dommages de collision cachés",
+    signsLead:
+      "Même après une réparation complète en carrosserie, des indices révélateurs subsistent souvent. Quand tu inspectes un véhicule d'occasion en personne, cherche les indicateurs suivants qu'il pourrait y avoir un historique d'accidents non signalé ou sous-signalé :",
+    bullets2: [
+      "Écarts inégaux entre les portes, le capot, les ailes ou le couvercle du coffre.",
+      "Peinture qui ne correspond pas tout à fait entre les panneaux adjacents, ou éclaboussures visibles sur les garnitures en caoutchouc et les joints d'étanchéité.",
+      "Marques de soudure fraîches, boulons de remplacement sur les ailes intérieures, ou composants structuraux non d'origine.",
+      "Couvertures de coussins gonflables qui semblent légèrement décolorées, sont lâches ou ont des coutures visibles dues à un déploiement et un remplacement antérieurs.",
+      "Pneus qui s'usent de manière inégale, indiquant un possible dommage au châssis ou à l'alignement dû à une collision précédente.",
+      "Voyants d'avertissement du tableau de bord pour l'ABS, le contrôle de traction ou les systèmes d'airbag qui s'allument après le démarrage.",
+    ],
+    h2Severity: "La gravité importe — mais l'emplacement aussi",
+    sevP1:
+      "Une seule éraflure mineure de stationnement n'est pas la même chose qu'une collision frontale qui plie le châssis, même si les deux apparaîtront sur un rapport d'accident. Quand tu lis un rapport, concentre-toi sur trois choses : la gravité, le point d'impact et si les coussins gonflables se sont déployés. Repeindre un pare-chocs arrière mineur n'est généralement pas un problème. Une collision frontale sévère avec déploiement des coussins gonflables est une considération beaucoup plus sérieuse, surtout parce qu'elle peut avoir endommagé des composants structuraux, des capteurs et des ECUs coûteux à restaurer entièrement.",
+    sevP2Pre:
+      "Si le rapport montre un accident sévère, notre recommandation est de soit passer sur le véhicule, soit insister sur une inspection pré-achat approfondie auprès d'une carrosserie spécialisée en réparation de collisions. Certains véhicules gravement endommagés finissent avec une marque de salvage — consulte notre page de ",
+    salvageLink: "vérification de titre salvage",
+    sevP2Suffix: " pour plus d'informations.",
+    h2Together: "Mettre tout ensemble",
+    togetherPre: "Une vérification de l'historique d'accidents est une pièce d'un processus complet de diligence raisonnable. Associe-la avec une ",
+    stolenLink: "vérification de véhicule volé",
+    togetherMid1: ", une ",
+    odoLink: "vérification du compteur kilométrique",
+    togetherMid2: ", et un ",
+    vinLink: "rapport complet d'historique VIN",
+    togetherMid3:
+      " pour que rien ne glisse à travers. Les acheteurs qui font cela de manière constante ne se retrouvent presque jamais avec une voiture problématique. Nouveau dans le processus ? Commence par notre ",
+    guidesLink: "bibliothèque complète de guides",
+    togetherSuffix: " pour des tutoriels pas à pas.",
+    faqHeading: "Questions fréquentes",
+    ctaHeading: "Vérifie les accidents signalés",
+    ctaSub:
+      "Saisis un VIN de 17 caractères pour voir les registres d'accidents, les réclamations d'assurance et l'historique des dommages.",
+  },
 } as const;
 
 const FAQS_EN = [
