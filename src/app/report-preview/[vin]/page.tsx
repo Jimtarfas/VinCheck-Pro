@@ -34,6 +34,14 @@ import {
   Bike,
   Citrus,
   Info,
+  DoorOpen,
+  Cog,
+  Settings,
+  Fuel,
+  Award,
+  Zap,
+  Calendar,
+  Tag,
 } from "lucide-react";
 import { headers } from "next/headers";
 import { getReportContext, type ReportContext } from "@/lib/report-context";
@@ -805,10 +813,80 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   pushPill(MapPin, s?.madeIn);
   pushPill(Banknote, s?.msrp);
 
+  // Full free build specs — sourced from auto.dev's decode (already fetched
+  // above for pricing). These are factory specs for the year/make/model, NOT
+  // paywalled history records, so they belong in the free preview alongside the
+  // identity pills. Mirrors the spec grid + Engine & Performance section the
+  // paid report (VinReport) renders, so the buyer sees the full car profile up
+  // front. Each card is value-only with a labelled icon.
+  const d = decoded;
+  const dTrim = d?.years?.[0]?.styles?.[0]?.trim || s?.trim || "";
+  const dBody = d?.years?.[0]?.styles?.[0]?.submodel?.body || s?.style || "";
+  const specCards: { icon: typeof Car; label: string; value: string }[] = [];
+  const pushCard = (icon: typeof Car, label: string, v?: string | number | null) => {
+    const val = (v === 0 ? "0" : v || "").toString().trim();
+    if (val) specCards.push({ icon, label, value: val });
+  };
+  if (d) {
+    pushCard(Calendar, "Year", d.years?.[0]?.year ?? s?.year);
+    pushCard(Car, "Make", d.make?.name);
+    pushCard(Car, "Model", d.model?.name);
+    pushCard(Tag, "Trim", dTrim);
+    pushCard(DoorOpen, "Doors", d.numOfDoors ? `${d.numOfDoors} Doors` : "");
+    pushCard(Cog, "Drivetrain", d.drivenWheels);
+    pushCard(
+      Settings,
+      "Transmission",
+      d.transmission
+        ? `${d.transmission.numberOfSpeeds}-Spd ${d.transmission.transmissionType}`
+        : ""
+    );
+    pushCard(Fuel, "Fuel Type", d.engine?.fuelType);
+    pushCard(Gauge, "Fuel Economy", d.mpg ? `${d.mpg.city} / ${d.mpg.highway} MPG` : "");
+    pushCard(Info, "Size", d.categories?.vehicleSize);
+    pushCard(Award, "EPA Class", d.categories?.epaClass);
+    pushCard(Car, "Body Style", dBody);
+  }
+
+  // Engine & Performance stats — the powertrain block from the paid report,
+  // surfaced free. Only renders when auto.dev returned an engine block.
+  const engineStats: { label: string; value: string }[] = [];
+  const pushStat = (label: string, v?: string | number | null) => {
+    const val = (v === 0 ? "0" : v || "").toString().trim();
+    if (val) engineStats.push({ label, value: val });
+  };
+  const eng = d?.engine;
+  if (eng) {
+    if (eng.cylinder) pushStat("Configuration", `${eng.cylinder}-Cyl ${eng.configuration}`);
+    if (eng.displacement) pushStat("Displacement", `${eng.displacement} cc (${eng.size}L)`);
+    if (eng.horsepower)
+      pushStat(
+        "Horsepower",
+        `${eng.horsepower} HP${eng.rpm?.horsepower ? ` @ ${eng.rpm.horsepower} RPM` : ""}`
+      );
+    if (eng.torque)
+      pushStat(
+        "Torque",
+        `${eng.torque} lb-ft${eng.rpm?.torque ? ` @ ${eng.rpm.torque} RPM` : ""}`
+      );
+    if (eng.totalValves) pushStat("Valves", String(eng.totalValves));
+    if (eng.fuelType) pushStat("Fuel Type", eng.fuelType);
+    if (eng.compressorType)
+      pushStat(
+        "Aspiration",
+        eng.compressorType === "NA" ? "Naturally Aspirated" : eng.compressorType
+      );
+    if (eng.compressionRatio) pushStat("Compression", `${eng.compressionRatio}:1`);
+    if (eng.manufacturerEngineCode) pushStat("Engine Code", eng.manufacturerEngineCode);
+  }
+
   // The card is worth showing when we have a real decoded identity (a name
   // beyond the bare VIN) or at least one build-spec chip.
   const hasVehicleDetails =
-    Boolean(vehicleLabel && vehicleLabel !== cleaned) || specPills.length > 0;
+    Boolean(vehicleLabel && vehicleLabel !== cleaned) ||
+    specPills.length > 0 ||
+    specCards.length > 0 ||
+    engineStats.length > 0;
 
   // Detail strip attached to the bottom of the photo gallery (passed as
   // VinReport's `galleryFooter`). It shares the gallery's light surface so it
@@ -846,6 +924,65 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
               {value}
             </span>
           ))}
+        </div>
+      )}
+
+      {/* Full free spec grid — the factory build sheet (year/make/model + body,
+          drivetrain, transmission, fuel, economy, class). Same data the paid
+          report shows; free here because it's specs, not history records. */}
+      {specCards.length > 0 && (
+        <div className="px-5 sm:px-6 pb-4 grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+          {specCards.map(({ icon: Icon, label, value }) => (
+            <div
+              key={label}
+              className="flex items-start gap-2.5 rounded-xl bg-surface-container px-3 py-2.5"
+            >
+              <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center flex-shrink-0">
+                <Icon className="w-4 h-4 text-primary" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-wide text-on-surface-variant leading-tight">
+                  {label}
+                </p>
+                <p className="text-sm font-headline font-bold text-on-surface leading-snug break-words">
+                  {value}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Engine & Performance — the powertrain block, surfaced free. */}
+      {engineStats.length > 0 && (
+        <div className="px-5 sm:px-6 pb-5">
+          <div className="rounded-2xl bg-surface-container border border-outline-variant p-4 sm:p-5">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                <Zap className="w-4.5 h-4.5 text-amber-600" />
+              </div>
+              <div>
+                <h3 className="font-headline font-bold text-base text-on-surface leading-tight">
+                  Engine &amp; Performance
+                </h3>
+                <p className="text-xs text-on-surface-variant">
+                  Complete powertrain specifications
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-3">
+              {engineStats.map(({ label, value }) => (
+                <div key={label} className="border-b border-outline-variant pb-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-on-surface-variant leading-tight">
+                    {label}
+                  </p>
+                  <p className="text-sm font-headline font-bold text-on-surface mt-0.5 break-words">
+                    {value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
