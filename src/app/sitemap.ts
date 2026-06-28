@@ -156,6 +156,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-state vehicle registration pages (/vehicle-registration/[state]) —
+  // one for every state, mirroring the salvage/odometer state clusters.
+  const registrationStatePages: MetadataRoute.Sitemap = states.map((s) => ({
+    url: `${baseUrl}/vehicle-registration/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Per-state vehicle title pages (/vehicle-title/[state]) — one for every
+  // state, using verified per-state title-brand data.
+  const titleStatePages: MetadataRoute.Sitemap = states.map((s) => ({
+    url: `${baseUrl}/vehicle-title/${s.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   // Per-state lemon law check pages (/lemon-check/[state]) — one for each
   // state that has both DMV data and a lemon-law reference entry.
   const lemonStatePages: MetadataRoute.Sitemap = states
@@ -433,6 +451,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/accident-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/odometer-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...odometerStatePages,
+    // Vehicle Registration hub + 50 per-state DMV registration guides.
+    { url: `${baseUrl}/vehicle-registration`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...registrationStatePages,
+    // Vehicle Title hub + 50 per-state title information & services guides.
+    { url: `${baseUrl}/vehicle-title`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...titleStatePages,
     { url: `${baseUrl}/lemon-check`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     ...lemonStatePages,
     { url: `${baseUrl}/lemon-check/brand`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },

@@ -9,7 +9,8 @@
     "lint": "eslint",
     "import:blog": "tsx scripts/import-blog.ts",
     "refresh:blog-images": "tsx scripts/refresh-blog-images.ts",
-    "translate:blog": "tsx scripts/translate-blog.ts"
+    "translate:blog": "tsx scripts/translate-blog.ts",
+    "semrush": "tsx --env-file=.env.local scripts/semrush.ts"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.3",

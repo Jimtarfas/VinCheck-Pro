@@ -91,6 +91,8 @@ CarCheckerVIN turns a 17-digit VIN (or US license plate) into an instant report 
 ## Reference
 
 - [Pricing](${SITE}/pricing): Current plans — all free during launch.
+- [Vehicle Registration Guide](${SITE}/vehicle-registration): How to title, register, and renew a vehicle in any US state — required documents, fees and taxes, inspections, renewal cycle, and why to run a VIN check first. Links to a per-state DMV registration guide for all 50 states (e.g. /vehicle-registration/texas, /vehicle-registration/florida).
+- [Vehicle Title Guide](${SITE}/vehicle-title): How to transfer, replace, and clear a vehicle title in any US state — title brands explained (clean, salvage, rebuilt, flood, junk, lemon, bonded), duplicate titles, lien release, bonded titles, and how a VIN check defeats title washing. Links to a per-state title guide for all 50 states (e.g. /vehicle-title/texas, /vehicle-title/california).
 - [VIN Check by State](${SITE}/vin-check/state): State-by-state VIN check directory (all 50 US states).
 - [Compare Cars](${SITE}/compare-cars): Side-by-side vehicle comparison by VIN.
 - [OBD2 Codes](${SITE}/obd2-codes): OBD-II diagnostic trouble code reference.

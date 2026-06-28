@@ -3,79 +3,10 @@ import { Mail, Phone, MapPin } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-const checkLinks = [
-  { href: "/vin-check",              label: "VIN Check" },
-  { href: "/stolen-vehicle-check",   label: "Stolen Vehicle Check" },
-  { href: "/salvage-title-check",    label: "Salvage Title Check" },
-  { href: "/accident-history-check", label: "Accident History" },
-  { href: "/odometer-check",         label: "Odometer Check" },
-  { href: "/lemon-check",            label: "Lemon Check" },
-  { href: "/airbag-check",           label: "Airbag Check" },
-  { href: "/hail-damage-check",      label: "Hail Damage Check" },
-  { href: "/impound-check",          label: "Impound Check" },
-  { href: "/dealer-check",           label: "Dealer Check" },
-];
-
-const moreChecksCol1 = [
-  { href: "/window-sticker",               label: "Window Sticker Maker" },
-  { href: "/license-plate-lookup",         label: "Plate to VIN Lookup" },
-  { href: "/plate-to-vin",                 label: "Plate to VIN" },
-  { href: "/state-to-vin",                 label: "State to VIN" },
-  { href: "/look-up-car-plates-free",      label: "Look Up Car Plates Free" },
-  { href: "/vin-decoder",                  label: "VIN Decoder" },
-  { href: "/compare-cars",                 label: "Compare Vehicles" },
-  { href: "/used-car-inspection-checklist", label: "Inspection Checklist" },
-  { href: "/vehicle-lien-check",           label: "Vehicle Lien Check" },
-  { href: "/obd2-codes",                   label: "OBD-II Code Lookup" },
-  { href: "/hin-lookup",                   label: "HIN Lookup (Boat VIN)" },
-  { href: "/semi-truck-vin-lookup",        label: "Semi Truck VIN Lookup" },
-  { href: "/golf-cart-vin-lookup",         label: "Golf Cart VIN Lookup" },
-  { href: "/recall-check",                 label: "Recall Check" },
-  { href: "/market-value",                 label: "Market Value" },
-  { href: "/warranty-check",               label: "Warranty Check" },
-];
-
-const moreChecksCol2 = [
-  { href: "/car-loan-calculator",               label: "Car Loan Calculator" },
-  { href: "/car-affordability-calculator",      label: "Car Affordability" },
-  { href: "/trade-in-value-estimator",          label: "Trade-In Estimator" },
-  { href: "/gas-mileage-calculator",            label: "Gas Mileage Calculator" },
-  { href: "/car-depreciation-calculator",       label: "Car Depreciation" },
-  { href: "/lease-vs-buy-calculator",           label: "Lease vs Buy" },
-  { href: "/total-cost-of-ownership-calculator", label: "Total Cost of Ownership" },
-  { href: "/diminished-value-calculator",       label: "Diminished Value Calculator" },
-  { href: "/motorcycle-vin-search",             label: "Motorcycle VIN Search" },
-  { href: "/motorcycle-vin-check",              label: "Motorcycle VIN Check" },
-  { href: "/rv-vin-check",                      label: "RV VIN Check" },
-  { href: "/flood-check",                       label: "Flood Check" },
-  { href: "/paint-code-lookup",                 label: "Paint Code Lookup" },
-  { href: "/classic-car-vin",                   label: "Classic Car VIN" },
-  { href: "/jdm-import-check",                  label: "JDM Import Check" },
-  { href: "/fleet-check",                       label: "Fleet Check" },
-  { href: "/rental-car-check",                  label: "Rental Car Check" },
-  { href: "/rideshare-check",                   label: "Rideshare Check" },
-];
-
-const marketplaceLinks = [
-  { href: "/marketplace-vin-check/facebook-marketplace", label: "Facebook Marketplace" },
-  { href: "/marketplace-vin-check/craigslist",           label: "Craigslist" },
-  { href: "/marketplace-vin-check/offerup",              label: "OfferUp" },
-  { href: "/marketplace-vin-check/ebay-motors",          label: "eBay Motors" },
-  { href: "/marketplace-vin-check/autotrader",           label: "AutoTrader" },
-  { href: "/marketplace-vin-check/copart",               label: "Copart" },
-];
-
-const guideLinks = [
-  { href: "/blog",                            label: "Blog" },
-  { href: "/guides",                          label: "All VIN Guides" },
-  { href: "/glossary",                        label: "VIN Glossary" },
-  { href: "/guides/free-vin-check",           label: "Free VIN Decoder" },
-  { href: "/guides/how-to-read-a-vin",        label: "How to Read a VIN" },
-  { href: "/guides/what-is-a-vin-number",     label: "What Is a VIN Number" },
-  { href: "/vin-check-vs-carfax",             label: "vs. Carfax" },
-  { href: "/vin-check/state",                 label: "VIN Check by State" },
-];
-
+// Footer is intentionally lean: the full tool / check / guide / marketplace
+// catalog now lives in the header mega-menu. Down here we keep only the
+// site identity + contact, the Company links, the Policies, and the
+// Popular Brands strip — the things people scroll to the bottom looking for.
 const companyLinks = [
   { href: "/about",     label: "About Us" },
   { href: "/contact",   label: "Contact" },
@@ -84,22 +15,25 @@ const companyLinks = [
   { href: "/trust",     label: "Trust & Security" },
   { href: "/research",  label: "Research" },
   { href: "/changelog", label: "Changelog" },
-  { href: "/#pricing",  label: "Pricing" },
+  { href: "/pricing",   label: "Pricing" },
   { href: "/login",     label: "Log In" },
   { href: "/signup",    label: "Sign Up" },
-  { href: "/privacy",         label: "Privacy Policy" },
-  { href: "/terms",           label: "Terms of Service" },
-  { href: "/refund-policy",   label: "Refund Policy" },
+];
+
+const policyLinks = [
+  { href: "/privacy",       label: "Privacy Policy" },
+  { href: "/terms",         label: "Terms of Service" },
+  { href: "/refund-policy", label: "Refund Policy" },
 ];
 
 export default function Footer() {
   return (
     <footer className="bg-inverse-surface text-inverse-on-surface/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 sm:pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-8 gap-8 sm:gap-10 mb-12 sm:mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 mb-12 sm:mb-16">
 
-          {/* Brand column */}
-          <div className="col-span-2 md:col-span-2 lg:col-span-2">
+          {/* Brand / site information + contact */}
+          <div className="col-span-2">
             <div className="mb-5">
               <Logo variant="onDark" size="md" />
             </div>
@@ -128,68 +62,23 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* VIN Checks */}
-          <div>
-            <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">VIN Checks</h3>
-            <ul className="space-y-3">
-              {checkLinks.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Marketplace */}
-          <div>
-            <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">Marketplace</h3>
-            <ul className="space-y-3">
-              {marketplaceLinks.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* More Tools — split across 2 columns */}
-          <div className="col-span-2">
-            <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">More Tools</h3>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-0">
-              <ul className="space-y-3">
-                {moreChecksCol1.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
-                  </li>
-                ))}
-              </ul>
-              <ul className="space-y-3">
-                {moreChecksCol2.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Guides */}
-          <div>
-            <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">Guides</h3>
-            <ul className="space-y-3">
-              {guideLinks.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Company */}
           <div>
             <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">Company</h3>
             <ul className="space-y-3">
               {companyLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Policies */}
+          <div>
+            <h3 className="text-xs font-black text-inverse-on-surface/80 uppercase tracking-widest mb-5">Policies</h3>
+            <ul className="space-y-3">
+              {policyLinks.map((l) => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-sm hover:text-white transition-colors">{l.label}</Link>
                 </li>
@@ -213,11 +102,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Language picker — surface in the footer in addition to the
-            Header so it's reachable from the bottom of long landing
-            pages without scrolling back up. Inline list (no dropdown)
-            so the alternate-language URL is a direct anchor — gives
-            Google a third internal link signal between locales. */}
+        {/* Language picker — surfaced at the bottom of long pages too. Inline
+            list (no dropdown) so the alternate-language URL is a direct
+            anchor, giving Google an internal link signal between locales. */}
         <div className="border-t border-white/5 pt-6 pb-4 flex justify-center sm:justify-start">
           <div className="rounded-lg bg-white/[0.03] px-3 py-2 [&_a]:text-inverse-on-surface [&_span]:text-inverse-on-surface">
             <LanguageSwitcher variant="footer" />

@@ -236,12 +236,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     name: "Primary navigation",
     itemListOrder: "https://schema.org/ItemListOrderAscending",
     itemListElement: [
-      { "@type": "SiteNavigationElement", position: 1, name: "VIN Check", url: `${SITE}/vin-check`,             description: "Free VIN check and decoder with full vehicle history report." },
-      { "@type": "SiteNavigationElement", position: 2, name: "Pricing",   url: `${SITE}/pricing`,                description: "VIN check pricing — single, 3-pack, 5-pack and pro bundles." },
-      { "@type": "SiteNavigationElement", position: 3, name: "Reviews",   url: "https://reviews.carcheckervin.com", description: "Verified customer reviews and ratings for CarCheckerVIN." },
-      { "@type": "SiteNavigationElement", position: 4, name: "Guides",    url: `${SITE}/guides`,                 description: "Long-form guides on VINs, used-car buying, and vehicle fraud." },
-      { "@type": "SiteNavigationElement", position: 5, name: "Blog",      url: `${SITE}/blog`,                   description: "CarCheckerVIN blog — news, deep dives, and how-tos." },
-      { "@type": "SiteNavigationElement", position: 6, name: "About",     url: `${SITE}/about`,                  description: "About CarCheckerVIN — data sources, team, and mission." },
+      { "@type": "SiteNavigationElement", position: 1, name: "VIN Checks", url: `${SITE}/vin-check`,              description: "Free VIN check, decoder, and full vehicle history report — title, accidents, recalls, and market value." },
+      { "@type": "SiteNavigationElement", position: 2, name: "Tools",      url: `${SITE}/vin-decoder`,            description: "VIN tools — plate lookup, VIN decoder, window sticker, paint code, and car calculators." },
+      { "@type": "SiteNavigationElement", position: 3, name: "Guides",     url: `${SITE}/guides`,                 description: "Long-form guides on VINs, used-car buying, fraud prevention, and brand comparisons." },
+      { "@type": "SiteNavigationElement", position: 4, name: "Pricing",    url: `${SITE}/pricing`,                description: "VIN check pricing — all plans free during the current launch." },
+      { "@type": "SiteNavigationElement", position: 5, name: "Reviews",    url: "https://reviews.carcheckervin.com", description: "Verified customer reviews and ratings for CarCheckerVIN." },
     ],
   };
 
