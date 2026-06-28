@@ -49,6 +49,7 @@ import BundleUpsellCard from "./BundleUpsellCard";
 import StickyBuyBar from "./StickyBuyBar";
 import ReportColumnFiller from "./ReportColumnFiller";
 import BrandLogo from "@/components/BrandLogo";
+import ReportPreviewExperiment from "./ReportPreviewExperiment";
 
 /* Small laurel-wreath flourish for the satisfaction-guarantee seal. */
 function Laurel({ className = "" }: { className?: string }) {
@@ -1579,6 +1580,9 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
 
   return (
     <div className="bg-surface">
+      {/* A/B test: 50/50 split between a scroll-triggered VIN10 coupon popup and
+          a softly-blurred main report photo, to learn which nudge converts best. */}
+      <ReportPreviewExperiment />
       {mock && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center py-2 px-4 pt-16">
           Sample data — set the <code className="font-mono">CLEARVIN_API_EMAIL</code> / <code className="font-mono">CLEARVIN_API_PASSWORD</code> production credentials to load live records for this VIN.
@@ -1635,6 +1639,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
         unlockPrice={SINGLE_PRICE}
+        mainImageClassName="rp-ab-main-photo"
       />
 
       {/* ═══ Commercial footer sections ═══════════════════════════ */}

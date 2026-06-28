@@ -272,6 +272,7 @@ function PhotoGallery({
   model,
   lockedPhotoCount,
   footer,
+  mainImageClassName,
 }: {
   photos: string[];
   photoSource?: VinData["photoSource"];
@@ -281,6 +282,7 @@ function PhotoGallery({
   model?: string;
   lockedPhotoCount?: number;
   footer?: React.ReactNode;
+  mainImageClassName?: string;
 }) {
   const [current, setCurrent] = useState(0);
 
@@ -318,7 +320,7 @@ function PhotoGallery({
           vehicle stays visible (2:1 was cropping off the roof and wheels), 16:9 on desktop */}
       <div className="relative aspect-[3/2] sm:aspect-[16/9] bg-surface-container overflow-hidden">
         <div className="absolute inset-0">
-          <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className="object-cover" sizes="(max-width:768px) 100vw, 900px" priority={current === 0} />
+          <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className={`object-cover${mainImageClassName ? ` ${mainImageClassName}` : ""}`} sizes="(max-width:768px) 100vw, 900px" priority={current === 0} />
         </div>
         <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
@@ -496,6 +498,7 @@ export default function VinReport({
   hideIdentityCards = false,
   summaryDesktopHidden = false,
   keepSidebarAI = false,
+  mainImageClassName,
 }: {
   data: VinData;
   /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
@@ -563,6 +566,9 @@ export default function VinReport({
       preview uses this because its sidebar now carries the bundle checkout in
       sidebarReplaceAI, yet still wants the AI sections at the sidebar foot. */
   keepSidebarAI?: boolean;
+  /** Extra className applied to the main hero photo (used by the report-preview
+      A/B test to softly blur it for the "blur" variant). */
+  mainImageClassName?: string;
 }) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Interior", "Exterior"]));
   const toggleCategory = (cat: string) => {
@@ -788,6 +794,7 @@ export default function VinReport({
               model={modelName}
               lockedPhotoCount={lockedPhotoCount}
               footer={galleryFooter}
+              mainImageClassName={mainImageClassName}
             />
 
             {/* Slot directly under the gallery (preview: free recalls +

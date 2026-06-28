@@ -205,6 +205,26 @@ body {
   .bundle-attention { animation: none; }
 }
 
+/* ── Report-preview A/B test ──
+   "blur" variant: softly blur the main hero photo. The ReportPreviewExperiment
+   client component flags <html data-rp-ab="blur"> for its bucket, and the main
+   report image carries the `.rp-ab-main-photo` class (passed via VinReport's
+   mainImageClassName prop). The slight scale hides the soft blurred edges. */
+[data-rp-ab="blur"] .rp-ab-main-photo {
+  filter: blur(3px);
+  transform: scale(1.04);
+}
+
+/* "coupon" variant: entrance for the scroll-triggered VIN10 offer modal. */
+@keyframes rp-coupon-pop {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+.animate-rp-coupon { animation: rp-coupon-pop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-rp-coupon { animation: none; }
+}
+
 /* ── Print / PDF styling for the full VIN report ──
    Force a clean white, edge-to-edge layout; expand every collapsible
    section; drop interactive chrome; and avoid awkward page breaks. */
