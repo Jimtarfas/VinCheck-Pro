@@ -161,6 +161,9 @@ export async function POST(req: Request) {
       currency: "usd",
       status: "pending",
       bundle_size: bundle ? bundle.size : null,
+      // Persist the buyer's locale so the post-purchase report renders in
+      // the same language they checked out in. Used by /api/order/report.
+      locale: body.locale === "es" ? "es" : "en",
       ip_hash: ipHash,
       user_agent: userAgent.slice(0, 500),
     })

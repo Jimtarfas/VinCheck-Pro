@@ -76,13 +76,16 @@ function CountBadge({ count, alert }: { count: number; alert?: boolean }) {
 export default function SectionNav({
   items,
   variant,
+  locale = "en",
 }: {
   items: SectionNavItem[];
   variant: "desktop" | "mobile";
+  locale?: "en" | "es";
 }) {
   const idsRef = useRef(items.map((i) => i.id));
   const active = useActiveSection(idsRef.current);
   const listRef = useRef<HTMLUListElement>(null);
+  const jumpLabel = locale === "es" ? "Ir a secci\u00f3n" : "Jump to Section";
 
   // Keep the active entry visible inside the rail's own scroll area as the
   // reader moves through the report. Only the internal list scrolls here — the
@@ -117,7 +120,7 @@ export default function SectionNav({
         <summary className="flex cursor-pointer list-none items-center gap-2.5 px-4 py-3.5 [&::-webkit-details-marker]:hidden">
           <ListChecks className="h-5 w-5 text-primary dark:text-primary-fixed" />
           <span className="flex-1 font-headline text-base font-bold text-on-surface dark:text-slate-100">
-            Jump to Section
+            {jumpLabel}
           </span>
           <ChevronDown className="h-5 w-5 text-on-surface-variant transition-transform group-open:rotate-180 dark:text-slate-400" />
         </summary>
@@ -148,7 +151,7 @@ export default function SectionNav({
       <div className="flex flex-shrink-0 items-center gap-2 px-2 pb-2 pt-1">
         <ListChecks className="h-5 w-5 text-on-surface dark:text-slate-100" />
         <span className="font-headline text-base font-bold text-on-surface dark:text-slate-100">
-          Jump to Section
+          {jumpLabel}
         </span>
       </div>
       <ul ref={listRef} className="slim-scroll -mr-1 space-y-0.5 overflow-y-auto pr-1">

@@ -23,7 +23,36 @@ interface OrderMeta {
   vehicleLabel: string | null;
   createdAt?: string;
   deliveredAt?: string;
+  /** "en" or "es" — captured at checkout, drives report UI language. */
+  locale?: "en" | "es";
 }
+
+// Tiny copy block for the chrome states. The full report's translations live
+// inside FullVinReport itself; here we just need the loading/error/pending text.
+const COPY = {
+  en: {
+    loading: "Loading your report\u2026",
+    errorTitle: "We hit a snag loading this report",
+    tryAgain: "Try again",
+    emailSupport: "Email support",
+    pendingTitle: "Waiting for payment confirmation",
+    pendingBody: "Stripe is still confirming the charge. This page will refresh automatically.",
+    networkError: "Network error \u2014 please retry.",
+    couldNotLoad: (code: number) => `Could not load report (error ${code}).`,
+    couldNotLoadShort: "Could not load report.",
+  },
+  es: {
+    loading: "Cargando tu reporte\u2026",
+    errorTitle: "Tuvimos un problema cargando este reporte",
+    tryAgain: "Intentar de nuevo",
+    emailSupport: "Contactar soporte",
+    pendingTitle: "Esperando confirmaci\u00f3n del pago",
+    pendingBody: "Stripe a\u00fan est\u00e1 confirmando el cargo. Esta p\u00e1gina se actualizar\u00e1 autom\u00e1ticamente.",
+    networkError: "Error de red \u2014 intenta de nuevo.",
+    couldNotLoad: (code: number) => `No se pudo cargar el reporte (error ${code}).`,
+    couldNotLoadShort: "No se pudo cargar el reporte.",
+  },
+} as const;
 
 interface ApiResponse {
   ok: boolean;
@@ -62,8 +91,13 @@ export default function ReportView({ orderId }: Props) {
       });
       const json = (await res.json().catch(() => null)) as ApiResponse | null;
 
+      // Take the locale from whatever order data the API just returned so
+      // subsequent error/loading copy speaks the buyer's language.
+      const incomingLocale = (json?.order?.locale === "es" ? "es" : "en") as
+        | "en"
+        | "es";
       if (!json) {
-        setErrorMessage(`Could not load report (error ${res.status}).`);
+        setErrorMessage(COPY[incomingLocale].couldNotLoad(res.status));
         return;
       }
       if (json.status === "pending") {
@@ -72,14 +106,18 @@ export default function ReportView({ orderId }: Props) {
         return;
       }
       if (!res.ok || !json.ok) {
-        setErrorMessage(json.error || json.message || "Could not load report.");
+        setErrorMessage(
+          json.error || json.message || COPY[incomingLocale].couldNotLoadShort
+        );
         return;
       }
       setPending(false);
       setOrder(json.order || null);
       setStructured(json.structured || null);
     } catch {
-      setErrorMessage("Network error — please retry.");
+      const fallbackLocale: "en" | "es" =
+        order?.locale === "es" ? "es" : "en";
+      setErrorMessage(COPY[fallbackLocale].networkError);
     } finally {
       setLoading(false);
     }
@@ -99,11 +137,14 @@ export default function ReportView({ orderId }: Props) {
   // ── Loading / error / pending states ──
   // These render inside the standalone /order layout (which has its own sticky
   // header), so they carry top padding to clear it.
+  const locale: "en" | "es" = order?.locale === "es" ? "es" : "en";
+  const c = COPY[locale];
+
   if (loading) {
     return (
       <div className="px-4 pt-24 pb-16 text-center">
         <LoaderCircle className="w-8 h-8 animate-spin text-primary mx-auto" />
-        <p className="mt-3 text-sm text-on-surface-variant">Loading your report…</p>
+        <p className="mt-3 text-sm text-on-surface-variant">{c.loading}</p>
       </div>
     );
   }
@@ -113,9 +154,7 @@ export default function ReportView({ orderId }: Props) {
       <div className="px-4 pt-24 pb-16">
         <div className="bg-red-50 border border-red-200 rounded-2xl p-6 max-w-xl mx-auto text-center">
           <TriangleAlert className="w-8 h-8 text-red-600 mx-auto" />
-          <p className="mt-3 text-sm font-bold text-red-900">
-            We hit a snag loading this report
-          </p>
+          <p className="mt-3 text-sm font-bold text-red-900">{c.errorTitle}</p>
           <p className="mt-1 text-sm text-red-800">{errorMessage}</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
             <button
@@ -123,13 +162,13 @@ export default function ReportView({ orderId }: Props) {
               className="px-4 py-2 bg-primary hover:bg-primary-700 text-white text-sm font-bold rounded-xl inline-flex items-center gap-1.5"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              Try again
+              {c.tryAgain}
             </button>
             <a
               href="mailto:contact@carcheckervin.com"
               className="px-4 py-2 bg-white border border-outline-variant text-on-surface hover:bg-surface-container-low text-sm font-bold rounded-xl"
             >
-              Email support
+              {c.emailSupport}
             </a>
           </div>
         </div>
@@ -142,13 +181,8 @@ export default function ReportView({ orderId }: Props) {
       <div className="px-4 pt-24 pb-16">
         <div className="bg-white border border-outline-variant/60 rounded-2xl p-8 max-w-xl mx-auto text-center">
           <LoaderCircle className="w-8 h-8 animate-spin text-primary mx-auto" />
-          <p className="mt-3 text-sm font-bold text-on-surface">
-            Waiting for payment confirmation
-          </p>
-          <p className="mt-1 text-sm text-on-surface-variant">
-            Stripe is still confirming the charge. This page will refresh
-            automatically.
-          </p>
+          <p className="mt-3 text-sm font-bold text-on-surface">{c.pendingTitle}</p>
+          <p className="mt-1 text-sm text-on-surface-variant">{c.pendingBody}</p>
           {order && (
             <p className="mt-3 text-xs text-outline font-mono">{order.vin}</p>
           )}
@@ -160,6 +194,6 @@ export default function ReportView({ orderId }: Props) {
   if (!structured) return null;
 
   // Full paid report in the ClearVin UI — self-contained (own header, sticky
-  // section nav, and Download-PDF dock).
-  return <FullVinReport report={structured} />;
+  // section nav, and Download-PDF dock). Locale flips every visible string.
+  return <FullVinReport report={structured} locale={locale} />;
 }

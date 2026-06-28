@@ -506,3 +506,21 @@ begin
   end if;
 end;
 $$;
+
+-- Wave 18 i18n: persist the buyer's locale on the order so the
+-- post-purchase paid report renders in the same language they checked
+-- out in (en or es). Defaults to 'en' for back-compatibility with rows
+-- created before this column existed.
+alter table public.report_orders add column if not exists locale text default 'en';
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'report_orders_locale_check'
+  ) then
+    alter table public.report_orders
+      add constraint report_orders_locale_check
+      check (locale in ('en','es'));
+  end if;
+end;
+$$;

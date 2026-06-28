@@ -106,7 +106,7 @@ export async function GET(
   const { data: order, error } = await admin
     .from("report_orders")
     .select(
-      "id, user_id, user_email, vin, vehicle_label, status, amount_cents, currency, clearvin_report, clearvin_fetched_at, clearvin_error, paid_at, delivered_at, created_at, stripe_session_id, stripe_payment_intent_id"
+      "id, user_id, user_email, vin, vehicle_label, locale, status, amount_cents, currency, clearvin_report, clearvin_fetched_at, clearvin_error, paid_at, delivered_at, created_at, stripe_session_id, stripe_payment_intent_id"
     )
     .eq("id", orderId)
     .single();
@@ -217,6 +217,7 @@ export async function GET(
             vehicleLabel: order.vehicle_label,
             amountCents: order.amount_cents,
             currency: order.currency,
+            locale: order.locale || "en",
           },
         });
       }
@@ -259,6 +260,7 @@ export async function GET(
             vehicleLabel: order.vehicle_label,
             amountCents: order.amount_cents,
             currency: order.currency,
+            locale: order.locale || "en",
           },
         });
       }
@@ -314,6 +316,7 @@ export async function GET(
         vehicleLabel: order.vehicle_label,
         createdAt: order.created_at,
         deliveredAt: order.delivered_at,
+        locale: order.locale || "en",
       },
       report: order.clearvin_report,
       structured: toStructured(order.clearvin_report, order.vin),
@@ -361,6 +364,7 @@ export async function GET(
       vehicleLabel: order.vehicle_label,
       createdAt: order.created_at,
       deliveredAt: new Date().toISOString(),
+      locale: order.locale || "en",
     },
     report: refetch.data,
     structured: toStructured(refetch.data, order.vin),

@@ -28,14 +28,469 @@ import SectionNav, { type SectionNavItem } from "./SectionNav";
 
 /* ── helpers ──────────────────────────────────────────────────────────── */
 
-const fmtDate = (iso: string | null): string => {
+type ReportLocale = "en" | "es";
+
+const fmtDate = (iso: string | null, locale: ReportLocale = "en"): string => {
   if (!iso) return "—";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  return d.toLocaleDateString(locale === "es" ? "es-US" : "en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 };
-const money = (n: number, currency = "USD") =>
-  n > 0 ? `${currency === "USD" ? "$" : ""}${n.toLocaleString()}` : "—";
+const money = (n: number, currency = "USD", locale: ReportLocale = "en") =>
+  n > 0
+    ? `${currency === "USD" ? "$" : ""}${n.toLocaleString(locale === "es" ? "es-US" : "en-US")}`
+    : "—";
+
+/* ── i18n strings for the entire report UI ───────────────────────────── */
+const REPORT_COPY = {
+  en: {
+    // floating dock
+    verifiedFull: "Verified Vehicle History Report",
+    verifiedShort: "Report",
+    toggleDark: "Toggle dark mode",
+    print: "Print",
+    download: "Download PDF",
+    generating: "Generating\u2026",
+    captureError: "Building the download took too long \u2014 opening your browser's print dialog instead. Choose \u201cSave as PDF.\u201d",
+    captureMissing: "Report content not found. Please try again.",
+    captureTimeout: "PDF capture timed out",
+    // sample banner
+    sampleBanner: "Sample data shown \u2014 set",
+    sampleBannerSuffix: "to fetch live records for this VIN.",
+    // hero / header
+    nmvtisBacked: "NMVTIS-backed",
+    reportBadge: "Report",
+    brandedTitle: "Branded title",
+    noBrand: "No title brand",
+    manufacturerImageUnavailable: "Manufacturer image\nnot on file",
+    specEngine: "Engine",
+    specTransmission: "Transmission",
+    specBody: "Body",
+    specDrive: "Drive",
+    specFuel: "Fuel",
+    specMadeIn: "Made in",
+    generated: "Generated",
+    reportIdLabel: "Report ID",
+    // overview
+    overviewTitle: "Vehicle Overview",
+    overviewSubtitle: "Condition score, key highlights & records found",
+    overallGrade: "Overall condition grade",
+    keyHighlights: "Key highlights",
+    potentialIssues: "Potential issues",
+    noneDetected: "None detected",
+    // specs
+    specsTitle: "Vehicle Specifications",
+    specsSubtitle: "Factory build & decoded VIN details",
+    // title
+    titleTitle: "Title History",
+    titleSubtitle: "Title brands, state history & ownership transfers",
+    currentStatus: "Current status:",
+    historical: "Historical",
+    current: "Current",
+    miSuffix: "mi",
+    headDate: "Date",
+    headState: "State",
+    headOdometer: "Odometer",
+    headType: "Type",
+    headOwner: "Owner",
+    headFrom: "From",
+    headTo: "To",
+    headUse: "Use",
+    headSeverity: "Severity",
+    headLocation: "Location",
+    headAirbag: "Airbag",
+    headStructural: "Structural",
+    headMileage: "Mileage",
+    headSource: "Source",
+    headStatus: "Status",
+    headDetail: "Detail",
+    headLienholder: "Lienholder",
+    headEvent: "Event",
+    headPrice: "Price",
+    headBrand: "Brand",
+    headCode: "Code",
+    headDescription: "Description",
+    headInsType: "Type",
+    titleNoRecords: "No title records were returned for this VIN.",
+    // owners
+    ownersTitle: "Ownership History",
+    ownersSubtitle: "Owner count, duration & use type",
+    ownersEmptyTitle: "No ownership records found",
+    ownersEmptyHint: "NMVTIS did not return individual owner records for this VIN. Title transfers are listed in the Title History section above.",
+    // accidents
+    accidentsTitle: "Accident History",
+    accidentsSubtitle: "Reported collisions, severity & airbag deployment",
+    accidentsEmptyTitle: "No accident records found",
+    accidentsEmptyHint: "No reported accidents were found in the available data sources for this VIN.",
+    airbagDeployed: "Deployed",
+    airbagNo: "No",
+    yes: "Yes",
+    no: "No",
+    // damage
+    damageTitle: "Damage & Salvage Records",
+    damageSubtitle: "Salvage yards, junk, insurance & structural damage",
+    damageEmptyTitle: "No damage records found",
+    damageEmptyHint: "No collision, hail, flood, fire or salvage damage was reported.",
+    damageReportingEntity: "Reporting entity:",
+    damageDisposition: "Disposition:",
+    // odometer
+    odometerTitle: "Odometer History",
+    odometerSubtitle: "Mileage timeline, consistency & rollback check",
+    rollbackPossible: "Possible rollback detected",
+    mileageConsistent: "Mileage consistent",
+    lastReading: "Last reading:",
+    odometerEmpty: "No odometer readings found",
+    // recalls
+    recallsTitle: "Open Recalls",
+    recallsSubtitle: "NHTSA safety recalls & manufacturer references",
+    recallsEmptyTitle: "No open recalls",
+    recallsEmptyHint: "No outstanding NHTSA safety recalls were found.",
+    recallSummary: "Summary: ",
+    recallRisk: "Risk: ",
+    recallRemedy: "Remedy: ",
+    recallReportedPrefix: "Reported ",
+    recallsFooter: "Recalls are repaired free of charge by any franchised dealer. Confirm completion status before purchase.",
+    // insurance
+    insuranceTitle: "Insurance Records",
+    insuranceSubtitle: "Total-loss & insurance claim events",
+    insuranceEmptyTitle: "No insurance loss reported",
+    insuranceEmptyHint: "No total-loss or insurance claim events were found for this VIN in the available data sources.",
+    // lien
+    lienTitle: "Lien & Impound Records",
+    lienSubtitle: "Impound events, undisclosed liens & title-lien history",
+    lienImpoundLabel: "Impound Information",
+    lienUndisclosedLabel: "Undisclosed Lien",
+    lienHistoryLabel: "Historical Title Lien Records",
+    lienReported: "Reported",
+    lienRecord: "record",
+    lienRecords: "records",
+    lienTitleLienHistory: "Title lien history",
+    lienImpoundRecords: "Impound records",
+    // theft
+    theftTitle: "Theft Records",
+    theftSubtitle: "Theft & recovery checks",
+    theftEmptyTitle: "Not listed as stolen",
+    theftEmptyHint: "This VIN was checked against theft databases and no active theft or unrecovered status was found.",
+    // brands
+    brandsTitle: "Title Brand Information",
+    brandsSubtitle: "NMVTIS title brand codes reported against this VIN",
+    brandsCountedSuffix: "Brand(-s) Reported",
+    brandsEmptyTitle: "No title brands reported",
+    brandsEmptyHint: "No NMVTIS title brands (salvage, junk, flood, lemon, rebuilt) were recorded against this VIN.",
+    brandsCodeFallback: "Brand code details are listed in the Title History section above.",
+    brandFallbackName: "Brand",
+    // auctions
+    auctionsTitle: "Auction History",
+    auctionsSubtitle: "Auction events, damage, mileage & sale results",
+    auctionsEmptyTitle: "No auction records found",
+    auctionsEmptyHint: "This vehicle has no salvage- or dealer-auction history on file.",
+    auctionDamage: "Damage:",
+    auctionCondition: "Condition:",
+    auctionOdometer: "Odometer:",
+    auctionSeller: "Seller:",
+    auctionPhotoAlt: (i: number) => `Auction photo ${i}`,
+    // sales
+    salesTitle: "Sales Listings History",
+    salesSubtitle: "Marketplace listings, prices, mileage & event type",
+    salesEmptyTitle: "No listing history found",
+    salesEmptyHint: "No historical marketplace listings were returned for this VIN.",
+    // service
+    serviceTitle: "Service & Maintenance",
+    serviceSubtitle: "Service, inspection & emissions records",
+    serviceEmptyTitle: "No service records found",
+    serviceEmptyHint: "No maintenance, inspection or emissions records were reported for this VIN.",
+    // value
+    valueTitle: "Market Value",
+    valueSubtitle: "Estimated retail & trade-in value by condition",
+    valueRetailClean: "Retail (clean)",
+    valueRetailAvg: "Retail (avg)",
+    valueTradeClean: "Trade-in (clean)",
+    valueMsrp: "Original MSRP",
+    valueRetailLegend: "Retail",
+    valueTradeLegend: "Trade-in",
+    valueAsOfPrefix: "Valuation as of",
+    valueSource: "Source: Black Book.",
+    valueEmptyTitle: "Market value unavailable",
+    valueEmptyHint: "No valuation data was returned for this VIN.",
+    // usage
+    usageTitle: "Vehicle Usage Analysis",
+    usageSubtitle: "Detected use type across its history",
+    usageDetected: "Detected",
+    usageNotDetected: "Not detected",
+    // risk
+    riskTitle: "Vehicle Risk Analysis",
+    riskSubtitle: "Weighted scorecards across key risk factors",
+    riskWeight: "weight",
+    riskEmptyTitle: "Risk analysis unavailable",
+    // timeline
+    timelineTitle: "Vehicle Timeline",
+    timelineSubtitle: "Chronological record of every reported event",
+    timelineEmpty: "No timeline events",
+    // photos
+    photosTitle: "Vehicle Photos",
+    photosSubtitle: "Manufacturer, auction & historical imagery",
+    photosEmptyTitle: "No photos on file",
+    photosEmptyHint: "No manufacturer or auction images were available for this VIN.",
+    photoViewerLabel: "Vehicle photo viewer",
+    photoViewLabel: (i: number, n: number) => `View photo ${i} of ${n}`,
+    close: "Close",
+    previousPhoto: "Previous photo",
+    nextPhoto: "Next photo",
+    // summary
+    summaryTitle: "Report Summary",
+    summarySubtitle: "What buyers should know & recommended next steps",
+    summaryNextSteps: "Recommended next steps",
+    summaryNextStep1: "Have any branded-title or salvage record independently verified before purchase.",
+    summaryNextStep2: "Confirm all open recalls have been completed at a franchised dealer.",
+    summaryNextStep3: "Get a pre-purchase inspection by a qualified mechanic.",
+    summaryNextStep4: "Cross-check the asking price against the market values shown above.",
+    // footer
+    footerTitle: "Data sources & disclaimer",
+    footerP1Pre: "This vehicle history report is compiled from NMVTIS (National Motor Vehicle Title Information System), participating state DMVs, NHTSA, Black Book valuations and ClearVin data partners. CarCheckerVIN re-presents this data unaltered; values shown reflect the records returned for VIN ",
+    footerP1End: ".",
+    footerP2: "A vehicle history report is not a substitute for an independent inspection. Records may be incomplete where a state, insurer or repair facility did not report an event. CarCheckerVIN makes no warranty regarding completeness or accuracy and is not liable for decisions made based on this report.",
+    footerMeta: (id: string, when: string, year: number) =>
+      `Report ID ${id} \u00b7 Generated ${when} \u00b7 \u00a9 ${year} CarCheckerVIN.com`,
+    // nav (section labels)
+    navOverview: "Vehicle Overview",
+    navSpecs: "Vehicle Specs",
+    navOwners: "Ownership History",
+    navAccidents: "Accident History",
+    navDamage: "Damage & Salvage",
+    navOdometer: "Odometer History",
+    navRecalls: "Safety Recalls",
+    navInsurance: "Insurance Records",
+    navLien: "Lien & Impound",
+    navTheft: "Theft Records",
+    navBrands: "Title Brand Info",
+    navAuctions: "Auction History",
+    navSales: "Sales Listings",
+    navService: "Service & Maintenance",
+    navValue: "Market Value",
+    navUsage: "Usage Analysis",
+    navRisk: "Risk Analysis",
+    navTimeline: "Vehicle Timeline",
+    navPhotos: "Vehicle Photos",
+    navSummary: "Report Summary",
+    // shared
+    notReported: "Not reported",
+    reported: "Reported",
+    noIssuesReported: "No Issues Reported",
+    vehicleFallback: "Vehicle",
+  },
+  es: {
+    verifiedFull: "Reporte verificado de historial vehicular",
+    verifiedShort: "Reporte",
+    toggleDark: "Cambiar modo oscuro",
+    print: "Imprimir",
+    download: "Descargar PDF",
+    generating: "Generando\u2026",
+    captureError: "Generar la descarga tom\u00f3 demasiado tiempo \u2014 abriendo el di\u00e1logo de impresi\u00f3n de tu navegador. Elige \u201cGuardar como PDF.\u201d",
+    captureMissing: "Contenido del reporte no encontrado. Intenta de nuevo.",
+    captureTimeout: "Captura del PDF agotada",
+    sampleBanner: "Datos de muestra mostrados \u2014 configura",
+    sampleBannerSuffix: "para obtener registros en vivo para este VIN.",
+    nmvtisBacked: "Respaldado por NMVTIS",
+    reportBadge: "Reporte",
+    brandedTitle: "T\u00edtulo marcado",
+    noBrand: "Sin marca de t\u00edtulo",
+    manufacturerImageUnavailable: "Imagen del fabricante\nno disponible",
+    specEngine: "Motor",
+    specTransmission: "Transmisi\u00f3n",
+    specBody: "Carrocer\u00eda",
+    specDrive: "Tracci\u00f3n",
+    specFuel: "Combustible",
+    specMadeIn: "Hecho en",
+    generated: "Generado",
+    reportIdLabel: "ID del reporte",
+    overviewTitle: "Resumen del veh\u00edculo",
+    overviewSubtitle: "Puntaje de condici\u00f3n, puntos clave y registros encontrados",
+    overallGrade: "Grado general de condici\u00f3n",
+    keyHighlights: "Puntos clave",
+    potentialIssues: "Posibles problemas",
+    noneDetected: "Ninguno detectado",
+    specsTitle: "Especificaciones del veh\u00edculo",
+    specsSubtitle: "Construcci\u00f3n de f\u00e1brica y detalles decodificados del VIN",
+    titleTitle: "Historial de t\u00edtulo",
+    titleSubtitle: "Marcas de t\u00edtulo, historial de estados y transferencias de propiedad",
+    currentStatus: "Estado actual:",
+    historical: "Hist\u00f3rico",
+    current: "Actual",
+    miSuffix: "mi",
+    headDate: "Fecha",
+    headState: "Estado",
+    headOdometer: "Od\u00f3metro",
+    headType: "Tipo",
+    headOwner: "Propietario",
+    headFrom: "Desde",
+    headTo: "Hasta",
+    headUse: "Uso",
+    headSeverity: "Gravedad",
+    headLocation: "Ubicaci\u00f3n",
+    headAirbag: "Bolsa de aire",
+    headStructural: "Estructural",
+    headMileage: "Kilometraje",
+    headSource: "Fuente",
+    headStatus: "Estado",
+    headDetail: "Detalle",
+    headLienholder: "Titular del gravamen",
+    headEvent: "Evento",
+    headPrice: "Precio",
+    headBrand: "Marca",
+    headCode: "C\u00f3digo",
+    headDescription: "Descripci\u00f3n",
+    headInsType: "Tipo",
+    titleNoRecords: "No se encontraron registros de t\u00edtulo para este VIN.",
+    ownersTitle: "Historial de propiedad",
+    ownersSubtitle: "Cantidad de due\u00f1os, duraci\u00f3n y tipo de uso",
+    ownersEmptyTitle: "No se encontraron registros de propiedad",
+    ownersEmptyHint: "NMVTIS no devolvi\u00f3 registros individuales de due\u00f1os para este VIN. Las transferencias de t\u00edtulo se listan en la secci\u00f3n Historial de T\u00edtulo arriba.",
+    accidentsTitle: "Historial de accidentes",
+    accidentsSubtitle: "Colisiones reportadas, gravedad y despliegue de bolsa de aire",
+    accidentsEmptyTitle: "No se encontraron registros de accidentes",
+    accidentsEmptyHint: "No se encontraron accidentes reportados en las fuentes de datos disponibles para este VIN.",
+    airbagDeployed: "Desplegada",
+    airbagNo: "No",
+    yes: "S\u00ed",
+    no: "No",
+    damageTitle: "Registros de da\u00f1os y salvamento",
+    damageSubtitle: "Patios de salvamento, chatarra, seguro y da\u00f1o estructural",
+    damageEmptyTitle: "No se encontraron registros de da\u00f1os",
+    damageEmptyHint: "No se report\u00f3 da\u00f1o por colisi\u00f3n, granizo, inundaci\u00f3n, fuego o salvamento.",
+    damageReportingEntity: "Entidad que report\u00f3:",
+    damageDisposition: "Disposici\u00f3n:",
+    odometerTitle: "Historial de od\u00f3metro",
+    odometerSubtitle: "L\u00ednea de tiempo del kilometraje, consistencia y verificaci\u00f3n de manipulaci\u00f3n",
+    rollbackPossible: "Posible manipulaci\u00f3n detectada",
+    mileageConsistent: "Kilometraje consistente",
+    lastReading: "\u00daltima lectura:",
+    odometerEmpty: "No se encontraron lecturas de od\u00f3metro",
+    recallsTitle: "Retiros abiertos",
+    recallsSubtitle: "Retiros de seguridad NHTSA y referencias del fabricante",
+    recallsEmptyTitle: "Sin retiros abiertos",
+    recallsEmptyHint: "No se encontraron retiros de seguridad NHTSA pendientes.",
+    recallSummary: "Resumen: ",
+    recallRisk: "Riesgo: ",
+    recallRemedy: "Soluci\u00f3n: ",
+    recallReportedPrefix: "Reportado ",
+    recallsFooter: "Los retiros se reparan sin costo en cualquier concesionario autorizado. Confirma el estado de finalizaci\u00f3n antes de comprar.",
+    insuranceTitle: "Registros de seguro",
+    insuranceSubtitle: "Eventos de p\u00e9rdida total y reclamos de seguro",
+    insuranceEmptyTitle: "Sin p\u00e9rdida de seguro reportada",
+    insuranceEmptyHint: "No se encontraron eventos de p\u00e9rdida total o reclamos de seguro para este VIN en las fuentes de datos disponibles.",
+    lienTitle: "Registros de gravamen y embargo",
+    lienSubtitle: "Eventos de embargo, gravámenes no revelados e historial de gravámenes de t\u00edtulo",
+    lienImpoundLabel: "Informaci\u00f3n de embargo",
+    lienUndisclosedLabel: "Gravamen no revelado",
+    lienHistoryLabel: "Registros hist\u00f3ricos de gravamen de t\u00edtulo",
+    lienReported: "Reportado",
+    lienRecord: "registro",
+    lienRecords: "registros",
+    lienTitleLienHistory: "Historial de gravamen de t\u00edtulo",
+    lienImpoundRecords: "Registros de embargo",
+    theftTitle: "Registros de robo",
+    theftSubtitle: "Verificaciones de robo y recuperaci\u00f3n",
+    theftEmptyTitle: "No aparece como robado",
+    theftEmptyHint: "Este VIN fue verificado contra bases de datos de robo y no se encontr\u00f3 estado activo de robo o no recuperado.",
+    brandsTitle: "Informaci\u00f3n de marcas de t\u00edtulo",
+    brandsSubtitle: "C\u00f3digos NMVTIS de marca de t\u00edtulo reportados contra este VIN",
+    brandsCountedSuffix: "marca(s) reportada(s)",
+    brandsEmptyTitle: "Sin marcas de t\u00edtulo reportadas",
+    brandsEmptyHint: "No se registraron marcas NMVTIS (salvamento, chatarra, inundaci\u00f3n, lim\u00f3n, reconstruido) contra este VIN.",
+    brandsCodeFallback: "Los detalles de c\u00f3digo de marca se listan en la secci\u00f3n Historial de T\u00edtulo arriba.",
+    brandFallbackName: "Marca",
+    auctionsTitle: "Historial de subasta",
+    auctionsSubtitle: "Eventos de subasta, da\u00f1os, kilometraje y resultados de venta",
+    auctionsEmptyTitle: "No se encontraron registros de subasta",
+    auctionsEmptyHint: "Este veh\u00edculo no tiene historial de subasta de salvamento o de concesionario en archivo.",
+    auctionDamage: "Da\u00f1o:",
+    auctionCondition: "Condici\u00f3n:",
+    auctionOdometer: "Od\u00f3metro:",
+    auctionSeller: "Vendedor:",
+    auctionPhotoAlt: (i: number) => `Foto de subasta ${i}`,
+    salesTitle: "Historial de anuncios de venta",
+    salesSubtitle: "Anuncios en marketplace, precios, kilometraje y tipo de evento",
+    salesEmptyTitle: "No se encontr\u00f3 historial de anuncios",
+    salesEmptyHint: "No se devolvieron anuncios hist\u00f3ricos de marketplace para este VIN.",
+    serviceTitle: "Servicio y mantenimiento",
+    serviceSubtitle: "Registros de servicio, inspecci\u00f3n y emisiones",
+    serviceEmptyTitle: "No se encontraron registros de servicio",
+    serviceEmptyHint: "No se reportaron registros de mantenimiento, inspecci\u00f3n o emisiones para este VIN.",
+    valueTitle: "Valor de mercado",
+    valueSubtitle: "Valor estimado al menudeo y de intercambio por condici\u00f3n",
+    valueRetailClean: "Menudeo (limpio)",
+    valueRetailAvg: "Menudeo (promedio)",
+    valueTradeClean: "Intercambio (limpio)",
+    valueMsrp: "MSRP original",
+    valueRetailLegend: "Menudeo",
+    valueTradeLegend: "Intercambio",
+    valueAsOfPrefix: "Valuaci\u00f3n al",
+    valueSource: "Fuente: Black Book.",
+    valueEmptyTitle: "Valor de mercado no disponible",
+    valueEmptyHint: "No se devolvieron datos de valuaci\u00f3n para este VIN.",
+    usageTitle: "An\u00e1lisis de uso del veh\u00edculo",
+    usageSubtitle: "Tipo de uso detectado a lo largo de su historia",
+    usageDetected: "Detectado",
+    usageNotDetected: "No detectado",
+    riskTitle: "An\u00e1lisis de riesgo del veh\u00edculo",
+    riskSubtitle: "Tarjetas ponderadas a trav\u00e9s de factores clave de riesgo",
+    riskWeight: "peso",
+    riskEmptyTitle: "An\u00e1lisis de riesgo no disponible",
+    timelineTitle: "L\u00ednea de tiempo del veh\u00edculo",
+    timelineSubtitle: "Registro cronol\u00f3gico de cada evento reportado",
+    timelineEmpty: "Sin eventos en la l\u00ednea de tiempo",
+    photosTitle: "Fotos del veh\u00edculo",
+    photosSubtitle: "Im\u00e1genes del fabricante, subasta e hist\u00f3ricas",
+    photosEmptyTitle: "No hay fotos en archivo",
+    photosEmptyHint: "No se encontraron im\u00e1genes del fabricante o de subasta para este VIN.",
+    photoViewerLabel: "Visor de fotos del veh\u00edculo",
+    photoViewLabel: (i: number, n: number) => `Ver foto ${i} de ${n}`,
+    close: "Cerrar",
+    previousPhoto: "Foto anterior",
+    nextPhoto: "Foto siguiente",
+    summaryTitle: "Resumen del reporte",
+    summarySubtitle: "Lo que los compradores deben saber y pr\u00f3ximos pasos recomendados",
+    summaryNextSteps: "Pr\u00f3ximos pasos recomendados",
+    summaryNextStep1: "Verifica de forma independiente cualquier registro de t\u00edtulo marcado o salvamento antes de comprar.",
+    summaryNextStep2: "Confirma que todos los retiros abiertos hayan sido completados en un concesionario autorizado.",
+    summaryNextStep3: "Obt\u00e9n una inspecci\u00f3n antes de la compra por un mec\u00e1nico calificado.",
+    summaryNextStep4: "Compara el precio que piden contra los valores de mercado mostrados arriba.",
+    footerTitle: "Fuentes de datos y descargo",
+    footerP1Pre: "Este reporte de historial vehicular est\u00e1 compilado a partir de NMVTIS (National Motor Vehicle Title Information System), DMVs estatales participantes, NHTSA, valuaciones de Black Book y socios de datos de ClearVin. CarCheckerVIN representa estos datos sin alterarlos; los valores mostrados reflejan los registros devueltos para el VIN ",
+    footerP1End: ".",
+    footerP2: "Un reporte de historial vehicular no sustituye una inspecci\u00f3n independiente. Los registros pueden estar incompletos si un estado, aseguradora o taller no report\u00f3 un evento. CarCheckerVIN no garantiza la integridad o exactitud y no es responsable por decisiones tomadas en base a este reporte.",
+    footerMeta: (id: string, when: string, year: number) =>
+      `ID del reporte ${id} \u00b7 Generado ${when} \u00b7 \u00a9 ${year} CarCheckerVIN.com`,
+    navOverview: "Resumen del veh\u00edculo",
+    navSpecs: "Especificaciones",
+    navOwners: "Historial de propiedad",
+    navAccidents: "Historial de accidentes",
+    navDamage: "Da\u00f1os y salvamento",
+    navOdometer: "Historial de od\u00f3metro",
+    navRecalls: "Retiros de seguridad",
+    navInsurance: "Registros de seguro",
+    navLien: "Gravamen y embargo",
+    navTheft: "Registros de robo",
+    navBrands: "Info de marca de t\u00edtulo",
+    navAuctions: "Historial de subasta",
+    navSales: "Anuncios de venta",
+    navService: "Servicio y mantenimiento",
+    navValue: "Valor de mercado",
+    navUsage: "An\u00e1lisis de uso",
+    navRisk: "An\u00e1lisis de riesgo",
+    navTimeline: "L\u00ednea de tiempo",
+    navPhotos: "Fotos del veh\u00edculo",
+    navSummary: "Resumen del reporte",
+    notReported: "No reportado",
+    reported: "Reportado",
+    noIssuesReported: "Sin problemas reportados",
+    vehicleFallback: "Veh\u00edculo",
+  },
+} as const;
 
 /* A labelled status line: green check + "No Issues Reported", or a red alert
    with the finding. Mirrors the lien / theft summary rows in ClearVin. */
@@ -43,12 +498,12 @@ function StatusLine({
   label,
   flagged,
   flagText,
-  okText = "No Issues Reported",
+  okText,
 }: {
   label: string;
   flagged: boolean;
   flagText: string;
-  okText?: string;
+  okText: string;
 }) {
   return (
     <div className="flex items-center justify-between gap-3 border-b border-outline-variant/30 py-3 last:border-b-0 dark:border-white/5">
@@ -268,10 +723,15 @@ async function inlineExternalImages(root: HTMLElement): Promise<() => void> {
 export default function FullVinReport({
   report,
   pdfUrl,
+  locale = "en",
 }: {
   report: NormalizedReport;
   pdfUrl?: string;
+  locale?: ReportLocale;
 }) {
+  const c = REPORT_COPY[locale];
+  const fd = (iso: string | null) => fmtDate(iso, locale);
+  const $ = (n: number, cur = "USD") => money(n, cur, locale);
   const [dark, setDark] = useState(false);
   // PDF export state. `exporting` momentarily hides the in-report nav dropdown
   // so it isn't baked into the captured image; `generating` drives the button.
@@ -282,32 +742,32 @@ export default function FullVinReport({
   // click any thumbnail to open it full-size and arrow between all photos.
   const [lightbox, setLightbox] = useState<number | null>(null);
   const { vehicle: v, meta } = report;
-  const fullName = [v.year, v.make, v.model, v.trim].filter(Boolean).join(" ") || "Vehicle";
+  const fullName = [v.year, v.make, v.model, v.trim].filter(Boolean).join(" ") || c.vehicleFallback;
 
   // "Jump to Section" table of contents. Order mirrors the rendered sections;
   // `count` surfaces how many records each carries (red only when an alert
   // section actually has findings — 0 stays neutral, matching the design).
   const navItems: SectionNavItem[] = [
-    { id: "overview", label: "Vehicle Overview",     icon: Award },
-    { id: "specs",    label: "Vehicle Specs",        icon: Car },
-    { id: "owners",   label: "Ownership History",    icon: Users,            count: report.owners.length },
-    { id: "accidents",label: "Accident History",     icon: AlertTriangle,    count: report.accidents.length, alert: report.accidents.length > 0 },
-    { id: "damage",   label: "Damage & Salvage",     icon: Hammer,           count: report.damage.length,    alert: report.damage.length > 0 },
-    { id: "odometer", label: "Odometer History",     icon: Gauge,            count: report.odometer.readings.length },
-    { id: "recalls",  label: "Safety Recalls",       icon: Siren,            count: report.recalls.length,   alert: report.recalls.length > 0 },
-    { id: "insurance",label: "Insurance Records",    icon: ClipboardCheck,   count: report.insurance.records.length, alert: report.insurance.records.length > 0 },
-    { id: "lien",     label: "Lien & Impound",       icon: Banknote,         alert: report.lienImpound.impound.length > 0 || report.lienImpound.undisclosedLien || report.lienImpound.lienRecords.length > 0 },
-    { id: "theft",    label: "Theft Records",        icon: ShieldCheck },
-    { id: "brands",   label: "Title Brand Info",     icon: BadgeCheck,       count: report.titleBrands.count, alert: report.titleBrands.count > 0 },
-    { id: "auctions", label: "Auction History",      icon: Building2,        count: report.auctions.length,  alert: report.auctions.length > 0 },
-    { id: "sales",    label: "Sales Listings",       icon: CircleDollarSign, count: report.sales.length },
-    { id: "service",  label: "Service & Maintenance",icon: Wrench,           count: report.service.length },
-    { id: "value",    label: "Market Value",         icon: Banknote },
-    { id: "usage",    label: "Usage Analysis",       icon: Truck },
-    { id: "risk",     label: "Risk Analysis",        icon: ShieldAlert },
-    { id: "timeline", label: "Vehicle Timeline",     icon: History,          count: report.timeline.length },
-    { id: "photos",   label: "Vehicle Photos",       icon: Camera,           count: report.photos.length },
-    { id: "summary",  label: "Report Summary",       icon: ListChecks },
+    { id: "overview", label: c.navOverview,  icon: Award },
+    { id: "specs",    label: c.navSpecs,     icon: Car },
+    { id: "owners",   label: c.navOwners,    icon: Users,            count: report.owners.length },
+    { id: "accidents",label: c.navAccidents, icon: AlertTriangle,    count: report.accidents.length, alert: report.accidents.length > 0 },
+    { id: "damage",   label: c.navDamage,    icon: Hammer,           count: report.damage.length,    alert: report.damage.length > 0 },
+    { id: "odometer", label: c.navOdometer,  icon: Gauge,            count: report.odometer.readings.length },
+    { id: "recalls",  label: c.navRecalls,   icon: Siren,            count: report.recalls.length,   alert: report.recalls.length > 0 },
+    { id: "insurance",label: c.navInsurance, icon: ClipboardCheck,   count: report.insurance.records.length, alert: report.insurance.records.length > 0 },
+    { id: "lien",     label: c.navLien,      icon: Banknote,         alert: report.lienImpound.impound.length > 0 || report.lienImpound.undisclosedLien || report.lienImpound.lienRecords.length > 0 },
+    { id: "theft",    label: c.navTheft,     icon: ShieldCheck },
+    { id: "brands",   label: c.navBrands,    icon: BadgeCheck,       count: report.titleBrands.count, alert: report.titleBrands.count > 0 },
+    { id: "auctions", label: c.navAuctions,  icon: Building2,        count: report.auctions.length,  alert: report.auctions.length > 0 },
+    { id: "sales",    label: c.navSales,     icon: CircleDollarSign, count: report.sales.length },
+    { id: "service",  label: c.navService,   icon: Wrench,           count: report.service.length },
+    { id: "value",    label: c.navValue,     icon: Banknote },
+    { id: "usage",    label: c.navUsage,     icon: Truck },
+    { id: "risk",     label: c.navRisk,      icon: ShieldAlert },
+    { id: "timeline", label: c.navTimeline,  icon: History,          count: report.timeline.length },
+    { id: "photos",   label: c.navPhotos,    icon: Camera,           count: report.photos.length },
+    { id: "summary",  label: c.navSummary,   icon: ListChecks },
   ];
 
   // Lightbox keyboard control: Esc closes, ←/→ step through photos. Bound only
@@ -355,7 +815,7 @@ export default function FullVinReport({
     try {
       const node = document.getElementById("report-export");
       if (!node) {
-        setExportError("Report content not found. Please try again.");
+        setExportError(c.captureMissing);
         return;
       }
 
@@ -389,7 +849,7 @@ export default function FullVinReport({
           skipFonts: true,
         }),
         25_000,
-        "PDF capture timed out"
+        c.captureTimeout
       );
 
       const { default: jsPDF } = await import("jspdf");
@@ -520,9 +980,7 @@ export default function FullVinReport({
         // No server PDF to fall back to. Rather than strand the buyer, hand
         // off to the browser's native print-to-PDF — the report ships a full
         // print stylesheet, so "Save as PDF" produces a clean document.
-        setExportError(
-          "Building the download took too long — opening your browser's print dialog instead. Choose “Save as PDF.”"
-        );
+        setExportError(c.captureError);
         // `finally` resets the nav/exporting state synchronously after this
         // return; give it a beat to paint, then open the native print dialog.
         setTimeout(() => {
@@ -553,13 +1011,13 @@ export default function FullVinReport({
           <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-2xl border border-outline-variant/40 bg-white/95 px-4 py-2.5 shadow-lg shadow-primary/10 backdrop-blur dark:border-white/10 dark:bg-slate-900/95 sm:px-6">
             <span className="flex items-center gap-2 text-sm font-bold text-on-surface dark:text-slate-100">
               <BadgeCheck className="h-4 w-4 text-green-600" />
-              <span className="hidden sm:inline">Verified Vehicle History Report</span>
-              <span className="sm:hidden">Report</span>
+              <span className="hidden sm:inline">{c.verifiedFull}</span>
+              <span className="sm:hidden">{c.verifiedShort}</span>
             </span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setDark((d) => !d)}
-                aria-label="Toggle dark mode"
+                aria-label={c.toggleDark}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-container text-on-surface-variant transition hover:brightness-95 dark:bg-slate-800 dark:text-slate-300"
               >
                 {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -568,7 +1026,7 @@ export default function FullVinReport({
                 onClick={() => window.print()}
                 className="flex items-center gap-1.5 rounded-full bg-surface-container px-3.5 py-2 text-xs font-bold text-on-surface transition hover:brightness-95 dark:bg-slate-800 dark:text-slate-200"
               >
-                <Printer className="h-4 w-4" /> <span className="hidden sm:inline">Print</span>
+                <Printer className="h-4 w-4" /> <span className="hidden sm:inline">{c.print}</span>
               </button>
               <button
                 onClick={doPdf}
@@ -581,7 +1039,7 @@ export default function FullVinReport({
                 ) : (
                   <Download className="h-4 w-4" />
                 )}
-                <span className="hidden sm:inline">{generating ? "Generating…" : "Download PDF"}</span>
+                <span className="hidden sm:inline">{generating ? c.generating : c.download}</span>
               </button>
             </div>
           </div>
@@ -602,7 +1060,7 @@ export default function FullVinReport({
         <div className="mx-auto max-w-6xl px-4 pb-6 pt-24 sm:px-6 print:pt-6">
           {meta.isMock && (
             <div className="mb-5 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-200">
-              Sample data shown — set <code className="font-mono">CLEARVIN_SANDBOX_API_TOKEN</code> to fetch live records for this VIN.
+              {c.sampleBanner} <code className="font-mono">CLEARVIN_SANDBOX_API_TOKEN</code> {c.sampleBannerSuffix}
             </div>
           )}
 
@@ -611,11 +1069,11 @@ export default function FullVinReport({
               dropdown above the body on tablet/mobile (and is hidden in print). */}
           <div className="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-6">
             <aside className="hidden lg:block print:hidden">
-              <SectionNav items={navItems} variant="desktop" />
+              <SectionNav items={navItems} variant="desktop" locale={locale} />
             </aside>
 
             <div id="report-export" className="min-w-0 space-y-5">
-              {!exporting && <SectionNav items={navItems} variant="mobile" />}
+              {!exporting && <SectionNav items={navItems} variant="mobile" locale={locale} />}
 
               {/* ══ 0. BRAND BAR (logo + site link, baked into the PDF) ═══ */}
               <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-outline-variant/40 bg-surface-container-lowest dark:bg-slate-900 px-4 py-3">
@@ -637,17 +1095,17 @@ export default function FullVinReport({
                 ) : (
                   <div className="flex flex-col items-center gap-2 p-6 text-center text-white/60">
                     <Car className="h-12 w-12" />
-                    <span className="text-xs">Manufacturer image<br />not on file</span>
+                    <span className="text-xs whitespace-pre-line">{c.manufacturerImageUnavailable}</span>
                   </div>
                 )}
               </div>
               <div className="p-5 sm:p-6">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Badge tone="info">{meta.source === "clearvin" ? "NMVTIS-backed" : "Report"}</Badge>
+                  <Badge tone="info">{meta.source === "clearvin" ? c.nmvtisBacked : c.reportBadge}</Badge>
                   {report.title.isBranded ? (
-                    <Badge tone="critical">Branded title</Badge>
+                    <Badge tone="critical">{c.brandedTitle}</Badge>
                   ) : (
-                    <Badge tone="good">No title brand</Badge>
+                    <Badge tone="good">{c.noBrand}</Badge>
                   )}
                 </div>
                 <h1 className="mt-2 font-headline text-2xl font-extrabold leading-tight sm:text-3xl">{fullName}</h1>
@@ -655,12 +1113,12 @@ export default function FullVinReport({
 
                 <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3">
                   {[
-                    ["Engine", v.engine],
-                    ["Transmission", v.transmission],
-                    ["Body", v.bodyStyle],
-                    ["Drive", v.driveType],
-                    ["Fuel", v.fuelType || "—"],
-                    ["Made in", v.countryOfOrigin],
+                    [c.specEngine, v.engine],
+                    [c.specTransmission, v.transmission],
+                    [c.specBody, v.bodyStyle],
+                    [c.specDrive, v.driveType],
+                    [c.specFuel, v.fuelType || "—"],
+                    [c.specMadeIn, v.countryOfOrigin],
                   ].map(([k, val]) => (
                     <div key={k}>
                       <div className="text-[10px] font-semibold uppercase tracking-wide text-white/50">{k}</div>
@@ -670,20 +1128,20 @@ export default function FullVinReport({
                 </div>
 
                 <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-white/10 pt-3 text-xs text-white/60">
-                  <span className="inline-flex items-center gap-1"><CalendarClock className="h-3.5 w-3.5" /> Generated {fmtDate(meta.generatedAt)}</span>
-                  <span className="inline-flex items-center gap-1"><Fingerprint className="h-3.5 w-3.5" /> Report ID {meta.reportId || "—"}</span>
+                  <span className="inline-flex items-center gap-1"><CalendarClock className="h-3.5 w-3.5" /> {c.generated} {fd(meta.generatedAt)}</span>
+                  <span className="inline-flex items-center gap-1"><Fingerprint className="h-3.5 w-3.5" /> {c.reportIdLabel} {meta.reportId || "—"}</span>
                 </div>
               </div>
             </div>
           </header>
 
           {/* ══ 2. VEHICLE OVERVIEW ═══════════════════════════════════ */}
-          <ReportSection id="overview" icon={Award} title="Vehicle Overview" subtitle="Condition score, key highlights & records found">
+          <ReportSection id="overview" icon={Award} title={c.overviewTitle} subtitle={c.overviewSubtitle}>
             <div className="grid gap-5 lg:grid-cols-[200px_1fr]">
               <div className="flex flex-col items-center justify-center rounded-2xl bg-surface-container-low dark:bg-slate-800/60 p-4">
                 <ScoreGauge value={report.overview.gradeValue} label={report.overview.gradeLabel} />
                 <p className="mt-1 text-center text-xs text-on-surface-variant dark:text-slate-400">
-                  Overall condition grade
+                  {c.overallGrade}
                 </p>
               </div>
               <div className="space-y-4">
@@ -694,7 +1152,7 @@ export default function FullVinReport({
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
-                    <h3 className="mb-1.5 flex items-center gap-1.5 text-sm font-bold text-green-700 dark:text-green-400"><CheckCircle2 className="h-4 w-4" /> Key highlights</h3>
+                    <h3 className="mb-1.5 flex items-center gap-1.5 text-sm font-bold text-green-700 dark:text-green-400"><CheckCircle2 className="h-4 w-4" /> {c.keyHighlights}</h3>
                     {report.overview.highlights.length ? (
                       <ul className="space-y-1 text-sm text-on-surface-variant dark:text-slate-300">
                         {report.overview.highlights.map((h) => <li key={h} className="flex gap-2"><span className="text-green-500">✓</span>{h}</li>)}
@@ -702,12 +1160,12 @@ export default function FullVinReport({
                     ) : <p className="text-sm text-on-surface-variant dark:text-slate-400">—</p>}
                   </div>
                   <div>
-                    <h3 className="mb-1.5 flex items-center gap-1.5 text-sm font-bold text-red-700 dark:text-red-400"><AlertTriangle className="h-4 w-4" /> Potential issues</h3>
+                    <h3 className="mb-1.5 flex items-center gap-1.5 text-sm font-bold text-red-700 dark:text-red-400"><AlertTriangle className="h-4 w-4" /> {c.potentialIssues}</h3>
                     {report.overview.issues.length ? (
                       <ul className="space-y-1 text-sm text-on-surface-variant dark:text-slate-300">
                         {report.overview.issues.map((h) => <li key={h} className="flex gap-2"><span className="text-red-500">!</span>{h}</li>)}
                       </ul>
-                    ) : <p className="text-sm text-on-surface-variant dark:text-slate-400">None detected</p>}
+                    ) : <p className="text-sm text-on-surface-variant dark:text-slate-400">{c.noneDetected}</p>}
                   </div>
                 </div>
               </div>
@@ -715,7 +1173,7 @@ export default function FullVinReport({
           </ReportSection>
 
           {/* ══ 3. SPECIFICATIONS ═════════════════════════════════════ */}
-          <ReportSection id="specs" icon={Car} title="Vehicle Specifications" subtitle="Factory build & decoded VIN details">
+          <ReportSection id="specs" icon={Car} title={c.specsTitle} subtitle={c.specsSubtitle}>
             <div className="space-y-5">
               {report.specGroups.map((g) => (
                 <div key={g.title}>
@@ -728,86 +1186,94 @@ export default function FullVinReport({
 
           {/* ══ 4. TITLE HISTORY ══════════════════════════════════════ */}
           <ReportSection
-            id="title" icon={ScrollText} title="Title History"
-            subtitle="Title brands, state history & ownership transfers"
+            id="title" icon={ScrollText} title={c.titleTitle}
+            subtitle={c.titleSubtitle}
             tone={report.title.isBranded ? "alert" : "good"}
             count={report.title.records.length}
           >
             <div className="mb-4 flex flex-wrap items-center gap-2">
-              <span className="text-sm font-semibold text-on-surface dark:text-slate-200">Current status:</span>
+              <span className="text-sm font-semibold text-on-surface dark:text-slate-200">{c.currentStatus}</span>
               <Badge tone={report.title.isBranded ? "critical" : "good"}>{report.title.currentStatus}</Badge>
             </div>
             <div className="mb-4 grid grid-cols-2 gap-2.5 sm:grid-cols-5">
-              {report.title.checks.map((c) => <CheckRow key={c.label} label={c.label} flagged={c.flagged} />)}
+              {report.title.checks.map((ck) => (
+                <CheckRow
+                  key={ck.label}
+                  label={ck.label}
+                  flagged={ck.flagged}
+                  okText={c.notReported}
+                  flagText={c.reported}
+                />
+              ))}
             </div>
             {report.title.records.length ? (
               <DataTable
-                head={["Date", "State", "Odometer", "Type"]}
+                head={[c.headDate, c.headState, c.headOdometer, c.headType]}
                 rows={report.title.records.map((t) => [
-                  fmtDate(t.date),
+                  fd(t.date),
                   t.state,
-                  t.mileage != null ? `${t.mileage.toLocaleString()} mi` : "—",
-                  t.current ? <Badge key="c" tone="info">Current</Badge> : "Historical",
+                  t.mileage != null ? `${t.mileage.toLocaleString(locale === "es" ? "es-US" : "en-US")} ${c.miSuffix}` : "—",
+                  t.current ? <Badge key="c" tone="info">{c.current}</Badge> : c.historical,
                 ])}
               />
-            ) : <EmptyState hint="No title records were returned for this VIN." />}
+            ) : <EmptyState hint={c.titleNoRecords} />}
           </ReportSection>
 
           {/* ══ 5. OWNERSHIP HISTORY ══════════════════════════════════ */}
-          <ReportSection id="owners" icon={Users} title="Ownership History" subtitle="Owner count, duration & use type" count={report.owners.length}>
+          <ReportSection id="owners" icon={Users} title={c.ownersTitle} subtitle={c.ownersSubtitle} count={report.owners.length}>
             {report.owners.length ? (
               <DataTable
-                head={["Owner", "State", "From", "To", "Use"]}
-                rows={report.owners.map((o) => [`#${o.sequence}`, o.state, fmtDate(o.from), fmtDate(o.to), o.type])}
+                head={[c.headOwner, c.headState, c.headFrom, c.headTo, c.headUse]}
+                rows={report.owners.map((o) => [`#${o.sequence}`, o.state, fd(o.from), fd(o.to), o.type])}
               />
             ) : (
-              <EmptyState title="No ownership records found" hint="NMVTIS did not return individual owner records for this VIN. Title transfers are listed in the Title History section above." />
+              <EmptyState title={c.ownersEmptyTitle} hint={c.ownersEmptyHint} />
             )}
           </ReportSection>
 
           {/* ══ 6. ACCIDENT HISTORY ═══════════════════════════════════ */}
-          <ReportSection id="accidents" icon={AlertTriangle} title="Accident History" subtitle="Reported collisions, severity & airbag deployment" count={report.accidents.length} tone={report.accidents.length ? "alert" : "good"}>
+          <ReportSection id="accidents" icon={AlertTriangle} title={c.accidentsTitle} subtitle={c.accidentsSubtitle} count={report.accidents.length} tone={report.accidents.length ? "alert" : "good"}>
             {report.accidents.length ? (
               <DataTable
-                head={["Date", "Severity", "Location", "Airbag", "Structural"]}
-                rows={report.accidents.map((a) => [fmtDate(a.date), a.severity, a.location, a.airbag ? "Deployed" : "No", a.structural ? "Yes" : "No"])}
+                head={[c.headDate, c.headSeverity, c.headLocation, c.headAirbag, c.headStructural]}
+                rows={report.accidents.map((a) => [fd(a.date), a.severity, a.location, a.airbag ? c.airbagDeployed : c.airbagNo, a.structural ? c.yes : c.no])}
               />
             ) : (
-              <EmptyState title="No accident records found" hint="No reported accidents were found in the available data sources for this VIN." />
+              <EmptyState title={c.accidentsEmptyTitle} hint={c.accidentsEmptyHint} />
             )}
           </ReportSection>
 
           {/* ══ 7. DAMAGE & SALVAGE RECORDS ═══════════════════════════ */}
-          <ReportSection id="damage" icon={Hammer} title="Damage & Salvage Records" subtitle="Salvage yards, junk, insurance & structural damage" count={report.damage.length} tone={report.damage.length ? "alert" : "good"}>
+          <ReportSection id="damage" icon={Hammer} title={c.damageTitle} subtitle={c.damageSubtitle} count={report.damage.length} tone={report.damage.length ? "alert" : "good"}>
             {report.damage.length ? (
               <div className="space-y-3">
                 {report.damage.map((d, i) => (
                   <div key={i} className="rounded-xl border border-red-200 bg-red-50/60 p-4 dark:border-red-500/30 dark:bg-red-500/10">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="flex items-center gap-2 font-bold text-red-700 dark:text-red-300"><ShieldAlert className="h-4 w-4" /> {d.category}</span>
-                      <span className="text-sm text-on-surface-variant dark:text-slate-400">{fmtDate(d.obtainedDate)}</span>
+                      <span className="text-sm text-on-surface-variant dark:text-slate-400">{fd(d.obtainedDate)}</span>
                     </div>
                     <div className="mt-2 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
-                      <div><span className="text-on-surface-variant dark:text-slate-400">Reporting entity:</span> <span className="font-semibold text-on-surface dark:text-slate-100">{d.entity}</span></div>
+                      <div><span className="text-on-surface-variant dark:text-slate-400">{c.damageReportingEntity}</span> <span className="font-semibold text-on-surface dark:text-slate-100">{d.entity}</span></div>
                       <div className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5 text-on-surface-variant" /> {[d.city, d.state].filter(Boolean).join(", ") || "—"}</div>
-                      <div><span className="text-on-surface-variant dark:text-slate-400">Disposition:</span> <span className="font-semibold text-on-surface dark:text-slate-100">{d.disposition}</span></div>
+                      <div><span className="text-on-surface-variant dark:text-slate-400">{c.damageDisposition}</span> <span className="font-semibold text-on-surface dark:text-slate-100">{d.disposition}</span></div>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <EmptyState title="No damage records found" hint="No collision, hail, flood, fire or salvage damage was reported." />
+              <EmptyState title={c.damageEmptyTitle} hint={c.damageEmptyHint} />
             )}
           </ReportSection>
 
           {/* ══ 8. ODOMETER HISTORY ═══════════════════════════════════ */}
-          <ReportSection id="odometer" icon={Gauge} title="Odometer History" subtitle="Mileage timeline, consistency & rollback check" count={report.odometer.readings.length}>
+          <ReportSection id="odometer" icon={Gauge} title={c.odometerTitle} subtitle={c.odometerSubtitle} count={report.odometer.readings.length}>
             <div className="mb-4 flex flex-wrap gap-2">
               <Badge tone={report.odometer.rollback ? "critical" : "good"}>
-                {report.odometer.rollback ? "Possible rollback detected" : "Mileage consistent"}
+                {report.odometer.rollback ? c.rollbackPossible : c.mileageConsistent}
               </Badge>
               {report.odometer.last && (
-                <Badge tone="neutral">Last reading: {report.odometer.last.mileage.toLocaleString()} {report.odometer.last.unit}</Badge>
+                <Badge tone="neutral">{c.lastReading} {report.odometer.last.mileage.toLocaleString(locale === "es" ? "es-US" : "en-US")} {report.odometer.last.unit}</Badge>
               )}
             </div>
             {report.odometer.readings.length >= 2 && (
@@ -817,16 +1283,16 @@ export default function FullVinReport({
             )}
             {report.odometer.readings.length ? (
               <DataTable
-                head={["Date", "Mileage", "Location", "Source"]}
+                head={[c.headDate, c.headMileage, c.headLocation, c.headSource]}
                 rows={report.odometer.readings.slice().reverse().map((o) => [
-                  fmtDate(o.date), `${o.mileage.toLocaleString()} ${o.unit}`, o.location || "—", o.source || "—",
+                  fd(o.date), `${o.mileage.toLocaleString(locale === "es" ? "es-US" : "en-US")} ${o.unit}`, o.location || "—", o.source || "—",
                 ])}
               />
-            ) : <EmptyState title="No odometer readings found" />}
+            ) : <EmptyState title={c.odometerEmpty} />}
           </ReportSection>
 
           {/* ══ 9. OPEN RECALLS ═══════════════════════════════════════ */}
-          <ReportSection id="recalls" icon={Siren} title="Open Recalls" subtitle="NHTSA safety recalls & manufacturer references" count={report.recalls.length} tone={report.recalls.length ? "alert" : "good"}>
+          <ReportSection id="recalls" icon={Siren} title={c.recallsTitle} subtitle={c.recallsSubtitle} count={report.recalls.length} tone={report.recalls.length ? "alert" : "good"}>
             {report.recalls.length ? (
               <div className="space-y-3">
                 {report.recalls.map((rc, i) => (
@@ -839,34 +1305,34 @@ export default function FullVinReport({
                       <span className="flex-shrink-0 whitespace-nowrap font-mono text-xs text-on-surface-variant dark:text-slate-400">{rc.campaign}</span>
                     </summary>
                     <div className="space-y-2 px-4 pb-4 text-sm text-on-surface-variant dark:text-slate-300">
-                      <p><span className="font-semibold text-on-surface dark:text-slate-100">Summary: </span>{rc.summary}</p>
-                      <p><span className="font-semibold text-on-surface dark:text-slate-100">Risk: </span>{rc.consequence}</p>
-                      <p><span className="font-semibold text-on-surface dark:text-slate-100">Remedy: </span>{rc.remedy}</p>
-                      <p className="text-xs">{rc.manufacturer} · Reported {fmtDate(rc.date)}</p>
+                      <p><span className="font-semibold text-on-surface dark:text-slate-100">{c.recallSummary}</span>{rc.summary}</p>
+                      <p><span className="font-semibold text-on-surface dark:text-slate-100">{c.recallRisk}</span>{rc.consequence}</p>
+                      <p><span className="font-semibold text-on-surface dark:text-slate-100">{c.recallRemedy}</span>{rc.remedy}</p>
+                      <p className="text-xs">{rc.manufacturer} · {c.recallReportedPrefix}{fd(rc.date)}</p>
                     </div>
                   </details>
                 ))}
                 <p className="flex items-start gap-2 rounded-lg bg-surface-container-low dark:bg-slate-800/60 p-3 text-xs text-on-surface-variant dark:text-slate-400">
                   <Info className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
-                  Recalls are repaired free of charge by any franchised dealer. Confirm completion status before purchase.
+                  {c.recallsFooter}
                 </p>
               </div>
-            ) : <EmptyState title="No open recalls" hint="No outstanding NHTSA safety recalls were found." />}
+            ) : <EmptyState title={c.recallsEmptyTitle} hint={c.recallsEmptyHint} />}
           </ReportSection>
 
           {/* ══ 10. INSURANCE RECORDS ═════════════════════════════════ */}
-          <ReportSection id="insurance" icon={ClipboardCheck} title="Insurance Records" subtitle="Total-loss & insurance claim events" count={report.insurance.records.length} tone={report.insurance.records.length ? "alert" : "good"}>
+          <ReportSection id="insurance" icon={ClipboardCheck} title={c.insuranceTitle} subtitle={c.insuranceSubtitle} count={report.insurance.records.length} tone={report.insurance.records.length ? "alert" : "good"}>
             {report.insurance.records.length ? (
               <DataTable
-                head={["Date", "Type", "Status", "Detail"]}
-                rows={report.insurance.records.map((rec) => [fmtDate(rec.date), rec.type, rec.status, rec.detail || "—"])}
+                head={[c.headDate, c.headInsType, c.headStatus, c.headDetail]}
+                rows={report.insurance.records.map((rec) => [fd(rec.date), rec.type, rec.status, rec.detail || "—"])}
               />
             ) : (
               <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 dark:bg-green-500/10">
                 <ShieldCheck className="h-6 w-6 flex-shrink-0 text-green-600 dark:text-green-400" />
                 <div>
-                  <p className="font-semibold text-green-800 dark:text-green-200">No insurance loss reported</p>
-                  <p className="text-sm text-green-700/80 dark:text-green-300/80">No total-loss or insurance claim events were found for this VIN in the available data sources.</p>
+                  <p className="font-semibold text-green-800 dark:text-green-200">{c.insuranceEmptyTitle}</p>
+                  <p className="text-sm text-green-700/80 dark:text-green-300/80">{c.insuranceEmptyHint}</p>
                 </div>
               </div>
             )}
@@ -876,23 +1342,24 @@ export default function FullVinReport({
           {(() => {
             const li = report.lienImpound;
             const flagged = li.impound.length > 0 || li.undisclosedLien || li.lienRecords.length > 0;
+            const lienWord = (n: number) => (n === 1 ? c.lienRecord : c.lienRecords);
             return (
-              <ReportSection id="lien" icon={Banknote} title="Lien & Impound Records" subtitle="Impound events, undisclosed liens & title-lien history" tone={flagged ? "alert" : "good"}>
+              <ReportSection id="lien" icon={Banknote} title={c.lienTitle} subtitle={c.lienSubtitle} tone={flagged ? "alert" : "good"}>
                 <div className="rounded-xl bg-surface-container-low px-4 dark:bg-slate-800/40">
-                  <StatusLine label="Impound Information" flagged={li.impound.length > 0} flagText={`${li.impound.length} record${li.impound.length > 1 ? "s" : ""}`} />
-                  <StatusLine label="Undisclosed Lien" flagged={li.undisclosedLien} flagText="Reported" />
-                  <StatusLine label="Historical Title Lien Records" flagged={li.lienRecords.length > 0} flagText={`${li.lienRecords.length} record${li.lienRecords.length > 1 ? "s" : ""}`} />
+                  <StatusLine label={c.lienImpoundLabel} flagged={li.impound.length > 0} flagText={`${li.impound.length} ${lienWord(li.impound.length)}`} okText={c.noIssuesReported} />
+                  <StatusLine label={c.lienUndisclosedLabel} flagged={li.undisclosedLien} flagText={c.lienReported} okText={c.noIssuesReported} />
+                  <StatusLine label={c.lienHistoryLabel} flagged={li.lienRecords.length > 0} flagText={`${li.lienRecords.length} ${lienWord(li.lienRecords.length)}`} okText={c.noIssuesReported} />
                 </div>
                 {li.lienRecords.length > 0 && (
                   <div className="mt-4">
-                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-on-surface-variant dark:text-slate-400">Title lien history</p>
-                    <DataTable head={["Lienholder", "Date", "Status"]} rows={li.lienRecords.map((l) => [l.holder, fmtDate(l.date), l.status])} />
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-on-surface-variant dark:text-slate-400">{c.lienTitleLienHistory}</p>
+                    <DataTable head={[c.headLienholder, c.headDate, c.headStatus]} rows={li.lienRecords.map((l) => [l.holder, fd(l.date), l.status])} />
                   </div>
                 )}
                 {li.impound.length > 0 && (
                   <div className="mt-4">
-                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-on-surface-variant dark:text-slate-400">Impound records</p>
-                    <DataTable head={["Date", "Detail"]} rows={li.impound.map((im) => [fmtDate(im.date), im.detail])} />
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-on-surface-variant dark:text-slate-400">{c.lienImpoundRecords}</p>
+                    <DataTable head={[c.headDate, c.headDetail]} rows={li.impound.map((im) => [fd(im.date), im.detail])} />
                   </div>
                 )}
               </ReportSection>
@@ -900,42 +1367,42 @@ export default function FullVinReport({
           })()}
 
           {/* ══ 12. THEFT RECORDS ═════════════════════════════════════ */}
-          <ReportSection id="theft" icon={ShieldCheck} title="Theft Records" subtitle="Theft & recovery checks" tone={report.theft.records.length ? "alert" : "good"}>
+          <ReportSection id="theft" icon={ShieldCheck} title={c.theftTitle} subtitle={c.theftSubtitle} tone={report.theft.records.length ? "alert" : "good"}>
             {report.theft.records.length ? (
-              <DataTable head={["Date", "Status"]} rows={report.theft.records.map((t) => [fmtDate(t.date), t.status])} />
+              <DataTable head={[c.headDate, c.headStatus]} rows={report.theft.records.map((t) => [fd(t.date), t.status])} />
             ) : (
               <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 dark:bg-green-500/10">
                 <ShieldCheck className="h-6 w-6 flex-shrink-0 text-green-600 dark:text-green-400" />
                 <div>
-                  <p className="font-semibold text-green-800 dark:text-green-200">Not listed as stolen</p>
-                  <p className="text-sm text-green-700/80 dark:text-green-300/80">This VIN was checked against theft databases and no active theft or unrecovered status was found.</p>
+                  <p className="font-semibold text-green-800 dark:text-green-200">{c.theftEmptyTitle}</p>
+                  <p className="text-sm text-green-700/80 dark:text-green-300/80">{c.theftEmptyHint}</p>
                 </div>
               </div>
             )}
           </ReportSection>
 
           {/* ══ 13. TITLE BRAND INFORMATION ═══════════════════════════ */}
-          <ReportSection id="brands" icon={BadgeCheck} title="Title Brand Information" subtitle="NMVTIS title brand codes reported against this VIN" count={report.titleBrands.count} tone={report.titleBrands.count ? "alert" : "good"}>
+          <ReportSection id="brands" icon={BadgeCheck} title={c.brandsTitle} subtitle={c.brandsSubtitle} count={report.titleBrands.count} tone={report.titleBrands.count ? "alert" : "good"}>
             {report.titleBrands.count ? (
               <>
                 <div className="mb-3 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 dark:bg-red-500/10">
                   <AlertTriangle className="h-5 w-5 flex-shrink-0 text-red-600 dark:text-red-400" />
                   <span className="font-bold uppercase tracking-wide text-red-700 dark:text-red-300">
-                    {report.titleBrands.count} Brand(-s) Reported
+                    {report.titleBrands.count} {c.brandsCountedSuffix}
                   </span>
                 </div>
                 {report.titleBrands.records.length > 0 ? (
                   <DataTable
-                    head={["Brand", "Code", "Description"]}
+                    head={[c.headBrand, c.headCode, c.headDescription]}
                     rows={report.titleBrands.records.map((b) => [
-                      <Badge key="b" tone="critical">{b.name || b.code || "Brand"}</Badge>,
+                      <Badge key="b" tone="critical">{b.name || b.code || c.brandFallbackName}</Badge>,
                       b.code || "—",
                       b.description || "—",
                     ])}
                   />
                 ) : (
                   <p className="text-sm text-on-surface-variant dark:text-slate-400">
-                    Brand code details are listed in the Title History section above.
+                    {c.brandsCodeFallback}
                   </p>
                 )}
               </>
@@ -943,15 +1410,15 @@ export default function FullVinReport({
               <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 dark:bg-green-500/10">
                 <BadgeCheck className="h-6 w-6 flex-shrink-0 text-green-600 dark:text-green-400" />
                 <div>
-                  <p className="font-semibold text-green-800 dark:text-green-200">No title brands reported</p>
-                  <p className="text-sm text-green-700/80 dark:text-green-300/80">No NMVTIS title brands (salvage, junk, flood, lemon, rebuilt) were recorded against this VIN.</p>
+                  <p className="font-semibold text-green-800 dark:text-green-200">{c.brandsEmptyTitle}</p>
+                  <p className="text-sm text-green-700/80 dark:text-green-300/80">{c.brandsEmptyHint}</p>
                 </div>
               </div>
             )}
           </ReportSection>
 
           {/* ══ 11. AUCTION HISTORY ═══════════════════════════════════ */}
-          <ReportSection id="auctions" icon={Building2} title="Auction History" subtitle="Auction events, damage, mileage & sale results" count={report.auctions.length} tone={report.auctions.length ? "alert" : "good"}>
+          <ReportSection id="auctions" icon={Building2} title={c.auctionsTitle} subtitle={c.auctionsSubtitle} count={report.auctions.length} tone={report.auctions.length ? "alert" : "good"}>
             {report.auctions.length ? (
               <div className="space-y-3">
                 {report.auctions.map((a, i) => (
@@ -962,20 +1429,20 @@ export default function FullVinReport({
                       </span>
                       <div className="flex items-center gap-2">
                         <Badge tone={/sold/i.test(a.result) ? "info" : "neutral"}>{a.result}</Badge>
-                        <span className="text-xs text-on-surface-variant dark:text-slate-400">{fmtDate(a.date)}</span>
+                        <span className="text-xs text-on-surface-variant dark:text-slate-400">{fd(a.date)}</span>
                       </div>
                     </div>
                     <div className="mt-2 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
-                      {a.damage !== "—" && <div><span className="text-on-surface-variant dark:text-slate-400">Damage:</span> <span className="font-semibold text-red-700 dark:text-red-300">{a.damage}</span></div>}
-                      {a.condition !== "—" && <div><span className="text-on-surface-variant dark:text-slate-400">Condition:</span> <span className="font-semibold text-on-surface dark:text-slate-100">{a.condition}</span></div>}
-                      {a.odometer != null && <div><span className="text-on-surface-variant dark:text-slate-400">Odometer:</span> <span className="font-semibold text-on-surface dark:text-slate-100">{a.odometer.toLocaleString()} mi</span></div>}
-                      {a.seller !== "—" && <div><span className="text-on-surface-variant dark:text-slate-400">Seller:</span> <span className="font-semibold text-on-surface dark:text-slate-100">{a.seller}</span></div>}
+                      {a.damage !== "—" && <div><span className="text-on-surface-variant dark:text-slate-400">{c.auctionDamage}</span> <span className="font-semibold text-red-700 dark:text-red-300">{a.damage}</span></div>}
+                      {a.condition !== "—" && <div><span className="text-on-surface-variant dark:text-slate-400">{c.auctionCondition}</span> <span className="font-semibold text-on-surface dark:text-slate-100">{a.condition}</span></div>}
+                      {a.odometer != null && <div><span className="text-on-surface-variant dark:text-slate-400">{c.auctionOdometer}</span> <span className="font-semibold text-on-surface dark:text-slate-100">{a.odometer.toLocaleString(locale === "es" ? "es-US" : "en-US")} {c.miSuffix}</span></div>}
+                      {a.seller !== "—" && <div><span className="text-on-surface-variant dark:text-slate-400">{c.auctionSeller}</span> <span className="font-semibold text-on-surface dark:text-slate-100">{a.seller}</span></div>}
                     </div>
                     {a.photos.length > 0 && (
                       <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5">
                         {a.photos.slice(0, 5).map((url, pi) => (
                           <div key={pi} className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface-container">
-                            <Image src={url} alt={`Auction photo ${pi + 1}`} fill className="object-cover" unoptimized />
+                            <Image src={url} alt={c.auctionPhotoAlt(pi + 1)} fill className="object-cover" unoptimized />
                           </div>
                         ))}
                       </div>
@@ -983,89 +1450,89 @@ export default function FullVinReport({
                   </div>
                 ))}
               </div>
-            ) : <EmptyState title="No auction records found" hint="This vehicle has no salvage- or dealer-auction history on file." />}
+            ) : <EmptyState title={c.auctionsEmptyTitle} hint={c.auctionsEmptyHint} />}
           </ReportSection>
 
           {/* ══ 12. SALES LISTINGS HISTORY ════════════════════════════ */}
-          <ReportSection id="sales" icon={CircleDollarSign} title="Sales Listings History" subtitle="Marketplace listings, prices, mileage & event type" count={report.sales.length}>
+          <ReportSection id="sales" icon={CircleDollarSign} title={c.salesTitle} subtitle={c.salesSubtitle} count={report.sales.length}>
             {report.sales.length ? (
               <DataTable
-                head={["Date", "Event", "Price", "Mileage"]}
+                head={[c.headDate, c.headEvent, c.headPrice, c.headMileage]}
                 rows={report.sales.map((s) => [
-                  fmtDate(s.date),
+                  fd(s.date),
                   s.sellerType,
                   s.price,
-                  s.mileage ? `${s.mileage.toLocaleString()} mi` : "—",
+                  s.mileage ? `${s.mileage.toLocaleString(locale === "es" ? "es-US" : "en-US")} ${c.miSuffix}` : "—",
                 ])}
               />
-            ) : <EmptyState title="No listing history found" hint="No historical marketplace listings were returned for this VIN." />}
+            ) : <EmptyState title={c.salesEmptyTitle} hint={c.salesEmptyHint} />}
           </ReportSection>
 
           {/* ══ 13. SERVICE & MAINTENANCE ═════════════════════════════ */}
-          <ReportSection id="service" icon={Wrench} title="Service & Maintenance" subtitle="Service, inspection & emissions records" count={report.service.length}>
+          <ReportSection id="service" icon={Wrench} title={c.serviceTitle} subtitle={c.serviceSubtitle} count={report.service.length}>
             {report.service.length ? (
-              <DataTable head={["Date", "Type", "Detail"]} rows={report.service.map((s) => [fmtDate(s.date), s.type, s.detail])} />
-            ) : <EmptyState title="No service records found" hint="No maintenance, inspection or emissions records were reported for this VIN." />}
+              <DataTable head={[c.headDate, c.headInsType, c.headDetail]} rows={report.service.map((s) => [fd(s.date), s.type, s.detail])} />
+            ) : <EmptyState title={c.serviceEmptyTitle} hint={c.serviceEmptyHint} />}
           </ReportSection>
 
           {/* ══ 14. MARKET VALUE ══════════════════════════════════════ */}
-          <ReportSection id="value" icon={Banknote} title="Market Value" subtitle="Estimated retail & trade-in value by condition">
+          <ReportSection id="value" icon={Banknote} title={c.valueTitle} subtitle={c.valueSubtitle}>
             {report.marketValue.available ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                  <StatTile icon={TrendingUp} label="Retail (clean)" value={money(report.marketValue.retail.clean, report.marketValue.currency)} tone="good" />
-                  <StatTile label="Retail (avg)" value={money(report.marketValue.retail.average, report.marketValue.currency)} />
-                  <StatTile label="Trade-in (clean)" value={money(report.marketValue.tradeIn.clean, report.marketValue.currency)} />
-                  <StatTile label="Original MSRP" value={report.marketValue.msrp || "—"} />
+                  <StatTile icon={TrendingUp} label={c.valueRetailClean} value={$(report.marketValue.retail.clean, report.marketValue.currency)} tone="good" />
+                  <StatTile label={c.valueRetailAvg} value={$(report.marketValue.retail.average, report.marketValue.currency)} />
+                  <StatTile label={c.valueTradeClean} value={$(report.marketValue.tradeIn.clean, report.marketValue.currency)} />
+                  <StatTile label={c.valueMsrp} value={report.marketValue.msrp || "—"} />
                 </div>
                 <div className="rounded-xl bg-surface-container-low dark:bg-slate-800/60 p-3">
                   <div className="mb-2 flex items-center gap-4 px-1 text-xs font-semibold text-on-surface-variant dark:text-slate-400">
-                    <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-primary dark:bg-primary-fixed" /> Retail</span>
-                    <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: "#ffb870" }} /> Trade-in</span>
+                    <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-primary dark:bg-primary-fixed" /> {c.valueRetailLegend}</span>
+                    <span className="inline-flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: "#ffb870" }} /> {c.valueTradeLegend}</span>
                   </div>
                   <ValueBars retail={report.marketValue.retail} tradeIn={report.marketValue.tradeIn} currency={report.marketValue.currency} />
                 </div>
                 {report.marketValue.asOf && (
-                  <p className="text-xs text-on-surface-variant dark:text-slate-400">Valuation as of {report.marketValue.asOf} · Source: Black Book.</p>
+                  <p className="text-xs text-on-surface-variant dark:text-slate-400">{c.valueAsOfPrefix} {report.marketValue.asOf} · {c.valueSource}</p>
                 )}
               </div>
-            ) : <EmptyState title="Market value unavailable" hint="No valuation data was returned for this VIN." />}
+            ) : <EmptyState title={c.valueEmptyTitle} hint={c.valueEmptyHint} />}
           </ReportSection>
 
           {/* ══ 15. VEHICLE USAGE ANALYSIS ════════════════════════════ */}
-          <ReportSection id="usage" icon={Truck} title="Vehicle Usage Analysis" subtitle="Detected use type across its history">
+          <ReportSection id="usage" icon={Truck} title={c.usageTitle} subtitle={c.usageSubtitle}>
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 lg:grid-cols-7">
               {report.usage.map((u) => (
                 <div key={u.label} className={`rounded-xl p-3 text-center ${u.active ? "bg-primary/10 dark:bg-primary-fixed/15" : "bg-surface-container-low dark:bg-slate-800/60"}`}>
                   <div className={`text-sm font-bold ${u.active ? "text-primary dark:text-primary-fixed" : "text-on-surface-variant dark:text-slate-400"}`}>{u.label}</div>
-                  <div className="mt-1 text-[11px] text-on-surface-variant dark:text-slate-500">{u.active ? "Detected" : "Not detected"}</div>
+                  <div className="mt-1 text-[11px] text-on-surface-variant dark:text-slate-500">{u.active ? c.usageDetected : c.usageNotDetected}</div>
                 </div>
               ))}
             </div>
           </ReportSection>
 
           {/* ══ 16. RISK ANALYSIS ═════════════════════════════════════ */}
-          <ReportSection id="risk" icon={ShieldAlert} title="Vehicle Risk Analysis" subtitle="Weighted scorecards across key risk factors">
+          <ReportSection id="risk" icon={ShieldAlert} title={c.riskTitle} subtitle={c.riskSubtitle}>
             <div className="grid gap-3 sm:grid-cols-2">
-              {report.risk.criteria.map((c) => (
-                <div key={c.name} className="rounded-xl bg-surface-container-low dark:bg-slate-800/60 p-3.5">
+              {report.risk.criteria.map((cr) => (
+                <div key={cr.name} className="rounded-xl bg-surface-container-low dark:bg-slate-800/60 p-3.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-on-surface dark:text-slate-100">{c.name}</span>
-                    <Badge tone={c.level === "good" ? "good" : c.level === "fair" ? "warning" : "critical"}>{c.label}</Badge>
+                    <span className="text-sm font-semibold text-on-surface dark:text-slate-100">{cr.name}</span>
+                    <Badge tone={cr.level === "good" ? "good" : cr.level === "fair" ? "warning" : "critical"}>{cr.label}</Badge>
                   </div>
-                  <div className="my-2"><RiskMeter value={c.value} /></div>
+                  <div className="my-2"><RiskMeter value={cr.value} /></div>
                   <div className="flex items-center justify-between text-xs text-on-surface-variant dark:text-slate-400">
-                    <span>{c.condition}</span>
-                    <span>weight {Math.round(c.weight * 100)}%</span>
+                    <span>{cr.condition}</span>
+                    <span>{c.riskWeight} {Math.round(cr.weight * 100)}%</span>
                   </div>
                 </div>
               ))}
             </div>
-            {report.risk.criteria.length === 0 && <EmptyState title="Risk analysis unavailable" />}
+            {report.risk.criteria.length === 0 && <EmptyState title={c.riskEmptyTitle} />}
           </ReportSection>
 
           {/* ══ 17. TIMELINE ══════════════════════════════════════════ */}
-          <ReportSection id="timeline" icon={History} title="Vehicle Timeline" subtitle="Chronological record of every reported event" count={report.timeline.length}>
+          <ReportSection id="timeline" icon={History} title={c.timelineTitle} subtitle={c.timelineSubtitle} count={report.timeline.length}>
             {report.timeline.length ? (
               <ol className="relative ml-2 space-y-4 border-l-2 border-outline-variant/50 dark:border-white/10 pl-5">
                 {report.timeline.map((e, i) => {
@@ -1080,7 +1547,7 @@ export default function FullVinReport({
                       <p className="text-sm font-bold leading-snug text-on-surface dark:text-slate-100">
                         {e.title}
                         <span className="ml-2 align-baseline text-xs font-normal text-on-surface-variant dark:text-slate-400">
-                          {fmtDate(e.date)}
+                          {fd(e.date)}
                         </span>
                       </p>
                       <p className="mt-0.5 text-sm leading-snug text-on-surface-variant dark:text-slate-300">{e.detail}</p>
@@ -1088,11 +1555,11 @@ export default function FullVinReport({
                   );
                 })}
               </ol>
-            ) : <EmptyState title="No timeline events" />}
+            ) : <EmptyState title={c.timelineEmpty} />}
           </ReportSection>
 
           {/* ══ 18. PHOTOS ════════════════════════════════════════════ */}
-          <ReportSection id="photos" icon={Camera} title="Vehicle Photos" subtitle="Manufacturer, auction & historical imagery" count={report.photos.length}>
+          <ReportSection id="photos" icon={Camera} title={c.photosTitle} subtitle={c.photosSubtitle} count={report.photos.length}>
             {report.photos.length ? (
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
                 {report.photos.map((p, i) => (
@@ -1101,18 +1568,18 @@ export default function FullVinReport({
                     type="button"
                     onClick={() => setLightbox(i)}
                     className="group relative aspect-[4/3] cursor-zoom-in overflow-hidden rounded-xl bg-surface-container outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    aria-label={`View photo ${i + 1} of ${report.photos.length}`}
+                    aria-label={c.photoViewLabel(i + 1, report.photos.length)}
                   >
                     <Image src={p.url} alt={p.alt} fill className="object-cover transition group-hover:scale-105" unoptimized />
                     <span className="absolute bottom-1.5 left-1.5 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-semibold capitalize text-white">{p.type}</span>
                   </button>
                 ))}
               </div>
-            ) : <EmptyState title="No photos on file" hint="No manufacturer or auction images were available for this VIN." />}
+            ) : <EmptyState title={c.photosEmptyTitle} hint={c.photosEmptyHint} />}
           </ReportSection>
 
           {/* ══ 19. REPORT SUMMARY ════════════════════════════════════ */}
-          <ReportSection id="summary" icon={ListChecks} title="Report Summary" subtitle="What buyers should know & recommended next steps" defaultOpen>
+          <ReportSection id="summary" icon={ListChecks} title={c.summaryTitle} subtitle={c.summarySubtitle} defaultOpen>
             <div className="space-y-2.5">
               {report.summary.map((s, i) => {
                 const cfg = {
@@ -1130,12 +1597,12 @@ export default function FullVinReport({
               })}
             </div>
             <div className="mt-4 rounded-xl bg-primary/5 dark:bg-primary-fixed/10 p-4">
-              <h3 className="flex items-center gap-1.5 text-sm font-bold text-primary dark:text-primary-fixed"><ClipboardCheck className="h-4 w-4" /> Recommended next steps</h3>
+              <h3 className="flex items-center gap-1.5 text-sm font-bold text-primary dark:text-primary-fixed"><ClipboardCheck className="h-4 w-4" /> {c.summaryNextSteps}</h3>
               <ul className="mt-2 space-y-1 text-sm text-on-surface-variant dark:text-slate-300">
-                <li>• Have any branded-title or salvage record independently verified before purchase.</li>
-                <li>• Confirm all open recalls have been completed at a franchised dealer.</li>
-                <li>• Get a pre-purchase inspection by a qualified mechanic.</li>
-                <li>• Cross-check the asking price against the market values shown above.</li>
+                <li>• {c.summaryNextStep1}</li>
+                <li>• {c.summaryNextStep2}</li>
+                <li>• {c.summaryNextStep3}</li>
+                <li>• {c.summaryNextStep4}</li>
               </ul>
             </div>
           </ReportSection>
@@ -1143,20 +1610,18 @@ export default function FullVinReport({
           {/* ══ 20. FOOTER DISCLAIMER ═════════════════════════════════ */}
           <footer className="rounded-2xl bg-surface-container-low dark:bg-slate-900 p-5 text-xs leading-relaxed text-on-surface-variant dark:text-slate-400">
             <div className="mb-2 flex items-center gap-2 font-bold text-on-surface dark:text-slate-200">
-              <FileText className="h-4 w-4" /> Data sources & disclaimer
+              <FileText className="h-4 w-4" /> {c.footerTitle}
             </div>
             <p>
-              This vehicle history report is compiled from NMVTIS (National Motor Vehicle Title Information System),
-              participating state DMVs, NHTSA, Black Book valuations and ClearVin data partners. CarCheckerVIN re-presents
-              this data unaltered; values shown reflect the records returned for VIN <span className="font-mono">{v.vin}</span>.
+              {c.footerP1Pre}<span className="font-mono">{v.vin}</span>{c.footerP1End}
             </p>
-            <p className="mt-2">
-              A vehicle history report is not a substitute for an independent inspection. Records may be incomplete where a
-              state, insurer or repair facility did not report an event. CarCheckerVIN makes no warranty regarding completeness
-              or accuracy and is not liable for decisions made based on this report.
-            </p>
+            <p className="mt-2">{c.footerP2}</p>
             <p className="mt-2 text-on-surface-variant/70 dark:text-slate-500">
-              Report ID {meta.reportId || "—"} · Generated {new Date(meta.generatedAt).toLocaleString("en-US")} · © {new Date().getFullYear()} CarCheckerVIN.com
+              {c.footerMeta(
+                meta.reportId || "—",
+                new Date(meta.generatedAt).toLocaleString(locale === "es" ? "es-US" : "en-US"),
+                new Date().getFullYear()
+              )}
             </p>
           </footer>
             </div>
@@ -1174,12 +1639,12 @@ export default function FullVinReport({
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"
-          aria-label="Vehicle photo viewer"
+          aria-label={c.photoViewerLabel}
         >
           <button
             type="button"
             onClick={() => setLightbox(null)}
-            aria-label="Close"
+            aria-label={c.close}
             className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
           >
             <X className="h-5 w-5" />
@@ -1190,7 +1655,7 @@ export default function FullVinReport({
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i - 1 + photoCount) % photoCount)); }}
-                aria-label="Previous photo"
+                aria-label={c.previousPhoto}
                 className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -1198,7 +1663,7 @@ export default function FullVinReport({
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i === null ? i : (i + 1) % photoCount)); }}
-                aria-label="Next photo"
+                aria-label={c.nextPhoto}
                 className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
               >
                 <ChevronRight className="h-6 w-6" />
