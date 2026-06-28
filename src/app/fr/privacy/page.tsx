@@ -14,12 +14,12 @@ const alt = hreflangAlternatesForLocale("/privacy", "fr");
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
-    "Politique de confidentialité de CarCheckerVIN. Cononnce comment recopilamos, utilisons et protégeons ta information personal.",
+    "Politique de confidentialité de CarCheckerVIN. Cononnce comment rassemblons, utilisons et protégeons ta infaçoption personnel.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Politique de confidentialité",
     description:
-      "Politique de confidentialité de CarCheckerVIN. Cononnce comment recopilamos, utilisons et protégeons ta information personal.",
+      "Politique de confidentialité de CarCheckerVIN. Cononnce comment rassemblons, utilisons et protégeons ta infaçoption personnel.",
     url: `${SITE}/fr/privacy`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -34,7 +34,7 @@ const webPageSchema = {
   name: "Politique de confidentialité",
   url: `${SITE}/fr/privacy`,
   description:
-    "Politique de confidentialité de CarCheckerVIN. Cononnce comment recopilamos, utilisons et protégeons ta information personal.",
+    "Politique de confidentialité de CarCheckerVIN. Cononnce comment rassemblons, utilisons et protégeons ta infaçoption personnel.",
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

@@ -14,7 +14,7 @@ const alt = hreflangAlternatesForLocale("/guides/car-history-report-guide", "fr"
 
 const title = "Rapports de historique de véhicule: todo le que necesitas saber (2026)";
 const description =
-  "Qué cona un rapport de historique de véhicule, de dónde provienen les données (NMVTIS, NICB, NHTSA), comment leerlo et comment se comparan proveedores como Carfax, AutoCheck et CarCheckerVIN.";
+  "Que cona un rapport de historique de véhicule, de où provienen les données (NMVTIS, NICB, NHTSA), comment leerlo et comment se comparan proveedores como Carfax, AutoCheck et CarCheckerVIN.";
 
 export const metadata: Metadata = {
   title,
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     "rapport nmvtis",
     "nicb vincheck",
     "autocheck vs carfax",
-    "qué cona un rapport de historique du auto",
-    "comment leer un rapport de historique de véhicule",
+    "que cona un rapport de historique du auto",
+    "comment lire un rapport de historique de véhicule",
     "rapport de historique vin",
     "meilleur rapport de historique de véhicule 2026",
     "comparaison de rapports de historique du auto",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Rapports de historique de véhicule: todo le que necesitas saber",
     description:
-      "Guide complet sur rapports de historique de véhicule: a éténtes de données, qué buscar, comment leer unonn et comment se comparan les proveedores.",
+      "Guide complet sur rapports de historique de véhicule: a éténtes de données, que buscar, comment lire unonn et comment se comparan les proveedores.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description:
-      "Guide complet sur rapports de historique de véhicule: NMVTIS, NICB, NHTSA et comment leer un rapport.",
+      "Guide complet sur rapports de historique de véhicule: NMVTIS, NICB, NHTSA et comment lire un rapport.",
   },
   robots: { index: true, follow: true },
 };
@@ -58,7 +58,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Rapports de historique de véhicule: todo le que necesitas saber (2026)",
   description:
-    "Todo en un rapport de historique de véhicule explicado: données de NMVTIS, verificaciones NICB, rappels de sécurité du fabricante, valeur de marché, comment leer un rapport et comment comparar proveedores.",
+    "Todo en un rapport de historique de véhicule explicado: données de NMVTIS, vérificationes NICB, rappels de sécurité du fabricante, valeur de marché, comment lire un rapport et comment comparar proveedores.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -75,7 +75,7 @@ const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   inLanguage: "fr",
-  name: "Comment leer un rapport de historique de véhicule",
+  name: "Comment lire un rapport de historique de véhicule",
   step: [
     {
       "@type": "HowToStep",
@@ -87,7 +87,7 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 2,
       name: "Revisa le historique de titre et marques",
-      text: "Busca n’importe quel marque de récupération, reconstruido, inonnndation, chatarra ou citron en cada état de titre registrado.",
+      text: "Busca n’importe quel marque de récupération, reconstruido, inondation, chatarra ou citron en cada état de titre registrado.",
     },
     {
       "@type": "HowToStep",
@@ -99,7 +99,7 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 4,
       name: "Revisa les enregistrements de accidents et dégâtss",
-      text: "Lis la gravedad, le despliegue de bolsas de aire et les indicadores de réparation estructural pour cada incidente registrado.",
+      text: "Lis la gravedad, le despliegue de bolsas de aire et les indicadores de réparation estructural pour cada incident registrado.",
     },
     {
       "@type": "HowToStep",

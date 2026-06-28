@@ -13,7 +13,7 @@ const alt = hreflangAlternatesForLocale("/lease-vs-buy-calculator", "fr");
 
 const title = "Calculateur louer vs acheter — Debo louer ou acheter un auto? (Gratuit)";
 const description =
-  "Comparaison côte à côte de louer (lease) vs financiar le même auto. Mira coût total, pagos mensueles, plusvalía et venteja neta en 3-7 années. Gratuit, instantané, sans inscription.";
+  "Comparaison côte à côte de louer (lease) vs financiar le même auto. Mira coût total, paiements mensueles, plusvalía et venteja neta en 3-7 années. Gratuit, instantané, sans inscription.";
 
 export const metadata: Metadata = {
   title,
@@ -22,20 +22,20 @@ export const metadata: Metadata = {
     "calculateur louer vs acheter",
     "lease vs acheter auto",
     "calculateur lease auto",
-    "factor de dinero calculateur",
+    "factor de argent calculateur",
     "valeur residual lease",
     "mensuelité lease calculateur",
     "louer ou financiar",
     "coût total lease",
-    "calculateur pago lease",
+    "calculateur paiement lease",
     "lease vs prêt auto",
     "comparaison lease acheter",
     "calculateur location auto",
     "debo louer mi auto",
     "calculateur compra de lease",
     "exceso kilométrage lease",
-    "cargo acquisition lease",
-    "cargo disposition lease",
+    "frais acquisition lease",
+    "frais disposition lease",
     "plusvalía auto lease",
     "lease luxury auto",
     "ventejas et desventejas lease",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Calculateur louer vs acheter — Debo louer ou acheter un auto?",
     description:
-      "Compare le coût total réel de louer vs financiar le même auto. Mira pagos mensueles, dépense total, plusvalía al final du plazo et la venteja neta. Gratuit e instantané.",
+      "Compare le coût total réel de louer vs financiar le même auto. Mira paiements mensueles, dépense total, plusvalía al final du plazo et la venteja neta. Gratuit e instantané.",
     url: PAGE_URL,
     type: "website",
     siteName: "CarCheckerVIN",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Calculateur louer vs acheter — Debo louer ou acheter un auto?",
     description:
-      "Comparaison côte à côte de lease et financement avec matemática du factor de dinero, valeures residuales, plusvalía et un veredicto claro de venteja neta.",
+      "Comparaison côte à côte de lease et financement avec matemática du factor de argent, valeures residuales, plusvalía et un veredicto claro de venteja neta.",
   },
   robots: {
     index: true,
@@ -73,19 +73,19 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Calculateur louer vs acheter",
   description:
-    "Comparaison gratuit côte à côte de louer vs financiar le même véhicule. Calcule mensuelité, dépense total de bolsillo, plusvalía al final du plazo, cargo de financement avec factor de dinero et la venteja neta de coût.",
+    "Comparaison gratuit côte à côte de louer vs financiar le même véhicule. Calcule mensuelité, dépense total de bolsillo, plusvalía al final du plazo, frais de financement avec factor de argent et la venteja neta de coût.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
   opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
-    "Pago de lease avec factor de dinero",
+    "Paiement de lease avec factor de argent",
     "Calculateur de valeur residual",
-    "Amortissement du prêt pour le lado de compra",
+    "Amortissement du prêt pour le côté de compra",
     "Veredicto de venteja neta (lease vs acheter)",
-    "Tabla de coût acumulado année par année",
+    "Tabla de coût acumucôté année par année",
     "Estimador de exceso de kilométrage",
-    "Manejo de cargos de acquisition / disposition",
+    "Manejo de frais de acquisition / disposition",
     "Support de taxe sur mensuelidad et sur inicial",
   ],
   publisher: {
@@ -102,7 +102,7 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment comparar louer vs acheter un auto",
   description:
-    "Utilise le calculateur gratuit de louer vs acheter de CarCheckerVIN pour trouver la option plus bon marché en cinq pasos.",
+    "Utilise le calculateur gratuit de louer vs acheter de CarCheckerVIN pour trouver la option plus bon marché en cinq étapes.",
   totalTime: "PT3M",
   step: [
     {
@@ -114,14 +114,14 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 2,
-      name: "Configura ta pago inicial, auto a cambio et tasa de taxe",
-      text: "Estos insumos compartideux aplican a ambos ladeux. Agrega ta tasa combineda de taxe sur la vente estatal et local pour que la calculateur pueda gravar correctemente cada mensuelité du lease et le principal du lado de compra.",
+      name: "Configura ta paiement inicial, auto a cambio et tasa de taxe",
+      text: "Estos insumos compartideux aplican a ambos ladeux. Agrega ta tasa combineda de taxe sur la vente estatal et local pour que la calculateur pueda gravar correctement cada mensuelité du lease et le principal du côté de compra.",
     },
     {
       "@type": "HowToStep",
       position: 3,
-      name: "Entre les conditions du lease (factor de dinero, residual, cargos)",
-      text: "El factor de dinero es le equivalente du APR en le lease — multiplica par 2400 pour obtener le APR. Le % residual le fija le banco; 55% es típico pour 36 moises. Los cargos de acquisition et disposition son cargos bancarios al inicio et al final.",
+      name: "Entre les conditions du lease (factor de argent, residual, frais)",
+      text: "El factor de argent es le équivalent du APR en le lease — multiplica par 2400 pour obtener le APR. Le % residual le fija le banco; 55% es típico pour 36 moises. Les frais de acquisition et disposition son frais bancarios al inicio et al final.",
     },
     {
       "@type": "HowToStep",

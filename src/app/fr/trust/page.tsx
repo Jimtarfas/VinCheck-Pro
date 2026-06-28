@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Confiance et Sécurité — Comment nonnus protégeons tes données",
     description:
-      "Apprends comment CarCheckerVIN oba données sur les véhicules de NMVTIS, NICB et APIs OEM, encripta cada transacción et protege ta confidentialité sous GDPR et CCPA.",
+      "Apprends comment CarCheckerVIN oba données sur les véhicules de NMVTIS, NICB et APIs OEM, encripta cada transaction et protege ta confidentialité sous GDPR et CCPA.",
     keywords: [
       "confiance CarCheckerVIN",
       "sécurité VIN check",
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Confiance et Sécurité en CarCheckerVIN",
       description:
-        "Fuentes de données autoritativas, chiffrement de extremo a extremo, prácticas transparentes de confidentialité et garantie de remboursement du dinero al 100%.",
+        "Sources de données autoritativas, chiffrement de extremo a extremo, prácticas transparentes de confidentialité et garantie de remboursement du argent al 100%.",
       url: alt.canonical,
       type: "article",
       locale: "fr_US",

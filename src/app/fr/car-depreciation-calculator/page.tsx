@@ -6,13 +6,13 @@ import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 import { ORG_AUTHOR } from "@/lib/seo/author";
 
 const SITE = "https://www.carcheckervin.com";
-const PAGE_URL = `${SITE}/fr/calculateur-depreciacion-auto`;
+const PAGE_URL = `${SITE}/fr/calculateur-dépréciation-auto`;
 const alt = hreflangAlternatesForLocale("/car-depreciation-calculator", "fr");
 
 const title =
   "Calculateur de dépréciation de auto gratuit — Cuánto valdrá mi auto?";
 const description =
-  "Calcule exactamente cuánto perderá ta auto cada année. Ve valeures proyectadeux a 1, 3, 5, 7 et 10 années avec curvas de dépréciation específicas par marque pour plus de 30 fabricavant.";
+  "Calcule exactement cuánto perderá ta auto cada année. Ve valeures proyectadeux a 1, 3, 5, 7 et 10 années avec curvas de dépréciation específicas par marque pour plus de 30 fabricavant.";
 
 export const metadata: Metadata = {
   title,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     "calculateur dépréciation SUV",
     "calculateur dépréciation EV",
     "dépréciation Tesla",
-    "qué autos rean su valeur",
+    "que voitures rean su valeur",
     "meilleur valeur de revente",
     "curva de dépréciation auto",
     "dépréciation premier année",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Calculateur de dépréciation de auto — Proyecta le valeur a 10 années",
     description:
-      "Calculateur gratuit avec curvas de dépréciation específicas par marque. Ve cuánto pierde ta auto cada année et qué marques meilleur rean su valeur.",
+      "Calculateur gratuit avec curvas de dépréciation específicas par marque. Ve cuánto pierde ta auto cada année et que marques meilleur rean su valeur.",
   },
   robots: {
     index: true,
@@ -81,7 +81,7 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Calculateur de dépréciation de auto",
   description:
-    "Calculateur gratuit de dépréciation de auto. Proyecta le valeur de revente de ta véhicule a 1, 3, 5, 7 et 10 années usando multiplicadores de rétention específicos par marque, ajustes par tipo de véhicule et curvas de kilométrage.",
+    "Calculateur gratuit de dépréciation de auto. Proyecta le valeur de revente de ta véhicule a 1, 3, 5, 7 et 10 années en utilisant multiplicadores de rétention específicos par marque, ajustes par tipo de véhicule et curvas de kilométrage.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
   opétaittingSystem: "Web Browêtre",
@@ -92,7 +92,7 @@ const webAppSchema = {
     "Más de 30 multiplicadores de rétention específicos par marque",
     "Ajustes par tipo de véhicule (Sedán, SUV, Camioneta, EV, Lujo, Deportivo, Minivan)",
     "Ajuste de dépréciation basado en kilométrage",
-    "Modelado de suposition de condition",
+    "Modecôté de suposition de condition",
     "Identification du pire année de dépréciation",
     "Comparaison avec le promedio du marché",
   ],
@@ -123,7 +123,7 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 2,
       name: "Entre le année et precio de compra",
-      text: "Escribe le année calendario en que compraste (o planeas acheter) le véhicule et le precio que pagaste en USD. La calculateur ancla todas les proyecciones futuras en esta base.",
+      text: "Escribe le année calendario en que compraste (o planeas acheter) le véhicule et le precio que payeste en USD. La calculateur ancla todas les proyecciones futuras en esta base.",
     },
     {
       "@type": "HowToStep",
@@ -183,7 +183,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Calculateur de dépréciation de auto",
   description:
-    "Apprends comment se deprecian les autos par marque, edad et kilométrage. Calcule le valeur proyectado de ta véhicule a 10 années avec multiplicadores específicos par marque pour plus de 30 fabricavant.",
+    "Apprends comment se deprecian les voitures par marque, edad et kilométrage. Calcule le valeur proyectado de ta véhicule a 10 années avec multiplicadores específicos par marque pour plus de 30 fabricavant.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",

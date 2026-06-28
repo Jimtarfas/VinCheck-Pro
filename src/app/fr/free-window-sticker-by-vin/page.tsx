@@ -9,7 +9,7 @@ const OG_IMAGE = `${SITE}/opengraph-image`;
 const alt = hreflangAlternatesForLocale("/free-window-sticker-by-vin", "fr");
 
 const title = "Etiqueta de ventena gratuit par VIN — Etiqueta Monroney";
-const description = "Obtiens una etiqueta de ventena gratuit par VIN. Entre un VIN de 17 caracteres pour obtener la etiqueta Monroney original — MSRP, opciones de fábrica et MPG EPA. Imprime ou enregistre como PDF.";
+const description = "Obtiens una etiqueta de ventena gratuit par VIN. Entre un VIN de 17 caracteres pour obtener la etiqueta Monroney original — MSRP, options de fábrica et MPG EPA. Imprime ou enregistre como PDF.";
 
 export const metadata: Metadata = {
   title, description,
@@ -33,15 +33,15 @@ const webAppSchema = {
   "@context": "https://schema.org", "@type": "WebApplication", inLanguage: "fr",
   name: "Etiqueta de ventena gratuit par VIN", url: PAGE_URL,
   applicationCategory: "AutomotiveApplication", opétaittingSystem: "All",
-  description: "Genétait la etiqueta de ventena Monroney original de un véhicule gratuit usando su VIN de 17 caracteres. Recupétait MSRP base, opciones et packs de fábrica, équipement estndar et econonnmía de carburant EPA, luego exporta a impresión ou PDF.",
+  description: "Genétait la etiqueta de ventena Monroney original de un véhicule gratuit en utilisant su VIN de 17 caracteres. Recupétait MSRP base, options et packs de fábrica, équipement estndar et econonnmía de carburant EPA, luego exporta a impresión ou PDF.",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
 };
 
 const articleSchema = {
   "@context": "https://schema.org", "@type": "Article", inLanguage: "fr",
-  headline: "Etiqueta de ventena gratuit par VIN — Etiqueta Monroney original sans cargo",
-  description: "Comment obtener una etiqueta de ventena gratuit par VIN, qué inclut la etiqueta Monroney, qué marques estn cubiertas et comment una etiqueta VIN gratuit se compare avec rapports pagadeux de Carfax et concessionnaires.",
+  headline: "Etiqueta de ventena gratuit par VIN — Etiqueta Monroney original sans frais",
+  description: "Comment obtener una etiqueta de ventena gratuit par VIN, que inclut la etiqueta Monroney, que marques estn cubiertas et comment una etiqueta VIN gratuit se compare avec rapports payedeux de Carfax et concessionnaires.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

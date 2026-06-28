@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/guides/free-vin-check`;
 const alt = hreflangAlternatesForLocale("/guides/free-vin-check", "fr");
 const title = "Vérification VIN gratuite — Décode n’importe quel numéro VIN gratuit";
 const description =
-  "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Mira qué inclutn les verificaciones VIN gratuit, comment se comparan avec les rapports premium et par qué cada acheteur doitría usar una.";
+  "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Mira que inclutn les vérificationes VIN gratuit, comment se comparan avec les rapports premium et par que cada acheteur doitría usar una.";
 
 export const metadata: Metadata = {
   title,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description:
-      "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Mira qué se inclut en les rapports VIN gratuit vs. premium.",
+      "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Mira que se inclut en les rapports VIN gratuit vs. premium.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -47,7 +47,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification VIN gratuite — Décode n’importe quel numéro VIN gratuit",
   description:
-    "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Apprends qué inclutn les verificaciones gratuit et comment se comparan avec les rapports premium.",
+    "Haz una vérification VIN gratuit pour décoder n’importe quel numéro de identification du véhicule. Apprends que inclutn les vérificationes gratuit et comment se comparan avec les rapports premium.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",

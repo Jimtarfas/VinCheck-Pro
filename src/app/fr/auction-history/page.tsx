@@ -8,7 +8,7 @@ const PAGE_URL = `${SITE}/fr/auction-history`;
 const alt = hreflangAlternatesForLocale("/auction-history", "fr");
 const title = "Verificaci\u00f3n de historique de enchère par VIN — Registros de récupération et concessionnaire";
 const description =
-  "Revisa un VIN pour trouver enregistrements pasadeux de enchère de récupération et de concessionnaire. Mira fechas de vente de Copart e IAA, c\u00f3digos de da\u00f1o, od\u00f3metro al venderse, état run/drive et fotos réeles de enchère. Sin enregistrement, sans carte.";
+  "Revisa un VIN pour trouver enregistrements pasadeux de enchère de récupération et de concessionnaire. Mira fechas de vente de Copart e IAA, c\u00f3digos de da\u00f1o, od\u00f3metro al venderse, état run/drive et photos réeles de enchère. Sin enregistrement, sans carte.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image", title,
-    description: "Mira fechas de vente de Copart e IAA, c\u00f3digos de da\u00f1o, od\u00f3metro al venderse et fotos réeles de enchère pour n’importe quel VIN.",
+    description: "Mira fechas de vente de Copart e IAA, c\u00f3digos de da\u00f1o, od\u00f3metro al venderse et photos réeles de enchère pour n’importe quel VIN.",
   },
   robots: { index: true, follow: true },
 };
@@ -51,13 +51,13 @@ const faqSchema = {
 const howToSchema = {
   "@context": "https://schema.org", "@type": "HowTo", inLanguage: "fr",
   name: "C\u00f3mo revisar le historique de enchère de un veh\u00edculo par VIN",
-  description: "Gu\u00eda paso a paso pour trouver et leer les enregistrements de enchère de récupération et de concessionnaire de un veh\u00edculo par VIN.",
+  description: "Gu\u00eda étape a étape pour trouver et lire les enregistrements de enchère de récupération et de concessionnaire de un veh\u00edculo par VIN.",
   totalTime: "PT2M",
   step: [
     { "@type": "HowToStep", position: 1, name: "Ubica le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord, le marco de la porte du conductor ou le documento de t\u00edtulo." },
     { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en le cuadro de b\u00fasqueda en la parte superior de esta p\u00e1gina." },
     { "@type": "HowToStep", position: 3, name: "Ouvre la secci\u00f3n de historique de enchère", text: "En ta rapport, revisa la secci\u00f3n de Historique de Subasta pour cada evento: casa et ubicaci\u00f3n, fecha, resultado, da\u00f1o, condici\u00f3n et od\u00f3metro al venderse." },
-    { "@type": "HowToStep", position: 4, name: "Estudia les fotos de la enchère", text: "Examina de près n’importe quel foto de enchère previa a la reparaci\u00f3n. Muestran le da\u00f1o réel avant du trasous cosm\u00e9tico, que un anuncio actual peut ocultar." },
+    { "@type": "HowToStep", position: 4, name: "Estudia les photos de la enchère", text: "Examina de près n’importe quel photo de enchère previa a la reparaci\u00f3n. Muestran le da\u00f1o réel avant du trasous cosm\u00e9tico, que un anuncio actual peut ocultar." },
     { "@type": "HowToStep", position: 5, name: "Cruza kilométrage et t\u00edtulo", text: "Compare la lectura du od\u00f3metro en la enchère avec lecturas posteriores, et contrasta le evento de enchère avec la marque de t\u00edtulo pour confirmar le panonnrama complet avant de acheter." },
   ],
 };
@@ -93,8 +93,8 @@ const datasetSchema = {
   license: "https://creativecommons.org/licenses/by/4.0/",
   variableMeasured: [
     { "@type": "PropertyValue", name: "Campos de données de enchère par evento", value: "7" },
-    { "@type": "PropertyValue", name: "Tiempo promedio de décodeci\u00f3n du VIN (segundeux)", value: "<5" },
-    { "@type": "PropertyValue", name: "Fotos de enchère previas a la reparaci\u00f3n mostradas cuando est\u00e1n en archivo", value: "S\u00ed" },
+    { "@type": "PropertyValue", name: "Temps promedio de décodeci\u00f3n du VIN (segundeux)", value: "<5" },
+    { "@type": "PropertyValue", name: "Photos de enchère previas a la reparaci\u00f3n mostradas quand est\u00e1n en archivo", value: "S\u00ed" },
     { "@type": "PropertyValue", name: "Costo de la vista previa gratuit (USD)", value: "0" },
   ],
 };

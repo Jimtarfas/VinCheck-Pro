@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const stateNameEs = es?.nameEs ?? state.name;
 
   const title = `Vérification VIN ${stateNameEs} gratuit — Historique ${state.abbr}`;
-  const hook = es?.descriptionHookEs ?? `Detecta marques salvage, rebuilt e inonnndation en ${stateNameEs}.`;
+  const hook = es?.descriptionHookEs ?? `Detecta marques salvage, rebuilt e inondation en ${stateNameEs}.`;
   const description = `${hook} Rapport gratuit instantanément — sans inscription, sans carte.`;
   const englishPath = `/vin-check/state/${state.slug}`;
   const alt = hreflangAlternatesForLocale(englishPath, LOCALE);
@@ -130,7 +130,7 @@ export default async function StatePageEs({ params }: Props) {
     mainEntity: [
       {
         "@type": "Question",
-        name: `Qué marques de titre utilise ${stateNameEs}?`,
+        name: `Que marques de titre utilise ${stateNameEs}?`,
         acceptedAnswer: {
           "@type": "Answer",
           text: `El ${dmvNameEs} señala véhicules avec marques como ${state.titleBrands.join(", ")}. ${brandDescEs}`,
@@ -143,7 +143,7 @@ export default async function StatePageEs({ params }: Props) {
       },
       {
         "@type": "Question",
-        name: `Qué a de unique revisar un VIN en ${stateNameEs}?`,
+        name: `Que a de unique revisar un VIN en ${stateNameEs}?`,
         acceptedAnswer: { "@type": "Answer", text: specialFact },
       },
       {
@@ -151,7 +151,7 @@ export default async function StatePageEs({ params }: Props) {
         name: `La vérification VIN es gratuit pour véhicules de ${stateNameEs}?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `Oui. Peuts ejecutar una vérification VIN gratuit a n’importe quel véhicule registrado en ${stateNameEs} pour ver marques de titre, enregistrements de récupération e inonnndation, historique du odomètre et rappels ouverts avant de acheter — sans inscription ni carte.`,
+          text: `Oui. Peuts ejecutar una vérification VIN gratuit a n’importe quel véhicule registrado en ${stateNameEs} pour ver marques de titre, enregistrements de récupération e inondation, historique du odomètre et rappels ouverts avant de acheter — sans inscription ni carte.`,
         },
       },
     ],

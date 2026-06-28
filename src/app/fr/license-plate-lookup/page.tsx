@@ -41,7 +41,7 @@ const webAppSchema = {
   opétaittingSystem: "Web Browêtre",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
-    "Los 50 états de EE. UU. soportadeux",
+    "Les 50 états de EE. UU. soportadeux",
     "Obtention du VIN desde le numéro de plaque",
     "Décodage instantanée de année, marque et modelo",
     "Enlaces al rapport complet de historique du véhicule",
@@ -53,11 +53,11 @@ const webAppSchema = {
 const howToSchema = {
   "@context": "https://schema.org", "@type": "HowTo", inLanguage: "fr",
   name: "Comment buscar un VIN par plaque d’immatriculation",
-  description: "Utilise le outil gratuit de CarCheckerVIN pour convertir n’importe quel plaque de EE. UU. a un VIN en trois pasos.",
+  description: "Utilise le outil gratuit de CarCheckerVIN pour convertir n’importe quel plaque de EE. UU. a un VIN en trois étapes.",
   totalTime: "PT1M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Entre le numéro de plaque", text: "Escribe le numéro alfanumérico de la plaque en le campo de búsqueda exactamente como aparece, sans espacios ni caracteres especiales." },
-    { "@type": "HowToStep", position: 2, name: "Sélectionne le état emisor", text: "Elige le état que emitió la plaque desde le menú desplegable. Los mêmois caracteres de plaque peutn existir en varios états, aoui que seleccionar le état correct es esencial pour una coincidencia precisa." },
+    { "@type": "HowToStep", position: 1, name: "Entre le numéro de plaque", text: "Escribe le numéro alfanumérico de la plaque en le campo de búsqueda exactement como aparece, sans espacios ni caracteres especiales." },
+    { "@type": "HowToStep", position: 2, name: "Sélectionne le état emisor", text: "Elige le état que emitió la plaque desde le menú desplegable. Les mêmois caracteres de plaque peutn existir en varios états, aoui que seleccionar le état correct es esencial pour una coincidencia precisa." },
     { "@type": "HowToStep", position: 3, name: "Mira le VIN et les detalles du véhicule", text: "Haz clic en 'Buscar VIN par plaque'. La outil devuelve le VIN de 17 caracteres à côté devec année, marque, modelo et un enlace directo al rapport complet de historique." },
   ],
 };
@@ -65,12 +65,12 @@ const howToSchema = {
 const faqSchema = {
   "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr",
   mainEntity: [
-    { "@type": "Question", name: "Puedo trouver un VIN desde un numéro de plaque gratuit?", acceptedAnswer: { "@type": "Answer", text: "Oui. La búsqueda VIN par plaque de CarCheckerVIN es gratuit pour recherche personal de pre-compra de véhicule. Crea una cuenta gratuit, entre le numéro de plaque et état emisor, et la outil devuelve le VIN de 17 caracteres asociado à côté devec les detalles du véhicule décodedeux." } },
-    { "@type": "Question", name: "Qué états de EE. UU. estn soportadeux?", acceptedAnswer: { "@type": "Answer", text: "Los 50 états de EE. UU. plus le Distrito de Columbia estn soportadeux. La base de données de véhicules de cada état se consultationtiontiontiontiontion par separado, par eso doits seleccionar le état emisor — le même numéro de plaque peut existir en varios états simultáneamente." } },
-    { "@type": "Question", name: "Es legal buscar una plaque pour obtener le VIN?", acceptedAnswer: { "@type": "Answer", text: "Oui, pour propósitos permisibles sous le Driver's Privacy Protection Act (DPPA). La recherche de véhicule avant de una compra de particular es un uso claramente permisible. Notre búsqueda devuelve information du véhicule (VIN, marque, modelo, état du titre) pero nonn données personales du propriétaire como nonnmbre ou adresse, que le DPPA restringe." } },
-    { "@type": "Question", name: "Qué information puedo obtener de una búsqueda par plaque?", acceptedAnswer: { "@type": "Answer", text: "Una búsqueda par plaque premiero devuelve le VIN. Una vez que as le VIN peuts acceder al historique complet du véhicule: année, marque, modelo, marques de titre (récupération, inonnndation, rachat par ley de citron), enregistrements de accidents, lecturas de odomètre en les transferencias de titre, numéro de propriétaires anteriores, enregistrements de vol et rappels de sécurité activos." } },
-    { "@type": "Question", name: "Qué pasa si la búsqueda nonn devuelve resultadeux?", acceptedAnswer: { "@type": "Answer", text: "No tener resultadeux usualmente significa que la plaque est vencida, à l’extérieur du état, una etiqueta temporal de concessionnaire, ou una plaque personalizada encore nonn indexada. En estos casos, pídele al vendeur le VIN de 17 caracteres directamente et haz una vérification VIN en CarCheckerVIN pour le rapport de historique plus preciso." } },
-    { "@type": "Question", name: "Par qué necesito seleccionar un état pour la búsqueda par plaque?", acceptedAnswer: { "@type": "Answer", text: "Las plaques les emiten les états individuales, nonn a nivel fedétaitl. La même secuencia alfanumérica (ej., 'ABC1234') peut être activa en Californie, Texas et New York simultáneamente. Doits especificar le état emisor pour que la búsqueda consulte la base de données correcte du DMV estatal et devuelva le enregistrement correct du véhicule." } },
+    { "@type": "Question", name: "Puedo trouver un VIN desde un numéro de plaque gratuit?", acceptedAnswer: { "@type": "Answer", text: "Oui. La búsqueda VIN par plaque de CarCheckerVIN es gratuit pour recherche personnel de pre-compra de véhicule. Crea una cuenta gratuit, entre le numéro de plaque et état emisor, et la outil devuelve le VIN de 17 caracteres asociado à côté devec les detalles du véhicule décodedeux." } },
+    { "@type": "Question", name: "Que états de EE. UU. estn soportadeux?", acceptedAnswer: { "@type": "Answer", text: "Les 50 états de EE. UU. plus le Distrito de Columbia estn soportadeux. La base de données de véhicules de cada état se consultatioptiontioptiontioption par separado, par eso doits seleccionar le état emisor — le même numéro de plaque peut existir en varios états simultanément." } },
+    { "@type": "Question", name: "Es legal buscar una plaque pour obtener le VIN?", acceptedAnswer: { "@type": "Answer", text: "Oui, pour propósitos permisibles sous le Driver's Privacy Protection Act (DPPA). La recherche de véhicule avant de una compra de particular es un uso clairement permisible. Notre búsqueda devuelve infaçoption du véhicule (VIN, marque, modelo, état du titre) pero nonn données personneles du propriétaire como nonnmbre ou adresse, que le DPPA restringe." } },
+    { "@type": "Question", name: "Que infaçoption puedo obtener de una búsqueda par plaque?", acceptedAnswer: { "@type": "Answer", text: "Una búsqueda par plaque premiero devuelve le VIN. Una vez que as le VIN peuts acceder al historique complet du véhicule: année, marque, modelo, marques de titre (récupération, inondation, rachat par ley de citron), enregistrements de accidents, lecturas de odomètre en les transferts de titre, numéro de propriétaires anteriores, enregistrements de vol et rappels de sécurité activos." } },
+    { "@type": "Question", name: "Que pasa si la búsqueda nonn devuelve resultadeux?", acceptedAnswer: { "@type": "Answer", text: "No tener resultadeux usualmente significa que la plaque est vencida, à l’extérieur du état, una etiqueta temporal de concessionnaire, ou una plaque personnelizada encore nonn indexada. En estos cass, pídele al vendeur le VIN de 17 caracteres directement et haz una vérification VIN en CarCheckerVIN pour le rapport de historique plus preciso." } },
+    { "@type": "Question", name: "Par que necesito seleccionar un état pour la búsqueda par plaque?", acceptedAnswer: { "@type": "Answer", text: "Les plaques les emiten les états individuales, nonn a nivel fedétaitl. La même secuencia alfanumérica (ej., 'ABC1234') peut être activa en Californie, Texas et New York simultanément. Doits especificar le état emisor pour que la búsqueda consulte la base de données correcte du DMV estatal et devuelva le enregistrement correct du véhicule." } },
   ],
 };
 

@@ -28,7 +28,7 @@ export async function generateMetadata({
 
   const alt = hreflangAlternatesForLocale(`/paint-code-lookup/${b.slug}`, "fr");
   const title = `Código de peinture ${b.name} — Emplacement + gráfico OEM`;
-  const description = `Trouve le code de peinture ${b.name} rapide. Emplacement exacta de la calcomanía (${b.primaryLocation.split("—")[0].trim()}), le que dice la etiqueta, formato du code et ejemplos réeles de codes de color ${b.name}. O búscalo gratuit par VIN.`;
+  const description = `Trouve le code de peinture ${b.name} rapide. Emplacement exacta de la calcomanía (${b.primaryLocation.split("—")[0].trim()}), le que dice la etiqueta, façonto du code et ejemplos réeles de codes de color ${b.name}. O búscalo gratuit par VIN.`;
 
   return {
     title: { absolute: `${title} | CarCheckerVIN` },
@@ -37,7 +37,7 @@ export async function generateMetadata({
       `code peinture ${b.name}`,
       `${b.name} paint code français`,
       `color OEM ${b.name}`,
-      `dónde est code peinture ${b.name}`,
+      `où est code peinture ${b.name}`,
       `${b.name} code peinture par VIN`,
       `retoque peinture ${b.name}`,
     ],

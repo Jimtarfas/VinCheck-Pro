@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     "cuánto cuesta tener un auto",
     "coût todo incluido du auto",
     "calculateur complète de coût de auto",
-    "coût du auto a través du tiempo",
+    "coût du auto a través du temps",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
@@ -81,7 +81,7 @@ const webAppSchema = {
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     "Costo total de propriété sur 5 ans",
-    "Modelado de curva de dépréciation par tipo de véhicule",
+    "Modecôté de curva de dépréciation par tipo de véhicule",
     "Amortissement de prêt e intérêts de financement",
     "Costo de carburant avec tarifs de essence de les 50 états",
     "Seguro avec inflación anual",
@@ -118,13 +118,13 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 2,
       name: "Entre le Vehículo A",
-      text: "Agrega la marque/modelo, tipo de véhicule, precio de compra, enganche, APR et plazo du prêt. La calculateur oba automáticamente le precio de essence et le taxe de vente de ta état.",
+      text: "Agrega la marque/modelo, tipo de véhicule, precio de compra, enganche, APR et plazo du prêt. La calculateur oba automatiquement le precio de essence et le taxe de vente de ta état.",
     },
     {
       "@type": "HowToStep",
       position: 3,
       name: "Agrega assurance, MPG et nivel de entretien",
-      text: "Utilise una devis réel de assurance cuando sea possible. Define le MPG desde la etiqueta de la ventena de la EPA. Elige entretien Sous/Promedio/Haut según la reputación de fiabilité du véhicule.",
+      text: "Utilise una devis réel de assurance quand sea possible. Define le MPG desde la etiqueta de la ventena de la EPA. Elige entretien Sous/Promedio/Haut según la réputation de fiabilité du véhicule.",
     },
     {
       "@type": "HowToStep",
@@ -136,7 +136,7 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 5,
       name: "Lis le desglose",
-      text: "Revisa la barra de coûts apiladeux, la tabla année par année et les cifras par millela / par jour / par mois. Le mayor coût es típicamente la dépréciation — saberlo te aide a negociar.",
+      text: "Revisa la barra de coûts apiladeux, la tabla année par année et les cifras par millela / par jour / par mois. Le mayor coût es typiquement la dépréciation — saberlo te aide a negociar.",
     },
   ],
 };

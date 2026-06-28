@@ -17,12 +17,12 @@ const alt = hreflangAlternatesForLocale("/disclaimer", "fr");
 export const metadata: Metadata = {
   title: "Mentions légales NMVTIS",
   description:
-    "Aviso du Sistema Nacional de Information de Titrois de Vehículos Moteurizadeux (NMVTIS) requerido fedétaitlmente pour les rapports de historique de véhicule de CarCheckerVIN.",
+    "Aviso du Sistema Nacional de Infaçoption de Titrois de Vehículos Moteurizadeux (NMVTIS) requerido fédéralement pour les rapports de historique de véhicule de CarCheckerVIN.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Mentions légales NMVTIS",
     description:
-      "Aviso NMVTIS requerido fedétaitlmente pour les rapports de historique de véhicule de CarCheckerVIN.",
+      "Aviso NMVTIS requerido fédéralement pour les rapports de historique de véhicule de CarCheckerVIN.",
     url: `${SITE}/fr/disclaimer`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -37,7 +37,7 @@ const webPageSchema = {
   name: "Mentions légales NMVTIS",
   url: `${SITE}/fr/disclaimer`,
   description:
-    "Aviso NMVTIS requerido fedétaitlmente pour les rapports de historique de véhicule de CarCheckerVIN.",
+    "Aviso NMVTIS requerido fédéralement pour les rapports de historique de véhicule de CarCheckerVIN.",
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

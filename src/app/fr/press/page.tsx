@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Kit de presse et ressources pour les médias",
     description:
-      "Kit de presse de CarCheckerVIN: données de la empresa, ressources de marque, voceros, anuncios recientes et contact directo pour consultationtiontiontiontiontions de médias.",
+      "Kit de presse de CarCheckerVIN: données de la empresa, ressources de marque, voceros, anuncios récents et contact directo pour consultatioptiontioptiontioptions de médias.",
     keywords: ["kit presse CarCheckerVIN", "médias CarCheckerVIN", "logo CarCheckerVIN", "voceros CarCheckerVIN"],
     alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {

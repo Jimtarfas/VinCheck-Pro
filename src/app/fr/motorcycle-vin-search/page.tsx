@@ -6,7 +6,7 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/motorcycle-vin-search`;
 const alt = hreflangAlternatesForLocale("/motorcycle-vin-search", "fr");
 const title = "Recherche et décodeur gratuit de VIN de moto — Décode n’importe quel VIN de moto instantanément";
-const description = "Recherche et décodeur gratuit de VIN de moto. Entre n’importe quel VIN de moto de 17 caracteres pour décoder instantanément le fabricante, país de origen, année modelo, code de planta et numéro de production. Funciona pour Harley-Davidson, Honda, Yamaha, Suzuki, Kawasaki, BMW, Ducati, Triumph, KTM et todas les marques.";
+const description = "Recherche et décodeur gratuit de VIN de moto. Entre n’importe quel VIN de moto de 17 caracteres pour décoder instantanément le fabricante, país de origen, année modelo, code de planta et numéro de production. Fonctionne pour Harley-Davidson, Honda, Yamaha, Suzuki, Kawasaki, BMW, Ducati, Triumph, KTM et todas les marques.";
 
 export const metadata: Metadata = {
   title, description,
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "décodeur VIN Honda moto", "búsqueda VIN Yamaha", "lookup VIN Suzuki moto",
     "décodeur VIN Kawasaki", "VIN BMW moto", "décodeur VIN Ducati",
     "búsqueda VIN Triumph", "búsqueda VIN KTM", "décodeur WMI moto",
-    "qué année es mi moto", "comment leer un VIN de moto", "vérification VIN moto gratuit sans inscription",
+    "que année es mi moto", "comment lire un VIN de moto", "vérification VIN moto gratuit sans inscription",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {

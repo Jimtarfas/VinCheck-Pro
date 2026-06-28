@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: alt.canonical, languages: alt.languages },
     openGraph: {
       title: "Glossaire VIN et historique de véhicule",
-      description: "Definiciones en français claro pour estructura VIN, marques de titre, inspection, valeuración et terminonnlogía de historique de véhicule.",
+      description: "Definiciones en français claro pour estructura VIN, marques de titre, inspection, évaluation et terminonnlogía de historique de véhicule.",
       url: alt.canonical,
       type: "article",
       locale: "fr_US",

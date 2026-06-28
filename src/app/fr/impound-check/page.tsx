@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/impound-check`;
 const alt = hreflangAlternatesForLocale("/impound-check", "fr");
 const title = "Vérification de historique de confiscation et saisie par VIN — Registros de gravámenes et récupération";
 const description =
-  "Vérifie n’importe quel véhicule par historique de confiscation, récupération et gravámenes usando le VIN. Trouve gravámenes activos, recupétaitciones pasadas et enregistrements de confiscation que pourraitn complicar la transferencia de propriété.";
+  "Vérifie n’importe quel véhicule par historique de confiscation, récupération et gravámenes en utilisant le VIN. Trouve gravámenes activos, recupétaitciones pasadas et enregistrements de confiscation que pourraitn complicar la transfert de propriété.";
 
 export const metadata: Metadata = {
   title,
@@ -35,7 +35,7 @@ const articleSchema = {
   "@type": "Article",
   inLanguage: "fr",
   headline: "Vérification de historique de confiscation et saisie par VIN",
-  description: "Apprends a vérifier n’importe quel véhicule par historique de confiscation, récupération et gravámenes usando le VIN pour protegerte contra complicaciones en la transferencia de propriété.",
+  description: "Apprends a vérifier n’importe quel véhicule par historique de confiscation, récupération et gravámenes en utilisant le VIN pour protegerte contra complicaciones en la transfert de propriété.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
@@ -78,7 +78,7 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment vérifier le historique de confiscation, saisie et gravámenes de un véhicule par VIN",
   description:
-    "Realiza una vérification gratuite par VIN de confiscation, récupération et gravámenes en six pasos: entre le VIN, revisa les gravámenes activos, inspecciona le titre, busca enregistrements de saisie, confirme avec le DMV et resuelve avant de pagar.",
+    "Realiza una vérification gratuite par VIN de confiscation, récupération et gravámenes en six étapes: entre le VIN, revisa les gravámenes activos, inspectiona le titre, busca enregistrements de saisie, confirme avec le DMV et resuelve avant de payer.",
   totalTime: "PT3M",
   estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: "0" },
   step: HOWTO_ES.map((s, i) => ({

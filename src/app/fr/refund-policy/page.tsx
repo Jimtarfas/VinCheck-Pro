@@ -15,13 +15,13 @@ const alt = hreflangAlternatesForLocale("/refund-policy", "fr");
 export const metadata: Metadata = {
   title: "Politique de remboursement",
   description:
-    "Politique de remboursement de CarCheckerVIN. Los reembolsos se emiten únicamente cuando les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel. Cononnce les criterios de éligibilité, requisitos de evidencia et le proceso de solicitud.",
+    "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel. Cononnce les criterios de éligibilité, requisitos de evidencia et le proceso de solicitud.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   robots: { index: true, follow: true },
   openGraph: {
     title: "Politique de remboursement",
     description:
-      "Politique de remboursement de CarCheckerVIN. Los reembolsos se emiten únicamente cuando les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel.",
+      "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel.",
     url: `${SITE}/fr/refund-policy`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -36,7 +36,7 @@ const webPageSchema = {
   name: "Politique de remboursement",
   url: `${SITE}/fr/refund-policy`,
   description:
-    "Politique de remboursement de CarCheckerVIN. Los reembolsos se emiten únicamente cuando les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel.",
+    "Politique de remboursement de CarCheckerVIN. Les reembolsos se emiten uniquement quand les données du rapport de historique de véhicule nonn coinciden avec le véhicule réel.",
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

@@ -52,12 +52,12 @@ export default function InfoPage({ hook }: { hook: InfoHook }) {
             <div>
               <p className="font-bold mb-1">Traduction de corteouia — versión canónica en inglés</p>
               <p>
-                Esta página es un resumen en français. Le documento legalmente
+                Esta página es un resumen en français. Le documento légalement
                 vinculante es la versión en inglés en{" "}
                 <Link href={hook.englishPath} className="underline font-semibold">
                   {hook.englishPath}
                 </Link>
-                . En caso de discrepancia, la versión inglesa prevalece.
+                . En cas de discrepancia, la versión inglesa prevalece.
               </p>
             </div>
           </div>

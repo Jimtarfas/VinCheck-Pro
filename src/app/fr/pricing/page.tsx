@@ -14,7 +14,7 @@ const PAGE_URL = alt.canonical;
 
 const title = "Tarifs de vérification VIN — Rapports gratuits, formules à l’unité et en pack";
 const description =
-  "Tarifs de CarCheckerVIN. Cada plan es 100% gratuit par tiempo limitado — rapports uniques, pack de 3, pack de 5 et packs profesionales. Sin carte de crédito.";
+  "Tarifs de CarCheckerVIN. Cada plan es 100% gratuit par temps limitado — rapports uniques, pack de 3, pack de 5 et packs profesionales. Sin carte de crédito.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description:
-      "Cada plan 100% gratuit par tiempo limitado. Único, pack de 3, pack de 5 et packs profesionales. Sin carte de crédito.",
+      "Cada plan 100% gratuit par temps limitado. Único, pack de 3, pack de 5 et packs profesionales. Sin carte de crédito.",
   },
   robots: { index: true, follow: true },
 };
@@ -68,7 +68,7 @@ const productSchema = {
   inLanguage: "fr",
   name: "Rapport complet du historique du véhicule CarCheckerVIN",
   description:
-    "Rapport complet du historique de véhicule avec especificaciones, données de rappels, valeures de marché, fotos réeles et données de coûts de propriété. Respaldado par NMVTIS.",
+    "Rapport complet du historique de véhicule avec especificaciones, données de rappels, valeures de marché, photos réeles et données de coûts de propriété. Respaldado par NMVTIS.",
   brand: { "@type": "Brand", name: "CarCheckerVIN" },
   image: `${SITE}/og-image.png`,
   offers: {
@@ -78,8 +78,8 @@ const productSchema = {
     highPrice: "0",
     offerCount: "4",
     offers: [
-      { "@type": "Offer", name: "Rapport unique", price: "0", priceCurrency: "USD", description: "Un rapport premium du historique de véhicule — données complets, fotos complètes.", availability: "https://schema.org/InStock", url: PAGE_URL },
-      { "@type": "Offer", name: "Paquete de 3", price: "0", priceCurrency: "USD", description: "Tres rapports premium du historique de véhicule pour comparar opciones.", availability: "https://schema.org/InStock", url: PAGE_URL },
+      { "@type": "Offer", name: "Rapport unique", price: "0", priceCurrency: "USD", description: "Un rapport premium du historique de véhicule — données complets, photos complètes.", availability: "https://schema.org/InStock", url: PAGE_URL },
+      { "@type": "Offer", name: "Paquete de 3", price: "0", priceCurrency: "USD", description: "Tres rapports premium du historique de véhicule pour comparar options.", availability: "https://schema.org/InStock", url: PAGE_URL },
       { "@type": "Offer", name: "Paquete de 5", price: "0", priceCurrency: "USD", description: "Cinco rapports premium du historique de véhicule — meilleur valeur pour acheteurs êtreios.", availability: "https://schema.org/InStock", url: PAGE_URL },
       { "@type": "Offer", name: "Paquete Pro (10 rapports)", price: "0", priceCurrency: "USD", description: "Diez rapports premium du historique de véhicule pour concessionnaires et acheteurs de flotas.", availability: "https://schema.org/InStock", url: PAGE_URL },
     ],

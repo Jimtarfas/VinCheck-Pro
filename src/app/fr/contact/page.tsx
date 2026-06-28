@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Contact — Parle avec nonntre équipe",
     description:
-      "Contacte a CarCheckerVIN pour soporte, asociaciones, presse ou consultationtiontiontiontiontions legales. Correo, teléfononn et formulario — nonntre équipe responde en moins de 24 heures.",
+      "Contacte a CarCheckerVIN pour soporte, asociaciones, presse ou consultatioptiontioptiontioptions legales. Correo, teléfononn et formulario — nonntre équipe responde en moins de 24 heures.",
     keywords: [
       "contact CarCheckerVIN",
       "soporte VIN français",
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Contacte a CarCheckerVIN — Support, asociaciones et presse",
       description:
-        "Comunícate avec le equipo de CarCheckerVIN pour aide avec consultationtiontiontiontiontions VIN, rapports de historique de véhicule, asociaciones, presse ou consultationtiontiontiontiontions legales.",
+        "Comunícate avec le equipo de CarCheckerVIN pour aide avec consultatioptiontioptiontioptions VIN, rapports de historique de véhicule, asociaciones, presse ou consultatioptiontioptiontioptions legales.",
       url: alt.canonical,
       type: "website",
       locale: "fr_US",
@@ -38,7 +38,7 @@ const contactPageSchema = {
   name: "Contacte a CarCheckerVIN",
   url: "https://www.carcheckervin.com/fr/contact",
   description:
-    "Contacte a CarCheckerVIN pour soporte, asociaciones, presse et consultationtiontiontiontiontions legales.",
+    "Contacte a CarCheckerVIN pour soporte, asociaciones, presse et consultatioptiontioptiontioptions legales.",
 };
 
 export default function Page() {

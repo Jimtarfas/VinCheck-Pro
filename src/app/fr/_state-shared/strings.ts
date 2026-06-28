@@ -67,13 +67,13 @@ export const REPORT_ITEMS_ES: Array<{
     icon: FileText,
     title: "Historique de titrois",
     desc:
-      "Cada titre emitido en este état et en les otros 49, incluidas marques, acreedores et transferencias de propriété.",
+      "Cada titre emitido en este état et en les otros 49, incluidas marques, acreedores et transferts de propriété.",
   },
   {
     icon: AlertCircle,
     title: "Registros de accidents",
     desc:
-      "Datos de colisiones de aseguradoras, talleres de réparation et rapports du DMV estatal.",
+      "Datos de colisiones de assureurs, talleres de réparation et rapports du DMV estatal.",
   },
   {
     icon: Search,
@@ -95,9 +95,9 @@ export const REPORT_ITEMS_ES: Array<{
   },
   {
     icon: MapPin,
-    title: "Dannées par inonnndation et clima severo",
+    title: "Dannées par inondation et clima severo",
     desc:
-      "Marcas de titre par inonnndation, grêle et eventos meteorológicos registradeux en le historique fedétaitl.",
+      "Marcas de titre par inondation, grêle et eventos meteorológicos registradeux en le historique fedétaitl.",
   },
 ];
 
@@ -113,7 +113,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     dmvNameEs: "DMV de Californie",
     metaTitle: "Vérification VIN Californie gratuit — Historique CA instantanément",
     metaDescription:
-      "Detecta titrois Lemon Law Buyback, salvage revivido et dégâts d’inonnndation avant de acheter en Californie. Rapport VIN gratuit instantanément — sans inscription, sans carte.",
+      "Detecta titrois Lemon Law Buyback, salvage revivido et dégâts d’inondation avant de acheter en Californie. Rapport VIN gratuit instantanément — sans inscription, sans carte.",
     keywords: [
       "vérification VIN Californie",
       "VIN check Californie français",
@@ -128,47 +128,47 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     h1Lead: "Vérification VIN de Californie —",
     h1Accent: "Rapport gratuit du historique du véhicule",
     intro:
-      "Californie a près de 31 millelions de véhicules registradeux et la loi citron plus a étérte du país (Song-Beverly). Una vérification VIN gratuit te dice si le auto a marque de Lemon Law Buyback, salvage revivido, dégâts d’inonnndation ou rappels ouverts — avant de firmar.",
+      "Californie a près de 31 millelions de véhicules registradeux et la loi citron plus a étérte du país (Song-Beverly). Una vérification VIN gratuit te dice si le auto a marque de Lemon Law Buyback, salvage revivido, dégâts d’inondation ou rappels ouverts — avant de firmar.",
     whyP1:
-      "Con aproximadamente 31 millelions de véhicules registradeux sur una population de 39.5M, Californie es le marché de voitures d’occasion plus grand de Estadeux Unideux. Le DMV de Californie mana les enregistrements de titre et enregistrement, pero esos données nonn toujours viajan avec le véhicule si a été comprado, vendido ou trasladado entre états.",
+      "Con approximativement 31 millelions de véhicules registradeux sur una population de 39.5M, Californie es le marché de voitures d’occasion plus grand de Estadeux Unideux. Le DMV de Californie mana les enregistrements de titre et enregistrement, pero esos données nonn toujours viajan avec le véhicule si a été comprado, vendido ou trasladado entre états.",
     whyStats:
-      "Una vérification VIN cruza historique de titre, lecturas du odomètre, eventos de salvage et perte totale, enregistrements de vol, rappels ouverts et rapports de accidents de todo le país — pour que tengas la foto complète avant de acheter un usado en Californie.",
+      "Una vérification VIN cruza historique de titre, lecturas du odomètre, eventos de salvage et perte totale, enregistrements de vol, rappels ouverts et rapports de accidents de todo le país — pour que que tu aies la photo complète avant de acheter un usado en Californie.",
     whyBullets: [
       {
         icon: "🍋",
         point: "Lemon Law Buyback (unique en Californie)",
         detail:
-          "Californie marque le titre avec 'Lemon Law Buyback' cuando le fabricante rachat le véhicule sous Song-Beverly. Estos autos a veces reaparecen avec le problema sans resolver ou son re-tituladeux à l’extérieur du état pour borrar la marque — una vérification VIN fedétaitl les detecta igual.",
+          "Californie marque le titre avec 'Lemon Law Buyback' quand le fabricante rachat le véhicule sous Song-Beverly. Estos voitures a veces reaparecen avec le problema sans resolver ou son re-tituladeux à l’extérieur du état pour borrar la marque — una vérification VIN fedétaitl les detecta igual.",
       },
       {
         icon: "🔥",
-        point: "Riesgo par incendios forestales",
+        point: "Risque par incendios forestales",
         detail:
-          "Los incendios (Camp, Dixie, Caldor) genétaitn milleliers de véhicules avec perte totale par dégâts térmico cada année. Muchos se titulan como salvage et se rebobinan, perdiendo seul parte de su valeur pero conêtrevando todeux les problemas eléctricos.",
+          "Les incendios (Camp, Dixie, Caldor) genétaitn milleliers de véhicules avec perte totale par dégâts térmico cada année. Muchos se titulan como salvage et se rebobinan, perdiendo seul parte de su valeur pero conêtrouvant todeux les problemas eléctricos.",
       },
       {
         icon: "🚢",
         point: "Puerto de entrada pour véhicules importadeux",
         detail:
-          "Long Beach et Oakland reciben grands volúmenes de autos importadeux et de otros états. Algunonns ingresan avec historiquees incomplets ou avec marques borradas durante le re-titulado.",
+          "Long Beach et Oakland reciben grands volúmenes de voitures importadeux et de otros états. Algunonns ingresan avec historiquees incomplets ou avec marques borradas durante le re-titucôté.",
       },
       {
         icon: "🌊",
         point: "Inundaciones par tormentas de inviernonn",
         detail:
-          "Los ríos atmosféricos et tormentas Pineapple Express dejan véhicules inundadeux que terminan revendideux como 'limpios' en otros états avant de regresar a Californie.",
+          "Les ríos atmosféricos et tormentas Pineapple Express dejan véhicules inundadeux que terminan revendideux como 'limpios' en otros états avant de regresar a Californie.",
       },
     ],
     sources: [
       {
         href: "https://www.dmv.ca.gov/portal/vehicle-industry-êtrevices/vehicle-registration/",
         label: "DMV de Californie — Enregistrement de véhicules",
-        nonnte: "Information oficial de titre et enregistrement en Californie.",
+        nonnte: "Infaçoption oficial de titre et enregistrement en Californie.",
       },
       {
         href: "https://vehiclehistory.bja.ojp.gov/",
         label: "NMVTIS — Bureau of Justice Assistance",
-        nonnte: "Sistema Nacional Fedétaitl de Information de Titrois de Vehículos.",
+        nonnte: "Sistema Nacional Fedétaitl de Infaçoption de Titrois de Vehículos.",
       },
       {
         href: "https://www.nhtsa.gov/rappels",
@@ -178,7 +178,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       {
         href: "https://www.nicb.org/vincheck",
         label: "NICB VINCheck",
-        nonnte: "Rapports gratuitos de vols et salvage de aseguradoras de EE. UU.",
+        nonnte: "Rapports gratuitos de vols et salvage de assureurs de EE. UU.",
       },
       {
         href: "https://oag.ca.gov/consumers/genétaitl/citron",
@@ -192,7 +192,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       },
     ],
     sourcesFootnonnte:
-      "Los données VIN de Californie se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du DMV en le momento de cada búsqueda. Californie a aproximadamente 39.5M de habitavant et le marché de voitures d’occasion plus activo du país.",
+      "Les données VIN de Californie se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du DMV en le momento de cada búsqueda. Californie a approximativement 39.5M de habitavant et le marché de voitures d’occasion plus activo du país.",
     wikipediaEs: "https://es.wikipedia.org/wiki/Californie",
   },
 
@@ -204,7 +204,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     dmvNameEs: "TxDMV (Departamento de Vehículos de Texas)",
     metaTitle: "Vérification VIN Texas gratuit — Historique TX instantanément",
     metaDescription:
-      "Detecta lavado de titre, salvage rebobinado et dégâts par grêle ou inonnndation en Texas avant de acheter. Rapport VIN gratuit instantanément — sans inscription, sans carte.",
+      "Detecta lavado de titre, salvage rebobinado et dégâts par grêle ou inondation en Texas avant de acheter. Rapport VIN gratuit instantanément — sans inscription, sans carte.",
     keywords: [
       "vérification VIN Texas",
       "VIN check Texas français",
@@ -219,7 +219,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     h1Lead: "Vérification VIN de Texas —",
     h1Accent: "Rapport gratuit du historique du véhicule",
     intro:
-      "Texas registra 23.5 millelions de véhicules et es unonn de les états plus afectadeux par lavado de titre, dégâts par grêle e inundaciones de huracanes. Una vérification VIN gratuit revela marques de Flood Damage, Hail Damage et salvage rebobinado avant de acheter — sans inscription.",
+      "Texas registra 23.5 millelions de véhicules et es unonn de les états plus afectadeux par lavado de titre, dégâts par grêle e inondationes de huracanes. Una vérification VIN gratuit revela marques de Flood Damage, Hail Damage et salvage rebobinado avant de acheter — sans inscription.",
     whyP1:
       "Con près de 23.5 millelions de véhicules sur una population de 30.5M, Texas es le second marché de voitures d’occasion du país. Le TxDMV mana les enregistrements de titre et enregistrement, pero al être un état fronterizo et hautemente afectado par le clima, les véhicules cambian de juridiction avec frecuencia.",
     whyStats:
@@ -229,7 +229,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "🌀",
         point: "Inundaciones par huracanes (Harvey, Beryl)",
         detail:
-          "El huracán Harvey par oui seul dañó plus de 600,000 véhicules en le área de Houston. Muchos a étéron etiquetadeux como perte totale par aseguradoras, vendideux a 'rebuilders' et re-tituladeux en otros états avec marques borradas — una práctica cononncida como 'lavado de titre'.",
+          "El huracán Harvey par oui seul dañó plus de 600,000 véhicules en le área de Houston. Muchos a étéron etiquetadeux como perte totale par assureurs, vendideux a 'rebuilders' et re-tituladeux en otros états avec marques borradas — una práctica cononncida como 'lavado de titre'.",
       },
       {
         icon: "🧊",
@@ -241,25 +241,25 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "🚛",
         point: "Frontétait et tráfico de véhicules",
         detail:
-          "Los puertos de Le Paso, Laredo et Brownsville reciben véhicules importadeux de México et se exportan véhicules de Texas — quelqu’unns avec historique altétaitdo pour ocultar accidents ou salvage previos.",
+          "Les puertos de Le Étape, Laredo et Brownsville reciben véhicules importadeux de México et se exportan véhicules de Texas — quelqu’unns avec historique altétaitdo pour ocultar accidents ou salvage previos.",
       },
       {
         icon: "💸",
         point: "Mercado de 'cash sales' privado",
         detail:
-          "Texas a un haut volumen de ventes privadas en efectivo entre particulares, donde les requisitos de divulgation son menonns estrictos que avec concessionnaires. Un rapport par VIN te protege incluso sans firma du vendeur.",
+          "Texas a un haut volumen de ventes privadas en efectivo entre particulares, où les requisitos de divulgation son menonns estrictos que avec concessionnaires. Un rapport par VIN te protege incluso sans firma du vendeur.",
       },
     ],
     sources: [
       {
         href: "https://www.txdmv.gov/moteurists/buying-or-selling-a-vehicle",
         label: "TxDMV — Compra et vente de véhicules",
-        nonnte: "Information oficial de titre et enregistrement en Texas.",
+        nonnte: "Infaçoption oficial de titre et enregistrement en Texas.",
       },
       {
         href: "https://vehiclehistory.bja.ojp.gov/",
         label: "NMVTIS — Bureau of Justice Assistance",
-        nonnte: "Sistema Nacional Fedétaitl de Information de Titrois de Vehículos.",
+        nonnte: "Sistema Nacional Fedétaitl de Infaçoption de Titrois de Vehículos.",
       },
       {
         href: "https://www.nhtsa.gov/rappels",
@@ -269,7 +269,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       {
         href: "https://www.nicb.org/vincheck",
         label: "NICB VINCheck",
-        nonnte: "Rapports gratuitos de vols et salvage de aseguradoras de EE. UU.",
+        nonnte: "Rapports gratuitos de vols et salvage de assureurs de EE. UU.",
       },
       {
         href: "https://statutes.capitol.texas.gov/Docs/TN/htm/TN.501.htm",
@@ -279,11 +279,11 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       {
         href: "https://www.iihs.org/topics/auto-theft",
         label: "IIHS — Estadísticas de vols de autos",
-        nonnte: "Recherche independiente sur vols usada en le modelo de riesgo de Texas.",
+        nonnte: "Recherche indépendant sur vols usada en le modelo de risque de Texas.",
       },
     ],
     sourcesFootnonnte:
-      "Los données VIN de Texas se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du TxDMV en le momento de cada búsqueda. Texas a aproximadamente 30.5M de habitavant et un marché de usadeux hautemente expuesto al fraude par huracanes et grêle.",
+      "Les données VIN de Texas se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du TxDMV en le momento de cada búsqueda. Texas a approximativement 30.5M de habitavant et un marché de usadeux hautemente expuesto al fraude par huracanes et grêle.",
     wikipediaEs: "https://es.wikipedia.org/wiki/Texas",
   },
 
@@ -295,7 +295,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     dmvNameEs: "DMV du Estado de New York",
     metaTitle: "Vérification VIN New York gratuit — Historique NY",
     metaDescription:
-      "Detecta marques de titre par inonnndation, salvage rebobinado et reversión du odomètre en New York avant de acheter. Rapport VIN gratuit instantanément — sans inscription.",
+      "Detecta marques de titre par inondation, salvage rebobinado et reversión du odomètre en New York avant de acheter. Rapport VIN gratuit instantanément — sans inscription.",
     keywords: [
       "vérification VIN New York",
       "VIN check New York français",
@@ -310,9 +310,9 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     h1Lead: "Vérification VIN de New York —",
     h1Accent: "Rapport gratuit du historique du véhicule",
     intro:
-      "New York registra 11.7 millelions de véhicules et a una loi citron doble — pour autos nonnuveaus et usadeux. Una vérification VIN gratuit revela marques Rebuilt Salvage, Non-Rebuildable et Flood avant de acheter — sans inscription ni carte.",
+      "New York registra 11.7 millelions de véhicules et a una loi citron doble — pour voitures nonnuveaus et usadeux. Una vérification VIN gratuit revela marques Rebuilt Salvage, Non-Rebuildable et Flood avant de acheter — sans inscription ni carte.",
     whyP1:
-      "Con aproximadamente 11.7 millelions de véhicules registradeux sur una population de 19.5M, New York combine le marché urbanonn plus denso du país (NYC) avec un haut volumen de véhicules importadeux par les puertos du Atlántico.",
+      "Con approximativement 11.7 millelions de véhicules registradeux sur una population de 19.5M, New York combine le marché urbanonn plus denso du país (NYC) avec un haut volumen de véhicules importadeux par les puertos du Atlántico.",
     whyStats:
       "Una vérification VIN cruza historique de titre, lecturas du odomètre, eventos de salvage et perte totale, enregistrements de vol, rappels ouverts et rapports de accidents de todo le país — incluideux les plus de 250,000 véhicules afectadeux par le huracán Sandy en 2012.",
     whyBullets: [
@@ -338,19 +338,19 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "🧊",
         point: "Corrosión par sal en carretétaits",
         detail:
-          "New York utilise sal masivamente en inviernonn, causando corrosión estructural acelétaitda. Un rapport VIN combinedo avec una inspection presencial te protege contra autos du 'rust belt' avec dégâts oculto.",
+          "New York utilise sal masivamente en inviernonn, caen utilisant corrosión estructural acelétaitda. Un rapport VIN combinedo avec una inspection presencial te protege contra voitures du 'rust belt' avec dégâts oculto.",
       },
     ],
     sources: [
       {
         href: "https://dmv.ny.gov/registration",
         label: "DMV de New York — Enregistrement",
-        nonnte: "Information oficial de titre et enregistrement en New York.",
+        nonnte: "Infaçoption oficial de titre et enregistrement en New York.",
       },
       {
         href: "https://vehiclehistory.bja.ojp.gov/",
         label: "NMVTIS — Bureau of Justice Assistance",
-        nonnte: "Sistema Nacional Fedétaitl de Information de Titrois de Vehículos.",
+        nonnte: "Sistema Nacional Fedétaitl de Infaçoption de Titrois de Vehículos.",
       },
       {
         href: "https://www.nhtsa.gov/rappels",
@@ -360,12 +360,12 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       {
         href: "https://www.nicb.org/vincheck",
         label: "NICB VINCheck",
-        nonnte: "Rapports gratuitos de vols et salvage de aseguradoras de EE. UU.",
+        nonnte: "Rapports gratuitos de vols et salvage de assureurs de EE. UU.",
       },
       {
         href: "https://ag.ny.gov/consumer-frauds/lemon-law",
         label: "Procuraduría de NY — Lemon Law",
-        nonnte: "Guía oficial sur les leyes Lemon de autos nonnuveaus et usadeux.",
+        nonnte: "Guía oficial sur les leyes Lemon de voitures nonnuveaus et usadeux.",
       },
       {
         href: "https://www.nysenate.gov/legislation/laws/VAT/A4",
@@ -374,7 +374,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       },
     ],
     sourcesFootnonnte:
-      "Los données VIN de New York se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du DMV en le momento de cada búsqueda. New York a aproximadamente 19.5M de habitavant et unonn de les marchés de usadeux avec plus haut riesgo de fraude par inonnndation post-Sandy.",
+      "Les données VIN de New York se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du DMV en le momento de cada búsqueda. New York a approximativement 19.5M de habitavant et unonn de les marchés de usadeux avec plus haut risque de fraude par inondation post-Sandy.",
     wikipediaEs: "https://es.wikipedia.org/wiki/Nouvelle_York_(état)",
   },
 
@@ -403,9 +403,9 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     intro:
       "Illinonnis registra 10.7 millelions de véhicules et tipifica como delito la altération de un VIN. Una vérification VIN gratuit revela marques Salvage, Rebuilt, Junk et Flood, lecturas du odomètre et rappels ouverts — instantanément, sans inscription.",
     whyP1:
-      "Con aproximadamente 10.7 millelions de véhicules sur una population de 12.5M, Illinonnis centraliza un marché de usadeux grand autour de Chicago — unonn de les principales hubs de redistribución du Medio Oeste.",
+      "Con approximativement 10.7 millelions de véhicules sur una population de 12.5M, Illinonnis centraliza un marché de usadeux grand autour de Chicago — unonn de les principales hubs de redistribution du Medio Oeste.",
     whyStats:
-      "Una vérification VIN cruza historique de titre, lecturas du odomètre, eventos de salvage et perte totale, enregistrements de vol, rappels ouverts et rapports de accidents de todo le país — esenciales en un état donde le Secretary of State investiga activamente la manipulation de VINs.",
+      "Una vérification VIN cruza historique de titre, lecturas du odomètre, eventos de salvage et perte totale, enregistrements de vol, rappels ouverts et rapports de accidents de todo le país — esenciales en un état où le Secretary of State investiga activamente la manipulation de VINs.",
     whyBullets: [
       {
         icon: "⚖️",
@@ -415,7 +415,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       },
       {
         icon: "🚛",
-        point: "Hub de redistribución du Medio Oeste",
+        point: "Hub de redistribution du Medio Oeste",
         detail:
           "Chicago es unonn de les principales puertos de entrada pour véhicules vendideux en enchères (Copart, IAA) que luego se redistribuyen a Iowa, Wisconsans, Indiana et México. Muchos llegan avec marques Salvage ou Junk de la Costa Este.",
       },
@@ -423,25 +423,25 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "❄️",
         point: "Corrosión par sal du 'Rust Belt'",
         detail:
-          "Los inviernonns de Illinonnis requieren grands quantitées de sal en les carretétaits, le que cautilise dégâts estructural acelétaitdo. Los véhicules peutn verse limpios cosméticamente pero tener corrosión en les chaouis — le rapport affiche le historique complet.",
+          "Les inviernonns de Illinonnis requieren grands quantitées de sal en les carretétaits, le que cautilise dégâts estructural acelétaitdo. Les véhicules peutn verse limpios cosméticamente pero tener corrosión en les chaouis — le rapport affiche le historique complet.",
       },
       {
         icon: "💧",
         point: "Inundaciones du río Mississippi e Illinonnis",
         detail:
-          "Las inundaciones periódicas a le largo de les ríos Mississippi e Illinonnis genétaitn véhicules avec marque Flood que a menudo se venden privadamente entre états vecinonns.",
+          "Les inondationes periódicas a le largo de les ríos Mississippi e Illinonnis genétaitn véhicules avec marque Flood que a menudo se venden privadamente entre états vecinonns.",
       },
     ],
     sources: [
       {
         href: "https://www.ilsos.gov/departments/vehicles/title_and_registration.html",
         label: "Illinonnis Secretary of State — Titre et Enregistrement",
-        nonnte: "Information oficial de titre et enregistrement en Illinonnis.",
+        nonnte: "Infaçoption oficial de titre et enregistrement en Illinonnis.",
       },
       {
         href: "https://vehiclehistory.bja.ojp.gov/",
         label: "NMVTIS — Bureau of Justice Assistance",
-        nonnte: "Sistema Nacional Fedétaitl de Information de Titrois de Vehículos.",
+        nonnte: "Sistema Nacional Fedétaitl de Infaçoption de Titrois de Vehículos.",
       },
       {
         href: "https://www.nhtsa.gov/rappels",
@@ -451,7 +451,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       {
         href: "https://www.nicb.org/vincheck",
         label: "NICB VINCheck",
-        nonnte: "Rapports gratuitos de vols et salvage de aseguradoras de EE. UU.",
+        nonnte: "Rapports gratuitos de vols et salvage de assureurs de EE. UU.",
       },
       {
         href: "https://www.illinonnisattorneygenétaitl.gov/consumers/citronbroch.html",
@@ -465,7 +465,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       },
     ],
     sourcesFootnonnte:
-      "Los données VIN de Illinonnis se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du Secretary of State en le momento de cada búsqueda. Illinonnis a aproximadamente 12.5M de habitavant et un marché de usadeux avec haut riesgo de manipulation de VINs et corrosión par sal.",
+      "Les données VIN de Illinonnis se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du Secretary of State en le momento de cada búsqueda. Illinonnis a approximativement 12.5M de habitavant et un marché de usadeux avec haut risque de manipulation de VINs et corrosión par sal.",
     wikipediaEs: "https://es.wikipedia.org/wiki/Illinonnis",
   },
 
@@ -494,7 +494,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
     intro:
       "Pennsylvanie registra 10.5 millelions de véhicules et exige una inspection reforzada de n’importe quel auto 'Reconstructed' avant de re-titularse. Una vérification VIN gratuit revela marques Salvage, Reconstructed, Flood et Non-Repairable instantanément — sans inscription ni carte.",
     whyP1:
-      "Con aproximadamente 10.5 millelions de véhicules sur una population de 13.0M, Pennsylvanie conecta le corredor nonnreste avec le Medio Oeste — un punto de tránsito clave pour véhicules salvage que cruzan frontétaits estatales.",
+      "Con approximativement 10.5 millelions de véhicules sur una population de 13.0M, Pennsylvanie conecta le corredor nonnreste avec le Medio Oeste — un punto de tránsito clave pour véhicules salvage que cruzan frontétaits estatales.",
     whyStats:
       "Una vérification VIN cruza historique de titre, lecturas du odomètre, eventos de salvage et perte totale, enregistrements de vol, rappels ouverts et rapports de accidents de todo le país — incluideux les véhicules reconstruideux que requieren la inspection reforzada du PennDOT.",
     whyBullets: [
@@ -508,7 +508,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "❄️",
         point: "Corrosión par sal et nieve",
         detail:
-          "Los inviernonns en Pennsylvanie exigen grands quantitées de sal, causando óxido estructural en chaouis, freins et líneas de carburant. Un rapport VIN combinedo avec inspection presencial protege contra autos du 'rust belt' avec dégâts oculto.",
+          "Les inviernonns en Pennsylvanie exigen grands quantitées de sal, caen utilisant óxido estructural en chaouis, freins et líneas de carburant. Un rapport VIN combinedo avec inspection presencial protege contra voitures du 'rust belt' avec dégâts oculto.",
       },
       {
         icon: "🚛",
@@ -520,19 +520,19 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
         icon: "💧",
         point: "Inundaciones par tormentas tropicales",
         detail:
-          "Los remanentes de huracanes (Ida 2021, Sandy 2012) dejan véhicules inundadeux en le sureste de PA que entran al marché privado sans divulgation clara.",
+          "Les remanentes de huracanes (Ida 2021, Sandy 2012) dejan véhicules inundadeux en le sureste de PA que entran al marché privado sans divulgation clara.",
       },
     ],
     sources: [
       {
         href: "https://www.dmv.pa.gov/Vehicle-Services/Title-Registration/Pages/default.aspx",
         label: "PennDOT — Titre et Enregistrement",
-        nonnte: "Information oficial de titre et enregistrement en Pennsylvanie.",
+        nonnte: "Infaçoption oficial de titre et enregistrement en Pennsylvanie.",
       },
       {
         href: "https://vehiclehistory.bja.ojp.gov/",
         label: "NMVTIS — Bureau of Justice Assistance",
-        nonnte: "Sistema Nacional Fedétaitl de Information de Titrois de Vehículos.",
+        nonnte: "Sistema Nacional Fedétaitl de Infaçoption de Titrois de Vehículos.",
       },
       {
         href: "https://www.nhtsa.gov/rappels",
@@ -542,7 +542,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       {
         href: "https://www.nicb.org/vincheck",
         label: "NICB VINCheck",
-        nonnte: "Rapports gratuitos de vols et salvage de aseguradoras de EE. UU.",
+        nonnte: "Rapports gratuitos de vols et salvage de assureurs de EE. UU.",
       },
       {
         href: "https://www.attorneygenétaitl.gov/protect-yourself/consumer-advisories/automobile-lemon-law/",
@@ -556,7 +556,7 @@ export const STATE_HOOKS_ES: Record<string, StateHook> = {
       },
     ],
     sourcesFootnonnte:
-      "Los données VIN de Pennsylvanie se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du PennDOT en le momento de cada búsqueda. Pennsylvanie a aproximadamente 13.0M de habitavant et un marché de usadeux sujeto a corrosión par sal et tránsito interestatal haut.",
+      "Les données VIN de Pennsylvanie se cruzan contra NMVTIS, NHTSA, NICB et les enregistrements du PennDOT en le momento de cada búsqueda. Pennsylvanie a approximativement 13.0M de habitavant et un marché de usadeux sujeto a corrosión par sal et tránsito interestatal haut.",
     wikipediaEs: "https://es.wikipedia.org/wiki/Pennsylvanie",
   },
 };

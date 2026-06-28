@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/hail-damage-check`;
 const alt = hreflangAlternatesForLocale("/hail-damage-check", "fr");
 const title = "Vérification de dégâtss par grêle par VIN — Detecta dégâtss par tormenta avant de acheter";
 const description =
-  "Vérifie n’importe quel véhicule par historique de dégâtss par grêle usando le VIN. Trouve enregistrements de dégâtss par tormenta, réclamations de assurances et titrois marqués par grêle que peutn afectar le valeur de revente et la integridad estructural.";
+  "Vérifie n’importe quel véhicule par historique de dégâtss par grêle en utilisant le VIN. Trouve enregistrements de dégâtss par tormenta, réclamations de assurances et titrois marques par grêle que peutn afectar le valeur de revente et la integridad estructural.";
 
 export const metadata: Metadata = {
   title,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "vérification dégâtss grêle VIN",
     "historique dégâtss tormenta véhicule",
     "vérification grêle auto VIN",
-    "titre marqué par grêle",
+    "titre marque par grêle",
     "réclamation assurance dégâtss grêle",
     "auto dañado par tormenta",
   ],
@@ -36,7 +36,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification de dégâtss par grêle par VIN",
   description:
-    "Apprends a vérifier n’importe quel véhicule par historique de dégâtss par grêle usando le VIN, incluant enregistrements de dégâtss par tormenta, réclamations de assurances et marques en le titre par grêle.",
+    "Apprends a vérifier n’importe quel véhicule par historique de dégâtss par grêle en utilisant le VIN, incluant enregistrements de dégâtss par tormenta, réclamations de assurances et marques en le titre par grêle.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

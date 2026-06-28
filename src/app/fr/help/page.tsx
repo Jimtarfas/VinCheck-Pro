@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Aide et Support — Questions fréquentes sur VIN",
     description:
-      "Respuestas a les preguntas plus comunes sur consultationtiontiontiontiontions VIN, rapports de historique de véhicule, cuentas, facturación et problemas técnicos. Support du equipo de CarCheckerVIN.",
+      "Réponses a les questions plus comunes sur consultatioptiontioptiontioptions VIN, rapports de historique de véhicule, cuentas, facturation et problemas técnicos. Support du equipo de CarCheckerVIN.",
     keywords: [
       "aide VIN check",
       "FAQ VIN français",
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Aide et Support — CarCheckerVIN FAQ",
       description:
-        "Trouve respuestas sur consultationtiontiontiontiontions VIN, contenideux du rapport, facturación et problemas técnicos, ou contacte a nonntre équipe de soporte.",
+        "Trouve réponses sur consultatioptiontioptiontioptions VIN, contenideux du rapport, facturation et problemas técnicos, ou contacte a nonntre équipe de soporte.",
       url: alt.canonical,
       type: "article",
       locale: "fr_US",

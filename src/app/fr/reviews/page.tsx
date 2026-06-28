@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Avis CarCheckerVIN — 4.9★ de acheteurs, vendeurs et concessionnaires",
       description:
-        "Lis avis réeles de CarCheckerVIN — 4.9/5 en plus de 50,000 revisiones VIN gratuit. Descouvre par qué les acheteurs confían en CarCheckerVIN.",
+        "Lis avis réeles de CarCheckerVIN — 4.9/5 en plus de 50,000 revisiones VIN gratuit. Descouvre par que les acheteurs confían en CarCheckerVIN.",
       url: alt.canonical,
       type: "website",
       locale: "fr_US",

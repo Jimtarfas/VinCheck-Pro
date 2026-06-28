@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "vérification de accidents véhicule",
     "rapport accident auto VIN",
     "vérification historique choques",
-    "consultationtiontiontiontiontion accident VIN",
+    "consultatioptiontioptiontioption accident VIN",
     "vérifier auto par accidents VIN",
     "historique de dégâtss véhicule",
     "rapport de colisiones",
@@ -48,7 +48,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification du historique de accidents du véhicule",
   description:
-    "Apprends comment se reporta le historique de accidents, qué aparece en un rapport de choques basado en VIN et comment identificar dégâtss ocultos en un voiture d’occasion.",
+    "Apprends comment se reporta le historique de accidents, que aparece en un rapport de choques basado en VIN et comment identificar dégâtss ocultos en un voiture d’occasion.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   keywords: [
     "plaque a VIN",
     "búsqueda plaque a VIN",
-    "plaque de licencia a VIN",
+    "plaque de licence a VIN",
     "convertir plaque a VIN",
     "plaque a VIN gratuit",
     "numéro de plaque a VIN",

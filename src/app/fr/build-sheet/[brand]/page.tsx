@@ -28,7 +28,7 @@ export async function generateMetadata({
 
   const alt = hreflangAlternatesForLocale(`/build-sheet/${b.slug}`, "fr");
   const title = `Hoja de fábrica ${b.name} par VIN — Décodeur gratuit`;
-  const description = `Busca una hoja de fábrica ${b.name} par VIN, gratuit. Décode la ${b.docName}: opciones de fábrica, codes de peinture e interior, moteur, transmission et planta de ensamble du enregistrement original.`;
+  const description = `Busca una hoja de fábrica ${b.name} par VIN, gratuit. Décode la ${b.docName}: options de fábrica, codes de peinture e interior, moteur, transmission et planta de ensamble du enregistrement original.`;
 
   return {
     title: { absolute: `${title} | CarCheckerVIN` },
@@ -37,7 +37,7 @@ export async function generateMetadata({
       `hoja de fábrica ${b.name}`,
       `${b.name} ${b.docName} VIN`,
       `${b.name} build sheet français`,
-      `${b.name} codes de opciones`,
+      `${b.name} codes de options`,
       `${b.name} configuration original`,
       `${b.name} hoja de fábrica par VIN`,
     ],

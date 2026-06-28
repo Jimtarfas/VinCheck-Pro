@@ -50,7 +50,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification de historique de viajes compartideux et taxi par VIN",
   description:
-    "Guía pour vérifier si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Couvre comment le uso comercial de pasajeros aparece en patrones de kilométrage, immatriculation comercial et enregistrements de assurance, qué significa ese historique pour le desgaste et le valeur, et comment leer les señales avant de acheter.",
+    "Guía pour vérifier si un voiture d’occasion a été conducido como Uber, Lyft ou taxi par VIN. Couvre comment le uso comercial de pasajeros aparece en patrones de kilométrage, immatriculation comercial et enregistrements de assurance, que significa ese historique pour le desgaste et le valeur, et comment lire les señales avant de acheter.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -81,14 +81,14 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment vérifier un VIN pour historique de rideshare ou taxi",
   description:
-    "Guía paso a paso pour detectar uso previo de Uber, Lyft, taxi et pasajeros comerciales à partir de un VIN.",
+    "Guía étape a étape pour detectar uso previo de Uber, Lyft, taxi et pasajeros comerciales à partir de un VIN.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord a través du pare-brise, le marco de porte du lado du conductor, ou le documento du titre." },
+    { "@type": "HowToStep", position: 1, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord a través du pare-brise, le marco de porte du côté du conductor, ou le documento du titre." },
     { "@type": "HowToStep", position: 2, name: "Entre le VIN", text: "Escribe ou pega le VIN en le cuadro de búsqueda en la parte superior de esta página." },
     { "@type": "HowToStep", position: 3, name: "Compare kilométrage avec la edad", text: "Revisa les lecturas du odomètre contra le année modelo. Cualocation mille millelas ou plus al année es un patrón a étérte de rideshare ou uso comercial." },
     { "@type": "HowToStep", position: 4, name: "Lis les enregistrements de titre et assurance", text: "Busca immatriculation comercial ou de uso comercial, designaciones de transporte et n’importe quel entrada de assurance comercial ou avec endeuxo de rideshare vinculada al VIN." },
-    { "@type": "HowToStep", position: 5, name: "Inspecciona avant de acheter", text: "Trata les señales como una razón pour una inspection previa a la compra. Enfócate en freins, transmission, sespensión et desgaste interior, et confirme que le odomètre sea preciso." },
+    { "@type": "HowToStep", position: 5, name: "Inspectiona avant de acheter", text: "Trata les señales como una razón pour una inspection previa a la compra. Enfócate en freins, transmission, sespensión et desgaste interior, et confirme que le odomètre sea preciso." },
   ],
 };
 
@@ -139,10 +139,10 @@ const datasetSchema = {
   creator: ORG_AUTHOR,
   license: "https://creativecommons.org/licenses/by/4.0/",
   variableMeasured: [
-    { "@type": "PropertyValue", name: "Kilometraje típico de rideshare de tiempo complet par année", value: "40,000-60,000" },
+    { "@type": "PropertyValue", name: "Kilometraje típico de rideshare de temps complet par année", value: "40,000-60,000" },
     { "@type": "PropertyValue", name: "Kilometraje de rideshare vs. tasa de véhicule privado", value: "3-5x" },
-    { "@type": "PropertyValue", name: "Fuente de immatriculation comercial / de uso comercial", value: "NMVTIS" },
-    { "@type": "PropertyValue", name: "Tiempo promedio de décodage VIN (segundeux)", value: "<5" },
+    { "@type": "PropertyValue", name: "Source de immatriculation comercial / de uso comercial", value: "NMVTIS" },
+    { "@type": "PropertyValue", name: "Temps promedio de décodage VIN (segundeux)", value: "<5" },
     { "@type": "PropertyValue", name: "Costo de la vista previa gratuit (USD)", value: "0" },
   ],
 };

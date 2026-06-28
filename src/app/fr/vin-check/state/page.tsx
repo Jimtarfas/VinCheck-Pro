@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vérification VIN par état — Los 50 états de EE. UU.",
+    title: "Vérification VIN par état — Les 50 états de EE. UU.",
     description,
   },
   robots: { index: true, follow: true },
@@ -55,7 +55,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Vérification VIN par état — Historique du véhicule gratuit en les 50 états de EE. UU.",
   description:
-    "Guía pour hacer una vérification VIN gratuit en n’importe quel état de EE. UU. Couvre comment funcionan les données nacionales de NMVTIS, par qué les marques de titre difieren de un état a otro et comment leer un rapport de historique de véhicule par état.",
+    "Guía pour hacer una vérification VIN gratuit en n’importe quel état de EE. UU. Couvre comment fonctionnen les données nacionales de NMVTIS, par que les marques de titre difieren de un état a otro et comment lire un rapport de historique de véhicule par état.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
@@ -91,14 +91,14 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment hacer una vérification VIN en n’importe quel état",
   description:
-    "Guía paso a paso pour hacer una vérification VIN gratuit pour un véhicule registrado en n’importe quel état de EE. UU.",
+    "Guía étape a étape pour hacer una vérification VIN gratuit pour un véhicule registrado en n’importe quel état de EE. UU.",
   totalTime: "PT2M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Trouve ta état", text: "Utilise le buscador de états en la parte superior de esta página pour abrir la página du état donde le véhicule est titulado et aprender ses reglas locales du DMV et marques de titre." },
-    { "@type": "HowToStep", position: 2, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord (visible par le pare-brise), le marco de la porte du lado du conductor ou le documento du titre." },
-    { "@type": "HowToStep", position: 3, name: "Entre le VIN", text: "Escribe ou pega le VIN en la casilla de búsqueda. La même búsqueda funciona pour un véhicule titulado en n’importe quel état." },
+    { "@type": "HowToStep", position: 1, name: "Trouve ta état", text: "Utilise le buscador de états en la parte superior de esta página pour abrir la página du état où le véhicule est titucôté et aprender ses reglas locales du DMV et marques de titre." },
+    { "@type": "HowToStep", position: 2, name: "Localiza le VIN", text: "Trouve le VIN de 17 caracteres en le tableau de bord (visible par le pare-brise), le marco de la porte du côté du conductor ou le documento du titre." },
+    { "@type": "HowToStep", position: 3, name: "Entre le VIN", text: "Escribe ou pega le VIN en la casilla de búsqueda. La même búsqueda fonctionne pour un véhicule titucôté en n’importe quel état." },
     { "@type": "HowToStep", position: 4, name: "Revisa le rapport nacional", text: "Lis le rapport consolidéo que couvre marques de titre de cada état, enregistrements de accidents, lecturas du odomètre et état de rappels." },
-    { "@type": "HowToStep", position: 5, name: "Cruza les reglas estatales", text: "Compare n’importe quel marque de titre contra les definiciones du DMV de ta état pour entender exactamente qué significa avant de acheter." },
+    { "@type": "HowToStep", position: 5, name: "Cruza les reglas estatales", text: "Compare n’importe quel marque de titre contra les definiciones du DMV de ta état pour entender exactement que significa avant de acheter." },
   ],
 };
 

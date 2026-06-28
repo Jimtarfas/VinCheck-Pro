@@ -14,12 +14,12 @@ const alt = hreflangAlternatesForLocale("/terms", "fr");
 export const metadata: Metadata = {
   title: "Conditions de êtrevice",
   description:
-    "Conditions de êtrevice de CarCheckerVIN. Revisa les conditions et condiciones pour usar nonntre plataforma de rapports de historique de véhicule.",
+    "Conditions de êtrevice de CarCheckerVIN. Revisa les conditions et condiciones pour usar nonntre platafaçon de rapports de historique de véhicule.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Conditions de êtrevice",
     description:
-      "Conditions de êtrevice de CarCheckerVIN. Revisa les conditions et condiciones pour usar nonntre plataforma de rapports de historique de véhicule.",
+      "Conditions de êtrevice de CarCheckerVIN. Revisa les conditions et condiciones pour usar nonntre platafaçon de rapports de historique de véhicule.",
     url: `${SITE}/fr/terms`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -34,7 +34,7 @@ const webPageSchema = {
   name: "Conditions de êtrevice",
   url: `${SITE}/fr/terms`,
   description:
-    "Conditions de êtrevice de CarCheckerVIN. Revisa les conditions et condiciones pour usar nonntre plataforma de rapports de historique de véhicule.",
+    "Conditions de êtrevice de CarCheckerVIN. Revisa les conditions et condiciones pour usar nonntre platafaçon de rapports de historique de véhicule.",
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

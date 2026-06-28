@@ -10,10 +10,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "À propos de — Rapports d’historique de véhicule fiables",
     description:
-      "Cononnce al equipo derrière CarCheckerVIN. Obtenemos données de NMVTIS, NICB et fabricavant pour entregar rapports precisos et asequibles en les que les acheteurs confían.",
+      "Cononnce al equipo derrière CarCheckerVIN. Obavons données de NMVTIS, NICB et fabricavant pour entregar rapports precisos et asequibles en les que les acheteurs confían.",
     keywords: [
       "à propos de CarCheckerVIN",
-      "quiénes somos CarCheckerVIN",
+      "quies somos CarCheckerVIN",
       "empresa VIN check",
       "historia CarCheckerVIN",
     ],

@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     "fr"
   );
   const title = `Comment acheter une voiture d’occasion en ${name} — Guide complet 2026`;
-  const description = `Guide pas à pas pour acheter une voiture d’occasion en ${name}. Transfert de titre du ${dmvName}, taxe de vente, loi citron de ${name} et exigences d’inspection expliquées.`;
+  const description = `Guide pas à pas pour acheter une voiture d’occasion en ${name}. Transfert de titre du ${dmvName}, taxe de vente, loi citron de ${name} et exigences d’inspection expliquees.`;
 
   return {
     title: { absolute: `${title} | CarCheckerVIN` },
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords: [
       `acheter voiture d’occasion ${name}`,
       `${name} DMV voiture d’occasion`,
-      `${name} transferencia de titre`,
+      `${name} transfert de titre`,
       `${name} taxe de vente voiture d’occasion`,
       `inspection voiture d’occasion ${name}`,
       `${name} loi citron`,

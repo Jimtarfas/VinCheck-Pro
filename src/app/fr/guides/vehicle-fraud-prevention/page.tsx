@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "lavado de titre de récupération",
     "fraude auto 2026",
     "estafas voitures d’occasion",
-    "estafas autos en línea",
+    "estafas voitures en línea",
     "fraude de concessionnaire",
     "vérification auto volé",
     "comment evitar fraude du véhicule",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description:
-      "Fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et estafas en línea — comment funciona cada una et comment defenderte.",
+      "Fraude de titre, manipulation du odomètre, lavado de récupération, clonage de VIN, estafas de concessionnaires et estafas en línea — comment fonctionne cada una et comment defenderte.",
     url: PAGE_URL,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -70,14 +70,14 @@ const howToSchema = {
   inLanguage: "fr",
   name: "Comment protegerte du fraude du véhicule",
   description:
-    "Un protocolo de six pasos pour detectar et prevenir le fraude du véhicule avant de la compra.",
+    "Un protocolo de six étapes pour detectar et prevenir le fraude du véhicule avant de la compra.",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Vérifie que le VIN coincida", text: "Revisa le VIN en le tableau de bord, la calcomanía du marco de la porte, le titre, le enregistrement et la factura de vente. Las discrepancias indican clonage." },
+    { "@type": "HowToStep", position: 1, name: "Vérifie que le VIN coincida", text: "Revisa le VIN en le tableau de bord, la calcomanía du marco de la porte, le titre, le enregistrement et la factura de vente. Les discrepancias indican clonage." },
     { "@type": "HowToStep", position: 2, name: "Extrae un rapport de historique de véhicule complet", text: "Utilise données provenientes de NMVTIS pour vérifier marques de titre, enregistrements de accidents et cadena de propriété." },
     { "@type": "HowToStep", position: 3, name: "Cruza les bases de données de véhicules volés et récupération de NICB", text: "Confirme que le véhicule nonn il y aa été reportado como volé et nonn sea un enregistrement de récupération reemitido en otro état." },
     { "@type": "HowToStep", position: 4, name: "Valida la continuité du odomètre", text: "Confirme que cada lectura du odomètre registrada tienda hacia haut à travers la cadena de titrois." },
-    { "@type": "HowToStep", position: 5, name: "Paga seul mediante métodeux rastreables", text: "Cheque de caja ou transferencia bancaria desde ta banco, jamais cartes de regalo, criptomonedas ou êtrevices de escrow de troisièmes sugerideux par le vendeur." },
-    { "@type": "HowToStep", position: 6, name: "Inspecciona le titre en persona", text: "Vérifie marques de agua, sellos en relieve, et que le titre sea du état de residencia du vendeur sans altétaitciones." },
+    { "@type": "HowToStep", position: 5, name: "Paga seul mediante métodeux rastreables", text: "Cheque de caja ou transfert bancaria desde ta banco, jamais cartes de regalo, criptomonedas ou êtrevices de escrow de troisièmes sugerideux par le vendeur." },
+    { "@type": "HowToStep", position: 6, name: "Inspectiona le titre en personne", text: "Vérifie marques de agua, sellos en relieve, et que le titre sea du état de residencia du vendeur sans altétaitciones." },
   ],
 };
 

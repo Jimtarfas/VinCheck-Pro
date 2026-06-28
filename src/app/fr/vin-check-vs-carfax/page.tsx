@@ -12,7 +12,7 @@ const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/vin-check-vs-carfax`;
 const alt = hreflangAlternatesForLocale("/vin-check-vs-carfax", "fr");
 const title = "CarCheckerVIN vs Carfax — Alternative moins chère et plus rapide à la vérification VIN";
-const description = "CarCheckerVIN vs Carfax comparadeux côte à côte. Mira tarifs ($14.99 vs $44.99), a éténtes de données, rapports incluideux et par qué les conductores estn cambiando a una alternative plus inteligente a Carfax.";
+const description = "CarCheckerVIN vs Carfax comparadeux côte à côte. Mira tarifs ($14.99 vs $44.99), a éténtes de données, rapports incluideux et par que les conductores estn cambiando a una alternative plus inteligente a Carfax.";
 
 export const metadata: Metadata = {
   title, description,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: "CarCheckerVIN vs Carfax: Cuál es meilleur?", description: "Una comparaison côte à côte de CarCheckerVIN et Carfax cubriendo tarifs, a éténtes de données, contenideux du rapport et le caso de uso adecuado pour cada unonn.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-16", dateModified: "2026-04-16" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: "CarCheckerVIN vs Carfax: Quel es meilleur?", description: "Una comparaison côte à côte de CarCheckerVIN et Carfax couvrant tarifs, a éténtes de données, contenideux du rapport et le cas de uso adecuado pour cada unonn.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-16", dateModified: "2026-04-16" };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr", mainEntity: FAQS_FR.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

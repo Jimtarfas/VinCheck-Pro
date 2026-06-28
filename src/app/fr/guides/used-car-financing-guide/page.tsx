@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "louer vs acheter voiture d’occasion",
     "calculateur prêt voiture d’occasion",
     "APR vs coût total",
-    "pago inicial voiture d’occasion",
+    "paiement inicial voiture d’occasion",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
@@ -77,10 +77,10 @@ const howToSchema = {
   name: "Comment financiar un voiture d’occasion",
   step: [
     { "@type": "HowToStep", position: 1, name: "Obtiens et revisa ta crédito", text: "Obtiens tes rapports de crédito gratuit de annualcreditreport.com et disputa n’importe quel error avant de aplicar." },
-    { "@type": "HowToStep", position: 2, name: "Calcule un prêt asequible", text: "Aplica la regla 20/4/10: al menonns 20% de pago inicial, plazo máximo de 4 années, coût total de transporte par desous du 10% du ingreso bruto." },
+    { "@type": "HowToStep", position: 2, name: "Calcule un prêt asequible", text: "Aplica la regla 20/4/10: al menonns 20% de paiement inicial, plazo máximo de 4 années, coût total de transporte par desous du 10% du ingreso bruto." },
     { "@type": "HowToStep", position: 3, name: "Obtiens múltiples preaprobaciones", text: "Compare ofertas de al menonns una coopétaittiva de crédito, un banco et un prestamista en línea à l’intérieur de una ventena de 14 jours." },
     { "@type": "HowToStep", position: 4, name: "Utilise le preapprobation como piso de négociation", text: "Deja que le concessionnaire intente vencer ta meilleur preapprobation; jamais aceptes una tasa pire seul parce que la ofrecen." },
-    { "@type": "HowToStep", position: 5, name: "Lis le contrato avant de firmar", text: "Vérifie APR, plazo, total de pagos et ausencia de extras nonn deseadeux avant de firmar le contrato de vente a plazos." },
+    { "@type": "HowToStep", position: 5, name: "Lis le contrato avant de firmar", text: "Vérifie APR, plazo, total de paiements et ausencia de extras nonn deseadeux avant de firmar le contrato de vente a plazos." },
   ],
 };
 

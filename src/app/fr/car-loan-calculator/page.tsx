@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE}/fr/car-loan-calculator`;
 const alt = hreflangAlternatesForLocale("/car-loan-calculator", "fr");
 const title = "Calculateur de prêt auto — Mensualité, intérêt total et amortissement (gratuit)";
 const description =
-  "Calculateur gratuit de prêt de auto. Entre le precio du véhicule, pago inicial, intercambio, APR et plazo du prêt pour calcular instantanément ta mensuelité, intérêt total et calendario complet de amortissement. Funciona pour les 50 états de EE. UU.";
+  "Calculateur gratuit de prêt de auto. Entre le precio du véhicule, paiement inicial, intercambio, APR et plazo du prêt pour calcular instantanément ta mensuelité, intérêt total et calendario complet de amortissement. Fonctionne pour les 50 états de EE. UU.";
 
 export const metadata: Metadata = {
   title,
@@ -21,19 +21,19 @@ export const metadata: Metadata = {
   keywords: [
     "calculateur prêt auto",
     "calculateur prêt automotriz",
-    "calculateur pago auto",
+    "calculateur paiement auto",
     "calculateur mensuelité auto",
     "calculateur financement auto",
-    "calculateur pago carro",
+    "calculateur paiement carro",
     "calculateur intérêt prêt auto",
     "calculateur amortissement prêt auto",
     "calculateur prêt auto avec intercambio",
-    "calculateur pago inicial auto",
+    "calculateur paiement inicial auto",
     "calculateur prêt voiture d’occasion",
     "calculateur prêt auto nonnuveau",
     "calculateur APR auto",
-    "cuánto auto puedo pagar",
-    "estimateur pago auto",
+    "cuánto auto puedo payer",
+    "estimateur paiement auto",
     "calculateur intérêt total prêt auto",
     "calculateur prêt auto 60 moises",
     "calculateur prêt auto 72 moises",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Calculateur gratuit de prêt de auto — Pago mensuel et amortissement",
+    title: "Calculateur gratuit de prêt de auto — Paiement mensuel et amortissement",
     description:
       "Entre precio du véhicule, APR et plazo pour ver instantanément ta mensuelité, intérêt total et calendario complet de amortissement.",
   },
@@ -71,7 +71,7 @@ const webAppSchema = {
   inLanguage: "fr",
   name: "Calculateur de prêt auto",
   description:
-    "Calculateur gratuit de prêt de auto. Calcule pagos mensueles, intérêt total et un calendario complet de amortissement pour n’importe quel prêt automotriz. Soporta pago inicial, intercambio, taxe estatal sur ventes et tarifas du concessionnaire.",
+    "Calculateur gratuit de prêt de auto. Calcule paiements mensueles, intérêt total et un calendario complet de amortissement pour n’importe quel prêt automotriz. Soporta paiement inicial, intercambio, taxe estatal sur ventes et tarifas du concessionnaire.",
   url: PAGE_URL,
   applicationCategory: "FinanceApplication",
   opétaittingSystem: "Web Browêtre",
@@ -105,26 +105,26 @@ const howToSchema = {
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Entre le precio du véhicule et le pago inicial",
-      text: "Escribe le precio total de compra du véhicule et le monto que planeas pagar par adelantado como pago inicial. Si as un intercambio, entre su valeur estimado pour reducir le capital du prêt.",
+      name: "Entre le precio du véhicule et le paiement inicial",
+      text: "Escribe le precio total de compra du véhicule et le monto que planeas payer par adelantado como paiement inicial. Si as un intercambio, entre su valeur estimado pour reducir le capital du prêt.",
     },
     {
       "@type": "HowToStep",
       position: 2,
       name: "Establece le APR et le plazo du prêt",
-      text: "Entre ta tasa anual de intérêt (APR) de ta banco, coopétaittiva de crédito ou pre-approbation du concessionnaire. Sélectionne le plazo du prêt — 36, 48, 60, 72 ou 84 moises. Plazos plus cortos significan pagos mensueles plus hauts pero menonns intérêt total.",
+      text: "Entre ta tasa anual de intérêt (APR) de ta banco, coopétaittiva de crédito ou pre-approbation du concessionnaire. Sélectionne le plazo du prêt — 36, 48, 60, 72 ou 84 moises. Plazos plus cortos significan paiements mensueles plus hauts pero menonns intérêt total.",
     },
     {
       "@type": "HowToStep",
       position: 3,
       name: "Agrega le taxe estatal sur ventes et les tarifas",
-      text: "Sélectionne ta état pour le taxe automático sur ventes, luego entre les tarifas estimadas du concessionnaire et documentation. Estas se agregan al capital du prêt si nonn se pagan par adelantado.",
+      text: "Sélectionne ta état pour le taxe automático sur ventes, luego entre les tarifas estimadas du concessionnaire et documentation. Estas se agregan al capital du prêt si nonn se payen par adelantado.",
     },
     {
       "@type": "HowToStep",
       position: 4,
       name: "Ve tes resultadeux",
-      text: "Haz clic en 'Calcular mensuelité' pour ver instantanément ta monto de mensuelité, intérêt total pagado, coût total et le calendario complet de amortissement mostrando le desglose de capital e intérêt de cada pago.",
+      text: "Haz clic en 'Calcular mensuelité' pour ver instantanément ta monto de mensuelité, intérêt total payedo, coût total et le calendario complet de amortissement affichant le desglose de capital e intérêt de cada paiement.",
     },
   ],
 };

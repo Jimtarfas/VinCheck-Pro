@@ -66,7 +66,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
         {/* What you decode */}
         <section className="py-12 sm:py-16 border-b border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-6">
-            Qué obas
+            Que obas
           </h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {hook.whatYouGet.map((b) => (
@@ -86,7 +86,7 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
         {/* Why it matters */}
         <section className="py-12 sm:py-16 border-b border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-6">
-            Par qué importa avant de acheter
+            Par que importa avant de acheter
           </h2>
           <ul className="space-y-3">
             {hook.whyItMatters.map((b) => (
@@ -106,13 +106,13 @@ export default function SpecialtyToolPage({ hook }: { hook: SpecialtyHook }) {
         {/* Trust nonnte */}
         <section className="py-12 sm:py-16 border-t border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">
-            Fuentes et couverture
+            Sources et couverture
           </h2>
           <p className="text-sm sm:text-base text-on-surface-variant leading-relaxed">
             {hook.trustNote}
           </p>
           <p className="mt-4 text-xs sm:text-sm text-on-surface-variant italic">
-            Los données VIN se cruzan contra NMVTIS, NHTSA, NICB et bases de données
+            Les données VIN se cruzan contra NMVTIS, NHTSA, NICB et bases de données
             du fabricante en le momento de cada búsqueda.
           </p>
         </section>

@@ -11,7 +11,7 @@ import { ORG_AUTHOR } from "@/lib/seo/author";
 const SITE = "https://www.carcheckervin.com";
 const PAGE_URL = `${SITE}/fr/vin-check-vs-vinaudit`;
 const alt = hreflangAlternatesForLocale("/vin-check-vs-vinaudit", "fr");
-const title = "CarCheckerVIN vs VinAudit: Cuál décodeur VIN gana?";
+const title = "CarCheckerVIN vs VinAudit: Quel décodeur VIN gana?";
 const description = "CarCheckerVIN vs VinAudit comparado en precio, profondeur de données NMVTIS, vitesse du rapport et presentación. Un desglose justo côte à côte pour acheteurs que buscan un décodeur VIN.";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ const articleSchema = {
   "@type": "Article",
   inLanguage: "fr",
   headline: title,
-  description: "Una comparaison côte à côte de CarCheckerVIN et VinAudit cubriendo tarifs, autorisation NMVTIS, contenideux du rapport et le caso de uso adecuado pour cada unonn.",
+  description: "Una comparaison côte à côte de CarCheckerVIN et VinAudit couvrant tarifs, autorisation NMVTIS, contenideux du rapport et le cas de uso adecuado pour cada unonn.",
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },

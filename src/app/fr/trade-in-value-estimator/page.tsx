@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "valeur de intercambio véhicule",
     "estimateur valeur auto",
     "calculateur valeur intercambio auto",
-    "qué vale mi auto",
+    "que vale mi auto",
     "valeur intercambio par année marque modelo",
     "KBB valeur intercambio",
     "valeur intercambio concessionnaire",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     "valeur de vente particular",
     "valeur de mayoreo auto",
     "valeur de enchère auto",
-    "calculateur de tasación voiture d’occasion",
+    "calculateur de estimation voiture d’occasion",
   ],
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
@@ -74,9 +74,9 @@ const webAppSchema = {
     "Valor de enchère / mayoreo",
     "30 marques avec tasas de rétention específicas",
     "Multiplicadores de condition (Excelente a Pobre)",
-    "Deducciones par marque de titre (Récupération, Inonnndation, Reconstruido)",
+    "Deducciones par marque de titre (Récupération, Inondation, Reconstruido)",
     "Ajustes par historique de accidents et propriétaires",
-    "Desglose de valeur paso a paso",
+    "Desglose de valeur étape a étape",
   ],
   publisher: {
     "@type": "Organization",
@@ -105,19 +105,19 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 2,
       name: "Entre le kilométrage et la condition",
-      text: "Escribe la lectura actual du odomètre et sélectionne la nonnte de condition de Excelente a Pobre. La condition es la variable plus grand en la valeuración de voitures d’occasion.",
+      text: "Escribe la lectura actual du odomètre et sélectionne la nonnte de condition de Excelente a Pobre. La condition es la variable plus grand en la évaluation de voitures d’occasion.",
     },
     {
       "@type": "HowToStep",
       position: 3,
       name: "Agrega le historique du véhicule",
-      text: "Sélectionne le état du titre (limpio, récupération, reconstruido, inonnndation, etc.), numéro de accidents reportadeux et numéro de propriétaires anteriores. Cada unonn reduce le valeur en un porcentaje específico.",
+      text: "Sélectionne le état du titre (limpio, récupération, reconstruido, inondation, etc.), numéro de accidents reportadeux et numéro de propriétaires anteriores. Cada unonn reduce le valeur en un porcentaje específico.",
     },
     {
       "@type": "HowToStep",
       position: 4,
       name: "Obtiens ta estimation",
-      text: "Haz clic en 'Estimar valeur de intercambio' pour ver les valeures de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et enchère — adeplus de un desglose paso a paso de cada ajuste.",
+      text: "Haz clic en 'Estimar valeur de intercambio' pour ver les valeures de vente particular, intercambio en concessionnaire, oferta de efectivo instantanée et enchère — adeplus de un desglose étape a étape de cada ajuste.",
     },
   ],
 };
@@ -139,7 +139,7 @@ const articleSchema = {
   inLanguage: "fr",
   headline: "Estimador de valeur de intercambio",
   description:
-    "Apprends comment se calculan les valeures de intercambio, les 4 formas de vender ta auto, comment afecta la dépréciation al valeur et qué reduce le valeur de ta véhicule.",
+    "Apprends comment se calculan les valeures de intercambio, les 4 façons de vender ta auto, comment afecta la dépréciation al valeur et que reduce le valeur de ta véhicule.",
   author: ORG_AUTHOR,
   publisher: {
     "@type": "Organization",
