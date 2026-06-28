@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ShieldCheck, Lock, MapPin, Mail, Phone } from "lucide-react";
 import Logo from "@/components/Logo";
 

@@ -3,7 +3,7 @@
  * Wave 18 — full English layout in both locales via COPY={en,es}.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check,
   TrendingDown,

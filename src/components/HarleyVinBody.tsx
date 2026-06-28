@@ -10,7 +10,7 @@
  * VIN-check intent rather than lemon-law buyback intent.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Search, Clock, Bike, ChevronRight, Zap, BadgeCheck, Lock,
   Check, ClipboardList, ScrollText, ArrowRight, ShieldCheck,

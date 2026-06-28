@@ -17,7 +17,7 @@
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { createClient } from "@/lib/supabase/server";
 import { KeyRound, AlertTriangle } from "lucide-react";
 import SetPasswordForm from "./_components/SetPasswordForm";

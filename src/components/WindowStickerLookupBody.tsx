@@ -3,7 +3,7 @@
  * Wave 18 batch 3.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check, Search, FileText, ScanLine, ChevronRight, Lock, Zap, BadgeCheck,
   Sparkles, Tag, Car, DollarSign, Gauge, ClipboardCheck, Building2,

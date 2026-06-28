@@ -11,7 +11,7 @@
  * because they're legal/regulatory proper-noun references.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   AlertOctagon, Shield, Search, FileText, Clock, Car, MapPin,
   ChevronRight, Zap, BadgeCheck, Lock, Check, Gavel, DollarSign,

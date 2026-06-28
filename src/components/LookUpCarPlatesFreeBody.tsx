@@ -3,7 +3,7 @@
  * Wave 18 batch 4 — full visual parity via COPY={en,es}.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check, Shield, Clock, Globe, Search, FileText, AlertCircle, Sparkles,
   DollarSign, Lock, Zap, Car, ArrowRight,

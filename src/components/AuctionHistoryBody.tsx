@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check, FileText, AlertCircle, Clock, Camera, Gavel, ChevronRight,
   Star, Lock, Zap, BadgeCheck, Building2, Gauge,

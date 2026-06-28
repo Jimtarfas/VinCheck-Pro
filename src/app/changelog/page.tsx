@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Sparkles } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 

@@ -9,7 +9,7 @@
  * bottom. Server component — the only client island is <VinSearchForm />.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Search,
   Lock,

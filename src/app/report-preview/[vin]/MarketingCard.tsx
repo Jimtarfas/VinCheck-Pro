@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Check, X, Gem } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import BuyReportButton from "@/components/BuyReportButton";

@@ -12,7 +12,7 @@
  * accurate for all 50 states.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Gauge, ShieldCheck, Search, Database, MapPin,
   ChevronRight, Zap, BadgeCheck, Lock, Check, Car,

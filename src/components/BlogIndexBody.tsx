@@ -8,7 +8,7 @@
  * translated.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight, FileText } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";

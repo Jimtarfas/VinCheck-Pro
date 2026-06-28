@@ -3,7 +3,7 @@
  * Wave 16d.2 — identical JSX, locale-driven copy.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Building2,
   Zap,

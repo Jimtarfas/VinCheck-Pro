@@ -7,7 +7,7 @@
  * surrounding marketing/explainer chrome translates via COPY.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ChevronRight } from "lucide-react";
 import VinDecoderBody, { VIN_DECODER_FAQS_EN } from "@/components/VinDecoderBody";
 import { VIN_DECODER_PAGES } from "@/lib/vin-decoder-pages";

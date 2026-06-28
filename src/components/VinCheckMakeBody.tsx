@@ -4,7 +4,7 @@
  * Make brand names (Ford, Toyota, Honda, etc.) stay verbatim — proper nouns.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Shield,
   Search,

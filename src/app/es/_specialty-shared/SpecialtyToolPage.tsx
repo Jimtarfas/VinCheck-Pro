@@ -12,7 +12,7 @@
  * refactor a full Spanish form would require.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Check, ArrowRight, ShieldCheck, BadgeCheck } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import type { SpecialtyHook } from "./strings";

@@ -7,7 +7,7 @@
  * vs locale="es". Every visible string lives in the COPY map below.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Mail,
   Phone,

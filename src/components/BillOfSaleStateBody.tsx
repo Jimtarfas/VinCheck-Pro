@@ -13,7 +13,7 @@
  * nationwide.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   FileSignature, ChevronRight, Zap, BadgeCheck, Lock, Car, Building2,
   ClipboardCheck, ArrowRight, Clock, ShieldCheck, ScrollText, Gauge,

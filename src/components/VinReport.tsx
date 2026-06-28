@@ -7,7 +7,7 @@ import {
   Zap, Award, Info, Download, AlertTriangle, Lock, CircleAlert,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
 import VinSearchForm from "./VinSearchForm";

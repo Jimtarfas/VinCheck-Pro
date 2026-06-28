@@ -7,7 +7,7 @@
  * accordion all live in this body and are translated via COPY.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Check, Sparkles, Shield, Zap } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import PricingSection from "@/components/PricingSection";

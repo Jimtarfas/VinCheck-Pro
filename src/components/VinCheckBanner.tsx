@@ -8,7 +8,7 @@
  *   <VinCheckBanner variant="compact" />        — single-line pill (tight spaces)
  *   <VinCheckBanner variant="card" />           — full-width card with search form
  */
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Shield, FileSearch, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
 import VinSearchForm from "./VinSearchForm";
 

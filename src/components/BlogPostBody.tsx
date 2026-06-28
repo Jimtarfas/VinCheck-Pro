@@ -9,7 +9,7 @@
  * promo card, related-card "Read"/"Leer más" — is translated via COPY.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";

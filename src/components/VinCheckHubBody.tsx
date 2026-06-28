@@ -3,7 +3,7 @@
  * Wave 18.19 — full English layout in both locales via COPY={en,es}.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowRight, Check, X, ShieldCheck, BookOpen } from "lucide-react";
 import { makes } from "@/lib/makes";
 import VinSearchForm from "@/components/VinSearchForm";

@@ -11,7 +11,7 @@
  * never drifts from the rendered copy.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Search, Banknote, FileText, Repeat, Building2, ShieldCheck,
   Check, AlertTriangle, Clock, BadgeCheck, Fingerprint, Lock,

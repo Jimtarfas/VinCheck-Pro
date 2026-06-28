@@ -3,7 +3,7 @@
  * Wave 18 batch 4 — full English layout in both locales via COPY={en,es}.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check, Search, FileText, Database, Factory, ChevronRight,
   Lock, Zap, BadgeCheck, Sparkles, Layers, Palette, Cog, MapPin,

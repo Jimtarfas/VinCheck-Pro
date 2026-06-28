@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { AlertTriangle } from "lucide-react";
 import { getStructuredReport } from "@/lib/clearvin-report";
 import FullVinReport from "@/components/report/FullVinReport";

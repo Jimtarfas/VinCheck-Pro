@@ -10,7 +10,7 @@
  * internal-link hub feeding the salvage / odometer / stolen / lemon clusters.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   FileText, Search, Database, ShieldCheck, Car, Gauge, Tag,
   Siren, Wrench, Users, Banknote, BadgeCheck, Lock, Zap,

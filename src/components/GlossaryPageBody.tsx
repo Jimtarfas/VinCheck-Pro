@@ -8,7 +8,7 @@
  * to a Spanish-speaking buyer.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import type { Locale } from "@/i18n/config";

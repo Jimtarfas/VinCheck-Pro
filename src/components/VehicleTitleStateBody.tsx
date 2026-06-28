@@ -12,7 +12,7 @@
  * titling *process* and how a VIN check fits in are accurate nationwide.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   ScrollText, Database, ChevronRight, Zap, BadgeCheck, Lock,
   Car, Building2, ClipboardCheck, ArrowRight, Clock, ShieldCheck,

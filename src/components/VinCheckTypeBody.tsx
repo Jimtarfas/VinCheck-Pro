@@ -4,7 +4,7 @@
  * plus per-slug ES content overrides.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Search,
   Lock,

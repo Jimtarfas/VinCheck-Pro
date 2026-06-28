@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowLeft, ShieldCheck, Info } from "lucide-react";
 import SampleReportFrame from "./_components/SampleReportFrame";
 

@@ -7,7 +7,7 @@
  * (severity descriptions, FAQs, sections) translate.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   AlertTriangle,
   CheckCircle2,

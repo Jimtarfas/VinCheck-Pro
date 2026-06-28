@@ -9,7 +9,7 @@
  * site, tuned for model-specific RAM VIN-check intent.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Search, Clock, Car, ChevronRight, Zap, BadgeCheck, Lock,
   Check, ClipboardList, ScrollText, ArrowRight, ShieldCheck,

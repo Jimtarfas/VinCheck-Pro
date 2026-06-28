@@ -9,7 +9,7 @@
  * chrome (headings, intros, FAQs, CTAs) translates via the COPY={en,es} map.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   MapPin,
   Tag,

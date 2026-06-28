@@ -3,7 +3,7 @@
  * Wave 16c — identical JSX, locale-driven copy.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Shield,
   Lock,

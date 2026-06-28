@@ -7,7 +7,7 @@
  * both locales per the Wave 17 pattern for factual content.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   BarChart3, ShieldAlert, Droplets, Battery, TrendingUp,
   AlertTriangle, Newspaper, Quote, HelpCircle,

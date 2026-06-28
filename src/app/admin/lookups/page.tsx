@@ -1,5 +1,5 @@
 import { createAdminClient, getAdminEmails } from "@/lib/supabase/admin";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Download, CheckCircle2 } from "lucide-react";
 
 export const dynamic = "force-dynamic";

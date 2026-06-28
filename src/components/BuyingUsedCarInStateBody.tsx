@@ -10,7 +10,7 @@
  * source when not — same pattern as Wave 15.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import type { ReactNode } from "react";
 import {
   FileText,

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { MapPin, ChevronRight } from "lucide-react";
 import SalvageTitleCheckBody, { FAQS_EN } from "@/components/SalvageTitleCheckBody";
 import { ORG_AUTHOR } from "@/lib/seo/author";

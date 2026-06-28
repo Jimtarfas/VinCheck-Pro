@@ -4,7 +4,7 @@
  */
 
 import { Suspense } from "react";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check, Shield, AlertCircle, Palette, ChevronRight, Lock, Zap, BadgeCheck,
   Sparkles, Layers, Wrench, Brush, Camera,

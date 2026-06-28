@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { MessageCircle, Calendar } from "lucide-react";
 import AutoRefresh from "./AutoRefresh";

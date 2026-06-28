@@ -6,7 +6,7 @@
  * platform-factual and stays English on both locales per the Wave 17 pattern.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowRight } from "lucide-react";
 import { marketplaces } from "@/lib/marketplaces";
 import VinSearchForm from "@/components/VinSearchForm";

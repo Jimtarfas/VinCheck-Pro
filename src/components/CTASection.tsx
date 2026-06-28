@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import VinSearchForm from "./VinSearchForm";
 import type { Locale } from "@/i18n/config";
 

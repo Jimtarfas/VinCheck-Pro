@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Shield, FileText, AlertTriangle, Gauge, AlertOctagon, ScrollText, ArrowRight, Tag, BellRing, TrendingUp, ShieldCheck, Bike, Droplets, Search, Hash, TrendingDown, Anchor, Truck, Car, ScanLine, MapPin } from "lucide-react";
 
 const allChecks = [

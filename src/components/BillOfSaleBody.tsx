@@ -12,7 +12,7 @@
  * agency and the per-state pages (which use verified DMV data only).
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   FileSignature, ScrollText, ClipboardCheck, MapPin, ChevronRight, Zap,
   BadgeCheck, Lock, Car, Building2, ArrowRight, Clock, ShieldCheck,

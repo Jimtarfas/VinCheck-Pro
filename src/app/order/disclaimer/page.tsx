@@ -12,7 +12,7 @@
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ShieldCheck, TriangleAlert, Info, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {

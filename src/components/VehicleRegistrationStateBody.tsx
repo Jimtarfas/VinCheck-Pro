@@ -14,7 +14,7 @@
  * deferred to the state agency named on the page.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   ClipboardCheck, FileText, Database, ChevronRight,
   Zap, BadgeCheck, Lock, Check, Car, Building2, ScrollText, ArrowRight,

@@ -11,7 +11,7 @@
  * change yearly; those are always deferred to the state agency.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   ClipboardCheck, FileText, Search, Database, MapPin, ChevronRight,
   Zap, BadgeCheck, Lock, Check, Car, Building2, ArrowRight,

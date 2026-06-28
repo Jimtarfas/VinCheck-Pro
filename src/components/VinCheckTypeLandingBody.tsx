@@ -9,7 +9,7 @@
  * <VinSearchForm />.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Search,
   Lock,

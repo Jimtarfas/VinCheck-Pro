@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { createClient } from "@/lib/supabase/server";
 import { isAdminEmail } from "@/lib/supabase/admin";
 import { LogOut, ArrowUpRight, ShieldCheck } from "lucide-react";

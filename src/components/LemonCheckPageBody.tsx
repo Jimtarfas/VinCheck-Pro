@@ -9,7 +9,7 @@
  * to the locale-appropriate subroute.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   AlertOctagon,
   AlertTriangle,

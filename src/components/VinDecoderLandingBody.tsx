@@ -8,7 +8,7 @@
  * island is the <VinDecoder /> widget it embeds.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Fingerprint,
   Lock,

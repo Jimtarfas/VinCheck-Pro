@@ -7,7 +7,7 @@
  * chrome text.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check,
   Shield,

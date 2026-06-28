@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Search, Sparkles } from "lucide-react";
 import { CLEARVIN_TEST_VINS, isUsingMockData } from "@/lib/clearvin";
 

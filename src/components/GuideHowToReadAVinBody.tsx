@@ -3,7 +3,7 @@
  * Wave 18 batch 2 — full English layout in both locales via COPY={en,es}.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import type { Locale } from "@/i18n/config";

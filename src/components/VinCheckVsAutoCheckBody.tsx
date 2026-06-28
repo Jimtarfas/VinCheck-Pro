@@ -3,7 +3,7 @@
  * Wave 18b — full English layout in both locales via COPY={en,es}.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check, X, DollarSign, ShieldCheck, Camera, BadgeCheck, Clock, Scale,
   Gauge, Database, Zap, ArrowRight, Award,

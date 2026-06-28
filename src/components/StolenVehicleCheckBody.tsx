@@ -3,7 +3,7 @@
  * Wave 18a — full English layout in both locales via COPY={en,es}.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Check, Search, ChevronRight, Lock, Zap, BadgeCheck, Sparkles,
   ShieldAlert, ShieldCheck, Database, FileSearch, AlertTriangle,

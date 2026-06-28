@@ -8,7 +8,7 @@
  * prior waves: factual data stays in its source language.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight, FileText, FolderOpen } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";

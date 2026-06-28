@@ -4,7 +4,7 @@
  * both locales via a COPY={en,es} map.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight, Tag as TagIcon } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";

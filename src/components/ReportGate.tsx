@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Download, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { VinData } from "@/lib/api";

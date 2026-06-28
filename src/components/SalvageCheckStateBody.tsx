@@ -11,7 +11,7 @@
  * (NMVTIS, state DMV title-brand reporting) are accurate for all 50 states.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   ShieldAlert, ShieldCheck, Search, Database, MapPin,
   ChevronRight, Zap, BadgeCheck, Lock, Check, Car, Building2,

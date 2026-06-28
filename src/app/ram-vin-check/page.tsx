@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Car, Search, Lock, ChevronRight, Zap, ShieldCheck, Clock,
   BadgeCheck, Fingerprint, ArrowRight,

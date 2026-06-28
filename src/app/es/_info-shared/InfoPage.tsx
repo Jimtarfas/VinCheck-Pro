@@ -9,7 +9,7 @@
  * matches the Wave 11 NMVTIS bilingual-disclosure pattern.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { ArrowRight, AlertTriangle } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import type { InfoHook } from "./strings";

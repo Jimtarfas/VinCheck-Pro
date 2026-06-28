@@ -10,7 +10,7 @@
  * via the COPY={en,es} map.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   AlertOctagon, Shield, Search, FileText, Clock, Car,
   ChevronRight, Zap, BadgeCheck, Lock, Check, Wrench,

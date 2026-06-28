@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { MapPin, ChevronRight } from "lucide-react";
 import OdometerCheckBody, { FAQS_EN } from "@/components/OdometerCheckBody";
 import { ORG_AUTHOR } from "@/lib/seo/author";

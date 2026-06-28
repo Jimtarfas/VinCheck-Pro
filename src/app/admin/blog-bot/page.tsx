@@ -25,7 +25,7 @@
  * tables) so the dashboards feel of a piece.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import {
   Activity,
   AlertTriangle,

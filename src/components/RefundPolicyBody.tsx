@@ -5,7 +5,7 @@
  * that previously lived inline in /es/refund-policy.
  */
 
-import Link from "next/link";
+import Link from "@/components/LocaleLink";
 import { Fragment } from "react";
 import type { Locale } from "@/i18n/config";
 
