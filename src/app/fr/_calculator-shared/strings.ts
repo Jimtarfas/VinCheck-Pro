@@ -190,7 +190,7 @@ export const CALCULATOR_HOOKS_ES: Record<string, SpecialtyHook> = {
     icon: RefreshCcw,
     badge: "Trade-in · Valor de cambio",
     h1: "Estimador de valeur de reprise — Combien vale mi auto?",
-    metaTitle: "Combien vale mi auto reprise — Estimador gratuit",
+    metaTitle: "Combien vale ma voiture reprise — Estimador gratuit",
     metaDescription:
       "Estima le valeur de reprise de ta auto en segundeux. Compare contra Kelley Blue Book et Edmunds. Sin enregistrement ni données personneles — gratuit instantanément.",
     keywords: [

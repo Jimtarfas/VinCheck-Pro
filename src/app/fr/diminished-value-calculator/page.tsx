@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     "réclamation de valeur diminuée",
     "valeur diminuée de troisièmes",
     "valeur diminuée georgia",
-    "combien vale mi auto après de un accident",
+    "combien vale ma voiture après de un accident",
     "perte de valeur de auto par accident",
     "réclamation de assurance de valeur diminuée",
     "calcular perte de valeur de auto",
