@@ -17,7 +17,7 @@ const COPY = {
     badge: "Copart \u00b7 IAA \u00b7 Dealer Auctions",
     h1Lead: "VIN Auction History \u2014 ",
     h1Accent: "Salvage & Dealer Records",
-    lede: "Find out if a vehicle passed through a salvage or dealer auction. See sale dates, damage codes, odometer at sale, run-and-drive status, and the original pre-repair auction photos for any VIN. Free preview, no credit card, results in under 5 seconds.",
+    lede: "CarCheckerVIN's free auction history check queries Copart, IAA, Manheim, ADESA, and NMVTIS salvage records to surface salvage and dealer auction appearances, sale dates, damage codes, odometer at sale, run-and-drive status, and pre-repair auction photos for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the same auction trail insurers and lenders use to value a vehicle. Find out if a vehicle passed through a salvage or dealer auction. See sale dates, damage codes, odometer at sale, run-and-drive status, and the original pre-repair auction photos for any VIN. Free preview, no credit card, results in under 5 seconds.",
     formH2: "Check Auction History by VIN",
     formSub: "Enter any 17-character VIN \u2014 cars, trucks, motorcycles, RVs",
     formNote: "256-bit encrypted \u00b7 DPPA compliant \u00b7 No personal data stored",

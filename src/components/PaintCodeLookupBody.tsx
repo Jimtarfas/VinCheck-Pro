@@ -30,7 +30,7 @@ const COPY = {
     badge: "OEM Factory Paint Codes   ·   30+ Brands",
     h1Lead: "Paint Code Lookup by VIN — ",
     h1Accent: "Find Your Factory Color",
-    intro: "Every vehicle leaves the factory with a specific paint code that identifies the exact color formulation. Find yours by VIN, or use the interactive locator below to see where your manufacturer hides the sticker.",
+    intro: "CarCheckerVIN's free paint code lookup decodes the 17-character VIN and cross-references manufacturer build-data and OEM color sticker locations to surface the exact factory paint code, color name, and interior trim code for any car or truck by VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the original factory color formulation — so touch-up paint and panel repairs match the original spec, not a guess. Every vehicle leaves the factory with a specific paint code that identifies the exact color formulation. Find yours by VIN, or use the interactive locator below to see where your manufacturer hides the sticker.",
     formHeading: "Get Your Paint Code by VIN",
     formSub: "Enter any 17-character VIN — we'll return the OEM paint code and factory color name",
     formNote: "Free · No sign-up · Instant result",

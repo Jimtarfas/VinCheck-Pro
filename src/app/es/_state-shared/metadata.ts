@@ -56,7 +56,7 @@ export function stateSchemas(hook: StateHook) {
       "@id": `${SITE}/es${hook.esSlug}`,
     },
     datePublished: "2026-06-12",
-    dateModified: "2026-06-12",
+    dateModified: new Date().toISOString().slice(0, 10),
     image: `${SITE}/opengraph-image`,
     about: {
       "@type": "Place",

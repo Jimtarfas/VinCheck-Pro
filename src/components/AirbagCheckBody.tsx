@@ -26,7 +26,7 @@ const COPY = {
     badge: "SRS History   ·   Fraud Detection",
     h1Lead: "Airbag & Deployment Check by VIN — ",
     h1Accent: "Will They Actually Deploy?",
-    intro: "Airbag fraud is one of the most dangerous defects in the used-car market — a car can look perfectly repaired while hiding counterfeit modules, rag-stuffed cavities, or a disabled SRS system. Enter a 17-character VIN to surface the crash and title records that point to deployment, plus open airbag recalls — free, before you buy.",
+    intro: "CarCheckerVIN's free airbag check queries NMVTIS, NHTSA recall data, and insurance crash and total-loss records to surface airbag deployment events, SRS warning brands, and open airbag recalls — including Takata inflator campaigns — for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the crash, title, and recall signals that reveal whether a car's airbag system is original and functional. Airbag fraud is one of the most dangerous defects in the used-car market — a car can look perfectly repaired while hiding counterfeit modules, rag-stuffed cavities, or a disabled SRS system. Enter a 17-character VIN to surface the crash and title records that point to deployment, plus open airbag recalls — free, before you buy.",
     formHeading: "Check Airbag & SRS History by VIN",
     formSub: "Enter any 17-character VIN — we'll surface deployment signals and open airbag recalls on record",
     formNote: "Free · No sign-up · Instant result",

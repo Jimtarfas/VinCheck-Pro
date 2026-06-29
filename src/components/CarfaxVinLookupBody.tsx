@@ -14,6 +14,43 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
+
+const QUICK_ANSWER_ITEMS = [
+  {
+    question: "Is there a free Carfax VIN lookup?",
+    answer: (
+      <>
+        <strong>Yes — kind of.</strong> Carfax itself charges around $39.99, but
+        <strong> CarCheckerVIN</strong> offers a free Carfax-style VIN preview
+        drawn from <strong>NMVTIS</strong> — the same federal database Carfax
+        uses — at no cost, with no sign-up or credit card required.
+      </>
+    ),
+  },
+  {
+    question: "Is CarCheckerVIN data as accurate as Carfax?",
+    answer: (
+      <>
+        For core title brands, odometer readings, salvage records, and total-loss
+        declarations, yes — both pull from NMVTIS, the National Motor Vehicle Title
+        Information System administered by the U.S. Department of Justice, which
+        aggregates records from all 50 state DMVs, insurers, and salvage auctions.
+      </>
+    ),
+  },
+  {
+    question: "What does a Carfax report show by VIN?",
+    answer: (
+      <>
+        A Carfax report shows title and brand history (clean, salvage, flood, junk,
+        rebuilt), ownership timeline, reported odometer readings, accident records,
+        service history from participating dealers, salvage auction data, and open
+        NHTSA recalls. CarCheckerVIN covers the same NMVTIS-sourced essentials.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, Database, FileText] as const;
 const SHOW_ICONS = [FileText, Shield, Clock, AlertTriangle, ClipboardCheck, Cpu] as const;
@@ -187,6 +224,10 @@ export default function CarfaxVinLookupBody() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={QUICK_ANSWER_ITEMS} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2Glance}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">{c.glanceIntro}</p>

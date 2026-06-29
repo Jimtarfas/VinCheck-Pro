@@ -13,7 +13,88 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
 import type { Locale } from "@/i18n/config";
+
+const QUICK_ANSWER_EN = [
+  {
+    question: "Does a VIN check show flood damage?",
+    answer: (
+      <>
+        <strong>Yes.</strong>{" "}
+        <strong>CarCheckerVIN&apos;s free flood damage check</strong> queries{" "}
+        <strong>NMVTIS</strong>, all 50 state DMVs, and salvage auctions to
+        surface flood and water-damage title brands, hurricane salvage records,
+        and insurance total-loss declarations for any 17-character VIN — at no
+        cost, with no credit card or signup.
+      </>
+    ),
+  },
+  {
+    question: "How accurate is the flood-damage VIN check?",
+    answer: (
+      <>
+        Data is sourced from NMVTIS — the National Motor Vehicle Title
+        Information System administered by the U.S. Department of Justice —
+        which aggregates title-brand records from every state DMV plus insurance
+        carriers, junk yards, and salvage auctions. CarCheckerVIN is an
+        NMVTIS-approved data provider.
+      </>
+    ),
+  },
+  {
+    question: "What does a flood title brand mean?",
+    answer: (
+      <>
+        A &quot;Flood&quot; or &quot;Water Damage&quot; title brand is applied
+        when an insurer declared the vehicle a total loss after flood exposure —
+        typically when water reached the floorboards or higher. Once branded,
+        the record follows the VIN nationwide even if the car is dried out and
+        re-titled in another state.
+      </>
+    ),
+  },
+];
+
+const QUICK_ANSWER_ES = [
+  {
+    question: "¿Una verificación VIN muestra daño por inundación?",
+    answer: (
+      <>
+        <strong>Sí.</strong>{" "}
+        <strong>La verificación gratis de daño por inundación de CarCheckerVIN</strong>{" "}
+        consulta <strong>NMVTIS</strong>, los 50 DMV estatales y subastas de
+        salvamento para mostrar marcas de título por inundación y daño por
+        agua, registros de salvamento por huracán y declaraciones de pérdida
+        total — gratis, sin tarjeta ni registro.
+      </>
+    ),
+  },
+  {
+    question: "¿Qué tan precisa es la verificación VIN de inundación?",
+    answer: (
+      <>
+        Los datos provienen de NMVTIS — el Sistema Nacional de Información de
+        Títulos de Vehículos Motorizados, administrado por el Departamento de
+        Justicia de EE. UU. — que agrega registros de los 50 DMV estatales,
+        aseguradoras y subastas de salvamento. CarCheckerVIN es un proveedor
+        aprobado por NMVTIS.
+      </>
+    ),
+  },
+  {
+    question: "¿Qué significa una marca de título de inundación?",
+    answer: (
+      <>
+        Una marca de título &quot;Inundación&quot; o &quot;Daño por Agua&quot;
+        se aplica cuando una aseguradora declaró pérdida total tras exposición
+        a inundación — típicamente cuando el agua alcanzó el piso o más arriba.
+        Una vez aplicada, el registro sigue al VIN a nivel nacional incluso si
+        el auto se seca y se re-titula en otro estado.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, Database, FileText] as const;
 const SIGN_ICONS = [Wind, Waves, Cpu, AlertTriangle, Wrench, Zap] as const;
@@ -25,7 +106,7 @@ const COPY = {
     badge: "Water-Damage Lookup   ·   NMVTIS-Sourced",
     h1Lead: "Flood Damage Check by VIN — ",
     h1Accent: "Was This Car Flooded?",
-    intro: "After every hurricane and major flood, thousands of water-damaged cars are dried out, cleaned up, and shipped to states where buyers never see it coming. Enter a 17-character VIN to surface flood and water-damage title brands, hurricane salvage records, and insurance total-loss history — free, before you buy.",
+    intro: "CarCheckerVIN's free flood damage check queries NMVTIS, all 50 state DMVs, insurer total-loss feeds, and salvage auctions to surface flood title brands, water-damage records, and hurricane salvage events for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns flood records that follow the VIN for life — even after title washing in another state. After every hurricane and major flood, thousands of water-damaged cars are dried out, cleaned up, and shipped to states where buyers never see it coming. Enter a 17-character VIN to surface flood and water-damage title brands, hurricane salvage records, and insurance total-loss history — free, before you buy.",
     formHeading: "Check for Flood & Water-Damage History by VIN",
     formSub: "Enter any 17-character VIN — we'll check for flood, water-damage, and storm-damage brands plus salvage records",
     formNote: "Free · No sign-up · Instant result",
@@ -434,6 +515,7 @@ interface Props { locale: Locale; }
 export default function FloodCheckBody({ locale }: Props) {
   const c = COPY[locale];
   const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const quickAnswerItems = locale === "es" ? QUICK_ANSWER_ES : QUICK_ANSWER_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
 
   return (
@@ -475,6 +557,10 @@ export default function FloodCheckBody({ locale }: Props) {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={quickAnswerItems} locale={locale} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

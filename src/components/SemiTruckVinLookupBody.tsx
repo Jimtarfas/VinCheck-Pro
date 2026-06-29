@@ -22,7 +22,7 @@ const COPY = {
     badge: "Tractors & Trailers   ·   Every Class 8 Builder",
     h1Lead: "Semi Truck VIN Lookup — ",
     h1Accent: "Decode Any Tractor Free",
-    intro: "A semi truck's VIN works exactly like a car's — 17 characters that decode the make, model year, engine, GVWR class, and plant. Look up any Freightliner, Peterbilt, Kenworth, Volvo, Mack or International tractor, plus semi trailers, free.",
+    intro: "CarCheckerVIN's free semi-truck VIN lookup queries NMVTIS, NHTSA vPIC, all 50 state DMVs, and FMCSA commercial registration records to surface make, model year, engine code, GVWR class, plant, and title brands for any 17-character heavy-duty VIN. As an NMVTIS-approved data provider, CarCheckerVIN decodes Freightliner, Peterbilt, Kenworth, Volvo, Mack, and International tractors as well as semi trailers — with the same federal data sources fleet buyers rely on. A semi truck's VIN works exactly like a car's — 17 characters that decode the make, model year, engine, GVWR class, and plant. Look up any Freightliner, Peterbilt, Kenworth, Volvo, Mack or International tractor, plus semi trailers, free.",
     formHeading: "Look Up a Semi Truck or Trailer VIN",
     formSub: "Enter the 17-character VIN — we'll return the make, model, year, engine, GVWR class, and history",
     formNote: "Free · No sign-up · Instant spec",

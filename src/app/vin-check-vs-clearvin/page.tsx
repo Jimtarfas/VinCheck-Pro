@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: { title: "CarCheckerVIN vs ClearVin: Side-by-Side (2026)", description: "Compare CarCheckerVIN with ClearVin on pricing, title brand checks, photos, and market value. See which is the better fit for your purchase.", url: "https://www.carcheckervin.com/vin-check-vs-clearvin", type: "article" },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "CarCheckerVIN vs ClearVin: Side-by-Side (2026)", description: "A side-by-side comparison of CarCheckerVIN and ClearVin covering pricing, title brand coverage, photos, market value, and the right use case for each.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" }, mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/vin-check-vs-clearvin" }, datePublished: "2026-04-26", dateModified: "2026-04-26" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "CarCheckerVIN vs ClearVin: Side-by-Side (2026)", description: "A side-by-side comparison of CarCheckerVIN and ClearVin covering pricing, title brand coverage, photos, market value, and the right use case for each.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" }, mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/vin-check-vs-clearvin" }, datePublished: "2026-04-26", dateModified: new Date().toISOString().slice(0, 10) };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS_EN.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

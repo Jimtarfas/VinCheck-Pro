@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: title, description: "Una comparaison côte à côte de CarCheckerVIN et Experian AutoCheck couvrant tarifs, a éventes de données, la Score AutoCheck et le cas de uso adecuado pour chaque unon.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-26", dateModified: "2026-06-16" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: title, description: "Una comparaison côte à côte de CarCheckerVIN et Experian AutoCheck couvrant tarifs, a éventes de données, la Score AutoCheck et le cas de uso adecuado pour chaque unon.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-26", dateModified: new Date().toISOString().slice(0, 10) };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr", mainEntity: FAQS_FR.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

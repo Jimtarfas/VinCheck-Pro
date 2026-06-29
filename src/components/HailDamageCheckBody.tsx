@@ -16,7 +16,7 @@ const COPY = {
     crumb: "Hail Damage Check",
     h1: "Hail Damage Check by VIN",
     intro:
-      "Hail damage is one of the most common yet underappreciated sources of vehicle history issues. A severe hailstorm can damage thousands of vehicles simultaneously, and many of those vehicles end up repaired and resold — sometimes across state lines — without clear disclosure of the storm damage history. A VIN hail damage check reveals insurance claims, storm damage records, and any title brands resulting from hail events.",
+      "CarCheckerVIN's free hail damage check queries NMVTIS, insurance comprehensive-claim feeds, and salvage-auction records to surface hail damage claims, storm-loss events, and any Hail or Salvage title brands for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns hail and storm records that follow the VIN nationwide — even after the car is shipped across state lines and repainted for resale. Hail damage is one of the most common yet underappreciated sources of vehicle history issues. A severe hailstorm can damage thousands of vehicles simultaneously, and many of those vehicles end up repaired and resold — sometimes across state lines — without clear disclosure of the storm damage history. A VIN hail damage check reveals insurance claims, storm damage records, and any title brands resulting from hail events.",
     ctaHeading: "Check for Hail and Storm Damage History",
     h2Recorded: "How Hail Damage Is Recorded",
     rec1:

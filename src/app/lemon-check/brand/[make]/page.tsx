@@ -69,7 +69,7 @@ export default async function BrandLemonCheckPage({
     publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
     mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
     datePublished: "2026-06-19",
-    dateModified: "2026-06-19",
+    dateModified: new Date().toISOString().slice(0, 10),
     image: `${SITE}/opengraph-image`,
   };
 

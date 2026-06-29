@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: { title: "Dealer History Check by VIN — Was This Car a Demo or Loaner?", description: "Check if a vehicle was used as a dealer demo or service loaner by VIN. Find dealer ownership records and pre-sale mileage history.", url: "https://www.carcheckervin.com/dealer-check", type: "article" },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "Dealer History Check by VIN", description: "Learn how to check if a vehicle was used as a dealer demo, service loaner, or press fleet car by VIN.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" }, mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/dealer-check" }, datePublished: "2026-05-04", dateModified: "2026-05-04" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "Dealer History Check by VIN", description: "Learn how to check if a vehicle was used as a dealer demo, service loaner, or press fleet car by VIN.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" }, mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/dealer-check" }, datePublished: "2026-05-04", dateModified: new Date().toISOString().slice(0, 10) };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS_EN.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

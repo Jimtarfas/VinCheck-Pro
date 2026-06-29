@@ -34,7 +34,7 @@ const COPY = {
     h1: "Impound & Repo History Check by VIN",
     h1Accent: "Find Liens Before You Buy",
     intro:
-      "Purchasing a vehicle with an active lien or unresolved impound record can result in losing the vehicle after purchase — even if you paid in full and the seller appeared to have legitimate ownership. A VIN impound and repo check reveals active liens, past repossession events, and impound history that could complicate or completely prevent a clean title transfer.",
+      "CarCheckerVIN's free impound and repo check queries NMVTIS, all 50 state DMV title and lien records, and law-enforcement impound databases to surface active liens, Repossession title brands, and unresolved impound holds for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the lien and impound signals that decide whether a clean title transfer is even possible — before you hand over money. Purchasing a vehicle with an active lien or unresolved impound record can result in losing the vehicle after purchase — even if you paid in full and the seller appeared to have legitimate ownership. A VIN impound and repo check reveals active liens, past repossession events, and impound history that could complicate or completely prevent a clean title transfer.",
     heroFormHeading: "Run a Free Impound & Lien Check",
     heroFormSub: "Enter any 17-character VIN",
     secureNote: "256-bit encrypted · DPPA compliant · NMVTIS-sourced title data",

@@ -52,7 +52,7 @@ const articleSchema = {
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
-  datePublished: "2026-06-09", dateModified: "2026-06-09",
+  datePublished: "2026-06-09", dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const faqSchema = {

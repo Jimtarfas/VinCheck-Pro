@@ -13,6 +13,44 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
+
+const QUICK_ANSWER_ITEMS = [
+  {
+    question: "Are free VIN lookups legit?",
+    answer: (
+      <>
+        <strong>Yes — the genuine ones are.</strong>{" "}
+        <strong>CarCheckerVIN</strong> is a free, NMVTIS-approved provider that
+        returns title brands, recalls, and a full VIN decode with no credit
+        card. NHTSA&apos;s vpic.nhtsa.dot.gov and each automaker&apos;s recall
+        page are also genuinely free.
+      </>
+    ),
+  },
+  {
+    question: "What information is free vs paid in a VIN lookup?",
+    answer: (
+      <>
+        Genuinely free: the VIN decode (year, make, model, engine, trim), open
+        safety recalls from NHTSA, and a title-brand preview from NMVTIS — the
+        federal title-information system administered by the U.S. Department of
+        Justice. Detailed accident, service, and lien data is generally paid.
+      </>
+    ),
+  },
+  {
+    question: "What's the catch with free VIN lookup sites?",
+    answer: (
+      <>
+        The common scam: a &quot;free&quot; preview that requires a credit card
+        for a $1 &quot;verification,&quot; then enrolls you in a $29-$40 monthly
+        subscription. A legitimate free lookup shows brand and recall results
+        before asking for payment — and never requires a card up front.
+      </>
+    ),
+  },
+];
 
 const SOURCE_ICONS = [Search, BadgeCheck, Building2, ShieldAlert] as const;
 const REDFLAG_ICONS = [CreditCard, Eye, ShieldAlert] as const;
@@ -229,6 +267,10 @@ export default function FreeVinLookupBody() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={QUICK_ANSWER_ITEMS} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2IsFree}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-7 max-w-3xl leading-relaxed">{c.isFreeIntro}</p>

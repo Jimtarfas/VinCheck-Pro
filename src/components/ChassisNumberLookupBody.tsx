@@ -22,7 +22,7 @@ const COPY = {
     badge: "Chassis Number = VIN   ·   Works Worldwide",
     h1Lead: "Chassis Number Lookup — ",
     h1Accent: "Find the Car Type Free",
-    intro1: "Your chassis number ", introEm: "is", intro2: " your VIN. Enter the 17-character code to decode the make, model, year, body, and engine instantly — then see the full history. Whether your document calls it a chassis number, frame number, or VIN, this is the one tool that reads it.",
+    intro1: "CarCheckerVIN's free chassis number lookup queries NMVTIS, NHTSA vPIC, and global ISO 3779 VIN data to decode the make, model year, body, and engine and surface title and recall history for any 17-character chassis number — the same code the UK calls a chassis number, India calls a frame number, and the US calls a VIN. As an NMVTIS-approved data provider, CarCheckerVIN reads any modern chassis number worldwide and returns the underlying vehicle build. Your chassis number ", introEm: "is", intro2: " your VIN. Enter the 17-character code to decode the make, model, year, body, and engine instantly — then see the full history. Whether your document calls it a chassis number, frame number, or VIN, this is the one tool that reads it.",
     formHeading: "Search a Car by Chassis Number",
     formSub: "Enter the 17-character chassis number (VIN) — we'll return the car type, full specification, and history",
     formNote: "Free · No sign-up · Instant car type",

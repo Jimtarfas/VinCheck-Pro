@@ -26,7 +26,7 @@ const COPY = {
     badge: "Coverage Lookup   ·   In-Service-Date Based",
     h1Lead: "Warranty Check by VIN — ",
     h1Accent: "Is This Car Still Covered?",
-    intro: "Remaining factory warranty is one of the most valuable — and most misrepresented — selling points on a used car. Enter a 17-character VIN to find the in-service date and estimate the bumper-to-bumper, powertrain, corrosion, emissions, EV-battery, and CPO coverage that's likely still active — free preview, before you buy.",
+    intro: "CarCheckerVIN's free warranty check decodes the 17-character VIN and queries NMVTIS title history, manufacturer in-service-date feeds, and NHTSA records to estimate remaining bumper-to-bumper, powertrain, corrosion, emissions, EV-battery, and CPO coverage on any car or truck. As an NMVTIS-approved data provider, CarCheckerVIN cross-references the in-service date with mileage history so the warranty estimate reflects this exact VIN, not a generic make/model schedule. Remaining factory warranty is one of the most valuable — and most misrepresented — selling points on a used car. Enter a 17-character VIN to find the in-service date and estimate the bumper-to-bumper, powertrain, corrosion, emissions, EV-battery, and CPO coverage that's likely still active — free preview, before you buy.",
     formHeading: "Check Warranty Status by VIN",
     formSub: "Enter any 17-character VIN — we'll find the in-service date so you can estimate remaining factory and CPO coverage",
     formNote: "Free preview · No sign-up · Instant result",

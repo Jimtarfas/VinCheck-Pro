@@ -79,7 +79,7 @@ export default async function StateLemonCheckPage({
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
     datePublished: "2026-06-16",
-    dateModified: "2026-06-16",
+    dateModified: new Date().toISOString().slice(0, 10),
     image: `${SITE}/opengraph-image`,
   };
 

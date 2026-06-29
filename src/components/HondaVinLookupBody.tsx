@@ -14,6 +14,44 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
+
+const QUICK_ANSWER_ITEMS = [
+  {
+    question: "How do I look up a Honda VIN?",
+    answer: (
+      <>
+        Find the 17-character VIN on the lower driver-side windshield, door jamb
+        sticker, title, or insurance card and enter it in{" "}
+        <strong>CarCheckerVIN&apos;s</strong> free Honda VIN lookup. It queries{" "}
+        <strong>NMVTIS</strong> for title-brand history plus NHTSA for open Honda
+        recalls and returns results in seconds — no sign-up.
+      </>
+    ),
+  },
+  {
+    question: "Is the Honda VIN lookup free?",
+    answer: (
+      <>
+        Yes. CarCheckerVIN&apos;s Honda VIN lookup is free with no credit card.
+        It returns the decoded year, trim, engine, and plant of manufacture, the
+        NMVTIS-sourced title-brand summary, and open NHTSA recalls — sufficient
+        for most pre-purchase decisions on a used Honda or Acura.
+      </>
+    ),
+  },
+  {
+    question: "How do I check Honda recalls by VIN?",
+    answer: (
+      <>
+        Enter the 17-character Honda VIN in the form on this page — it queries
+        the live NHTSA recall feed and returns any open recalls including the
+        Takata airbag, fuel-pump campaigns on 2018-2020 models, and Accord/Civic
+        transmission control software. Honda repairs are free at any dealer.
+      </>
+    ),
+  },
+];
 
 const REVEAL_ICONS = [Hash, Car, Cpu, Wrench, Shield, Gauge] as const;
 const DECODE_ICONS = [Factory, MapPin, Cpu] as const;
@@ -188,6 +226,10 @@ export default function HondaVinLookupBody() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={QUICK_ANSWER_ITEMS} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2Reveal}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl leading-relaxed">{c.revealIntro}</p>

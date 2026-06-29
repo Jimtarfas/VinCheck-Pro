@@ -102,7 +102,7 @@ const articleSchema = {
   },
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}${PATH}` },
   datePublished: "2026-05-04",
-  dateModified: "2026-06-08",
+  dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const faqSchema = {

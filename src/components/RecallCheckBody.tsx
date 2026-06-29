@@ -12,7 +12,88 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
 import type { Locale } from "@/i18n/config";
+
+const QUICK_ANSWER_EN = [
+  {
+    question: "How do I check for recalls by VIN?",
+    answer: (
+      <>
+        <strong>Enter the 17-character VIN above.</strong>{" "}
+        <strong>CarCheckerVIN</strong> queries the <strong>NHTSA</strong>{" "}
+        recall database for your exact vehicle and returns any open campaigns
+        with the affected component and defect description — free, no signup.
+        Because recalls target specific build ranges, the VIN match is more
+        reliable than searching by year and model.
+      </>
+    ),
+  },
+  {
+    question: "Are safety recall repairs free?",
+    answer: (
+      <>
+        Yes. Federal law requires the manufacturer to remedy a safety recall at
+        no cost to the owner — repairs are performed free at any franchised
+        dealer for that brand, regardless of how many owners the car has had.
+        Recall data comes from NHTSA, the U.S. agency that maintains the
+        official recall database.
+      </>
+    ),
+  },
+  {
+    question: "What is the Takata airbag recall?",
+    answer: (
+      <>
+        The Takata airbag inflator recall is the largest automotive recall in
+        U.S. history, affecting tens of millions of vehicles across nearly
+        every major manufacturer. The defect involves inflators that can
+        rupture and project metal fragments when deployed. A VIN check against
+        NHTSA is the only reliable way to confirm whether your vehicle is
+        affected.
+      </>
+    ),
+  },
+];
+
+const QUICK_ANSWER_ES = [
+  {
+    question: "¿Cómo verifico recalls por VIN?",
+    answer: (
+      <>
+        <strong>Ingresa el VIN de 17 caracteres arriba.</strong>{" "}
+        <strong>CarCheckerVIN</strong> consulta la base de datos de recalls de{" "}
+        <strong>NHTSA</strong> para tu vehículo exacto y devuelve cualquier
+        campaña abierta con el componente afectado — gratis, sin registro.
+      </>
+    ),
+  },
+  {
+    question: "¿Las reparaciones de recall son gratuitas?",
+    answer: (
+      <>
+        Sí. La ley federal requiere que el fabricante repare un recall de
+        seguridad sin costo al dueño — las reparaciones se realizan gratis en
+        cualquier concesionario franquicia de esa marca, sin importar cuántos
+        dueños haya tenido el auto. Los datos provienen de NHTSA, la agencia
+        federal de EE. UU.
+      </>
+    ),
+  },
+  {
+    question: "¿Qué es el recall de bolsas de aire Takata?",
+    answer: (
+      <>
+        El recall de infladores Takata es el recall automotriz más grande en
+        la historia de EE. UU., afectando decenas de millones de vehículos a
+        través de casi todos los fabricantes. El defecto involucra infladores
+        que pueden romperse y proyectar fragmentos metálicos al desplegarse.
+        Una verificación VIN contra NHTSA es la única forma confiable de
+        confirmar si tu vehículo está afectado.
+      </>
+    ),
+  },
+];
 
 const RECORD_ICONS = [AlertCircle, FileText, Siren, ShieldAlert, Wrench, Building2] as const;
 
@@ -22,7 +103,7 @@ const COPY = {
     badge: "NHTSA Safety Recalls",
     h1Lead: "VIN Recall Check — ",
     h1Accent: "Open NHTSA Safety Recalls",
-    intro: "Find out if a vehicle has unrepaired safety recalls before you drive or buy it. Enter a 17-character VIN to see the affected component, campaign number, defect, safety risk, and the free dealer remedy. Free preview, no credit card, results in under 5 seconds.",
+    intro: "CarCheckerVIN's free recall check queries the NHTSA Vehicle Safety Database and manufacturer recall feeds to surface open safety recalls, NHTSA campaign numbers, and the free dealer remedy for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the same recall information dealerships use, with the specific defect description and repair instructions for each unrepaired campaign. Find out if a vehicle has unrepaired safety recalls before you drive or buy it. Enter a 17-character VIN to see the affected component, campaign number, defect, safety risk, and the free dealer remedy. Free preview, no credit card, results in under 5 seconds.",
     formHeading: "Check for Open Safety Recalls by VIN",
     formSub: "Enter any 17-character VIN — cars, trucks, motorcycles, RVs",
     secureNote: "256-bit encrypted · DPPA compliant · No personal data stored",
@@ -334,6 +415,7 @@ interface Props { locale: Locale; }
 export default function RecallCheckBody({ locale }: Props) {
   const c = COPY[locale];
   const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const quickAnswerItems = locale === "es" ? QUICK_ANSWER_ES : QUICK_ANSWER_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
 
   return (
@@ -392,6 +474,10 @@ export default function RecallCheckBody({ locale }: Props) {
       </section>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={quickAnswerItems} locale={locale} />
+        </div>
+
         <section className="py-12 sm:py-16 border-b border-outline-variant">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-4">{c.h2Why}</h2>
           <div className="prose prose-slate max-w-none text-sm sm:text-base text-on-surface-variant leading-relaxed space-y-4">

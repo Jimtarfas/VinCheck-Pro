@@ -22,7 +22,7 @@ const COPY = {
     badge: "Golf Cart = Serial Number   ·   Not a Road VIN",
     h1Lead: "Golf Cart VIN Lookup — ",
     h1Accent: "Decode the Serial & Year",
-    intro1: "Golf carts don't carry a 17-character road VIN — they use a ",
+    intro1: "CarCheckerVIN's free golf cart VIN lookup reads the manufacturer serial number from Club Car, E-Z-GO, and Yamaha carts and cross-references brand-specific year-code tables to surface the model year, production week, and model line for any cart serial. As an NMVTIS-approved data provider, CarCheckerVIN focuses on the same federal VIN standard for road vehicles — and applies marque-specific decoding for off-road carts that don't carry a 17-character VIN. Golf carts don't carry a 17-character road VIN — they use a ",
     introBold: "manufacturer serial number",
     intro2: " that encodes the model year. Find it, decode it, and know exactly what year your Club Car, E-Z-GO, or Yamaha cart is.",
     trustStats: [

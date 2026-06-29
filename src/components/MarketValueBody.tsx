@@ -16,7 +16,7 @@ const COPY = {
     crumb: "Market Value",
     h1: "Car Market Value by VIN",
     intro:
-      "Knowing a vehicle's current market value is essential whether you're buying, selling, or trading in. A VIN-based valuation pulls the exact factory configuration — trim level, options, and equipment — to generate a precise value rather than an average for the model. Understanding the difference between trade-in, private party, and dealer retail values puts you in a far stronger negotiating position before any transaction.",
+      "CarCheckerVIN's free market value lookup decodes the factory build from the 17-character VIN and queries auction comps, dealer wholesale data, and retail listing aggregators to surface trade-in, private-party, and dealer-retail values for any car or truck. As an NMVTIS-approved data provider, CarCheckerVIN factors in title brands, accident history, and salvage records that generic make/model calculators ignore — so the number reflects this VIN, not an average. Knowing a vehicle's current market value is essential whether you're buying, selling, or trading in. A VIN-based valuation pulls the exact factory configuration — trim level, options, and equipment — to generate a precise value rather than an average for the model. Understanding the difference between trade-in, private party, and dealer retail values puts you in a far stronger negotiating position before any transaction.",
     ctaTopHeading: "Get the Current Market Value",
     h2Calc: "How Vehicle Market Value Is Calculated",
     calc1:

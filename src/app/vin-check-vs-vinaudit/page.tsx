@@ -37,7 +37,7 @@ const articleSchema = {
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
   mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/vin-check-vs-vinaudit" },
   datePublished: "2026-04-26",
-  dateModified: "2026-04-26",
+  dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const faqSchema = {

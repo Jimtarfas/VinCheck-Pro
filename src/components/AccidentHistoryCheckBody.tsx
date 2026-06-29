@@ -9,7 +9,87 @@ import { Check } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
+import QuickAnswer from "@/components/QuickAnswer";
 import type { Locale } from "@/i18n/config";
+
+const QUICK_ANSWER_EN = [
+  {
+    question: "Can I check a car's accident history by VIN?",
+    answer: (
+      <>
+        <strong>Yes.</strong>{" "}
+        <strong>CarCheckerVIN&apos;s free accident history check</strong>{" "}
+        queries <strong>NMVTIS</strong>, insurance claims feeds, police-report
+        aggregators, and body-shop records to surface reported collisions,
+        airbag deployments, and structural-damage events for any 17-character
+        VIN — at no cost.
+      </>
+    ),
+  },
+  {
+    question: "Where does VIN accident data come from?",
+    answer: (
+      <>
+        Accident data is aggregated from auto insurance claims, police crash
+        reports filed through state DMVs, collision-repair shop records, and
+        salvage auction total-loss filings. NMVTIS — the federal title
+        aggregator administered by the U.S. Department of Justice — captures
+        the total-loss and salvage layer.
+      </>
+    ),
+  },
+  {
+    question: "Does the report show every accident?",
+    answer: (
+      <>
+        No. Only accidents that were reported to a data source appear — a minor
+        fender bender paid out of pocket with no claim and no police report
+        will not show up. No VIN history report captures 100% of accidents,
+        which is why a report works best alongside an in-person inspection.
+      </>
+    ),
+  },
+];
+
+const QUICK_ANSWER_ES = [
+  {
+    question: "¿Puedo verificar el historial de accidentes de un auto por VIN?",
+    answer: (
+      <>
+        <strong>Sí.</strong>{" "}
+        <strong>La verificación gratuita de historial de accidentes de CarCheckerVIN</strong>{" "}
+        consulta <strong>NMVTIS</strong>, feeds de reclamos de seguros,
+        agregadores de reportes policiales y registros de talleres para mostrar
+        colisiones reportadas, despliegues de bolsas de aire y eventos de daño
+        estructural — gratis.
+      </>
+    ),
+  },
+  {
+    question: "¿De dónde provienen los datos de accidentes por VIN?",
+    answer: (
+      <>
+        Los datos se agregan de reclamos de seguros automotrices, reportes
+        policiales de choque presentados por DMVs estatales, registros de
+        talleres de reparación de colisiones y archivos de pérdida total de
+        subastas de salvamento. NMVTIS captura la capa de pérdida total y
+        salvamento.
+      </>
+    ),
+  },
+  {
+    question: "¿El reporte muestra cada accidente?",
+    answer: (
+      <>
+        No. Solo aparecen accidentes que fueron reportados a una fuente de
+        datos — un choque menor pagado de su bolsillo sin reclamo y sin
+        reporte policial no aparecerá. Ningún reporte VIN captura el 100% de
+        los accidentes, por eso un reporte funciona mejor junto con una
+        inspección en persona.
+      </>
+    ),
+  },
+];
 
 const COPY = {
   en: {
@@ -17,7 +97,7 @@ const COPY = {
     crumb: "Accident History Check",
     h1: "Vehicle Accident History Check",
     intro:
-      "Roughly one in three used cars on the market has been in at least one reported accident. A VIN-based accident history check pulls insurance claims, police reports, body-shop records, and total-loss data so you can see exactly what happened to a vehicle before you buy — not just what the seller chooses to tell you.",
+      "CarCheckerVIN's free accident history check queries NMVTIS, insurance claims feeds, police-report aggregators, and body-shop records to surface reported collisions, airbag deployments, and structural-damage events for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the same accident and total-loss indicators insurers rely on — so you see what really happened to the car, not just what the seller chooses to tell you. Roughly one in three used cars on the market has been in at least one reported accident. A VIN-based accident history check pulls insurance claims, police reports, body-shop records, and total-loss data so you can see exactly what happened to a vehicle before you buy — not just what the seller chooses to tell you.",
     runHeading: "Run an Accident History Check Now",
     h2Collected: "How Accident Data Is Actually Collected",
     collectedP1:
@@ -286,6 +366,7 @@ interface Props {
 export default function AccidentHistoryCheckBody({ locale }: Props) {
   const c = COPY[locale];
   const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const quickAnswerItems = locale === "es" ? QUICK_ANSWER_ES : QUICK_ANSWER_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
 
   return (
@@ -307,6 +388,10 @@ export default function AccidentHistoryCheckBody({ locale }: Props) {
           <div className="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-100">
             <h2 className="text-lg font-bold text-slate-900 mb-3">{c.runHeading}</h2>
             <VinSearchForm size="sm"  locale={locale}/>
+          </div>
+
+          <div className="mt-10">
+            <QuickAnswer items={quickAnswerItems} locale={locale} />
           </div>
 
           <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.h2Collected}</h2>

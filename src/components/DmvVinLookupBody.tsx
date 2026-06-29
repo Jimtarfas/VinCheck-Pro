@@ -14,6 +14,44 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
+
+const QUICK_ANSWER_ITEMS = [
+  {
+    question: "Does the DMV offer a free online VIN lookup?",
+    answer: (
+      <>
+        <strong>No.</strong> There is no self-serve DMV website where you can
+        type a VIN and pull title history for free. <strong>CarCheckerVIN</strong>{" "}
+        is the practical free alternative — it pulls from <strong>NMVTIS</strong>,
+        the federal database all 50 state DMVs report into, and returns the
+        record instantly.
+      </>
+    ),
+  },
+  {
+    question: "How do I get DMV records for a vehicle by VIN?",
+    answer: (
+      <>
+        File a vehicle-records request with the state DMV where the vehicle is
+        titled — California REG-124, New York MV-15, Florida HSMV 90510, Texas
+        VTR-275. Expect a $5-$25 fee, a DPPA permissible-use attestation, and a
+        2-6 week wait by mail.
+      </>
+    ),
+  },
+  {
+    question: "What's the difference between DMV records and a VIN history report?",
+    answer: (
+      <>
+        A DMV record is a single state&apos;s official title document. A VIN
+        history report pulls from NMVTIS — which aggregates title and brand
+        data from all 50 state DMVs, insurers, and salvage auctions — so it
+        surfaces title washing across state lines a single-state record cannot.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, Database, FileText] as const;
 
@@ -201,6 +239,10 @@ export default function DmvVinLookupBody() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={QUICK_ANSWER_ITEMS} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

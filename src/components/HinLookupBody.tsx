@@ -22,7 +22,7 @@ const COPY = {
     badge: "A Boat's HIN = Its VIN   ·   USCG Standard",
     h1Lead: "HIN Lookup — ",
     h1Accent: "Decode Any Boat's Hull Number",
-    introPre: "A boat's Hull Identification Number ",
+    introPre: "CarCheckerVIN's free HIN lookup decodes any 12-character US Coast Guard Hull Identification Number to surface the manufacturer code (MIC), hull serial, model year, and build month for powerboats, sailboats, and personal watercraft. As an NMVTIS-approved data provider, CarCheckerVIN applies the same VIN-grade decoding standard to marine HINs that it does to road VINs — the federal identifier required on every boat built since 1972. A boat's Hull Identification Number ",
     introEm: "is",
     introSuffix: " its VIN. Enter the 12-character HIN from the transom to break out the manufacturer code, hull serial, and build year instantly. The marine equivalent of a VIN decode — free, no sign-up.",
     trustStats: [

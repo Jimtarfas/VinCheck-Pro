@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: { title, description, url: PAGE_URL, type: "article", siteName: "CarCheckerVIN", locale: "fr_US" },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: "CarCheckerVIN vs Carfax: Quel es meilleur?", description: "Una comparaison côte à côte de CarCheckerVIN et Carfax couvrant tarifs, a éventes de données, contenideux du rapport et le cas de uso adecuado pour chaque unon.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-16", dateModified: "2026-04-16" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", inLanguage: "fr", headline: "CarCheckerVIN vs Carfax: Quel es meilleur?", description: "Una comparaison côte à côte de CarCheckerVIN et Carfax couvrant tarifs, a éventes de données, contenideux du rapport et le cas de uso adecuado pour chaque unon.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE }, mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL }, datePublished: "2026-04-16", dateModified: new Date().toISOString().slice(0, 10) };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "fr", mainEntity: FAQS_FR.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

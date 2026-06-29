@@ -15,6 +15,44 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
+
+const QUICK_ANSWER_ITEMS = [
+  {
+    question: "How do I look up a Toyota VIN?",
+    answer: (
+      <>
+        Find the 17-character VIN on the lower driver-side windshield, door jamb
+        sticker, title, or insurance card and enter it in{" "}
+        <strong>CarCheckerVIN&apos;s</strong> free Toyota VIN lookup. It queries{" "}
+        <strong>NMVTIS</strong> for title brands plus NHTSA for open Toyota
+        recalls and returns results in seconds.
+      </>
+    ),
+  },
+  {
+    question: "Is the Toyota VIN lookup free?",
+    answer: (
+      <>
+        Yes. CarCheckerVIN&apos;s Toyota VIN lookup is free with no sign-up or
+        credit card. It returns decoded year, model, trim, engine, NMVTIS-sourced
+        title-brand history, and open Toyota safety recalls — the same data
+        Toyota and federal regulators report into NMVTIS and NHTSA.
+      </>
+    ),
+  },
+  {
+    question: "How do I check for open Toyota recalls?",
+    answer: (
+      <>
+        Run the Toyota VIN through the form on this page — it surfaces open
+        NHTSA recalls attached to the VIN, including the Takata airbag, the
+        2018-2020 low-pressure fuel pump action, and the early-2000s Tacoma and
+        Tundra frame-rust campaigns. Repairs are always free at any Toyota dealer.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, Database, FileText] as const;
 const SIGN_ICONS = [Hash, Car, Cpu, AlertTriangle, Wrench, Gauge] as const;
@@ -210,6 +248,10 @@ export default function ToyotaVinLookupBody() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={QUICK_ANSWER_ITEMS} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

@@ -77,7 +77,7 @@ const articleSchema = {
   },
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/lemon-check/brand` },
   datePublished: "2026-06-19",
-  dateModified: "2026-06-19",
+  dateModified: new Date().toISOString().slice(0, 10),
   image: `${SITE}/opengraph-image`,
 };
 

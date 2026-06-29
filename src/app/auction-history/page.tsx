@@ -31,7 +31,7 @@ const articleSchema = {
   author: ORG_AUTHOR,
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } },
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/auction-history` },
-  datePublished: "2026-06-13", dateModified: "2026-06-13",
+  datePublished: "2026-06-13", dateModified: new Date().toISOString().slice(0, 10),
   image: `${SITE}/opengraph-image`,
 };
 

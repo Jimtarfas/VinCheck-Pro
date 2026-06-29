@@ -14,6 +14,44 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
+
+const QUICK_ANSWER_ITEMS = [
+  {
+    question: "What is a VIN number lookup?",
+    answer: (
+      <>
+        A <strong>VIN number lookup</strong> is a search keyed to the 17-character
+        Vehicle Identification Number. <strong>CarCheckerVIN</strong> queries NMVTIS,
+        all 50 state DMVs, the NHTSA recall feed, and salvage auctions to return
+        decoded specs, title-brand history, and open safety recalls in seconds —
+        free, no signup.
+      </>
+    ),
+  },
+  {
+    question: "How does a VIN lookup work?",
+    answer: (
+      <>
+        After validating the VIN is exactly 17 characters (no I, O, or Q), the tool
+        decodes the manufacturer pattern for year, make, model, and trim, then queries
+        NMVTIS — the U.S. Department of Justice aggregator of all 50 state DMVs,
+        insurers, and salvage auctions — plus the NHTSA recall feed.
+      </>
+    ),
+  },
+  {
+    question: "Is a free VIN lookup really free?",
+    answer: (
+      <>
+        Yes. The basic VIN number lookup on this page is free with no sign-up, no
+        credit card, and no hidden charges. NMVTIS data and NHTSA recall data are
+        available through approved providers — a paid full report is optional, but
+        the free lookup is sufficient for most pre-purchase checks.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, Database, FileText] as const;
 const SIGN_ICONS = [Hash, Car, Cpu, AlertTriangle, Wrench, Gauge] as const;
@@ -204,6 +242,10 @@ export default function VinNumberLookupBody() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={QUICK_ANSWER_ITEMS} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

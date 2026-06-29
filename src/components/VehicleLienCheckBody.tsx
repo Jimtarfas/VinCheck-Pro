@@ -27,7 +27,7 @@ const COPY = {
     badge: "Hidden-Loan Lookup   ·   NMVTIS-Backed",
     h1Lead: "Free Vehicle Lien Check by VIN — ",
     h1Accent: "Do You Really Own It?",
-    intro: "Buying a used car with an undisclosed lien means you don't own it — the lender does, and they can repossess it from your driveway whenever they want. Enter a 17-character VIN to surface hidden loans, repossession records, and sale history in seconds — free, so you never inherit somebody else's debt.",
+    intro: "CarCheckerVIN's free vehicle lien check queries NMVTIS, all 50 state DMV title records, and UCC-1 filings to surface active liens, lienholder names, repossession events, and Repo title brands for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the same lien data title clerks rely on — so you never inherit somebody else's debt or watch the lender tow the car out of your driveway. Buying a used car with an undisclosed lien means you don't own it — the lender does, and they can repossess it from your driveway whenever they want. Enter a 17-character VIN to surface hidden loans, repossession records, and sale history in seconds — free, so you never inherit somebody else's debt.",
     formHeading: "Run a Free Vehicle Lien Check",
     formSub: "Enter any 17-character VIN — we'll surface any active or historical lien and the lien holder on record",
     formNote: "Free · No sign-up · Instant result",

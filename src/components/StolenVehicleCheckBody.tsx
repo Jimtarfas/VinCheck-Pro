@@ -13,7 +13,86 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
 import type { Locale } from "@/i18n/config";
+
+const QUICK_ANSWER_EN = [
+  {
+    question: "How do I check if a car is stolen by VIN?",
+    answer: (
+      <>
+        Enter the 17-character VIN above. <strong>CarCheckerVIN</strong> pairs
+        the NICB stolen-vehicle database with <strong>NMVTIS</strong> title
+        records to flag theft-and-unrecovered status, theft-recovery brands,
+        and insurance salvage records from all 50 state DMVs — free, instantly,
+        no signup.
+      </>
+    ),
+  },
+  {
+    question: "What database shows whether a car is stolen?",
+    answer: (
+      <>
+        Two systems matter. The NICB VINCheck database carries theft and
+        salvage records from participating insurers and is free by VIN. NMVTIS —
+        administered by the U.S. Department of Justice — aggregates
+        theft-recovery and salvage title brands from all 50 state DMVs. Law
+        enforcement also maintains the non-public NCIC.
+      </>
+    ),
+  },
+  {
+    question: "Does a VIN check guarantee a car isn't stolen?",
+    answer: (
+      <>
+        No. A VIN check only reflects thefts reported into the databases it
+        queries — a car stolen hours ago, one with a cloned VIN, or a theft
+        never reported to insurance may not appear. Always verify the VIN
+        matches across the title, registration, and door-jamb plate, and
+        contact local police if anything looks off.
+      </>
+    ),
+  },
+];
+
+const QUICK_ANSWER_ES = [
+  {
+    question: "¿Cómo verifico si un auto está robado por VIN?",
+    answer: (
+      <>
+        Ingresa el VIN de 17 caracteres arriba. <strong>CarCheckerVIN</strong>{" "}
+        combina la base de datos NICB de vehículos robados con registros de{" "}
+        <strong>NMVTIS</strong> para marcar el estado robado-y-no-recuperado,
+        marcas de recuperación de robo y registros de salvamento de los 50 DMV
+        estatales — gratis e instantáneo.
+      </>
+    ),
+  },
+  {
+    question: "¿Qué base de datos muestra si un auto está robado?",
+    answer: (
+      <>
+        Dos sistemas importan. NICB VINCheck lleva registros de robo y
+        salvamento de aseguradoras participantes y es gratis por VIN. NMVTIS —
+        administrado por el Departamento de Justicia de EE. UU. — agrega
+        marcas de recuperación de robo y salvamento de los 50 DMV estatales.
+        Las fuerzas del orden mantienen el NCIC no público.
+      </>
+    ),
+  },
+  {
+    question: "¿Una verificación VIN garantiza que un auto no está robado?",
+    answer: (
+      <>
+        No. Una verificación VIN solo refleja robos reportados a las bases de
+        datos que consulta — un auto robado hace horas, uno con VIN clonado,
+        o un robo nunca reportado al seguro puede no aparecer. Siempre
+        verifica que el VIN coincida en el título, registro y placa de la
+        puerta.
+      </>
+    ),
+  },
+];
 
 const HOW_STEP_ICONS = [Search, Database, ShieldAlert] as const;
 const CONTENT_ICONS = [ShieldAlert, ShieldCheck, AlertTriangle, FileSearch, Database, MapPin] as const;
@@ -24,7 +103,7 @@ const COPY = {
     badge: "NICB & NMVTIS   ·   Theft, Recovery & Salvage Flags",
     h1Lead: "Stolen Vehicle Check by VIN — ",
     h1Accent: "Is This Car Stolen?",
-    intro: "Buying a car you don't know is stolen can cost you the vehicle, your money, and a police interview. A stolen vehicle check cross-references the 17-character VIN against the NICB and NMVTIS theft databases, so you can confirm a car's status in seconds before you hand over a dollar. It's free.",
+    intro: "CarCheckerVIN's free stolen vehicle check cross-references the NICB VINCheck theft database and NMVTIS title-brand records to surface active theft reports, salvage flags from insurer-declared total losses, and unrecovered stolen status for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the same theft and salvage indicators law enforcement and insurers rely on. Buying a car you don't know is stolen can cost you the vehicle, your money, and a police interview. A stolen vehicle check cross-references the 17-character VIN against the NICB and NMVTIS theft databases, so you can confirm a car's status in seconds before you hand over a dollar. It's free.",
     formHeading: "Run a Stolen Vehicle Check by VIN",
     formSub: "Enter the VIN and we'll check it against national theft and title-brand databases",
     formNote: "Free · No sign-up · Instant result",
@@ -391,6 +470,7 @@ interface Props { locale: Locale; }
 export default function StolenVehicleCheckBody({ locale }: Props) {
   const c = COPY[locale];
   const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const quickAnswerItems = locale === "es" ? QUICK_ANSWER_ES : QUICK_ANSWER_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
 
   return (
@@ -432,6 +512,10 @@ export default function StolenVehicleCheckBody({ locale }: Props) {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={quickAnswerItems} locale={locale} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

@@ -25,7 +25,7 @@ const COPY = {
     badge: "Classic & Vintage   ·   Pre-1981 Formats",
     h1Lead: "Classic Car VIN Decoder — ",
     h1Accent: "Decode Any Vintage Vehicle",
-    intro: "Before 1981 there was no standardized 17-character VIN — every manufacturer used its own system, and those systems changed year to year. Knowing the right key for a specific make and model year unlocks the engine code, body style, assembly plant, and the numbers-matching data that drives a classic's collector value.",
+    intro: "CarCheckerVIN's free classic car VIN decoder reads pre-1981 manufacturer-specific VIN formats and cross-references NMVTIS records, factory build sheets, and marque-specific decoding tables to surface engine code, body style, assembly plant, trim, and numbers-matching status by VIN. As an NMVTIS-approved data provider, CarCheckerVIN turns a 5- to 13-character classic VIN into the collector-grade build data that drives appraisal value. Before 1981 there was no standardized 17-character VIN — every manufacturer used its own system, and those systems changed year to year. Knowing the right key for a specific make and model year unlocks the engine code, body style, assembly plant, and the numbers-matching data that drives a classic's collector value.",
     formHeading: "Decode a Classic Car VIN",
     formSub: "Enter a pre-1981 or modern VIN — we'll decode the factory configuration so you can verify authenticity",
     formNote: "Free · No sign-up · Instant result",

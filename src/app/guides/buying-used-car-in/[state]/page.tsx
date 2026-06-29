@@ -123,7 +123,7 @@ export default async function GuidePage({ params }: Props) {
     headline: `Buying a Used Car in ${state.name} — Complete 2026 Guide`,
     description: `Step-by-step guide to buying a used car in ${state.name}. ${state.dmvName} title transfer, sales tax, ${state.name} lemon law, and inspection requirements explained.`,
     datePublished: "2026-04-26",
-    dateModified: "2026-06-09",
+    dateModified: new Date().toISOString().slice(0, 10),
     author: ORG_AUTHOR,
     publisher: {
       "@type": "Organization",

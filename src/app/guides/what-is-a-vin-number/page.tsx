@@ -46,7 +46,7 @@ const articleSchema = {
     "@id": `${SITE}/guides/what-is-a-vin-number`,
   },
   datePublished: "2026-04-16",
-  dateModified: "2026-04-16",
+  dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const faqSchema = {

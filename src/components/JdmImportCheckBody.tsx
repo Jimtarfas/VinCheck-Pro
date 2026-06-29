@@ -23,7 +23,7 @@ const COPY = {
     badge: "Japanese Imports   ·   Chassis Code, Mileage & 25-Year Rule",
     h1Lead: "JDM Import VIN Check — ",
     h1Accent: "Japanese Import History",
-    intro: "Japanese Domestic Market cars like the Nissan Skyline GT-R, Honda NSX-R, Subaru Impreza STI, and Toyota Supra RZ were never sold in America. Most of their history happened in Japan, recorded on a chassis code, an auction sheet, and an export certificate rather than a US VIN. Start with the VIN or chassis code to verify mileage, condition, and legal import status. It's free.",
+    intro: "CarCheckerVIN's free JDM import check queries NMVTIS US title history, Japanese auction sheets (USS, JU, TAA), export-certificate records, and EPA and DOT 25-year import compliance feeds to surface chassis code, mileage at export, auction grade, and US title brands for any JDM VIN or chassis number. As an NMVTIS-approved data provider, CarCheckerVIN bridges Japanese auction history with US title and import records so you can verify a Skyline GT-R, Supra RZ, NSX-R, or Impreza STI before you wire money overseas. Japanese Domestic Market cars like the Nissan Skyline GT-R, Honda NSX-R, Subaru Impreza STI, and Toyota Supra RZ were never sold in America. Most of their history happened in Japan, recorded on a chassis code, an auction sheet, and an export certificate rather than a US VIN. Start with the VIN or chassis code to verify mileage, condition, and legal import status. It's free.",
     formHeading: "Check a JDM Import by VIN or Chassis Code",
     formSub: "Enter the US 17-character VIN, or the Japanese chassis code, and we'll pull the import and history trail",
     formNote: "Free · No sign-up · Instant result",

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "CarCheckerVIN vs AutoCheck: 2026 Comparison", description: "A side-by-side comparison of CarCheckerVIN and Experian AutoCheck covering pricing, data sources, the AutoCheck Score, and the right use case for each.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/vin-check-vs-autocheck` }, datePublished: "2026-04-26", dateModified: "2026-06-16", image: `${SITE}/opengraph-image` };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "CarCheckerVIN vs AutoCheck: 2026 Comparison", description: "A side-by-side comparison of CarCheckerVIN and Experian AutoCheck covering pricing, data sources, the AutoCheck Score, and the right use case for each.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE, logo: { "@type": "ImageObject", url: `${SITE}/logo.png` } }, mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/vin-check-vs-autocheck` }, datePublished: "2026-04-26", dateModified: new Date().toISOString().slice(0, 10), image: `${SITE}/opengraph-image` };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS_EN.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

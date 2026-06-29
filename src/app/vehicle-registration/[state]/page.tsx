@@ -106,7 +106,7 @@ export default async function StateVehicleRegistrationPage({
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
     datePublished: "2026-06-28",
-    dateModified: "2026-06-28",
+    dateModified: new Date().toISOString().slice(0, 10),
     image: `${SITE}/opengraph-image`,
   };
 

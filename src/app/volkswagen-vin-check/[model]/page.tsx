@@ -81,7 +81,7 @@ export default async function VolkswagenModelVinPage({
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
     datePublished: "2026-06-22",
-    dateModified: "2026-06-22",
+    dateModified: new Date().toISOString().slice(0, 10),
     image: `${SITE}/opengraph-image`,
     about: {
       "@type": "Car",

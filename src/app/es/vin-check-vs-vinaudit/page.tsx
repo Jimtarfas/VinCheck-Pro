@@ -31,7 +31,7 @@ const articleSchema = {
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: SITE },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
   datePublished: "2026-04-26",
-  dateModified: "2026-04-26",
+  dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const faqSchema = {

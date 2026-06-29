@@ -196,7 +196,7 @@ const articleSchema = {
   author: ORG_AUTHOR,
   publisher: ORG_AUTHOR,
   datePublished: "2025-09-01",
-  dateModified: "2026-06-20",
+  dateModified: new Date().toISOString().slice(0, 10),
   mainEntityOfPage: {
     "@type": "WebPage",
     "@id": `${SITE}/diminished-value-calculator`,

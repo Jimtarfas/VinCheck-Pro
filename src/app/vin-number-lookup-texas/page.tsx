@@ -95,7 +95,7 @@ const articleSchema = {
     "@id": `${SITE}/vin-number-lookup-texas`,
   },
   datePublished: "2026-06-28",
-  dateModified: "2026-06-28",
+  dateModified: new Date().toISOString().slice(0, 10),
   image: `${SITE}/opengraph-image`,
   about: {
     "@type": "Place",

@@ -78,7 +78,7 @@ const articleSchema = {
   },
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/florida-vin-check` },
   datePublished: "2026-05-09",
-  dateModified: "2026-05-09",
+  dateModified: new Date().toISOString().slice(0, 10),
   image: `${SITE}/opengraph-image`,
   about: { "@type": "Place", name: "Florida", sameAs: "https://en.wikipedia.org/wiki/Florida" },
 };

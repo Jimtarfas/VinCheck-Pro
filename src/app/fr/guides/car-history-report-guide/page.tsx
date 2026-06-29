@@ -68,7 +68,7 @@ const articleSchema = {
   },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
   datePublished: "2026-04-23",
-  dateModified: "2026-06-25",
+  dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const howToSchema = {

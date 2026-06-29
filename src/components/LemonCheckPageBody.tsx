@@ -62,7 +62,7 @@ const COPY = {
     h1Lead: "Lemon Check by VIN —",
     h1Accent: "Catch the Buyback Before You Buy",
     heroLead:
-      "Find manufacturer buyback brands, lemon law buyback titles, and warranty repurchase records on any used vehicle. Free preview, no credit card, instant results — sourced from NMVTIS and every U.S. state DMV.",
+      "CarCheckerVIN's free lemon check queries NMVTIS and all 50 state DMVs to surface Manufacturer Buyback, Lemon Law Buyback, and Warranty Repurchase title brands for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns lemon-law buyback records that follow the VIN nationwide — even after a re-title attempt in a state with weaker brand-transfer rules. Find manufacturer buyback brands, lemon law buyback titles, and warranty repurchase records on any used vehicle. Free preview, no credit card, instant results — sourced from NMVTIS and every U.S. state DMV.",
     searchHeading: "Run a Free Lemon Check",
     searchSub: "Enter any 17-character VIN — cars, trucks, SUVs, leased vehicles, demos",
     trustNote: "256-bit encrypted · DPPA compliant · NMVTIS-sourced title data",

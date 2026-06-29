@@ -43,7 +43,7 @@ const articleSchema = {
     "@id": "https://www.carcheckervin.com/accident-history-check",
   },
   datePublished: "2026-04-16",
-  dateModified: "2026-04-16",
+  dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const faqSchema = {

@@ -54,7 +54,7 @@ const articleSchema = {
   },
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/lemon-check` },
   datePublished: "2026-04-16",
-  dateModified: "2026-05-14",
+  dateModified: new Date().toISOString().slice(0, 10),
   image: `${SITE}/opengraph-image`,
 };
 

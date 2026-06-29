@@ -53,7 +53,7 @@ const articleSchema = {
   },
   mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/vin-check/state` },
   datePublished: "2026-06-13",
-  dateModified: "2026-06-13",
+  dateModified: new Date().toISOString().slice(0, 10),
   image: `${SITE}/opengraph-image`,
   about: {
     "@type": "Country",

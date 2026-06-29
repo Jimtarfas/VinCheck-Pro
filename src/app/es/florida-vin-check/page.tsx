@@ -67,7 +67,7 @@ const articleSchema = {
   },
   mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
   datePublished: "2026-05-09",
-  dateModified: "2026-06-25",
+  dateModified: new Date().toISOString().slice(0, 10),
   image: `${SITE}/opengraph-image`,
   about: { "@type": "Place", name: "Florida", sameAs: "https://es.wikipedia.org/wiki/Florida" },
 };

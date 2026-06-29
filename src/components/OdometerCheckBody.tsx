@@ -13,7 +13,87 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
 import type { Locale } from "@/i18n/config";
+
+const QUICK_ANSWER_EN = [
+  {
+    question: "How do I check a car's odometer history by VIN?",
+    answer: (
+      <>
+        <strong>Yes —</strong> enter the 17-character VIN above.{" "}
+        <strong>CarCheckerVIN</strong> pulls every reported odometer reading
+        from <strong>NMVTIS</strong>, state DMV transfers, inspection records,
+        and dealer service events into a date-stamped timeline so any reading
+        lower than an earlier one stands out as a possible rollback.
+      </>
+    ),
+  },
+  {
+    question: "How accurate is a VIN-based mileage history?",
+    answer: (
+      <>
+        Readings come from NMVTIS — the federal title aggregator administered
+        by the U.S. Department of Justice — plus state safety and emissions
+        inspections, auction sales, and dealer service visits. Coverage varies
+        by state, but a typical older vehicle has multiple recorded data points
+        usable to confirm or disprove a seller&apos;s claim.
+      </>
+    ),
+  },
+  {
+    question: "Is odometer rollback illegal?",
+    answer: (
+      <>
+        Yes. The federal Truth in Mileage Act (49 U.S.C. § 32703) makes
+        odometer tampering a federal crime — sellers must disclose true mileage
+        on the title at every transfer. A defrauded buyer can recover treble
+        damages plus attorney fees, and rollback brings prison time and
+        substantial fines.
+      </>
+    ),
+  },
+];
+
+const QUICK_ANSWER_ES = [
+  {
+    question: "¿Cómo verifico el historial de odómetro por VIN?",
+    answer: (
+      <>
+        <strong>Sí —</strong> ingresa el VIN de 17 caracteres arriba.{" "}
+        <strong>CarCheckerVIN</strong> extrae cada lectura de odómetro
+        reportada de <strong>NMVTIS</strong>, transferencias estatales,
+        inspecciones y eventos de servicio en una línea de tiempo fechada para
+        que cualquier lectura menor a una anterior resalte como posible
+        rollback.
+      </>
+    ),
+  },
+  {
+    question: "¿Qué tan precisa es la historia de kilometraje por VIN?",
+    answer: (
+      <>
+        Las lecturas provienen de NMVTIS — el agregador federal de títulos del
+        Departamento de Justicia de EE. UU. — más inspecciones estatales de
+        seguridad y emisiones, ventas en subasta y visitas de servicio. La
+        cobertura varía por estado, pero un vehículo más antiguo típicamente
+        tiene múltiples puntos de datos útiles.
+      </>
+    ),
+  },
+  {
+    question: "¿El rollback de odómetro es ilegal?",
+    answer: (
+      <>
+        Sí. La Ley Federal de Veracidad en Kilometraje (49 U.S.C. § 32703) hace
+        que la manipulación de odómetro sea un delito federal — los vendedores
+        deben divulgar el kilometraje real en el título en cada transferencia.
+        Un comprador defraudado puede recuperar daños triplicados más
+        honorarios de abogado.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, Database, TrendingUp] as const;
 const SIGN_ICONS = [Footprints, Gauge, ScrollText, FileText, Cpu, AlertTriangle] as const;
@@ -25,7 +105,7 @@ const COPY = {
     badge: "Mileage History   ·   Rollback Detection",
     h1Lead: "Odometer & Mileage Check by VIN — ",
     h1Accent: "Are the Miles Real?",
-    intro: "Odometer fraud costs U.S. buyers an estimated billion-plus dollars a year — and digital dashboards make rollback easier than ever. Enter a 17-character VIN to pull every reported reading on file and lay them out chronologically, so any rollback stands out at a glance — free, before you buy.",
+    intro: "CarCheckerVIN's free odometer check queries NMVTIS, all 50 state DMV title and inspection records, and emissions-test databases to surface odometer rollback inconsistencies, mileage-discrepancy alerts, and Not Actual Mileage brands for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN flags VINs whose reported mileage history doesn't reconcile against state and federal records. Odometer fraud costs U.S. buyers an estimated billion-plus dollars a year — and digital dashboards make rollback easier than ever. Enter a 17-character VIN to pull every reported reading on file and lay them out chronologically, so any rollback stands out at a glance — free, before you buy.",
     formHeading: "Run a Mileage Check by VIN",
     formSub: "Enter any 17-character VIN — we'll assemble every reported odometer reading into a timeline",
     formNote: "Free · No sign-up · Instant result",
@@ -365,6 +445,7 @@ interface Props { locale: Locale; }
 export default function OdometerCheckBody({ locale }: Props) {
   const c = COPY[locale];
   const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const quickAnswerItems = locale === "es" ? QUICK_ANSWER_ES : QUICK_ANSWER_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
 
   return (
@@ -406,6 +487,10 @@ export default function OdometerCheckBody({ locale }: Props) {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={quickAnswerItems} locale={locale} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

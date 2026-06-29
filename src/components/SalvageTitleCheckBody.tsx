@@ -13,7 +13,87 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
 import type { Locale } from "@/i18n/config";
+
+const QUICK_ANSWER_EN = [
+  {
+    question: "How do I check if a car has a salvage title by VIN?",
+    answer: (
+      <>
+        <strong>Enter the 17-character VIN above.</strong>{" "}
+        <strong>CarCheckerVIN</strong> cross-references <strong>NMVTIS</strong>,
+        state DMV title-brand files, and insurance total-loss feeds to surface
+        salvage, rebuilt, flood, and junk brands. Because the record is
+        VIN-keyed, it surfaces brands even when the current paper title looks
+        clean — free, no signup.
+      </>
+    ),
+  },
+  {
+    question: "What is a salvage title?",
+    answer: (
+      <>
+        A salvage title is a state-issued brand applied when an insurer declares
+        a vehicle a total loss — typically when repair cost exceeds 70-80% of
+        pre-loss value (threshold varies by state). It can result from collision,
+        flood, fire, hail, or theft recovery, and stays attached to the VIN
+        permanently via NMVTIS.
+      </>
+    ),
+  },
+  {
+    question: "What is the difference between a salvage title and a rebuilt title?",
+    answer: (
+      <>
+        A salvage title means the vehicle was declared a total loss and is not
+        legal for road use until repaired. A rebuilt title is issued after a
+        salvage vehicle is repaired and passes a state inspection. The title
+        never reverts to clean — the rebuilt brand permanently signals prior
+        salvage history.
+      </>
+    ),
+  },
+];
+
+const QUICK_ANSWER_ES = [
+  {
+    question: "¿Cómo verifico si un auto tiene título de salvamento por VIN?",
+    answer: (
+      <>
+        <strong>Ingresa el VIN de 17 caracteres arriba.</strong>{" "}
+        <strong>CarCheckerVIN</strong> cruza <strong>NMVTIS</strong>, archivos
+        de marca de título de DMV estatales y feeds de pérdida total de
+        aseguradoras para mostrar marcas de salvamento, reconstruido,
+        inundación y chatarra — gratis y sin registro.
+      </>
+    ),
+  },
+  {
+    question: "¿Qué es un título de salvamento?",
+    answer: (
+      <>
+        Un título de salvamento es una marca emitida por el estado cuando una
+        aseguradora declara un vehículo pérdida total — típicamente cuando el
+        costo de reparación excede 70-80% del valor pre-pérdida (umbral varía
+        por estado). Puede resultar de colisión, inundación, fuego, granizo o
+        recuperación de robo, y permanece atada al VIN vía NMVTIS.
+      </>
+    ),
+  },
+  {
+    question: "¿Cuál es la diferencia entre salvamento y reconstruido?",
+    answer: (
+      <>
+        Un título de salvamento significa que el vehículo fue declarado pérdida
+        total y no es legal conducirlo. Un título reconstruido se emite después
+        de que el auto se repara y pasa una inspección estatal. El título nunca
+        vuelve a limpio — la marca de reconstruido señala permanentemente el
+        historial previo de salvamento.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, Database, FileText] as const;
 const BRAND_ICONS = [AlertTriangle, Wrench, Droplets, Ban, ShieldX, Flame] as const;
@@ -26,7 +106,7 @@ const COPY = {
     badge: "Branded-Title Lookup   ·   NMVTIS-Backed",
     h1Lead: "Salvage Title Check by VIN — ",
     h1Accent: "Is the Title Really Clean?",
-    intro: "A salvage title means an insurer already declared the vehicle a total loss — and that status follows the VIN forever, even after repairs. Some sellers won't volunteer it, and title washing can scrub it off the paper title. Enter a 17-character VIN to check NMVTIS and all 50 state DMV records — free, before you buy.",
+    intro: "CarCheckerVIN's free salvage title check queries NMVTIS, all 50 state DMVs, and Copart and IAA salvage auctions to surface Salvage, Junk, Nonrepairable, and Rebuilt title brands for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns salvage records nationwide — even after a rebuild and re-title attempt in a weaker brand-transfer state. A salvage title means an insurer already declared the vehicle a total loss — and that status follows the VIN forever, even after repairs. Some sellers won't volunteer it, and title washing can scrub it off the paper title. Enter a 17-character VIN to check NMVTIS and all 50 state DMV records — free, before you buy.",
     formHeading: "Run a Salvage Title Check by VIN",
     formSub: "Enter any 17-character VIN — we'll surface any salvage, rebuilt, flood, junk, or lemon brand on record",
     formNote: "Free · No sign-up · Instant result",
@@ -381,6 +461,7 @@ interface Props { locale: Locale; }
 export default function SalvageTitleCheckBody({ locale }: Props) {
   const c = COPY[locale];
   const faqs = locale === "es" ? FAQS_ES : FAQS_EN;
+  const quickAnswerItems = locale === "es" ? QUICK_ANSWER_ES : QUICK_ANSWER_EN;
   const link = (en: string) => (locale === "es" ? `/es${en}` : en);
 
   return (
@@ -422,6 +503,10 @@ export default function SalvageTitleCheckBody({ locale }: Props) {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={quickAnswerItems} locale={locale} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

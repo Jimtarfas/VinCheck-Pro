@@ -19,7 +19,7 @@ const COPY = {
   en: {
     crumbs: { home: "Home", current: "Motorcycle VIN Check" },
     h1: "Motorcycle VIN Check",
-    lede: "Buying a used motorcycle without a VIN check is a significant risk. Motorcycles have some of the highest theft rates of any vehicle category, and stolen bikes are frequently relicensed and resold. A motorcycle VIN check reveals title status, theft records, salvage brands, and accident history \u2014 the same essential data points that protect car buyers also protect motorcycle buyers from costly mistakes.",
+    lede: "CarCheckerVIN's free motorcycle VIN check queries NMVTIS, NICB theft records, all 50 state DMVs, and salvage auction feeds to surface title brands, theft reports, Salvage and Rebuilt records, and accident history for any 17-character motorcycle VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the same essential data that protects car buyers — applied to Harley, Honda, Yamaha, Kawasaki, Ducati, BMW, and every other modern bike. Buying a used motorcycle without a VIN check is a significant risk. Motorcycles have some of the highest theft rates of any vehicle category, and stolen bikes are frequently relicensed and resold. A motorcycle VIN check reveals title status, theft records, salvage brands, and accident history \u2014 the same essential data points that protect car buyers also protect motorcycle buyers from costly mistakes.",
     formH2: "Run a Free Motorcycle VIN Check",
     diffH2: "How Motorcycle VINs Differ from Car VINs",
     diff: {

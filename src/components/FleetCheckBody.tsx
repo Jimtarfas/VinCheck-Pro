@@ -26,7 +26,7 @@ const COPY = {
     badge: "Commercial-Use History   ·   NMVTIS-Backed",
     h1Lead: "Fleet & Ex-Police Car Check by VIN — ",
     h1Accent: "Was This Car Used Commercially?",
-    intro: "Commercial fleet vehicles — police cars, government trucks, taxi cabs, and corporate fleets — eventually enter the used car market after years of heavy use. They can offer value buyers a lower purchase price, but they also carry specific wear patterns and history that affect long-term reliability. Enter a 17-character VIN to surface commercial ownership history, government registration records, and high-usage service periods — free, before you buy.",
+    intro: "CarCheckerVIN's free fleet check queries NMVTIS, all 50 state DMVs, and commercial and government registration databases to surface prior fleet ownership — police, taxi, livery, government, and corporate fleets — for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the title chain and commercial-use indicators that reveal whether a used car carries fleet wear before you pay a retail-grade price. Commercial fleet vehicles — police cars, government trucks, taxi cabs, and corporate fleets — eventually enter the used car market after years of heavy use. They can offer value buyers a lower purchase price, but they also carry specific wear patterns and history that affect long-term reliability. Enter a 17-character VIN to surface commercial ownership history, government registration records, and high-usage service periods — free, before you buy.",
     formHeading: "Run a Fleet Check by VIN",
     formSub: "Enter any 17-character VIN — we'll surface any police, government, rental, or corporate fleet ownership on record",
     formNote: "Free · No sign-up · Instant result",

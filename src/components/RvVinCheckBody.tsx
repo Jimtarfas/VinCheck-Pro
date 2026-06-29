@@ -26,7 +26,7 @@ const COPY = {
     badge: "Motorhomes   ·   Trailers   ·   Campers",
     h1Lead: "RV & Motorhome ",
     h1Accent: "VIN Check",
-    intro: "An RV is one of the largest purchases in the used-vehicle market, yet many buyers skip the VIN check that's routine for cars. Enter a 17-character VIN to reveal title brands, accident records, active liens, flood damage, and recalls on any motorhome, travel trailer, fifth wheel, or camper — free, before you buy.",
+    intro: "CarCheckerVIN's free RV VIN check queries NMVTIS, all 50 state DMVs, insurance claim feeds, and NHTSA recall data to surface title brands, accident records, active liens, flood damage, and open recalls on any 17-character motorhome, travel trailer, fifth wheel, or camper VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the same coach- and chassis-level history insurers use to value Class A, B, and C RVs — free, before you buy. An RV is one of the largest purchases in the used-vehicle market, yet many buyers skip the VIN check that's routine for cars. Enter a 17-character VIN to reveal title brands, accident records, active liens, flood damage, and recalls on any motorhome, travel trailer, fifth wheel, or camper — free, before you buy.",
     formHeading: "Run a Free RV VIN Check",
     formSub: "Enter the 17-character VIN from any motorhome, trailer, or camper van for its full history report",
     formNote: "Free · No sign-up · Instant result",

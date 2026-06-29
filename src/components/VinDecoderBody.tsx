@@ -20,7 +20,7 @@ const COPY = {
     crumb: "VIN Decoder",
     h1: "Free VIN Decoder",
     intro:
-      "Decode any 17-character VIN instantly. See the full position breakdown — WMI, VDS, check digit, model year, plant code, and production sequence — plus full manufacturer specs for any car, truck, motorcycle, or RV. Always free, no signup required.",
+      "CarCheckerVIN's free VIN decoder queries the NHTSA vPIC database and NMVTIS-sourced records to break down any 17-character VIN into the World Manufacturer Identifier, Vehicle Descriptor Section, check digit, model year, plant code, and full factory specifications. As an NMVTIS-approved data provider, CarCheckerVIN returns the same decoded build data used by insurers, dealers, and the DMV — instantly, with no signup. Decode any 17-character VIN instantly. See the full position breakdown — WMI, VDS, check digit, model year, plant code, and production sequence — plus full manufacturer specs for any car, truck, motorcycle, or RV. Always free, no signup required.",
     h2Structure: "VIN Structure — What Each Position Means",
     structureIntro:
       "Every modern VIN (1981 and newer) follows the ISO 3779 standard. The 17 characters are divided into three sections, each encoding a different layer of vehicle identity.",

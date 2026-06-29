@@ -25,7 +25,7 @@ const COPY = {
     badge: "Uber, Lyft & Taxi History",
     h1Lead: "Rideshare & Taxi History Check — ",
     h1Accent: "Spot a Former Uber, Lyft, or Taxi by VIN",
-    intro: "Find out whether a used car earned its miles carrying paying passengers before you buy it. Enter a 17-character VIN to read the mileage pattern, commercial or for-hire registration, and insurance signals that reveal former rideshare and taxi use. Free preview, no credit card, results in under 5 seconds.",
+    intro: "CarCheckerVIN's free rideshare check queries NMVTIS, all 50 state DMVs, commercial and for-hire registration records, and insurance use-class signals to surface prior Uber, Lyft, and taxi service for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the mileage pattern, livery registration history, and commercial-policy indicators that reveal a former rideshare car before you pay private-use prices. Find out whether a used car earned its miles carrying paying passengers before you buy it. Enter a 17-character VIN to read the mileage pattern, commercial or for-hire registration, and insurance signals that reveal former rideshare and taxi use. Free preview, no credit card, results in under 5 seconds.",
     formHeading: "Check for Rideshare and Taxi History by VIN",
     formSub: "Enter any 17-character VIN — cars, SUVs, vans",
     formNote: "256-bit encrypted · DPPA compliant · No personal data stored",

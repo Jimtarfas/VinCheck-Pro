@@ -25,7 +25,7 @@ const COPY = {
     badge: "Insurance Write-Off Lookup   ·   NMVTIS-Sourced",
     h1Lead: "Total Loss Check by VIN — ",
     h1Accent: "Was This Car Totaled?",
-    intro: "A car declared a total loss was damaged badly enough that an insurer chose to write it off instead of repairing it. Many are rebuilt and resold with no obvious signs. Enter a 17-character VIN to surface insurance total-loss records, salvage and rebuilt brands, and structural damage history — free, before you buy.",
+    intro: "CarCheckerVIN's free total loss check queries NMVTIS, insurance total-loss feeds, all 50 state DMVs, and Copart and IAA salvage auctions to surface insurer-declared total losses, Salvage and Rebuilt title brands, and structural-damage records for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns total-loss records that follow the VIN for life — even after the car is rebuilt and re-titled. A car declared a total loss was damaged badly enough that an insurer chose to write it off instead of repairing it. Many are rebuilt and resold with no obvious signs. Enter a 17-character VIN to surface insurance total-loss records, salvage and rebuilt brands, and structural damage history — free, before you buy.",
     formHeading: "Check for Total Loss History by VIN",
     formSub: "Enter any 17-character VIN — we'll check for total-loss declarations, write-off records, and branded titles",
     formNote: "Free · No sign-up · Instant result",

@@ -11,7 +11,7 @@ const COPY = {
   en: {
     crumbs: { home: "Home", current: "Rental Car Check" },
     h1: "Rental Car History Check by VIN",
-    lede: "Former rental vehicles are a fixture in the used car market. After 12\u201324 months and 20,000\u201340,000 miles of fleet service, major rental companies like Enterprise, Hertz, and Avis sell their fleets through auctions and dealer networks. A VIN rental car check reveals whether the vehicle you\u2019re considering spent time in a rental fleet \u2014 information that directly affects how you assess its condition, mileage, and value.",
+    lede: "CarCheckerVIN's free rental car check queries NMVTIS title records, all 50 state DMVs, and commercial-fleet registration data to surface prior rental-fleet ownership by Enterprise, Hertz, Avis, Budget, and other major operators for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN returns the title chain and commercial-use indicators that reveal whether the car spent its first 12\u201324 months as a rental. Former rental vehicles are a fixture in the used car market. After 12\u201324 months and 20,000\u201340,000 miles of fleet service, major rental companies like Enterprise, Hertz, and Avis sell their fleets through auctions and dealer networks. A VIN rental car check reveals whether the vehicle you\u2019re considering spent time in a rental fleet \u2014 information that directly affects how you assess its condition, mileage, and value.",
     formH2: "Check for Rental Fleet History",
     howH2: "How to Tell If a Car Was a Rental",
     how: {

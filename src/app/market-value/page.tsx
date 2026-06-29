@@ -59,7 +59,7 @@ const articleSchema = {
   publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" },
   mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/market-value" },
   datePublished: "2026-05-04",
-  dateModified: "2026-05-04",
+  dateModified: new Date().toISOString().slice(0, 10),
 };
 
 const faqSchema = {

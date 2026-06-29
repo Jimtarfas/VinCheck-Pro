@@ -13,6 +13,44 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import VinSearchForm from "@/components/VinSearchForm";
 import RelatedChecks from "@/components/RelatedChecks";
 import VinCheckBanner from "@/components/VinCheckBanner";
+import QuickAnswer from "@/components/QuickAnswer";
+
+const QUICK_ANSWER_ITEMS = [
+  {
+    question: "Does KBB do a free VIN lookup?",
+    answer: (
+      <>
+        <strong>Yes.</strong> Kelley Blue Book offers a free VIN-based valuation
+        at kbb.com, but it does not pull title brands or accident history. Pair
+        it with <strong>CarCheckerVIN&apos;s</strong> free history check —
+        backed by <strong>NMVTIS</strong>, the federal title database — to see
+        both value and history.
+      </>
+    ),
+  },
+  {
+    question: "What does a KBB VIN lookup show?",
+    answer: (
+      <>
+        KBB returns the decoded year, make, model, trim, and factory options
+        plus a Fair Market Range for private-party sale, trade-in, and dealer
+        retail based on mileage, condition tier, and ZIP code. It does not
+        show title brands, recalls, accidents, or odometer rollback records.
+      </>
+    ),
+  },
+  {
+    question: "What does a VIN history check add to a KBB estimate?",
+    answer: (
+      <>
+        A history lookup tells you whether the car matches the clean-history
+        assumption KBB uses. A reported accident typically shaves 5-30% off
+        resale value, a salvage or rebuilt title 30-50%, and odometer rollback
+        can collapse it entirely. NMVTIS surfaces all three.
+      </>
+    ),
+  },
+];
 
 const HOW_ICONS = [Search, BookOpen, Calculator] as const;
 const SIGN_ICONS = [DollarSign, TrendingUp, Gauge, AlertTriangle, FileText, Cpu] as const;
@@ -215,6 +253,10 @@ export default function KbbVinLookupBody() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="pt-10 sm:pt-12">
+          <QuickAnswer items={QUICK_ANSWER_ITEMS} />
+        </div>
+
         <section className="py-12 sm:py-16">
           <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-2">{c.h2How}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant mb-8 max-w-3xl">{c.howIntro}</p>

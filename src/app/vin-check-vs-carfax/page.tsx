@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: { title: "CarCheckerVIN vs Carfax — Cheaper, Faster VIN Check Alternative", description: "Compare CarCheckerVIN with Carfax on price, data sources, and report contents. See why drivers are switching to a smarter alternative.", url: "https://www.carcheckervin.com/vin-check-vs-carfax", type: "article" },
 };
 
-const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "CarCheckerVIN vs Carfax: Which Is Better?", description: "A side-by-side comparison of CarCheckerVIN and Carfax covering pricing, data sources, report contents, and the right use case for each.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" }, mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/vin-check-vs-carfax" }, datePublished: "2026-04-16", dateModified: "2026-04-16" };
+const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: "CarCheckerVIN vs Carfax: Which Is Better?", description: "A side-by-side comparison of CarCheckerVIN and Carfax covering pricing, data sources, report contents, and the right use case for each.", author: ORG_AUTHOR, publisher: { "@type": "Organization", name: "CarCheckerVIN", url: "https://www.carcheckervin.com" }, mainEntityOfPage: { "@type": "WebPage", "@id": "https://www.carcheckervin.com/vin-check-vs-carfax" }, datePublished: "2026-04-16", dateModified: new Date().toISOString().slice(0, 10) };
 
 const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS_EN.map((f) => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: f.answer } })) };
 

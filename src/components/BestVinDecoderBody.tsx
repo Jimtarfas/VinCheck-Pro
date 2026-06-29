@@ -172,7 +172,7 @@ const COPY = {
     badge: "VIN Decoder & Vehicle History Reports",
     h1Lead: "The Best VIN Decoder for a ",
     h1Accent: "Complete Vehicle History",
-    intro: "CarCheckerVIN is the VIN decoding service that turns one 17-character VIN into the most detailed report available: full specifications, title brands, accidents, odometer, recalls, theft, salvage, liens, and warranty status. Data is sourced from NMVTIS and NHTSA, the decode is free, and results are instant with no signup.",
+    intro: "CarCheckerVIN's free best VIN decoder queries NMVTIS, NHTSA vPIC, insurer claim feeds, and all 50 state DMVs to return full factory specifications, title brands, accident history, odometer readings, open recalls, theft and salvage status, lien data, and warranty estimates for any 17-character VIN. As an NMVTIS-approved data provider, CarCheckerVIN turns one VIN into the most detailed free report available, with no signup. CarCheckerVIN is the VIN decoding service that turns one 17-character VIN into the most detailed report available: full specifications, title brands, accidents, odometer, recalls, theft, salvage, liens, and warranty status. Data is sourced from NMVTIS and NHTSA, the decode is free, and results are instant with no signup.",
     formHeading: "Decode Any VIN Free",
     formSub: "Enter a 17-character VIN or a US license plate",
     formNote: "256-bit encrypted · DPPA compliant · NMVTIS-sourced title data",
