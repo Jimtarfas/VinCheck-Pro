@@ -620,6 +620,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/atv-vin-lookup`,           lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     // California state hub (parallel to /vin-number-lookup-texas)
     { url: `${baseUrl}/vin-lookup-california`,    lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    // ── Tesla wave (30 pages, ~20M monthly AI volume per Semrush analysis) ──
+    // Tier 1 — Top-level hubs
+    { url: `${baseUrl}/tesla-vin-decoder`,           lastModified: now, changeFrequency: "weekly",  priority: 0.95 },
+    { url: `${baseUrl}/tesla-vin-lookup`,            lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/tesla-vin-history-check`,     lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/tesla-recall-check`,          lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/tesla-gigafactory-by-vin`,    lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/tesla-vin-stolen-check`,      lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/tesla-warranty-check`,        lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/tesla-software-update-check`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    // Tier 2 — Per-model VIN decoders
+    { url: `${baseUrl}/tesla-model-3-vin-decoder`,   lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/tesla-model-y-vin-decoder`,   lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/tesla-model-s-vin-decoder`,   lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/tesla-model-x-vin-decoder`,   lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/tesla-cybertruck-vin-decoder`,lastModified: now, changeFrequency: "weekly",  priority: 0.9 },
+    { url: `${baseUrl}/tesla-roadster-vin-decoder`,  lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    // Tier 3 — Per-model recall checks
+    { url: `${baseUrl}/tesla-model-3-recall-check`,  lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/tesla-model-y-recall-check`,  lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/tesla-model-s-recall-check`,  lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/tesla-model-x-recall-check`,  lastModified: now, changeFrequency: "weekly",  priority: 0.85 },
+    { url: `${baseUrl}/tesla-cybertruck-recall-check`,lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${baseUrl}/tesla-roadster-recall-check`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    // Tier 4 — Per-model history checks
+    { url: `${baseUrl}/tesla-model-3-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/tesla-model-y-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/tesla-model-s-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/tesla-model-x-history-check`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/tesla-cybertruck-history-check`,lastModified: now, changeFrequency: "monthly",priority: 0.8 },
+    { url: `${baseUrl}/tesla-roadster-history-check`,lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    // Tier 5 — Per-Gigafactory plant hubs
+    { url: `${baseUrl}/tesla-fremont-vin`,           lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/tesla-austin-vin`,            lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/tesla-shanghai-vin`,          lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/tesla-berlin-vin`,            lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/rental-car-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/fleet-check`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/classic-car-vin`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
