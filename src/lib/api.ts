@@ -290,20 +290,76 @@ async function fetchSimilarListings(
   }
 }
 
-export async function decodeVin(vin: string): Promise<VinData> {
+// Minimum-viable VinData shell. Returned when auto.dev fails (timeout,
+// non-2xx, network error). Returning a shell instead of throwing keeps
+// the report-preview page's parallel-fetch logic happy: `decoded` stays
+// truthy, ClearVin remains the primary data source, and the user never
+// sees the scary "No records for this VIN" error screen just because
+// auto.dev's quota was exhausted.
+function emptyVinData(vin: string): VinData {
+  return {
+    vin,
+    make: { id: 0, name: "", niceName: "" },
+    model: { id: "0", name: "", niceName: "" },
+    engine: {
+      cylinder: 0, size: 0, displacement: 0, configuration: "",
+      fuelType: "", horsepower: 0, torque: 0, totalValves: 0,
+      manufacturerEngineCode: "", type: "", compressorType: "",
+    },
+    transmission: { transmissionType: "", numberOfSpeeds: "" },
+    drivenWheels: "",
+    numOfDoors: "",
+    options: [],
+    photos: [],
+  } as unknown as VinData;
+}
+
+// Resilient auto.dev fetch — 8-second timeout (auto.dev's 99th-percentile
+// latency is ~3s; anything past that is a hung upstream and the
+// report-preview serverless function would otherwise burn its Vercel
+// platform budget waiting). Never throws. Returns null on any failure;
+// the caller (decodeVin) returns the emptyVinData shell, and the
+// report-preview page-level logic falls back to ClearVin as the
+// primary data source — which is what we want anyway.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function tryAutoDevDecode(vin: string): Promise<any | null> {
   const apiKey = process.env.AUTO_DEV_API_KEY;
-
-  // Fetch VIN decode
-  const vinRes = await fetch(
-    `https://auto.dev/api/vin/${vin}?apikey=${apiKey}`,
-    { next: { revalidate: 86400 } }
-  );
-
-  if (!vinRes.ok) {
-    throw new Error(`Failed to decode VIN: ${vinRes.status}`);
+  if (!apiKey) return null;
+  try {
+    const res = await fetch(
+      `https://auto.dev/api/vin/${vin}?apikey=${apiKey}`,
+      { next: { revalidate: 86400 }, signal: AbortSignal.timeout(8_000) }
+    );
+    if (!res.ok) {
+      // 402 = quota exhausted (the historical failure mode that left
+      // users staring at "No records for this VIN" when ClearVin also
+      // happened to miss). Treat any non-2xx as a soft miss; ClearVin
+      // is the real source of truth for the report.
+      // eslint-disable-next-line no-console
+      console.warn(`[decodeVin] auto.dev ${res.status} for ${vin} — ClearVin will be the sole data source for this preview`);
+      return null;
+    }
+    return await res.json();
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    // eslint-disable-next-line no-console
+    console.warn(`[decodeVin] auto.dev error for ${vin}: ${msg} — ClearVin will be the sole data source`);
+    return null;
   }
+}
 
-  const vinData = await vinRes.json();
+export async function decodeVin(vin: string): Promise<VinData> {
+  // Try auto.dev (richer specs + market data). When auto.dev fails —
+  // quota exhausted (402), timeout, or any network/5xx error — we
+  // return an empty shell instead of throwing. The report-preview
+  // page's parallel-fetch logic already treats ClearVin as the
+  // PRIMARY source of identity + photos + recalls; an empty auto.dev
+  // shell just means the Market Analysis card stays empty. The page
+  // still renders the full ClearVin-sourced preview.
+  const vinData = await tryAutoDevDecode(vin);
+  if (!vinData) {
+    return emptyVinData(vin);
+  }
 
   // Fetch photos and listing in parallel first
   const [photos, vinListing] = await Promise.all([
