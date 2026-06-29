@@ -465,7 +465,7 @@ export default function VinCheckStateHubBody({ locale }: Props) {
             <h2 className="text-sm sm:text-base font-headline font-extrabold text-white mb-3">
               {c.haveVinHeading}
             </h2>
-            <VinSearchForm size="lg" onDark />
+            <VinSearchForm size="lg" onDark  locale={locale}/>
             <p className="mt-3 text-[11px] text-white/60 flex items-center gap-1.5">
               <Lock className="w-3 h-3" /> {c.vinNote}
             </p>
@@ -680,7 +680,7 @@ export default function VinCheckStateHubBody({ locale }: Props) {
               {c.midCtaSub}
             </p>
             <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
-              <VinSearchForm size="lg" />
+              <VinSearchForm size="lg"  locale={locale}/>
             </div>
           </div>
         </section>
@@ -753,7 +753,7 @@ export default function VinCheckStateHubBody({ locale }: Props) {
             {c.bottomSub}
           </p>
           <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
           </div>
         </section>
 

@@ -581,7 +581,7 @@ export default function GuideHowToReadAVinBody({ locale }: Props) {
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">{c.ctaHeading}</h2>
           <p className="text-slate-700 mb-6">{c.ctaSub}</p>
-          <VinSearchForm size="sm" />
+          <VinSearchForm size="sm"  locale={locale}/>
         </div>
       </section>
     </>

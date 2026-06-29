@@ -148,7 +148,7 @@ export default function VinCheckTypeBody({ page, locale }: Props) {
             {content.intro}
           </p>
 
-          <VinSearchForm size="lg" onDark withPlateToggle />
+          <VinSearchForm size="lg" onDark withPlateToggle  locale={locale}/>
           <p className="mt-4 text-[11px] text-white/60 flex items-center gap-1.5">
             <Lock className="w-3 h-3" /> {chrome.formNote}
           </p>
@@ -237,7 +237,7 @@ export default function VinCheckTypeBody({ page, locale }: Props) {
               </p>
             </div>
             <div className="flex justify-center">
-              <VinSearchForm size="lg" onDark withPlateToggle />
+              <VinSearchForm size="lg" onDark withPlateToggle  locale={locale}/>
             </div>
           </div>
         </section>
@@ -362,7 +362,7 @@ export default function VinCheckTypeBody({ page, locale }: Props) {
             {chrome.bottomBody}
           </p>
           <div className="flex justify-center">
-            <VinSearchForm size="lg" withPlateToggle />
+            <VinSearchForm size="lg" withPlateToggle  locale={locale}/>
           </div>
         </section>
 

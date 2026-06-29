@@ -281,7 +281,7 @@ export default function ResearchBody({ locale }: Props) {
           <h2 className="text-3xl font-bold text-slate-900 mb-3">{c.ctaHeading}</h2>
           <p className="text-slate-700 mb-8">{c.ctaSub}</p>
           <div className="flex justify-center">
-            <VinSearchForm size="sm" />
+            <VinSearchForm size="sm"  locale={locale}/>
           </div>
         </div>
       </section>

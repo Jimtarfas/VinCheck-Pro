@@ -19,18 +19,24 @@
  */
 
 import { useEffect, useRef, type ReactNode } from "react";
+import type { Locale } from "@/i18n/config";
 
 export default function SmartSticky({
   children,
   topGap = 96,
   bottomGap = 24,
   className = "",
+  // Accepted for API parity with the other report-preview components, even
+  // though this wrapper has no user-visible strings of its own.
+  locale: _locale = "en",
 }: {
   children: ReactNode;
   topGap?: number;
   bottomGap?: number;
   className?: string;
+  locale?: Locale;
 }) {
+  void _locale;
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

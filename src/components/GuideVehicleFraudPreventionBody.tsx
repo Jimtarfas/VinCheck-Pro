@@ -520,7 +520,7 @@ export default function GuideVehicleFraudPreventionBody({ locale }: Props) {
             <p className="text-sm text-slate-600 mb-4">
               {c.verifyBoxSub}
             </p>
-            <VinSearchForm size="sm" />
+            <VinSearchForm size="sm"  locale={locale}/>
           </div>
 
           <nav
@@ -873,7 +873,7 @@ export default function GuideVehicleFraudPreventionBody({ locale }: Props) {
             {c.bottomHeading}
           </h2>
           <p className="text-slate-700 mb-6">{c.bottomSub}</p>
-          <VinSearchForm size="sm" />
+          <VinSearchForm size="sm"  locale={locale}/>
         </div>
       </section>
     </>

@@ -762,7 +762,7 @@ export default function GuideFreeVinCheckBody({ locale }: Props) {
             <h2 className="text-lg font-bold text-slate-900 mb-3">
               {c.formHeading}
             </h2>
-            <VinSearchForm size="sm" />
+            <VinSearchForm size="sm"  locale={locale}/>
           </div>
 
           {/* --- Why you should check --- */}
@@ -969,7 +969,7 @@ export default function GuideFreeVinCheckBody({ locale }: Props) {
             {c.ctaHeading}
           </h2>
           <p className="text-slate-700 mb-6">{c.ctaSub}</p>
-          <VinSearchForm size="sm" />
+          <VinSearchForm size="sm"  locale={locale}/>
         </div>
       </section>
     </>

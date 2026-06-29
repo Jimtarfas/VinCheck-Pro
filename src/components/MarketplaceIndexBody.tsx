@@ -125,7 +125,7 @@ export default function MarketplaceIndexBody({ locale }: Props) {
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">{c.h1}</h1>
           <p className="text-lg text-primary-100 max-w-2xl leading-relaxed mb-8">{c.intro}</p>
           <div className="max-w-xl">
-            <VinSearchForm size="lg" onDark />
+            <VinSearchForm size="lg" onDark  locale={locale}/>
           </div>
         </div>
       </section>
@@ -183,7 +183,7 @@ export default function MarketplaceIndexBody({ locale }: Props) {
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold mb-3">{c.ctaHeading}</h2>
           <p className="text-primary-100 mb-6">{c.ctaSub}</p>
-          <VinSearchForm size="sm" />
+          <VinSearchForm size="sm"  locale={locale}/>
         </div>
       </section>
     </>

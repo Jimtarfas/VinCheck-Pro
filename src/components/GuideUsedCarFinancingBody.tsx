@@ -614,7 +614,7 @@ export default function GuideUsedCarFinancingBody({ locale }: Props) {
             <p className="text-sm text-slate-600 mb-4">
               {c.vetBoxBody}
             </p>
-            <VinSearchForm size="sm" />
+            <VinSearchForm size="sm"  locale={locale}/>
           </div>
 
           <nav
@@ -852,7 +852,7 @@ export default function GuideUsedCarFinancingBody({ locale }: Props) {
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">{c.bottomH}</h2>
           <p className="text-slate-700 mb-6">{c.bottomP}</p>
-          <VinSearchForm size="sm" />
+          <VinSearchForm size="sm"  locale={locale}/>
         </div>
       </section>
     </>

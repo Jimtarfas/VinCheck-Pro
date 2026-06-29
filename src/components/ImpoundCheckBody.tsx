@@ -382,7 +382,7 @@ export default function ImpoundCheckBody({ locale }: Props) {
             <p className="text-xs sm:text-sm text-on-surface-variant mb-4">
               {c.heroFormSub}
             </p>
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
             <p className="mt-3 text-[11px] text-slate-400 flex items-center gap-1.5">
               <Lock className="w-3 h-3" /> {c.secureNote}
             </p>
@@ -560,7 +560,7 @@ export default function ImpoundCheckBody({ locale }: Props) {
               {c.midCtaSub}
             </p>
             <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
-              <VinSearchForm size="lg" />
+              <VinSearchForm size="lg"  locale={locale}/>
             </div>
           </div>
         </section>
@@ -600,7 +600,7 @@ export default function ImpoundCheckBody({ locale }: Props) {
             {c.ctaBottomSub}
           </p>
           <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
           </div>
           <Link href={vinCheckHref} className="inline-flex items-center gap-2 mt-6 text-sm font-bold text-primary hover:underline">
             {c.bottomReportLink}

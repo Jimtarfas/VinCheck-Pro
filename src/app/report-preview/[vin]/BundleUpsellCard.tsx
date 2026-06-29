@@ -20,6 +20,7 @@ import {
   CREDIT_VALIDITY_MONTHS,
   type PricingOption,
 } from "@/lib/pricing";
+import type { Locale } from "@/i18n/config";
 
 interface Props {
   /** The VIN being previewed — carried into checkout. */
@@ -29,9 +30,112 @@ interface Props {
   /** Unique id for the email input — set when more than one copy of the card
    *  is rendered (desktop sidebar + mobile inline) so the ids don't collide. */
   inputId?: string;
+  locale?: Locale;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+const COPY = {
+  en: {
+    title: "Buy more, pay less",
+    subtitle: "Checking a few cars? Prepaid packs drop the per-report price.",
+    orderSummary: "Order Summary",
+    reportOn: "Report on",
+    thisVehicle: "this vehicle",
+    perReport: (size: number, per: string) => `${size}-report pack — ${per} per report`,
+    fullReport: "Full vehicle history report",
+    savedAsCredits: (n: number, months: number) =>
+      `${n} report${n > 1 ? "s" : ""} saved as credits — good for ${months} months`,
+    todaysTotal: "Today's Total",
+    salesTax: "* Sales tax may be applicable in some states",
+    creditsHint: (n: number) =>
+      `One report unlocks now; the other ${n} become account credits, good for 12 months on any VIN.`,
+    nmvtis: "NMVTIS-backed data",
+    instant: "Instant access",
+    trustpilot: "Trustpilot",
+    emailLabel: "Email for receipt & report",
+    emailPlaceholder: "you@example.com",
+    emailHint: "We'll send your full report and receipt here.",
+    startingCheckout: "Starting checkout…",
+    orderReports: (n: number, total: string) => `Order ${n} reports — ${total}`,
+    orderFull: (total: string) => `Order full report — ${total}`,
+    invalidEmail: "Enter a valid email so we can deliver your report.",
+    checkoutFailed: "Checkout failed.",
+    couldNotStart: (status: number) => `Could not start checkout (error ${status}).`,
+    consentPre: "By clicking ",
+    consentBold: "Order Full Report",
+    consentMid: " you agree to ",
+    consentTerms: "CarCheckerVIN's T&C",
+    consentAnd: " and ",
+    consentDisclaimer: "NMVTIS disclaimer",
+  },
+  es: {
+    title: "Compra más, paga menos",
+    subtitle: "¿Vas a revisar varios autos? Los paquetes prepagados bajan el precio por reporte.",
+    orderSummary: "Resumen del pedido",
+    reportOn: "Reporte sobre",
+    thisVehicle: "este vehículo",
+    perReport: (size: number, per: string) => `Paquete de ${size} reportes — ${per} por reporte`,
+    fullReport: "Reporte completo de historial vehicular",
+    savedAsCredits: (n: number, months: number) =>
+      `${n} reporte${n > 1 ? "s" : ""} guardado${n > 1 ? "s" : ""} como créditos — válidos por ${months} meses`,
+    todaysTotal: "Total de hoy",
+    salesTax: "* En algunos estados puede aplicarse impuesto sobre ventas",
+    creditsHint: (n: number) =>
+      `Un reporte se desbloquea ahora; los otros ${n} quedan como créditos en tu cuenta, válidos por 12 meses para cualquier VIN.`,
+    nmvtis: "Datos NMVTIS",
+    instant: "Acceso instantáneo",
+    trustpilot: "Trustpilot",
+    emailLabel: "Correo para el recibo y el reporte",
+    emailPlaceholder: "tu@ejemplo.com",
+    emailHint: "Te enviaremos aquí tu reporte completo y el recibo.",
+    startingCheckout: "Iniciando pago…",
+    orderReports: (n: number, total: string) => `Pedir ${n} reportes — ${total}`,
+    orderFull: (total: string) => `Pedir reporte completo — ${total}`,
+    invalidEmail: "Ingresa un correo válido para poder enviarte el reporte.",
+    checkoutFailed: "El pago falló.",
+    couldNotStart: (status: number) => `No se pudo iniciar el pago (error ${status}).`,
+    consentPre: "Al hacer clic en ",
+    consentBold: "Pedir Reporte Completo",
+    consentMid: " aceptas los ",
+    consentTerms: "T&C de CarCheckerVIN",
+    consentAnd: " y el ",
+    consentDisclaimer: "aviso NMVTIS",
+  },
+  fr: {
+    title: "Achète plus, paie moins",
+    subtitle: "Tu vérifies plusieurs voitures ? Les packs prépayés font baisser le prix par rapport.",
+    orderSummary: "Récapitulatif de la commande",
+    reportOn: "Rapport sur",
+    thisVehicle: "ce véhicule",
+    perReport: (size: number, per: string) => `Pack de ${size} rapports — ${per} par rapport`,
+    fullReport: "Rapport complet d'historique du véhicule",
+    savedAsCredits: (n: number, months: number) =>
+      `${n} rapport${n > 1 ? "s" : ""} conservé${n > 1 ? "s" : ""} en crédits — valable ${months} mois`,
+    todaysTotal: "Total à payer",
+    salesTax: "* Une taxe de vente peut s'appliquer dans certains États",
+    creditsHint: (n: number) =>
+      `Un rapport se débloque tout de suite ; les ${n} autres deviennent des crédits sur ton compte, valables 12 mois sur n'importe quel VIN.`,
+    nmvtis: "Données NMVTIS",
+    instant: "Accès immédiat",
+    trustpilot: "Trustpilot",
+    emailLabel: "E-mail pour le reçu et le rapport",
+    emailPlaceholder: "toi@exemple.com",
+    emailHint: "On t'enverra ton rapport complet et le reçu à cette adresse.",
+    startingCheckout: "Démarrage du paiement…",
+    orderReports: (n: number, total: string) => `Commander ${n} rapports — ${total}`,
+    orderFull: (total: string) => `Commander le rapport complet — ${total}`,
+    invalidEmail: "Saisis un e-mail valide pour qu'on puisse t'envoyer le rapport.",
+    checkoutFailed: "Le paiement a échoué.",
+    couldNotStart: (status: number) => `Impossible de démarrer le paiement (erreur ${status}).`,
+    consentPre: "En cliquant sur ",
+    consentBold: "Commander le rapport complet",
+    consentMid: " tu acceptes les ",
+    consentTerms: "CGU de CarCheckerVIN",
+    consentAnd: " et l'",
+    consentDisclaimer: "avis NMVTIS",
+  },
+} as const;
 
 /**
  * Sidebar checkout on the report preview: pick a single report or a discounted
@@ -44,7 +148,9 @@ export default function BundleUpsellCard({
   vin,
   vehicleLabel,
   inputId = "bundle-email",
+  locale = "en",
 }: Props) {
+  const c = COPY[locale];
   const options: PricingOption[] = pricingOptions();
   const [selected, setSelected] = useState(1);
   const [email, setEmail] = useState("");
@@ -55,7 +161,7 @@ export default function BundleUpsellCard({
   async function handleOrder() {
     const e = email.trim();
     if (!EMAIL_RE.test(e)) {
-      setError("Enter a valid email so we can deliver your report.");
+      setError(c.invalidEmail);
       return;
     }
     setError(null);
@@ -77,15 +183,13 @@ export default function BundleUpsellCard({
       });
       const json = await res.json().catch(() => null);
       if (!res.ok || !json?.url) {
-        throw new Error(
-          json?.error || `Could not start checkout (error ${res.status}).`
-        );
+        throw new Error(json?.error || c.couldNotStart(res.status));
       }
       // Stripe Checkout lives on an external origin — hard-navigate.
       window.location.assign(json.url);
     } catch (err) {
       setSubmitting(false);
-      setError(err instanceof Error ? err.message : "Checkout failed.");
+      setError(err instanceof Error ? err.message : c.checkoutFailed);
     }
   }
 
@@ -93,26 +197,24 @@ export default function BundleUpsellCard({
     <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
       <div className="px-5 py-4 border-b border-surface-container">
         <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
-          <Layers className="w-5 h-5 text-primary" /> Buy more, pay less
+          <Layers className="w-5 h-5 text-primary" /> {c.title}
         </h3>
-        <p className="text-xs text-on-surface-variant mt-0.5">
-          Checking a few cars? Prepaid packs drop the per-report price.
-        </p>
+        <p className="text-xs text-on-surface-variant mt-0.5">{c.subtitle}</p>
       </div>
       <div className="p-5">
         {/* Order summary — mirrors the selected option so the buyer sees exactly
             what they're paying for, and the running total, up front. */}
         <div className="rounded-2xl bg-surface-container-low border border-outline-variant p-4">
           <h4 className="font-headline font-bold text-on-surface text-sm mb-3">
-            Order Summary
+            {c.orderSummary}
           </h4>
           <ul className="space-y-2 text-sm">
             <li className="flex items-start gap-2 text-on-surface-variant">
               <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
               <span>
-                Report on{" "}
+                {c.reportOn}{" "}
                 <strong className="text-on-surface font-bold">
-                  {vehicleLabel || "this vehicle"}
+                  {vehicleLabel || c.thisVehicle}
                 </strong>
               </span>
             </li>
@@ -120,30 +222,27 @@ export default function BundleUpsellCard({
               <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
               <span>
                 {current.isBundle
-                  ? `${current.size}-report pack — ${formatUsd(current.perReportCents)} per report`
-                  : "Full vehicle history report"}
+                  ? c.perReport(current.size, formatUsd(current.perReportCents))
+                  : c.fullReport}
               </span>
             </li>
             {current.isBundle && (
               <li className="flex items-start gap-2 text-on-surface-variant">
                 <Check className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
-                <span>
-                  {current.size - 1} report{current.size - 1 > 1 ? "s" : ""} saved as
-                  credits — good for {CREDIT_VALIDITY_MONTHS} months
-                </span>
+                <span>{c.savedAsCredits(current.size - 1, CREDIT_VALIDITY_MONTHS)}</span>
               </li>
             )}
           </ul>
           <div className="mt-3 pt-3 border-t border-outline-variant flex items-baseline justify-between gap-3">
             <span className="font-headline font-bold text-on-surface">
-              Today&apos;s Total
+              {c.todaysTotal}
             </span>
             <span className="font-headline font-black text-2xl sm:text-3xl text-on-surface leading-none">
               {formatUsd(current.priceCents)}
             </span>
           </div>
           <p className="mt-2 text-[11px] italic text-on-surface-variant leading-snug">
-            * Sales tax may be applicable in some states
+            {c.salesTax}
           </p>
         </div>
 
@@ -153,18 +252,17 @@ export default function BundleUpsellCard({
 
         {current.isBundle && (
           <p className="mt-3 text-[11px] text-on-surface-variant leading-relaxed">
-            One report unlocks now; the other {current.size - 1} become account
-            credits, good for 12 months on any VIN.
+            {c.creditsHint(current.size - 1)}
           </p>
         )}
 
         {/* Trust row */}
         <div className="mt-4 pb-4 border-b border-surface-container flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-on-surface-variant">
           <span className="inline-flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> NMVTIS-backed data
+            <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> {c.nmvtis}
           </span>
           <span className="inline-flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5 text-primary" /> Instant access
+            <Clock className="w-3.5 h-3.5 text-primary" /> {c.instant}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <span className="inline-flex items-center gap-0.5">
@@ -172,7 +270,7 @@ export default function BundleUpsellCard({
                 <Star key={i} className="w-3.5 h-3.5 text-emerald-500 fill-emerald-500" />
               ))}
             </span>
-            <span className="font-bold text-on-surface">Trustpilot</span>
+            <span className="font-bold text-on-surface">{c.trustpilot}</span>
           </span>
         </div>
 
@@ -182,7 +280,7 @@ export default function BundleUpsellCard({
             htmlFor={inputId}
             className="block text-[13px] font-bold text-on-surface mb-1.5"
           >
-            Email for receipt &amp; report
+            {c.emailLabel}
           </label>
           <div className="relative">
             <Mail className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
@@ -199,12 +297,12 @@ export default function BundleUpsellCard({
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !submitting) handleOrder();
               }}
-              placeholder="you@example.com"
+              placeholder={c.emailPlaceholder}
               className="w-full pl-9 pr-3 py-2.5 text-base sm:text-sm rounded-xl border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none bg-surface-container-lowest"
             />
           </div>
           <p className="mt-1.5 text-[11px] text-on-surface-variant leading-snug">
-            We&apos;ll send your full report and receipt here.
+            {c.emailHint}
           </p>
         </div>
 
@@ -217,14 +315,14 @@ export default function BundleUpsellCard({
           {submitting ? (
             <>
               <LoaderCircle className="w-4 h-4 animate-spin" />
-              Starting checkout…
+              {c.startingCheckout}
             </>
           ) : (
             <>
               <Lock className="w-4 h-4" />
               {current.isBundle
-                ? `Order ${current.size} reports — ${formatUsd(current.priceCents)}`
-                : `Order full report — ${formatUsd(current.priceCents)}`}
+                ? c.orderReports(current.size, formatUsd(current.priceCents))
+                : c.orderFull(formatUsd(current.priceCents))}
             </>
           )}
         </button>
@@ -238,21 +336,21 @@ export default function BundleUpsellCard({
 
         {/* Consent line — inline links inside the sentence itself. */}
         <p className="mt-3 text-[11px] text-on-surface-variant leading-relaxed">
-          By clicking{" "}
-          <strong className="text-on-surface">Order Full Report</strong> you agree
-          to{" "}
+          {c.consentPre}
+          <strong className="text-on-surface">{c.consentBold}</strong>
+          {c.consentMid}
           <Link
             href="/terms"
             className="underline text-primary hover:text-primary-700 font-semibold"
           >
-            CarCheckerVIN&rsquo;s T&amp;C
-          </Link>{" "}
-          and{" "}
+            {c.consentTerms}
+          </Link>
+          {c.consentAnd}
           <Link
             href="/disclaimer"
             className="underline text-primary hover:text-primary-700 font-semibold"
           >
-            NMVTIS disclaimer
+            {c.consentDisclaimer}
           </Link>
           .
         </p>

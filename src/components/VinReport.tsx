@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "@/components/LocaleLink";
 import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
+import type { Locale } from "@/i18n/config";
 import VinSearchForm from "./VinSearchForm";
 import { scrollToBundle } from "@/lib/scroll-to-bundle";
 import dynamic from "next/dynamic";
@@ -273,6 +274,7 @@ function PhotoGallery({
   lockedPhotoCount,
   footer,
   mainImageClassName,
+  c,
 }: {
   photos: string[];
   photoSource?: VinData["photoSource"];
@@ -283,6 +285,7 @@ function PhotoGallery({
   lockedPhotoCount?: number;
   footer?: React.ReactNode;
   mainImageClassName?: string;
+  c: (typeof COPY)[Locale];
 }) {
   const [current, setCurrent] = useState(0);
 
@@ -299,10 +302,9 @@ function PhotoGallery({
           <div className="w-20 h-20 rounded-2xl bg-surface-container flex items-center justify-center mb-4">
             <Car className="w-10 h-10 text-outline/40" />
           </div>
-          <h3 className="font-headline font-bold text-on-surface mb-1">No Photos Available</h3>
+          <h3 className="font-headline font-bold text-on-surface mb-1">{c.noPhotos}</h3>
           <p className="text-sm text-on-surface-variant text-center max-w-sm">
-            We couldn&apos;t locate photos for this VIN or any{label ? ` ${label}` : ""} from
-            our data sources.
+            {c.noPhotosBodyPre}{label ? ` ${label}` : ""} {c.noPhotosBodySuffix}
           </p>
         </div>
         {footer}
@@ -327,7 +329,7 @@ function PhotoGallery({
 
         {/* Photo count badge */}
         <div className="absolute top-3 sm:top-4 left-3 sm:left-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/70 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-bold">
-          {lockedMode ? lockedPhotoCount : photos.length} {isSimilar ? "Similar" : ""} Photos
+          {lockedMode ? lockedPhotoCount : photos.length} {isSimilar ? c.similar : ""} {c.photos}
         </div>
 
         {photos.length > 1 && (
@@ -364,7 +366,7 @@ function PhotoGallery({
                 key={i}
                 type="button"
                 onClick={scrollToBundle}
-                aria-label="Unlock all photos in the full report"
+                aria-label={c.unlockAllPhotosAria}
                 className="relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden cursor-pointer"
               >
                 <div
@@ -412,7 +414,7 @@ function PhotoGallery({
       {isSimilar && (
         <div className="flex items-center gap-2 px-3 sm:px-4 py-3 border-t border-surface-container text-xs sm:text-sm text-on-surface-variant">
           <CircleAlert className="w-4 h-4 flex-shrink-0 text-outline" />
-          <span>Example image of a similar vehicle. The photo does not depict the inspected car.</span>
+          <span>{c.similarVehicleDisclaimer}</span>
         </div>
       )}
 
@@ -472,6 +474,308 @@ function Card({ icon: Icon, title, subtitle, accent = "bg-primary/8 text-primary
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Localized copy — every visible string in the React JSX. The
+   inline print()-generated HTML at the top of the file is a
+   separate concern and stays English for now.
+───────────────────────────────────────────────────────────── */
+const COPY = {
+  en: {
+    backHome: "Back to Home",
+    reportGenerated: "Report Generated",
+    noPhotos: "No Photos Available",
+    noPhotosBodyPre: "We couldn't locate photos for this VIN or any",
+    noPhotosBodySuffix: "from our data sources.",
+    similar: "Similar",
+    photos: "Photos",
+    similarVehicleDisclaimer: "Example image of a similar vehicle. The photo does not depict the inspected car.",
+    unlockAllPhotosAria: "Unlock all photos in the full report",
+    preparing: "Preparing…",
+    downloadReport: "Download Report",
+    print: "Print",
+    share: "Share",
+    linkCopied: "Link copied!",
+    copyFailed: "Copy failed",
+    currentlyListed: "Currently Listed for Sale",
+    premium: "Premium",
+    unlockListing: "Unlock listing details",
+    includedInFullReport: "Included in full report",
+    askingPrice: "Asking Price",
+    mileage: "Mileage",
+    color: "Color",
+    dealer: "Dealer",
+    year: "Year",
+    make: "Make",
+    model: "Model",
+    trim: "Trim",
+    doors: "Doors",
+    doorsSuffix: "Doors",
+    drivetrain: "Drivetrain",
+    transmission: "Transmission",
+    fuelType: "Fuel Type",
+    fuelEconomy: "Fuel Economy",
+    size: "Size",
+    epaClass: "EPA Class",
+    bodyStyle: "Body Style",
+    engineAndPerformance: "Engine & Performance",
+    engineSubtitle: "Complete powertrain specifications",
+    configuration: "Configuration",
+    displacement: "Displacement",
+    horsepower: "Horsepower",
+    torque: "Torque",
+    valves: "Valves",
+    aspiration: "Aspiration",
+    naturallyAspirated: "Naturally Aspirated",
+    compression: "Compression",
+    engineCode: "Engine Code",
+    valveTiming: "Valve Timing",
+    valveGear: "Valve Gear",
+    transmissionDrivetrain: "Transmission & Drivetrain",
+    type: "Type",
+    speeds: "Speeds",
+    speedSuffix: "Speed",
+    drivenWheels: "Driven Wheels",
+    code: "Code",
+    fuelEconomySubtitle: "EPA estimated fuel efficiency",
+    city: "City",
+    highway: "Highway",
+    combined: "Combined",
+    mpgEstSuffix: " (est.)",
+    vehicleClassification: "Vehicle Classification",
+    bodyType: "Body Type",
+    vehicleType: "Vehicle Type",
+    style: "Style",
+    segment: "Segment",
+    mfrCode: "Mfr Code",
+    squishVin: "Squish VIN",
+    availableColors: "Available Colors",
+    optionsEquipment: "Options & Equipment",
+    optionsSummary: (opts: number, cats: number) => `${opts} options across ${cats} categories`,
+    checkAnother: "Check Another Vehicle",
+    checkAnotherSub: "Enter a different VIN to generate a new report",
+    valuation: "Valuation",
+    baseMsrp: "Base MSRP",
+    usedRetail: "Used Retail",
+    tradeIn: "Trade-In",
+    privateParty: "Private Party",
+    invoice: "Invoice",
+    marketAnalysis: "Market Analysis",
+    activeListings: (n: number) => `${n} active listings`,
+    low: "Low",
+    avg: "Avg",
+    high: "High",
+    avgMileage: "Avg. Mileage",
+    similarListings: "Similar Listings",
+    reportSummary: "Report Summary",
+    included: "Included",
+    vinVerified: "VIN Verified",
+    specsDecoded: "Specs Decoded",
+    photosRetrieved: "Photos Retrieved",
+    marketData: "Market Data",
+    pricingData: "Pricing Data",
+    listedForSale: "Listed for Sale",
+    found: "Found",
+    notFound: "—",
+    loadingInsights: "Loading insights…",
+  },
+  es: {
+    backHome: "Volver al inicio",
+    reportGenerated: "Reporte generado",
+    noPhotos: "Sin fotos disponibles",
+    noPhotosBodyPre: "No pudimos localizar fotos para este VIN ni de ningún",
+    noPhotosBodySuffix: "en nuestras fuentes de datos.",
+    similar: "Similares",
+    photos: "Fotos",
+    similarVehicleDisclaimer: "Imagen de ejemplo de un vehículo similar. La foto no representa el auto inspeccionado.",
+    unlockAllPhotosAria: "Desbloquea todas las fotos en el reporte completo",
+    preparing: "Preparando…",
+    downloadReport: "Descargar reporte",
+    print: "Imprimir",
+    share: "Compartir",
+    linkCopied: "¡Enlace copiado!",
+    copyFailed: "Error al copiar",
+    currentlyListed: "Actualmente en venta",
+    premium: "Premium",
+    unlockListing: "Desbloquear detalles del anuncio",
+    includedInFullReport: "Incluido en el reporte completo",
+    askingPrice: "Precio solicitado",
+    mileage: "Kilometraje",
+    color: "Color",
+    dealer: "Concesionario",
+    year: "Año",
+    make: "Marca",
+    model: "Modelo",
+    trim: "Versión",
+    doors: "Puertas",
+    doorsSuffix: "Puertas",
+    drivetrain: "Tracción",
+    transmission: "Transmisión",
+    fuelType: "Combustible",
+    fuelEconomy: "Consumo",
+    size: "Tamaño",
+    epaClass: "Clase EPA",
+    bodyStyle: "Carrocería",
+    engineAndPerformance: "Motor y rendimiento",
+    engineSubtitle: "Especificaciones completas del tren motriz",
+    configuration: "Configuración",
+    displacement: "Cilindrada",
+    horsepower: "Potencia",
+    torque: "Par motor",
+    valves: "Válvulas",
+    aspiration: "Aspiración",
+    naturallyAspirated: "Aspiración natural",
+    compression: "Compresión",
+    engineCode: "Código de motor",
+    valveTiming: "Distribución de válvulas",
+    valveGear: "Mecanismo de válvulas",
+    transmissionDrivetrain: "Transmisión y tracción",
+    type: "Tipo",
+    speeds: "Velocidades",
+    speedSuffix: "Velocidades",
+    drivenWheels: "Ruedas motrices",
+    code: "Código",
+    fuelEconomySubtitle: "Eficiencia de combustible estimada por la EPA",
+    city: "Ciudad",
+    highway: "Carretera",
+    combined: "Combinado",
+    mpgEstSuffix: " (est.)",
+    vehicleClassification: "Clasificación del vehículo",
+    bodyType: "Tipo de carrocería",
+    vehicleType: "Tipo de vehículo",
+    style: "Estilo",
+    segment: "Segmento",
+    mfrCode: "Código del fabricante",
+    squishVin: "VIN comprimido",
+    availableColors: "Colores disponibles",
+    optionsEquipment: "Opciones y equipamiento",
+    optionsSummary: (opts: number, cats: number) => `${opts} opciones en ${cats} categorías`,
+    checkAnother: "Verificar otro vehículo",
+    checkAnotherSub: "Ingresa un VIN diferente para generar un nuevo reporte",
+    valuation: "Valoración",
+    baseMsrp: "PVP base",
+    usedRetail: "Venta usado",
+    tradeIn: "Permuta",
+    privateParty: "Particular",
+    invoice: "Factura",
+    marketAnalysis: "Análisis de mercado",
+    activeListings: (n: number) => `${n} anuncios activos`,
+    low: "Bajo",
+    avg: "Prom.",
+    high: "Alto",
+    avgMileage: "Kilometraje prom.",
+    similarListings: "Anuncios similares",
+    reportSummary: "Resumen del reporte",
+    included: "Incluido",
+    vinVerified: "VIN verificado",
+    specsDecoded: "Especificaciones decodificadas",
+    photosRetrieved: "Fotos obtenidas",
+    marketData: "Datos de mercado",
+    pricingData: "Datos de precios",
+    listedForSale: "En venta",
+    found: "Encontrado",
+    notFound: "—",
+    loadingInsights: "Cargando análisis…",
+  },
+  fr: {
+    backHome: "Retour à l'accueil",
+    reportGenerated: "Rapport généré",
+    noPhotos: "Aucune photo disponible",
+    noPhotosBodyPre: "Nous n'avons pas pu trouver de photos pour ce VIN ni d'aucun",
+    noPhotosBodySuffix: "dans nos sources de données.",
+    similar: "Similaires",
+    photos: "Photos",
+    similarVehicleDisclaimer: "Image d'exemple d'un véhicule similaire. La photo ne représente pas la voiture inspectée.",
+    unlockAllPhotosAria: "Débloque toutes les photos dans le rapport complet",
+    preparing: "Préparation…",
+    downloadReport: "Télécharger le rapport",
+    print: "Imprimer",
+    share: "Partager",
+    linkCopied: "Lien copié !",
+    copyFailed: "Échec de la copie",
+    currentlyListed: "Actuellement en vente",
+    premium: "Premium",
+    unlockListing: "Débloquer les détails de l'annonce",
+    includedInFullReport: "Inclus dans le rapport complet",
+    askingPrice: "Prix demandé",
+    mileage: "Kilométrage",
+    color: "Couleur",
+    dealer: "Concessionnaire",
+    year: "Année",
+    make: "Marque",
+    model: "Modèle",
+    trim: "Finition",
+    doors: "Portes",
+    doorsSuffix: "portes",
+    drivetrain: "Transmission",
+    transmission: "Transmission",
+    fuelType: "Carburant",
+    fuelEconomy: "Consommation",
+    size: "Taille",
+    epaClass: "Classe EPA",
+    bodyStyle: "Carrosserie",
+    engineAndPerformance: "Moteur et performance",
+    engineSubtitle: "Spécifications complètes du groupe motopropulseur",
+    configuration: "Configuration",
+    displacement: "Cylindrée",
+    horsepower: "Puissance",
+    torque: "Couple",
+    valves: "Soupapes",
+    aspiration: "Aspiration",
+    naturallyAspirated: "Aspiration naturelle",
+    compression: "Compression",
+    engineCode: "Code moteur",
+    valveTiming: "Distribution",
+    valveGear: "Mécanisme de soupapes",
+    transmissionDrivetrain: "Transmission et entraînement",
+    type: "Type",
+    speeds: "Vitesses",
+    speedSuffix: "vitesses",
+    drivenWheels: "Roues motrices",
+    code: "Code",
+    fuelEconomySubtitle: "Efficacité énergétique estimée par l'EPA",
+    city: "Ville",
+    highway: "Autoroute",
+    combined: "Combiné",
+    mpgEstSuffix: " (est.)",
+    vehicleClassification: "Classification du véhicule",
+    bodyType: "Type de carrosserie",
+    vehicleType: "Type de véhicule",
+    style: "Style",
+    segment: "Segment",
+    mfrCode: "Code constructeur",
+    squishVin: "VIN compressé",
+    availableColors: "Couleurs disponibles",
+    optionsEquipment: "Options et équipements",
+    optionsSummary: (opts: number, cats: number) => `${opts} options réparties sur ${cats} catégories`,
+    checkAnother: "Vérifier un autre véhicule",
+    checkAnotherSub: "Saisis un autre VIN pour générer un nouveau rapport",
+    valuation: "Valorisation",
+    baseMsrp: "PVC de base",
+    usedRetail: "Détail occasion",
+    tradeIn: "Reprise",
+    privateParty: "Particulier",
+    invoice: "Facture",
+    marketAnalysis: "Analyse du marché",
+    activeListings: (n: number) => `${n} annonces actives`,
+    low: "Bas",
+    avg: "Moy.",
+    high: "Haut",
+    avgMileage: "Kilométrage moy.",
+    similarListings: "Annonces similaires",
+    reportSummary: "Résumé du rapport",
+    included: "Inclus",
+    vinVerified: "VIN vérifié",
+    specsDecoded: "Spécifications décodées",
+    photosRetrieved: "Photos récupérées",
+    marketData: "Données du marché",
+    pricingData: "Données de prix",
+    listedForSale: "En vente",
+    found: "Trouvé",
+    notFound: "—",
+    loadingInsights: "Chargement des analyses…",
+  },
+} as const;
+
+/* ─────────────────────────────────────────────────────────────
    Main Report Component
 ───────────────────────────────────────────────────────────── */
 export default function VinReport({
@@ -499,6 +803,7 @@ export default function VinReport({
   summaryDesktopHidden = false,
   keepSidebarAI = false,
   mainImageClassName,
+  locale = "en",
 }: {
   data: VinData;
   /** Hide the "Check Another Vehicle" form (the preview moves it to the page foot). */
@@ -569,7 +874,10 @@ export default function VinReport({
   /** Extra className applied to the main hero photo (used by the report-preview
       A/B test to softly blur it for the "blur" variant). */
   mainImageClassName?: string;
+  /** UI language. Defaults to English. */
+  locale?: Locale;
 }) {
+  const c = COPY[locale];
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(["Interior", "Exterior"]));
   const toggleCategory = (cat: string) => {
     setExpandedCategories((prev) => { const next = new Set(prev); if (next.has(cat)) next.delete(cat); else next.add(cat); return next; });
@@ -666,7 +974,7 @@ export default function VinReport({
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           {/* Back link */}
           <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-white/85 hover:text-white mb-5 sm:mb-6 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Back to Home
+            <ArrowLeft className="w-4 h-4" /> {c.backHome}
           </Link>
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
@@ -675,7 +983,7 @@ export default function VinReport({
               <div className="flex items-center gap-2 mb-4 flex-wrap">
                 <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-1.5 text-on-secondary-container"
                   style={{ background: "var(--color-secondary-container)" }}>
-                  <Shield className="w-3 h-3" /> Report Generated
+                  <Shield className="w-3 h-3" /> {c.reportGenerated}
                 </span>
                 {(() => {
                   // Body-type / size chips render ONLY from real decoded data
@@ -722,11 +1030,11 @@ export default function VinReport({
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-on-secondary-container hover:brightness-110 transition cursor-pointer disabled:opacity-60"
                   style={{ background: "var(--color-secondary-container)" }}>
                   <Download className={`w-4 h-4 ${!lockActions && downloadLoading ? "animate-pulse" : ""}`} />
-                  {!lockActions && downloadLoading ? "Preparing…" : "Download Report"}
+                  {!lockActions && downloadLoading ? c.preparing : c.downloadReport}
                 </button>
                 <button onClick={lockActions ? scrollToBundle : () => window.print()}
                   className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 hover:bg-white/20 rounded-full text-xs sm:text-sm font-medium text-white transition cursor-pointer">
-                  <Printer className="w-4 h-4" /> Print
+                  <Printer className="w-4 h-4" /> {c.print}
                 </button>
                 <button
                   onClick={lockActions ? scrollToBundle : handleShare}
@@ -741,15 +1049,15 @@ export default function VinReport({
                 >
                   {shareState === "copied" ? (
                     <>
-                      <Check className="w-4 h-4" /> Link copied!
+                      <Check className="w-4 h-4" /> {c.linkCopied}
                     </>
                   ) : shareState === "error" ? (
                     <>
-                      <Share2 className="w-4 h-4" /> Copy failed
+                      <Share2 className="w-4 h-4" /> {c.copyFailed}
                     </>
                   ) : (
                     <>
-                      <Share2 className="w-4 h-4" /> Share
+                      <Share2 className="w-4 h-4" /> {c.share}
                     </>
                   )}
                 </button>
@@ -795,6 +1103,7 @@ export default function VinReport({
               lockedPhotoCount={lockedPhotoCount}
               footer={galleryFooter}
               mainImageClassName={mainImageClassName}
+              c={c}
             />
 
             {/* Slot directly under the gallery (preview: free recalls +
@@ -807,10 +1116,10 @@ export default function VinReport({
                 <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
                 <div className="flex items-center gap-2 mb-4">
                   <Shield className="w-5 h-5 text-secondary-container" />
-                  <h2 className="font-headline font-bold text-white">Currently Listed for Sale</h2>
+                  <h2 className="font-headline font-bold text-white">{c.currentlyListed}</h2>
                   {lockListing && (
                     <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-secondary-container">
-                      <Lock className="w-3 h-3" /> Premium
+                      <Lock className="w-3 h-3" /> {c.premium}
                     </span>
                   )}
                 </div>
@@ -823,11 +1132,11 @@ export default function VinReport({
                         onClick={scrollToBundle}
                         className="inline-flex items-center gap-2 bg-white text-primary rounded-xl px-4 py-2.5 text-sm font-headline font-extrabold shadow-lg hover:bg-yellow-50 transition-colors cursor-pointer"
                       >
-                        <Lock className="w-4 h-4" /> Unlock listing details
+                        <Lock className="w-4 h-4" /> {c.unlockListing}
                       </button>
                     ) : (
                       <span className="inline-flex items-center gap-2 bg-white/90 text-primary rounded-xl px-4 py-2.5 text-sm font-headline font-extrabold shadow-lg">
-                        <Lock className="w-4 h-4" /> Included in full report
+                        <Lock className="w-4 h-4" /> {c.includedInFullReport}
                       </span>
                     )}
                   </div>
@@ -837,22 +1146,22 @@ export default function VinReport({
                   aria-hidden={lockListing || undefined}
                 >
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Asking Price</p>
+                    <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">{c.askingPrice}</p>
                     <p className="text-xl sm:text-2xl font-headline font-black text-secondary-container break-words">{data.listing.price}</p>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Mileage</p>
+                    <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">{c.mileage}</p>
                     <p className="text-lg sm:text-xl font-headline font-bold text-white break-words">{data.listing.mileage}</p>
                   </div>
                   {data.listing.displayColor && (
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Color</p>
+                      <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">{c.color}</p>
                       <p className="text-base sm:text-lg font-bold text-white break-words">{data.listing.displayColor}</p>
                     </div>
                   )}
                   {data.listing.dealerName && (
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">Dealer</p>
+                      <p className="text-[10px] sm:text-xs text-white/85 font-semibold uppercase tracking-wider">{c.dealer}</p>
                       <p className="text-sm font-semibold text-white break-words">{data.listing.dealerName}</p>
                       {data.listing.city && data.listing.state && (
                         <p className="text-xs text-white/85 flex items-center gap-1 mt-0.5 break-words">
@@ -868,64 +1177,64 @@ export default function VinReport({
 
             {/* Quick specs grid */}
             <div className={`grid-cols-2 md:grid-cols-3 gap-3 ${hideIdentityCards ? "hidden" : "grid"}`}>
-              {year        && <DataCard icon={Calendar}  label="Year"         value={String(year)}                 accent="bg-primary/8 text-primary" />}
-              <DataCard icon={Car}      label="Make"         value={makeName}                     accent="bg-primary/8 text-primary" />
-              <DataCard icon={Car}      label="Model"        value={modelName}                    accent="bg-tertiary/10 text-tertiary" />
-              {trim        && <DataCard icon={Tag}       label="Trim"         value={trim}                         accent="bg-violet-50 text-violet-600" />}
-              {data.numOfDoors && <DataCard icon={DoorOpen} label="Doors"    value={`${data.numOfDoors} Doors`}   accent="bg-amber-50 text-amber-600" />}
-              {data.drivenWheels && <DataCard icon={Cog}  label="Drivetrain" value={data.drivenWheels}            accent="bg-cyan-50 text-cyan-600" />}
-              {data.transmission && <DataCard icon={Settings} label="Transmission" value={`${data.transmission.numberOfSpeeds}-Spd ${data.transmission.transmissionType}`} accent="bg-purple-50 text-purple-600" />}
-              {data.engine?.fuelType && <DataCard icon={Fuel} label="Fuel Type"  value={data.engine.fuelType}     accent="bg-green-50 text-green-600" />}
-              {data.mpg    && <DataCard icon={Gauge}     label="Fuel Economy" value={`${data.mpg.city} / ${data.mpg.highway} MPG`} accent="bg-emerald-50 text-emerald-600" />}
-              {data.categories?.vehicleSize && <DataCard icon={Info}   label="Size"  value={data.categories.vehicleSize} accent="bg-amber-50 text-amber-600" />}
-              {data.categories?.epaClass    && <DataCard icon={Award}  label="EPA Class" value={data.categories.epaClass}    accent="bg-teal-50 text-teal-600" />}
-              {submodel?.body && <DataCard icon={Car} label="Body Style" value={submodel.body} accent="bg-indigo-50 text-indigo-600" />}
+              {year        && <DataCard icon={Calendar}  label={c.year}         value={String(year)}                 accent="bg-primary/8 text-primary" />}
+              <DataCard icon={Car}      label={c.make}         value={makeName}                     accent="bg-primary/8 text-primary" />
+              <DataCard icon={Car}      label={c.model}        value={modelName}                    accent="bg-tertiary/10 text-tertiary" />
+              {trim        && <DataCard icon={Tag}       label={c.trim}         value={trim}                         accent="bg-violet-50 text-violet-600" />}
+              {data.numOfDoors && <DataCard icon={DoorOpen} label={c.doors}    value={`${data.numOfDoors} ${c.doorsSuffix}`}   accent="bg-amber-50 text-amber-600" />}
+              {data.drivenWheels && <DataCard icon={Cog}  label={c.drivetrain} value={data.drivenWheels}            accent="bg-cyan-50 text-cyan-600" />}
+              {data.transmission && <DataCard icon={Settings} label={c.transmission} value={`${data.transmission.numberOfSpeeds}-Spd ${data.transmission.transmissionType}`} accent="bg-purple-50 text-purple-600" />}
+              {data.engine?.fuelType && <DataCard icon={Fuel} label={c.fuelType}  value={data.engine.fuelType}     accent="bg-green-50 text-green-600" />}
+              {data.mpg    && <DataCard icon={Gauge}     label={c.fuelEconomy} value={`${data.mpg.city} / ${data.mpg.highway} MPG`} accent="bg-emerald-50 text-emerald-600" />}
+              {data.categories?.vehicleSize && <DataCard icon={Info}   label={c.size}  value={data.categories.vehicleSize} accent="bg-amber-50 text-amber-600" />}
+              {data.categories?.epaClass    && <DataCard icon={Award}  label={c.epaClass} value={data.categories.epaClass}    accent="bg-teal-50 text-teal-600" />}
+              {submodel?.body && <DataCard icon={Car} label={c.bodyStyle} value={submodel.body} accent="bg-indigo-50 text-indigo-600" />}
             </div>
 
             {/* Engine & Performance */}
             {data.engine && (
-              <Card icon={Zap} title="Engine & Performance" subtitle="Complete powertrain specifications" accent="bg-amber-50 text-amber-600">
+              <Card icon={Zap} title={c.engineAndPerformance} subtitle={c.engineSubtitle} accent="bg-amber-50 text-amber-600">
                 <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-                  {data.engine.cylinder     && <Stat label="Configuration" value={`${data.engine.cylinder}-Cyl ${data.engine.configuration}`} />}
-                  {data.engine.displacement && <Stat label="Displacement"  value={`${data.engine.displacement} cc (${data.engine.size}L)`} />}
-                  {data.engine.horsepower   && <Stat label="Horsepower"    value={`${data.engine.horsepower} HP${data.engine.rpm?.horsepower ? ` @ ${data.engine.rpm.horsepower} RPM` : ""}`} />}
-                  {data.engine.torque       && <Stat label="Torque"        value={`${data.engine.torque} lb-ft${data.engine.rpm?.torque ? ` @ ${data.engine.rpm.torque} RPM` : ""}`} />}
-                  {data.engine.totalValves  && <Stat label="Valves"        value={String(data.engine.totalValves)} />}
-                  {data.engine.fuelType     && <Stat label="Fuel Type"     value={data.engine.fuelType} />}
-                  {data.engine.compressorType && <Stat label="Aspiration"  value={data.engine.compressorType === "NA" ? "Naturally Aspirated" : data.engine.compressorType} />}
-                  {data.engine.compressionRatio && <Stat label="Compression" value={`${data.engine.compressionRatio}:1`} />}
-                  {data.engine.manufacturerEngineCode && <Stat label="Engine Code" value={data.engine.manufacturerEngineCode} />}
-                  {data.engine.valve && <><Stat label="Valve Timing" value={data.engine.valve.timing} /><Stat label="Valve Gear" value={data.engine.valve.gear} /></>}
+                  {data.engine.cylinder     && <Stat label={c.configuration} value={`${data.engine.cylinder}-Cyl ${data.engine.configuration}`} />}
+                  {data.engine.displacement && <Stat label={c.displacement}  value={`${data.engine.displacement} cc (${data.engine.size}L)`} />}
+                  {data.engine.horsepower   && <Stat label={c.horsepower}    value={`${data.engine.horsepower} HP${data.engine.rpm?.horsepower ? ` @ ${data.engine.rpm.horsepower} RPM` : ""}`} />}
+                  {data.engine.torque       && <Stat label={c.torque}        value={`${data.engine.torque} lb-ft${data.engine.rpm?.torque ? ` @ ${data.engine.rpm.torque} RPM` : ""}`} />}
+                  {data.engine.totalValves  && <Stat label={c.valves}        value={String(data.engine.totalValves)} />}
+                  {data.engine.fuelType     && <Stat label={c.fuelType}     value={data.engine.fuelType} />}
+                  {data.engine.compressorType && <Stat label={c.aspiration}  value={data.engine.compressorType === "NA" ? c.naturallyAspirated : data.engine.compressorType} />}
+                  {data.engine.compressionRatio && <Stat label={c.compression} value={`${data.engine.compressionRatio}:1`} />}
+                  {data.engine.manufacturerEngineCode && <Stat label={c.engineCode} value={data.engine.manufacturerEngineCode} />}
+                  {data.engine.valve && <><Stat label={c.valveTiming} value={data.engine.valve.timing} /><Stat label={c.valveGear} value={data.engine.valve.gear} /></>}
                 </div>
               </Card>
             )}
 
             {/* Transmission */}
             {data.transmission && (
-              <Card icon={Cog} title="Transmission & Drivetrain" accent="bg-cyan-50 text-cyan-600">
+              <Card icon={Cog} title={c.transmissionDrivetrain} accent="bg-cyan-50 text-cyan-600">
                 <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-                  <Stat label="Type"          value={data.transmission.transmissionType} />
-                  <Stat label="Speeds"        value={`${data.transmission.numberOfSpeeds}-Speed`} />
-                  {data.drivenWheels && <Stat label="Driven Wheels" value={data.drivenWheels} />}
-                  {data.transmission.name    && <Stat label="Code"  value={data.transmission.name} />}
-                  {data.numOfDoors && <Stat label="Doors" value={`${data.numOfDoors} Doors`} />}
+                  <Stat label={c.type}          value={data.transmission.transmissionType} />
+                  <Stat label={c.speeds}        value={`${data.transmission.numberOfSpeeds}-${c.speedSuffix}`} />
+                  {data.drivenWheels && <Stat label={c.drivenWheels} value={data.drivenWheels} />}
+                  {data.transmission.name    && <Stat label={c.code}  value={data.transmission.name} />}
+                  {data.numOfDoors && <Stat label={c.doors} value={`${data.numOfDoors} ${c.doorsSuffix}`} />}
                 </div>
               </Card>
             )}
 
             {/* Fuel Economy */}
             {data.mpg && (
-              <Card icon={Fuel} title="Fuel Economy" subtitle="EPA estimated fuel efficiency" accent="bg-green-50 text-green-600">
+              <Card icon={Fuel} title={c.fuelEconomy} subtitle={c.fuelEconomySubtitle} accent="bg-green-50 text-green-600">
                 <div className="grid grid-cols-3 gap-2 sm:gap-4">
                   {[
-                    { label: "City",     val: data.mpg.city,    accent: "bg-primary/8 text-primary" },
-                    { label: "Highway",  val: data.mpg.highway, accent: "bg-tertiary/10 text-tertiary" },
-                    { label: "Combined", val: Math.round(data.mpg.city * 0.55 + data.mpg.highway * 0.45), accent: "bg-green-50 text-green-700" },
-                  ].map(({ label, val, accent }) => (
-                    <div key={label} className={`text-center p-3 sm:p-6 rounded-2xl ${accent.split(" ")[0]}`}>
+                    { key: "city",     label: c.city,     val: data.mpg.city,    accent: "bg-primary/8 text-primary" },
+                    { key: "highway",  label: c.highway,  val: data.mpg.highway, accent: "bg-tertiary/10 text-tertiary" },
+                    { key: "combined", label: c.combined, val: Math.round(data.mpg.city * 0.55 + data.mpg.highway * 0.45), accent: "bg-green-50 text-green-700" },
+                  ].map(({ key, label, val, accent }) => (
+                    <div key={key} className={`text-center p-3 sm:p-6 rounded-2xl ${accent.split(" ")[0]}`}>
                       <p className={`text-xs sm:text-sm font-semibold mb-1 sm:mb-2 ${accent.split(" ")[1]}`}>{label}</p>
                       <p className={`text-3xl sm:text-5xl font-headline font-black ${accent.split(" ")[1]}`}>{val}</p>
-                      <p className="text-[10px] sm:text-xs text-on-surface-variant mt-1">MPG{label==="Combined"?" (est.)":""}</p>
+                      <p className="text-[10px] sm:text-xs text-on-surface-variant mt-1">MPG{key === "combined" ? c.mpgEstSuffix : ""}</p>
                     </div>
                   ))}
                 </div>
@@ -935,16 +1244,16 @@ export default function VinReport({
             {/* Vehicle Classification */}
             {data.categories && !hideIdentityCards && (
               <div>
-                <Card icon={Info} title="Vehicle Classification" accent="bg-indigo-50 text-indigo-600">
+                <Card icon={Info} title={c.vehicleClassification} accent="bg-indigo-50 text-indigo-600">
                   <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8">
-                    {data.categories.primaryBodyType && <Stat label="Body Type"    value={data.categories.primaryBodyType} />}
-                    {data.categories.vehicleType     && <Stat label="Vehicle Type" value={data.categories.vehicleType} />}
-                    {data.categories.vehicleStyle    && <Stat label="Style"        value={data.categories.vehicleStyle} />}
-                    {data.categories.vehicleSize     && <Stat label="Size"         value={data.categories.vehicleSize} />}
-                    {data.categories.market          && <Stat label="Segment"      value={data.categories.market} />}
-                    {data.categories.epaClass        && <Stat label="EPA Class"    value={data.categories.epaClass} />}
-                    {data.manufacturerCode           && <Stat label="Mfr Code"     value={data.manufacturerCode} />}
-                    {data.squishVin                  && <Stat label="Squish VIN"   value={data.squishVin} />}
+                    {data.categories.primaryBodyType && <Stat label={c.bodyType}    value={data.categories.primaryBodyType} />}
+                    {data.categories.vehicleType     && <Stat label={c.vehicleType} value={data.categories.vehicleType} />}
+                    {data.categories.vehicleStyle    && <Stat label={c.style}       value={data.categories.vehicleStyle} />}
+                    {data.categories.vehicleSize     && <Stat label={c.size}        value={data.categories.vehicleSize} />}
+                    {data.categories.market          && <Stat label={c.segment}     value={data.categories.market} />}
+                    {data.categories.epaClass        && <Stat label={c.epaClass}    value={data.categories.epaClass} />}
+                    {data.manufacturerCode           && <Stat label={c.mfrCode}     value={data.manufacturerCode} />}
+                    {data.squishVin                  && <Stat label={c.squishVin}   value={data.squishVin} />}
                   </div>
                 </Card>
               </div>
@@ -952,13 +1261,13 @@ export default function VinReport({
 
             {/* Colors */}
             {data.colors && data.colors.length > 0 && (
-              <Card icon={Palette} title="Available Colors" accent="bg-pink-50 text-pink-600">
+              <Card icon={Palette} title={c.availableColors} accent="bg-pink-50 text-pink-600">
                 <div className="space-y-5">
-                  {data.colors.map((c) => (
-                    <div key={c.category}>
-                      <p className="text-xs font-semibold text-outline uppercase tracking-widest mb-3">{c.category}</p>
+                  {data.colors.map((color) => (
+                    <div key={color.category}>
+                      <p className="text-xs font-semibold text-outline uppercase tracking-widest mb-3">{color.category}</p>
                       <div className="flex flex-wrap gap-2">
-                        {c.options.map((o) => (
+                        {color.options.map((o) => (
                           <span key={o.name} className="px-4 py-2 bg-surface-container text-on-surface-variant text-sm rounded-xl font-medium hover:bg-surface-container-high transition-colors">
                             {o.name}
                           </span>
@@ -978,10 +1287,10 @@ export default function VinReport({
                     <div className="w-9 h-9 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center flex-shrink-0">
                       <Settings className="w-5 h-5" />
                     </div>
-                    Options &amp; Equipment
+                    {c.optionsEquipment}
                   </h2>
                   <p className="text-sm text-on-surface-variant mt-1 ml-12">
-                    {data.options.reduce((a, c) => a + c.options.length, 0)} options across {data.options.length} categories
+                    {c.optionsSummary(data.options.reduce((a, cat) => a + cat.options.length, 0), data.options.length)}
                   </p>
                 </div>
                 <div>
@@ -1022,8 +1331,8 @@ export default function VinReport({
             {!hideCheckAnother && (
               <div className="bg-primary-container rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
                 <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
-                <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
-                <p className="text-sm sm:text-base text-white/85 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
+                <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">{c.checkAnother}</h2>
+                <p className="text-sm sm:text-base text-white/85 mb-5 sm:mb-6">{c.checkAnotherSub}</p>
                 <div className="max-w-lg mx-auto">
                   <VinSearchForm size="sm" />
                 </div>
@@ -1051,37 +1360,37 @@ export default function VinReport({
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-surface-container">
                   <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
-                    <DollarSign className="w-5 h-5 text-green-600" /> Valuation
+                    <DollarSign className="w-5 h-5 text-green-600" /> {c.valuation}
                   </h3>
                 </div>
                 <div className="p-5 space-y-3">
                   {data.price.baseMsrp > 0 && (
                     <div className="flex justify-between items-center p-3 bg-primary/8 rounded-xl">
-                      <span className="text-xs font-semibold text-primary uppercase tracking-wider">Base MSRP</span>
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wider">{c.baseMsrp}</span>
                       <span className="font-headline font-black text-primary">${data.price.baseMsrp.toLocaleString()}</span>
                     </div>
                   )}
                   {data.price.usedTmvRetail > 0 && (
                     <div className="flex justify-between items-center p-3 bg-surface-container-low rounded-xl">
-                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Used Retail</span>
+                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{c.usedRetail}</span>
                       <span className="font-headline font-black text-on-surface">${data.price.usedTmvRetail.toLocaleString()}</span>
                     </div>
                   )}
                   {data.price.usedTradeIn > 0 && (
                     <div className="flex justify-between items-center p-3 bg-surface-container-low rounded-xl">
-                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Trade-In</span>
+                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{c.tradeIn}</span>
                       <span className="font-headline font-black text-on-surface">${data.price.usedTradeIn.toLocaleString()}</span>
                     </div>
                   )}
                   {data.price.usedPrivateParty > 0 && (
                     <div className="flex justify-between items-center p-3 bg-surface-container-low rounded-xl">
-                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Private Party</span>
+                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{c.privateParty}</span>
                       <span className="font-headline font-black text-on-surface">${data.price.usedPrivateParty.toLocaleString()}</span>
                     </div>
                   )}
                   {data.price.baseInvoice > 0 && (
                     <div className="flex justify-between items-center p-3 bg-surface-container-low rounded-xl">
-                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Invoice</span>
+                      <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider">{c.invoice}</span>
                       <span className="font-headline font-black text-on-surface">${data.price.baseInvoice.toLocaleString()}</span>
                     </div>
                   )}
@@ -1094,32 +1403,32 @@ export default function VinReport({
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-surface-container">
                   <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-primary" /> Market Analysis
+                    <BarChart3 className="w-5 h-5 text-primary" /> {c.marketAnalysis}
                   </h3>
-                  <p className="text-xs text-outline mt-0.5">{data.marketData.totalListings} active listings</p>
+                  <p className="text-xs text-outline mt-0.5">{c.activeListings(data.marketData.totalListings)}</p>
                 </div>
                 <div className="p-5">
                   <div className="grid grid-cols-3 gap-3 mb-5">
                     <div className="text-center p-3 bg-green-50 rounded-xl">
                       <TrendingDown className="w-4 h-4 text-green-600 mx-auto mb-1" />
-                      <p className="text-[10px] text-green-600 font-bold uppercase tracking-wider">Low</p>
+                      <p className="text-[10px] text-green-600 font-bold uppercase tracking-wider">{c.low}</p>
                       <p className="font-headline font-black text-sm text-green-700">${data.marketData.lowestPrice.toLocaleString()}</p>
                     </div>
                     <div className="text-center p-3 bg-primary/8 rounded-xl">
                       <BarChart3 className="w-4 h-4 text-primary mx-auto mb-1" />
-                      <p className="text-[10px] text-primary font-bold uppercase tracking-wider">Avg</p>
+                      <p className="text-[10px] text-primary font-bold uppercase tracking-wider">{c.avg}</p>
                       <p className="font-headline font-black text-sm text-primary">${data.marketData.averagePrice.toLocaleString()}</p>
                     </div>
                     <div className="text-center p-3 bg-red-50 rounded-xl">
                       <TrendingUp className="w-4 h-4 text-red-500 mx-auto mb-1" />
-                      <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider">High</p>
+                      <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider">{c.high}</p>
                       <p className="font-headline font-black text-sm text-red-600">${data.marketData.highestPrice.toLocaleString()}</p>
                     </div>
                   </div>
 
                   {data.marketData.averageMileage > 0 && (
                     <div className="flex justify-between items-center py-3 border-t border-surface-container">
-                      <span className="text-xs text-outline font-semibold uppercase tracking-wider">Avg. Mileage</span>
+                      <span className="text-xs text-outline font-semibold uppercase tracking-wider">{c.avgMileage}</span>
                       <span className="font-bold text-on-surface">{data.marketData.averageMileage.toLocaleString()} mi</span>
                     </div>
                   )}
@@ -1127,7 +1436,7 @@ export default function VinReport({
                   {/* Similar listings */}
                   {data.marketData.sampleListings.length > 0 && (
                     <div className="mt-4">
-                      <p className="text-xs font-black text-outline uppercase tracking-widest mb-3">Similar Listings</p>
+                      <p className="text-xs font-black text-outline uppercase tracking-widest mb-3">{c.similarListings}</p>
                       <div className="space-y-3">
                         {data.marketData.sampleListings.slice(0, 4).map((l) => (
                           <div key={l.id} className="flex gap-3 p-3 bg-surface-container-low rounded-2xl hover:shadow-sm transition-all">
@@ -1166,7 +1475,7 @@ export default function VinReport({
             <div className={`bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden${summaryDesktopHidden ? " lg:hidden" : ""}`}>
               <div className="px-5 py-4 border-b border-surface-container">
                 <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-secondary-container" style={{ color: "var(--color-secondary-container)" }} /> Report Summary
+                  <AlertTriangle className="w-5 h-5 text-secondary-container" style={{ color: "var(--color-secondary-container)" }} /> {c.reportSummary}
                 </h3>
               </div>
               {summaryGroups ? (
@@ -1181,7 +1490,7 @@ export default function VinReport({
                           <div key={label} className="flex items-center justify-between gap-3">
                             <span className="text-sm text-on-surface-variant">{label}</span>
                             <span className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full bg-green-50 text-green-700">
-                              ✓ Included
+                              ✓ {c.included}
                             </span>
                           </div>
                         ))}
@@ -1192,17 +1501,17 @@ export default function VinReport({
               ) : (
                 <div className="p-5 space-y-3">
                   {[
-                    { label: "VIN Verified",       ok: true },
-                    { label: "Specs Decoded",       ok: true },
-                    { label: "Photos Retrieved",    ok: (data.photos?.length ?? 0) > 0 },
-                    { label: "Market Data",         ok: !!data.marketData },
-                    { label: "Pricing Data",        ok: !!data.price },
-                    { label: "Listed for Sale",     ok: !!data.listing },
+                    { label: c.vinVerified,    ok: true },
+                    { label: c.specsDecoded,   ok: true },
+                    { label: c.photosRetrieved, ok: (data.photos?.length ?? 0) > 0 },
+                    { label: c.marketData,     ok: !!data.marketData },
+                    { label: c.pricingData,    ok: !!data.price },
+                    { label: c.listedForSale,  ok: !!data.listing },
                   ].map(({ label, ok }) => (
                     <div key={label} className="flex items-center justify-between">
                       <span className="text-sm text-on-surface-variant">{label}</span>
                       <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${ok ? "bg-green-50 text-green-700" : "bg-surface-container text-outline"}`}>
-                        {ok ? "✓ Found" : "—"}
+                        {ok ? `✓ ${c.found}` : c.notFound}
                       </span>
                     </div>
                   ))}

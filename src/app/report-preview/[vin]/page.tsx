@@ -36,6 +36,7 @@ import {
   Info,
 } from "lucide-react";
 import { headers } from "next/headers";
+import { detectLocale, isLocale, type Locale } from "@/i18n/config";
 import { getReportContext, type ReportContext } from "@/lib/report-context";
 import VinReport from "@/components/VinReport";
 import VinSearchForm from "@/components/VinSearchForm";
@@ -94,10 +95,15 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { vin } = await params;
+  // Locale detection mirrors the page-level mechanism below (x-locale header
+  // set by the proxy when the request came in under /es or /fr).
+  const h = await headers();
+  const localeHeader = h.get("x-locale") || "";
+  const locale: Locale = isLocale(localeHeader) ? localeHeader : "en";
+  const c = COPY[locale];
   return {
-    title: `Vehicle History Report — ${vin.toUpperCase()}`,
-    description:
-      "Unlock the full NMVTIS-backed vehicle history report for this VIN — title brands, accidents, odometer, ownership and more.",
+    title: c.metaTitle(vin.toUpperCase()),
+    description: c.metaDescription,
     robots: { index: false, follow: false },
   };
 }
@@ -237,67 +243,68 @@ function minimalReportData(vin: string, d: VinData): VinData {
  * shown next to each blurred value.
  */
 type RecordBody = "rows" | "photos" | "timeline" | "grid";
-function lockedRecords(p: ClearVinPreview | null) {
+function lockedRecords(p: ClearVinPreview | null, locale: Locale = "en") {
+  const c = COPY[locale];
   return [
     {
       icon: AlertTriangle,
-      label: "Accident & damage",
-      note: "Collisions, severity & damage photos",
+      label: c.accidentDamage,
+      note: c.accidentDamageNote,
       count: p ? p.damagesCount : null,
       rows: 3,
       body: "photos" as RecordBody,
-      entry: "Accident",
-      fields: ["Date", "Damage", "State"],
+      entry: c.entryAccident,
+      fields: [c.fieldDate, c.fieldDamage, c.fieldState],
     },
     {
       icon: FileText,
-      label: "Title records",
-      note: "Brands, state & odometer at title",
+      label: c.titleRecords,
+      note: c.titleRecordsNote,
       count: null as number | null,
       rows: 3,
       body: "rows" as RecordBody,
-      entry: "Title",
-      fields: ["State", "Odometer", "Issue date"],
+      entry: c.entryTitle,
+      fields: [c.fieldState, c.fieldOdometer, c.fieldIssueDate],
     },
     {
       icon: Users,
-      label: "Ownership history",
-      note: "Owners, usage type & timeline",
+      label: c.ownershipHistory,
+      note: c.ownershipHistoryNote,
       count: null,
       rows: 3,
       body: "timeline" as RecordBody,
-      entry: "Owner",
-      fields: ["Years", "Type", "Location"],
+      entry: c.entryOwner,
+      fields: [c.fieldYears, c.fieldType, c.fieldLocation],
     },
     {
       icon: Gavel,
-      label: "Sales & auction history",
-      note: "Sale price, location & dates",
+      label: c.salesAuction,
+      note: c.salesAuctionNote,
       count: p ? p.auctionHistoryRecords : null,
       rows: 3,
       body: "photos" as RecordBody,
-      entry: "Sale",
-      fields: ["Found at", "Date", "Price"],
+      entry: c.entrySale,
+      fields: [c.fieldFoundAt, c.fieldDate, c.fieldPrice],
     },
     {
       icon: Gauge,
-      label: "Odometer readings",
-      note: "Rollback & mileage timeline",
+      label: c.odometerReadings,
+      note: c.odometerReadingsNote,
       count: null,
       rows: 3,
       body: "rows" as RecordBody,
-      entry: "Reading",
-      fields: ["Date", "Mileage", "Source"],
+      entry: c.entryReading,
+      fields: [c.fieldDate, c.fieldMileage, c.fieldSource],
     },
     {
       icon: Skull,
-      label: "Major problems",
-      note: "Salvage · total loss · lemon · rebuilt",
+      label: c.majorProblems,
+      note: c.majorProblemsNote,
       count: null,
       rows: 4,
       body: "grid" as RecordBody,
-      entry: "Check",
-      fields: ["Salvage", "Total loss", "Lemon", "Rebuilt title"],
+      entry: c.entryCheck,
+      fields: [c.fieldSalvage, c.fieldTotalLoss, c.fieldLemon, c.fieldRebuilt],
     },
   ];
 }
@@ -338,74 +345,844 @@ function likelyPaintCode(
   return null;
 }
 
-/* Screen-4 "every record your report checks" grid. */
+/* Screen-4 "every record your report checks" grid.
+   `key` is the COPY key for the localised label. */
 const RECORDS_CHECKED = [
-  { icon: AlertTriangle, label: "Accident History" },
-  { icon: Banknote, label: "Liens & Loans" },
-  { icon: FileText, label: "Title History" },
-  { icon: Users, label: "Ownership Records" },
-  { icon: Gauge, label: "Odometer Records" },
-  { icon: Wrench, label: "Salvage Records" },
-  { icon: Receipt, label: "Sales History" },
-  { icon: Skull, label: "Total Loss Events" },
-  { icon: ShieldAlert, label: "Open Recalls" },
-  { icon: BadgeCheck, label: "Lemon Check" },
+  { icon: AlertTriangle, key: "accidentHistory" as const },
+  { icon: Banknote, key: "liensLoans" as const },
+  { icon: FileText, key: "titleHistory" as const },
+  { icon: Users, key: "ownershipRecords" as const },
+  { icon: Gauge, key: "odometerRecords" as const },
+  { icon: Wrench, key: "salvageRecords" as const },
+  { icon: Receipt, key: "salesHistory" as const },
+  { icon: Skull, key: "totalLossEvents" as const },
+  { icon: ShieldAlert, key: "openRecalls" as const },
+  { icon: BadgeCheck, key: "lemonCheck" as const },
 ];
 
-/* Screen-4 "your report may contain" 16-item green checklist. */
+/* Screen-4 "your report may contain" 16-item green checklist.
+   `key` is the COPY key for the localised label. */
 const MAY_CONTAIN = [
-  { icon: AlertTriangle, label: "Major Accident" },
-  { icon: Gauge, label: "Mileage Rollback" },
-  { icon: Hammer, label: "Frame Damage" },
-  { icon: Car, label: "Lease & Taxi Use" },
-  { icon: FileText, label: "Rebuilt / Branded Title" },
-  { icon: ShieldCheck, label: "Police & Government Use" },
-  { icon: Users, label: "Owner History" },
-  { icon: Wrench, label: "Salvage History" },
-  { icon: Skull, label: "Junked" },
-  { icon: Flame, label: "Airbag Deployment" },
-  { icon: Fingerprint, label: "Vehicle Specifications" },
-  { icon: BadgeCheck, label: "Warranty Information" },
-  { icon: Receipt, label: "Sale History" },
-  { icon: ScrollText, label: "Bill of Sale Template" },
-  { icon: KeyRound, label: "Lemon Check" },
-  { icon: Banknote, label: "Theft & Recovery Check" },
+  { icon: AlertTriangle, key: "majorAccident" as const },
+  { icon: Gauge, key: "mileageRollback" as const },
+  { icon: Hammer, key: "frameDamage" as const },
+  { icon: Car, key: "leaseTaxi" as const },
+  { icon: FileText, key: "rebuiltBranded" as const },
+  { icon: ShieldCheck, key: "policeGov" as const },
+  { icon: Users, key: "ownerHistory" as const },
+  { icon: Wrench, key: "salvageHistory" as const },
+  { icon: Skull, key: "junked" as const },
+  { icon: Flame, key: "airbagDeployment" as const },
+  { icon: Fingerprint, key: "vehicleSpecs" as const },
+  { icon: BadgeCheck, key: "warrantyInfo" as const },
+  { icon: Receipt, key: "saleHistory" as const },
+  { icon: ScrollText, key: "billOfSale" as const },
+  { icon: KeyRound, key: "lemonCheck2" as const },
+  { icon: Banknote, key: "theftRecovery" as const },
 ];
 
 /* Everything the buyer gets — shown as the premium Report Summary in the
-   sidebar, grouped with titles. */
-const SUMMARY_GROUPS = [
-  {
-    title: "Title & Ownership",
-    items: ["Title Brand Check", "Ownership History", "Number of Owners", "Usage Type"],
-  },
-  {
-    title: "Condition & Damage",
-    items: ["Accident & Damage Records", "Salvage / Total-Loss Check", "Airbag Deployment", "Frame Damage"],
-  },
-  {
-    title: "Mileage & Legal",
-    items: ["Odometer Readings", "Rollback Detection", "Open Liens", "Lemon Check"],
-  },
-  {
-    title: "Value & Market",
-    items: ["Market Value", "Original MSRP & Invoice", "Warranty Information"],
-  },
-  {
-    title: "Records & Media",
-    items: ["Auction Records & Prices", "All Photos on File", "Open Safety Recalls", "Downloadable PDF"],
-  },
+   sidebar, grouped with titles. Stored as keys so each group/item can be
+   localised via COPY. */
+const SUMMARY_GROUPS_KEYS = [
+  { title: "titleOwnership" as const, items: ["titleBrandCheck", "ownershipHistory", "numberOfOwners", "usageType"] as const },
+  { title: "conditionDamage" as const, items: ["accidentDamage", "salvageTotalLoss", "airbagDeployment", "frameDamage"] as const },
+  { title: "mileageLegal" as const, items: ["odometerReadings", "rollbackDetection", "openLiens", "lemonCheck"] as const },
+  { title: "valueMarket" as const, items: ["marketValue", "originalMsrp", "warrantyInfo"] as const },
+  { title: "recordsMedia" as const, items: ["auctionRecords", "allPhotos", "openSafetyRecalls", "downloadablePdf"] as const },
 ];
+
+/* ─── Localised copy for the report-preview page ──────────────────────────
+   Every visible English string has a key here; the page component picks
+   `COPY[locale]` once and uses `c.<key>` throughout. */
+const COPY = {
+  en: {
+    // Locked-record card labels (lockedRecords())
+    accidentDamage: "Accident & damage",
+    accidentDamageNote: "Collisions, severity & damage photos",
+    titleRecords: "Title records",
+    titleRecordsNote: "Brands, state & odometer at title",
+    ownershipHistory: "Ownership history",
+    ownershipHistoryNote: "Owners, usage type & timeline",
+    salesAuction: "Sales & auction history",
+    salesAuctionNote: "Sale price, location & dates",
+    odometerReadings: "Odometer readings",
+    odometerReadingsNote: "Rollback & mileage timeline",
+    majorProblems: "Major problems",
+    majorProblemsNote: "Salvage · total loss · lemon · rebuilt",
+    fieldDate: "Date",
+    fieldDamage: "Damage",
+    fieldState: "State",
+    fieldOdometer: "Odometer",
+    fieldIssueDate: "Issue date",
+    fieldYears: "Years",
+    fieldType: "Type",
+    fieldLocation: "Location",
+    fieldFoundAt: "Found at",
+    fieldPrice: "Price",
+    fieldMileage: "Mileage",
+    fieldSource: "Source",
+    fieldSalvage: "Salvage",
+    fieldTotalLoss: "Total loss",
+    fieldLemon: "Lemon",
+    fieldRebuilt: "Rebuilt title",
+    entryAccident: "Accident",
+    entryTitle: "Title",
+    entryOwner: "Owner",
+    entrySale: "Sale",
+    entryReading: "Reading",
+    entryCheck: "Check",
+    // Records-checked grid (RECORDS_CHECKED)
+    accidentHistory: "Accident History",
+    liensLoans: "Liens & Loans",
+    titleHistory: "Title History",
+    ownershipRecords: "Ownership Records",
+    odometerRecords: "Odometer Records",
+    salvageRecords: "Salvage Records",
+    salesHistory: "Sales History",
+    totalLossEvents: "Total Loss Events",
+    openRecalls: "Open Recalls",
+    lemonCheck: "Lemon Check",
+    // May-contain checklist (MAY_CONTAIN)
+    majorAccident: "Major Accident",
+    mileageRollback: "Mileage Rollback",
+    frameDamage: "Frame Damage",
+    leaseTaxi: "Lease & Taxi Use",
+    rebuiltBranded: "Rebuilt / Branded Title",
+    policeGov: "Police & Government Use",
+    ownerHistory: "Owner History",
+    salvageHistory: "Salvage History",
+    junked: "Junked",
+    airbagDeployment: "Airbag Deployment",
+    vehicleSpecs: "Vehicle Specifications",
+    warrantyInfo: "Warranty Information",
+    saleHistory: "Sale History",
+    billOfSale: "Bill of Sale Template",
+    lemonCheck2: "Lemon Check",
+    theftRecovery: "Theft & Recovery Check",
+    // SUMMARY_GROUPS_KEYS titles
+    titleOwnership: "Title & Ownership",
+    conditionDamage: "Condition & Damage",
+    mileageLegal: "Mileage & Legal",
+    valueMarket: "Value & Market",
+    recordsMedia: "Records & Media",
+    // SUMMARY_GROUPS_KEYS items
+    titleBrandCheck: "Title Brand Check",
+    numberOfOwners: "Number of Owners",
+    usageType: "Usage Type",
+    accidentDamageRecords: "Accident & Damage Records",
+    salvageTotalLoss: "Salvage / Total-Loss Check",
+    rollbackDetection: "Rollback Detection",
+    openLiens: "Open Liens",
+    marketValue: "Market Value",
+    originalMsrp: "Original MSRP & Invoice",
+    auctionRecords: "Auction Records & Prices",
+    allPhotos: "All Photos on File",
+    openSafetyRecalls: "Open Safety Recalls",
+    downloadablePdf: "Downloadable PDF",
+    // Error / no records
+    noRecordsHeading: "No records for this VIN",
+    noRecordsBody: (vin: string) =>
+      `We couldn't locate any records for ${vin}. Double-check the VIN and try again.`,
+    tryAnotherVin: "Try another VIN",
+    // Finding banner
+    recordsFoundOnVin: "Records found on this VIN",
+    looksClean: "Looks clean — confirm before you buy",
+    findingHeadlineAlerts: (vehicleLabel: string, parts: string[]) =>
+      `This ${vehicleLabel} has ${parts.join(" and ")} on file`,
+    findingHeadlineClean: "No damage or auction sales in this free preview — verify before you buy",
+    findingBodyAlerts:
+      "Title brands, liens, odometer rollbacks and ownership records aren't shown here either. Unlock the full NMVTIS report to see the complete picture before you pay the seller's price.",
+    findingBodyClean: (vehicleLabel: string) =>
+      `Title brands, liens, odometer rollbacks and ownership history aren't shown in the free preview. Confirm this ${vehicleLabel} is genuinely clean, in writing, before you pay.`,
+    damageRecord: (n: number) => `${n} damage record${n === 1 ? "" : "s"}`,
+    priorAuctionSale: (n: number) => `${n} prior auction sale${n === 1 ? "" : "s"}`,
+    openSafetyRecallsCount: (n: number) => `${n} open safety recall${n === 1 ? "" : "s"}`,
+    alsoReportedFree: " also reported (shown free below).",
+    unlockFullReportPrice: (price: string) => `Unlock the full report — $${price}`,
+    unlockFullReportAria: "Unlock the full vehicle history report",
+    // Unsupported VIN notice
+    unsupportedTitle: "Full report not available for this VIN yet",
+    unsupportedBody:
+      "Our paid history report database doesn't cover this VIN — it's most likely a non-US vehicle or hasn't been added by our data provider yet. We've shown all the free decoded information we could find below, including specs and market data where available. Try a different VIN or come back later.",
+    // Hero CTA
+    getFullReport: (price: string) => `Get full report — $${price}`,
+    // Recalls section
+    openSafetyRecall: (n: number) => `${n} open safety recall${n === 1 ? "" : "s"}`,
+    shownFreeSuffix: (n: number) => (n > 2 ? " — 2 shown free" : " — shown free"),
+    summary: "Summary",
+    risk: "Risk",
+    remedy: "Remedy",
+    unlockRecalls: (n: number) => `Unlock ${n} more recall${n === 1 ? "" : "s"}`,
+    unlockRecallsAria: (n: number) => `Unlock ${n} more open safety recalls`,
+    recallsBridgeTitle: "Recalls are only the public layer",
+    recallsBridgeBody:
+      "Accidents, title brands, odometer history, owners & liens are in your full report.",
+    recallsBridgeAria: "Unlock accident, title and ownership records",
+    // Premium vehicle history
+    premiumBadge: "Premium vehicle history",
+    historyRecordsHeading: (n: number, make: string) =>
+      `${n} history record${n === 1 ? "" : "s"} on file for this ${make}`,
+    unlockHistoryHeading: "Unlock the full vehicle history",
+    premiumIntro:
+      "The specs below are free. Title brands, accidents, odometer and ownership records are revealed in the full report.",
+    weFoundLead: "We found ",
+    historyRecordsCount: (n: number) =>
+      `${n} history record${n === 1 ? "" : "s"}`,
+    onYourVehicle: " on your vehicle.",
+    unlockFullReport: "Unlock the full report",
+    foundBadge: (n: number) => `${n} found`,
+    infoAvailable: "Info available",
+    viewAll: "View all",
+    unlockInCardAria: (label: string) => `Unlock ${label} in the full report`,
+    // Report Summary card
+    reportSummary: "Report Summary",
+    reportSummaryNote: (vehicleLabel: string) =>
+      `Everything the full report on this ${vehicleLabel} unlocks.`,
+    included: "✓ Included",
+    // Your report contains
+    yourReportContains: "Your report contains",
+    yourReportContainsNote: (make: string) =>
+      `Here's everything you could uncover about this ${make} before you buy.`,
+    // Every record your report checks
+    everyRecordHeading: "Every record your report checks",
+    everyRecordBody: (make: string) =>
+      `Your ${make} report is cross-checked against billions of records from thousands of trusted sources nationwide.`,
+    vehicle: "vehicle",
+    // Paint code
+    paintCodeFor: (make: string) => `Paint code${make ? ` for your ${make}` : ""}`,
+    paintCodeEstimated: "(estimated)",
+    paintCodeIntro:
+      "A factory paint code is not stored in the VIN, so it can't be decoded from the 17 characters alone. The exact code lives on a sticker on the car. Based on this vehicle's details, here's our best estimate of what it may be and exactly where to find the real one.",
+    likelyPaint: "Likely paint code (estimate — verify on the car)",
+    matchedColorNote: (color: string | null | undefined) =>
+      `This is matched from the color on file${color ? ` (“${color}”)` : ""} and may not be exact — color names map to several codes across model years. Always confirm against the sticker before ordering paint.`,
+    noConfidentEstimate: (color: string | null | undefined) =>
+      `We couldn't confidently estimate a code for this VIN${color ? ` (color on file: “${color}”)` : ""}. The surest way is to read it directly off the car — here's where to look.`,
+    whereToFind: "Where to find it",
+    whatItLooksLike: "What it looks like",
+    paintFallback:
+      "On most vehicles the paint code is on a sticker in the driver-side door jamb, the spare-tire well, or under the hood — look for a row labeled “Color,” “Paint,” or “EXT.”",
+    fullPaintGuide: "Full paint-code guide",
+    findByMakeModel: "Find by make & model",
+    // Market analysis
+    marketAnalysis: "Market Analysis",
+    example: "Example",
+    avgMarketPrice: "Avg. Market Price",
+    priceRange: "Price Range",
+    activeListings: "Active Listings",
+    avgMileage: "Avg. Mileage",
+    pricingForYear: "Manufacturer & guide pricing for this year, make & model.",
+    exampleFigures: "Example figures — live pricing loads from auto.dev once configured.",
+    originalMSRPLabel: "Original MSRP",
+    dealerInvoice: "Dealer Invoice",
+    usedRetail: "Used Retail",
+    privateParty: "Private Party",
+    tradeIn: "Trade-In",
+    // Vehicle details / VIN label
+    vinLabel: "VIN:",
+    // Sample data banner
+    sampleDataPre: "Sample data — set the ",
+    sampleDataAnd: " / ",
+    sampleDataSuffix: " production credentials to load live records for this VIN.",
+    // Right column "no surprises"
+    noSurprisesTitle: "No surprises before you buy",
+    noSurprisesBody: (vehicleLabel: string) =>
+      `Unlock the full NMVTIS title history, accident, odometer and ownership records for this ${vehicleLabel}.`,
+    seeFullReport: (price: string) => `See the full report — $${price}`,
+    // Trust band
+    nhtsaRecall: "NHTSA recall data",
+    nhtsaRecallSub: "Official safety source",
+    nmvtisBacked: "NMVTIS-backed",
+    nmvtisBackedSub: "Federal title records",
+    ratedExcellent: "Rated Excellent",
+    onTrustpilot: "on Trustpilot",
+    seeReviews: "See reviews",
+    moneyBack: "30-day money-back",
+    moneyBackSub: "Full refund guarantee",
+    seeReviewsAria: "See CarCheckerVIN reviews on Trustpilot (opens in a new tab)",
+    // Final paywall
+    whatYouGet: "What you get the moment you pay",
+    finalHeadline: (vehicleLabel: string) =>
+      `Full ${vehicleLabel} history report — unlocked instantly`,
+    finalBody:
+      "Your complete NMVTIS-backed report renders in seconds: title brands, accident & damage records, odometer timeline, ownership history, auction photos and a downloadable PDF you can keep.",
+    viewSampleReport: "View sample report",
+    finalFooter: "One-time payment · No subscription · 30-day money-back guarantee",
+    // FAQ
+    faqHeading: "FAQ",
+    faqs: (vehicleLabel: string, price: string) =>
+      [
+        {
+          q: "What's included in the full report?",
+          a: `Your ${vehicleLabel} report compiles every record on file: title brands (salvage, junk, flood, lemon), reported accidents and damage, the odometer timeline with rollback checks, ownership history and number of owners, open liens, theft and total-loss records, market values, warranty status, auction sale history and all photos on file — plus a downloadable PDF you can keep.`,
+        },
+        {
+          q: "Will I be billed monthly?",
+          a: `No. CarCheckerVin does not offer monthly recurring subscriptions and does not use automated recurring billing. You pay a single one-time fee of $${price} for this report — your access simply ends when your access pass expires, with nothing further to cancel.`,
+        },
+        {
+          q: "Why do you charge for this data?",
+          a: "Pulling a complete history means querying official NMVTIS-backed title databases, auction houses, insurance total-loss records and NHTSA recall data — each of which carries a real cost per lookup. The one-time fee covers that direct access so you get verified, current records instead of guesswork.",
+        },
+        {
+          q: "What vehicles can I search for?",
+          a: "Almost any car, truck, SUV, van or motorcycle sold in the US with a standard 17-character VIN. Just enter the VIN and we'll pull the records on file for that exact vehicle.",
+        },
+        {
+          q: "Will I receive an email notifying me of the purchase?",
+          a: "Yes. A confirmation and receipt are emailed to you right after checkout, and your full report — including the downloadable PDF — is available instantly on-screen so you never have to wait.",
+        },
+        {
+          q: "What if the report doesn't help — can I get a refund?",
+          a: "You're covered by a 30-day money-back guarantee. If the report doesn't meet your expectations, reach out within 30 days of purchase and we'll issue a full refund — no complicated forms.",
+        },
+      ] as const,
+    // Sticky bar
+    satisfactionGuarantee: "100% Satisfaction Guarantee · Full refund if you're not satisfied",
+    viewSampleFirst: "View sample report first",
+    // Check another vehicle
+    checkAnother: "Check Another Vehicle",
+    checkAnotherSub: "Enter a different VIN to generate a new report",
+    // Satisfaction laurel
+    satisfaction: "Satisfaction",
+    guarantee: "Guarantee",
+    // Generate metadata
+    metaTitle: (vin: string) => `Vehicle History Report — ${vin}`,
+    metaDescription:
+      "Unlock the full NMVTIS-backed vehicle history report for this VIN — title brands, accidents, odometer, ownership and more.",
+  },
+  es: {
+    accidentDamage: "Accidente y daños",
+    accidentDamageNote: "Colisiones, gravedad y fotos de daños",
+    titleRecords: "Registros de título",
+    titleRecordsNote: "Marcas, estado y odómetro al titular",
+    ownershipHistory: "Historial de propietarios",
+    ownershipHistoryNote: "Dueños, tipo de uso y línea de tiempo",
+    salesAuction: "Historial de ventas y subastas",
+    salesAuctionNote: "Precio de venta, ubicación y fechas",
+    odometerReadings: "Lecturas del odómetro",
+    odometerReadingsNote: "Retroceso y línea de tiempo de kilometraje",
+    majorProblems: "Problemas mayores",
+    majorProblemsNote: "Salvamento · pérdida total · lemon · reconstruido",
+    fieldDate: "Fecha",
+    fieldDamage: "Daño",
+    fieldState: "Estado",
+    fieldOdometer: "Odómetro",
+    fieldIssueDate: "Fecha de emisión",
+    fieldYears: "Años",
+    fieldType: "Tipo",
+    fieldLocation: "Ubicación",
+    fieldFoundAt: "Encontrado en",
+    fieldPrice: "Precio",
+    fieldMileage: "Kilometraje",
+    fieldSource: "Fuente",
+    fieldSalvage: "Salvamento",
+    fieldTotalLoss: "Pérdida total",
+    fieldLemon: "Lemon",
+    fieldRebuilt: "Título reconstruido",
+    entryAccident: "Accidente",
+    entryTitle: "Título",
+    entryOwner: "Dueño",
+    entrySale: "Venta",
+    entryReading: "Lectura",
+    entryCheck: "Verificación",
+    accidentHistory: "Historial de accidentes",
+    liensLoans: "Gravámenes y préstamos",
+    titleHistory: "Historial de título",
+    ownershipRecords: "Registros de propiedad",
+    odometerRecords: "Registros de odómetro",
+    salvageRecords: "Registros de salvamento",
+    salesHistory: "Historial de ventas",
+    totalLossEvents: "Eventos de pérdida total",
+    openRecalls: "Llamados a revisión abiertos",
+    lemonCheck: "Verificación lemon",
+    majorAccident: "Accidente grave",
+    mileageRollback: "Retroceso de kilometraje",
+    frameDamage: "Daño estructural",
+    leaseTaxi: "Uso como leasing o taxi",
+    rebuiltBranded: "Título reconstruido / marcado",
+    policeGov: "Uso policial o gubernamental",
+    ownerHistory: "Historial de dueños",
+    salvageHistory: "Historial de salvamento",
+    junked: "Chatarra",
+    airbagDeployment: "Activación de airbag",
+    vehicleSpecs: "Especificaciones del vehículo",
+    warrantyInfo: "Información de garantía",
+    saleHistory: "Historial de ventas",
+    billOfSale: "Plantilla de factura de venta",
+    lemonCheck2: "Verificación lemon",
+    theftRecovery: "Verificación de robo y recuperación",
+    titleOwnership: "Título y propiedad",
+    conditionDamage: "Condición y daños",
+    mileageLegal: "Kilometraje y legal",
+    valueMarket: "Valor y mercado",
+    recordsMedia: "Registros y multimedia",
+    titleBrandCheck: "Verificación de marcas de título",
+    numberOfOwners: "Número de dueños",
+    usageType: "Tipo de uso",
+    accidentDamageRecords: "Registros de accidentes y daños",
+    salvageTotalLoss: "Verificación de salvamento / pérdida total",
+    rollbackDetection: "Detección de retroceso",
+    openLiens: "Gravámenes abiertos",
+    marketValue: "Valor de mercado",
+    originalMsrp: "MSRP original y factura",
+    auctionRecords: "Registros y precios de subasta",
+    allPhotos: "Todas las fotos en archivo",
+    openSafetyRecalls: "Llamados de seguridad abiertos",
+    downloadablePdf: "PDF descargable",
+    noRecordsHeading: "Sin registros para este VIN",
+    noRecordsBody: (vin: string) =>
+      `No encontramos registros para ${vin}. Verifica el VIN e inténtalo de nuevo.`,
+    tryAnotherVin: "Probar otro VIN",
+    recordsFoundOnVin: "Registros encontrados en este VIN",
+    looksClean: "Se ve limpio — confirma antes de comprar",
+    findingHeadlineAlerts: (vehicleLabel: string, parts: string[]) =>
+      `Este ${vehicleLabel} tiene ${parts.join(" y ")} en archivo`,
+    findingHeadlineClean:
+      "Sin daños ni ventas en subasta en esta vista previa gratis — verifica antes de comprar",
+    findingBodyAlerts:
+      "Aquí tampoco se muestran marcas de título, gravámenes, retrocesos de odómetro ni registros de propietarios. Desbloquea el reporte completo NMVTIS para ver el panorama completo antes de pagar el precio del vendedor.",
+    findingBodyClean: (vehicleLabel: string) =>
+      `Las marcas de título, gravámenes, retrocesos de odómetro y el historial de propietarios no se muestran en la vista previa gratis. Confirma por escrito que este ${vehicleLabel} esté realmente limpio antes de pagar.`,
+    damageRecord: (n: number) => `${n} registro${n === 1 ? "" : "s"} de daño`,
+    priorAuctionSale: (n: number) =>
+      `${n} venta${n === 1 ? "" : "s"} previa${n === 1 ? "" : "s"} en subasta`,
+    openSafetyRecallsCount: (n: number) =>
+      `${n} llamado${n === 1 ? "" : "s"} de seguridad abierto${n === 1 ? "" : "s"}`,
+    alsoReportedFree: " también reportado (mostrado gratis abajo).",
+    unlockFullReportPrice: (price: string) => `Desbloquear el reporte completo — $${price}`,
+    unlockFullReportAria: "Desbloquear el reporte completo de historial vehicular",
+    unsupportedTitle: "El reporte completo aún no está disponible para este VIN",
+    unsupportedBody:
+      "Nuestra base de datos de reportes de pago no cubre este VIN — probablemente sea un vehículo no estadounidense o aún no haya sido agregado por nuestro proveedor de datos. Abajo mostramos toda la información gratuita que pudimos decodificar, incluidas especificaciones y datos de mercado cuando están disponibles. Prueba con otro VIN o vuelve más tarde.",
+    getFullReport: (price: string) => `Obtén el reporte completo — $${price}`,
+    openSafetyRecall: (n: number) =>
+      `${n} llamado${n === 1 ? "" : "s"} de seguridad abierto${n === 1 ? "" : "s"}`,
+    shownFreeSuffix: (n: number) => (n > 2 ? " — 2 mostrados gratis" : " — mostrado gratis"),
+    summary: "Resumen",
+    risk: "Riesgo",
+    remedy: "Solución",
+    unlockRecalls: (n: number) =>
+      `Desbloquear ${n} llamado${n === 1 ? "" : "s"} más`,
+    unlockRecallsAria: (n: number) =>
+      `Desbloquear ${n} llamados de seguridad abiertos más`,
+    recallsBridgeTitle: "Los llamados a revisión son solo la capa pública",
+    recallsBridgeBody:
+      "Accidentes, marcas de título, historial de odómetro, dueños y gravámenes están en tu reporte completo.",
+    recallsBridgeAria: "Desbloquear registros de accidentes, título y propiedad",
+    premiumBadge: "Historial vehicular premium",
+    historyRecordsHeading: (n: number, make: string) =>
+      `${n} registro${n === 1 ? "" : "s"} de historial en archivo para este ${make}`,
+    unlockHistoryHeading: "Desbloquea el historial vehicular completo",
+    premiumIntro:
+      "Las especificaciones de abajo son gratis. Las marcas de título, accidentes, odómetro y registros de propiedad se revelan en el reporte completo.",
+    weFoundLead: "Encontramos ",
+    historyRecordsCount: (n: number) =>
+      `${n} registro${n === 1 ? "" : "s"} de historial`,
+    onYourVehicle: " sobre tu vehículo.",
+    unlockFullReport: "Desbloquear el reporte completo",
+    foundBadge: (n: number) => `${n} encontrado${n === 1 ? "" : "s"}`,
+    infoAvailable: "Info disponible",
+    viewAll: "Ver todo",
+    unlockInCardAria: (label: string) =>
+      `Desbloquear ${label} en el reporte completo`,
+    reportSummary: "Resumen del reporte",
+    reportSummaryNote: (vehicleLabel: string) =>
+      `Todo lo que desbloquea el reporte completo sobre este ${vehicleLabel}.`,
+    included: "✓ Incluido",
+    yourReportContains: "Tu reporte contiene",
+    yourReportContainsNote: (make: string) =>
+      `Esto es todo lo que podrías descubrir sobre este ${make} antes de comprarlo.`,
+    everyRecordHeading: "Cada registro que tu reporte verifica",
+    everyRecordBody: (make: string) =>
+      `Tu reporte de ${make} se contrasta con miles de millones de registros de miles de fuentes confiables a nivel nacional.`,
+    vehicle: "vehículo",
+    paintCodeFor: (make: string) => `Código de pintura${make ? ` para tu ${make}` : ""}`,
+    paintCodeEstimated: "(estimado)",
+    paintCodeIntro:
+      "El código de pintura de fábrica no se almacena en el VIN, así que no se puede decodificar solo a partir de los 17 caracteres. El código exacto vive en una calcomanía del auto. Según los detalles de este vehículo, esta es nuestra mejor estimación de cuál podría ser y dónde encontrar el real.",
+    likelyPaint: "Código de pintura probable (estimado — verifica en el auto)",
+    matchedColorNote: (color: string | null | undefined) =>
+      `Esto se basa en el color en archivo${color ? ` (“${color}”)` : ""} y puede no ser exacto — los nombres de color mapean a varios códigos según el año del modelo. Confirma siempre contra la calcomanía antes de pedir pintura.`,
+    noConfidentEstimate: (color: string | null | undefined) =>
+      `No pudimos estimar un código con confianza para este VIN${color ? ` (color en archivo: “${color}”)` : ""}. La forma más segura es leerlo directamente del auto — aquí te decimos dónde buscar.`,
+    whereToFind: "Dónde encontrarlo",
+    whatItLooksLike: "Cómo se ve",
+    paintFallback:
+      "En la mayoría de los vehículos el código de pintura está en una calcomanía en el marco de la puerta del conductor, en el hueco de la llanta de refacción o debajo del cofre — busca una fila con la etiqueta “Color”, “Paint” o “EXT.”",
+    fullPaintGuide: "Guía completa de códigos de pintura",
+    findByMakeModel: "Buscar por marca y modelo",
+    marketAnalysis: "Análisis de mercado",
+    example: "Ejemplo",
+    avgMarketPrice: "Precio promedio",
+    priceRange: "Rango de precio",
+    activeListings: "Listados activos",
+    avgMileage: "Kilometraje promedio",
+    pricingForYear: "Precios del fabricante y guía para este año, marca y modelo.",
+    exampleFigures:
+      "Cifras de ejemplo — el precio en vivo se carga desde auto.dev una vez configurado.",
+    originalMSRPLabel: "MSRP original",
+    dealerInvoice: "Factura al concesionario",
+    usedRetail: "Venta usado",
+    privateParty: "Particular",
+    tradeIn: "Trade-In",
+    vinLabel: "VIN:",
+    sampleDataPre: "Datos de muestra — define las credenciales de producción ",
+    sampleDataAnd: " / ",
+    sampleDataSuffix: " para cargar registros en vivo para este VIN.",
+    noSurprisesTitle: "Sin sorpresas antes de comprar",
+    noSurprisesBody: (vehicleLabel: string) =>
+      `Desbloquea el historial completo de título NMVTIS, accidentes, odómetro y registros de propiedad de este ${vehicleLabel}.`,
+    seeFullReport: (price: string) => `Ver el reporte completo — $${price}`,
+    nhtsaRecall: "Datos NHTSA",
+    nhtsaRecallSub: "Fuente oficial de seguridad",
+    nmvtisBacked: "Respaldado por NMVTIS",
+    nmvtisBackedSub: "Registros federales de título",
+    ratedExcellent: "Calificado Excelente",
+    onTrustpilot: "en Trustpilot",
+    seeReviews: "Ver reseñas",
+    moneyBack: "30 días de devolución",
+    moneyBackSub: "Garantía de reembolso completo",
+    seeReviewsAria:
+      "Ver reseñas de CarCheckerVIN en Trustpilot (se abre en una pestaña nueva)",
+    whatYouGet: "Lo que recibes en el momento de pagar",
+    finalHeadline: (vehicleLabel: string) =>
+      `Reporte completo de historial del ${vehicleLabel} — desbloqueado al instante`,
+    finalBody:
+      "Tu reporte completo respaldado por NMVTIS se carga en segundos: marcas de título, registros de accidente y daños, línea de tiempo del odómetro, historial de propietarios, fotos de subasta y un PDF descargable que puedes guardar.",
+    viewSampleReport: "Ver reporte de muestra",
+    finalFooter:
+      "Pago único · Sin suscripción · 30 días de garantía de devolución",
+    faqHeading: "Preguntas frecuentes",
+    faqs: (vehicleLabel: string, price: string) =>
+      [
+        {
+          q: "¿Qué incluye el reporte completo?",
+          a: `Tu reporte del ${vehicleLabel} reúne todos los registros en archivo: marcas de título (salvamento, chatarra, inundación, lemon), accidentes y daños reportados, la línea de tiempo del odómetro con verificación de retroceso, historial de propietarios y número de dueños, gravámenes abiertos, robos y pérdidas totales, valores de mercado, garantía, historial de subastas y todas las fotos en archivo — además de un PDF descargable que puedes guardar.`,
+        },
+        {
+          q: "¿Se me cobrará mensualmente?",
+          a: `No. CarCheckerVin no ofrece suscripciones mensuales recurrentes ni utiliza cobros automáticos recurrentes. Pagas una tarifa única de $${price} por este reporte — tu acceso simplemente termina cuando expira tu pase, sin nada más que cancelar.`,
+        },
+        {
+          q: "¿Por qué cobran por estos datos?",
+          a: "Obtener un historial completo significa consultar bases de datos oficiales NMVTIS, casas de subasta, registros de pérdida total de aseguradoras y datos de llamados NHTSA — cada uno con un costo real por consulta. La tarifa única cubre ese acceso directo para que obtengas registros verificados y actualizados en lugar de adivinanzas.",
+        },
+        {
+          q: "¿Qué vehículos puedo buscar?",
+          a: "Casi cualquier auto, camioneta, SUV, van o motocicleta vendido en EE.UU. con un VIN estándar de 17 caracteres. Ingresa el VIN y mostraremos los registros en archivo de ese vehículo exacto.",
+        },
+        {
+          q: "¿Recibiré un correo notificándome la compra?",
+          a: "Sí. Una confirmación y un recibo se envían por correo justo después del pago, y tu reporte completo — incluido el PDF descargable — está disponible al instante en pantalla, así nunca tienes que esperar.",
+        },
+        {
+          q: "¿Y si el reporte no ayuda — puedo obtener un reembolso?",
+          a: "Estás cubierto por una garantía de devolución de 30 días. Si el reporte no cumple tus expectativas, contáctanos dentro de los 30 días posteriores a la compra y te haremos un reembolso completo — sin formularios complicados.",
+        },
+      ] as const,
+    satisfactionGuarantee:
+      "Garantía de satisfacción 100% · Reembolso completo si no quedas satisfecho",
+    viewSampleFirst: "Ver reporte de muestra primero",
+    checkAnother: "Verificar otro vehículo",
+    checkAnotherSub: "Ingresa otro VIN para generar un nuevo reporte",
+    satisfaction: "Garantía de",
+    guarantee: "Satisfacción",
+    metaTitle: (vin: string) => `Reporte de historial vehicular — ${vin}`,
+    metaDescription:
+      "Desbloquea el reporte completo de historial vehicular respaldado por NMVTIS para este VIN — marcas de título, accidentes, odómetro, propiedad y más.",
+  },
+  fr: {
+    accidentDamage: "Accident et dommages",
+    accidentDamageNote: "Collisions, gravité et photos des dommages",
+    titleRecords: "Registres de titre",
+    titleRecordsNote: "Mentions, État et odomètre au moment du titre",
+    ownershipHistory: "Historique des propriétaires",
+    ownershipHistoryNote: "Propriétaires, type d'usage et chronologie",
+    salesAuction: "Historique des ventes et enchères",
+    salesAuctionNote: "Prix de vente, lieu et dates",
+    odometerReadings: "Relevés d'odomètre",
+    odometerReadingsNote: "Recul et chronologie du kilométrage",
+    majorProblems: "Problèmes majeurs",
+    majorProblemsNote: "Épave · perte totale · lemon · reconstruit",
+    fieldDate: "Date",
+    fieldDamage: "Dommages",
+    fieldState: "État",
+    fieldOdometer: "Odomètre",
+    fieldIssueDate: "Date d'émission",
+    fieldYears: "Années",
+    fieldType: "Type",
+    fieldLocation: "Lieu",
+    fieldFoundAt: "Trouvé chez",
+    fieldPrice: "Prix",
+    fieldMileage: "Kilométrage",
+    fieldSource: "Source",
+    fieldSalvage: "Épave",
+    fieldTotalLoss: "Perte totale",
+    fieldLemon: "Lemon",
+    fieldRebuilt: "Titre reconstruit",
+    entryAccident: "Accident",
+    entryTitle: "Titre",
+    entryOwner: "Propriétaire",
+    entrySale: "Vente",
+    entryReading: "Relevé",
+    entryCheck: "Vérification",
+    accidentHistory: "Historique des accidents",
+    liensLoans: "Privilèges et prêts",
+    titleHistory: "Historique du titre",
+    ownershipRecords: "Registres de propriété",
+    odometerRecords: "Registres d'odomètre",
+    salvageRecords: "Registres d'épave",
+    salesHistory: "Historique des ventes",
+    totalLossEvents: "Événements de perte totale",
+    openRecalls: "Rappels ouverts",
+    lemonCheck: "Vérification lemon",
+    majorAccident: "Accident grave",
+    mileageRollback: "Recul du kilométrage",
+    frameDamage: "Dommage de châssis",
+    leaseTaxi: "Usage en leasing ou taxi",
+    rebuiltBranded: "Titre reconstruit / mentionné",
+    policeGov: "Usage police ou gouvernement",
+    ownerHistory: "Historique des propriétaires",
+    salvageHistory: "Historique d'épave",
+    junked: "Mis à la ferraille",
+    airbagDeployment: "Déploiement d'airbag",
+    vehicleSpecs: "Spécifications du véhicule",
+    warrantyInfo: "Informations de garantie",
+    saleHistory: "Historique des ventes",
+    billOfSale: "Modèle d'acte de vente",
+    lemonCheck2: "Vérification lemon",
+    theftRecovery: "Vérification de vol et récupération",
+    titleOwnership: "Titre et propriété",
+    conditionDamage: "État et dommages",
+    mileageLegal: "Kilométrage et juridique",
+    valueMarket: "Valeur et marché",
+    recordsMedia: "Registres et médias",
+    titleBrandCheck: "Vérification des mentions de titre",
+    numberOfOwners: "Nombre de propriétaires",
+    usageType: "Type d'usage",
+    accidentDamageRecords: "Registres d'accidents et de dommages",
+    salvageTotalLoss: "Vérification épave / perte totale",
+    rollbackDetection: "Détection de recul",
+    openLiens: "Privilèges ouverts",
+    marketValue: "Valeur marchande",
+    originalMsrp: "MSRP original et facture",
+    auctionRecords: "Registres et prix d'enchères",
+    allPhotos: "Toutes les photos en archive",
+    openSafetyRecalls: "Rappels de sécurité ouverts",
+    downloadablePdf: "PDF téléchargeable",
+    noRecordsHeading: "Aucun registre pour ce VIN",
+    noRecordsBody: (vin: string) =>
+      `Nous n'avons trouvé aucun registre pour ${vin}. Vérifie le VIN et réessaie.`,
+    tryAnotherVin: "Essayer un autre VIN",
+    recordsFoundOnVin: "Registres trouvés sur ce VIN",
+    looksClean: "Semble propre — vérifie avant d'acheter",
+    findingHeadlineAlerts: (vehicleLabel: string, parts: string[]) =>
+      `Ce ${vehicleLabel} a ${parts.join(" et ")} en archive`,
+    findingHeadlineClean:
+      "Pas de dommages ni de ventes aux enchères dans cet aperçu gratuit — vérifie avant d'acheter",
+    findingBodyAlerts:
+      "Les mentions de titre, privilèges, reculs d'odomètre et registres de propriété ne sont pas non plus affichés ici. Débloque le rapport NMVTIS complet pour voir l'ensemble avant de payer le prix demandé par le vendeur.",
+    findingBodyClean: (vehicleLabel: string) =>
+      `Les mentions de titre, privilèges, reculs d'odomètre et l'historique des propriétaires ne sont pas affichés dans l'aperçu gratuit. Confirme par écrit que ce ${vehicleLabel} est vraiment propre avant de payer.`,
+    damageRecord: (n: number) => `${n} registre${n === 1 ? "" : "s"} de dommage`,
+    priorAuctionSale: (n: number) =>
+      `${n} vente${n === 1 ? "" : "s"} antérieure${n === 1 ? "" : "s"} aux enchères`,
+    openSafetyRecallsCount: (n: number) =>
+      `${n} rappel${n === 1 ? "" : "s"} de sécurité ouvert${n === 1 ? "" : "s"}`,
+    alsoReportedFree: " également signalé (affiché gratuitement ci-dessous).",
+    unlockFullReportPrice: (price: string) => `Débloquer le rapport complet — $${price}`,
+    unlockFullReportAria: "Débloquer le rapport complet d'historique du véhicule",
+    unsupportedTitle: "Rapport complet pas encore disponible pour ce VIN",
+    unsupportedBody:
+      "Notre base de données de rapports payants ne couvre pas ce VIN — il s'agit probablement d'un véhicule non américain ou il n'a pas encore été ajouté par notre fournisseur de données. Nous avons affiché ci-dessous toutes les informations gratuites que nous avons pu décoder, y compris les spécifications et les données de marché lorsqu'elles sont disponibles. Essaie un autre VIN ou reviens plus tard.",
+    getFullReport: (price: string) => `Obtenir le rapport complet — $${price}`,
+    openSafetyRecall: (n: number) =>
+      `${n} rappel${n === 1 ? "" : "s"} de sécurité ouvert${n === 1 ? "" : "s"}`,
+    shownFreeSuffix: (n: number) =>
+      n > 2 ? " — 2 affichés gratuitement" : " — affiché gratuitement",
+    summary: "Résumé",
+    risk: "Risque",
+    remedy: "Solution",
+    unlockRecalls: (n: number) =>
+      `Débloquer ${n} rappel${n === 1 ? "" : "s"} de plus`,
+    unlockRecallsAria: (n: number) =>
+      `Débloquer ${n} rappels de sécurité ouverts de plus`,
+    recallsBridgeTitle: "Les rappels ne sont que la couche publique",
+    recallsBridgeBody:
+      "Accidents, mentions de titre, historique d'odomètre, propriétaires et privilèges sont dans ton rapport complet.",
+    recallsBridgeAria: "Débloquer les registres d'accidents, de titre et de propriété",
+    premiumBadge: "Historique véhicule premium",
+    historyRecordsHeading: (n: number, make: string) =>
+      `${n} registre${n === 1 ? "" : "s"} d'historique en archive pour ce ${make}`,
+    unlockHistoryHeading: "Débloque l'historique complet du véhicule",
+    premiumIntro:
+      "Les spécifications ci-dessous sont gratuites. Les mentions de titre, accidents, odomètre et registres de propriété sont révélés dans le rapport complet.",
+    weFoundLead: "Nous avons trouvé ",
+    historyRecordsCount: (n: number) =>
+      `${n} registre${n === 1 ? "" : "s"} d'historique`,
+    onYourVehicle: " sur ton véhicule.",
+    unlockFullReport: "Débloquer le rapport complet",
+    foundBadge: (n: number) => `${n} trouvé${n === 1 ? "" : "s"}`,
+    infoAvailable: "Info disponible",
+    viewAll: "Tout voir",
+    unlockInCardAria: (label: string) =>
+      `Débloquer ${label} dans le rapport complet`,
+    reportSummary: "Résumé du rapport",
+    reportSummaryNote: (vehicleLabel: string) =>
+      `Tout ce que le rapport complet sur ce ${vehicleLabel} débloque.`,
+    included: "✓ Inclus",
+    yourReportContains: "Ton rapport contient",
+    yourReportContainsNote: (make: string) =>
+      `Voici tout ce que tu pourrais découvrir sur ce ${make} avant d'acheter.`,
+    everyRecordHeading: "Chaque registre vérifié par ton rapport",
+    everyRecordBody: (make: string) =>
+      `Ton rapport ${make} est recoupé avec des milliards de registres provenant de milliers de sources fiables à l'échelle nationale.`,
+    vehicle: "véhicule",
+    paintCodeFor: (make: string) =>
+      `Code de peinture${make ? ` pour ton ${make}` : ""}`,
+    paintCodeEstimated: "(estimé)",
+    paintCodeIntro:
+      "Un code de peinture d'usine n'est pas stocké dans le VIN, il ne peut donc pas être décodé à partir des 17 caractères seuls. Le code exact se trouve sur un autocollant de la voiture. D'après les détails de ce véhicule, voici notre meilleure estimation de ce qu'il pourrait être et où trouver le vrai.",
+    likelyPaint: "Code de peinture probable (estimé — vérifie sur la voiture)",
+    matchedColorNote: (color: string | null | undefined) =>
+      `Cette estimation est basée sur la couleur en archive${color ? ` (« ${color} »)` : ""} et peut ne pas être exacte — les noms de couleur correspondent à plusieurs codes selon les années de modèle. Vérifie toujours sur l'autocollant avant de commander de la peinture.`,
+    noConfidentEstimate: (color: string | null | undefined) =>
+      `Nous n'avons pas pu estimer un code avec confiance pour ce VIN${color ? ` (couleur en archive : « ${color} »)` : ""}. Le plus sûr est de le lire directement sur la voiture — voici où chercher.`,
+    whereToFind: "Où le trouver",
+    whatItLooksLike: "À quoi ça ressemble",
+    paintFallback:
+      "Sur la plupart des véhicules, le code de peinture est sur un autocollant dans le montant de la portière conducteur, dans le puits de la roue de secours ou sous le capot — cherche une ligne marquée « Color », « Paint » ou « EXT. »",
+    fullPaintGuide: "Guide complet des codes de peinture",
+    findByMakeModel: "Trouver par marque et modèle",
+    marketAnalysis: "Analyse du marché",
+    example: "Exemple",
+    avgMarketPrice: "Prix moyen",
+    priceRange: "Fourchette de prix",
+    activeListings: "Annonces actives",
+    avgMileage: "Kilométrage moyen",
+    pricingForYear: "Tarifs constructeur et guides pour cette année, marque et modèle.",
+    exampleFigures:
+      "Chiffres d'exemple — les prix en direct se chargent depuis auto.dev une fois configurés.",
+    originalMSRPLabel: "MSRP original",
+    dealerInvoice: "Facture concessionnaire",
+    usedRetail: "Détail occasion",
+    privateParty: "Particulier",
+    tradeIn: "Reprise",
+    vinLabel: "VIN :",
+    sampleDataPre: "Données d'exemple — définis les identifiants de production ",
+    sampleDataAnd: " / ",
+    sampleDataSuffix: " pour charger les registres en direct pour ce VIN.",
+    noSurprisesTitle: "Aucune surprise avant d'acheter",
+    noSurprisesBody: (vehicleLabel: string) =>
+      `Débloque l'historique complet du titre NMVTIS, les accidents, l'odomètre et les registres de propriété de ce ${vehicleLabel}.`,
+    seeFullReport: (price: string) => `Voir le rapport complet — $${price}`,
+    nhtsaRecall: "Données NHTSA",
+    nhtsaRecallSub: "Source officielle de sécurité",
+    nmvtisBacked: "Soutenu par NMVTIS",
+    nmvtisBackedSub: "Registres fédéraux de titre",
+    ratedExcellent: "Noté Excellent",
+    onTrustpilot: "sur Trustpilot",
+    seeReviews: "Voir les avis",
+    moneyBack: "30 jours satisfait ou remboursé",
+    moneyBackSub: "Garantie de remboursement complet",
+    seeReviewsAria:
+      "Voir les avis CarCheckerVIN sur Trustpilot (s'ouvre dans un nouvel onglet)",
+    whatYouGet: "Ce que tu obtiens au moment du paiement",
+    finalHeadline: (vehicleLabel: string) =>
+      `Rapport complet d'historique du ${vehicleLabel} — débloqué instantanément`,
+    finalBody:
+      "Ton rapport complet soutenu par NMVTIS s'affiche en quelques secondes : mentions de titre, registres d'accidents et de dommages, chronologie de l'odomètre, historique des propriétaires, photos d'enchères et un PDF téléchargeable que tu peux garder.",
+    viewSampleReport: "Voir un exemple de rapport",
+    finalFooter:
+      "Paiement unique · Sans abonnement · 30 jours satisfait ou remboursé",
+    faqHeading: "FAQ",
+    faqs: (vehicleLabel: string, price: string) =>
+      [
+        {
+          q: "Qu'est-ce qui est inclus dans le rapport complet ?",
+          a: `Ton rapport sur le ${vehicleLabel} compile tous les registres en archive : mentions de titre (épave, ferraille, inondation, lemon), accidents et dommages signalés, chronologie de l'odomètre avec vérification de recul, historique et nombre de propriétaires, privilèges ouverts, vol et perte totale, valeurs de marché, garantie, historique d'enchères et toutes les photos en archive — plus un PDF téléchargeable que tu peux garder.`,
+        },
+        {
+          q: "Vais-je être facturé mensuellement ?",
+          a: `Non. CarCheckerVin n'offre pas d'abonnement mensuel récurrent et n'utilise pas de facturation récurrente automatique. Tu paies un montant unique de $${price} pour ce rapport — ton accès prend simplement fin lorsque ton pass expire, sans rien d'autre à annuler.`,
+        },
+        {
+          q: "Pourquoi facturez-vous ces données ?",
+          a: "Récupérer un historique complet signifie interroger les bases de données officielles de titres soutenues par NMVTIS, les maisons d'enchères, les registres de perte totale des assureurs et les données de rappels NHTSA — chacune ayant un coût réel par requête. Le montant unique couvre cet accès direct pour que tu obtiennes des registres vérifiés et à jour plutôt que des suppositions.",
+        },
+        {
+          q: "Quels véhicules puis-je rechercher ?",
+          a: "Presque toute voiture, camion, SUV, van ou moto vendu aux États-Unis avec un VIN standard de 17 caractères. Saisis le VIN et nous afficherons les registres en archive pour ce véhicule exact.",
+        },
+        {
+          q: "Vais-je recevoir un e-mail pour la confirmation d'achat ?",
+          a: "Oui. Une confirmation et un reçu te sont envoyés par e-mail juste après le paiement, et ton rapport complet — y compris le PDF téléchargeable — est disponible instantanément à l'écran, tu n'as donc jamais à attendre.",
+        },
+        {
+          q: "Et si le rapport ne m'aide pas — puis-je obtenir un remboursement ?",
+          a: "Tu es couvert par une garantie satisfait ou remboursé de 30 jours. Si le rapport ne répond pas à tes attentes, contacte-nous dans les 30 jours suivant l'achat et nous t'émettrons un remboursement complet — sans formulaires compliqués.",
+        },
+      ] as const,
+    satisfactionGuarantee:
+      "Garantie satisfaction 100% · Remboursement complet si tu n'es pas satisfait",
+    viewSampleFirst: "Voir d'abord un exemple de rapport",
+    checkAnother: "Vérifier un autre véhicule",
+    checkAnotherSub: "Saisis un autre VIN pour générer un nouveau rapport",
+    satisfaction: "Garantie",
+    guarantee: "Satisfaction",
+    metaTitle: (vin: string) => `Rapport d'historique du véhicule — ${vin}`,
+    metaDescription:
+      "Débloque le rapport complet d'historique du véhicule soutenu par NMVTIS pour ce VIN — mentions de titre, accidents, odomètre, propriété et plus encore.",
+  },
+} as const;
 
 export default async function ReportPreviewPage({ params, searchParams }: Props) {
   const { vin } = await params;
   const cleaned = vin.trim().toUpperCase();
   if (cleaned.length !== 17) notFound();
 
+  // Locale detection.
+  //
+  // /report-preview/[vin] is a single canonical route (English). The proxy
+  // (src/proxy.ts) rewrites any /es/report-preview/<vin> or /fr/report-preview/<vin>
+  // request onto this same internal route, but FIRST sets the `x-locale`
+  // request header to the requested locale ("es" / "fr") and `x-pathname`
+  // to the original incoming pathname. We read either signal here and fall
+  // back to:
+  //   • detectLocale(referer pathname)   — covers in-app navigation
+  //   • the ?locale=fr query param       — manual override / link sharing
+  //   • "en"                              — direct hit on /report-preview
+  // No layout/logic changes — purely picks which COPY map drives the labels.
+  const sp = (await searchParams) || {};
+  const reqHeaders = await headers();
+  const xLocale = reqHeaders.get("x-locale") || "";
+  const xPath = reqHeaders.get("x-pathname") || reqHeaders.get("x-invoke-path") || "";
+  const refererHdr = reqHeaders.get("referer") || "";
+  const queryLocale = typeof (sp as Record<string, unknown>).locale === "string"
+    ? ((sp as Record<string, string>).locale)
+    : "";
+  let locale: Locale = "en";
+  if (isLocale(xLocale)) {
+    locale = xLocale;
+  } else if (isLocale(queryLocale)) {
+    locale = queryLocale;
+  } else if (xPath) {
+    locale = detectLocale(xPath).locale;
+  } else if (refererHdr) {
+    try {
+      locale = detectLocale(new URL(refererHdr).pathname).locale;
+    } catch {
+      locale = "en";
+    }
+  }
+  const c = COPY[locale];
+
   // Source-page "message match" context — drives the optional banner that
   // echoes the check the visitor came from (e.g. arriving from /warranty-check
   // shows a warranty-framed intro). null for direct/organic/unknown sources.
-  const reportContext = getReportContext((await searchParams)?.from);
+  const reportContext = getReportContext(sp?.from);
 
   // Pull the production ClearVin preview (vehicle identity + photos — the
   // source of truth for this preview) and auto.dev's decode (used ONLY for the
@@ -492,16 +1269,16 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             <AlertTriangle className="w-7 h-7 text-primary" />
           </div>
           <h1 className="text-2xl font-headline font-extrabold text-primary mb-3">
-            No records for this VIN
+            {c.noRecordsHeading}
           </h1>
           <p className="text-on-surface-variant mb-6">
-            We couldn&apos;t locate any records for {cleaned}. Double-check the VIN and try again.
+            {c.noRecordsBody(cleaned)}
           </p>
           <Link
             href="/report-preview"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary/90 transition"
           >
-            Try another VIN <ChevronRight className="w-4 h-4" />
+            {c.tryAnotherVin} <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
@@ -639,7 +1416,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   //   3. clean / none reported (count === 0) — reassurance, lowest urgency
   // A stable sort keeps the original list order within each tier.
   const urgencyRank = (c: number | null) => (c && c > 0 ? 0 : c === null ? 1 : 2);
-  const records = lockedRecords(preview).sort(
+  const records = lockedRecords(preview, locale).sort(
     (a, b) => urgencyRank(a.count) - urgencyRank(b.count)
   );
 
@@ -657,13 +1434,9 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           const { damageRecords, auctionRecords, recalls } = previewSignals;
           const alertParts: string[] = [];
           if (damageRecords > 0)
-            alertParts.push(
-              `${damageRecords} damage record${damageRecords === 1 ? "" : "s"}`
-            );
+            alertParts.push(c.damageRecord(damageRecords));
           if (auctionRecords > 0)
-            alertParts.push(
-              `${auctionRecords} prior auction sale${auctionRecords === 1 ? "" : "s"}`
-            );
+            alertParts.push(c.priorAuctionSale(auctionRecords));
           const hasAlerts = alertParts.length > 0;
           // Only surface this above-the-fold banner when there's a real finding
           // (damage or a prior auction sale). A "looks clean" banner here just
@@ -673,11 +1446,11 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           const Icon = hasAlerts ? AlertTriangle : ShieldAlert;
 
           const headline = hasAlerts
-            ? `This ${vehicleLabel} has ${alertParts.join(" and ")} on file`
-            : `No damage or auction sales in this free preview — verify before you buy`;
+            ? c.findingHeadlineAlerts(vehicleLabel, alertParts)
+            : c.findingHeadlineClean;
           const body = hasAlerts
-            ? `Title brands, liens, odometer rollbacks and ownership records aren't shown here either. Unlock the full NMVTIS report to see the complete picture before you pay the seller's price.`
-            : `Title brands, liens, odometer rollbacks and ownership history aren't shown in the free preview. Confirm this ${vehicleLabel} is genuinely clean, in writing, before you pay.`;
+            ? c.findingBodyAlerts
+            : c.findingBodyClean(vehicleLabel);
 
           const shell = hasAlerts
             ? "border-red-200 bg-gradient-to-br from-red-50 to-surface-container-lowest"
@@ -699,7 +1472,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                   <p
                     className={`text-[11px] font-bold uppercase tracking-widest ${eyebrowTone}`}
                   >
-                    {hasAlerts ? "Records found on this VIN" : "Looks clean — confirm before you buy"}
+                    {hasAlerts ? c.recordsFoundOnVin : c.looksClean}
                   </p>
                   <h2 className="mt-1 font-headline text-lg font-extrabold leading-tight text-on-surface sm:text-xl">
                     {headline}
@@ -710,18 +1483,18 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                       <>
                         {" "}
                         <span className="font-semibold text-on-surface">
-                          {recalls} open safety recall{recalls === 1 ? "" : "s"}
-                        </span>{" "}
-                        also reported (shown free below).
+                          {c.openSafetyRecallsCount(recalls)}
+                        </span>
+                        {c.alsoReportedFree}
                       </>
                     )}
                   </p>
                   <BuyReportButton
-                    ariaLabel="Unlock the full vehicle history report"
+                    ariaLabel={c.unlockFullReportAria}
+                    locale={locale}
                     className="mt-4 inline-flex items-center gap-2 rounded-2xl bg-primary px-5 py-2.5 font-headline text-sm font-extrabold text-white shadow-lg shadow-primary/25 transition-colors hover:bg-primary/90 cursor-pointer"
                   >
-                    <Lock className="h-4 w-4" /> Unlock the full report — $
-                    {SINGLE_PRICE.toFixed(2)}
+                    <Lock className="h-4 w-4" /> {c.unlockFullReportPrice(SINGLE_PRICE.toFixed(2))}
                   </BuyReportButton>
                 </div>
               </div>
@@ -733,8 +1506,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   // Paint-code section (Option 3) — only shown when the buyer arrived from the
   // paint-code lookup/finder tools, so it answers the intent they came with
   // without cluttering the report for everyone else.
-  const referer = (await headers()).get("referer") || "";
-  const cameFromPaint = /\/paint-code-(lookup|finder)/.test(referer);
+  // Reuse the headers we already read above for locale detection.
+  const cameFromPaint = /\/paint-code-(lookup|finder)/.test(refererHdr);
   const paintBrand = cameFromPaint
     ? findBrand(make.toLowerCase().trim().replace(/\s+/g, "-"))
     : undefined;
@@ -759,14 +1532,10 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         <Globe2 className="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" />
         <div>
           <p className="text-sm font-bold text-amber-900">
-            Full report not available for this VIN yet
+            {c.unsupportedTitle}
           </p>
           <p className="mt-1.5 text-xs sm:text-sm text-amber-900 leading-relaxed">
-            Our paid history report database doesn&apos;t cover this VIN —
-            it&apos;s most likely a non-US vehicle or hasn&apos;t been added by
-            our data provider yet. We&apos;ve shown all the free decoded
-            information we could find below, including specs and market data
-            where available. Try a different VIN or come back later.
+            {c.unsupportedBody}
           </p>
         </div>
       </div>
@@ -781,8 +1550,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
      nothing to buy. (VinReport's heroCta is optional so passing undefined
      simply omits it from the action row.) */
   const heroCta = isUnsupported ? undefined : (
-    <BuyReportButton className="flex items-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-headline font-extrabold bg-white text-primary shadow-lg hover:bg-yellow-50 transition cursor-pointer">
-      <Lock className="w-4 h-4" /> Get full report — ${SINGLE_PRICE.toFixed(2)}
+    <BuyReportButton locale={locale} className="flex items-center gap-2 px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-headline font-extrabold bg-white text-primary shadow-lg hover:bg-yellow-50 transition cursor-pointer">
+      <Lock className="w-4 h-4" /> {c.getFullReport(SINGLE_PRICE.toFixed(2))}
     </BuyReportButton>
   );
 
@@ -829,7 +1598,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             {vehicleLabel}
           </h2>
           <p className="text-xs sm:text-sm font-semibold mt-0.5">
-            <span className="text-on-surface-variant">VIN: </span>
+            <span className="text-on-surface-variant">{c.vinLabel} </span>
             <span className="text-primary font-mono tracking-wide break-all">
               {cleaned}
             </span>
@@ -946,7 +1715,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     return (
       <BuyReportButton
         key={r.label}
-        ariaLabel={`Unlock ${r.label} in the full report`}
+        ariaLabel={c.unlockInCardAria(r.label)}
+        locale={locale}
         className="group block w-full h-full text-left rounded-2xl border border-outline-variant bg-surface-container-lowest overflow-hidden cursor-pointer transition-colors hover:border-primary/40"
       >
         {/* Inner flex wrapper: iPhone Safari does NOT treat a <button> as a
@@ -963,11 +1733,11 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             </div>
             {found ? (
               <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-red-500 text-white text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
-                <AlertTriangle className="w-2.5 h-2.5" /> {r.count} found
+                <AlertTriangle className="w-2.5 h-2.5" /> {c.foundBadge(r.count as number)}
               </span>
             ) : (
               <span className="flex-shrink-0 inline-flex items-center gap-1 whitespace-nowrap bg-amber-100 text-amber-700 text-[9px] font-black uppercase tracking-wide px-2 py-0.5 rounded-full">
-                <Info className="w-2.5 h-2.5" /> Info available
+                <Info className="w-2.5 h-2.5" /> {c.infoAvailable}
               </span>
             )}
           </div>
@@ -979,7 +1749,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           </div>
           <div className="mt-auto px-3.5 pt-3 pb-3.5">
             <span className="flex items-center justify-center gap-1.5 rounded-full bg-primary px-3 py-2 text-[11px] font-bold text-white transition-colors group-hover:bg-primary/90">
-              <Lock className="w-3 h-3 flex-shrink-0" /> View all
+              <Lock className="w-3 h-3 flex-shrink-0" /> {c.viewAll}
             </span>
           </div>
         </div>
@@ -996,11 +1766,11 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     const pr = reportData.price;
     const cards: { label: string; value: string }[] = [];
     if (pr) {
-      if (pr.baseMsrp > 0) cards.push({ label: "Original MSRP", value: `$${pr.baseMsrp.toLocaleString()}` });
-      if (pr.baseInvoice > 0) cards.push({ label: "Dealer Invoice", value: `$${pr.baseInvoice.toLocaleString()}` });
-      if (pr.usedTmvRetail > 0) cards.push({ label: "Used Retail", value: `$${pr.usedTmvRetail.toLocaleString()}` });
-      if (pr.usedPrivateParty > 0) cards.push({ label: "Private Party", value: `$${pr.usedPrivateParty.toLocaleString()}` });
-      if (pr.usedTradeIn > 0) cards.push({ label: "Trade-In", value: `$${pr.usedTradeIn.toLocaleString()}` });
+      if (pr.baseMsrp > 0) cards.push({ label: c.originalMSRPLabel, value: `$${pr.baseMsrp.toLocaleString()}` });
+      if (pr.baseInvoice > 0) cards.push({ label: c.dealerInvoice, value: `$${pr.baseInvoice.toLocaleString()}` });
+      if (pr.usedTmvRetail > 0) cards.push({ label: c.usedRetail, value: `$${pr.usedTmvRetail.toLocaleString()}` });
+      if (pr.usedPrivateParty > 0) cards.push({ label: c.privateParty, value: `$${pr.usedPrivateParty.toLocaleString()}` });
+      if (pr.usedTradeIn > 0) cards.push({ label: c.tradeIn, value: `$${pr.usedTradeIn.toLocaleString()}` });
     }
     const isExample = cards.length === 0;
     // On a live report with no auto.dev pricing, omit the card entirely rather
@@ -1010,21 +1780,21 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     if (isExample && !mock) return null;
     if (isExample) {
       cards.push(
-        { label: "Avg. Market Price", value: "$24,850" },
-        { label: "Price Range", value: "$21,300 – $28,400" },
-        { label: "Active Listings", value: "37" },
-        { label: "Avg. Mileage", value: "92,400 mi" },
+        { label: c.avgMarketPrice, value: "$24,850" },
+        { label: c.priceRange, value: "$21,300 – $28,400" },
+        { label: c.activeListings, value: "37" },
+        { label: c.avgMileage, value: "92,400 mi" },
       );
     }
     return (
       <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-surface-container flex items-center justify-between gap-2">
           <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-primary" /> Market Analysis
+            <BarChart3 className="w-5 h-5 text-primary" /> {c.marketAnalysis}
           </h3>
           {isExample && (
             <span className="text-[9px] font-bold uppercase tracking-wider text-outline border border-outline-variant rounded-full px-2 py-0.5">
-              Example
+              {c.example}
             </span>
           )}
         </div>
@@ -1042,9 +1812,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             ))}
           </div>
           <p className="mt-4 text-[11px] text-outline leading-snug">
-            {pr
-              ? "Manufacturer & guide pricing for this year, make & model."
-              : "Example figures — live pricing loads from auto.dev once configured."}
+            {pr ? c.pricingForYear : c.exampleFigures}
           </p>
         </div>
       </div>
@@ -1056,6 +1824,39 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
      swapped places with the bundle checkout, which moves into the sidebar. The
      wider main column lets the groups sit two-up. (On mobile the built-in
      sidebar copy from VinReport is used instead — see summaryDesktopHidden.) */
+  // Build localised summary groups from SUMMARY_GROUPS_KEYS, picking the
+  // matching string from COPY for both group titles and each item label.
+  const summaryGroupsLocalized: { title: string; items: string[] }[] =
+    SUMMARY_GROUPS_KEYS.map((group) => ({
+      title: c[group.title],
+      items: group.items.map((k) => {
+        // Items live under different keys in COPY (some shared with other
+        // sections). Map them with a typed lookup so the keys collapse to
+        // strings without using `any`.
+        switch (k) {
+          case "titleBrandCheck": return c.titleBrandCheck;
+          case "ownershipHistory": return c.ownershipHistory;
+          case "numberOfOwners": return c.numberOfOwners;
+          case "usageType": return c.usageType;
+          case "accidentDamage": return c.accidentDamageRecords;
+          case "salvageTotalLoss": return c.salvageTotalLoss;
+          case "airbagDeployment": return c.airbagDeployment;
+          case "frameDamage": return c.frameDamage;
+          case "odometerReadings": return c.odometerReadings;
+          case "rollbackDetection": return c.rollbackDetection;
+          case "openLiens": return c.openLiens;
+          case "lemonCheck": return c.lemonCheck;
+          case "marketValue": return c.marketValue;
+          case "originalMsrp": return c.originalMsrp;
+          case "warrantyInfo": return c.warrantyInfo;
+          case "auctionRecords": return c.auctionRecords;
+          case "allPhotos": return c.allPhotos;
+          case "openSafetyRecalls": return c.openSafetyRecalls;
+          case "downloadablePdf": return c.downloadablePdf;
+        }
+      }),
+    }));
+
   const reportSummaryCard = (
     <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
       <div className="px-5 sm:px-6 py-4 border-b border-surface-container">
@@ -1064,14 +1865,14 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             className="w-5 h-5"
             style={{ color: "var(--color-secondary-container)" }}
           />{" "}
-          Report Summary
+          {c.reportSummary}
         </h3>
         <p className="text-xs text-on-surface-variant mt-0.5">
-          Everything the full report on this {vehicleLabel} unlocks.
+          {c.reportSummaryNote(vehicleLabel)}
         </p>
       </div>
       <div className="p-5 sm:p-6 grid sm:grid-cols-2 gap-x-8 gap-y-5">
-        {SUMMARY_GROUPS.map((group) => (
+        {summaryGroupsLocalized.map((group) => (
           <div key={group.title}>
             <p className="text-[11px] font-black text-primary uppercase tracking-wider mb-2">
               {group.title}
@@ -1086,7 +1887,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                     {label}
                   </span>
                   <span className="flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full bg-green-50 text-green-700">
-                    ✓ Included
+                    {c.included}
                   </span>
                 </div>
               ))}
@@ -1102,20 +1903,21 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   const reportContainsSection = (
     <section className="rounded-3xl bg-surface-container-lowest border border-outline-variant p-6">
       <h2 className="text-xl font-headline font-extrabold text-primary mb-2">
-        Your report contains
+        {c.yourReportContains}
       </h2>
       <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
-        Here&apos;s everything you could uncover about this {make || "vehicle"} before you buy.
+        {c.yourReportContainsNote(make || c.vehicle)}
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-3">
         {MAY_CONTAIN.map((item) => {
           const Icon = item.icon;
+          const label = c[item.key];
           return (
-            <div key={item.label} className="flex items-center gap-2.5">
+            <div key={item.key} className="flex items-center gap-2.5">
               <span className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
                 <Icon className="w-3.5 h-3.5 text-emerald-600" />
               </span>
-              <span className="text-sm font-semibold text-on-surface leading-tight">{item.label}</span>
+              <span className="text-sm font-semibold text-on-surface leading-tight">{label}</span>
               <Check className="w-4 h-4 text-emerald-600 ml-auto flex-shrink-0" strokeWidth={3} />
             </div>
           );
@@ -1143,8 +1945,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           <div className="flex items-center gap-2 mb-2">
             <ShieldAlert className="w-5 h-5 text-amber-600" />
             <h2 className="text-xl font-headline font-extrabold text-primary">
-              {preview.recalls.length} open safety recall{preview.recalls.length === 1 ? "" : "s"}
-              {preview.recalls.length > 2 ? " — 2 shown free" : " — shown free"}
+              {c.openSafetyRecall(preview.recalls.length)}
+              {c.shownFreeSuffix(preview.recalls.length)}
             </h2>
           </div>
           <div className="space-y-2">
@@ -1167,12 +1969,12 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                   </span>
                 </summary>
                 <div className="mt-3 text-xs sm:text-sm text-on-surface-variant leading-relaxed space-y-2">
-                  <p><strong className="text-on-surface">Summary:</strong> {r.Summary}</p>
+                  <p><strong className="text-on-surface">{c.summary}:</strong> {r.Summary}</p>
                   {r.Consequence && (
-                    <p><strong className="text-on-surface">Risk:</strong> {r.Consequence}</p>
+                    <p><strong className="text-on-surface">{c.risk}:</strong> {r.Consequence}</p>
                   )}
                   {r.Remedy && (
-                    <p><strong className="text-on-surface">Remedy:</strong> {r.Remedy}</p>
+                    <p><strong className="text-on-surface">{c.remedy}:</strong> {r.Remedy}</p>
                   )}
                 </div>
               </details>
@@ -1182,7 +1984,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                 two are shown free as proof, the rest convert. */}
             {preview.recalls.length > 2 && (
               <BuyReportButton
-                ariaLabel={`Unlock ${preview.recalls.length - 2} more open safety recalls`}
+                ariaLabel={c.unlockRecallsAria(preview.recalls.length - 2)}
+                locale={locale}
                 className="group relative block w-full cursor-pointer text-left"
               >
                 <div aria-hidden className="space-y-2 blur-[5px] select-none pointer-events-none">
@@ -1203,7 +2006,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 font-headline text-sm font-extrabold text-white shadow-lg shadow-primary/25 transition-colors group-hover:bg-primary/90">
                     <Lock className="h-4 w-4" />
-                    Unlock {preview.recalls.length - 2} more recall{preview.recalls.length - 2 === 1 ? "" : "s"}
+                    {c.unlockRecalls(preview.recalls.length - 2)}
                   </span>
                 </div>
               </BuyReportButton>
@@ -1212,7 +2015,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
 
           {/* Bridge: pivot from free public recalls to the locked records */}
           <BuyReportButton
-            ariaLabel="Unlock accident, title and ownership records"
+            ariaLabel={c.recallsBridgeAria}
+            locale={locale}
             className="group mt-4 flex w-full items-center gap-3 rounded-2xl border border-primary/20 bg-primary/[0.04] p-4 text-left cursor-pointer transition-colors hover:border-primary/40 hover:bg-primary/[0.07]"
           >
             <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
@@ -1220,10 +2024,10 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-sm font-bold text-on-surface">
-                Recalls are only the public layer
+                {c.recallsBridgeTitle}
               </div>
               <div className="text-xs text-on-surface-variant">
-                Accidents, title brands, odometer history, owners &amp; liens are in your full report.
+                {c.recallsBridgeBody}
               </div>
             </div>
             <ChevronRight className="w-5 h-5 flex-shrink-0 text-primary transition-transform group-hover:translate-x-0.5" />
@@ -1236,34 +2040,34 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           data before the paywall. */}
       <section>
         <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-primary mb-3">
-          <Crown className="w-3.5 h-3.5" /> Premium vehicle history
+          <Crown className="w-3.5 h-3.5" /> {c.premiumBadge}
         </div>
         <h2 className="text-2xl font-headline font-extrabold text-on-surface mb-2">
           {!looksClean && recordsFound > 0
-            ? `${recordsFound} history record${recordsFound === 1 ? "" : "s"} on file for this ${make || "vehicle"}`
-            : "Unlock the full vehicle history"}
+            ? c.historyRecordsHeading(recordsFound, make || c.vehicle)
+            : c.unlockHistoryHeading}
         </h2>
         <p className="text-sm text-on-surface-variant mb-5 max-w-md">
-          The specs below are free. Title brands, accidents, odometer and
-          ownership records are revealed in the full report.
+          {c.premiumIntro}
         </p>
         {recordsFound > 0 && (
           <p className="text-base sm:text-lg font-headline font-bold text-on-surface mb-4">
-            We found{" "}
+            {c.weFoundLead}
             <span className="text-primary">
-              {recordsFound} history record{recordsFound === 1 ? "" : "s"}
-            </span>{" "}
-            on your vehicle.
+              {c.historyRecordsCount(recordsFound)}
+            </span>
+            {c.onYourVehicle}
           </p>
         )}
         <div className="grid sm:grid-cols-2 gap-3">
           {records.map((r) => renderRecordCard(r))}
         </div>
         <BuyReportButton
-          ariaLabel="Unlock the full vehicle history report"
+          ariaLabel={c.unlockFullReportAria}
+          locale={locale}
           className="group mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl bg-primary px-4 py-3.5 text-sm font-bold text-white transition-colors hover:bg-primary/90 cursor-pointer"
         >
-          <Lock className="w-4 h-4" /> Unlock the full report
+          <Lock className="w-4 h-4" /> {c.unlockFullReport}
         </BuyReportButton>
       </section>
 
@@ -1282,6 +2086,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             vin={cleaned}
             vehicleLabel={vehicleLabel}
             inputId="bundle-email-mobile"
+            locale={locale}
           />
         </div>
       )}
@@ -1308,6 +2113,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             vin={cleaned}
             price={SINGLE_PRICE.toFixed(2)}
             exampleHref={exampleHref}
+            locale={locale}
           />
         )}
       </div>
@@ -1320,24 +2126,24 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       {/* Every record your report checks */}
       <section>
         <h2 className="text-xl font-headline font-extrabold text-primary mb-2">
-          Every record your report checks
+          {c.everyRecordHeading}
         </h2>
         <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
-          Your {make || "vehicle"} report is cross-checked against billions of
-          records from thousands of trusted sources nationwide.
+          {c.everyRecordBody(make || c.vehicle)}
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {RECORDS_CHECKED.map((r) => {
             const Icon = r.icon;
+            const label = c[r.key];
             return (
               <div
-                key={r.label}
+                key={r.key}
                 className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center"
               >
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-2">
                   <Icon className="w-5 h-5 text-primary" />
                 </div>
-                <div className="text-xs font-bold text-on-surface leading-tight">{r.label}</div>
+                <div className="text-xs font-bold text-on-surface leading-tight">{label}</div>
               </div>
             );
           })}
@@ -1352,16 +2158,12 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           <div className="flex items-center gap-2 mb-2">
             <Palette className="w-5 h-5 text-primary" />
             <h2 className="text-xl font-headline font-extrabold text-primary">
-              Paint code{make ? ` for your ${make}` : ""}{" "}
-              <span className="text-secondary-container">(estimated)</span>
+              {c.paintCodeFor(make)}{" "}
+              <span className="text-secondary-container">{c.paintCodeEstimated}</span>
             </h2>
           </div>
           <p className="text-sm text-on-surface-variant mb-5 max-w-2xl">
-            A factory paint code is <strong>not</strong> stored in the VIN, so
-            it can&apos;t be decoded from the 17 characters alone. The exact code
-            lives on a sticker on the car. Based on this vehicle&apos;s details,
-            here&apos;s our best estimate of what it <em>may</em> be and exactly
-            where to find the real one.
+            {c.paintCodeIntro}
           </p>
 
           <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 sm:p-6 space-y-5">
@@ -1369,7 +2171,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             {likelyPaint ? (
               <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
                 <p className="text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-1">
-                  Likely paint code (estimate — verify on the car)
+                  {c.likelyPaint}
                 </p>
                 <div className="flex items-baseline gap-3 flex-wrap">
                   <span className="font-mono font-extrabold text-2xl text-amber-900">
@@ -1380,19 +2182,13 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                   </span>
                 </div>
                 <p className="mt-2 text-xs text-amber-900 leading-relaxed">
-                  This is matched from the color on file
-                  {paintColorName ? ` (“${paintColorName}”)` : ""} and may not be
-                  exact — color names map to several codes across model years.
-                  Always confirm against the sticker before ordering paint.
+                  {c.matchedColorNote(paintColorName)}
                 </p>
               </div>
             ) : (
               <div className="rounded-xl border border-outline-variant bg-surface-container p-4">
                 <p className="text-sm text-on-surface-variant leading-relaxed">
-                  We couldn&apos;t confidently estimate a code for this VIN
-                  {paintColorName ? ` (color on file: “${paintColorName}”)` : ""}.
-                  The surest way is to read it directly off the car — here&apos;s
-                  where to look.
+                  {c.noConfidentEstimate(paintColorName)}
                 </p>
               </div>
             )}
@@ -1404,7 +2200,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                   <div className="flex items-center gap-2 mb-1.5">
                     <MapPin className="w-4 h-4 text-primary" />
                     <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
-                      Where to find it
+                      {c.whereToFind}
                     </p>
                   </div>
                   <p className="text-sm font-semibold text-on-surface">
@@ -1428,7 +2224,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                   <div className="flex items-center gap-2 mb-1.5">
                     <FileText className="w-4 h-4 text-primary" />
                     <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
-                      What it looks like
+                      {c.whatItLooksLike}
                     </p>
                   </div>
                   <p className="text-sm font-semibold text-on-surface">
@@ -1441,9 +2237,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
               </div>
             ) : (
               <p className="text-sm text-on-surface-variant leading-relaxed">
-                On most vehicles the paint code is on a sticker in the
-                driver-side door jamb, the spare-tire well, or under the hood —
-                look for a row labeled “Color,” “Paint,” or “EXT.”
+                {c.paintFallback}
               </p>
             )}
 
@@ -1454,13 +2248,13 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                 className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-bold text-on-primary hover:opacity-90 transition"
               >
                 <Palette className="w-4 h-4" />
-                Full paint-code guide
+                {c.fullPaintGuide}
               </Link>
               <Link
                 href="/paint-code-finder"
                 className="inline-flex items-center gap-1.5 rounded-full border border-outline-variant px-4 py-2 text-sm font-bold text-on-surface hover:bg-surface-container transition"
               >
-                Find by make &amp; model
+                {c.findByMakeModel}
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -1487,13 +2281,14 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         vin={cleaned}
         price={SINGLE_PRICE.toFixed(2)}
         exampleHref={exampleHref}
+        locale={locale}
       />
       <div className="flex items-center justify-center gap-2 mt-5 text-primary">
         <Laurel className="w-7 h-10" />
         <span className="text-sm font-headline font-extrabold uppercase tracking-wide leading-tight text-center">
-          Satisfaction
+          {c.satisfaction}
           <br />
-          Guarantee
+          {c.guarantee}
         </span>
         <Laurel className="w-7 h-10 -scale-x-100" />
       </div>
@@ -1515,6 +2310,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         vin={cleaned}
         vehicleLabel={vehicleLabel}
         inputId="bundle-email-desktop"
+        locale={locale}
       />
     </div>
   );
@@ -1525,36 +2321,11 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   const faqSection = (
     <section>
       <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-primary mb-5">
-        FAQ
+        {c.faqHeading}
       </h2>
 
       <div className="space-y-3">
-        {[
-          {
-            q: "What's included in the full report?",
-            a: `Your ${vehicleLabel} report compiles every record on file: title brands (salvage, junk, flood, lemon), reported accidents and damage, the odometer timeline with rollback checks, ownership history and number of owners, open liens, theft and total-loss records, market values, warranty status, auction sale history and all photos on file — plus a downloadable PDF you can keep.`,
-          },
-          {
-            q: "Will I be billed monthly?",
-            a: `No. CarCheckerVin does not offer monthly recurring subscriptions and does not use automated recurring billing. You pay a single one-time fee of $${SINGLE_PRICE.toFixed(2)} for this report — your access simply ends when your access pass expires, with nothing further to cancel.`,
-          },
-          {
-            q: "Why do you charge for this data?",
-            a: "Pulling a complete history means querying official NMVTIS-backed title databases, auction houses, insurance total-loss records and NHTSA recall data — each of which carries a real cost per lookup. The one-time fee covers that direct access so you get verified, current records instead of guesswork.",
-          },
-          {
-            q: "What vehicles can I search for?",
-            a: "Almost any car, truck, SUV, van or motorcycle sold in the US with a standard 17-character VIN. Just enter the VIN and we'll pull the records on file for that exact vehicle.",
-          },
-          {
-            q: "Will I receive an email notifying me of the purchase?",
-            a: "Yes. A confirmation and receipt are emailed to you right after checkout, and your full report — including the downloadable PDF — is available instantly on-screen so you never have to wait.",
-          },
-          {
-            q: "What if the report doesn't help — can I get a refund?",
-            a: "You're covered by a 30-day money-back guarantee. If the report doesn't meet your expectations, reach out within 30 days of purchase and we'll issue a full refund — no complicated forms.",
-          },
-        ].map(({ q, a }, i) => (
+        {c.faqs(vehicleLabel, SINGLE_PRICE.toFixed(2)).map(({ q, a }, i) => (
           <details
             key={i}
             open={i === 0}
@@ -1585,7 +2356,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       <ReportPreviewExperiment />
       {mock && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center py-2 px-4 pt-16">
-          Sample data — set the <code className="font-mono">CLEARVIN_API_EMAIL</code> / <code className="font-mono">CLEARVIN_API_PASSWORD</code> production credentials to load live records for this VIN.
+          {c.sampleDataPre}<code className="font-mono">CLEARVIN_API_EMAIL</code>{c.sampleDataAnd}<code className="font-mono">CLEARVIN_API_PASSWORD</code>{c.sampleDataSuffix}
         </div>
       )}
 
@@ -1594,6 +2365,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           and the full deliverables list as the Report Summary. */}
       <VinReport
         data={reportData}
+        locale={locale}
         hideCheckAnother
         mainTop={
           findingBanner || contextBanner ? (
@@ -1613,14 +2385,13 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                 <ShieldCheck className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-headline font-extrabold text-lg text-on-surface mb-1.5">
-                No surprises before you buy
+                {c.noSurprisesTitle}
               </h3>
               <p className="text-sm text-on-surface-variant max-w-xs mb-4">
-                Unlock the full NMVTIS title history, accident, odometer and
-                ownership records for this {vehicleLabel}.
+                {c.noSurprisesBody(vehicleLabel)}
               </p>
-              <BuyReportButton className="inline-flex items-center justify-center gap-2 bg-primary text-white rounded-2xl px-6 py-3 font-headline font-extrabold text-sm shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors cursor-pointer">
-                <Lock className="w-4 h-4" /> See the full report — ${SINGLE_PRICE.toFixed(2)}
+              <BuyReportButton locale={locale} className="inline-flex items-center justify-center gap-2 bg-primary text-white rounded-2xl px-6 py-3 font-headline font-extrabold text-sm shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors cursor-pointer">
+                <Lock className="w-4 h-4" /> {c.seeFullReport(SINGLE_PRICE.toFixed(2))}
               </BuyReportButton>
             </div>
           </ReportColumnFiller>
@@ -1629,7 +2400,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         lockedPhotoCount={lockedPhotoCount}
         lockListing={!!reportData.listing}
         unlockHref={orderHref}
-        summaryGroups={SUMMARY_GROUPS}
+        summaryGroups={summaryGroupsLocalized}
         heroCta={heroCta}
         hideIdentityCards={hasVehicleDetails}
         summaryTop={summaryTop}
@@ -1648,13 +2419,13 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
             <ShieldCheck className="w-6 h-6 text-primary mx-auto mb-1.5" />
-            <div className="text-sm font-bold text-on-surface">NHTSA recall data</div>
-            <div className="text-[11px] text-on-surface-variant">Official safety source</div>
+            <div className="text-sm font-bold text-on-surface">{c.nhtsaRecall}</div>
+            <div className="text-[11px] text-on-surface-variant">{c.nhtsaRecallSub}</div>
           </div>
           <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
             <BadgeCheck className="w-6 h-6 text-primary mx-auto mb-1.5" />
-            <div className="text-sm font-bold text-on-surface">NMVTIS-backed</div>
-            <div className="text-[11px] text-on-surface-variant">Federal title records</div>
+            <div className="text-sm font-bold text-on-surface">{c.nmvtisBacked}</div>
+            <div className="text-[11px] text-on-surface-variant">{c.nmvtisBackedSub}</div>
           </div>
           <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
             <div className="flex items-center justify-center gap-0.5 mb-1.5">
@@ -1662,23 +2433,23 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
                 <Star key={i} className="w-4 h-4 text-emerald-500 fill-emerald-500" />
               ))}
             </div>
-            <div className="text-sm font-bold text-on-surface">Rated Excellent</div>
-            <div className="text-[11px] text-on-surface-variant">on Trustpilot</div>
+            <div className="text-sm font-bold text-on-surface">{c.ratedExcellent}</div>
+            <div className="text-[11px] text-on-surface-variant">{c.onTrustpilot}</div>
             <a
               href="https://www.trustpilot.com/review/www.carcheckervin.com"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="See CarCheckerVIN reviews on Trustpilot (opens in a new tab)"
+              aria-label={c.seeReviewsAria}
               className="mt-2 inline-flex items-center justify-center gap-1 rounded-full border border-[#00B67A] px-3 py-1 text-[11px] font-bold text-[#00B67A] hover:bg-[#00B67A] hover:text-white transition-colors"
             >
-              See reviews
+              {c.seeReviews}
               <ChevronRight className="w-3 h-3" />
             </a>
           </div>
           <div className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-4 text-center">
             <Crown className="w-6 h-6 text-primary mx-auto mb-1.5" />
-            <div className="text-sm font-bold text-on-surface">30-day money-back</div>
-            <div className="text-[11px] text-on-surface-variant">Full refund guarantee</div>
+            <div className="text-sm font-bold text-on-surface">{c.moneyBack}</div>
+            <div className="text-[11px] text-on-surface-variant">{c.moneyBackSub}</div>
           </div>
         </section>
 
@@ -1695,29 +2466,27 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
               className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full bg-white/5 blur-2xl"
             />
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-3 py-1 text-[11px] font-black uppercase tracking-wider mb-4">
-              <Crown className="w-3.5 h-3.5" /> What you get the moment you pay
+              <Crown className="w-3.5 h-3.5" /> {c.whatYouGet}
             </div>
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold mb-3">
-              Full {vehicleLabel} history report — unlocked instantly
+              {c.finalHeadline(vehicleLabel)}
             </h2>
             <p className="text-sm text-white/75 max-w-xl mx-auto mb-7">
-              Your complete NMVTIS-backed report renders in seconds: title brands,
-              accident & damage records, odometer timeline, ownership history,
-              auction photos and a downloadable PDF you can keep.
+              {c.finalBody}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <BuyReportButton className="inline-flex items-center justify-center gap-2 bg-white text-primary rounded-2xl px-7 py-4 font-headline font-extrabold text-base hover:bg-yellow-50 transition-colors shadow-lg cursor-pointer">
-                <Lock className="w-5 h-5" /> Get full report — ${SINGLE_PRICE.toFixed(2)}
+              <BuyReportButton locale={locale} className="inline-flex items-center justify-center gap-2 bg-white text-primary rounded-2xl px-7 py-4 font-headline font-extrabold text-base hover:bg-yellow-50 transition-colors shadow-lg cursor-pointer">
+                <Lock className="w-5 h-5" /> {c.getFullReport(SINGLE_PRICE.toFixed(2))}
               </BuyReportButton>
               <Link
                 href={exampleHref}
                 className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-4 font-bold text-white/90 border border-white/25 hover:bg-white/10 transition-colors"
               >
-                <FileText className="w-5 h-5" /> View sample report
+                <FileText className="w-5 h-5" /> {c.viewSampleReport}
               </Link>
             </div>
             <p className="text-xs text-white/60 mt-4">
-              One-time payment · No subscription · 30-day money-back guarantee
+              {c.finalFooter}
             </p>
           </section>
         )}
@@ -1728,8 +2497,8 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
 
         {/* Check Another Vehicle — moved here, under the final CTA */}
         <section className="bg-primary text-white rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 text-center relative overflow-hidden shadow-sm">
-          <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">Check Another Vehicle</h2>
-          <p className="text-sm sm:text-base text-white/75 mb-5 sm:mb-6">Enter a different VIN to generate a new report</p>
+          <h2 className="font-headline font-extrabold text-lg sm:text-xl text-white mb-2">{c.checkAnother}</h2>
+          <p className="text-sm sm:text-base text-white/75 mb-5 sm:mb-6">{c.checkAnotherSub}</p>
           <div className="max-w-lg mx-auto">
             <VinSearchForm size="sm" />
           </div>
@@ -1749,19 +2518,19 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           bottom of the page on phones; leaving it visible while every
           other CTA is hidden would be the worst dark-pattern signal. */}
       {!isUnsupported && (
-        <StickyBuyBar className="fixed bottom-0 inset-x-0 z-40 lg:hidden isolate transform-gpu bg-surface border-t border-outline-variant px-4 pt-2.5 pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+        <StickyBuyBar locale={locale} className="fixed bottom-0 inset-x-0 z-40 lg:hidden isolate transform-gpu bg-surface border-t border-outline-variant px-4 pt-2.5 pb-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
           <p className="flex items-center justify-center gap-1.5 text-[11px] text-on-surface-variant text-center mb-2">
             <ShieldCheck className="w-3.5 h-3.5 text-primary flex-shrink-0" />
-            100% Satisfaction Guarantee · Full refund if you&apos;re not satisfied
+            {c.satisfactionGuarantee}
           </p>
-          <BuyReportButton className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-primary text-white font-headline font-extrabold text-base shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors cursor-pointer">
-            <Gem className="w-5 h-5" /> Get full report — ${SINGLE_PRICE.toFixed(2)}
+          <BuyReportButton locale={locale} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-primary text-white font-headline font-extrabold text-base shadow-lg shadow-primary/25 hover:bg-primary/90 transition-colors cursor-pointer">
+            <Gem className="w-5 h-5" /> {c.getFullReport(SINGLE_PRICE.toFixed(2))}
           </BuyReportButton>
           <Link
             href={exampleHref}
             className="block text-center mt-2 text-sm font-bold text-primary underline underline-offset-4"
           >
-            View sample report first
+            {c.viewSampleFirst}
           </Link>
         </StickyBuyBar>
       )}

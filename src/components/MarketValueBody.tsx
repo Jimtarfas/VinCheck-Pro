@@ -208,7 +208,7 @@ export default function MarketValueBody({ locale }: Props) {
           <p className="mt-4 text-lg text-slate-700 leading-relaxed">{c.intro}</p>
           <div className="mt-8 p-6 bg-primary-50 rounded-2xl border border-primary-100">
             <h2 className="text-lg font-bold text-slate-900 mb-3">{c.ctaTopHeading}</h2>
-            <VinSearchForm size="sm" />
+            <VinSearchForm size="sm"  locale={locale}/>
           </div>
 
           <h2 className="mt-12 text-2xl font-bold text-slate-900">{c.h2Calc}</h2>
@@ -279,7 +279,7 @@ export default function MarketValueBody({ locale }: Props) {
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">{c.ctaBottomHeading}</h2>
           <p className="text-slate-700 mb-6">{c.ctaBottomSub}</p>
-          <VinSearchForm size="sm" />
+          <VinSearchForm size="sm"  locale={locale}/>
         </div>
       </section>
     </>

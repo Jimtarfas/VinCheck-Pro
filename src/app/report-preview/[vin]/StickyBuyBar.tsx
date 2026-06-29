@@ -11,14 +11,21 @@
  */
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { Locale } from "@/i18n/config";
 
 export default function StickyBuyBar({
   children,
   className = "",
+  // Accepted for API parity with the other report-preview components, even
+  // though this wrapper has no user-visible strings of its own. The page
+  // wrapper forwards `locale` to every child for consistency.
+  locale: _locale = "en",
 }: {
   children: ReactNode;
   className?: string;
+  locale?: Locale;
 }) {
+  void _locale;
   const [hidden, setHidden] = useState(false);
   const visibleCount = useRef(0);
 

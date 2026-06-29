@@ -274,7 +274,7 @@ export default function WindowStickerBody({ locale }: Props) {
               <ScanLine className="w-4 h-4 text-amber-300 flex-shrink-0" />
               <p className="text-sm sm:text-base font-bold">{c.vinPromptTitle}</p>
             </div>
-            <VinSearchForm size="sm" onDark />
+            <VinSearchForm size="sm" onDark  locale={locale}/>
           </div>
 
           <nav aria-label={c.tocOnThisPage} className="mt-6 flex flex-wrap gap-2 text-sm">

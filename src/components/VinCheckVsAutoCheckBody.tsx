@@ -382,7 +382,7 @@ export default function VinCheckVsAutoCheckBody({ locale }: Props) {
           <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl">
             <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">{c.formHeading}</h2>
             <p className="text-xs sm:text-sm text-on-surface-variant mb-4">{c.formSub}</p>
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-8">
@@ -570,7 +570,7 @@ export default function VinCheckVsAutoCheckBody({ locale }: Props) {
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-white mb-2">{c.midCtaHeading}</h2>
             <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">{c.midCtaSub}</p>
             <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
-              <VinSearchForm size="lg" />
+              <VinSearchForm size="lg"  locale={locale}/>
             </div>
           </div>
         </section>
@@ -598,7 +598,7 @@ export default function VinCheckVsAutoCheckBody({ locale }: Props) {
           <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">{c.ctaBottomHeading}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">{c.ctaBottomSub}</p>
           <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
           </div>
           <Link href={link("/vin-check")} className="inline-flex items-center gap-2 mt-6 text-sm font-bold text-primary hover:underline">
             {c.bottomReportLink}

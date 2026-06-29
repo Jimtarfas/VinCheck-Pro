@@ -256,7 +256,7 @@ export default function VinCheckTypeHubBody({ locale }: Props) {
             {c.intro}
           </p>
 
-          <VinSearchForm size="lg" onDark withPlateToggle />
+          <VinSearchForm size="lg" onDark withPlateToggle  locale={locale}/>
           <p className="mt-4 text-[11px] text-white/60 flex items-center gap-1.5">
             <Lock className="w-3 h-3" /> {c.formNote}
           </p>

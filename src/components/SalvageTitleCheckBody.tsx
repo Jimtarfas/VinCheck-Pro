@@ -400,7 +400,7 @@ export default function SalvageTitleCheckBody({ locale }: Props) {
           <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl">
             <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">{c.formHeading}</h2>
             <p className="text-xs sm:text-sm text-on-surface-variant mb-4">{c.formSub}</p>
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
             <p className="mt-3 text-[11px] text-slate-400 flex items-center gap-1.5">
               <Lock className="w-3 h-3" /> {c.formNote}
             </p>
@@ -508,7 +508,7 @@ export default function SalvageTitleCheckBody({ locale }: Props) {
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-white mb-2">{c.midCtaHeading}</h2>
             <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">{c.midCtaSub}</p>
             <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
-              <VinSearchForm size="lg" />
+              <VinSearchForm size="lg"  locale={locale}/>
             </div>
           </div>
         </section>
@@ -598,7 +598,7 @@ export default function SalvageTitleCheckBody({ locale }: Props) {
               </ul>
               <div className="mt-5 rounded-xl bg-white p-4 border border-outline-variant">
                 <p className="text-xs font-bold text-on-surface mb-2">{c.inspectCardCta}</p>
-                <VinSearchForm size="sm" />
+                <VinSearchForm size="sm"  locale={locale}/>
               </div>
             </div>
           </div>
@@ -668,7 +668,7 @@ export default function SalvageTitleCheckBody({ locale }: Props) {
           <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">{c.ctaBottomHeading}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">{c.ctaBottomSub}</p>
           <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
           </div>
           <div className="mt-3 flex items-center justify-center gap-2 text-xs text-on-surface-variant">
             <Check className="w-3.5 h-3.5 text-green-500" strokeWidth={3} />

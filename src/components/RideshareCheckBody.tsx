@@ -397,7 +397,7 @@ export default function RideshareCheckBody({ locale }: Props) {
           <div className="bg-white rounded-2xl p-5 sm:p-7 shadow-xl">
             <h2 className="text-base sm:text-lg font-headline font-extrabold text-primary mb-1">{c.formHeading}</h2>
             <p className="text-xs sm:text-sm text-on-surface-variant mb-4">{c.formSub}</p>
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
             <p className="mt-3 text-[11px] text-slate-400 flex items-center gap-1.5">
               <Lock className="w-3 h-3" /> {c.formNote}
             </p>
@@ -565,7 +565,7 @@ export default function RideshareCheckBody({ locale }: Props) {
             <h2 className="text-2xl sm:text-3xl font-headline font-extrabold text-white mb-2">{c.midCtaHeading}</h2>
             <p className="text-white/80 text-sm sm:text-base mb-6 max-w-xl mx-auto">{c.midCtaSub}</p>
             <div className="max-w-xl mx-auto bg-white rounded-2xl p-4 sm:p-5">
-              <VinSearchForm size="lg" />
+              <VinSearchForm size="lg"  locale={locale}/>
             </div>
           </div>
         </section>
@@ -619,7 +619,7 @@ export default function RideshareCheckBody({ locale }: Props) {
           <h2 className="text-2xl sm:text-4xl font-headline font-extrabold text-primary mb-3">{c.ctaBottomHeading}</h2>
           <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto mb-8">{c.ctaBottomSub}</p>
           <div className="max-w-xl mx-auto bg-surface-container-low rounded-2xl p-5 border border-outline-variant">
-            <VinSearchForm size="lg" />
+            <VinSearchForm size="lg"  locale={locale}/>
           </div>
         </section>
 

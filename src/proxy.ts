@@ -155,20 +155,35 @@ export async function proxy(request: NextRequest) {
       if (canonical !== localisedPath) {
         const url = request.nextUrl.clone();
         url.pathname = `${localePrefix}${canonical === "/" ? "" : canonical}`;
-        return NextResponse.rewrite(url);
+        const headers = new Headers(request.headers);
+        headers.set("x-locale", firstSegment);
+        headers.set("x-pathname", pathname);
+        return NextResponse.rewrite(url, { request: { headers } });
       }
+      // Even without a slug rewrite, propagate the locale header so the
+      // /es/... or /fr/... page component can render locale-aware copy.
+      const headers = new Headers(request.headers);
+      headers.set("x-locale", firstSegment);
+      headers.set("x-pathname", pathname);
+      const passthrough = NextResponse.next({ request: { headers } });
+      return passthrough;
     } else {
       // No Spanish version yet — serve the English page from /<slug>.
       // Rewrite (not redirect) keeps the URL on /es so the visitor's
       // language context is preserved. Skips API routes and Next
-      // internals defensively.
+      // internals defensively. We also propagate the locale via a
+      // custom request header so the (English) page component can
+      // detect it and render localised copy in-place.
       if (
         !canonical.startsWith("/api/") &&
         !canonical.startsWith("/_next/")
       ) {
         const url = request.nextUrl.clone();
         url.pathname = canonical;
-        return NextResponse.rewrite(url);
+        const headers = new Headers(request.headers);
+        headers.set("x-locale", firstSegment);
+        headers.set("x-pathname", pathname);
+        return NextResponse.rewrite(url, { request: { headers } });
       }
     }
   }
