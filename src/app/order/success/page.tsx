@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 
 interface SearchParams {
   order?: string;
-  session_id?: string;
   mock?: string;
   lang?: string;
   // Dodo Payments appends these to the return_url on redirect.
@@ -20,7 +19,7 @@ interface SearchParams {
   status?: string;
 }
 
-// Wave 10: Spanish copy for the post-Stripe success screen.
+// Post-payment success-screen copy (en/es).
 const SUCCESS_COPY = {
   en: {
     h1Real: "Payment received",
@@ -28,7 +27,7 @@ const SUCCESS_COPY = {
     bodyReal:
       "Thank you. We're now pulling the full vehicle history report from our NMVTIS-certified data provider. This usually takes a few seconds.",
     bodyMock:
-      "Stripe is not yet configured — this is a sample order so the end-to-end flow can be reviewed. Your report will load on the next screen.",
+      "Dodo Payments is not yet configured — this is a sample order so the end-to-end flow can be reviewed. Your report will load on the next screen.",
     orderRef: "Order reference",
     viewReport: "View my report",
     autoRedirect: "Auto-redirecting…",
@@ -39,7 +38,7 @@ const SUCCESS_COPY = {
     bodyReal:
       "Gracias. Estamos obteniendo el reporte completo del historial del vehículo desde nuestro proveedor de datos certificado por NMVTIS. Esto suele tomar unos segundos.",
     bodyMock:
-      "Stripe aún no está configurado — esta es una orden de muestra para revisar el flujo de extremo a extremo. Tu reporte se cargará en la siguiente pantalla.",
+      "Dodo Payments aún no está configurado — esta es una orden de muestra para revisar el flujo de extremo a extremo. Tu reporte se cargará en la siguiente pantalla.",
     orderRef: "Referencia de orden",
     viewReport: "Ver mi reporte",
     autoRedirect: "Redirigiendo automáticamente…",
@@ -47,9 +46,12 @@ const SUCCESS_COPY = {
 } as const;
 
 /**
- * Stripe redirect target. Stripe replaces `{CHECKOUT_SESSION_ID}` in the
- * success URL; we keep things simple and rely on the `order=<uuid>` param
- * we sent along, then bounce the user to /order/report/[orderId].
+ * Dodo Payments redirect target. The provider appends
+ * `?payment_id=…&status=succeeded|failed|cancelled` to the return URL on
+ * every outcome. We forward the payment id to the report view so its
+ * poller can confirm the payment directly with Dodo as a webhook
+ * fallback. Status is gated below — failed/cancelled buyers are bounced
+ * out so they never see a "Payment received" screen on a failed charge.
  */
 export default async function OrderSuccessPage({
   searchParams,
@@ -69,29 +71,21 @@ export default async function OrderSuccessPage({
 
   // ── Payment-status guard ───────────────────────────────────────────────
   // Dodo Payments redirects buyers to the return URL on EVERY outcome,
-  // appending `?status=succeeded`, `?status=failed`, or `?status=cancelled`.
-  // Stripe (legacy fallback when DODO_* envs are absent) only routes to
-  // `success_url` after a confirmed charge, so it doesn't append `status`.
-  //
-  // Treat the order as paid only when:
-  //   • sp.mock === "1"                  → operator/dev mock order
-  //   • sp.status === "succeeded"        → Dodo-confirmed payment
-  //   • sp.status is absent              → legacy Stripe success_url path
-  // Anything else (failed / cancelled / processing) sends the buyer back
-  // to the report-preview so they can retry, AND we deliberately do NOT
-  // set the `ccv_order_paid` localStorage flag so the chat widget never
-  // surfaces the post-payment "set your password" notice on a failed
-  // payment. That was the source-of-truth bug: a failed-payment buyer was
-  // seeing a thank-you message on their next page load.
+  // appending `?status=succeeded|failed|cancelled|processing`. Treat
+  // the order as paid only when:
+  //   • sp.mock === "1"             → operator/dev mock order (Dodo not configured)
+  //   • sp.status === "succeeded"   → Dodo-confirmed payment
+  // Anything else (failed / cancelled / processing / status absent) is
+  // NOT a paid order. We bounce those buyers back to the homepage with
+  // ?cancelled=1 and deliberately do NOT set the `ccv_order_paid`
+  // localStorage flag — that flag is what makes the ChatWidget surface
+  // the post-payment "🎉 Payment received" notice on the next page,
+  // which was firing for failed-payment buyers before this guard
+  // (the source-of-truth bug a client reported).
   const isMock = sp.mock === "1";
   const dodoStatus = (sp.status || "").toLowerCase();
-  const isPaid = isMock || dodoStatus === "succeeded" || dodoStatus === "";
+  const isPaid = isMock || dodoStatus === "succeeded";
   if (!isPaid) {
-    // Failed / cancelled / processing — bounce to the homepage with a
-    // `cancelled=1` flag so any future "what happened?" UI can react.
-    // We deliberately don't expose the Dodo error code in the URL to
-    // avoid leaking provider internals to anyone who later opens the
-    // tab from history.
     const cancelTarget = locale === "es" ? "/es/?cancelled=1" : "/?cancelled=1";
     redirect(cancelTarget);
   }
@@ -147,12 +141,12 @@ export default async function OrderSuccessPage({
 
         {/* Flag this browser as a just-paid buyer so the chat widget can
             surface a one-time "set your password / My Reports" notice on the
-            report screen we redirect to next. Real orders only — sample/mock
-            orders don't send a confirmation email. The page-level isPaid
-            guard above already prevents this branch from rendering on a
-            failed/cancelled Dodo payment, but we double-gate here in case
-            the guard ever silently regresses. */}
-        {!isMock && (dodoStatus === "succeeded" || dodoStatus === "") && (
+            report screen we redirect to next. Real Dodo-confirmed orders
+            only — sample/mock orders don't send a confirmation email.
+            The page-level isPaid guard above already prevents this branch
+            from rendering on a failed/cancelled Dodo payment, but we
+            double-gate here in case the guard ever silently regresses. */}
+        {!isMock && dodoStatus === "succeeded" && (
           <script
             dangerouslySetInnerHTML={{
               __html: `try{localStorage.setItem('ccv_order_paid','1')}catch(e){}`,
