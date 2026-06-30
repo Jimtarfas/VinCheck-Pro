@@ -67,6 +67,35 @@ export default async function OrderSuccessPage({
   const locale: "en" | "es" = sp.lang === "es" ? "es" : "en";
   const copy = SUCCESS_COPY[locale];
 
+  // ── Payment-status guard ───────────────────────────────────────────────
+  // Dodo Payments redirects buyers to the return URL on EVERY outcome,
+  // appending `?status=succeeded`, `?status=failed`, or `?status=cancelled`.
+  // Stripe (legacy fallback when DODO_* envs are absent) only routes to
+  // `success_url` after a confirmed charge, so it doesn't append `status`.
+  //
+  // Treat the order as paid only when:
+  //   • sp.mock === "1"                  → operator/dev mock order
+  //   • sp.status === "succeeded"        → Dodo-confirmed payment
+  //   • sp.status is absent              → legacy Stripe success_url path
+  // Anything else (failed / cancelled / processing) sends the buyer back
+  // to the report-preview so they can retry, AND we deliberately do NOT
+  // set the `ccv_order_paid` localStorage flag so the chat widget never
+  // surfaces the post-payment "set your password" notice on a failed
+  // payment. That was the source-of-truth bug: a failed-payment buyer was
+  // seeing a thank-you message on their next page load.
+  const isMock = sp.mock === "1";
+  const dodoStatus = (sp.status || "").toLowerCase();
+  const isPaid = isMock || dodoStatus === "succeeded" || dodoStatus === "";
+  if (!isPaid) {
+    // Failed / cancelled / processing — bounce to the homepage with a
+    // `cancelled=1` flag so any future "what happened?" UI can react.
+    // We deliberately don't expose the Dodo error code in the URL to
+    // avoid leaking provider internals to anyone who later opens the
+    // tab from history.
+    const cancelTarget = locale === "es" ? "/es/?cancelled=1" : "/?cancelled=1";
+    redirect(cancelTarget);
+  }
+
   // Send the buyer to the actual report view on this same host (no app.
   // subdomain, no proxy rewrite). We keep this page mounted as a fallback in
   // case JS-disabled clients need a manual link.
@@ -119,8 +148,11 @@ export default async function OrderSuccessPage({
         {/* Flag this browser as a just-paid buyer so the chat widget can
             surface a one-time "set your password / My Reports" notice on the
             report screen we redirect to next. Real orders only — sample/mock
-            orders don't send a confirmation email. */}
-        {sp.mock !== "1" && (
+            orders don't send a confirmation email. The page-level isPaid
+            guard above already prevents this branch from rendering on a
+            failed/cancelled Dodo payment, but we double-gate here in case
+            the guard ever silently regresses. */}
+        {!isMock && (dodoStatus === "succeeded" || dodoStatus === "") && (
           <script
             dangerouslySetInnerHTML={{
               __html: `try{localStorage.setItem('ccv_order_paid','1')}catch(e){}`,
