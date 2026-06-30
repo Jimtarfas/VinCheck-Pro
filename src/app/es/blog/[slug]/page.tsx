@@ -18,12 +18,18 @@ import BlogPostBody from "@/components/BlogPostBody";
 import { sanityClient, urlFor } from "@/sanity/client";
 import {
   postBySlugEsQuery,
-  postSlugsEsQuery,
   relatedPostsQuery,
 } from "@/sanity/queries";
 import type { SanityPost } from "@/sanity/types";
 import { hreflangAlternatesForLocale } from "@/lib/seo/hreflang";
 
+// Force dynamic SSR. The root layout (src/app/layout.tsx) reads
+// `headers()` to detect the reviews/app subdomain — a dynamic API.
+// When this route was being statically prerendered (the `●` symbol
+// in `next build` output), the dynamic-API call threw
+// `DYNAMIC_SERVER_USAGE` at request time → every /es/blog/<slug>
+// returned 500. Match the English /blog/[slug] which is dynamic.
+export const dynamic = "force-dynamic";
 export const revalidate = 60;
 const LOCALE = "es" as const;
 const SITE = "https://www.carcheckervin.com";
@@ -32,14 +38,11 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  try {
-    const slugs = await sanityClient.fetch<string[]>(postSlugsEsQuery);
-    return (slugs ?? []).map((slug) => ({ slug }));
-  } catch {
-    return [];
-  }
-}
+// `generateStaticParams` was removed in favor of `dynamic = "force-dynamic"`
+// above. The root layout's `headers()` call (subdomain detection) is a
+// dynamic API that throws DYNAMIC_SERVER_USAGE when this route is
+// prerendered. SSR-per-request fixes the issue; `revalidate = 60` still
+// caches each rendered post for 60s at the edge so cost stays flat.
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
