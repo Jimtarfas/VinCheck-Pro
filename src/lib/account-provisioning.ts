@@ -62,9 +62,42 @@ export async function provisionAccountForOrder(
     }
 
     // createUser failed — almost always because the email is already
-    // registered. That's fine: an account already exists, and the order is
-    // still reachable for that user by email match on the My Reports page, so
-    // there's nothing more we need to do here.
+    // registered. Look up the existing account and back-link this
+    // order's user_id so the report shows up under "My Reports" the
+    // moment the buyer signs in — no waiting for the magic-link click,
+    // no reliance on the dashboard's email-fallback join (which can
+    // miss on capitalisation / alias mismatches).
+    //
+    // Pagination: the Supabase admin API has no filter-by-email
+    // endpoint, so we walk listUsers pages until we find a match or
+    // hit ~800 users. Cost is bounded and best-effort — a miss simply
+    // leaves user_id null and the dashboard email-fallback still finds
+    // the row for the exact email match.
+    try {
+      const emailLower = email.toLowerCase();
+      let existingId: string | null = null;
+      for (let page = 1; page <= 4 && !existingId; page++) {
+        const { data: listData } = await admin.auth.admin.listUsers({
+          page,
+          perPage: 200,
+        });
+        const match = listData?.users?.find(
+          (u) => (u.email || "").toLowerCase() === emailLower
+        );
+        if (match) existingId = match.id;
+        if (!listData?.users || listData.users.length < 200) break;
+      }
+      if (existingId) {
+        const { error: linkErr } = await admin
+          .from("report_orders")
+          .update({ user_id: existingId })
+          .eq("id", params.orderId)
+          .is("user_id", null);
+        if (!linkErr) result.linked = true;
+      }
+    } catch {
+      // Fall through — the dashboard email-fallback is the safety net.
+    }
   } catch {
     // Provisioning must never block report delivery.
   }
