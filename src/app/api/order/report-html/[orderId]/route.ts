@@ -5,6 +5,7 @@ import { createClient as createServerClient } from "@/lib/supabase/server";
 import { fetchFullReport, rebrandReportHtml, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig } from "@/lib/stripe";
 import { dodoConfig } from "@/lib/dodo";
+import { verifyOrderAccessToken } from "@/lib/order-access-token";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,7 +22,7 @@ export const dynamic = "force-dynamic";
  * Auth ladder mirrors /api/order/report-pdf/:orderId exactly.
  */
 export async function GET(
-  _req: Request,
+  req: Request,
   ctx: { params: Promise<{ orderId: string }> }
 ) {
   const { orderId } = await ctx.params;
@@ -47,6 +48,16 @@ export async function GET(
     try {
       const cookieStore = await cookies();
       if (cookieStore.get(`order_${orderId}`)?.value === "1") authorized = true;
+    } catch {
+      /* ignore */
+    }
+  }
+  // Signed access token — same path as the emailed report link so a
+  // buyer on a different device can still see the rebranded HTML.
+  if (!authorized) {
+    try {
+      const token = new URL(req.url).searchParams.get("t");
+      if (token && verifyOrderAccessToken(orderId, token)) authorized = true;
     } catch {
       /* ignore */
     }

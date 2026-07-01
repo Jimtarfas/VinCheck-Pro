@@ -30,6 +30,7 @@ import { sendEmail, isResendConfigured } from "@/lib/email/resend";
 import { renderOrderConfirmation } from "@/lib/email/order-confirmation";
 import { generateBuyerMagicLink } from "@/lib/account-provisioning";
 import { getBundle, CREDIT_VALIDITY_MONTHS } from "@/lib/pricing";
+import { withOrderAccessToken } from "@/lib/order-access-token";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -154,7 +155,14 @@ export async function POST(req: Request) {
       redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account/set-password`,
     })) || undefined;
 
-  const reportUrl = `${PUBLIC_APP_ORIGIN}/order/report/${order.id}`;
+  // Emailed report link carries a signed access token so the buyer
+  // can open it from any device without hitting the "Not authorized"
+  // gate. Matches the webhook path so re-send behaves identically to
+  // the original confirmation.
+  const reportUrl = withOrderAccessToken(
+    `${PUBLIC_APP_ORIGIN}/order/report/${order.id}`,
+    order.id
+  );
 
   const rendered = renderOrderConfirmation({
     orderId: order.id,

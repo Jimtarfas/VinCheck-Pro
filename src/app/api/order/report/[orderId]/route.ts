@@ -6,6 +6,7 @@ import { fetchFullReport, isUsingMockData } from "@/lib/clearvin";
 import { stripeConfig, fetchCheckoutSession } from "@/lib/stripe";
 import { dodoConfig, fetchDodoPayment } from "@/lib/dodo";
 import { provisionAccountForOrder } from "@/lib/account-provisioning";
+import { verifyOrderAccessToken } from "@/lib/order-access-token";
 import {
   extractReportData,
   normalizeClearVinReport,
@@ -129,6 +130,23 @@ export async function GET(
     try {
       const cookieStore = await cookies();
       if (cookieStore.get(`order_${orderId}`)?.value === "1") {
+        authorized = true;
+      }
+    } catch {
+      // ignore — fall through to the Supabase check
+    }
+  }
+
+  // (1b) Signed access token in the URL query — covers the "I paid on
+  // desktop and clicked the emailed link on my phone" path. The
+  // confirmation email builds `reportUrl` with `?t=<token>` so opening
+  // the link on ANY device grants access, no sign-in required. Token
+  // is HMAC-signed with ORDER_ACCESS_SECRET and expires in 30 days.
+  if (!authorized) {
+    try {
+      const url = new URL(req.url);
+      const token = url.searchParams.get("t");
+      if (token && verifyOrderAccessToken(orderId, token)) {
         authorized = true;
       }
     } catch {

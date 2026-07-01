@@ -85,17 +85,24 @@ export default function ReportView({ orderId }: Props) {
     setLoading(true);
     setErrorMessage(null);
     try {
-      // Forward the Dodo `payment_id` (passed from the success page as
-      // `?dodo_payment=…`) so the API can confirm the payment directly with
-      // Dodo when no webhook reached us (the no-tunnel local fallback).
+      // Forward two query params to the API:
+      //   - `dodo_payment` — the Dodo payment_id passed via the success
+      //     page as a webhook-less fallback for payment confirmation.
+      //   - `t` — the HMAC-signed order access token emitted in the
+      //     confirmation-email link. Without forwarding it here, a
+      //     buyer opening the email on a device that never held the
+      //     `order_<id>` cookie (e.g. their phone) would get a 403
+      //     from the API even though the page loaded fine.
       let url = `/api/order/report/${orderId}`;
       if (typeof window !== "undefined") {
-        const dodoPayment = new URLSearchParams(window.location.search).get(
-          "dodo_payment"
-        );
-        if (dodoPayment) {
-          url += `?dodo_payment=${encodeURIComponent(dodoPayment)}`;
-        }
+        const search = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams();
+        const dodoPayment = search.get("dodo_payment");
+        if (dodoPayment) params.set("dodo_payment", dodoPayment);
+        const accessToken = search.get("t");
+        if (accessToken) params.set("t", accessToken);
+        const qs = params.toString();
+        if (qs) url += `?${qs}`;
       }
       const res = await fetch(url, {
         cache: "no-store",

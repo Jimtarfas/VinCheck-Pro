@@ -2,7 +2,22 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifyDodoWebhook, dodoConfig } from "@/lib/dodo";
 import { fetchFullReport } from "@/lib/clearvin";
-import { provisionAccountForOrder } from "@/lib/account-provisioning";
+import {
+  provisionAccountForOrder,
+  generateBuyerMagicLink,
+} from "@/lib/account-provisioning";
+import { getBundle, CREDIT_VALIDITY_MONTHS } from "@/lib/pricing";
+import { sendEmail, isResendConfigured } from "@/lib/email/resend";
+import { renderOrderConfirmation } from "@/lib/email/order-confirmation";
+import { withOrderAccessToken } from "@/lib/order-access-token";
+
+const PUBLIC_APP_ORIGIN = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://www.carcheckervin.com"
+).replace(/\+$/, "").replace(/\/+$/, "");
+
+const SUPPORT_EMAIL =
+  process.env.SUPPORT_EMAIL || "support@carcheckervin.com";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -54,7 +69,7 @@ export async function POST(req: Request) {
     }
 
     // 1) Mark paid (idempotent — a retry just re-stamps the same row).
-    await admin
+    const { data: paidRow } = await admin
       .from("report_orders")
       .update({
         status: "paid",
@@ -62,11 +77,48 @@ export async function POST(req: Request) {
         stripe_payment_intent_id: data.payment_id || null,
       })
       .eq("id", orderId)
-      .select("user_email")
+      .select(
+        "user_id, user_email, bundle_size, vehicle_label, amount_cents, currency"
+      )
       .single();
 
     // 2) Provision the buyer's account (best-effort, never blocks delivery).
-    await provisionAccountForOrder(admin, { orderId, email: data.metadata?.user_email });
+    await provisionAccountForOrder(admin, {
+      orderId,
+      email: paidRow?.user_email || data.metadata?.user_email,
+    });
+
+    // 2b) Bundle purchase ⇒ grant the extra reports as account credits.
+    // Idempotent via `source_order_id` unique constraint.
+    const bundle = getBundle(paidRow?.bundle_size);
+    let bundleExpiresAt: string | null = null;
+    if (bundle && bundle.size > 1) {
+      try {
+        const { data: existing } = await admin
+          .from("report_credits")
+          .select("id, expires_at")
+          .eq("source_order_id", orderId)
+          .maybeSingle();
+        if (!existing) {
+          const expiresAt = new Date();
+          expiresAt.setMonth(expiresAt.getMonth() + CREDIT_VALIDITY_MONTHS);
+          bundleExpiresAt = expiresAt.toISOString();
+          await admin.from("report_credits").insert({
+            user_id: paidRow?.user_id ?? null,
+            user_email: paidRow?.user_email ?? "",
+            source_order_id: orderId,
+            bundle_size: bundle.size,
+            remaining: bundle.size - 1,
+            expires_at: bundleExpiresAt,
+          });
+        } else {
+          bundleExpiresAt = existing.expires_at ?? null;
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("[dodo-webhook] credit grant failed for order", orderId, e);
+      }
+    }
 
     // 3) Fetch the full ClearVin report. In Dodo TEST mode use ClearVin's
     //    FREE sandbox token (a test payment must never bill a real credit);
@@ -94,6 +146,108 @@ export async function POST(req: Request) {
         delivered_at: new Date().toISOString(),
       })
       .eq("id", orderId);
+
+    // 5) Order-confirmation email. Best-effort — a Resend outage or
+    // template hiccup must NEVER re-trigger the ClearVin fetch above
+    // (a Dodo retry re-fires the whole webhook, and re-fetching burns
+    // paid credits at the ClearVin data provider). All errors are
+    // swallowed here and audited to report_orders.{email_status,…}
+    // for the admin panel to surface.
+    let emailStatus: "sent" | "failed" | "skipped" = "skipped";
+    let emailError: string | null = null;
+
+    if (!isResendConfigured()) {
+      emailError = "RESEND_API_KEY not configured";
+    } else if (!paidRow?.user_email) {
+      emailError = "no buyer email on order";
+    } else {
+      try {
+        // Emailed report link carries an HMAC-signed access token so the
+        // buyer can open it from ANY device — phone, work laptop, tablet
+        // — without hitting "Not authorized to view this report". Cookie-
+        // based auth only covered the checkout browser, which broke as
+        // soon as the buyer opened the email on a different device.
+        const reportUrl = withOrderAccessToken(
+          `${PUBLIC_APP_ORIGIN}/order/report/${orderId}`,
+          orderId
+        );
+
+        // First-purchase magic link points at /account/set-password so
+        // the buyer's first click both signs them in AND lands on
+        // password-setup. Optional — falls back to reportUrl silently
+        // if the link mint fails.
+        const signInUrl =
+          (await generateBuyerMagicLink(admin, {
+            email: paidRow.user_email,
+            redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account/set-password`,
+          })) || undefined;
+
+        const rendered = renderOrderConfirmation({
+          orderId,
+          vin,
+          vehicleLabel: paidRow.vehicle_label ?? null,
+          amountCents: paidRow.amount_cents ?? 0,
+          currency: paidRow.currency || "usd",
+          bundleSize: paidRow.bundle_size ?? null,
+          bundleExpiresAt,
+          reportUrl,
+          signInUrl,
+          siteOrigin: PUBLIC_APP_ORIGIN.replace(/^https?:\/\//, ""),
+          supportEmail: SUPPORT_EMAIL,
+        });
+
+        const sendResult = await sendEmail({
+          to: paidRow.user_email,
+          subject: rendered.subject,
+          html: rendered.html,
+          text: rendered.text,
+          replyTo: SUPPORT_EMAIL,
+        });
+
+        if (sendResult.ok) {
+          emailStatus = "sent";
+        } else if (sendResult.skipped) {
+          emailError = "send skipped (no api key at send time)";
+        } else {
+          emailStatus = "failed";
+          emailError = sendResult.error ?? "unknown error";
+          // eslint-disable-next-line no-console
+          console.error(
+            "[dodo-webhook] confirmation email failed for order",
+            orderId,
+            sendResult.error
+          );
+        }
+      } catch (e) {
+        emailStatus = "failed";
+        emailError = e instanceof Error ? e.message : String(e);
+        // eslint-disable-next-line no-console
+        console.error(
+          "[dodo-webhook] confirmation email threw for order",
+          orderId,
+          e
+        );
+      }
+    }
+
+    // Audit — never fatal, wrapped in its own try/catch.
+    try {
+      await admin
+        .from("report_orders")
+        .update({
+          email_status: emailStatus,
+          email_sent_at: new Date().toISOString(),
+          email_error: emailError ? emailError.slice(0, 500) : null,
+        })
+        .eq("id", orderId);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(
+        "[dodo-webhook] email-status persist failed for order",
+        orderId,
+        e
+      );
+    }
 
     return NextResponse.json({ received: true, delivered: true });
   }

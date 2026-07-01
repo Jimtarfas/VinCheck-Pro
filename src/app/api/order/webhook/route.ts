@@ -9,6 +9,7 @@ import {
 import { getBundle, CREDIT_VALIDITY_MONTHS } from "@/lib/pricing";
 import { sendEmail, isResendConfigured } from "@/lib/email/resend";
 import { renderOrderConfirmation } from "@/lib/email/order-confirmation";
+import { withOrderAccessToken } from "@/lib/order-access-token";
 
 /**
  * Public origin used for links inside the confirmation email. The buyer
@@ -214,7 +215,15 @@ export async function POST(req: Request) {
             redirectTo: `${PUBLIC_APP_ORIGIN}/auth/callback?next=/account/set-password`,
           })) || undefined;
 
-        const reportUrl = `${PUBLIC_APP_ORIGIN}/order/report/${orderId}`;
+        // Emailed report link carries an HMAC-signed token so the
+        // buyer can open it from any device (their phone from the
+        // inbox, a work laptop from later, etc.) without hitting the
+        // "Not authorized" screen. The cookie set at checkout time
+        // only covers the browser the purchase happened in.
+        const reportUrl = withOrderAccessToken(
+          `${PUBLIC_APP_ORIGIN}/order/report/${orderId}`,
+          orderId
+        );
 
         const rendered = renderOrderConfirmation({
           orderId,
