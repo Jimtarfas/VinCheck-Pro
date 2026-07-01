@@ -205,12 +205,12 @@ body {
   .bundle-attention { animation: none; }
 }
 
-/* ── Report-preview A/B test ──
-   "blur" variant: softly blur the main hero photo. The ReportPreviewExperiment
-   client component flags <html data-rp-ab="blur"> for its bucket, and the main
-   report image carries the `.rp-ab-main-photo` class (passed via VinReport's
-   mainImageClassName prop). The slight scale hides the soft blurred edges. */
-[data-rp-ab="blur"] .rp-ab-main-photo {
+/* ── Report-preview A/B/C test ──
+   "blur" variant: softly blur the main hero photo + its first gallery thumbnail.
+   The page server-renders the `.rp-ab-blur` class onto those images (via
+   VinReport's mainImageClassName prop) only for the blur bucket, so there's no
+   client flash. The slight scale hides the soft blurred edges. */
+.rp-ab-blur {
   filter: blur(3px);
   transform: scale(1.04);
 }

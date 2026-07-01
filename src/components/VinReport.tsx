@@ -800,6 +800,7 @@ export default function VinReport({
   lockActions = false,
   unlockPrice,
   hideIdentityCards = false,
+  hideValuation = false,
   summaryDesktopHidden = false,
   keepSidebarAI = false,
   mainImageClassName,
@@ -863,6 +864,10 @@ export default function VinReport({
       its own inline Vehicle Details strip under the photo instead — avoids
       duplicating the same fields. */
   hideIdentityCards?: boolean;
+  /** Preview: hide the sidebar Valuation card (from data.price). The preview
+      surfaces MSRP/pricing through its own Market Analysis panel instead, so
+      the standalone Valuation card would just duplicate those figures. */
+  hideValuation?: boolean;
   /** Preview: hide the built-in sidebar Report Summary card on desktop, where the
       page renders it in the main column instead (and moves the bundle into the
       sidebar). Stays visible on mobile. */
@@ -1356,7 +1361,7 @@ export default function VinReport({
             {sidebarTop}
 
             {/* Pricing sidebar card */}
-            {data.price && (
+            {!hideValuation && data.price && (
               <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
                 <div className="px-5 py-4 border-b border-surface-container">
                   <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">

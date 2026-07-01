@@ -2,63 +2,28 @@
 
 import { useEffect, useState } from "react";
 import { BadgePercent, Check, Copy, X } from "lucide-react";
+import type { RpAbVariant } from "@/lib/report-ab";
 
 /* ───────────────────────────────────────────────────────────────────────────
-   Report-preview A/B test
+   Report-preview A/B/C test — client surface
    ---------------------------------------------------------------------------
-   Splits visitors 50/50 into two persistent buckets to learn which nudge wins:
-
-     • "coupon" → a scroll-triggered VIN10 (10% off) popup, site-styled.
-     • "blur"   → the main hero photo is softly blurred (handled in CSS via the
-                  `data-rp-ab="blur"` flag this component sets on <html>, which
-                  targets the `.rp-ab-main-photo` class on the report image).
-
-   The bucket is assigned once and stored in localStorage so a returning visitor
-   always sees the same variant — a clean, consistent experiment per user.
+   The visitor's sticky bucket is assigned by the proxy (src/proxy.ts) and the
+   page server-renders the "blur" and "swap" variants directly, flash-free. The
+   only variant that needs client behavior is "coupon": a scroll-triggered
+   VIN10 (10% off) popup, styled to match the site. For every other bucket this
+   component renders nothing.
    ─────────────────────────────────────────────────────────────────────────── */
 
-type Variant = "coupon" | "blur";
-const STORAGE_KEY = "rp_ab_variant";
 const COUPON_CODE = "VIN10";
 /* Reveal the coupon only once the visitor has engaged with the report. */
 const SCROLL_TRIGGER_PX = 650;
 
-function pickVariant(): Variant {
-  return Math.random() < 0.5 ? "coupon" : "blur";
-}
-
-export default function ReportPreviewExperiment() {
-  const [variant, setVariant] = useState<Variant | null>(null);
+export default function ReportPreviewExperiment({ variant }: { variant: RpAbVariant }) {
   const [showCoupon, setShowCoupon] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Assign (or restore) the persistent 50/50 bucket on mount.
-  useEffect(() => {
-    let v: Variant;
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "coupon" || stored === "blur") {
-        v = stored;
-      } else {
-        v = pickVariant();
-        localStorage.setItem(STORAGE_KEY, v);
-      }
-    } catch {
-      v = pickVariant();
-    }
-    setVariant(v);
-  }, []);
-
-  // "blur" variant: flag the document so global CSS softens the main report photo.
-  useEffect(() => {
-    if (variant !== "blur") return;
-    const el = document.documentElement;
-    el.setAttribute("data-rp-ab", "blur");
-    return () => el.removeAttribute("data-rp-ab");
-  }, [variant]);
-
-  // "coupon" variant: reveal the popup once the visitor scrolls into the report.
+  // Reveal the popup once the visitor scrolls into the report.
   useEffect(() => {
     if (variant !== "coupon") return;
     const onScroll = () => {

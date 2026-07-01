@@ -35,7 +35,7 @@ import {
   Citrus,
   Info,
 } from "lucide-react";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { detectLocale, isLocale, type Locale } from "@/i18n/config";
 import { getReportContext, type ReportContext } from "@/lib/report-context";
 import VinReport from "@/components/VinReport";
@@ -51,6 +51,9 @@ import StickyBuyBar from "./StickyBuyBar";
 import ReportColumnFiller from "./ReportColumnFiller";
 import BrandLogo from "@/components/BrandLogo";
 import ReportPreviewExperiment from "./ReportPreviewExperiment";
+import { RP_AB_COOKIE, isRpAbVariant, type RpAbVariant } from "@/lib/report-ab";
+import { fetchVehicleSpecs, type VehicleSpec } from "@/lib/vpic-specs";
+import VehicleSpecs from "./VehicleSpecs";
 
 /* Small laurel-wreath flourish for the satisfaction-guarantee seal. */
 function Laurel({ className = "" }: { className?: string }) {
@@ -1187,10 +1190,17 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   // Pull the production ClearVin preview (vehicle identity + photos — the
   // source of truth for this preview) and auto.dev's decode (used ONLY for the
   // Market Analysis pricing) in parallel; tolerate either failing.
+  // Full NHTSA (vPIC) spec decode for the "Vehicle Specifications" grid — kicked
+  // off in parallel with the identity/preview fetches. Never rejects (yields []
+  // on failure), so it can't affect the rest of the page.
+  const specsPromise = fetchVehicleSpecs(cleaned);
+
   const [decodedResult, previewResult] = await Promise.allSettled([
     decodeVin(cleaned),
     fetchPreview(cleaned),
   ]);
+
+  const vehicleSpecs = await specsPromise;
 
   const preview =
     previewResult.status === "fulfilled" && "ok" in previewResult.value && previewResult.value.ok
@@ -1227,6 +1237,17 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   //                            cannot promise a paid report in this
   //                            case either, so treat as unsupported.
   const isUnsupported = !preview || preview.unsupported === true;
+
+  // ── Report-preview A/B/C experiment variant ──────────────────────
+  // The sticky 3-way bucket is assigned by the proxy (see src/proxy.ts) and
+  // read here so the page server-renders the right variant flash-free. Defaults
+  // to "coupon" on the rare chance the cookie is missing (e.g. proxy skipped).
+  const abCookie = (await cookies()).get(RP_AB_COOKIE)?.value;
+  const abVariant: RpAbVariant = isRpAbVariant(abCookie) ? abCookie : "coupon";
+  const abBlur = abVariant === "blur";
+  // Only swap the bundle/CARFAX cards for supported VINs — unsupported VINs drop
+  // the CARFAX marketing card entirely, so there's nothing to swap.
+  const abSwap = abVariant === "swap" && !isUnsupported;
 
   // Build the data the report design renders. ClearVin is authoritative for
   // identity + photos; auto.dev contributes only price + marketData (Market
@@ -1560,33 +1581,47 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
      body type and the build specs from ClearVin's preview), gathered into a
      single card rendered full-width directly under the photo gallery so the
      buyer reads the car's facts (and the free recalls) BEFORE any paywall. */
-  // Spec pills — the decoded build facts shown as labelled chips, one icon per
-  // spec (the year/make/model live in the card title, so they aren't repeated
-  // here). Each chip is value-only with a small green glyph, matching the badge
-  // row in the header mock.
-  const specPills: { icon: typeof Car; value: string }[] = [];
-  const pushPill = (icon: typeof Car, v?: string | null) => {
+  // Headline build facts from ClearVin's preview decode — the recognisable
+  // summary specs (trim, body, engine, origin, MSRP) that used to sit as chips
+  // under the vehicle image. They now open the Vehicle Specifications sheet:
+  // surfaced first, then merged with the deep NHTSA vPIC decode below. vPIC
+  // rows that duplicate one of these facts are dropped so nothing shows twice.
+  const previewSpecs: VehicleSpec[] = [];
+  const pushPreviewSpec = (label: string, v?: string | null) => {
     const val = (v || "").trim();
-    if (val) specPills.push({ icon, value: val });
+    if (val) previewSpecs.push({ label, value: val });
   };
-  pushPill(Star, s?.trim);
-  pushPill(Car, s?.style);
-  pushPill(Wrench, s?.engine);
-  pushPill(MapPin, s?.madeIn);
-  pushPill(Banknote, s?.msrp);
+  pushPreviewSpec("Trim", s?.trim);
+  pushPreviewSpec("Body Style", s?.style);
+  pushPreviewSpec("Engine", s?.engine);
+  pushPreviewSpec("Country of Manufacture", s?.madeIn);
+  pushPreviewSpec("MSRP", s?.msrp);
+
+  // vPIC labels that would restate a ClearVin headline fact (its trim/body/
+  // origin values are richer), so we drop them from the merged sheet.
+  const DROP_VPIC_LABELS = new Set([
+    "Trim",
+    "Body",
+    "Country of Assembly",
+  ]);
+  const mergedSpecs: VehicleSpec[] = [
+    ...previewSpecs,
+    ...vehicleSpecs.filter((sp) => !DROP_VPIC_LABELS.has(sp.label)),
+  ];
 
   // The card is worth showing when we have a real decoded identity (a name
-  // beyond the bare VIN) or at least one build-spec chip.
+  // beyond the bare VIN) or at least one decoded specification.
   const hasVehicleDetails =
-    Boolean(vehicleLabel && vehicleLabel !== cleaned) || specPills.length > 0;
+    Boolean(vehicleLabel && vehicleLabel !== cleaned) || mergedSpecs.length > 0;
 
   // Detail strip attached to the bottom of the photo gallery (passed as
   // VinReport's `galleryFooter`). It shares the gallery's light surface so it
   // reads as one unit with the image rather than a separate card; the gallery
   // container supplies the rounding/shadow/clip, so this block stays flat. The
-  // header pairs the brand logo + vehicle name + VIN; below it a row of icon
-  // chips surfaces the free build specs — so the buyer reads the car's facts
-  // before any paywall.
+  // header pairs the brand logo + vehicle name + VIN; directly beneath it the
+  // full Vehicle Specifications sheet (ClearVin headline facts + NHTSA vPIC
+  // decode) replaces the old chip row, so the buyer reads the car's complete
+  // decoded build before any paywall.
   const renderVehicleDetails = () => (
     <div className="bg-surface-container-lowest border-t border-outline-variant">
       <div className="flex items-center gap-3.5 px-5 sm:px-6 py-4">
@@ -1605,17 +1640,9 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
           </p>
         </div>
       </div>
-      {specPills.length > 0 && (
-        <div className="px-5 sm:px-6 pb-4 flex flex-wrap gap-2.5">
-          {specPills.map(({ icon: Icon, value }) => (
-            <span
-              key={value}
-              className="inline-flex items-center gap-2 rounded-full bg-surface-container-high px-3.5 py-2 text-sm font-headline font-semibold text-on-surface"
-            >
-              <Icon className="w-4 h-4 text-primary flex-shrink-0" />
-              {value}
-            </span>
-          ))}
+      {mergedSpecs.length > 0 && (
+        <div className="px-5 sm:px-6 pb-6 pt-4 border-t border-outline-variant/60">
+          <VehicleSpecs specs={mergedSpecs} />
         </div>
       )}
     </div>
@@ -2351,9 +2378,12 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
 
   return (
     <div className="bg-surface">
-      {/* A/B test: 50/50 split between a scroll-triggered VIN10 coupon popup and
-          a softly-blurred main report photo, to learn which nudge converts best. */}
-      <ReportPreviewExperiment />
+      {/* A/B/C test: a sticky 3-way split (assigned by the proxy) between a
+          scroll-triggered VIN10 coupon popup, a softly-blurred main report
+          photo, and swapping the bundle/CARFAX cards — to learn which converts
+          best. Blur + swap are server-rendered above; the client component only
+          drives the coupon popup. */}
+      <ReportPreviewExperiment variant={abVariant} />
       {mock && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center py-2 px-4 pt-16">
           {c.sampleDataPre}<code className="font-mono">CLEARVIN_API_EMAIL</code>{c.sampleDataAnd}<code className="font-mono">CLEARVIN_API_PASSWORD</code>{c.sampleDataSuffix}
@@ -2396,21 +2426,22 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             </div>
           </ReportColumnFiller>
         }
-        sidebarReplaceAI={sidebarBundleOrNotice}
+        sidebarReplaceAI={abSwap ? sidebarMarketingCard : sidebarBundleOrNotice}
         lockedPhotoCount={lockedPhotoCount}
         lockListing={!!reportData.listing}
         unlockHref={orderHref}
         summaryGroups={summaryGroupsLocalized}
         heroCta={heroCta}
         hideIdentityCards={hasVehicleDetails}
+        hideValuation
         summaryTop={summaryTop}
         summaryDesktopHidden
         keepSidebarAI
-        sidebarTop={sidebarMarketingCard}
+        sidebarTop={abSwap ? sidebarBundleOrNotice : sidebarMarketingCard}
         sidebarBottom={<div className="hidden lg:block">{faqSection}</div>}
         lockActions
         unlockPrice={SINGLE_PRICE}
-        mainImageClassName="rp-ab-main-photo"
+        mainImageClassName={abBlur ? "rp-ab-blur" : undefined}
       />
 
       {/* ═══ Commercial footer sections ═══════════════════════════ */}

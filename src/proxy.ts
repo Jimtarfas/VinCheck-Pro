@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 import { NON_DEFAULT_LOCALES, isLocale, type Locale } from "@/i18n/config";
 import { untranslateSlug, hasLocaleRoute } from "@/i18n/slugs";
+import { RP_AB_COOKIE, RP_AB_VARIANTS } from "@/lib/report-ab";
 
 // Canonical reviews host (plural — matches user search intent and industry
 // convention for review-section subdomains like reviews.apple.com).
@@ -190,6 +191,32 @@ export async function proxy(request: NextRequest) {
   // `NON_DEFAULT_LOCALES` is referenced for type-clarity so future
   // additions (fr, pt, de) automatically participate in the loop above.
   void NON_DEFAULT_LOCALES;
+
+  // ── Report-preview A/B/C experiment bucket ───────────────────────
+  // Assign each visitor a sticky 3-way bucket so the report-preview page can
+  // server-render the right variant (flash-free) and every visit keeps the
+  // same one:
+  //   • "coupon" → a scroll-triggered VIN10 (10% off) popup
+  //   • "blur"   → the main hero photo is softly blurred
+  //   • "swap"   → the "Buy more, pay less" bundle and the CARFAX comparison
+  //                card switch places in the sidebar
+  // The cookie is set on the *request* before updateSession runs so the freshly
+  // minted bucket is already on the forwarded request headers (readable by the
+  // page this same request, no second load), and on the response so the browser
+  // persists it. Returning visitors (cookie present) fall straight through.
+  if (pathname.startsWith("/report-preview")) {
+    if (!request.cookies.get(RP_AB_COOKIE)) {
+      const bucket = RP_AB_VARIANTS[Math.floor(Math.random() * RP_AB_VARIANTS.length)];
+      request.cookies.set(RP_AB_COOKIE, bucket);
+      const res = await updateSession(request);
+      res.cookies.set(RP_AB_COOKIE, bucket, {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 180, // 180 days
+        sameSite: "lax",
+      });
+      return res;
+    }
+  }
 
   return await updateSession(request);
 }
