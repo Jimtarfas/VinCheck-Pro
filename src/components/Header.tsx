@@ -34,6 +34,9 @@ const HEADER_COPY = {
     "By Vehicle Type": "By Vehicle Type",
     "VIN Lookup": "VIN Lookup",
     "Brand VIN Lookup": "Brand VIN Lookup",
+    "Brand Lookup": "Brand Lookup",
+    "Popular Brands": "Popular Brands",
+    "American Brands": "American Brands",
     Tesla: "Tesla",
     "Tesla Hubs": "Tesla Hubs",
     "Tesla by Model": "Tesla by Model",
@@ -176,6 +179,9 @@ const HEADER_COPY = {
     "By Vehicle Type": "Por tipo de vehículo",
     "VIN Lookup": "Búsqueda VIN",
     "Brand VIN Lookup": "Búsqueda VIN por marca",
+    "Brand Lookup": "Por marca",
+    "Popular Brands": "Marcas populares",
+    "American Brands": "Marcas americanas",
     Tesla: "Tesla",
     "Tesla Hubs": "Tesla — Páginas principales",
     "Tesla by Model": "Tesla por modelo",
@@ -318,6 +324,9 @@ const HEADER_COPY = {
     "By Vehicle Type": "Par type de véhicule",
     "VIN Lookup": "Recherche VIN",
     "Brand VIN Lookup": "Recherche VIN par marque",
+    "Brand Lookup": "Par marque",
+    "Popular Brands": "Marques populaires",
+    "American Brands": "Marques américaines",
     Tesla: "Tesla",
     "Tesla Hubs": "Tesla — Pages principales",
     "Tesla by Model": "Tesla par modèle",
@@ -582,17 +591,33 @@ const NAV: TopNav[] = [
           { href: "/vin-lookup-california", label: "VIN Lookup California" },
         ],
       },
+    ],
+  },
+  {
+    // Brand-specific VIN lookup pages get their own top-level mega-menu.
+    // Previously nested as a 5th column inside Tools, which overflowed the
+    // viewport at 100% zoom and hid the entire column. Promoted to top-level
+    // so it always fits on laptop widths and has room to grow as we add more
+    // brand pages (Ford, BMW, Nissan, VW, Kia, Subaru, Mazda planned next).
+    kind: "menu",
+    label: "Brand Lookup",
+    columns: [
       {
-        heading: "Brand VIN Lookup",
+        heading: "Popular Brands",
         items: [
           { href: "/toyota-vin-lookup", label: "Toyota VIN Lookup" },
           { href: "/honda-vin-lookup", label: "Honda VIN Lookup" },
           { href: "/jeep-vin-lookup", label: "Jeep VIN Lookup" },
+          { href: "/hyundai-vin-lookup", label: "Hyundai VIN Lookup" },
+        ],
+      },
+      {
+        heading: "American Brands",
+        items: [
           { href: "/gm-vin-lookup", label: "GM VIN Lookup" },
           { href: "/chevy-vin-lookup", label: "Chevy VIN Lookup" },
           { href: "/ram-vin-lookup", label: "RAM VIN Lookup" },
           { href: "/dodge-vin-lookup", label: "Dodge VIN Lookup" },
-          { href: "/hyundai-vin-lookup", label: "Hyundai VIN Lookup" },
         ],
       },
     ],
