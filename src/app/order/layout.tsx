@@ -79,7 +79,7 @@ export default function OrderLayout({ children }: { children: React.ReactNode })
                 CarCheckerVIN provides NMVTIS-backed vehicle history reports
                 and is operated by{" "}
                 <strong className="text-on-surface">
-                  Cognifyx Solutions LLC
+                  Coconut Ventures LLC
                 </strong>
                 , a New Mexico limited liability company. Report data is
                 supplied by ClearVin LLC, an approved NMVTIS Data Provider,
@@ -105,12 +105,12 @@ export default function OrderLayout({ children }: { children: React.ReactNode })
                   <MapPin className="w-3.5 h-3.5 text-on-surface-variant flex-shrink-0 mt-0.5" />
                   <address className="not-italic">
                     <span className="font-semibold text-on-surface">
-                      Cognifyx Solutions LLC
+                      Coconut Ventures LLC
                     </span>
                     <br />
-                    1209 Mountain Road Pl NE, Ste N
+                    412 W 7th St
                     <br />
-                    Albuquerque, NM 87110, United States
+                    Clovis, NM 88101, United States
                   </address>
                 </div>
                 <div className="flex items-center gap-2">
@@ -188,8 +188,8 @@ export default function OrderLayout({ children }: { children: React.ReactNode })
 
           <div className="mt-8 pt-6 border-t border-outline-variant/40 flex flex-wrap items-center justify-between gap-3">
             <p className="text-[11px] text-outline">
-              &copy; {new Date().getFullYear()} Cognifyx Solutions LLC.
-              CarCheckerVIN is a trademark of Cognifyx Solutions LLC. All
+              &copy; {new Date().getFullYear()} Coconut Ventures LLC.
+              CarCheckerVIN is a trademark of Coconut Ventures LLC. All
               rights reserved. Data &copy; ClearVin LLC and underlying data
               providers.
             </p>

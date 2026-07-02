@@ -48,7 +48,7 @@ export default function CookiePolicyPage() {
         </h2>
         <p>
           <strong>CarCheckerVIN</strong> (carcheckervin.com), operated by{" "}
-          <strong>Cognifyx Solutions LLC</strong>, sets only the following
+          <strong>Coconut Ventures LLC</strong>, sets only the following
           categories of cookies:
         </p>
         <ul className="list-disc pl-6 space-y-1.5">

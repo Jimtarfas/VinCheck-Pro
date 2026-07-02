@@ -14,12 +14,12 @@ const alt = hreflangAlternates("/privacy");
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "CarCheckerVIN privacy policy. Learn how Cognifyx Solutions LLC collects, uses, and protects your personal information.",
+    "CarCheckerVIN privacy policy. Learn how Coconut Ventures LLC collects, uses, and protects your personal information.",
   alternates: { canonical: alt.canonical, languages: alt.languages },
   openGraph: {
     title: "Privacy Policy",
     description:
-      "CarCheckerVIN privacy policy. Learn how Cognifyx Solutions LLC collects, uses, and protects your personal information.",
+      "CarCheckerVIN privacy policy. Learn how Coconut Ventures LLC collects, uses, and protects your personal information.",
     url: `${SITE}/privacy`,
     type: "article",
     siteName: "CarCheckerVIN",
@@ -34,7 +34,7 @@ const webPageSchema = {
   name: "Privacy Policy",
   url: `${SITE}/privacy`,
   description:
-    "CarCheckerVIN privacy policy. Learn how Cognifyx Solutions LLC collects, uses, and protects your personal information.",
+    "CarCheckerVIN privacy policy. Learn how Coconut Ventures LLC collects, uses, and protects your personal information.",
   publisher: {
     "@type": "Organization",
     name: "CarCheckerVIN",

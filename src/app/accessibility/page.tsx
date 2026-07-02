@@ -38,7 +38,7 @@ export default function AccessibilityPage() {
         <h2 className="text-xl font-semibold text-slate-900 mt-8">1. Overview</h2>
         <p>
           <strong>CarCheckerVIN</strong> (carcheckervin.com), operated by{" "}
-          <strong>Cognifyx Solutions LLC</strong>, is committed to ensuring its
+          <strong>Coconut Ventures LLC</strong>, is committed to ensuring its
           website and tools are usable by as many people as possible, including
           people who rely on assistive technologies such as screen readers,
           keyboard navigation, or browser zoom.

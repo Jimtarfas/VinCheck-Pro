@@ -17,9 +17,9 @@ const COPY = {
       pre: "This Privacy Policy applies to ",
       brandBold: "CarCheckerVIN",
       mid: " (carcheckervin.com), a service operated by ",
-      companyBold: "Cognifyx Solutions LLC",
+      companyBold: "Coconut Ventures LLC",
       suffix:
-        ", a New Mexico limited liability company with its registered office at 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, United States.",
+        ", a New Mexico limited liability company with its registered office at 412 W 7th St, Clovis, NM 88101, USA.",
     },
     sections: [
       {
@@ -47,9 +47,9 @@ const COPY = {
     contactPre: "For privacy-related inquiries, contact us at ",
     contactSuffix: " or by mail at:",
     addressLines: [
-      "Cognifyx Solutions LLC",
-      "1209 Mountain Road Pl NE, Ste N",
-      "Albuquerque, NM 87110",
+      "Coconut Ventures LLC",
+      "412 W 7th St",
+      "Clovis, NM 88101",
       "United States",
     ],
   },
@@ -61,9 +61,9 @@ const COPY = {
       pre: "Esta Política de privacidad se aplica a ",
       brandBold: "CarCheckerVIN",
       mid: " (carcheckervin.com), un servicio operado por ",
-      companyBold: "Cognifyx Solutions LLC",
+      companyBold: "Coconut Ventures LLC",
       suffix:
-        ", una sociedad de responsabilidad limitada de Nuevo México con domicilio registrado en 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, Estados Unidos.",
+        ", una sociedad de responsabilidad limitada de Nuevo México con domicilio registrado en 412 W 7th St, Clovis, NM 88101, EE. UU..",
     },
     sections: [
       {
@@ -91,9 +91,9 @@ const COPY = {
     contactPre: "Para consultas relacionadas con privacidad, contáctanos en ",
     contactSuffix: " o por correo a:",
     addressLines: [
-      "Cognifyx Solutions LLC",
-      "1209 Mountain Road Pl NE, Ste N",
-      "Albuquerque, NM 87110",
+      "Coconut Ventures LLC",
+      "412 W 7th St",
+      "Clovis, NM 88101",
       "Estados Unidos",
     ],
   },
@@ -105,9 +105,9 @@ const COPY = {
       pre: "Cette politique de confidentialité s'applique à ",
       brandBold: "CarCheckerVIN",
       mid: " (carcheckervin.com), un service exploité par ",
-      companyBold: "Cognifyx Solutions LLC",
+      companyBold: "Coconut Ventures LLC",
       suffix:
-        ", une société à responsabilité limitée du Nouveau-Mexique dont le siège social est situé au 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, États-Unis.",
+        ", une société à responsabilité limitée du Nouveau-Mexique dont le siège social est situé au 412 W 7th St, Clovis, NM 88101, États-Unis.",
     },
     sections: [
       {
@@ -135,9 +135,9 @@ const COPY = {
     contactPre: "Pour toute question relative à la confidentialité, contacte-nous à ",
     contactSuffix: " ou par courrier à :",
     addressLines: [
-      "Cognifyx Solutions LLC",
-      "1209 Mountain Road Pl NE, Ste N",
-      "Albuquerque, NM 87110",
+      "Coconut Ventures LLC",
+      "412 W 7th St",
+      "Clovis, NM 88101",
       "États-Unis",
     ],
   },

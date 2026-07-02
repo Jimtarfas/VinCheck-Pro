@@ -29,9 +29,9 @@ const COPY = {
       pre: "",
       brandBold: "CarCheckerVIN",
       mid: " (carcheckervin.com) is operated by ",
-      companyBold: "Cognifyx Solutions LLC",
+      companyBold: "Coconut Ventures LLC",
       suffix:
-        ", a New Mexico limited liability company with its registered office at 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, United States. CarCheckerVIN sells digital vehicle history reports that are generated and delivered instantly the moment payment is received. Because each report is a one-time digital product produced on demand from third-party automotive databases, refunds are limited to the single circumstance described below.",
+        ", a New Mexico limited liability company with its registered office at 412 W 7th St, Clovis, NM 88101, USA. CarCheckerVIN sells digital vehicle history reports that are generated and delivered instantly the moment payment is received. Because each report is a one-time digital product produced on demand from third-party automotive databases, refunds are limited to the single circumstance described below.",
     },
     h2Eligible: "2. The only refund-eligible scenario",
     eligibleLead:
@@ -112,9 +112,9 @@ const COPY = {
       pre: "",
       brandBold: "CarCheckerVIN",
       mid: " (carcheckervin.com) es operado por ",
-      companyBold: "Cognifyx Solutions LLC",
+      companyBold: "Coconut Ventures LLC",
       suffix:
-        ", una sociedad de responsabilidad limitada de Nuevo México con domicilio registrado en 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, Estados Unidos. CarCheckerVIN vende reportes digitales de historial vehicular que se generan y entregan al instante en el momento en que se recibe el pago. Debido a que cada reporte es un producto digital único producido bajo demanda a partir de bases de datos automotrices de terceros, los reembolsos se limitan a la única circunstancia descrita a continuación.",
+        ", una sociedad de responsabilidad limitada de Nuevo México con domicilio registrado en 412 W 7th St, Clovis, NM 88101, EE. UU.. CarCheckerVIN vende reportes digitales de historial vehicular que se generan y entregan al instante en el momento en que se recibe el pago. Debido a que cada reporte es un producto digital único producido bajo demanda a partir de bases de datos automotrices de terceros, los reembolsos se limitan a la única circunstancia descrita a continuación.",
     },
     h2Eligible: "2. El único escenario elegible para reembolso",
     eligibleLead:
@@ -195,9 +195,9 @@ const COPY = {
       pre: "",
       brandBold: "CarCheckerVIN",
       mid: " (carcheckervin.com) est exploité par ",
-      companyBold: "Cognifyx Solutions LLC",
+      companyBold: "Coconut Ventures LLC",
       suffix:
-        ", une société à responsabilité limitée du Nouveau-Mexique dont le siège social est situé au 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, États-Unis. CarCheckerVIN vend des rapports numériques d'historique de véhicule qui sont générés et livrés instantanément dès la réception du paiement. Comme chaque rapport est un produit numérique unique produit à la demande à partir de bases de données automobiles tierces, les remboursements sont limités à la seule circonstance décrite ci-dessous.",
+        ", une société à responsabilité limitée du Nouveau-Mexique dont le siège social est situé au 412 W 7th St, Clovis, NM 88101, États-Unis. CarCheckerVIN vend des rapports numériques d'historique de véhicule qui sont générés et livrés instantanément dès la réception du paiement. Comme chaque rapport est un produit numérique unique produit à la demande à partir de bases de données automobiles tierces, les remboursements sont limités à la seule circonstance décrite ci-dessous.",
     },
     h2Eligible: "2. Le seul scénario éligible au remboursement",
     eligibleLead:

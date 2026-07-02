@@ -38,7 +38,7 @@ const FOOTER_COPY = {
     vinCheckSuffix: "VIN Check",
     poweredBy: "Powered by Auto.dev API",
     copyrightLine: (y: number) =>
-      `© ${y} Cognifyx Solutions LLC. CarCheckerVIN is a trademark of Cognifyx Solutions LLC. All rights reserved.`,
+      `© ${y} Coconut Ventures LLC. CarCheckerVIN is a trademark of Coconut Ventures LLC. All rights reserved.`,
   },
   es: {
     blurb:
@@ -67,7 +67,7 @@ const FOOTER_COPY = {
     vinCheckSuffix: "verificación VIN",
     poweredBy: "Con tecnología de Auto.dev API",
     copyrightLine: (y: number) =>
-      `© ${y} Cognifyx Solutions LLC. CarCheckerVIN es una marca registrada de Cognifyx Solutions LLC. Todos los derechos reservados.`,
+      `© ${y} Coconut Ventures LLC. CarCheckerVIN es una marca registrada de Coconut Ventures LLC. Todos los derechos reservados.`,
   },
   fr: {
     blurb:
@@ -96,7 +96,7 @@ const FOOTER_COPY = {
     vinCheckSuffix: "vérification VIN",
     poweredBy: "Propulsé par l’API Auto.dev",
     copyrightLine: (y: number) =>
-      `© ${y} Cognifyx Solutions LLC. CarCheckerVIN est une marque déposée de Cognifyx Solutions LLC. Tous droits réservés.`,
+      `© ${y} Coconut Ventures LLC. CarCheckerVIN est une marque déposée de Coconut Ventures LLC. Tous droits réservés.`,
   },
 } as const;
 
@@ -162,11 +162,11 @@ export default function Footer() {
               <li className="flex items-start gap-2 text-sm">
                 <MapPin className="w-4 h-4 text-inverse-on-surface/80 flex-shrink-0 mt-0.5" />
                 <address className="not-italic leading-relaxed">
-                  Cognifyx Solutions LLC
+                  Coconut Ventures LLC
                   <br />
-                  1209 Mountain Road Pl NE, Ste N
+                  412 W 7th St
                   <br />
-                  Albuquerque, NM 87110
+                  Clovis, NM 88101
                 </address>
               </li>
             </ul>

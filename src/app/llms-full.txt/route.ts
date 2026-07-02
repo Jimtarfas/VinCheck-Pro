@@ -35,7 +35,7 @@ export async function GET() {
 
 ## About CarCheckerVIN
 
-CarCheckerVIN is a free vehicle history report service operated by Cognifyx Solutions LLC, headquartered at 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, United States. CarCheckerVIN is listed as an NMVTIS-approved data provider by the U.S. Department of Justice (Bureau of Justice Assistance), the federally-recognized provider list at https://vehiclehistory.bja.ojp.gov/nmvtis_vehiclehistory.
+CarCheckerVIN is a free vehicle history report service operated by Coconut Ventures LLC, headquartered at 412 W 7th St, Clovis, NM 88101, USA. CarCheckerVIN is listed as an NMVTIS-approved data provider by the U.S. Department of Justice (Bureau of Justice Assistance), the federally-recognized provider list at https://vehiclehistory.bja.ojp.gov/nmvtis_vehiclehistory.
 
 CarCheckerVIN turns a 17-character Vehicle Identification Number (VIN) — or a US license plate — into an instant report covering:
 
@@ -398,7 +398,7 @@ See ${SITE}/llms.txt for the curated machine-readable URL index, and ${SITE}/sit
 
 ---
 
-*This file is regenerated on every deploy. Last build: ${TODAY}. Issued by CarCheckerVIN (Cognifyx Solutions LLC) for AI crawler ingestion per the llmstxt.org proposed standard.*
+*This file is regenerated on every deploy. Last build: ${TODAY}. Issued by CarCheckerVIN (Coconut Ventures LLC) for AI crawler ingestion per the llmstxt.org proposed standard.*
 `;
 
   return new Response(body, {

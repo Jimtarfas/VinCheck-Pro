@@ -83,7 +83,7 @@ const COPY: Record<Locale | "fr", DisclaimerCopy> = {
       p1Mid: "ClearVin LLC",
       p1After:
         ", an approved NMVTIS Data Provider. All right, title, and interest in the data remain the property of ClearVin and its underlying data partners (state DMVs, NMVTIS, NHTSA, the National Insurance Crime Bureau, participating insurance carriers, salvage auctions, and independent service-record contributors).",
-      p2: "CarCheckerVIN is operated by Cognifyx Solutions LLC, a New Mexico limited liability company with its registered office at 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, United States, and is a reseller of ClearVin's NMVTIS data service. CarCheckerVIN does not modify, edit, alter, or omit any data value returned by ClearVin; only the surrounding layout and styling are customized for the CarCheckerVIN brand.",
+      p2: "CarCheckerVIN is operated by Coconut Ventures LLC, a New Mexico limited liability company with its registered office at 412 W 7th St, Clovis, NM 88101, USA, and is a reseller of ClearVin's NMVTIS data service. CarCheckerVIN does not modify, edit, alter, or omit any data value returned by ClearVin; only the surrounding layout and styling are customized for the CarCheckerVIN brand.",
     },
     limitsHeading: "What NMVTIS Cannot Tell You",
     limits: {
@@ -144,7 +144,7 @@ const COPY: Record<Locale | "fr", DisclaimerCopy> = {
       p1Mid: "ClearVin LLC",
       p1After:
         ", un proveedor de datos NMVTIS aprobado. Todos los derechos, t\u00edtulo e inter\u00e9s sobre los datos permanecen como propiedad de ClearVin y sus socios de datos subyacentes (DMVs estatales, NMVTIS, NHTSA, el National Insurance Crime Bureau, aseguradoras participantes, subastas de salvamento y contribuyentes independientes de registros de servicio).",
-      p2: "CarCheckerVIN es operado por Cognifyx Solutions LLC, una sociedad de responsabilidad limitada de Nuevo M\u00e9xico con domicilio registrado en 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, Estados Unidos, y es revendedor del servicio de datos NMVTIS de ClearVin. CarCheckerVIN no modifica, edita, altera ni omite ning\u00fan valor de los datos devueltos por ClearVin; solo el dise\u00f1o y estilo del entorno se personalizan para la marca CarCheckerVIN.",
+      p2: "CarCheckerVIN es operado por Coconut Ventures LLC, una sociedad de responsabilidad limitada de Nuevo M\u00e9xico con domicilio registrado en 412 W 7th St, Clovis, NM 88101, EE. UU., y es revendedor del servicio de datos NMVTIS de ClearVin. CarCheckerVIN no modifica, edita, altera ni omite ning\u00fan valor de los datos devueltos por ClearVin; solo el dise\u00f1o y estilo del entorno se personalizan para la marca CarCheckerVIN.",
     },
     limitsHeading: "Lo que NMVTIS no puede decirte",
     limits: {
@@ -209,7 +209,7 @@ const COPY: Record<Locale | "fr", DisclaimerCopy> = {
       p1Mid: "ClearVin LLC",
       p1After:
         ", un fournisseur de donn\u00e9es NMVTIS approuv\u00e9. Tous les droits, le titre et l'int\u00e9r\u00eat sur les donn\u00e9es restent la propri\u00e9t\u00e9 de ClearVin et de ses partenaires de donn\u00e9es sous-jacents (DMV d'\u00c9tat, NMVTIS, NHTSA, le National Insurance Crime Bureau, assureurs participants, ench\u00e8res de salvage et contributeurs ind\u00e9pendants de dossiers de service).",
-      p2: "CarCheckerVIN est exploit\u00e9 par Cognifyx Solutions LLC, une soci\u00e9t\u00e9 \u00e0 responsabilit\u00e9 limit\u00e9e du Nouveau-Mexique avec si\u00e8ge social enregistr\u00e9 au 1209 Mountain Road Pl NE, Ste N, Albuquerque, NM 87110, \u00c9tats-Unis, et est un revendeur du service de donn\u00e9es NMVTIS de ClearVin. CarCheckerVIN ne modifie, n'\u00e9dite, n'alt\u00e8re ni n'omet aucune valeur de donn\u00e9es retourn\u00e9e par ClearVin ; seule la mise en page et le style environnants sont personnalis\u00e9s pour la marque CarCheckerVIN.",
+      p2: "CarCheckerVIN est exploit\u00e9 par Coconut Ventures LLC, une soci\u00e9t\u00e9 \u00e0 responsabilit\u00e9 limit\u00e9e du Nouveau-Mexique avec si\u00e8ge social enregistr\u00e9 au 412 W 7th St, Clovis, NM 88101, \u00c9tats-Unis, et est un revendeur du service de donn\u00e9es NMVTIS de ClearVin. CarCheckerVIN ne modifie, n'\u00e9dite, n'alt\u00e8re ni n'omet aucune valeur de donn\u00e9es retourn\u00e9e par ClearVin ; seule la mise en page et le style environnants sont personnalis\u00e9s pour la marque CarCheckerVIN.",
     },
     limitsHeading: "Ce que NMVTIS ne peut pas te dire",
     limits: {
