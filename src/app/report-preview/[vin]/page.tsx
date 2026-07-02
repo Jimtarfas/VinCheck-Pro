@@ -2434,6 +2434,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         heroCta={heroCta}
         hideIdentityCards={hasVehicleDetails}
         hideValuation
+        mobileMarketAnalysisFirst
         summaryTop={summaryTop}
         summaryDesktopHidden
         keepSidebarAI

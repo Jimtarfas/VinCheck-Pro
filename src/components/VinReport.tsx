@@ -801,6 +801,7 @@ export default function VinReport({
   unlockPrice,
   hideIdentityCards = false,
   hideValuation = false,
+  mobileMarketAnalysisFirst = false,
   summaryDesktopHidden = false,
   keepSidebarAI = false,
   mainImageClassName,
@@ -868,6 +869,11 @@ export default function VinReport({
       surfaces MSRP/pricing through its own Market Analysis panel instead, so
       the standalone Valuation card would just duplicate those figures. */
   hideValuation?: boolean;
+  /** Preview: on phone, render the Market Analysis panel (and the summaryTop
+      fallback) inline in the main column — directly under the vehicle
+      specifications and above the recalls (afterPhotos) — instead of in the
+      sidebar. Desktop keeps it in the sidebar. */
+  mobileMarketAnalysisFirst?: boolean;
   /** Preview: hide the built-in sidebar Report Summary card on desktop, where the
       page renders it in the main column instead (and moves the bundle into the
       sidebar). Stays visible on mobile. */
@@ -963,6 +969,71 @@ export default function VinReport({
       setTimeout(() => setShareState("idle"), 2500);
     }
   }, [data.vin, fullName]);
+
+  // Market Analysis card (live auto.dev listings). Extracted so the preview can
+  // render it either in the sidebar (desktop) or inline in the main column
+  // under the specs (mobile, via mobileMarketAnalysisFirst).
+  const marketAnalysisCard = data.marketData ? (
+    <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
+      <div className="px-5 py-4 border-b border-surface-container">
+        <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
+          <BarChart3 className="w-5 h-5 text-primary" /> {c.marketAnalysis}
+        </h3>
+        <p className="text-xs text-outline mt-0.5">{c.activeListings(data.marketData.totalListings)}</p>
+      </div>
+      <div className="p-5">
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          <div className="text-center p-3 bg-green-50 rounded-xl">
+            <TrendingDown className="w-4 h-4 text-green-600 mx-auto mb-1" />
+            <p className="text-[10px] text-green-600 font-bold uppercase tracking-wider">{c.low}</p>
+            <p className="font-headline font-black text-sm text-green-700">${data.marketData.lowestPrice.toLocaleString()}</p>
+          </div>
+          <div className="text-center p-3 bg-primary/8 rounded-xl">
+            <BarChart3 className="w-4 h-4 text-primary mx-auto mb-1" />
+            <p className="text-[10px] text-primary font-bold uppercase tracking-wider">{c.avg}</p>
+            <p className="font-headline font-black text-sm text-primary">${data.marketData.averagePrice.toLocaleString()}</p>
+          </div>
+          <div className="text-center p-3 bg-red-50 rounded-xl">
+            <TrendingUp className="w-4 h-4 text-red-500 mx-auto mb-1" />
+            <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider">{c.high}</p>
+            <p className="font-headline font-black text-sm text-red-600">${data.marketData.highestPrice.toLocaleString()}</p>
+          </div>
+        </div>
+
+        {data.marketData.averageMileage > 0 && (
+          <div className="flex justify-between items-center py-3 border-t border-surface-container">
+            <span className="text-xs text-outline font-semibold uppercase tracking-wider">{c.avgMileage}</span>
+            <span className="font-bold text-on-surface">{data.marketData.averageMileage.toLocaleString()} mi</span>
+          </div>
+        )}
+
+        {/* Similar listings */}
+        {data.marketData.sampleListings.length > 0 && (
+          <div className="mt-4">
+            <p className="text-xs font-black text-outline uppercase tracking-widest mb-3">{c.similarListings}</p>
+            <div className="space-y-3">
+              {data.marketData.sampleListings.slice(0, 4).map((l) => (
+                <div key={l.id} className="flex gap-3 p-3 bg-surface-container-low rounded-2xl hover:shadow-sm transition-all">
+                  {l.primaryPhotoUrl && (
+                    <div className="relative w-16 h-12 flex-shrink-0 rounded-xl overflow-hidden">
+                      <div className="absolute inset-0" style={{ transform: "scale(1.18)" }}>
+                        <Image src={l.primaryPhotoUrl} alt={`${l.year} ${l.make} ${l.model}`} fill className="object-cover" sizes="64px" />
+                      </div>
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold text-on-surface truncate">{l.year} {l.trim || l.model}</p>
+                    <p className="font-headline font-black text-sm text-primary">{l.price}</p>
+                    <p className="text-[10px] text-outline">{l.mileage}{l.city && l.state ? ` · ${l.city}, ${l.state}` : ""}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  ) : null;
 
   return (
     <div className="bg-surface min-h-screen pt-16">
@@ -1110,6 +1181,16 @@ export default function VinReport({
               mainImageClassName={mainImageClassName}
               c={c}
             />
+
+            {/* Preview (phone only): Market Analysis inline directly under the
+                vehicle specifications (galleryFooter) and above the recalls, per
+                mobileMarketAnalysisFirst. Desktop keeps these in the sidebar. */}
+            {mobileMarketAnalysisFirst && (marketAnalysisCard || summaryTop) && (
+              <div className="lg:hidden space-y-6">
+                {marketAnalysisCard}
+                {summaryTop}
+              </div>
+            )}
 
             {/* Slot directly under the gallery (preview: free recalls +
                 records-on-file teasers, surfaced before the spec cards). */}
@@ -1403,72 +1484,23 @@ export default function VinReport({
               </div>
             )}
 
-            {/* Market analysis sidebar */}
-            {data.marketData && (
-              <div className="bg-surface-container-lowest rounded-[2rem] shadow-sm overflow-hidden">
-                <div className="px-5 py-4 border-b border-surface-container">
-                  <h3 className="font-headline font-bold text-on-surface flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-primary" /> {c.marketAnalysis}
-                  </h3>
-                  <p className="text-xs text-outline mt-0.5">{c.activeListings(data.marketData.totalListings)}</p>
-                </div>
-                <div className="p-5">
-                  <div className="grid grid-cols-3 gap-3 mb-5">
-                    <div className="text-center p-3 bg-green-50 rounded-xl">
-                      <TrendingDown className="w-4 h-4 text-green-600 mx-auto mb-1" />
-                      <p className="text-[10px] text-green-600 font-bold uppercase tracking-wider">{c.low}</p>
-                      <p className="font-headline font-black text-sm text-green-700">${data.marketData.lowestPrice.toLocaleString()}</p>
-                    </div>
-                    <div className="text-center p-3 bg-primary/8 rounded-xl">
-                      <BarChart3 className="w-4 h-4 text-primary mx-auto mb-1" />
-                      <p className="text-[10px] text-primary font-bold uppercase tracking-wider">{c.avg}</p>
-                      <p className="font-headline font-black text-sm text-primary">${data.marketData.averagePrice.toLocaleString()}</p>
-                    </div>
-                    <div className="text-center p-3 bg-red-50 rounded-xl">
-                      <TrendingUp className="w-4 h-4 text-red-500 mx-auto mb-1" />
-                      <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider">{c.high}</p>
-                      <p className="font-headline font-black text-sm text-red-600">${data.marketData.highestPrice.toLocaleString()}</p>
-                    </div>
-                  </div>
-
-                  {data.marketData.averageMileage > 0 && (
-                    <div className="flex justify-between items-center py-3 border-t border-surface-container">
-                      <span className="text-xs text-outline font-semibold uppercase tracking-wider">{c.avgMileage}</span>
-                      <span className="font-bold text-on-surface">{data.marketData.averageMileage.toLocaleString()} mi</span>
-                    </div>
-                  )}
-
-                  {/* Similar listings */}
-                  {data.marketData.sampleListings.length > 0 && (
-                    <div className="mt-4">
-                      <p className="text-xs font-black text-outline uppercase tracking-widest mb-3">{c.similarListings}</p>
-                      <div className="space-y-3">
-                        {data.marketData.sampleListings.slice(0, 4).map((l) => (
-                          <div key={l.id} className="flex gap-3 p-3 bg-surface-container-low rounded-2xl hover:shadow-sm transition-all">
-                            {l.primaryPhotoUrl && (
-                              <div className="relative w-16 h-12 flex-shrink-0 rounded-xl overflow-hidden">
-                                <div className="absolute inset-0" style={{ transform: "scale(1.18)" }}>
-                                  <Image src={l.primaryPhotoUrl} alt={`${l.year} ${l.make} ${l.model}`} fill className="object-cover" sizes="64px" />
-                                </div>
-                              </div>
-                            )}
-                            <div className="min-w-0 flex-1">
-                              <p className="text-xs font-bold text-on-surface truncate">{l.year} {l.trim || l.model}</p>
-                              <p className="font-headline font-black text-sm text-primary">{l.price}</p>
-                              <p className="text-[10px] text-outline">{l.mileage}{l.city && l.state ? ` · ${l.city}, ${l.state}` : ""}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
+            {/* Market analysis sidebar. When mobileMarketAnalysisFirst is set
+                the preview renders this (and summaryTop) inline in the main
+                column on phones instead, so here it's desktop-only. */}
+            {marketAnalysisCard && (
+              <div className={mobileMarketAnalysisFirst ? "hidden lg:block" : undefined}>
+                {marketAnalysisCard}
               </div>
             )}
 
             {/* Preview-only: server-built card directly above Report Summary
-                (e.g. the Market Analysis panel). */}
-            {summaryTop}
+                (e.g. the Market Analysis fallback panel). Desktop-only when the
+                preview surfaces it in the main column on phones. */}
+            {summaryTop && (
+              <div className={mobileMarketAnalysisFirst ? "hidden lg:block" : undefined}>
+                {summaryTop}
+              </div>
+            )}
 
             {/* Preview-only paywall / marketing card — pinned directly beneath
                 the Market Analysis panel so the offer sits with the value it
