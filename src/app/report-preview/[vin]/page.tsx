@@ -2482,6 +2482,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         }
         sidebarReplaceAI={abSwap ? sidebarMarketingCard : sidebarBundleOrNotice}
         lockedPhotoCount={lockedPhotoCount}
+        auctionCount={previewSignals?.auctionRecords}
         lockListing={!!reportData.listing}
         unlockHref={orderHref}
         summaryGroups={summaryGroupsLocalized}

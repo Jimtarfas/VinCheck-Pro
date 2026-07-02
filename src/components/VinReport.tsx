@@ -273,6 +273,7 @@ function PhotoGallery({
   make,
   model,
   lockedPhotoCount,
+  auctionCount,
   footer,
   mainImageClassName,
   c,
@@ -284,6 +285,7 @@ function PhotoGallery({
   make?: string;
   model?: string;
   lockedPhotoCount?: number;
+  auctionCount?: number;
   footer?: React.ReactNode;
   mainImageClassName?: string;
   c: (typeof COPY)[Locale];
@@ -317,41 +319,140 @@ function PhotoGallery({
   // (rather than this exact VIN), the photo-count badge labels them "Similar".
   const isSimilar = photoSource === "similar" || photoSource === "web";
 
+  // Auction-photo preview: real photos on file for this exact VIN behind the
+  // paywall. Only these get the two-column "Found N photos / N auctions" gallery
+  // with clear (un-blurred) thumbnails + a watermark. VINs shown a stock/similar
+  // photo keep the original blurred-teaser strip below.
+  const isAuctionLocked = lockedMode && !isSimilar;
+
   return (
     <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
-      {/* Main photo — 3:2 on mobile matches real car-photo dimensions so the whole
-          vehicle stays visible (2:1 was cropping off the roof and wheels), 16:9 on desktop */}
-      <div className="relative aspect-[3/2] sm:aspect-[16/9] bg-surface-container overflow-hidden">
-        <div className="absolute inset-0">
-          <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className={`object-cover${mainImageClassName ? ` ${mainImageClassName}` : ""}`} sizes="(max-width:768px) 100vw, 900px" quality={70} priority={current === 0} />
-        </div>
-        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+      {/* Auction-photo preview uses a two-column layout: hero photo on the left,
+          thumbnail panel on the right. Every other gallery stays single-column. */}
+      <div className={isAuctionLocked ? "grid lg:grid-cols-[1.7fr_1fr]" : undefined}>
+        {/* Main photo — 3:2 on mobile matches real car-photo dimensions so the whole
+            vehicle stays visible (2:1 was cropping off the roof and wheels), 16:9 on desktop.
+            In the auction preview the hero fills the left column height on desktop. */}
+        <div className={`relative bg-surface-container overflow-hidden ${isAuctionLocked ? "aspect-[3/2] sm:aspect-[16/9] lg:aspect-auto lg:min-h-[340px]" : "aspect-[3/2] sm:aspect-[16/9]"}`}>
+          <div className="absolute inset-0">
+            {/* Auction photos are shown un-blurred (the real photo is the proof);
+                the A/B blur treatment only applies to the other galleries. */}
+            <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className={`object-cover${!isAuctionLocked && mainImageClassName ? ` ${mainImageClassName}` : ""}`} sizes="(max-width:768px) 100vw, 900px" quality={70} priority={current === 0} />
+          </div>
+          <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
 
-        {/* Photo count badge */}
-        <div className="absolute top-3 sm:top-4 left-3 sm:left-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/70 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-bold">
-          {lockedMode ? lockedPhotoCount : photos.length} {isSimilar ? c.similar : ""} {c.photos}
-        </div>
-
-        {photos.length > 1 && (
-          <>
-            <button onClick={() => setCurrent((c) => (c === 0 ? photos.length - 1 : c - 1))}
-              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
-              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-            <button onClick={() => setCurrent((c) => (c === photos.length - 1 ? 0 : c + 1))}
-              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-            <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/60 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-semibold">
-              {current + 1} / {photos.length}
+          {/* Copyright watermark — deters scraping/reuse of the real auction photo. */}
+          {isAuctionLocked && (
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+              <span className="select-none whitespace-nowrap text-white/25 font-headline font-black uppercase tracking-[0.15em] text-2xl sm:text-4xl -rotate-[8deg] drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]">
+                CarCheckerVIN.com
+              </span>
             </div>
-          </>
+          )}
+
+          {/* Photo count badge — the auction preview shows the counts in the panel header instead */}
+          {!isAuctionLocked && (
+            <div className="absolute top-3 sm:top-4 left-3 sm:left-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/70 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-bold">
+              {lockedMode ? lockedPhotoCount : photos.length} {isSimilar ? c.similar : ""} {c.photos}
+            </div>
+          )}
+
+          {photos.length > 1 && (
+            <>
+              <button onClick={() => setCurrent((c) => (c === 0 ? photos.length - 1 : c - 1))}
+                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+              <button onClick={() => setCurrent((c) => (c === photos.length - 1 ? 0 : c + 1))}
+                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-surface-container-lowest/80 hover:bg-surface-container-lowest rounded-full flex items-center justify-center text-on-surface shadow-lg transition cursor-pointer backdrop-blur-sm">
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+              <div className="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-on-surface/60 backdrop-blur rounded-full text-[10px] sm:text-xs text-white font-semibold">
+                {current + 1} / {photos.length}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Auction preview: thumbnail panel — clear thumbnails with a corner lock
+            badge on the ones behind the paywall, a "Found N photos / N auctions"
+            header, and a "Locked N photos" unlock bar. */}
+        {isAuctionLocked && (
+          <div className="flex flex-col bg-surface-container-low p-3 sm:p-4 border-t lg:border-t-0 lg:border-l border-surface-container">
+            {/* Header — photo + auction counts */}
+            <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+              <span className="text-xs sm:text-sm font-bold text-on-surface">
+                {c.foundPhotos(lockedPhotoCount ?? 1)}
+              </span>
+              {typeof auctionCount === "number" && (
+                <span className="text-xs sm:text-sm font-semibold text-on-surface-variant">
+                  {c.auctionsFound(auctionCount)}
+                </span>
+              )}
+            </div>
+
+            {/* Thumbnail grid — first thumb is the one real photo (clear, highlighted);
+                the rest are clear teasers with a small corner lock badge. */}
+            <div className="grid grid-cols-4 lg:grid-cols-3 gap-1.5 sm:gap-2">
+              {Array.from({ length: Math.min(lockedPhotoCount ?? 1, 6) }).map((_, i) => {
+                const locked = i > 0;
+                if (!locked) {
+                  return (
+                    <div key={i} className="relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden ring-2 ring-primary">
+                      <div className="absolute inset-0" style={{ transform: "scale(1.02)" }}>
+                        <Image src={photos[0]} alt="Photo 1" fill className="object-cover" sizes="120px" />
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={scrollToBundle}
+                    aria-label={c.unlockAllPhotosAria}
+                    className="relative aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden cursor-pointer ring-1 ring-black/5 hover:ring-primary/40 transition"
+                  >
+                    <div className="absolute inset-0" style={{ transform: "scale(1.08)", filter: "blur(3px)" }}>
+                      <Image src={photos[0]} alt="" aria-hidden fill className="object-cover" sizes="120px" />
+                    </div>
+                    <div className="absolute inset-0 bg-black/15" />
+                    <span className="absolute top-1 right-1 flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-black/60 backdrop-blur ring-1 ring-white/20">
+                      <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Locked bar — primary unlock CTA; sub-line spells out the value. */}
+            <button
+              type="button"
+              onClick={scrollToBundle}
+              aria-label={c.unlockAllPhotosAria}
+              className="mt-2.5 sm:mt-3 flex w-full items-center gap-2.5 rounded-xl bg-secondary-container/50 hover:bg-secondary-container/70 px-3 py-2.5 sm:py-3 text-left transition-colors cursor-pointer"
+            >
+              <Lock className="w-4 h-4 flex-shrink-0 text-primary" />
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs sm:text-sm font-bold text-on-surface">
+                  {c.lockedPhotos(Math.max((lockedPhotoCount ?? 1) - 1, 0))}
+                </span>
+                <span className="block text-[10px] sm:text-[11px] leading-snug text-on-surface-variant">
+                  {c.lockedValueStrip}
+                </span>
+              </span>
+              <ChevronRight className="w-4 h-4 flex-shrink-0 self-center text-primary" />
+            </button>
+          </div>
         )}
       </div>
 
-      {/* Preview: blurred, locked thumbnails teasing the photos behind the paywall */}
-      {lockedMode && (
+      {/* Similar/stock preview: original blurred, locked thumbnail strip. Only the
+          auction-photo preview above gets the two-column clear-thumbnail treatment;
+          stock/similar photos keep the blurred teaser so we don't imply we hold
+          real photos we don't have. */}
+      {lockedMode && !isAuctionLocked && (
         <div className="flex gap-1.5 sm:gap-2 p-2 sm:p-3 overflow-x-auto bg-surface-container-low [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* first thumb = the one real photo */}
           <div className="relative w-14 h-10 sm:w-20 sm:h-14 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden ring-2 ring-primary">
@@ -532,6 +633,10 @@ const COPY = {
     photos: "Photos",
     similarVehicleDisclaimer: "Example image of a similar vehicle. The photo does not depict the inspected car.",
     unlockAllPhotosAria: "Unlock all photos in the full report",
+    lockedValueStrip: "Unlock every auction photo — including damage & undercarriage shots — plus title history and the final sale price.",
+    foundPhotos: (n: number) => `Found ${n} photo${n === 1 ? "" : "s"}`,
+    auctionsFound: (n: number) => `${n} auction${n === 1 ? "" : "s"}`,
+    lockedPhotos: (n: number) => `Locked ${n} photo${n === 1 ? "" : "s"}`,
     preparing: "Preparing…",
     downloadReport: "Download Report",
     print: "Print",
@@ -630,6 +735,10 @@ const COPY = {
     photos: "Fotos",
     similarVehicleDisclaimer: "Imagen de ejemplo de un vehículo similar. La foto no representa el auto inspeccionado.",
     unlockAllPhotosAria: "Desbloquea todas las fotos en el reporte completo",
+    lockedValueStrip: "Desbloquea cada foto de la subasta —incluidas las de daños y los bajos— más el historial del título y el precio final de venta.",
+    foundPhotos: (n: number) => `${n} foto${n === 1 ? "" : "s"} encontrada${n === 1 ? "" : "s"}`,
+    auctionsFound: (n: number) => `${n} subasta${n === 1 ? "" : "s"}`,
+    lockedPhotos: (n: number) => `${n} foto${n === 1 ? "" : "s"} bloqueada${n === 1 ? "" : "s"}`,
     preparing: "Preparando…",
     downloadReport: "Descargar reporte",
     print: "Imprimir",
@@ -728,6 +837,10 @@ const COPY = {
     photos: "Photos",
     similarVehicleDisclaimer: "Image d'exemple d'un véhicule similaire. La photo ne représente pas la voiture inspectée.",
     unlockAllPhotosAria: "Débloque toutes les photos dans le rapport complet",
+    lockedValueStrip: "Débloquez chaque photo de l'enchère — y compris les dégâts et le dessous — ainsi que l'historique du titre et le prix de vente final.",
+    foundPhotos: (n: number) => `${n} photo${n === 1 ? "" : "s"} trouvée${n === 1 ? "" : "s"}`,
+    auctionsFound: (n: number) => `${n} enchère${n === 1 ? "" : "s"}`,
+    lockedPhotos: (n: number) => `${n} photo${n === 1 ? "" : "s"} verrouillée${n === 1 ? "" : "s"}`,
     preparing: "Préparation…",
     downloadReport: "Télécharger le rapport",
     print: "Imprimer",
@@ -831,6 +944,7 @@ export default function VinReport({
   mainFiller,
   sidebarReplaceAI,
   lockedPhotoCount,
+  auctionCount,
   lockListing = false,
   unlockHref,
   summaryGroups,
@@ -873,6 +987,9 @@ export default function VinReport({
   sidebarReplaceAI?: React.ReactNode;
   /** Preview: total photos on file — renders blurred locked thumbnails to tease them. */
   lockedPhotoCount?: number;
+  /** Preview: number of auction sale records on file — shown in the locked
+      gallery header ("N auctions") beside the photo count. */
+  auctionCount?: number;
   /** Preview: blur the "Currently Listed for Sale" banner behind a premium lock. */
   lockListing?: boolean;
   /** Preview: where the premium lock overlays link to. */
@@ -1236,6 +1353,7 @@ export default function VinReport({
                 make={makeName}
                 model={modelName}
                 lockedPhotoCount={lockedPhotoCount}
+                auctionCount={auctionCount}
                 footer={galleryFooter}
                 mainImageClassName={mainImageClassName}
                 c={c}
