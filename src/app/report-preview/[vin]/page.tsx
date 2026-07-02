@@ -1261,8 +1261,26 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
     reportData = clearVinReportData(cleaned, preview);
     if (decoded) {
       // Valuation is sourced from ClearVin's free preview (vinSpec MSRP/Invoice)
-      // when present; auto.dev pricing only fills in when ClearVin gave us none.
-      if (!reportData.price) reportData.price = decoded.price;
+      // when present, but that preview often carries only the MSRP. Merge in
+      // auto.dev's decoded pricing to backfill any figure ClearVin left blank
+      // (e.g. Dealer Invoice, used-value guides) so the Market Analysis card
+      // shows the full valuation. ClearVin stays authoritative for the fields
+      // it does provide; auto.dev only fills the zeros.
+      if (!reportData.price) {
+        reportData.price = decoded.price;
+      } else if (decoded.price) {
+        const cv = reportData.price;
+        const ad = decoded.price;
+        reportData.price = {
+          ...cv,
+          baseMsrp: cv.baseMsrp || ad.baseMsrp,
+          baseInvoice: cv.baseInvoice || ad.baseInvoice,
+          deliveryCharges: cv.deliveryCharges || ad.deliveryCharges,
+          usedTmvRetail: cv.usedTmvRetail || ad.usedTmvRetail,
+          usedPrivateParty: cv.usedPrivateParty || ad.usedPrivateParty,
+          usedTradeIn: cv.usedTradeIn || ad.usedTradeIn,
+        };
+      }
       // ClearVin's free preview carries no live-listings market data, so the
       // Market Analysis panel still comes from auto.dev when it's configured.
       reportData.marketData = decoded.marketData;
