@@ -7,26 +7,25 @@ import {
   Printer, KeyRound, Power, MapPin, DollarSign,
 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
-import type { RpAbVariant } from "@/lib/report-ab";
 
 /* ───────────────────────────────────────────────────────────────────────────
-   Report-preview A/B/C/D test — client surface
+   Report-preview coupon popup — client surface
    ---------------------------------------------------------------------------
-   The visitor's sticky bucket is assigned by the proxy (src/proxy.ts) and the
-   page server-renders the "blur", "swap" and "nophoto" variants directly,
-   flash-free. The only variant that needs client behavior is "coupon": a
-   scroll-triggered VIN10 (10% off) popup, styled to match the site. For every
-   other bucket this component renders nothing.
+   Shown to every visitor of the report-preview page, independent of the
+   A/B/C/D bucket the proxy assigns for the server-rendered report variants
+   (blur / swap / nophoto). Five seconds after the visitor first scrolls, a
+   VIN10 (10% off) popup appears, styled to match the site.
 
-   The coupon popup pairs our offer (right) with a preview of a real purchased
-   report (left) — stacked report "screens" built from the public example VIN
-   (2018 Jeep Grand Cherokee, 1C4RJEAG0JC168184) with its actual auction/damage
-   photos, so the visitor sees exactly the kind of history they'd unlock.
+   The popup pairs our offer (right) with a faithful preview of a real purchased
+   report (left) — built from the public example VIN (2018 Jeep Grand Cherokee,
+   1C4RJEAG0JC168184) with its actual auction/damage photos, so the visitor sees
+   exactly the kind of history they'd unlock.
    ─────────────────────────────────────────────────────────────────────────── */
 
 const COUPON_CODE = "VIN10";
-/* Reveal the coupon only once the visitor has engaged with the report. */
-const SCROLL_TRIGGER_PX = 650;
+/* Reveal the coupon 5s after the visitor first scrolls the report — a short
+   pause to signal engagement, without gating on a specific scroll depth. */
+const POPUP_DELAY_MS = 5000;
 
 /* ── Left panel: a faithful preview of the real purchased report ─────────────
    A full-fidelity reproduction of the actual report document the visitor
@@ -242,25 +241,24 @@ function ReportScreens() {
   );
 }
 
-export default function ReportPreviewExperiment({ variant }: { variant: RpAbVariant }) {
+export default function ReportPreviewExperiment() {
   const [showCoupon, setShowCoupon] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Reveal the popup once the visitor scrolls into the report.
+  // Reveal the popup 5 seconds after the visitor first scrolls the report.
   useEffect(() => {
-    if (variant !== "coupon") return;
+    let timer: ReturnType<typeof setTimeout>;
     const onScroll = () => {
-      if (window.scrollY > SCROLL_TRIGGER_PX) {
-        setShowCoupon(true);
-        window.removeEventListener("scroll", onScroll);
-      }
+      window.removeEventListener("scroll", onScroll);
+      timer = setTimeout(() => setShowCoupon(true), POPUP_DELAY_MS);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    // In case the page is already scrolled (e.g. restored position).
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [variant]);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(timer);
+    };
+  }, []);
 
   const copyCode = async () => {
     try {
@@ -272,7 +270,7 @@ export default function ReportPreviewExperiment({ variant }: { variant: RpAbVari
     }
   };
 
-  if (variant !== "coupon" || !showCoupon || dismissed) return null;
+  if (!showCoupon || dismissed) return null;
 
   return (
     <div

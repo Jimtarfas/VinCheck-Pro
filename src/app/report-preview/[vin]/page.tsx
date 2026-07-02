@@ -2433,12 +2433,11 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
 
   return (
     <div className="bg-surface">
-      {/* A/B/C test: a sticky 3-way split (assigned by the proxy) between a
-          scroll-triggered VIN10 coupon popup, a softly-blurred main report
-          photo, and swapping the bundle/CARFAX cards — to learn which converts
-          best. Blur + swap are server-rendered above; the client component only
-          drives the coupon popup. */}
-      <ReportPreviewExperiment variant={abVariant} />
+      {/* The VIN10 coupon popup shows for every visitor (independent of the
+          A/B/C/D bucket) — it appears 5s after the first scroll. The sticky
+          bucket still drives the server-rendered report variants (blur / swap /
+          nophoto) above. */}
+      <ReportPreviewExperiment />
       {mock && (
         <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-xs sm:text-sm text-center py-2 px-4 pt-16">
           {c.sampleDataPre}<code className="font-mono">CLEARVIN_API_EMAIL</code>{c.sampleDataAnd}<code className="font-mono">CLEARVIN_API_PASSWORD</code>{c.sampleDataSuffix}
