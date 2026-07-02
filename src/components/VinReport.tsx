@@ -323,7 +323,7 @@ function PhotoGallery({
           vehicle stays visible (2:1 was cropping off the roof and wheels), 16:9 on desktop */}
       <div className="relative aspect-[3/2] sm:aspect-[16/9] bg-surface-container overflow-hidden">
         <div className="absolute inset-0">
-          <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className={`object-cover${mainImageClassName ? ` ${mainImageClassName}` : ""}`} sizes="(max-width:768px) 100vw, 900px" priority={current === 0} />
+          <Image src={photos[current]} alt={`${alt} - Photo ${current + 1}`} fill className={`object-cover${mainImageClassName ? ` ${mainImageClassName}` : ""}`} sizes="(max-width:768px) 100vw, 900px" quality={70} priority={current === 0} />
         </div>
         <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />

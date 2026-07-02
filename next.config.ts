@@ -20,8 +20,12 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    // Modern formats — Next.js auto-serves AVIF/WebP to supporting browsers
-    formats: ["image/avif", "image/webp"],
+    // WebP only. AVIF compresses ~20% smaller but is 10–20× slower to *encode*,
+    // and the on-demand optimizer transcodes large remote ClearVin photos on the
+    // first request — with AVIF that cold pass was slow enough that the hero
+    // photo popped in late. WebP keeps near-AVIF size with a fast encode so the
+    // real vehicle photo paints quickly.
+    formats: ["image/webp"],
     // Cache optimized images aggressively at the edge
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
     remotePatterns: [
