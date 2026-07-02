@@ -2103,20 +2103,30 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
             after reading the history (Report Summary lives in the sidebar below).
           • Desktop — the Report Summary sits here instead; the bundle moves into
             the right sidebar so it stays beside the history as the buyer reads. */}
-      {!isUnsupported && (
-        <div
-          className="lg:hidden"
-          data-buybar-hide
-          data-bundle-target
-        >
-          <BundleUpsellCard
-            vin={cleaned}
-            vehicleLabel={vehicleLabel}
-            inputId="bundle-email-mobile"
-            locale={locale}
-          />
-        </div>
-      )}
+      {!isUnsupported &&
+        (abSwap ? (
+          /* Swap bucket (phone): the CarCheckerVIN-vs-CARFAX card takes this
+             slot; the bundle checkout moves down into premiumSections. */
+          <div className="lg:hidden">
+            <MarketingCard
+              make={make}
+              vehicleLabel={vehicleLabel}
+              vin={cleaned}
+              price={SINGLE_PRICE.toFixed(2)}
+              exampleHref={exampleHref}
+              locale={locale}
+            />
+          </div>
+        ) : (
+          <div className="lg:hidden" data-buybar-hide data-bundle-target>
+            <BundleUpsellCard
+              vin={cleaned}
+              vehicleLabel={vehicleLabel}
+              inputId="bundle-email-mobile"
+              locale={locale}
+            />
+          </div>
+        ))}
       {reportContainsSection}
     </div>
   );
@@ -2133,6 +2143,17 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
       <div className="lg:hidden">
         {isUnsupported ? (
           unsupportedNotice
+        ) : abSwap ? (
+          /* Swap bucket (phone): the bundle checkout takes this slot; the
+             CarCheckerVIN-vs-CARFAX card moved up into afterPhotos. */
+          <div data-buybar-hide data-bundle-target>
+            <BundleUpsellCard
+              vin={cleaned}
+              vehicleLabel={vehicleLabel}
+              inputId="bundle-email-mobile"
+              locale={locale}
+            />
+          </div>
         ) : (
           <MarketingCard
             make={make}
