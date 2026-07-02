@@ -12,6 +12,7 @@ import { useState, useCallback, useEffect } from "react";
 import type { VinData } from "@/lib/api";
 import type { Locale } from "@/i18n/config";
 import VinSearchForm from "./VinSearchForm";
+import BrandLogo from "./BrandLogo";
 import { scrollToBundle } from "@/lib/scroll-to-bundle";
 import dynamic from "next/dynamic";
 
@@ -427,6 +428,48 @@ function PhotoGallery({
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Logo-only hero  (report A/B/C/D — "nophoto" / variant D)
+
+   For vehicles with no photo on file, the "nophoto" bucket drops the image
+   area entirely and presents a clean, premium manufacturer-logo card in its
+   place — no generic "no photos available" placeholder. We're testing whether
+   the vehicle photo is what drives conversion, so this variant must still look
+   intentional and polished, not "broken / empty".
+───────────────────────────────────────────────────────────── */
+function LogoOnlyHero({
+  make,
+  model,
+  year,
+  footer,
+}: {
+  make?: string;
+  model?: string;
+  year?: number;
+  footer?: React.ReactNode;
+}) {
+  const label = [year, make, model].filter(Boolean).join(" ");
+  return (
+    <div className="bg-surface-container-lowest rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-sm">
+      <div className="relative flex flex-col items-center justify-center py-16 sm:py-24 px-6 bg-gradient-to-b from-surface-container-low to-surface-container-lowest">
+        {/* thin brand accent so the card reads as a designed header, not a gap */}
+        <div className="absolute inset-x-0 top-0 h-1" style={{ background: "var(--color-secondary-container)" }} />
+        {make && (
+          <div className="flex items-center justify-center w-32 h-32 sm:w-40 sm:h-40 rounded-[2rem] bg-white shadow-sm ring-1 ring-outline-variant/40 mb-6">
+            <BrandLogo make={make} className="w-24 h-24 sm:w-28 sm:h-28" />
+          </div>
+        )}
+        {label && (
+          <h2 className="font-headline font-extrabold text-lg sm:text-2xl text-on-surface text-center tracking-tight break-words">
+            {label}
+          </h2>
+        )}
+      </div>
+      {footer}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
    Reusable primitives
 ───────────────────────────────────────────────────────────── */
 function DataCard({ icon: Icon, label, value, accent = "bg-primary/8 text-primary" }: {
@@ -805,6 +848,7 @@ export default function VinReport({
   summaryDesktopHidden = false,
   keepSidebarAI = false,
   mainImageClassName,
+  hideVehicleImage = false,
   locale = "en",
 }: {
   data: VinData;
@@ -885,6 +929,11 @@ export default function VinReport({
   /** Extra className applied to the main hero photo (used by the report-preview
       A/B test to softly blur it for the "blur" variant). */
   mainImageClassName?: string;
+  /** Report-preview A/B test — "nophoto" (variant D). When set AND the vehicle
+      has no photo on file, the photo gallery (and its generic placeholder) is
+      replaced by a clean manufacturer-logo hero, removing the image area
+      entirely. Has no effect when real photos exist. */
+  hideVehicleImage?: boolean;
   /** UI language. Defaults to English. */
   locale?: Locale;
 }) {
@@ -1168,19 +1217,30 @@ export default function VinReport({
                 visitor coming from a check tool sees the matched copy first. */}
             {mainTop}
 
-            {/* Photo gallery */}
-            <PhotoGallery
-              photos={data.photos || []}
-              photoSource={data.photoSource}
-              alt={fullName}
-              year={year}
-              make={makeName}
-              model={modelName}
-              lockedPhotoCount={lockedPhotoCount}
-              footer={galleryFooter}
-              mainImageClassName={mainImageClassName}
-              c={c}
-            />
+            {/* Photo gallery — A/B/C/D "nophoto" variant swaps the empty-state
+                placeholder for a clean manufacturer-logo hero when this VIN has
+                no photo on file (real photos always render the gallery). */}
+            {hideVehicleImage && (!data.photos || data.photos.length === 0) ? (
+              <LogoOnlyHero
+                make={makeName}
+                model={modelName}
+                year={year}
+                footer={galleryFooter}
+              />
+            ) : (
+              <PhotoGallery
+                photos={data.photos || []}
+                photoSource={data.photoSource}
+                alt={fullName}
+                year={year}
+                make={makeName}
+                model={modelName}
+                lockedPhotoCount={lockedPhotoCount}
+                footer={galleryFooter}
+                mainImageClassName={mainImageClassName}
+                c={c}
+              />
+            )}
 
             {/* Preview (phone only): Market Analysis inline directly under the
                 vehicle specifications (galleryFooter) and above the recalls, per

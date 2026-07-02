@@ -93,7 +93,8 @@ interface Props {
   // `from` carries the source-page slug for the contextual "message match"
   // banner (see src/lib/report-context.ts). Optional — the report is fully
   // functional without it, and generateMetadata ignores it.
-  searchParams?: Promise<{ from?: string }>;
+  // `rp_nophoto` is a dev-only preview flag (see below) — ignored in production.
+  searchParams?: Promise<{ from?: string; rp_nophoto?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -1159,6 +1160,12 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   //   • "en"                              — direct hit on /report-preview
   // No layout/logic changes — purely picks which COPY map drives the labels.
   const sp = (await searchParams) || {};
+  // Dev-only preview escape hatch: `?rp_nophoto=1` forces the "nophoto"
+  // (variant D) empty-photo layout on ANY VIN, so the manufacturer-logo hero
+  // can be reviewed locally without hunting for a genuinely photo-less vehicle
+  // (most VINs get a Bing "similar" photo fallback). Never active in production.
+  const forceNoPhoto =
+    process.env.NODE_ENV !== "production" && sp.rp_nophoto != null;
   const reqHeaders = await headers();
   const xLocale = reqHeaders.get("x-locale") || "";
   const xPath = reqHeaders.get("x-pathname") || reqHeaders.get("x-invoke-path") || "";
@@ -1248,6 +1255,10 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   // Only swap the bundle/CARFAX cards for supported VINs — unsupported VINs drop
   // the CARFAX marketing card entirely, so there's nothing to swap.
   const abSwap = abVariant === "swap" && !isUnsupported;
+  // "nophoto" (variant D): for photo-less VINs, drop the image area and show a
+  // clean manufacturer-logo hero instead. VinReport applies it only when there
+  // are genuinely no photos on file, so it's a no-op for vehicles with photos.
+  const abNoPhoto = abVariant === "nophoto" || forceNoPhoto;
 
   // Build the data the report design renders. ClearVin is authoritative for
   // identity + photos; auto.dev contributes only price + marketData (Market
@@ -1329,13 +1340,18 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
   // placeholder, fetch high-quality Bing photos of the SAME year/make/model and
   // present them (clearly labeled "similar" in the gallery). Only runs when no
   // real photo was attached by ClearVin or auto.dev.
+  // Dev preview: strip any photo so the empty-state (logo hero) is what renders.
+  if (forceNoPhoto) {
+    reportData.photos = undefined;
+    reportData.photoSource = undefined;
+  }
   const hasRealPhoto =
     Array.isArray(reportData.photos) &&
     reportData.photos.some((u) => typeof u === "string" && u.length > 0 && u !== "0");
   // When we fall back to similar photos, how many we found — used to tease the
   // rest as blurred, locked thumbnails (see fallbackLockedCount below).
   let fallbackLockedCount: number | undefined;
-  if (!hasRealPhoto) {
+  if (!hasRealPhoto && !forceNoPhoto) {
     const spec = preview?.vinSpec;
     const fbYear = Number(spec?.year ?? reportData.years?.[0]?.year) || undefined;
     const fbMake = spec?.make ?? reportData.make?.name ?? undefined;
@@ -2482,6 +2498,7 @@ export default async function ReportPreviewPage({ params, searchParams }: Props)
         lockActions
         unlockPrice={SINGLE_PRICE}
         mainImageClassName={abBlur ? "rp-ab-blur" : undefined}
+        hideVehicleImage={abNoPhoto}
       />
 
       {/* ═══ Commercial footer sections ═══════════════════════════ */}

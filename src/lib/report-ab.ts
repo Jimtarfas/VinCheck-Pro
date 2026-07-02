@@ -4,8 +4,12 @@
 
 export const RP_AB_COOKIE = "rp_ab";
 
-/** The three mutually-exclusive buckets a visitor can land in. */
-export const RP_AB_VARIANTS = ["coupon", "blur", "swap"] as const;
+/** The mutually-exclusive buckets a visitor can land in. "nophoto" is the
+    "D" variant: for vehicles with no photo on file it drops the image area
+    entirely and shows a clean manufacturer-logo hero instead of the generic
+    "no photos" placeholder — testing whether the vehicle image itself is what
+    drives conversion. */
+export const RP_AB_VARIANTS = ["coupon", "blur", "swap", "nophoto"] as const;
 
 export type RpAbVariant = (typeof RP_AB_VARIANTS)[number];
 
